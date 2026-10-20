@@ -72,6 +72,7 @@ class DistributionTests(unittest.TestCase):
         manifest = json.loads((home / "delegation-kit/.installation/manifest.json").read_text(encoding="utf-8"))
         self.assertTrue(manifest["active"])
         self.assertEqual(set(manifest["bundle_digests"]), set(BUNDLE_FILES))
+        self.assertEqual(manifest["source_directory"], str(source.absolute()))
         configuration = tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))
         expected_roles = {
             "luna_scout": ("gpt-6-luna", "high"),
@@ -110,6 +111,7 @@ class DistributionTests(unittest.TestCase):
         evidence.write_text('{"status":"completed","evidence":["logs/result.txt"]}\n', encoding="utf-8")
         before_update_manifest = home / "delegation-kit/.installation/manifest.json"
         before_update = json.loads(before_update_manifest.read_text(encoding="utf-8"))
+        self.assertEqual(before_update["source_directory"], str(original_source.absolute()))
         (original_source / "README.md").write_text("# Relocated source update\n", encoding="utf-8")
         shutil.copytree(original_source, relocated_source)
         shutil.rmtree(original_source)
@@ -121,6 +123,7 @@ class DistributionTests(unittest.TestCase):
         upgraded_manifest = json.loads(before_update_manifest.read_text(encoding="utf-8"))
         self.assertTrue(upgraded_manifest["active"])
         self.assertNotEqual(upgraded_manifest["bundle_digests"]["README.md"], before_update["bundle_digests"]["README.md"])
+        self.assertEqual(upgraded_manifest["source_directory"], str(relocated_source.absolute()))
 
         snapshots = {
             evidence: evidence.read_bytes(),
@@ -140,6 +143,7 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual((home / "delegation-kit/README.md").read_text(encoding="utf-8"), "# Relocated source update\n")
         inactive = json.loads(before_update_manifest.read_text(encoding="utf-8"))
         self.assertFalse(inactive["active"])
+        self.assertEqual(inactive["source_directory"], str(relocated_source.absolute()))
         self.assertEqual((home / "config.toml").read_text(encoding="utf-8"), 'model = "keep-me"\n')
 
     def test_default_codex_home_uses_child_environment_and_dry_run_is_read_only(self):

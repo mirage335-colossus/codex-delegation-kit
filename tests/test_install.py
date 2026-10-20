@@ -94,6 +94,7 @@ class InstallerTests(unittest.TestCase):
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(manifest["version"], 1)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(manifest["source_directory"], str(self.source.absolute()))
         loaded = kit.parse_toml(self.config.read_bytes(), self.config)
         self.assertEqual(set(loaded["agents"]), set(kit.ROLES))
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -170,6 +171,93 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
         self.activate()
         self.assertEqual(kit.plan(self.home, self.source), [])
+
+    def test_source_provenance_refreshes_for_identical_relocated_bundle(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        manifest_path = target / ".installation/manifest.json"
+        original_manifest = json.loads(manifest_path.read_text())
+        self.assertEqual(original_manifest["source_directory"], str(self.source.absolute()))
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        relocated = self.root / "relocated source"
+        self.source.rename(relocated)
+
+        changes = kit.plan(self.home, relocated)
+        self.assertTrue(changes)
+        kit.apply(changes)
+        updated = json.loads(manifest_path.read_text())
+        self.assertEqual(updated["source_directory"], str(relocated.absolute()))
+        self.assertEqual(updated["bundle_digests"], original_manifest["bundle_digests"])
+        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        self.assertEqual(kit.plan(self.home, relocated), [])
+
+    def test_current_manifest_without_source_provenance_upgrades(self):
+        self.activate()
+        manifest_path = self.home / "delegation-kit/.installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest.pop("source_directory")
+        manifest_path.write_text(json.dumps(manifest))
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+
+        self.activate()
+        updated = json.loads(manifest_path.read_text())
+        self.assertEqual(updated["source_directory"], str(self.source.absolute()))
+        self.assertEqual(updated["bundle_digests"], manifest["bundle_digests"])
+        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
+    def test_installed_copy_reinstall_and_disable_preserve_source_provenance(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        manifest_path = target / ".installation/manifest.json"
+        self.assertEqual(kit.plan(self.home, target), [])
+
+        kit.apply(kit.plan(self.home, target, uninstall=True))
+        disabled = json.loads(manifest_path.read_text())
+        self.assertFalse(disabled["active"])
+        self.assertEqual(disabled["source_directory"], str(self.source.absolute()))
+        kit.apply(kit.plan(self.home, target))
+        reactivated = json.loads(manifest_path.read_text())
+        self.assertTrue(reactivated["active"])
+        self.assertEqual(reactivated["source_directory"], str(self.source.absolute()))
+        self.assertEqual(kit.plan(self.home, target), [])
+
+    def test_installed_copy_cannot_invent_missing_source_provenance(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        manifest_path = target / ".installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest.pop("source_directory")
+        manifest_path.write_text(json.dumps(manifest))
+
+        kit.apply(kit.plan(self.home, target))
+        self.assertNotIn("source_directory", json.loads(manifest_path.read_text()))
+        self.assertEqual(kit.plan(self.home, target), [])
+
+    def test_source_provenance_normalizes_external_and_deployment_aliases(self):
+        source_alias = self.source / ".." / self.source.name
+        kit.apply(kit.plan(self.home, source_alias))
+        target = self.home / "delegation-kit"
+        manifest_path = target / ".installation/manifest.json"
+        self.assertEqual(json.loads(manifest_path.read_text())["source_directory"], str(self.source.resolve()))
+        target_alias = target / ".." / target.name
+        self.assertEqual(kit.plan(self.home, target_alias), [])
+
+    def test_malformed_source_provenance_is_refused_without_writes(self):
+        self.activate()
+        manifest_path = self.home / "delegation-kit/.installation/manifest.json"
+        original = manifest_path.read_bytes()
+        for value in (None, 42, [], "", "relative/source", "/source\0invalid"):
+            with self.subTest(value=value):
+                manifest = json.loads(original)
+                manifest["source_directory"] = value
+                manifest_path.write_text(json.dumps(manifest))
+                before = self.snapshot_home()
+                for uninstall in (False, True):
+                    with self.assertRaises(kit.Refusal):
+                        kit.plan(self.home, self.source, uninstall=uninstall)
+                    self.assertEqual(self.snapshot_home(), before)
+        manifest_path.write_bytes(original)
 
     def test_absent_globals_removed_only_if_still_empty(self):
         self.agents.unlink()

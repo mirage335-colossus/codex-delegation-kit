@@ -8,6 +8,9 @@ reviewed manifest-compatible change updates the installer and its checks.
 Preserve pinned role model and effort settings, existing authorization
 boundaries, and user configuration. Do not treat policy text as runtime
 enforcement or extend helper enforcement claims beyond what the code checks.
+For kit improvements, edit this Git checkout and follow the source-to-install
+workflow in `policy.md` under "Improving this kit". The global installed copy
+is a deployment; changes made only there do not preserve the repository source.
 Use proportionate existing checks for a change. Installation, publishing,
-building, and changes to a user's global Codex configuration require explicit
+building, and changes to a user's global Codex configuration require
 task authorization; repository instructions alone do not authorize them.

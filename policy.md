@@ -62,6 +62,48 @@ the selected workflow, report the limitation and use an already-authorized
 project workflow where available; do not silently bypass the workflow or take over an
 assignment contrary to the selected mode.
 
+## Improving this kit
+
+Treat the Git checkout as the maintained source and the globally installed kit
+as its deployment. When asked to improve the delegation kit, make the changes
+in the verified source checkout, including its tests and documentation. Do not
+satisfy that request with installed-only edits or use the installed directory
+as the source repository.
+
+Use the source checkout identified by the current user when supplied. Otherwise,
+the installed kit's `.installation/manifest.json` may contain `source_directory`,
+the last external bundle source used by the installer. Treat that path as a
+candidate: verify it still exists, is the intended Git checkout, and contains the
+kit's source and development files. The field is not proof of Git identity,
+authorization, a clean revision, or remote preservation. Older installations may
+lack it; it may point to a moved checkout or an unpacked bundle. If the source
+cannot be established, report the exact missing or ambiguous location and obtain
+the needed source context instead of silently editing only the installed copy.
+
+Establish the source revision and dirty state, preserve unrelated changes, and
+keep the requested improvements in that checkout. Review and run proportionate
+source checks before installation. With task authorization to update the global
+kit, preview and apply the source checkout's installer to the intended Codex
+home. A request to improve the active global kit includes this local installation
+step unless an applicable instruction limits it to source changes or prohibits
+global writes. Reuse existing authorization; do not ask again merely because the
+source and deployment differ. Preserve configuration, selected model/effort,
+service tiers, concurrency, installation ownership and history. Reconcile
+existing installed edits without bypassing the installer's ownership checks.
+Verify the installed bundle and manifest match the accepted source, and that a
+repeat preview reports no changes. Start a fresh chat to load updated instructions.
+Coordinator-only mode delegates this engineering and installation; native-only
+mode uses the existing installer metadata without adding coordination records.
+
+Report source revision and dirty state, checks, installation status, and Git
+commit/push status separately. A global installation is not a Git commit or a
+push; a local commit or tracking ref alone does not prove current remote state.
+Complete commits and pushes when authorized by the task, preserving applicable
+local-only and remote-write restrictions. This workflow grants no publication
+permission and does not automatically commit or push changes. If installation
+or preservation is blocked, retain the source changes and report the exact
+remaining step rather than claim it completed.
+
 ## Routing
 
 Treat model/effort eligibility and engineering responsibility as separate

@@ -151,6 +151,11 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         value = json.loads(decode(state.data, path))
         if value["version"] != 1 or value["home"] != str(home) or type(value["active"]) is not bool:
             raise ValueError("unexpected version, home, or active flag")
+        if "source_directory" in value:
+            source_directory = value["source_directory"]
+            if (not isinstance(source_directory, str) or not source_directory
+                    or "\0" in source_directory or not Path(source_directory).is_absolute()):
+                raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
@@ -268,7 +273,14 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
         else:
             return []
 
-    if not changes:
+    # This is a discovery hint, not proof of a Git checkout or permission to use it.
+    # Running the installed utility (including disable) must not replace the
+    # external source location with the deployment directory.
+    source_directory = previous.get("source_directory") if previous else None
+    if not uninstall and os.path.abspath(source) != os.path.abspath(target):
+        source_directory = os.path.abspath(source)
+    provenance_changed = previous is not None and previous.get("source_directory") != source_directory
+    if not changes and not provenance_changed:
         return []
     transaction_id = uuid.uuid4().hex
     backup_root = target / ".installation" / "backups" / transaction_id
@@ -285,6 +297,8 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
         "bundle_digests": bundle_digests,
         "last_backups": backups,
     }
+    if source_directory is not None:
+        manifest["source_directory"] = source_directory
     changes.append(Change(manifest_path, manifest_state, State((json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode())))
     return changes
 

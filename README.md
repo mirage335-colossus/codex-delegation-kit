@@ -201,6 +201,27 @@ run the same dry-run and apply sequence from the updated clone. The installer
 refuses to overwrite local edits to managed installed files. Back up or
 reconcile those edits before updating. Reinstallation is idempotent.
 
+For requests to improve the delegation kit itself, edit the verified Git clone
+first, validate and review the changes, then install from that clone when the
+task authorizes updating the active global kit. Follow `policy.md` under
+"Improving this kit"; preserve any source-only or no-global-write instruction.
+Editing only the installed copy leaves the repository unchanged. Git updates
+and global installation are separate steps, and neither automatically commits
+or pushes changes. Report source revision/dirty state, validation, installation,
+and commit/push status separately; preserve remote-write restrictions.
+
+The installed `.installation/manifest.json` optionally records `source_directory`,
+the absolute external bundle source last used by the installer. Verify that
+candidate is still the intended Git checkout with its development files before
+using it. It may be missing in an older installation, moved, or an unpacked
+bundle; it is not proof of Git identity, authorization, or remote state. Use an
+explicit current user source when supplied, and resolve a missing or ambiguous
+source rather than falling back to installed-only edits. Installing from a new
+source path refreshes this hint even when bundle bytes are unchanged. Running
+the installed utility or disabling preserves the existing hint, including an
+unknown source. This metadata does not make Git-to-global synchronization
+automatic.
+
 Updates from the original eight-file bundle migrate its three managed role
 registrations to six and add the inherited role files. Active and disabled
 installations are supported. The installer preserves unrelated configuration
