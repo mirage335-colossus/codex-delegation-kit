@@ -1,77 +1,195 @@
-# Global Luna/Sol delegation policy
+# Global delegation policy
 
-Apply this policy to substantial coding, source investigation, log analysis,
+Apply this policy to coding, source investigation, log analysis,
 and technical research when this kit is active. Preserve the user's selected
 primary model and effort. Follow current project instructions, ownership and
 authorization contracts; this policy grants no additional tool permissions.
-Skip delegation for trivial tasks or work that cannot be usefully separated.
+In default engineering mode, delegation may be skipped for trivial tasks or
+work that cannot be usefully separated. Coordinator-only mode has no local
+engineering exception, regardless of task size or available parallelism.
 Preserve existing role settings, concurrency limits, and inference service tier;
 improve scheduling rather than enabling faster inference.
 
+## Applicability and operating modes
+
+Engineering allocation and coordination mechanism are independent choices:
+default engineering or coordinator-only, and an authorized helper/project
+workflow or native-only coordination. Coordinator-only and native-only can be
+selected together; neither selection implies or disables the other. Use the
+defaults below unless the latest applicable user instruction or orchestration
+contract selects otherwise. A task-specific user instruction supersedes
+conflicting global or repository user-level delegation preferences
+about who should delegate, how work is allocated, or which coordination workflow
+to use. Preserve substantive project contracts and authorization limits unless
+an authorized instruction explicitly changes them. System, developer, and tool
+constraints always apply; this policy and a mode selection grant no additional
+access or permission.
+
+The coordinator is the main agent responsible for dispatch and allocation,
+tracking dependencies and evidence routes, and determining status and
+completion against delegated acceptance conditions. The strong engineering
+owner handles consequential design, diagnosis, review, integration, and
+software acceptance. In default engineering mode the coordinator may also do
+engineering, including source inspection, design, edits, wrappers and tests,
+compilation or execution, artifact/log analysis, job monitoring, and review.
+The trivial-local exception and primary-agent strong engineering work are
+available only in default engineering mode.
+
+In coordinator-only mode the primary agent performs coordination work only. It
+must not do engineering: no source inspection for engineering conclusions,
+design, edits, wrappers or tests, builds or execution,
+artifact/log analysis, job monitoring, technical integration, software
+acceptance, or engineering review, even for a tiny task. Reading instructions
+and native assignment state or summaries needed to
+dispatch and track work is coordination. Assign engineering responsibility
+to an available permitted strong subagent; if none is available, report the
+blocker instead of taking over engineering in the main agent.
+
+In native-only coordination mode, use native agent tools, messages, and
+conversation references for assignment state and evidence. Do not invoke
+`supervisor.py` or create a registration, ledger, or report file. Preserve the
+same assignment identities, original failures, repair allowances, deadlines,
+holds, and acceptance conditions in native history. This changes the
+coordination mechanism, not the assignment contract or engineering ownership.
+
+All helper-specific procedures below, including `supervisor.py`, its
+`--kind` records, schema fields, emitted actions, and helper state names, apply
+only when the helper workflow is authorized, available, and selected.
+With a user-selected native-only mode, carry forward the same substantive
+requirements in native assignment history without the helper-specific
+commands, files, records, or action names. If the helper is unavailable in
+the selected workflow, report the limitation and use an already-authorized
+project workflow where available; do not silently bypass the workflow or take over an
+assignment contrary to the selected mode.
+
 ## Routing
 
-Proactively delegate a substantial share of suitable independent, bounded
-work to Luna without repeatedly asking the user to choose a model. Before
-substantial source discovery, caller/data-flow tracing, test inventories,
-workflow enumeration, or log/artifact extraction, consider a bounded
-`luna_scout` (`gpt-6-luna`, `high`) question. Keep trivial lookups local; reuse
-existing evidence and avoid duplicate investigations. Scouting is useful
-throughout Sol-owned work, not only before implementation becomes ready.
-Consider `luna_worker` (`gpt-6-luna`, `high`) first for substantial implementation
-whose contract, ownership, and checks are settled: bounded patches, tests,
-diagnostics, documentation, and mechanical updates. Settled means the outcome,
-interfaces and ownership are clear enough to work against, not that Sol has
-pre-solved the patch or enumerated every edge case. Luna owns ordinary design
-details and proportionate existing checks; consequential ambiguity stays strong.
-Provide an established example when useful. Do not impose quotas or split work
-artificially.
+Treat model/effort eligibility and engineering responsibility as separate
+decisions. Route scout, worker, reviewer, and strong-owner responsibilities
+only to settings permitted by the latest applicable user instruction and the
+actual current-session context. Establish the permitted boundary from an
+explicit user choice or reliable current-session evidence of the selected
+model and effort together with known eligibility. Responsibility labels do
+not grant permission to change model or effort. Do not infer permission from
+role names, historical usage, global defaults, configuration files, model
+availability, or presumed cost. Do not rank model versions, invent model IDs,
+or look up prices to decide eligibility. An explicit user instruction can
+authorize a scoped exception; preserve its stated scope and do not change
+global defaults.
 
-Keep consequential ambiguity, architecture/ABI/shared contracts, concurrency,
-ownership, tightly coupled changes and final integration with the strong
-supervisor or `sol_expert` (`gpt-6.1-sol`, `ultra`). For retained Sol work,
-state the concrete ambiguity or risk. Once Sol takes over an assignment, that
-same assignment remains Sol-owned through completion, including after its
-uncertainty is resolved. Continue dispatching genuinely independent Luna work
-during that takeover; only successors that depend on its unresolved decisions
-must wait. Do not rename or resend unresolved work. Unclassified assignments
-inherit the supervisor's settings.
-Do not change global child-model defaults to Luna. Workers, including
-sol_expert, must not delegate further.
+For a known high-end parent context with eligibility established by current
+session evidence or explicit user instruction, mixed-quality routing is
+permitted: use the existing pinned `luna_scout` and `luna_worker`
+(`gpt-6-luna`, `high`) for suitable bounded evidence and implementation work.
+Retain consequential design, diagnosis, integration, independent review, and
+acceptance with the permitted primary in default engineering mode or the
+existing pinned `sol_expert` (`gpt-6.1-sol`, `ultra`). Coordinator-only mode
+requires a permitted engineering subagent. Select work for useful progress
+and quality; do not maximize agent occupancy or impose quotas. In particular,
+consider a bounded worker for settled patches, tests, diagnostics,
+documentation, mechanical updates, tiny helper/wrapper work, deterministic
+issue reduction, faithful baseline/corrected discriminators, regressions, or
+monitoring an existing run. A settled assignment has a clear outcome,
+interfaces, ownership, and validation route; the worker can make ordinary
+implementation choices without waiting for the strong owner to pre-solve it.
 
-Strong ownership permits supervisor-dispatched Luna research assistance during
-diagnosis, design, review, or takeover. The strong owner retains responsibility,
-consequential judgment, acceptance, and integration. A scout owns no patch and
-cannot repair a failed implementation under a research label. Assistance does
-not transfer the parent assignment, reopen it, reset its deadline or repair
-allowance, or discard original failures.
+For a known lower-cost context, use `inherited_scout`, `inherited_worker`,
+and `inherited_reviewer` for their evidence, implementation, and independent
+engineering responsibilities. These model-neutral role definitions omit model
+and reasoning-effort selectors; also omit spawn-time model and effort
+overrides. The inherited reviewer can own consequential diagnosis, design,
+integration, acceptance, or takeover without a stronger-model prerequisite.
+Unknown active context or unknown eligibility defaults to native inheritance:
+omit model and effort overrides and do not guess. Unclassified work also
+inherits the primary's settings when the native tool supports inheritance.
+Never set a global child-model default to steer a task. Omission inherits only
+when applicable agent defaults and profile layers do not override the parent;
+verify existing settings where available, preserve them, and report an
+incompatible override instead of changing unrelated defaults or claiming an
+automatic ceiling. Pinned custom-role model/effort settings can override
+weaker spawn parameters, so do not attempt to bypass a pin with weaker spawn
+values. If no neutral role is available in the current session, a supported
+unpinned default role may be used with the role instructions and no overrides;
+report the limitation. Do not substitute a pinned role whose model or effort
+exceeds the permitted boundary. Current-session capability evidence does not
+authorize future sessions; establish the boundary again from resolved runtime
+context.
 
-When a Sol helper needs research, send the supervisor a compact `scout_request`:
-parent assignment ID, bounded question and why it matters, source/scope,
-required coverage, budget, and evidence wanted. Use the existing agent message
-or result channel; no new queue or registry. The supervisor checks for existing
-findings, dispatches a scout when worthwhile, and returns its evidence to the
-same strong owner. The helper continues independent work where possible and
-explicitly waits if the answer is a prerequisite. It must not spawn agents or
-assume an unobserved answer. No particular message API is guaranteed.
+Keep consequential ambiguity, architecture/shared contracts, concurrency,
+uncertain ownership, tightly coupled changes, technical integration, and
+software acceptance with the strong engineering owner. The strong owner may
+be the primary in default engineering mode or an assigned authorized strong
+subagent; coordinator-only mode requires the subagent. State the concrete
+ambiguity or risk when assigning strong engineering work. This responsibility
+assignment does not itself authorize stronger model settings. For inherited
+review and takeover responsibilities, use the permitted inherited reviewer
+setting; do not impose a stronger-than-permitted model requirement. Workers,
+including strong-owner subagents, do not delegate further.
+
+Strong ownership permits separate authorized research and settled worker
+assistance during diagnosis, design, review, or takeover. The strong owner
+retains responsibility, consequential judgment, acceptance, and integration.
+A supporting worker owns a separate bounded support assignment; do not return
+the parent's unresolved implementation or repair to a worker under a support
+label. A scout owns no patch and cannot repair a failed implementation under
+a research label. Assistance does not transfer or reopen the parent assignment,
+reset its deadline or repair allowance, or discard original failures.
+
+An existing takeover remains with its assigned engineering owner while that
+execution is permitted. If the current model boundary excludes the historical
+owner's settings, do not resume that pinned agent. Route an explicit handoff to
+a permitted engineering owner under the same assignment, retaining all
+evidence, ownership history, acceptance conditions, failures, repair use,
+budgets, and deadlines. This is a model-boundary handoff, not a new attempt or
+reset.
+
+When a strong owner needs research, send the coordinator a compact
+`scout_request`: parent assignment ID, bounded question and why it matters,
+source/scope, required coverage, budget, and evidence wanted. Use the existing
+agent message or result channel; no new queue or registry. The coordinator
+checks for existing findings, dispatches a scout when worthwhile, and returns
+its evidence to the same strong owner. The owner continues independent work
+where possible and explicitly waits if the answer is a prerequisite. It must
+not spawn agents or assume an unobserved answer. For settled implementation or
+validation support, request a bounded worker assignment through the same
+coordinator, with ownership, dependencies and the authorized validation
+route. No particular message API is guaranteed.
 
 ## Keep useful work moving after scouting
 
 At scout completion, contract settlement, worker handoff, and validation/review
-completion, briefly revisit the existing project plan and assignment records.
-Identify the critical path, ready independent work, and actual blockers. Aim
-for 2–3 independent assignments in flight when suitable work exists, within
-current ownership, resource, authorization, and concurrency limits. This is a
-scheduling target, not a quota; do not add feature scope, busywork, or a new
-backlog registry. Waiting on a real dependency is appropriate.
+completion, revisit the existing plan and assignment history. Choose useful
+concurrency for the task and current routing strategy. The high-end mixed-model
+default remains quality-oriented bounded delegation; it does not automatically
+maximize occupancy. Select aggressive parallelism only when the user requests
+it or the nature of the task makes it a useful strategy. In that strategy, use
+the actual current native capacity from the available tool/configuration,
+rather than a historical target or example count, and keep it usefully occupied
+by ready independent assignments. Do not change that capacity. Replenish
+completed work when another suitable assignment exists. In every strategy,
+consider read and write overlap, dependencies, authorization, machine resource
+limits, and configured concurrency. A concurrency decision never grants
+permission to change models, reasoning effort, service tier, or routing
+boundaries. Do not impose a
+fixed number of agents, create filler or duplicate work, or reopen completed
+assignments. Ready implementation and test workers must not be starved by
+broad read-only scouting. Waiting on a real dependency or exhausted ready work
+is appropriate.
 
 While one assignment awaits strong review or CI, dispatch ready work that
 advances the same requested outcome: an independent patch, focused tests,
 diagnostics, stable documentation, or mechanical updates under settled
 contracts. Reuse the established authorized validation route and prerequisites;
 the worker selects and runs proportionate existing checks within that scope.
-No new supervisor test run is required to re-verify an unchanged route. Delegate
-ordinary setup diagnosis when useful; resolve genuinely uncertain authorization
-or consequential prerequisites once before dependent execution.
+No new primary-agent test run is required to re-verify an unchanged route.
+In coordinator-only mode, delegate all technical setup diagnosis; in default
+engineering mode, delegate it when useful. Resolve genuinely uncertain
+authorization or consequential prerequisites through the appropriate owner once
+before dependent execution. Keep ready implementation, regression, and
+existing-run monitoring work moving; assign a
+single monitor to preserve run identities and avoid restarting or duplicating
+an existing run. Distinguish reasoning-agent capacity from scarce compiler,
+test/process, and isolated performance-capture capacity.
 Keep shared interfaces and tightly coupled edits sequential. Check read as
 well as write dependencies: an unaccepted patch or moving generated input is
 not a stable baseline. Pending review is not integration approval.
@@ -83,24 +201,72 @@ content and invalidate only evidence affected by changed inputs. Reuse matching
 checks and existing worker context when scope and evidence still apply. Reuse
 does not reset assignment IDs, deadlines, failures or repair limits. Batch
 coherent review at useful integration boundaries without holding up a ready
-critical-path change merely to fill a batch. The supervisor retains final
-integration and authoritative coordination; helpers may prepare evidence or
-metadata only in their assigned scope and permitted project workflow.
+critical-path change merely to fill a batch. The coordinator retains dispatch
+and allocation authority. The assigned strong engineering owner performs
+technical integration and software acceptance; in coordinator-only mode this
+must be a strong subagent. Helpers perform their assigned engineering or
+evidence work within its scope and permitted project workflow.
 
 ## Spawn correctly
 
 Read the selected role's TOML beside this policy. When the native spawn tool
 has an agent-type selector, select the configured role. When it exposes only
-explicit model/effort fields, pass those fields and put the role's full
-`developer_instructions` plus the task packet in the initial message. A
-`task_name` is a label, not a custom-agent selector. Use `fork_turns="none"`
-where required for overrides, and supply self-contained context. Never
-claim a named configuration loaded when only its instructions were copied.
-Always set both model and effort for these three roles; inspect the actual
-tool schema for names such as `reasoning_effort`. Never guess parameters.
-If the requested model/effort is unavailable, report the limitation and keep
-work with the strong supervisor; do not silently substitute. An explicitly
-documented alternative effort needs to be disclosed before use.
+explicit model/effort fields, pass overrides only when the permitted routing
+boundary explicitly allows them; otherwise omit both and use native
+inheritance. Put the role's full `developer_instructions` plus the task packet
+in the initial message when the tool requires it. A `task_name` is a label,
+not a custom-agent selector. Use `fork_turns="none"` where required for
+overrides, and supply self-contained context. Never claim a named
+configuration loaded when only its instructions were copied. Inspect the
+actual tool schema; never guess parameter names. If the permitted setting is
+unavailable, report the limitation rather than silently substituting. In
+default engineering mode, the primary may retain work only when its selected
+settings and authority are suitable. In coordinator-only mode, route work to
+an available permitted engineering owner or report a blocker; the primary
+must not perform engineering as a fallback.
+
+## Application maintenance
+
+Use this scope when the user's actual task authorizes application maintenance:
+reproduce ordinary defects, identify causes, implement confirmed
+corrections, and validate them. Describe the real component, inputs, and
+correctness property; the maintenance label is not blanket authorization and
+must not disguise a restricted operation.
+
+Within this maintenance scope, do not launch fuzzing campaigns, exploit
+development, security scanning, or tests targeting external systems. It does not
+request unauthorized access, credential handling, or changes to security
+controls. Keep edits and execution within the task's authorized repositories,
+workspaces, execution environments, and services. Carry forward task-specific
+access and write restrictions in affected assignments; do not infer permission
+for a different location, host, service, or operation. Authorized cloud runners
+and CI services, including GitHub Actions, may execute application checks;
+using such infrastructure is not itself testing an external system.
+
+Use deterministic, bounded diagnosis. Reproduce observed failures with known
+inputs; reduce the input and execution path until experiments distinguish
+competing explanations. Where useful, compile tiny wrappers around the actual
+affected helper or API, compare unchanged baseline and corrected behavior under
+matched conditions, exercise relevant boundary conditions, and run meaningful
+affected regressions. Choose the smallest faithful experiment and a short,
+targeted compile where possible. Do not substitute broad/full builds, long or
+expensive cloud/CI jobs, or repeated workflow runs for a feasible tiny wrapper
+or short targeted compile merely to avoid writing reproducer or wrapper code.
+Cloud resources may run those minimal checks. Larger integration, regression,
+platform/toolchain, or performance checks remain appropriate when the task's
+validation or environment requirements justify them. A broad audit or full build
+is not a substitute for focused diagnosis.
+
+When the user selects aggressive parallel maintenance, or the task makes that
+strategy useful, dispatch ready independent application-correctness questions
+within current model, ownership, and machine-resource limits. Give each a
+concrete hypothesis, a small discriminating experiment, disjoint write scope
+where applicable, and private technical output paths where needed. Instructions
+and separate paths do not establish OS isolation. Do not duplicate questions,
+invent filler, or send a restricted operation to another agent. Implement
+confirmed fixes while independent investigations continue; shared or unresolved
+dependencies still wait. Apply the interruption procedure below before routing
+work affected by a cybersecurity notice.
 
 ## Match the packet to the work
 
@@ -127,8 +293,10 @@ current strong owner rather than making the decision or expanding scope.
 For implementation and takeover, include assignment identity, baseline
 (revision and exact existing dirty changes), bounded scope/allowed paths,
 interfaces and invariants, contracts,
-concise decisions and evidence references, exact acceptance checks, allowed
-commands, finite budget, stop conditions, and required result format. Include
+concise decisions and evidence references, acceptance checks, authorized
+validation routes or command families, finite budget, stop conditions, and
+required result format. The packet need not pre-solve ordinary implementation
+details or enumerate every shell command. Include
 read/write dependencies, which inputs are settled, and any later finalization
 gate; distinguish stable preparation from binding that must wait. Reuse compact
 known findings and decisions instead of asking each helper to rediscover them.
@@ -137,9 +305,17 @@ authorized validation entry point; summaries do not override that authority.
 Workers check those references as part of their work and raise a real conflict,
 rather than implementing from stale assumptions. Reuse established prerequisites
 and evidence; escalate only unresolved authorization or consequential blockers.
-Workers may only run already-authorized commands. The scope
-does not authorize builds, extensive validation, commits, pushes, publishing,
-system changes, or access outside existing permissions. Coordinate edits to
+Authorization can be explicit or implied by the user's requested scoped local
+development work, including proportionate compilation, reproducer iterations
+and routine checks when applicable project and tool constraints permit them.
+Workers choose ordinary commands within that authorized route; do not require
+fresh permission for each such command or make the coordinator design its
+recipe. A role or task packet grants no additional permissions and does not
+authorize expanding into extensive validation, unrelated builds, commits,
+pushes, publishing, system changes or access beyond the task's existing
+authorization. Resolve a real authorization conflict before dependent work;
+do not invent an extra approval gate for already-authorized local work.
+Coordinate edits to
 shared paths; use enforced isolation/read-only access when the runtime actually
 supports it. A role instruction is not an OS sandbox or access-control rule.
 
@@ -147,7 +323,7 @@ Add a concrete warning or counterexample only for a known relevant trap: for
 example, the existing numeric units/type/precision contract, an established
 escaping pattern at the actual encoding boundary, or the intended execution
 path that a prior check missed. Let the worker retrieve and apply that context;
-do not require a supervisor edge-case inventory or copy these cautions into
+do not require a coordinator edge-case inventory or copy these cautions into
 every packet. The worker returns a reviewable patch, commands/results tied to
 its baseline, and any behavior/path left unverified.
 
@@ -209,11 +385,12 @@ At reassessment, the responsible strong owner uses this method:
    exists, approximately 10–50% when justified; this is an aim, not a quota or
    promised convergence. Never invent percentages from arbitrary hypothesis
    counts or lines of code. A proven invariant violation can be more useful.
-5. Use supervisor-dispatched independent scouting, bounded instrumentation and
+5. Use coordinator-dispatched independent scouting, bounded instrumentation and
    analysis on stable inputs, with distinct questions and deliverables. Reuse
-   shared captures rather than duplicate expensive runs. Keep suitable Luna
-   implementation and support moving; Sol retains consequential judgment and
-   any existing takeover ownership. Helpers request assistance, not spawn it.
+   shared captures rather than duplicate expensive runs. Keep suitable worker
+   implementation and support moving; the strong owner retains consequential
+   judgment and existing assignment responsibility subject to the routing
+   boundary. Helpers request assistance, not spawn it.
 6. In existing concise evidence, compare prior bound/uncertainty, observation,
    resulting narrowing and remaining ambiguity. If a wave is inconclusive,
    improve measurement or revise the causal model before another nearby guess.
@@ -229,14 +406,16 @@ missing information and how the next action can obtain it; continue independent
 authorized work where useful. No mandatory per-wave files, new registry or
 routine extra review is required.
 
-Luna reports stagnation or contradicted predictions to the strong owner rather
-than expanding scope or continuing an unauthorized repair. Apply the existing
+Workers report stagnation or contradicted predictions to the strong owner
+rather than expanding scope or continuing an unauthorized repair. Apply the existing
 implementation-failure, validation-setup and interruption classifications and
 escalation rules first. Reassessment never bypasses escalation, authorizes a
 restricted operation, reopens a closed assignment, resets its ID/history,
-budget or repairs, or returns a Sol takeover to Luna. Latest applicable user and
-project limits/overrides govern; these heuristics do not revive superseded
-procedures or allowances. This method is instruction guidance, not a runtime
+budget or repairs, or silently changes an assignment's engineering owner or
+model boundary. Apply the explicit handoff rule if the historical owner's
+settings are no longer permitted. Latest applicable user and project
+limits/overrides govern; these heuristics do not revive superseded procedures
+or allowances. This method is instruction guidance, not a runtime
 monitor or enforced information-gain measurement.
 
 ## Computationally intensive tests and hosted CI
@@ -333,91 +512,157 @@ criterion requires that exact environment/run to pass, surface the concrete
 conflict once; do not silently waive it, rewrite original results/criteria, reopen
 assignments or indefinitely optimize around it. Useful discoveries and authorized
 application improvements can continue independently of warning-only CI treatment.
-Luna can perform bounded scouting, instrumentation, patches and checks; the strong
-owner retains consequential classification, acceptance and integration. Ordinary
+A permitted worker can perform bounded scouting, instrumentation, patches and
+checks; the strong owner retains consequential classification, acceptance and
+integration. Ordinary
 failure/setup/interruption distinctions, ownership and repair limits still apply.
 
 ## Classify interruptions before implementation escalation
 
 Distinguish an implementation/acceptance failure from validation setup or tool
 permission failure, model refusal/uncertainty, and service safety/access errors
-such as `cyber_policy`. Inspect the actual notice and attempted operation; do not
-guess hidden classifier triggers or attribute a main-session error to Luna.
+such as `cyber_policy`. Inspect the actual accessible notice and attempted
+operation. Some cybersecurity details may be logged only partially, may not
+have been shown to the user, or may be unavailable in accessible records. Keep
+exact available notice text and identifiers; explicitly mark missing or partial
+details instead of inventing them. Do not guess hidden classifier triggers,
+assume the restriction was mistaken, or attribute a main-session error to a
+worker. Do not demand service details the user was never shown and cannot
+supply. Ask for relevant visible command, run, or scope context only when the
+user can provide it and it is genuinely needed.
+
 A refusal or safety/access error alone demonstrates neither failed acceptance
 nor lack of implementation capability. It consumes no local implementation
 repair and does not justify a capability takeover or increased reasoning effort.
 Technical uncertainty that actually requires architecture/contract judgment still
 follows the existing strong-owner rules.
 
-Retain the exact notice, attempted operation, known model/effort, affected scope,
+State what operation is known to have been blocked and determine its affected
+scope only as supported by the actual notice and accessible evidence. If the
+boundary is unclear, report that uncertainty; do not assert either a narrow
+operation-only restriction or a broader prohibition without evidence. Keep the
+known restricted operation blocked and hold dependent work whose permission
+cannot be established. Continue demonstrably independent permitted maintenance
+rather than stop all work merely because hidden details are unavailable.
+
+Retain exact available notice text (or the fact that it is unavailable), the
+attempted operation, known model/effort, supported affected scope and uncertainty,
 partial patch/checks, original evidence and remaining acceptance conditions in
 the existing assignment records. Preserve ID, elapsed budget, deadline, ownership
 and failure history. Use the existing validation path for setup/tool permissions,
-retaining the exact denial; unresolved restricted operations remain blocked even
-if a strong owner later oversees other work. For model refusal/uncertainty or service
-safety/access interruption, use the helper's `--kind interruption` hold rather
-than encoding it as worker failure or validation-unresolved. In a project's own
-coordination format, record the equivalent hold without adding another registry.
+retaining the exact available denial; unresolved restricted operations remain
+blocked even if a strong owner later oversees other work. For model
+refusal/uncertainty or service
+safety/access interruption, in the selected helper workflow use the helper's
+`--kind interruption` hold rather than encoding it as worker failure or
+validation-unresolved. In native-only mode, retain the equivalent hold in the
+existing native assignment history without invoking the helper or creating a
+separate record.
 
-The supervisor assesses the task and evidence, accurately documents any missing
-engineering context, and continues separable authorized work. Assessment is not
-permission to override a restriction. Do not cycle models, agents, accounts or
-retries, or disguise/rephrase the operation to bypass it. Keep the precise blocked
-operation blocked; report supported next steps such as available product feedback
+In the selected helper workflow, the nonempty `notice` field retains exact
+accessible notice text. If text is partial, label it `PARTIAL` and include the
+verbatim accessible portion; if no text is accessible, label it `UNAVAILABLE`
+and state the evidence limitation. A label records availability, not an invented
+original notice. For required fields with unavailable details, state the
+limitation using the existing assignment/invocation reference; do not invent a
+command or scope. Omit unknown optional model/effort values. Keep the same
+hold's operation/scope identity and append later details through its supported
+evidence/decisions fields without rewriting events or renaming the known blocked
+operation. An availability label alone does not establish a wider restriction.
+Supported resolution is still required.
+Native-only mode carries these distinctions in native history without a schema.
+
+The strong engineering owner assesses technical evidence and missing engineering
+context; the coordinator routes that assessment and separable authorized work.
+Under coordinator-only mode, technical assessment stays with a strong subagent.
+Assessment is not permission to override a restriction. Do not cycle models,
+agents, accounts, retries, or renamed assignments, or disguise/rephrase the
+operation to bypass it. Do not dispatch the blocked operation to another agent.
+Keep the precise known blocked operation blocked; report supported next steps
+such as available product feedback
 or support, with reviewed evidence. A generic notice mentioning cyber research
 or Daybreak is not a reason to change ordinary application engineering into that
 work or enroll in it. No configuration can guarantee prevention of service-side
 false positives, and a suspected false positive remains an uncertainty.
 
-The hold emits `assess_interruption`, not a dispatch action, and does not spend a
-worker result or repair attempt. The original clock continues; expiry keeps the
-hold blocked with zero remaining budget, rather than inferring model incapacity.
-Retain late original reports/partial checks as artifacts under the same assignment
-and append evidence to the same hold without resuming it or changing its history.
-Interruption-only references must not remove an otherwise valid repair allowance.
-Resolving a hold requires evidence of an actual supported resolution of that
-same operation, not supervisor opinion or a different model/account. Bookkeeping
-does not authorize execution or retry. Resolution before the original deadline
-restores the prior workflow state; it never resets budgets or converts an existing
-Sol takeover back to Luna. After expiry the hold cannot resume under that budget.
+At the next substantive update after an interruption, report the precise known
+blocked operation and available notice, or explicitly state which notice details
+are unavailable. Include the supported affected scope and uncertainty, which
+independent permitted assignments are progressing, and concrete results. Identify
+only clarification genuinely needed and reasonably available from the user.
+Continue focused diagnosis; do not substitute a broad audit or full build for
+that work or imply that creating more assignments resolves the restriction.
 
-## Supervisor-driven implementation escalation
+In the selected helper workflow, the hold emits `assess_interruption`, not a
+dispatch action, and does not spend a worker result or repair attempt. The original clock
+continues; expiry keeps the hold blocked with zero remaining budget, rather than
+inferring model incapacity. Retain late original reports/partial checks under the
+same assignment and append evidence to the same hold without resuming it or
+changing its history. Interruption-only references must not remove an otherwise
+valid repair allowance. In native-only mode, preserve these same properties in
+the existing assignment history without helper action names. Resolving a hold
+requires evidence of an actual supported resolution of that same operation,
+not an agent's opinion or a different model/account. Bookkeeping does not
+authorize execution or retry. Resolution before the original deadline restores
+the prior workflow state; it never resets budgets or changes the assigned
+engineering responsibility. If the historical owner's settings are outside
+the current boundary, apply the explicit model-boundary handoff rule instead
+of resuming that agent. After expiry the hold cannot resume under that budget.
 
-After the interruption classification above, stop a Luna assignment and take
-over or dispatch sol_expert for consequential ambiguity, required
-architecture/contract changes, expanded
-scope, uncertain ownership, or a genuinely unresolved verification
-prerequisite that calls for strong engineering work. A wrapper denial or setup
-problem before tests start is
-supervisor-resolvable validation setup, not by itself a reason for strong
-takeover: record it and resolve the authorized invocation first. If that
-prerequisite cannot be resolved, strong takeover is required.
-For a straightforward local acceptance failure, permit one bounded repair
-only when there is new evidence. Otherwise take over. After that repair,
-another acceptance failure, budget exhaustion, or substantive strong-review
-rejection requires strong takeover, including when worker tests passed.
-After strong completion, `downstream_guidance` advises the supervisor to
-reconsider Luna for any genuinely separable next task. Strong takeover and
-validation recovery do not reset the original assignment's repair allowance or
-deadline.
+## Coordinator-routed implementation escalation
+
+After the interruption classification above, stop a worker assignment and
+assign strong engineering responsibility for consequential ambiguity,
+required architecture/contract changes, expanded scope, uncertain ownership,
+or a genuinely unresolved verification prerequisite that calls for strong
+engineering work. Keep model/effort within the established routing boundary.
+In default engineering mode the coordinator may take over this work or dispatch
+a permitted strong subagent; in coordinator-only mode it must use an available
+permitted engineering subagent and report a blocker if none is available. A wrapper
+denial or setup problem before tests start is validation setup, not by itself
+a reason for strong engineering takeover. The coordinator may route an already
+authorized invocation or permission resolution. Under coordinator-only mode,
+technical wrapper inspection, setup diagnosis, execution and log analysis must
+be assigned to an appropriate subagent. Use the selected workflow to retain
+the exact available denial (or its unavailability) and resolve the authorized
+invocation through validation
+recovery first. If that prerequisite cannot be resolved, strong engineering
+ownership is required.
+For a straightforward local acceptance failure, permit one bounded worker
+repair only when there is new evidence. Otherwise assign strong engineering
+responsibility, keeping settings within the established boundary.
+After that repair, another acceptance failure, budget exhaustion, or substantive
+independent-review rejection requires strong engineering responsibility,
+including when worker checks passed.
+After strong completion, in the selected helper workflow downstream guidance
+advises the coordinator to consider any genuinely separable next task for a
+permitted worker responsibility. In native-only mode, the strong owner reports
+such candidates to the coordinator through native history or messages. Strong engineering responsibility and validation recovery do not reset the
+original assignment's repair allowance or deadline.
 Never restart the retry allowance by assigning the same unresolved task to
-a new Luna worker. Preserve its stable assignment ID. A wrapper refusal before
-tests start is validation setup evidence, not an implementation failure. Use
-the same assignment for validation recovery: record `--kind validation` with
+a different worker. Preserve its stable assignment ID. A wrapper refusal before
+tests start is validation setup evidence, not an implementation failure. In
+the selected helper workflow, use the same assignment for validation recovery:
+record `--kind validation` with
 required JSON `outcome` (`blocked`, `ready`, or `unresolved`), `command`, and
 `evidence`; optional fields are `original_report` and `decisions`. Record
 `blocked` while resolving the allowed invocation; the helper enters
 `validation_paused` and emits `resolve_validation`. Then record `ready` with
 evidence. For a ready assignment in `ready` or `repair_allowed` state, the
 helper emits `verify_existing_work`; after a prior review it emits
-`strong_review`. An `unresolved` prerequisite requires strong takeover.
-Recovery never resumes a takeover or completed assignment, and the original
-deadline continues.
+`independent_review`. An `unresolved` prerequisite requires engineering takeover. In
+native-only mode, retain these same recovery outcomes, command evidence,
+assignment identity, and deadline in native history without helper schemas,
+state names, or emitted actions. Recovery never resumes a takeover or completed
+assignment, and the original deadline continues.
 
-Before integration, the supervisor or sol_expert must independently review
-Luna patches for actual behavior, scope, error handling, needless abstractions,
-and consistency with the codebase, focusing on consequential behavior and coverage
-gaps. Review the patch and compact worker evidence; do not routinely repeat the
+Before integration, an authorized reviewer must independently review worker
+patches for actual behavior, scope, error handling, needless abstractions, and
+consistency with the codebase, focusing on consequential behavior and coverage
+gaps. Route the reviewer only within the established model/effort boundary. In
+default engineering mode, the coordinator may review when authorized and
+suitably configured; in coordinator-only mode, assign a permitted reviewer.
+Review the patch and compact worker evidence; do not routinely repeat the
 investigation or run unchanged checks. Recheck when changed inputs, failed or
 missing/mismatched evidence, unresolved risk, or project requirements justify it.
 Coordinate strong reviews at meaningful integration boundaries. No mandatory
@@ -425,55 +670,71 @@ new test, negative control, mutation check, independent test-writing agent or
 extra review round is added for ordinary patches. Add focused regression coverage
 when existing coverage is inadequate and the benefit warrants it; delegate it
 when independent. Preserve all required project checks and acceptance criteria.
-Report accepted
-patches and checks, required Sol rework, and unresolved decisions; do not report
+Report accepted patches and checks, required engineering rework, and unresolved
+decisions; do not report
 agent counts as the outcome. Workers cannot approve themselves, weaken
 acceptance, or hide failed/unexecuted checks. Carry forward the actual patch,
 baseline, commands, all original failures, decisions and remaining checks.
 
-## Evidence and routing helper
+## Evidence and routing
 
-Keep an existing project's `.agent-work` authoritative. Honor its established
-task/result format and identifiers; do not create a second ownership registry.
-When compatible, use a task subdirectory there for this kit's artifacts. If
-there is no existing coordination store, put artifacts under this kit's
-`state/<workspace-id>/` rather than adding project configuration. The helper
-`supervisor.py` records implementation packets/results and emits the next
+The helper commands and file locations below apply only in the selected helper
+workflow.
+In native-only coordination mode, use native tools, messages, and conversation
+references to preserve the same assignment and evidence; do not create helper
+registrations, ledgers, or report files.
+
+In the selected helper/project workflow, keep an existing project's
+`.agent-work` authoritative. Honor its established task/result format and
+identifiers; do not create a
+second ownership registry. When compatible, use a task subdirectory there for
+this kit's artifacts. If there is no existing coordination store, put artifacts
+under this kit's `state/<workspace-id>/` rather than adding project
+configuration. The helper `supervisor.py` records implementation packets/results and emits the next
 required action.
-Only the supervisor uses it. Read its `--help` and packet schema before use.
+Only the coordinator uses it. Read its `--help` and packet schema before use.
 For an existing incompatible `.agent-work` format, record the same transitions
 in that format instead; never invent a parallel owner/assignment authority.
 
-Attach lightweight scout prompts/results to the existing parent record, or
-retain the tool/conversation reference when project rules permit. Do not open
-an implementation helper assignment just for read-only assistance or create
-a second scout ledger. Cite accepted findings and material corrections in the
-parent result. Helper worker/review/strong schemas below apply to implementation
-assignments; they are not an evidence-only protocol.
+In the selected helper/project workflow, attach lightweight scout prompts/results
+to the existing parent record, or retain the tool/conversation reference when project rules
+permit. Do not open an implementation helper assignment just for read-only
+assistance or create a second scout ledger. Cite accepted findings and material
+corrections in the parent result. Helper worker, independent-review, and engineering-takeover schemas apply to
+implementation assignments; they are not an evidence-only protocol.
 
-Use one stable record per unresolved assignment; record each original result
-before dispatching follow-up work. A `strong_review` action means request
-independent strong review. A `strong_takeover` action means stop the affected
-Luna assignment and dispatch sol_expert or take over yourself, without asking the user
-to choose a model. A helper cannot dispatch native tools on its own: executing
-these actions is the supervisor's responsibility. Its transition checks are
+In the selected helper workflow, use one stable record per unresolved assignment
+and record each original result before dispatching follow-up work. Route neutral
+responsibility actions as `dispatch_worker`, `worker_repair`,
+`independent_review`, `engineering_takeover`, and downstream guidance for a
+permitted worker assignment. Historical `strong` result-kind records remain
+readable for compatibility; their meaning is engineering responsibility, not
+model permission. In coordinator-only mode, the coordinator dispatches an
+available permitted engineering owner; in default engineering mode, it may
+take over or dispatch a permitted subagent. Do not ask the user to choose a
+model when the routing boundary is established. A helper cannot dispatch native
+tools on its own: executing these actions is the coordinator's responsibility. Its transition checks are
 deterministic; adherence, reviews, model selection, and permissions are not
 enforced by Markdown or by the helper. Do not claim unobserved escalation.
 
-Results identify `completed`, `needs_decision`, `blocked`, or
+In the selected helper workflow, results identify `completed`, `needs_decision`,
+`blocked`, or
 `budget_exhausted`, changed paths, checks passed/failed/unexecuted, commands,
-evidence references, decisions and remaining acceptance conditions. Retain
-the original failures and patches even after success. Preserve records when
-disabling the kit. Start a new chat after activation/removal; an existing
+evidence references, decisions and remaining acceptance conditions. Native-only
+results use the task's requested concise native evidence format, without a
+mandatory helper schema, registration or report file. In either workflow,
+truthfully preserve material changes, passed/failed/unexecuted checks, original
+failures and patches, decisions, blockers and remaining acceptance conditions.
+Preserve records when disabling the kit. Start a new chat after activation/removal; an existing
 chat may retain previously loaded instructions.
 
 ## Evaluate usefulness
 
 Use a few comparable development tasks and existing records/telemetry to assess
 accepted progress per elapsed hour and total usage per completed milestone,
-including supervisor review, validation setup, repair and takeover. Also record
+including strong-owner review, validation setup, repair and takeover. Also record
 elapsed completion time, useful accepted findings, missed coverage, review
-corrections, and Sol rework while preserving software acceptance criteria.
+corrections, and strong-owner rework while preserving software acceptance criteria.
 Include main chats and all helpers in model usage, with input/cached-input and
 output by model where available. Use consistent per-session totals or interval
 deltas, not sums of repeated cumulative samples; cached input is a subset of

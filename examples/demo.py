@@ -56,23 +56,23 @@ def require(value, expected):
 def demonstrate(store):
     def open_case(name):
         state = ledger.open_assignment(store, name, packet(), now=100)
-        require(state["next_action"], "dispatch_luna")
+        require(state["next_action"], "dispatch_worker")
 
     def record(name, kind, actor, raw, now):
         return ledger.record_result(store, name, kind, actor, raw, now=now)
 
     open_case("completion")
     state = record("completion", "worker", "luna-demo", result(), 101)
-    require(state["next_action"], "strong_review")
+    require(state["next_action"], "independent_review")
     state = record("completion", "review", "supervisor", result(verdict="accept"), 102)
     require(state["state"], "done")
 
     open_case("repair-then-takeover")
     first_failure = result(failed=True, new_evidence=True)
     state = record("repair-then-takeover", "worker", "luna-demo", first_failure, 101)
-    require(state["next_action"], "luna_repair")
+    require(state["next_action"], "worker_repair")
     state = record("repair-then-takeover", "worker", "luna-demo", result(failed=True), 102)
-    require(state["next_action"], "strong_takeover")
+    require(state["next_action"], "engineering_takeover")
     original = ledger.load_events(store / "repair-then-takeover")[1]["payload_text"]
     require(original, first_failure)
     require(state["repair_used"], True)
@@ -83,7 +83,7 @@ def demonstrate(store):
     record("review-rejection", "worker", "luna-demo", result(), 101)
     state = record("review-rejection", "review", "supervisor",
                    result(verdict="substantive_reject"), 102)
-    require(state["next_action"], "strong_takeover")
+    require(state["next_action"], "engineering_takeover")
 
     open_case("interruption")
     state = record("interruption", "interruption", "supervisor", json.dumps({

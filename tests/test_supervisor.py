@@ -2,6 +2,7 @@
 
 from concurrent.futures import ThreadPoolExecutor
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -67,8 +68,8 @@ class SupervisorTests(unittest.TestCase):
                                     json.dumps(result, ensure_ascii=False, indent=2) + "\n", now=now)
 
     def test_success_requires_independent_review(self):
-        self.assertEqual(self.open()["next_action"], "dispatch_luna")
-        self.assertEqual(self.record()["next_action"], "strong_review")
+        self.assertEqual(self.open()["next_action"], "dispatch_worker")
+        self.assertEqual(self.record()["next_action"], "independent_review")
         with self.assertRaisesRegex(ledger.LedgerError, "cannot review"):
             self.record(self.result(verdict="accept"), kind="review", now=102)
         accepted = self.record(self.result(verdict="accept"), kind="review", actor="sol-review", now=102)
@@ -77,7 +78,7 @@ class SupervisorTests(unittest.TestCase):
     def test_failed_acceptance_without_new_evidence_takes_over(self):
         self.open()
         summary = self.record(self.result(failed=["unit"]))
-        self.assertEqual(summary["next_action"], "strong_takeover")
+        self.assertEqual(summary["next_action"], "engineering_takeover")
         self.assertEqual(summary["reason"], "no_new_evidence_for_repair")
         finished = self.record(kind="strong", actor="supervisor", now=102)
         self.assertEqual(finished["state"], "done")
@@ -86,7 +87,7 @@ class SupervisorTests(unittest.TestCase):
         self.open()
         original = self.result(failed=["unit"], new_evidence=["logs/traceback.txt"])
         first = self.record(original)
-        self.assertEqual(first["next_action"], "luna_repair")
+        self.assertEqual(first["next_action"], "worker_repair")
         original_event_path = Path(first["events"][-1])
         original_event_bytes = original_event_path.read_bytes()
         # A separate invocation and a new worker label cannot reset the allowance.
@@ -105,14 +106,14 @@ class SupervisorTests(unittest.TestCase):
     def test_repair_can_succeed_then_requires_review(self):
         self.open()
         self.record(self.result(failed=["contract"], new_evidence=["logs/contract-cause.txt"]))
-        self.assertEqual(self.record(actor="luna-2", now=102)["next_action"], "strong_review")
+        self.assertEqual(self.record(actor="luna-2", now=102)["next_action"], "independent_review")
 
     def test_substantive_review_rejection_overrides_passing_tests(self):
         self.open()
         self.record()
         rejected = self.record(self.result(verdict="substantive_reject"), kind="review",
                                actor="sol-review", now=102)
-        self.assertEqual(rejected["next_action"], "strong_takeover")
+        self.assertEqual(rejected["next_action"], "engineering_takeover")
         self.assertEqual(rejected["reason"], "substantive_review_rejection")
 
     def test_immediate_handoffs_and_unverified_prerequisite(self):
@@ -122,7 +123,7 @@ class SupervisorTests(unittest.TestCase):
                 self.open(assignment)
                 result = ledger.record_result(self.store, assignment, "worker", "luna-1",
                                               self.result(status=status), now=101)
-                self.assertEqual(result["next_action"], "strong_takeover")
+                self.assertEqual(result["next_action"], "engineering_takeover")
         self.open()
         self.assertEqual(self.record(self.result(unexecuted=["contract"]))["reason"],
                          "verification_incomplete")
@@ -131,7 +132,7 @@ class SupervisorTests(unittest.TestCase):
         self.open()
         self.assertEqual(ledger.status(self.store, "case", now=160)["reason"], "deadline_expired")
         late = self.record(now=161)
-        self.assertEqual(late["next_action"], "strong_takeover")
+        self.assertEqual(late["next_action"], "engineering_takeover")
         self.assertEqual(len(late["events"]), 3)
         with self.assertRaisesRegex(ledger.LedgerError, "already stopped"):
             self.record(actor="luna-another", now=162)
@@ -158,14 +159,14 @@ class SupervisorTests(unittest.TestCase):
             self.record(actor="luna-replacement", now=161)
         self.assertEqual(ledger.status(self.store, "case", now=162)["worker_results"], 1)
 
-    def test_expired_authorized_repair_accepts_one_late_report_without_reopening_luna(self):
+    def test_expired_authorized_repair_accepts_one_late_report_without_reopening_worker(self):
         self.open()
         self.record(self.result(failed=["unit"], new_evidence=["logs/new-cause.txt"]))
         expired = ledger.status(self.store, "case", now=160)
-        self.assertEqual(expired["next_action"], "strong_takeover")
+        self.assertEqual(expired["next_action"], "engineering_takeover")
         late = self.record(actor="luna-repair", now=161)
         self.assertEqual(late["worker_results"], 2)
-        self.assertEqual(late["next_action"], "strong_takeover")
+        self.assertEqual(late["next_action"], "engineering_takeover")
         with self.assertRaisesRegex(ledger.LedgerError, "worker result budget exhausted"):
             self.record(actor="luna-third", now=162)
 
@@ -177,7 +178,7 @@ class SupervisorTests(unittest.TestCase):
         original = json.dumps(result, indent=4) + "\n"
         recorded = self.record(original)
         self.assertEqual(json.loads(Path(recorded["events"][-1]).read_text())["payload_text"], original)
-        self.assertEqual(recorded["next_action"], "strong_takeover")
+        self.assertEqual(recorded["next_action"], "engineering_takeover")
         for field in ("commands", "decisions", "remaining_acceptance_conditions"):
             with self.subTest(field=field):
                 malformed = dict(result, **{field: "invalid scalar"})
@@ -223,7 +224,7 @@ class SupervisorTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=8) as pool:
             self.assertEqual(sum(pool.map(concurrent_record, range(8))), 1)
         summary = ledger.status(self.store, "case", now=102)
-        self.assertEqual(summary["next_action"], "strong_review")
+        self.assertEqual(summary["next_action"], "independent_review")
         self.assertEqual(len(summary["events"]), 2)
 
     def test_changed_original_is_detected(self):
@@ -261,7 +262,7 @@ class SupervisorTests(unittest.TestCase):
         self.validation()
         restored = self.validation("ready", now=103)
         self.assertEqual(restored["state"], "review_required")
-        self.assertEqual(restored["next_action"], "strong_review")
+        self.assertEqual(restored["next_action"], "independent_review")
 
     def test_validation_unresolved_takes_over_and_cannot_resume(self):
         self.open()
@@ -290,7 +291,7 @@ class SupervisorTests(unittest.TestCase):
         original = self.result()
         late = self.record(original, now=161)
         self.assertEqual(late["worker_results"], 1)
-        self.assertEqual(late["next_action"], "strong_takeover")
+        self.assertEqual(late["next_action"], "engineering_takeover")
         self.assertEqual(late["reason"], "deadline_expired")
         self.assertEqual(json.loads(Path(late["events"][-1]).read_text())["payload_text"], original)
         with self.assertRaisesRegex(ledger.LedgerError, "already stopped"):
@@ -307,7 +308,7 @@ class SupervisorTests(unittest.TestCase):
         late = self.record(actor="luna-repair", now=161)
         self.assertEqual(late["worker_results"], 2)
         self.assertTrue(late["repair_used"])
-        self.assertEqual(late["next_action"], "strong_takeover")
+        self.assertEqual(late["next_action"], "engineering_takeover")
         with self.assertRaisesRegex(ledger.LedgerError, "worker result budget exhausted"):
             self.record(actor="luna-third", now=162)
         with self.assertRaisesRegex(ledger.LedgerError, "after takeover"):
@@ -322,7 +323,7 @@ class SupervisorTests(unittest.TestCase):
         # Recording the pending report enforces expiry even without a prior status call.
         late = self.record(now=160)
         self.assertEqual(late["worker_results"], 1)
-        self.assertEqual(late["next_action"], "strong_takeover")
+        self.assertEqual(late["next_action"], "engineering_takeover")
         with self.assertRaisesRegex(ledger.LedgerError, "worker result budget exhausted"):
             self.record(actor="luna-replacement", now=161)
         self.assertEqual(ledger.status(self.store, "case", now=162)["events"], late["events"])
@@ -342,16 +343,66 @@ class SupervisorTests(unittest.TestCase):
             ledger.record_result(self.store, "case", "validation", "supervisor", malformed, now=101)
         self.assertEqual(len(list((self.store / "case").glob("*.json"))), 1)
 
-    def test_strong_completion_guides_new_distinct_assignment_to_luna(self):
+    def test_strong_completion_guides_new_distinct_assignment_to_permitted_worker(self):
         self.open()
         self.validation("unresolved")
         completed = self.record(kind="strong", actor="sol", now=103)
         self.assertEqual(completed["state"], "done")
         self.assertEqual(completed["next_action"], "done")
         self.assertEqual(completed["downstream_guidance"],
-                         "consider_luna_for_separable_downstream_implementation")
+                         "consider_permitted_worker_for_separable_downstream_implementation")
         new = self.open("next-case", now=104)
-        self.assertEqual(new["next_action"], "dispatch_luna")
+        self.assertEqual(new["next_action"], "dispatch_worker")
+
+    def test_notice_availability_labels_preserve_exact_append_only_evidence_and_budget(self):
+        # These strings are synthetic fixture evidence, not actual service notices.
+        cases = {
+            "exact": "Synthetic notice: operation denied.",
+            "partial": "PARTIAL: accessible fragment 'operation denied'; further details unavailable.",
+            "unavailable": "UNAVAILABLE: no original notice text is accessible; invocation reference retained.",
+        }
+        for name, notice in cases.items():
+            with self.subTest(availability=name):
+                before = self.open(name)
+                if name != "exact":
+                    raw_result = (self.result(failed=["unit"], new_evidence=["logs/cause.txt"])
+                                  if name == "partial" else self.result())
+                    before = ledger.record_result(self.store, name, "worker", "fixture-worker",
+                                                  raw_result, now=101)
+                payload = {
+                    "outcome": "blocked", "category": "service_safety_access",
+                    "operation": "synthetic invocation reference; no operation executed",
+                    "notice": notice,
+                    "scope": ["known invocation; broader affected scope unavailable"],
+                    "evidence": ["synthetic/notice-evidence.txt"],
+                }
+                raw = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+                held = ledger.record_result(self.store, name, "interruption", "coordinator", raw, now=102)
+                self.assertEqual(held["next_action"], "assess_interruption")
+                for field in ("worker_results", "repair_used", "deadline_utc"):
+                    self.assertEqual(held[field], before[field])
+                original_events = {path: Path(path).read_bytes() for path in held["events"]}
+                event = json.loads(original_events[held["events"][-1]])
+                self.assertEqual(event["payload_text"], raw)
+                self.assertEqual(event["payload_sha256"], hashlib.sha256(raw.encode()).hexdigest())
+
+                addition = dict(payload, notice=notice + " Additional evidence appended.",
+                                evidence=["synthetic/additional-evidence.txt"])
+                appended = ledger.record_result(self.store, name, "interruption", "coordinator",
+                                                json.dumps(addition), now=103)
+                self.assertEqual({path: Path(path).read_bytes() for path in original_events}, original_events)
+                all_events = {path: Path(path).read_bytes() for path in appended["events"]}
+                mismatch = dict(payload, operation="different synthetic invocation")
+                with self.assertRaisesRegex(ledger.LedgerError, "match the held operation"):
+                    ledger.record_result(self.store, name, "interruption", "coordinator",
+                                         json.dumps(mismatch), now=104)
+                expired = ledger.status(self.store, name, now=161)
+                self.assertEqual(expired["state"], "interruption_paused")
+                self.assertEqual(expired["remaining_seconds"], 0)
+                self.assertEqual(expired["events"], appended["events"])
+                self.assertEqual({path: Path(path).read_bytes() for path in expired["events"]}, all_events)
+                for field in ("worker_results", "repair_used", "deadline_utc"):
+                    self.assertEqual(expired[field], before[field])
 
     def test_interruption_retains_exact_context_and_does_not_consume_repair_or_result(self):
         self.open()
@@ -452,7 +503,7 @@ class SupervisorTests(unittest.TestCase):
             self.record(json.dumps(resolution), kind="interruption", now=161)
         self.assertEqual(ledger.status(self.store, "case", now=160)["events"], expired["events"])
 
-    def test_interruption_restores_genuine_takeover_to_strong_takeover(self):
+    def test_interruption_restores_genuine_takeover_to_engineering_takeover(self):
         self.open()
         takeover = self.record(self.result(status="needs_decision"), now=101)
         self.assertEqual(takeover["state"], "takeover")
@@ -466,7 +517,7 @@ class SupervisorTests(unittest.TestCase):
             "resolution_evidence": ["records/refusal-resolution.txt"],
         }), kind="interruption", now=103)
         self.assertEqual(resolved["state"], "takeover")
-        self.assertEqual(resolved["next_action"], "strong_takeover")
+        self.assertEqual(resolved["next_action"], "engineering_takeover")
         finished = self.record(kind="strong", actor="sol", now=104)
         self.assertEqual(finished["state"], "done")
 
@@ -476,7 +527,7 @@ class SupervisorTests(unittest.TestCase):
         self.interruption("resolved", now=102, evidence=["logs/diagnosis.txt"],
                           resolution_evidence=["records/synthetic-resolution.txt"])
         failed = self.record(self.result(failed=["unit"], new_evidence=["logs/diagnosis.txt"]), now=103)
-        self.assertEqual(failed["next_action"], "luna_repair")
+        self.assertEqual(failed["next_action"], "worker_repair")
         self.assertTrue(failed["repair_used"])
         self.assertIn("logs/diagnosis.txt", failed["evidence"])
 

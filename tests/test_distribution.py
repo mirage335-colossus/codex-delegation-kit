@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 import unittest
 
 
@@ -14,6 +15,8 @@ BUNDLE_ROOT = Path(__file__).resolve().parents[1]
 BUNDLE_FILES = (
     "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
     "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml",
 )
 
 
@@ -68,6 +71,28 @@ class DistributionTests(unittest.TestCase):
         self.assertTrue((home / "delegation-kit" / "policy.md").is_file())
         manifest = json.loads((home / "delegation-kit/.installation/manifest.json").read_text(encoding="utf-8"))
         self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(BUNDLE_FILES))
+        configuration = tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))
+        expected_roles = {
+            "luna_scout": ("gpt-6-luna", "high"),
+            "luna_worker": ("gpt-6-luna", "high"),
+            "sol_expert": ("gpt-6.1-sol", "ultra"),
+            "inherited_scout": None,
+            "inherited_worker": None,
+            "inherited_reviewer": None,
+        }
+        self.assertEqual(set(configuration["agents"]), {"max_threads", *expected_roles})
+        for role, settings in expected_roles.items():
+            with self.subTest(role=role):
+                path = home / "delegation-kit/agents" / (role + ".toml")
+                self.assertEqual(configuration["agents"][role]["config_file"], str(path))
+                role_config = tomllib.loads(path.read_text(encoding="utf-8"))
+                self.assertTrue(role_config["developer_instructions"].strip())
+                if settings is None:
+                    self.assertNotIn("model", role_config)
+                    self.assertNotIn("model_reasoning_effort", role_config)
+                else:
+                    self.assertEqual((role_config["model"], role_config["model_reasoning_effort"]), settings)
 
     def test_relocated_source_update_idempotent_reinstall_and_disable_retain_state(self):
         original_source = self.root / "original source"

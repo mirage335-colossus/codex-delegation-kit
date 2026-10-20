@@ -1,6 +1,7 @@
 """Disposable filesystem tests; never read or write the real Codex home."""
 
 import importlib.util
+import json
 from pathlib import Path
 import os
 import sys
@@ -44,6 +45,104 @@ class InstallerTests(unittest.TestCase):
         for path, state in self.original.items():
             self.assertEqual(kit.read_state(path), state)
 
+    def seed_legacy(self, *, active=True):
+        """Create the prior eight-file version-1 installation layout."""
+        target = self.home / "delegation-kit"
+        for name in kit.LEGACY_FILES:
+            path = target / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes((self.source / name).read_bytes())
+        activation = {}
+        for name, block in kit.blocks(target, kit.LEGACY_ROLES).items():
+            path = self.home / name
+            before = kit.read_state(path)
+            text = (before.data or b"").decode()
+            inserted = ("\n" if text and not text.endswith("\n") else "") + block
+            activation[name] = {"inserted": inserted, "original_exists": before.data is not None}
+            if active:
+                path.write_bytes((text + inserted).encode())
+        manifest_path = target / ".installation/manifest.json"
+        manifest_path.parent.mkdir()
+        manifest_path.write_text(json.dumps({
+            "version": 1, "home": str(self.home), "active": active,
+            "activation": activation,
+            "bundle_digests": {name: kit.digest((target / name).read_bytes())
+                               for name in kit.LEGACY_FILES},
+            "last_backups": [],
+        }))
+        return target
+
+    def snapshot_home(self):
+        return {path.relative_to(self.home): kit.read_state(path)
+                for path in self.home.rglob("*") if path.is_file()}
+
+    def test_active_legacy_upgrade_preserves_config_position_history_and_roundtrip(self):
+        target = self.seed_legacy()
+        self.config.write_bytes(self.config.read_bytes() + b'\n[history]\npersistence = "save-all"\n')
+        before = self.config.read_bytes()
+        old_block = kit.blocks(target, kit.LEGACY_ROLES)["config.toml"].encode()
+        historical = target / ".installation/backups/older-transaction/config.toml"
+        historical.parent.mkdir(parents=True)
+        historical.write_bytes(b"earlier user configuration\n")
+        evidence = target / "state/prior-assignment/result.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"status": "completed"}\n')
+        history = {path: path.read_bytes() for path in (historical, evidence)}
+
+        self.activate()
+        self.assertEqual(self.config.read_bytes(), before.replace(old_block, kit.blocks(target)["config.toml"].encode()))
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(manifest["version"], 1)
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        loaded = kit.parse_toml(self.config.read_bytes(), self.config)
+        self.assertEqual(set(loaded["agents"]), set(kit.ROLES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        self.assertEqual({path: path.read_bytes() for path in history}, history)
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(self.config.read_bytes(), self.original[self.config].data + b'\n[history]\npersistence = "save-all"\n')
+        self.assertEqual({path: path.read_bytes() for path in history}, history)
+
+    def test_inactive_legacy_installation_upgrades_and_roundtrips(self):
+        target = self.seed_legacy(active=False)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+        self.activate()
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+
+    def test_active_legacy_can_be_disabled_before_upgrade(self):
+        self.seed_legacy()
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.activate()
+        self.assertEqual(set(kit.parse_toml(self.config.read_bytes(), self.config)["agents"]), set(kit.ROLES))
+
+    def test_legacy_upgrade_refuses_unowned_new_role_even_with_identical_bytes(self):
+        target = self.seed_legacy()
+        name = "agents/inherited_worker.toml"
+        (target / name).write_bytes((self.source / name).read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+
+    def test_unknown_manifest_inventory_is_refused_without_writes(self):
+        self.activate()
+        path = self.home / "delegation-kit/.installation/manifest.json"
+        manifest = json.loads(path.read_text())
+        manifest["bundle_digests"]["unexpected-file"] = "unrecognized"
+        path.write_text(json.dumps(manifest))
+        before = self.snapshot_home()
+        for uninstall in (False, True):
+            with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected bundle file list"):
+                kit.plan(self.home, self.source, uninstall=uninstall)
+            self.assertEqual(self.snapshot_home(), before)
+
     def test_roundtrip_exact_bytes_and_modes(self):
         self.activate()
         loaded = kit.parse_toml(self.config.read_bytes(), self.config)
@@ -85,6 +184,7 @@ class InstallerTests(unittest.TestCase):
         cases = (
             ("AGENTS.override.md", b"This suppresses AGENTS.md\n"),
             ("config.toml", b"[agents.luna_worker]\nmodel = 'mine'\n"),
+            ("config.toml", b"[agents.inherited_worker]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"not = valid = toml\n"),
             ("config.toml", b"agents = 4\n"),
         )
@@ -118,6 +218,7 @@ class InstallerTests(unittest.TestCase):
         path = directory / "different_filename.toml"
         for contents in (
             b'name = "luna_worker"\n',
+            b'name = "inherited_worker"\n',
             b'model = "unknown-name"\n',
             b'name = 17\n',
             b'name = invalid = toml\n',

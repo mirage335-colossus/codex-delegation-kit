@@ -32,20 +32,27 @@ All JSON inputs, including validation results, are limited to 64 KiB total.
 Validation bookkeeping does not independently verify commands or evidence.
 blocked pauses ready, repair_allowed, or review_required as validation_paused
 with next_action resolve_validation. ready resumes before the original deadline
-with verify_existing_work for ready/repair_allowed or strong_review for
-review_required. unresolved requires strong_takeover. Validation never resumes
+with verify_existing_work for ready/repair_allowed or independent_review for
+review_required. unresolved requires engineering_takeover. Validation never resumes
 takeover/done or resets the original deadline, result budget, or repair allowance.
 
 Interruption JSON (--kind interruption), separate from implementation failure:
   outcome: blocked | resolved
   category: model_refusal | model_uncertainty | service_safety_access
-  operation, notice: nonempty strings (notice retains the exact original text)
+  operation: nonempty stable reference to the attempted operation; mark unknown details
+  notice: nonempty evidence string; retain exact accessible original text, label
+    PARTIAL and include the verbatim available portion when incomplete, or label
+    UNAVAILABLE with the evidence limitation when no text is accessible
+    (availability labels are not original service notices; never fabricate text)
   scope, evidence: nonempty lists of strings
   model, effort: optional nonempty strings; changed_paths, decisions: optional lists
   resolution_evidence: nonempty list required only for resolved
 blocked holds ready/repair/review/validation/takeover as interruption_paused with
 assess_interruption. It consumes no worker result/repair and keeps the deadline.
 Further blocked records for the same hold retain evidence without resuming it.
+Keep operation/scope identity stable; mark uncertainty and append newly available
+notice details in evidence/decisions without rewriting original events. A missing
+notice description does not authorize a retry or establish the restriction's scope.
 Expiry does not turn this hold into capability takeover. resolved requires the
 same category/operation/scope and supported external resolution evidence before
 the original deadline. This is bookkeeping, not permission or a retry command;
@@ -54,7 +61,7 @@ the supervisor must verify actual supported resolution. No agent is spawned.
 Examples:
   python3 supervisor.py --store /tmp/example open --assignment example --packet task.json
   python3 supervisor.py --store /tmp/example record --assignment example --kind worker \
-      --actor luna-1 --result result.json
+      --actor worker-1 --result result.json
   python3 supervisor.py --store /tmp/example record --assignment example --kind review \
       --actor supervisor --result review.json
   python3 supervisor.py --store /tmp/example record --assignment example --kind validation \
@@ -314,7 +321,7 @@ def derive(events, now):
     validate_packet(packet)
     deadline = events[0]["recorded_at"] + packet["budget"]["seconds"]
     state = {
-        "state": "ready", "next_action": "dispatch_luna", "reason": "opened",
+        "state": "ready", "next_action": "dispatch_worker", "reason": "opened",
         "repair_used": False, "worker_results": 0, "worker_actors": [],
         "deadline": deadline, "changed_paths": [], "evidence": [], "awaiting_worker_report": True,
         "validation_resume_state": None,
@@ -329,7 +336,7 @@ def derive(events, now):
             takeover("deadline_expired")
 
     def takeover(reason):
-        state.update(state="takeover", next_action="strong_takeover", reason=reason)
+        state.update(state="takeover", next_action="engineering_takeover", reason=reason)
 
     for event in events[1:]:
         expire(event["recorded_at"])
@@ -363,8 +370,8 @@ def derive(events, now):
                 require(event["recorded_at"] < deadline, "interruption cannot resume after the original deadline")
                 resume = state["interruption_resume_state"]
                 actions = {"ready": "verify_existing_work", "repair_allowed": "verify_existing_work",
-                           "review_required": "strong_review", "validation_paused": "resolve_validation",
-                           "takeover": "strong_takeover"}
+                           "review_required": "independent_review", "validation_paused": "resolve_validation",
+                           "takeover": "engineering_takeover"}
                 require(resume in actions, "interruption resume state is damaged")
                 state.update(state=resume, next_action=actions[resume], reason="interruption_resolved",
                              interruption_resume_state=None, interruption_context=None)
@@ -393,7 +400,7 @@ def derive(events, now):
                 require(resume in {"ready", "repair_allowed", "review_required"},
                         "validation resume state is damaged")
                 if resume == "review_required":
-                    state.update(state="review_required", next_action="strong_review",
+                    state.update(state="review_required", next_action="independent_review",
                                  reason="validation_resolved")
                 else:
                     # Validation bookkeeping has not consumed the pending worker report.
@@ -401,7 +408,7 @@ def derive(events, now):
                                  reason="validation_resolved")
                 state["validation_resume_state"] = None
             else:
-                state.update(state="takeover", next_action="strong_takeover",
+                state.update(state="takeover", next_action="engineering_takeover",
                              reason="validation_prerequisite_unresolved",
                              validation_resume_state=None)
             continue
@@ -414,11 +421,11 @@ def derive(events, now):
                                              + result.get("new_evidence", [])))
         if kind == "worker":
             require(state["worker_results"] < packet["budget"].get("max_worker_results", 2),
-                    "worker result budget exhausted; Luna assignment already stopped; no additional worker result is allowed")
+                    "worker result budget exhausted; worker assignment already stopped; no additional worker result is allowed")
             require(state["state"] in {"ready", "repair_allowed"}
                     or (state["state"] == "takeover" and state["reason"] == "deadline_expired"
                         and state["awaiting_worker_report"]),
-                    "Luna assignment already stopped; no additional worker result is allowed")
+                    "Worker assignment already stopped; no additional worker result is allowed")
             state["worker_results"] += 1
             state["worker_actors"].append(actor)
             state["awaiting_worker_report"] = False
@@ -436,11 +443,11 @@ def derive(events, now):
                 elif not set(result.get("new_evidence", [])) - previous_evidence:
                     takeover("no_new_evidence_for_repair")
                 else:
-                    state.update(state="repair_allowed", next_action="luna_repair",
+                    state.update(state="repair_allowed", next_action="worker_repair",
                                  reason="one_evidence_based_repair", repair_used=True,
                                  awaiting_worker_report=True)
             else:
-                state.update(state="review_required", next_action="strong_review", reason="worker_checks_passed")
+                state.update(state="review_required", next_action="independent_review", reason="worker_checks_passed")
         elif kind == "review":
             require(state["state"] == "review_required", "no worker result is awaiting review")
             require(actor not in state["worker_actors"], "worker cannot review its own assignment")
@@ -453,7 +460,7 @@ def derive(events, now):
             require(actor not in state["worker_actors"], "worker cannot approve its own takeover")
             if all_passed:
                 state.update(state="done", next_action="done", reason="strong_takeover_completed",
-                             downstream_guidance="consider_luna_for_separable_downstream_implementation")
+                             downstream_guidance="consider_permitted_worker_for_separable_downstream_implementation")
             else:
                 takeover("strong_work_incomplete")
     expire(now)

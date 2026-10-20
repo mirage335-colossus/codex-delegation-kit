@@ -2,7 +2,7 @@
 
 Read [`policy.md`](policy.md) before changing delegation behavior, role
 instructions, installation, or evidence handling. Keep the runtime bundle at
-the eight files listed in [`README.md`](README.md) unless a deliberate,
+the eleven files listed in [`README.md`](README.md) unless a deliberate,
 reviewed manifest-compatible change updates the installer and its checks.
 
 Preserve pinned role model and effort settings, existing authorization

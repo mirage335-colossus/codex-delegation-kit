@@ -17,14 +17,26 @@ import tomllib
 import uuid
 
 
-FILES = (
+LEGACY_FILES = (
     "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
     "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
 )
+FILES = LEGACY_FILES + (
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml",
+)
+LEGACY_ROLES = {
+    "luna_scout": "Focused read-only source exploration and factual investigation.",
+    "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
+    "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+}
 ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
     "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+    "inherited_scout": "Focused read-only source exploration and factual investigation with inherited settings.",
+    "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
+    "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
 }
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
@@ -83,7 +95,7 @@ def parse_toml(data: bytes | None, path: Path) -> dict:
         raise Refusal(f"Invalid TOML in {path}: {error}") from error
 
 
-def blocks(target: Path) -> dict[str, str]:
+def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
     instructions = (
         f"{BEGIN}\n"
         "For coding, repository investigation, debugging, software design, and technical factual research tasks, "
@@ -93,7 +105,7 @@ def blocks(target: Path) -> dict[str, str]:
         f"{END}\n"
     )
     config = [BEGIN]
-    for role, description in ROLES.items():
+    for role, description in roles.items():
         config.extend([
             f"[agents.{role}]",
             f"description = {json.dumps(description)}",
@@ -139,17 +151,22 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         value = json.loads(decode(state.data, path))
         if value["version"] != 1 or value["home"] != str(home) or type(value["active"]) is not bool:
             raise ValueError("unexpected version, home, or active flag")
-        if set(value["bundle_digests"]) != set(FILES):
+        inventory = set(value["bundle_digests"])
+        if inventory not in (set(LEGACY_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
-        if value["active"]:
-            if set(value["activation"]) != set(expected):
-                raise ValueError("unexpected activation file list")
-            for name, block in expected.items():
-                record = value["activation"][name]
-                if record["inserted"] not in (block, "\n" + block):
-                    raise ValueError("unexpected managed block")
-                if type(record["original_exists"]) is not bool:
-                    raise ValueError("invalid original file state")
+        legacy_expected = blocks(home / "delegation-kit", LEGACY_ROLES)
+        activation_names = set(value["activation"])
+        legacy_layout = inventory == set(LEGACY_FILES) and activation_names == set(legacy_expected)
+        current_layout = inventory == set(FILES) and activation_names == set(expected)
+        if not (legacy_layout or current_layout):
+            raise ValueError("unexpected activation file list")
+        known_blocks = legacy_expected if inventory == set(LEGACY_FILES) else expected
+        for name, block in known_blocks.items():
+            record = value["activation"][name]
+            if record["inserted"] not in (block, "\n" + block):
+                raise ValueError("unexpected managed block")
+            if type(record["original_exists"]) is not bool:
+                raise ValueError("invalid original file state")
         return state, value
     except (ValueError, TypeError, KeyError) as error:
         raise Refusal(f"Invalid installation manifest {path}: {error}") from error
@@ -166,6 +183,7 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
         if directory.exists() and not directory.is_dir():
             raise Refusal(f"Expected a directory: {directory}")
     expected = blocks(target)
+    legacy_expected = blocks(target, LEGACY_ROLES)
     manifest_path = target / ".installation" / "manifest.json"
     manifest_state, previous = load_manifest(manifest_path, home, expected)
     if target.exists() and previous is None and any(target.iterdir()):
@@ -176,7 +194,8 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     globals_before = {name: read_state(home / name) for name in expected}
     globals_clean = {}
     for name, state in globals_before.items():
-        inserted = previous["activation"][name]["inserted"] if previous and previous["active"] else None
+        inserted = (previous["activation"].get(name, {}).get("inserted")
+                    if previous and previous["active"] else None)
         globals_clean[name] = strip_block(decode(state.data, home / name), inserted, home / name)
     configuration = parse_toml(globals_before["config.toml"].data, home / "config.toml")
     clean_configuration = parse_toml(globals_clean["config.toml"].encode(), home / "config.toml")
@@ -203,6 +222,9 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
                 parse_toml(original.data, source / name)
             installed = read_state(target / name)
             bundle_digests[name] = digest(original.data)
+            if (installed.data is not None and previous is not None
+                    and name not in previous["bundle_digests"]):
+                raise Refusal(f"Existing inherited role file is not owned by the prior installation: {target / name}")
             if installed.data is not None and installed.data != original.data:
                 if previous is None or digest(installed.data) != previous["bundle_digests"].get(name):
                     raise Refusal(f"Installed file has local edits; refusing to overwrite: {target / name}")
@@ -211,14 +233,29 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
                 changes.append(Change(target / name, installed, desired))
         for name, block in expected.items():
             before = globals_before[name]
-            if previous and previous["active"]:
-                activation[name] = previous["activation"][name]
-                continue
             text = globals_clean[name]
-            inserted = ("\n" if text and not text.endswith("\n") else "") + block
-            activation[name] = {"inserted": inserted, "original_exists": before.data is not None}
-            after = State((text + inserted).encode(), before.mode if before.data is not None else (0o644 if name == "AGENTS.md" else 0o600))
-            changes.append(Change(home / name, before, after))
+            original_exists = before.data is not None
+            if previous and previous["active"] and name in previous["activation"]:
+                old = previous["activation"][name]
+                old_prefix = "\n" if old["inserted"].startswith("\n") else ""
+                inserted = old_prefix + block
+                if name == "AGENTS.md":
+                    after_text = decode(before.data, home / name)
+                else:
+                    # Replace the exact owned configuration block at its original position.
+                    raw = decode(before.data, home / name)
+                    prior_block = old["inserted"]
+                    if raw.count(prior_block) != 1:
+                        raise Refusal(f"Managed block was modified or is incomplete in {home / name}; inspect manually")
+                    after_text = raw.replace(prior_block, inserted, 1)
+                original_exists = old["original_exists"]
+            else:
+                inserted = ("\n" if text and not text.endswith("\n") else "") + block
+                after_text = text + inserted
+            activation[name] = {"inserted": inserted, "original_exists": original_exists}
+            after = State(after_text.encode(), before.mode if before.data is not None else (0o644 if name == "AGENTS.md" else 0o600))
+            if before != after:
+                changes.append(Change(home / name, before, after))
         parse_toml(next((change.after.data for change in changes if change.path == home / "config.toml"), globals_before["config.toml"].data), home / "config.toml")
     else:
         bundle_digests = previous["bundle_digests"]
