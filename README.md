@@ -26,11 +26,10 @@ them; a role name alone does not load a role file.
 
 ## Clone, install, update, and disable
 
-Use the repository URL supplied by its maintainer; this project does not assume
-or publish a remote URL:
+Clone the public repository:
 
 ```sh
-git clone "<REPOSITORY_URL>" codex-delegation-kit
+git clone https://github.com/mirage335-colossus/codex-delegation-kit.git
 cd codex-delegation-kit
 python3 --version
 ```
@@ -97,6 +96,8 @@ The examples make no model calls and do not prove live routing or model quality.
 These development resources are available in the source checkout only.
 
 ## License
+
+Author and CC0 affirmer: **mirage335**.
 
 This repository is dedicated to the public domain under
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
