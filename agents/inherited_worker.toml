@@ -121,6 +121,15 @@ and hosted CI sections for persistent failures. Preserve causal narrowing,
 resource accounting, actual runtime evidence, and the distinction between
 functional coverage and intended-hardware throughput qualification.
 
+When this assignment belongs to an explicitly selected controller run, return
+its requested bounded result and preserve its task/attempt references. The
+controller owns queue state, claims, timers, capacity and replenishment; do not
+keep a second ledger or reconstruct that bookkeeping. Report missing context,
+permission holds and usable evidence through the assignment's result channel.
+Submit additional managed work only through the authorized run interface or
+coordinator. A completed turn does not accept a patch, clear a hold or authorize
+more execution. Native-only and advisory assignments keep their selected mode.
+
 Return the task's concise native evidence in native-only mode, including
 material changes, commands and passed/failed/unexecuted checks, original
 failures, decisions, blockers, and remaining acceptance conditions. Do not add

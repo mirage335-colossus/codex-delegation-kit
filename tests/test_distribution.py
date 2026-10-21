@@ -17,6 +17,8 @@ BUNDLE_FILES = (
     "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
     "agents/inherited_scout.toml", "agents/inherited_worker.toml",
     "agents/inherited_reviewer.toml",
+    "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
+    "scheduling.py", "ORCHESTRATION.md",
 )
 
 
@@ -73,6 +75,10 @@ class DistributionTests(unittest.TestCase):
         self.assertTrue(manifest["active"])
         self.assertEqual(set(manifest["bundle_digests"]), set(BUNDLE_FILES))
         self.assertEqual(manifest["source_directory"], str(source.absolute()))
+        for name in BUNDLE_FILES:
+            self.assertEqual((home / "delegation-kit" / name).read_bytes(),
+                             (source / name).read_bytes())
+        self.assertFalse((home / "delegation-kit/state").exists())
         configuration = tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))
         expected_roles = {
             "luna_scout": ("gpt-6-luna", "high"),
@@ -145,6 +151,23 @@ class DistributionTests(unittest.TestCase):
         self.assertFalse(inactive["active"])
         self.assertEqual(inactive["source_directory"], str(relocated_source.absolute()))
         self.assertEqual((home / "config.toml").read_text(encoding="utf-8"), 'model = "keep-me"\n')
+
+    def test_installed_controller_help_is_self_contained_and_does_not_start_a_run(self):
+        source = self.root / "bundle"
+        home = self.root / "Codex home"
+        self.copy_bundle(source)
+        installed = self.run_installer(source, home, "--apply")
+        self.assertEqual(installed.returncode, 0, installed.stderr)
+        target = home / "delegation-kit"
+        # Running away from the checkout catches imports omitted from FILES.
+        result = subprocess.run(
+            [sys.executable, "-B", str(target / "controller.py"), "--help"],
+            cwd=self.root, check=False, text=True, capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("usage:", result.stdout)
+        self.assertFalse((target / "state").exists())
+        self.assertFalse(list(self.root.rglob("state.sqlite3")))
 
     def test_default_codex_home_uses_child_environment_and_dry_run_is_read_only(self):
         source = self.root / "bundle"

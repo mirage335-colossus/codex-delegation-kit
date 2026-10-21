@@ -47,13 +47,20 @@ class InstallerTests(unittest.TestCase):
 
     def seed_legacy(self, *, active=True):
         """Create the prior eight-file version-1 installation layout."""
+        return self.seed_layout(kit.LEGACY_FILES, kit.LEGACY_ROLES, active=active)
+
+    def seed_advisory(self, *, active=True):
+        """Create the eleven-file, six-role layout before controller support."""
+        return self.seed_layout(kit.ADVISORY_FILES, kit.ROLES, active=active)
+
+    def seed_layout(self, files, roles, *, active):
         target = self.home / "delegation-kit"
-        for name in kit.LEGACY_FILES:
+        for name in files:
             path = target / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes((self.source / name).read_bytes())
         activation = {}
-        for name, block in kit.blocks(target, kit.LEGACY_ROLES).items():
+        for name, block in kit.blocks(target, roles).items():
             path = self.home / name
             before = kit.read_state(path)
             text = (before.data or b"").decode()
@@ -67,7 +74,7 @@ class InstallerTests(unittest.TestCase):
             "version": 1, "home": str(self.home), "active": active,
             "activation": activation,
             "bundle_digests": {name: kit.digest((target / name).read_bytes())
-                               for name in kit.LEGACY_FILES},
+                               for name in files},
             "last_backups": [],
         }))
         return target
@@ -143,6 +150,61 @@ class InstallerTests(unittest.TestCase):
             with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected bundle file list"):
                 kit.plan(self.home, self.source, uninstall=uninstall)
             self.assertEqual(self.snapshot_home(), before)
+
+    def test_advisory_upgrade_preserves_activation_and_retained_controller_state(self):
+        target = self.seed_advisory()
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        retained = target / "state/owned-run/state.sqlite3"
+        retained.parent.mkdir(parents=True)
+        retained.write_bytes(b"retained database fixture; not an installer input\n")
+        receipt = target / "state/owned-run/operations/op-1/receipt.json"
+        receipt.parent.mkdir(parents=True)
+        receipt.write_bytes(b'{"operation_id":"op-1","state":"running"}\n')
+        history = {path: path.read_bytes() for path in (retained, receipt)}
+
+        preview = kit.plan(self.home, self.source)
+        self.assertTrue(preview)
+        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        kit.apply(preview)
+        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        for name in kit.FILES:
+            self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        self.assertEqual({path: path.read_bytes() for path in history}, history)
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertEqual({path: path.read_bytes() for path in history}, history)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_inactive_advisory_upgrade_and_disable_before_upgrade(self):
+        target = self.seed_advisory(active=False)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+        self.activate()
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+
+    def test_active_advisory_can_be_disabled_without_installing_controller(self):
+        target = self.seed_advisory()
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertFalse((target / "controller.py").exists())
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.ADVISORY_FILES))
+
+    def test_advisory_upgrade_refuses_unowned_controller_even_with_identical_bytes(self):
+        target = self.seed_advisory()
+        name = "controller.py"
+        (target / name).write_bytes((self.source / name).read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
 
     def test_roundtrip_exact_bytes_and_modes(self):
         self.activate()

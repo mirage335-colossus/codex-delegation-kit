@@ -1,10 +1,115 @@
 # Codex delegation kit
 
 This user-level Codex kit provides a focused read-only scout role, a bounded
-implementation role, and a strong review/takeover role. It preserves the
-primary model and effort selected for the user's chat. Read [`policy.md`](policy.md)
+implementation role, and a strong review/takeover role. Its optional Python
+controller executes a structured work inventory and keeps routine scheduling
+out of the model's conversation. It preserves the primary model and effort
+selected for the user's chat. Read [`policy.md`](policy.md)
 for the full operating guidance, including delegation boundaries, evidence,
 review, escalation, and validation.
+
+## Choose the coordination mode
+
+| Mode | What keeps work moving | State and limits |
+| --- | --- | --- |
+| Controller, explicitly selected | `controller.py` admits, dispatches, observes and replenishes work in a loop | One SQLite authority per run; owned subprocesses and independent Codex app-server sessions |
+| Advisory helper | The coordinator follows `supervisor.py` actions using available native tools | Existing evidence files; the helper does not dispatch work |
+| Native-only, explicitly selected | Native agent tools and the coordinator | Native history; no controller or helper ledger |
+
+Installation enables role guidance only. It starts no controller, changes no
+existing run, and changes no global model, effort, tier or concurrency setting.
+Coordinator-only engineering allocation is a separate choice from these modes.
+
+## Controller quick start
+
+From the source checkout, run the self-contained process example:
+
+```sh
+python3 -B examples/controller_demo.py
+# To retain its inventory, workspace and run state for inspection:
+python3 -B examples/controller_demo.py --directory /tmp/new-controller-demo
+```
+
+The example uses a disposable workspace and real local subprocesses. It makes
+no model calls. The older `examples/demo.py` simulates advisory evidence, while
+`examples/benchmark.py` simulates scheduling with matched resources. Neither a
+simulation nor a process test establishes live model integration.
+
+For actual work, prepare a version-1 JSON inventory using the format in
+[`ORCHESTRATION.md`](ORCHESTRATION.md). Give the run an explicit allocated share
+of resources, narrow dependencies, structured command arguments, and concrete
+acceptance contracts. Then use one run directory for its lifetime:
+
+```sh
+python3 -B controller.py --run /authorized/path/run start inventory.json
+# In another terminal while that loop is running:
+python3 -B controller.py --run /authorized/path/run status
+python3 -B controller.py --run /authorized/path/run explain
+python3 -B controller.py --run /authorized/path/run events --after 0
+python3 -B controller.py --run /authorized/path/run report
+```
+
+`start` ingests once and runs the foreground event loop. `start --prepare-only`
+only validates and creates the run; `run` starts its loop later. The controller
+owns claims, resource reservations, timers, result ingestion and replenishment.
+Workers handle their bounded engineering questions and return the requested
+result; they do not maintain a parallel ledger or reconstruct the queue after
+compaction. Use `submit tasks.json` for a JSON list of newly discovered tasks;
+managed workers identify their active assignment with `--parent-attempt`.
+Do not execute inventory prose as shell code.
+
+The control commands persist the decision before acknowledging it:
+
+```sh
+python3 -B controller.py --run /authorized/path/run pause
+python3 -B controller.py --run /authorized/path/run drain
+python3 -B controller.py --run /authorized/path/run stop
+# Explicitly resume, then ensure the event loop is running:
+python3 -B controller.py --run /authorized/path/run resume
+python3 -B controller.py --run /authorized/path/run recover
+```
+
+`pause` prevents new dispatch and lets active work finish. `drain` also lets
+owned work finish before the loop exits. `stop` persists a stop and requests
+cancellation of owned execution, including when the controller loop is absent;
+resources remain reserved until release is observed. `recover` reconciles
+receipts and retained results without clearing a user pause, stop, hold or hard
+budget. Only explicit `resume` clears a user pause or stop. Stopping the chat is
+not a supported stop signal to detached execution: use the `stop` command.
+
+Inspect each task's scheduling status, execution outcome and acceptance status.
+A valid failing test can complete a check inventory entry; a cancelled attempt,
+setup failure, deferred check or unaccepted patch cannot. `all_original_complete`
+refers to the original inventory, so an empty fast queue is not completion.
+Helper acceptance retains the existing checks, independent review, original
+failures and repair allowance. Record authorized review or interruption evidence
+with `record --task ID --kind KIND --actor ACTOR result.json`; a model's completed
+turn is never automatic patch acceptance. Actor names and submitted evidence
+are assertions, not authentication or proof that a command ran.
+
+The first agent backend is the explicit `read-only-no-exec` profile for bounded
+reasoning from supplied context. Its per-run policy requires the executable,
+model, effort and service tier; it verifies the app-server's resolved settings
+before sending a turn. It disables known execution, delegation, connector and
+network tool paths, but does not have an exhaustive builtin-tool allowlist.
+Literal tool-free requests are refused. These are independently controlled
+app-server sessions, **not native subagents of the controlling chat**. A denied
+or unavailable capability becomes a hold, never a model/account/backend fallback.
+
+Process execution inherits the controller process's existing OS sandbox. The
+run's allowed executable/cwd checks and declared CPU, memory, process and
+reasoning reservations do not create a new sandbox or enforce global host
+limits. Run the controller inside the authorized environment, allocate capacity
+after accounting for the primary chat and other work, and submit managed heavy
+work through admission. Starting more sessions cannot multiply a shared ceiling.
+The first backend disables nested agent delegation; unobservable work outside
+this controller remains outside its resource accounting.
+
+The run pins its runtime file identities. An upgrade cannot silently authorize
+new runtime code for existing work: changed runtime files hold new dispatch for
+review. Preserve the whole run directory, including SQLite state and operation
+receipts. Unknown launches or lost ownership remain held for reconciliation;
+the controller does not claim universally exactly-once external side effects.
 
 ## Routing and engineering responsibilities
 
@@ -82,7 +187,7 @@ In coordinator-only mode all engineering goes to permitted subagents, including
 tiny source lookups, wrappers/tests, builds, artifact analysis, existing-run
 monitoring, integration, and review. The primary handles assignment, dispatch,
 routing, and status/completion from delegated acceptance evidence. In native-only
-mode use native messages/history without the kit helper or new coordination
+mode use native messages/history without the controller, kit helper or new coordination
 registries, ledgers, or report files. Authorized engineering artifacts, logs,
 reproducers, and task-requested outputs remain allowed.
 
@@ -102,8 +207,9 @@ prioritize quick useful outcomes, dispatch before waiting, reassess slow work,
 keep resource restrictions temporary, and use lightweight progress feedback.
 Publish stable partial results and split unstarted backlogs when useful.
 Required expensive work, validation, and escalation remain necessary; deferral
-is not completion. These rules add no fixed time caps, reporting system, or
-runtime scheduler.
+is not completion. These instruction rules add no fixed time caps or runtime
+scheduler to advisory or native-only operation. The explicitly selected
+controller implements its documented scheduling policy in code.
 
 ## Application maintenance and interruptions
 
@@ -164,19 +270,23 @@ See the policy's [maintenance scope](policy.md#application-maintenance) and
 
 ## Requirements and model support
 
-Cloning requires Git. The installer and optional evidence helper require Linux
-and Python 3.11 or newer; those are the verified runtime prerequisites. They
-use only the Python standard library and install no packages or services. The
-installer uses Linux filesystem operations and is not documented as portable
-to Windows. Use the evidence helper only when its workflow is selected; it is
-skipped in native-only operation. Its action names describe responsibilities,
-not models, and its legacy `strong` result kind remains a compatibility label.
+Cloning requires Git. The installer, evidence helper and controller require
+Linux and Python 3.11 or newer. They use the Python standard library and install
+no packages or services. Owned cancellation also requires Linux `pidfd` support
+and child-subreaper support; the adapter refuses unavailable ownership support.
+The agent backend additionally requires a compatible Codex app-server executable
+and authorized account/model access. A model catalog entry is not proof of access.
+Windows support is not claimed. Use the evidence helper only when its workflow
+is selected; it is skipped in native-only operation. Its action names describe
+responsibilities, not models, and its legacy `strong` result kind remains a
+compatibility label.
 
 Check that a selected pinned model/effort is both supported and authorized;
 report an unavailable setting instead of silently substituting. The role
 instructions govern behavior, while the installer/helper enforce only their
-specific checks. These files do not schedule native agents, automatically
-recognize every parent tier, or guarantee model-routing enforcement.
+specific checks. The controller dispatches its supported independent backend;
+it does not schedule native chat subagents, automatically recognize every
+parent tier, or establish permissions absent from its actual runtime.
 
 ## Clone, install, update, and disable
 
@@ -231,10 +341,10 @@ unknown source. This metadata does not make Git-to-global synchronization
 automatic.
 
 Updates from the original eight-file bundle migrate its three managed role
-registrations to six and add the inherited role files. Active and disabled
-installations are supported. The installer preserves unrelated configuration
-and retained evidence, and refuses conflicting registrations or unowned files
-at the new role paths.
+registrations to six. Updates from either that bundle or the eleven-file bundle
+add the controller modules. Active and disabled installations are supported.
+The installer preserves unrelated configuration and retained evidence, and
+refuses conflicting registrations or unowned files at newly introduced paths.
 
 Preview disabling, then apply it:
 
@@ -249,33 +359,41 @@ The default destination is `$CODEX_HOME/delegation-kit`, where `CODEX_HOME`
 defaults to `~/.codex`. Disable removes only the kit's marked activation blocks
 from global `AGENTS.md` and `config.toml`. It retains the installed bundle,
 backups, and task evidence; it does not remove or restore unrelated settings,
-project configuration, or local edits. Review the preview and preserve any
-needed files before making separate cleanup decisions. Start a fresh Codex
+project configuration, or local edits. Disabling the kit does not stop an active
+controller; explicitly stop or drain each owned run before removing its runtime.
+Review the preview and preserve any needed files before separate cleanup decisions.
+Start a fresh Codex
 session after installing, updating role instructions, or disabling: existing
 sessions may retain instructions already loaded.
 
-The runtime install contains exactly eleven files: this README, `policy.md`,
-`supervisor.py`, `install.py`, `uninstall.py`, and six role TOML files in
+The runtime install contains seventeen files: this README, `policy.md`,
+`supervisor.py`, `install.py`, `uninstall.py`, `controller.py`,
+`controller_store.py`, `execution.py`, `agent_backend.py`, `scheduling.py`,
+`ORCHESTRATION.md`, and six role TOML files in
 `agents/`: the three pinned roles and three selector-free inherited roles.
 `CONTRIBUTING.md`, `tests/`, and `examples/` are clone-only development
 resources and are not copied into the installed bundle. The policy governs
-agent behavior; the installer and evidence helper enforce only their specific
-checks. Markdown instructions are not a permission boundary or a runtime
-scheduler, and the helpers do not enforce every policy requirement.
+agent behavior; each program enforces only its documented checks. Markdown
+instructions are not a permission boundary, and the controller does not enforce
+every engineering or authorization requirement in the policy.
 
 ## Development (source checkout)
 
 Read `CONTRIBUTING.md` in the clone for development and compatibility guidance.
 From the repository root, run the isolated standard-library checks and optional
-synthetic helper examples:
+examples:
 
 ```sh
 python3 -B -m unittest discover -s tests -v
 python3 -B examples/demo.py
+python3 -B examples/controller_demo.py
+python3 -B examples/benchmark.py
 ```
 
-The examples make no model calls and do not prove live routing or model quality.
-These development resources are available in the source checkout only.
+These examples make no model calls and do not prove live routing or model
+quality. Keep deterministic scheduling simulation, real subprocess execution
+and real model integration evidence separate. These development resources are
+available in the source checkout only.
 
 ## License
 
@@ -284,4 +402,4 @@ Author and CC0 affirmer: **mirage335**.
 This repository is dedicated to the public domain under
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 The full `LICENSE` text is included in the source checkout; it is clone-only
-and is not copied into the installed eleven-file runtime bundle.
+and is not copied into the installed runtime bundle.

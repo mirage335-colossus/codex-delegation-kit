@@ -21,9 +21,15 @@ LEGACY_FILES = (
     "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
     "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
 )
-FILES = LEGACY_FILES + (
+# Preserve both published inventories: adding the controller must not make an
+# existing, owned installation unreadable during upgrade or disable.
+ADVISORY_FILES = LEGACY_FILES + (
     "agents/inherited_scout.toml", "agents/inherited_worker.toml",
     "agents/inherited_reviewer.toml",
+)
+FILES = ADVISORY_FILES + (
+    "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
+    "scheduling.py", "ORCHESTRATION.md",
 )
 LEGACY_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
@@ -157,12 +163,12 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                     or "\0" in source_directory or not Path(source_directory).is_absolute()):
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
-        if inventory not in (set(LEGACY_FILES), set(FILES)):
+        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         legacy_expected = blocks(home / "delegation-kit", LEGACY_ROLES)
         activation_names = set(value["activation"])
         legacy_layout = inventory == set(LEGACY_FILES) and activation_names == set(legacy_expected)
-        current_layout = inventory == set(FILES) and activation_names == set(expected)
+        current_layout = inventory in (set(ADVISORY_FILES), set(FILES)) and activation_names == set(expected)
         if not (legacy_layout or current_layout):
             raise ValueError("unexpected activation file list")
         known_blocks = legacy_expected if inventory == set(LEGACY_FILES) else expected
@@ -229,7 +235,7 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
             bundle_digests[name] = digest(original.data)
             if (installed.data is not None and previous is not None
                     and name not in previous["bundle_digests"]):
-                raise Refusal(f"Existing inherited role file is not owned by the prior installation: {target / name}")
+                raise Refusal(f"Existing bundle file is not owned by the prior installation: {target / name}")
             if installed.data is not None and installed.data != original.data:
                 if previous is None or digest(installed.data) != previous["bundle_digests"].get(name):
                     raise Refusal(f"Installed file has local edits; refusing to overwrite: {target / name}")

@@ -13,8 +13,9 @@ improve scheduling rather than enabling faster inference.
 ## Applicability and operating modes
 
 Engineering allocation and coordination mechanism are independent choices:
-default engineering or coordinator-only, and an authorized helper/project
-workflow or native-only coordination. Coordinator-only and native-only can be
+default engineering or coordinator-only, and an explicitly selected controller,
+an authorized advisory helper/project workflow, or native-only coordination.
+Coordinator-only and native-only can be
 selected together; neither selection implies or disables the other. Use the
 defaults below unless the latest applicable user instruction or orchestration
 contract selects otherwise. A task-specific user instruction supersedes
@@ -47,7 +48,8 @@ blocker instead of taking over engineering in the main agent.
 
 In native-only coordination mode, use native agent tools, messages, and
 conversation references for assignment state and evidence. Do not invoke
-`supervisor.py` or create a registration, ledger, or report file. Preserve the
+`controller.py` or `supervisor.py`, or create a registration, ledger, or report
+file. Preserve the
 same assignment identities, original failures, repair allowances, deadlines,
 holds, and acceptance conditions in native history. This changes the
 coordination mechanism, not the assignment contract or engineering ownership.
@@ -61,6 +63,63 @@ commands, files, records, or action names. If the helper is unavailable in
 the selected workflow, report the limitation and use an already-authorized
 project workflow where available; do not silently bypass the workflow or take over an
 assignment contrary to the selected mode.
+
+## Opt-in controller mode
+
+Use `controller.py` only for an authorized run whose selected coordination mode
+permits persistent programmatic control. Installation does not start it or
+change existing tasks. A later native-only or advisory selection takes precedence;
+do not silently convert that work into a controller run. See `README.md` and
+`ORCHESTRATION.md` for the executable interface and supported boundaries.
+
+Keep the model-facing workflow small: provide a bounded task and its required
+result, inspect status when useful, and resolve actual engineering ambiguity or
+held execution. Code owns readiness, claims, timers, resource reservations,
+dispatch, result ingestion and replenishment. Workers do not maintain duplicate
+queue records, run scheduling loops, or remember state across compaction. Use
+the run's SQLite authority and retained operation receipts; do not also open
+those assignments in the advisory helper's file store. Existing helper ledgers
+remain valid for advisory work. Helper acceptance inside a controller run uses
+the same reducer, original checks, independent review and repair history.
+
+Declare the run's allocated resource share, authorized workspace and execution
+boundary, narrow dependencies and acceptance contracts before dispatch. Respect
+the actual shared ceiling, including the primary chat and other running work;
+separate sessions do not multiply it. Commands use argument arrays and explicit
+working directories. Managed subprocess work must pass through run admission.
+Declared CPU/memory reservations and permitted executable paths are not an OS
+sandbox or global resource enforcement. The process executor inherits the
+controller's actual sandbox; do not launch it with broader authority merely to
+resolve a restriction. Unobservable external work cannot be claimed as accounted.
+
+The first automatic agent backend uses independent Codex app-server sessions,
+not the current chat's native subagent tree. Its supported profile is bounded
+read-only reasoning from supplied context, with known execution, delegation and
+connector paths disabled. It does not establish a complete builtin-tool allowlist
+or support a literal tool-free guarantee. Standalone sessions need explicit
+per-run model, effort, tier and permission settings because they cannot inherit
+the current chat automatically. Verify available resolved settings, disclose
+what cannot be verified, and retain denied capabilities as holds. No refusal
+authorizes a substitute model, provider, account, backend or permission boundary.
+
+Completion requires the declared evidence, not a finished model turn. Keep
+execution outcome, evidence validity, scheduling disposition and engineering
+acceptance separate. A valid test failure can finish an investigation while a
+patch still needs correction or review. Cancelled, deferred, invalid, setup-error
+and unmapped work remains distinct from demonstrated coverage. Original work
+must remain visible when follow-ups are added, and a cleared fast queue does not
+complete the run. Independent acceptance and hold resolution remain engineering
+judgment; the programs do not authenticate actor names or prove submitted claims.
+
+Persist user pause/stop decisions and use the supported controls. Recover by
+reconciling the same run, not by launching replacement work under a new identity.
+An expired lease or missing process receipt does not prove execution stopped.
+Retain reservations and holds until the supported ownership check establishes
+release. Only explicit authorized resume clears a user pause or stop; it does
+not clear permission holds or hard budgets. Stopping the controlling chat alone
+has no supported stop bridge: use `controller.py ... stop`. Disabling the kit
+also does not terminate already owned execution. Preserve run state and receipts
+through updates, and review runtime identity changes before further dispatch.
 
 ## Improving this kit
 
