@@ -1,0 +1,3312 @@
+{
+  "kind": "deterministic_simulation",
+  "targets_declared_before_measurement": {
+    "complete_identical_inventory": true,
+    "fast_sweep_early_at_least_both_baselines": true,
+    "maximum_makespan_ratio_to_fifo": 1.6,
+    "maximum_preemptions_per_task": 2
+  },
+  "policy": {
+    "discovery_seconds": 3,
+    "minimum_service_seconds": 2,
+    "max_preemptions": 2,
+    "max_quantum_seconds": 96,
+    "aging_seconds": 30,
+    "preemption_hysteresis": 1.5,
+    "minimum_gain_seconds": 1
+  },
+  "dispatch_cost_seconds_all_modes": 0.02,
+  "checks": [
+    {
+      "fixture": "fast_sweep",
+      "complete_inventory": true,
+      "bounded_makespan": true,
+      "bounded_preemptions": true
+    },
+    {
+      "fixture": "arriving_fast_restart",
+      "complete_inventory": true,
+      "bounded_makespan": true,
+      "bounded_preemptions": true
+    },
+    {
+      "fixture": "nonpreemptible_and_setup",
+      "complete_inventory": true,
+      "bounded_makespan": true,
+      "bounded_preemptions": true
+    },
+    {
+      "fixture": "poor_estimates_and_unknown",
+      "complete_inventory": true,
+      "bounded_makespan": true,
+      "bounded_preemptions": true
+    },
+    {
+      "fixture": "continuing_auxiliary_arrivals",
+      "complete_inventory": true,
+      "bounded_makespan": true,
+      "bounded_preemptions": true
+    }
+  ],
+  "fast_sweep_early_target": true,
+  "passed": true,
+  "results": {
+    "fast_sweep": {
+      "fifo": {
+        "kind": "deterministic_simulation",
+        "mode": "fifo",
+        "completed": 8,
+        "early_at_seconds": 10,
+        "early_useful_results": 0,
+        "makespan_seconds": 26.08,
+        "completion_curve": [
+          [
+            18.02,
+            1
+          ],
+          [
+            20.02,
+            2
+          ],
+          [
+            20.04,
+            3
+          ],
+          [
+            21.04,
+            4
+          ],
+          [
+            23.06,
+            5
+          ],
+          [
+            25.06,
+            6
+          ],
+          [
+            25.08,
+            7
+          ],
+          [
+            26.08,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 15.905,
+        "max_dispatch_delay_seconds": 25.06,
+        "idle_slot_seconds": 1.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 51.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 2.887399999999818e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 18.02,
+            "task": "b-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 18.02,
+            "task": "quick-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.02,
+            "task": "a-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.02,
+            "task": "quick-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.04,
+            "task": "quick-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.04,
+            "task": "quick-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.04,
+            "task": "quick-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 21.04,
+            "task": "quick-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 23.06,
+            "task": "quick-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.06,
+            "task": "quick-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.06,
+            "task": "quick-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.06,
+            "task": "quick-5",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.08,
+            "task": "quick-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.08,
+            "task": "quick-5",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "fixed_batch": {
+        "kind": "deterministic_simulation",
+        "mode": "fixed_batch",
+        "completed": 8,
+        "early_at_seconds": 10,
+        "early_useful_results": 0,
+        "makespan_seconds": 28.08,
+        "completion_curve": [
+          [
+            18.02,
+            1
+          ],
+          [
+            20.02,
+            2
+          ],
+          [
+            21.04,
+            3
+          ],
+          [
+            22.04,
+            4
+          ],
+          [
+            25.06,
+            5
+          ],
+          [
+            26.06,
+            6
+          ],
+          [
+            27.08,
+            7
+          ],
+          [
+            28.08,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 17.03,
+        "max_dispatch_delay_seconds": 26.06,
+        "idle_slot_seconds": 5.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 51.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 2.4616999999990674e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 18.02,
+            "task": "b-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.02,
+            "task": "a-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.02,
+            "task": "quick-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.02,
+            "task": "quick-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.04,
+            "task": "quick-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.04,
+            "task": "quick-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.04,
+            "task": "quick-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 22.04,
+            "task": "quick-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.06,
+            "task": "quick-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.06,
+            "task": "quick-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.06,
+            "task": "quick-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 26.06,
+            "task": "quick-5",
+            "event": "dispatch"
+          },
+          {
+            "time": 27.08,
+            "task": "quick-5",
+            "event": "useful_result"
+          },
+          {
+            "time": 28.08,
+            "task": "quick-4",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "adaptive": {
+        "kind": "deterministic_simulation",
+        "mode": "adaptive",
+        "completed": 8,
+        "early_at_seconds": 10,
+        "early_useful_results": 6,
+        "makespan_seconds": 27.08,
+        "completion_curve": [
+          [
+            1.02,
+            1
+          ],
+          [
+            1.02,
+            2
+          ],
+          [
+            3.04,
+            3
+          ],
+          [
+            3.04,
+            4
+          ],
+          [
+            6.06,
+            5
+          ],
+          [
+            7.06,
+            6
+          ],
+          [
+            24.08,
+            7
+          ],
+          [
+            27.08,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 2.655,
+        "max_dispatch_delay_seconds": 7.06,
+        "idle_slot_seconds": 3.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 51.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 0.00024320299999999045,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "quick-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "quick-5",
+            "event": "dispatch"
+          },
+          {
+            "time": 1.02,
+            "task": "quick-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 1.02,
+            "task": "quick-5",
+            "event": "useful_result"
+          },
+          {
+            "time": 1.02,
+            "task": "quick-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 1.02,
+            "task": "quick-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 3.04,
+            "task": "quick-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 3.04,
+            "task": "quick-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 3.04,
+            "task": "quick-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 3.04,
+            "task": "quick-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 6.06,
+            "task": "quick-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 6.06,
+            "task": "b-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 7.06,
+            "task": "quick-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 7.06,
+            "task": "a-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 24.08,
+            "task": "b-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.08,
+            "task": "a-slow",
+            "event": "useful_result"
+          }
+        ]
+      }
+    },
+    "arriving_fast_restart": {
+      "fifo": {
+        "kind": "deterministic_simulation",
+        "mode": "fifo",
+        "completed": 6,
+        "early_at_seconds": 12,
+        "early_useful_results": 0,
+        "makespan_seconds": 50.12,
+        "completion_curve": [
+          [
+            45.02,
+            1
+          ],
+          [
+            46.04,
+            2
+          ],
+          [
+            47.06,
+            3
+          ],
+          [
+            48.08,
+            4
+          ],
+          [
+            49.1,
+            5
+          ],
+          [
+            50.12,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 34.2167,
+        "max_dispatch_delay_seconds": 41.1,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 50.12,
+        "dispatches": 6,
+        "dispatch_overhead_seconds": 0.12,
+        "measured_policy_cpu_seconds": 2.4274999999997215e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 45.02,
+            "task": "slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 45.02,
+            "task": "arrival-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 46.04,
+            "task": "arrival-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 46.04,
+            "task": "arrival-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 47.06,
+            "task": "arrival-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 47.06,
+            "task": "arrival-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 48.08,
+            "task": "arrival-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 48.08,
+            "task": "arrival-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 49.1,
+            "task": "arrival-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 49.1,
+            "task": "arrival-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 50.12,
+            "task": "arrival-4",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "fixed_batch": {
+        "kind": "deterministic_simulation",
+        "mode": "fixed_batch",
+        "completed": 6,
+        "early_at_seconds": 12,
+        "early_useful_results": 0,
+        "makespan_seconds": 50.12,
+        "completion_curve": [
+          [
+            45.02,
+            1
+          ],
+          [
+            46.04,
+            2
+          ],
+          [
+            47.06,
+            3
+          ],
+          [
+            48.08,
+            4
+          ],
+          [
+            49.1,
+            5
+          ],
+          [
+            50.12,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 34.2167,
+        "max_dispatch_delay_seconds": 41.1,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 50.12,
+        "dispatches": 6,
+        "dispatch_overhead_seconds": 0.12,
+        "measured_policy_cpu_seconds": 2.4215999999986637e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 45.02,
+            "task": "slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 45.02,
+            "task": "arrival-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 46.04,
+            "task": "arrival-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 46.04,
+            "task": "arrival-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 47.06,
+            "task": "arrival-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 47.06,
+            "task": "arrival-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 48.08,
+            "task": "arrival-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 48.08,
+            "task": "arrival-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 49.1,
+            "task": "arrival-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 49.1,
+            "task": "arrival-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 50.12,
+            "task": "arrival-4",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "adaptive": {
+        "kind": "deterministic_simulation",
+        "mode": "adaptive",
+        "completed": 6,
+        "early_at_seconds": 12,
+        "early_useful_results": 5,
+        "makespan_seconds": 56.12,
+        "completion_curve": [
+          [
+            5.02,
+            1
+          ],
+          [
+            6.04,
+            2
+          ],
+          [
+            7.06,
+            3
+          ],
+          [
+            8.08,
+            4
+          ],
+          [
+            9.1,
+            5
+          ],
+          [
+            56.12,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 0.0333,
+        "max_dispatch_delay_seconds": 0.08,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 2.0,
+        "wasted_interrupted_seconds": 4.0,
+        "active_service_seconds": 56.12,
+        "dispatches": 7,
+        "dispatch_overhead_seconds": 0.14,
+        "measured_policy_cpu_seconds": 0.00026474500000001067,
+        "preemptions": {
+          "slow": 1
+        },
+        "events": [
+          {
+            "time": 0.0,
+            "task": "slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 4,
+            "task": "slow",
+            "event": "restart_deferral",
+            "lost_service": 4.0
+          },
+          {
+            "time": 4,
+            "task": "arrival-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 5.02,
+            "task": "arrival-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 5.02,
+            "task": "arrival-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 6.04,
+            "task": "arrival-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 6.04,
+            "task": "arrival-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 7.06,
+            "task": "arrival-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 7.06,
+            "task": "arrival-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 8.08,
+            "task": "arrival-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 8.08,
+            "task": "arrival-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 9.1,
+            "task": "arrival-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 9.1,
+            "task": "slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 56.12,
+            "task": "slow",
+            "event": "useful_result"
+          }
+        ]
+      }
+    },
+    "nonpreemptible_and_setup": {
+      "fifo": {
+        "kind": "deterministic_simulation",
+        "mode": "fifo",
+        "completed": 8,
+        "early_at_seconds": 12,
+        "early_useful_results": 1,
+        "makespan_seconds": 25.02,
+        "completion_curve": [
+          [
+            10.02,
+            1
+          ],
+          [
+            12.04,
+            2
+          ],
+          [
+            13.06,
+            3
+          ],
+          [
+            15.08,
+            4
+          ],
+          [
+            16.1,
+            5
+          ],
+          [
+            18.12,
+            6
+          ],
+          [
+            19.14,
+            7
+          ],
+          [
+            25.02,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 4.04,
+        "max_dispatch_delay_seconds": 8.1,
+        "idle_slot_seconds": 5.88,
+        "setup_and_restart_seconds": 3.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 44.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 1.9744000000002093e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-nonpreemptible",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-prepare",
+            "event": "dispatch"
+          },
+          {
+            "time": 10.02,
+            "task": "b-prepare",
+            "event": "useful_result"
+          },
+          {
+            "time": 10.02,
+            "task": "standalone",
+            "event": "dispatch"
+          },
+          {
+            "time": 12.04,
+            "task": "standalone",
+            "event": "useful_result"
+          },
+          {
+            "time": 12.04,
+            "task": "prepared-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 13.06,
+            "task": "prepared-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 13.06,
+            "task": "prepared-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 15.08,
+            "task": "prepared-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 15.08,
+            "task": "prepared-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 16.1,
+            "task": "prepared-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 16.1,
+            "task": "prepared-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 18.12,
+            "task": "prepared-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 18.12,
+            "task": "prepared-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.14,
+            "task": "prepared-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.02,
+            "task": "a-nonpreemptible",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "fixed_batch": {
+        "kind": "deterministic_simulation",
+        "mode": "fixed_batch",
+        "completed": 8,
+        "early_at_seconds": 12,
+        "early_useful_results": 1,
+        "makespan_seconds": 31.08,
+        "completion_curve": [
+          [
+            10.02,
+            1
+          ],
+          [
+            25.02,
+            2
+          ],
+          [
+            26.04,
+            3
+          ],
+          [
+            27.04,
+            4
+          ],
+          [
+            28.06,
+            5
+          ],
+          [
+            29.06,
+            6
+          ],
+          [
+            30.08,
+            7
+          ],
+          [
+            31.08,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 13.7675,
+        "max_dispatch_delay_seconds": 23.02,
+        "idle_slot_seconds": 18.0,
+        "setup_and_restart_seconds": 3.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 44.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 1.899600000000029e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-nonpreemptible",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-prepare",
+            "event": "dispatch"
+          },
+          {
+            "time": 10.02,
+            "task": "b-prepare",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.02,
+            "task": "a-nonpreemptible",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.02,
+            "task": "standalone",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.02,
+            "task": "prepared-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 26.04,
+            "task": "prepared-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.04,
+            "task": "standalone",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.04,
+            "task": "prepared-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 27.04,
+            "task": "prepared-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 28.06,
+            "task": "prepared-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 29.06,
+            "task": "prepared-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 29.06,
+            "task": "prepared-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 29.06,
+            "task": "prepared-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 30.08,
+            "task": "prepared-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 31.08,
+            "task": "prepared-3",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "adaptive": {
+        "kind": "deterministic_simulation",
+        "mode": "adaptive",
+        "completed": 8,
+        "early_at_seconds": 12,
+        "early_useful_results": 2,
+        "makespan_seconds": 25.02,
+        "completion_curve": [
+          [
+            10.02,
+            1
+          ],
+          [
+            11.04,
+            2
+          ],
+          [
+            12.06,
+            3
+          ],
+          [
+            13.08,
+            4
+          ],
+          [
+            15.1,
+            5
+          ],
+          [
+            17.12,
+            6
+          ],
+          [
+            19.14,
+            7
+          ],
+          [
+            25.02,
+            8
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 3.29,
+        "max_dispatch_delay_seconds": 11.08,
+        "idle_slot_seconds": 5.88,
+        "setup_and_restart_seconds": 3.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 44.16,
+        "dispatches": 8,
+        "dispatch_overhead_seconds": 0.16,
+        "measured_policy_cpu_seconds": 0.0002136900000000025,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "b-prepare",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "a-nonpreemptible",
+            "event": "dispatch"
+          },
+          {
+            "time": 10.02,
+            "task": "b-prepare",
+            "event": "useful_result"
+          },
+          {
+            "time": 10.02,
+            "task": "prepared-0",
+            "event": "dispatch"
+          },
+          {
+            "time": 11.04,
+            "task": "prepared-0",
+            "event": "useful_result"
+          },
+          {
+            "time": 11.04,
+            "task": "prepared-2",
+            "event": "dispatch"
+          },
+          {
+            "time": 12.06,
+            "task": "prepared-2",
+            "event": "useful_result"
+          },
+          {
+            "time": 12.06,
+            "task": "prepared-4",
+            "event": "dispatch"
+          },
+          {
+            "time": 13.08,
+            "task": "prepared-4",
+            "event": "useful_result"
+          },
+          {
+            "time": 13.08,
+            "task": "standalone",
+            "event": "dispatch"
+          },
+          {
+            "time": 15.1,
+            "task": "standalone",
+            "event": "useful_result"
+          },
+          {
+            "time": 15.1,
+            "task": "prepared-1",
+            "event": "dispatch"
+          },
+          {
+            "time": 17.12,
+            "task": "prepared-1",
+            "event": "useful_result"
+          },
+          {
+            "time": 17.12,
+            "task": "prepared-3",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.14,
+            "task": "prepared-3",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.02,
+            "task": "a-nonpreemptible",
+            "event": "useful_result"
+          }
+        ]
+      }
+    },
+    "poor_estimates_and_unknown": {
+      "fifo": {
+        "kind": "deterministic_simulation",
+        "mode": "fifo",
+        "completed": 6,
+        "early_at_seconds": 10,
+        "early_useful_results": 2,
+        "makespan_seconds": 23.06,
+        "completion_curve": [
+          [
+            2.02,
+            1
+          ],
+          [
+            2.02,
+            2
+          ],
+          [
+            19.04,
+            3
+          ],
+          [
+            20.04,
+            4
+          ],
+          [
+            20.06,
+            5
+          ],
+          [
+            23.06,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 7.1867,
+        "max_dispatch_delay_seconds": 20.04,
+        "idle_slot_seconds": 3.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 43.12,
+        "dispatches": 6,
+        "dispatch_overhead_seconds": 0.12,
+        "measured_policy_cpu_seconds": 1.0990999999994921e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 2.02,
+            "task": "a-overestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 2.02,
+            "task": "b-overestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 2.02,
+            "task": "c-underestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 2.02,
+            "task": "d-unknown-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.04,
+            "task": "d-unknown-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 19.04,
+            "task": "e-unknown-fast",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.04,
+            "task": "c-underestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.04,
+            "task": "f-accurate",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.06,
+            "task": "e-unknown-fast",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.06,
+            "task": "f-accurate",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "fixed_batch": {
+        "kind": "deterministic_simulation",
+        "mode": "fixed_batch",
+        "completed": 6,
+        "early_at_seconds": 10,
+        "early_useful_results": 2,
+        "makespan_seconds": 23.06,
+        "completion_curve": [
+          [
+            2.02,
+            1
+          ],
+          [
+            2.02,
+            2
+          ],
+          [
+            19.04,
+            3
+          ],
+          [
+            20.04,
+            4
+          ],
+          [
+            21.06,
+            5
+          ],
+          [
+            23.06,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 7.3533,
+        "max_dispatch_delay_seconds": 20.04,
+        "idle_slot_seconds": 3.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 43.12,
+        "dispatches": 6,
+        "dispatch_overhead_seconds": 0.12,
+        "measured_policy_cpu_seconds": 1.1121000000009762e-05,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "a-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "b-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 2.02,
+            "task": "a-overestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 2.02,
+            "task": "b-overestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 2.02,
+            "task": "c-underestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 2.02,
+            "task": "d-unknown-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.04,
+            "task": "d-unknown-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.04,
+            "task": "c-underestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.04,
+            "task": "e-unknown-fast",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.04,
+            "task": "f-accurate",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.06,
+            "task": "e-unknown-fast",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.06,
+            "task": "f-accurate",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "adaptive": {
+        "kind": "deterministic_simulation",
+        "mode": "adaptive",
+        "completed": 6,
+        "early_at_seconds": 10,
+        "early_useful_results": 1,
+        "makespan_seconds": 22.06,
+        "completion_curve": [
+          [
+            3.02,
+            1
+          ],
+          [
+            18.02,
+            2
+          ],
+          [
+            19.04,
+            3
+          ],
+          [
+            20.04,
+            4
+          ],
+          [
+            21.06,
+            5
+          ],
+          [
+            22.06,
+            6
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 10.02,
+        "max_dispatch_delay_seconds": 20.04,
+        "idle_slot_seconds": 1.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 43.12,
+        "dispatches": 6,
+        "dispatch_overhead_seconds": 0.12,
+        "measured_policy_cpu_seconds": 0.00018471599999998062,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "c-underestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 0.0,
+            "task": "f-accurate",
+            "event": "dispatch"
+          },
+          {
+            "time": 3.02,
+            "task": "f-accurate",
+            "event": "useful_result"
+          },
+          {
+            "time": 3.02,
+            "task": "d-unknown-slow",
+            "event": "dispatch"
+          },
+          {
+            "time": 18.02,
+            "task": "c-underestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 18.02,
+            "task": "e-unknown-fast",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.04,
+            "task": "e-unknown-fast",
+            "event": "useful_result"
+          },
+          {
+            "time": 19.04,
+            "task": "b-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.04,
+            "task": "d-unknown-slow",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.04,
+            "task": "a-overestimated",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.06,
+            "task": "b-overestimated",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.06,
+            "task": "a-overestimated",
+            "event": "useful_result"
+          }
+        ]
+      }
+    },
+    "continuing_auxiliary_arrivals": {
+      "fifo": {
+        "kind": "deterministic_simulation",
+        "mode": "fifo",
+        "completed": 41,
+        "early_at_seconds": 15,
+        "early_useful_results": 1,
+        "makespan_seconds": 58.82,
+        "completion_curve": [
+          [
+            1.02,
+            1
+          ],
+          [
+            19.04,
+            2
+          ],
+          [
+            20.06,
+            3
+          ],
+          [
+            21.08,
+            4
+          ],
+          [
+            22.1,
+            5
+          ],
+          [
+            23.12,
+            6
+          ],
+          [
+            24.14,
+            7
+          ],
+          [
+            25.16,
+            8
+          ],
+          [
+            26.18,
+            9
+          ],
+          [
+            27.2,
+            10
+          ],
+          [
+            28.22,
+            11
+          ],
+          [
+            29.24,
+            12
+          ],
+          [
+            30.26,
+            13
+          ],
+          [
+            31.28,
+            14
+          ],
+          [
+            32.3,
+            15
+          ],
+          [
+            33.32,
+            16
+          ],
+          [
+            34.34,
+            17
+          ],
+          [
+            35.36,
+            18
+          ],
+          [
+            36.38,
+            19
+          ],
+          [
+            37.4,
+            20
+          ],
+          [
+            38.42,
+            21
+          ],
+          [
+            39.44,
+            22
+          ],
+          [
+            40.46,
+            23
+          ],
+          [
+            41.48,
+            24
+          ],
+          [
+            42.5,
+            25
+          ],
+          [
+            43.52,
+            26
+          ],
+          [
+            44.54,
+            27
+          ],
+          [
+            45.56,
+            28
+          ],
+          [
+            46.58,
+            29
+          ],
+          [
+            47.6,
+            30
+          ],
+          [
+            48.62,
+            31
+          ],
+          [
+            49.64,
+            32
+          ],
+          [
+            50.66,
+            33
+          ],
+          [
+            51.68,
+            34
+          ],
+          [
+            52.7,
+            35
+          ],
+          [
+            53.72,
+            36
+          ],
+          [
+            54.74,
+            37
+          ],
+          [
+            55.76,
+            38
+          ],
+          [
+            56.78,
+            39
+          ],
+          [
+            57.8,
+            40
+          ],
+          [
+            58.82,
+            41
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 17.5463,
+        "max_dispatch_delay_seconds": 18.8,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 58.82,
+        "dispatches": 41,
+        "dispatch_overhead_seconds": 0.82,
+        "measured_policy_cpu_seconds": 0.0003661669999999659,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "aux-00",
+            "event": "dispatch"
+          },
+          {
+            "time": 1.02,
+            "task": "aux-00",
+            "event": "useful_result"
+          },
+          {
+            "time": 1.02,
+            "task": "original-expensive",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.04,
+            "task": "original-expensive",
+            "event": "useful_result"
+          },
+          {
+            "time": 19.04,
+            "task": "aux-01",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.06,
+            "task": "aux-01",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.06,
+            "task": "aux-02",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.08,
+            "task": "aux-02",
+            "event": "useful_result"
+          },
+          {
+            "time": 21.08,
+            "task": "aux-03",
+            "event": "dispatch"
+          },
+          {
+            "time": 22.1,
+            "task": "aux-03",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.1,
+            "task": "aux-04",
+            "event": "dispatch"
+          },
+          {
+            "time": 23.12,
+            "task": "aux-04",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.12,
+            "task": "aux-05",
+            "event": "dispatch"
+          },
+          {
+            "time": 24.14,
+            "task": "aux-05",
+            "event": "useful_result"
+          },
+          {
+            "time": 24.14,
+            "task": "aux-06",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.16,
+            "task": "aux-06",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.16,
+            "task": "aux-07",
+            "event": "dispatch"
+          },
+          {
+            "time": 26.18,
+            "task": "aux-07",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.18,
+            "task": "aux-08",
+            "event": "dispatch"
+          },
+          {
+            "time": 27.2,
+            "task": "aux-08",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.2,
+            "task": "aux-09",
+            "event": "dispatch"
+          },
+          {
+            "time": 28.22,
+            "task": "aux-09",
+            "event": "useful_result"
+          },
+          {
+            "time": 28.22,
+            "task": "aux-10",
+            "event": "dispatch"
+          },
+          {
+            "time": 29.24,
+            "task": "aux-10",
+            "event": "useful_result"
+          },
+          {
+            "time": 29.24,
+            "task": "aux-11",
+            "event": "dispatch"
+          },
+          {
+            "time": 30.26,
+            "task": "aux-11",
+            "event": "useful_result"
+          },
+          {
+            "time": 30.26,
+            "task": "aux-12",
+            "event": "dispatch"
+          },
+          {
+            "time": 31.28,
+            "task": "aux-12",
+            "event": "useful_result"
+          },
+          {
+            "time": 31.28,
+            "task": "aux-13",
+            "event": "dispatch"
+          },
+          {
+            "time": 32.3,
+            "task": "aux-13",
+            "event": "useful_result"
+          },
+          {
+            "time": 32.3,
+            "task": "aux-14",
+            "event": "dispatch"
+          },
+          {
+            "time": 33.32,
+            "task": "aux-14",
+            "event": "useful_result"
+          },
+          {
+            "time": 33.32,
+            "task": "aux-15",
+            "event": "dispatch"
+          },
+          {
+            "time": 34.34,
+            "task": "aux-15",
+            "event": "useful_result"
+          },
+          {
+            "time": 34.34,
+            "task": "aux-16",
+            "event": "dispatch"
+          },
+          {
+            "time": 35.36,
+            "task": "aux-16",
+            "event": "useful_result"
+          },
+          {
+            "time": 35.36,
+            "task": "aux-17",
+            "event": "dispatch"
+          },
+          {
+            "time": 36.38,
+            "task": "aux-17",
+            "event": "useful_result"
+          },
+          {
+            "time": 36.38,
+            "task": "aux-18",
+            "event": "dispatch"
+          },
+          {
+            "time": 37.4,
+            "task": "aux-18",
+            "event": "useful_result"
+          },
+          {
+            "time": 37.4,
+            "task": "aux-19",
+            "event": "dispatch"
+          },
+          {
+            "time": 38.42,
+            "task": "aux-19",
+            "event": "useful_result"
+          },
+          {
+            "time": 38.42,
+            "task": "aux-20",
+            "event": "dispatch"
+          },
+          {
+            "time": 39.44,
+            "task": "aux-20",
+            "event": "useful_result"
+          },
+          {
+            "time": 39.44,
+            "task": "aux-21",
+            "event": "dispatch"
+          },
+          {
+            "time": 40.46,
+            "task": "aux-21",
+            "event": "useful_result"
+          },
+          {
+            "time": 40.46,
+            "task": "aux-22",
+            "event": "dispatch"
+          },
+          {
+            "time": 41.48,
+            "task": "aux-22",
+            "event": "useful_result"
+          },
+          {
+            "time": 41.48,
+            "task": "aux-23",
+            "event": "dispatch"
+          },
+          {
+            "time": 42.5,
+            "task": "aux-23",
+            "event": "useful_result"
+          },
+          {
+            "time": 42.5,
+            "task": "aux-24",
+            "event": "dispatch"
+          },
+          {
+            "time": 43.52,
+            "task": "aux-24",
+            "event": "useful_result"
+          },
+          {
+            "time": 43.52,
+            "task": "aux-25",
+            "event": "dispatch"
+          },
+          {
+            "time": 44.54,
+            "task": "aux-25",
+            "event": "useful_result"
+          },
+          {
+            "time": 44.54,
+            "task": "aux-26",
+            "event": "dispatch"
+          },
+          {
+            "time": 45.56,
+            "task": "aux-26",
+            "event": "useful_result"
+          },
+          {
+            "time": 45.56,
+            "task": "aux-27",
+            "event": "dispatch"
+          },
+          {
+            "time": 46.58,
+            "task": "aux-27",
+            "event": "useful_result"
+          },
+          {
+            "time": 46.58,
+            "task": "aux-28",
+            "event": "dispatch"
+          },
+          {
+            "time": 47.6,
+            "task": "aux-28",
+            "event": "useful_result"
+          },
+          {
+            "time": 47.6,
+            "task": "aux-29",
+            "event": "dispatch"
+          },
+          {
+            "time": 48.62,
+            "task": "aux-29",
+            "event": "useful_result"
+          },
+          {
+            "time": 48.62,
+            "task": "aux-30",
+            "event": "dispatch"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-30",
+            "event": "useful_result"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-31",
+            "event": "dispatch"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-31",
+            "event": "useful_result"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-32",
+            "event": "dispatch"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-32",
+            "event": "useful_result"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-33",
+            "event": "dispatch"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-33",
+            "event": "useful_result"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-34",
+            "event": "dispatch"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-34",
+            "event": "useful_result"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-35",
+            "event": "dispatch"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-35",
+            "event": "useful_result"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-36",
+            "event": "dispatch"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-36",
+            "event": "useful_result"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-37",
+            "event": "dispatch"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-37",
+            "event": "useful_result"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-38",
+            "event": "dispatch"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-38",
+            "event": "useful_result"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-39",
+            "event": "dispatch"
+          },
+          {
+            "time": 58.82,
+            "task": "aux-39",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "fixed_batch": {
+        "kind": "deterministic_simulation",
+        "mode": "fixed_batch",
+        "completed": 41,
+        "early_at_seconds": 15,
+        "early_useful_results": 1,
+        "makespan_seconds": 58.82,
+        "completion_curve": [
+          [
+            1.02,
+            1
+          ],
+          [
+            19.04,
+            2
+          ],
+          [
+            20.06,
+            3
+          ],
+          [
+            21.08,
+            4
+          ],
+          [
+            22.1,
+            5
+          ],
+          [
+            23.12,
+            6
+          ],
+          [
+            24.14,
+            7
+          ],
+          [
+            25.16,
+            8
+          ],
+          [
+            26.18,
+            9
+          ],
+          [
+            27.2,
+            10
+          ],
+          [
+            28.22,
+            11
+          ],
+          [
+            29.24,
+            12
+          ],
+          [
+            30.26,
+            13
+          ],
+          [
+            31.28,
+            14
+          ],
+          [
+            32.3,
+            15
+          ],
+          [
+            33.32,
+            16
+          ],
+          [
+            34.34,
+            17
+          ],
+          [
+            35.36,
+            18
+          ],
+          [
+            36.38,
+            19
+          ],
+          [
+            37.4,
+            20
+          ],
+          [
+            38.42,
+            21
+          ],
+          [
+            39.44,
+            22
+          ],
+          [
+            40.46,
+            23
+          ],
+          [
+            41.48,
+            24
+          ],
+          [
+            42.5,
+            25
+          ],
+          [
+            43.52,
+            26
+          ],
+          [
+            44.54,
+            27
+          ],
+          [
+            45.56,
+            28
+          ],
+          [
+            46.58,
+            29
+          ],
+          [
+            47.6,
+            30
+          ],
+          [
+            48.62,
+            31
+          ],
+          [
+            49.64,
+            32
+          ],
+          [
+            50.66,
+            33
+          ],
+          [
+            51.68,
+            34
+          ],
+          [
+            52.7,
+            35
+          ],
+          [
+            53.72,
+            36
+          ],
+          [
+            54.74,
+            37
+          ],
+          [
+            55.76,
+            38
+          ],
+          [
+            56.78,
+            39
+          ],
+          [
+            57.8,
+            40
+          ],
+          [
+            58.82,
+            41
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 17.5463,
+        "max_dispatch_delay_seconds": 18.8,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 58.82,
+        "dispatches": 41,
+        "dispatch_overhead_seconds": 0.82,
+        "measured_policy_cpu_seconds": 0.00022972199999994614,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "aux-00",
+            "event": "dispatch"
+          },
+          {
+            "time": 1.02,
+            "task": "aux-00",
+            "event": "useful_result"
+          },
+          {
+            "time": 1.02,
+            "task": "original-expensive",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.04,
+            "task": "original-expensive",
+            "event": "useful_result"
+          },
+          {
+            "time": 19.04,
+            "task": "aux-01",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.06,
+            "task": "aux-01",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.06,
+            "task": "aux-02",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.08,
+            "task": "aux-02",
+            "event": "useful_result"
+          },
+          {
+            "time": 21.08,
+            "task": "aux-03",
+            "event": "dispatch"
+          },
+          {
+            "time": 22.1,
+            "task": "aux-03",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.1,
+            "task": "aux-04",
+            "event": "dispatch"
+          },
+          {
+            "time": 23.12,
+            "task": "aux-04",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.12,
+            "task": "aux-05",
+            "event": "dispatch"
+          },
+          {
+            "time": 24.14,
+            "task": "aux-05",
+            "event": "useful_result"
+          },
+          {
+            "time": 24.14,
+            "task": "aux-06",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.16,
+            "task": "aux-06",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.16,
+            "task": "aux-07",
+            "event": "dispatch"
+          },
+          {
+            "time": 26.18,
+            "task": "aux-07",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.18,
+            "task": "aux-08",
+            "event": "dispatch"
+          },
+          {
+            "time": 27.2,
+            "task": "aux-08",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.2,
+            "task": "aux-09",
+            "event": "dispatch"
+          },
+          {
+            "time": 28.22,
+            "task": "aux-09",
+            "event": "useful_result"
+          },
+          {
+            "time": 28.22,
+            "task": "aux-10",
+            "event": "dispatch"
+          },
+          {
+            "time": 29.24,
+            "task": "aux-10",
+            "event": "useful_result"
+          },
+          {
+            "time": 29.24,
+            "task": "aux-11",
+            "event": "dispatch"
+          },
+          {
+            "time": 30.26,
+            "task": "aux-11",
+            "event": "useful_result"
+          },
+          {
+            "time": 30.26,
+            "task": "aux-12",
+            "event": "dispatch"
+          },
+          {
+            "time": 31.28,
+            "task": "aux-12",
+            "event": "useful_result"
+          },
+          {
+            "time": 31.28,
+            "task": "aux-13",
+            "event": "dispatch"
+          },
+          {
+            "time": 32.3,
+            "task": "aux-13",
+            "event": "useful_result"
+          },
+          {
+            "time": 32.3,
+            "task": "aux-14",
+            "event": "dispatch"
+          },
+          {
+            "time": 33.32,
+            "task": "aux-14",
+            "event": "useful_result"
+          },
+          {
+            "time": 33.32,
+            "task": "aux-15",
+            "event": "dispatch"
+          },
+          {
+            "time": 34.34,
+            "task": "aux-15",
+            "event": "useful_result"
+          },
+          {
+            "time": 34.34,
+            "task": "aux-16",
+            "event": "dispatch"
+          },
+          {
+            "time": 35.36,
+            "task": "aux-16",
+            "event": "useful_result"
+          },
+          {
+            "time": 35.36,
+            "task": "aux-17",
+            "event": "dispatch"
+          },
+          {
+            "time": 36.38,
+            "task": "aux-17",
+            "event": "useful_result"
+          },
+          {
+            "time": 36.38,
+            "task": "aux-18",
+            "event": "dispatch"
+          },
+          {
+            "time": 37.4,
+            "task": "aux-18",
+            "event": "useful_result"
+          },
+          {
+            "time": 37.4,
+            "task": "aux-19",
+            "event": "dispatch"
+          },
+          {
+            "time": 38.42,
+            "task": "aux-19",
+            "event": "useful_result"
+          },
+          {
+            "time": 38.42,
+            "task": "aux-20",
+            "event": "dispatch"
+          },
+          {
+            "time": 39.44,
+            "task": "aux-20",
+            "event": "useful_result"
+          },
+          {
+            "time": 39.44,
+            "task": "aux-21",
+            "event": "dispatch"
+          },
+          {
+            "time": 40.46,
+            "task": "aux-21",
+            "event": "useful_result"
+          },
+          {
+            "time": 40.46,
+            "task": "aux-22",
+            "event": "dispatch"
+          },
+          {
+            "time": 41.48,
+            "task": "aux-22",
+            "event": "useful_result"
+          },
+          {
+            "time": 41.48,
+            "task": "aux-23",
+            "event": "dispatch"
+          },
+          {
+            "time": 42.5,
+            "task": "aux-23",
+            "event": "useful_result"
+          },
+          {
+            "time": 42.5,
+            "task": "aux-24",
+            "event": "dispatch"
+          },
+          {
+            "time": 43.52,
+            "task": "aux-24",
+            "event": "useful_result"
+          },
+          {
+            "time": 43.52,
+            "task": "aux-25",
+            "event": "dispatch"
+          },
+          {
+            "time": 44.54,
+            "task": "aux-25",
+            "event": "useful_result"
+          },
+          {
+            "time": 44.54,
+            "task": "aux-26",
+            "event": "dispatch"
+          },
+          {
+            "time": 45.56,
+            "task": "aux-26",
+            "event": "useful_result"
+          },
+          {
+            "time": 45.56,
+            "task": "aux-27",
+            "event": "dispatch"
+          },
+          {
+            "time": 46.58,
+            "task": "aux-27",
+            "event": "useful_result"
+          },
+          {
+            "time": 46.58,
+            "task": "aux-28",
+            "event": "dispatch"
+          },
+          {
+            "time": 47.6,
+            "task": "aux-28",
+            "event": "useful_result"
+          },
+          {
+            "time": 47.6,
+            "task": "aux-29",
+            "event": "dispatch"
+          },
+          {
+            "time": 48.62,
+            "task": "aux-29",
+            "event": "useful_result"
+          },
+          {
+            "time": 48.62,
+            "task": "aux-30",
+            "event": "dispatch"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-30",
+            "event": "useful_result"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-31",
+            "event": "dispatch"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-31",
+            "event": "useful_result"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-32",
+            "event": "dispatch"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-32",
+            "event": "useful_result"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-33",
+            "event": "dispatch"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-33",
+            "event": "useful_result"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-34",
+            "event": "dispatch"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-34",
+            "event": "useful_result"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-35",
+            "event": "dispatch"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-35",
+            "event": "useful_result"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-36",
+            "event": "dispatch"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-36",
+            "event": "useful_result"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-37",
+            "event": "dispatch"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-37",
+            "event": "useful_result"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-38",
+            "event": "dispatch"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-38",
+            "event": "useful_result"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-39",
+            "event": "dispatch"
+          },
+          {
+            "time": 58.82,
+            "task": "aux-39",
+            "event": "useful_result"
+          }
+        ]
+      },
+      "adaptive": {
+        "kind": "deterministic_simulation",
+        "mode": "adaptive",
+        "completed": 41,
+        "early_at_seconds": 15,
+        "early_useful_results": 14,
+        "makespan_seconds": 58.82,
+        "completion_curve": [
+          [
+            1.02,
+            1
+          ],
+          [
+            2.04,
+            2
+          ],
+          [
+            3.06,
+            3
+          ],
+          [
+            4.08,
+            4
+          ],
+          [
+            5.1,
+            5
+          ],
+          [
+            6.12,
+            6
+          ],
+          [
+            7.14,
+            7
+          ],
+          [
+            8.16,
+            8
+          ],
+          [
+            9.18,
+            9
+          ],
+          [
+            10.2,
+            10
+          ],
+          [
+            11.22,
+            11
+          ],
+          [
+            12.24,
+            12
+          ],
+          [
+            13.26,
+            13
+          ],
+          [
+            14.28,
+            14
+          ],
+          [
+            15.3,
+            15
+          ],
+          [
+            16.32,
+            16
+          ],
+          [
+            17.34,
+            17
+          ],
+          [
+            18.36,
+            18
+          ],
+          [
+            19.38,
+            19
+          ],
+          [
+            20.4,
+            20
+          ],
+          [
+            21.42,
+            21
+          ],
+          [
+            22.44,
+            22
+          ],
+          [
+            23.46,
+            23
+          ],
+          [
+            24.48,
+            24
+          ],
+          [
+            25.5,
+            25
+          ],
+          [
+            26.52,
+            26
+          ],
+          [
+            27.54,
+            27
+          ],
+          [
+            28.56,
+            28
+          ],
+          [
+            29.58,
+            29
+          ],
+          [
+            30.6,
+            30
+          ],
+          [
+            48.62,
+            31
+          ],
+          [
+            49.64,
+            32
+          ],
+          [
+            50.66,
+            33
+          ],
+          [
+            51.68,
+            34
+          ],
+          [
+            52.7,
+            35
+          ],
+          [
+            53.72,
+            36
+          ],
+          [
+            54.74,
+            37
+          ],
+          [
+            55.76,
+            38
+          ],
+          [
+            56.78,
+            39
+          ],
+          [
+            57.8,
+            40
+          ],
+          [
+            58.82,
+            41
+          ]
+        ],
+        "mean_dispatch_delay_seconds": 5.522,
+        "max_dispatch_delay_seconds": 30.6,
+        "idle_slot_seconds": 0.0,
+        "setup_and_restart_seconds": 0.0,
+        "wasted_interrupted_seconds": 0.0,
+        "active_service_seconds": 58.82,
+        "dispatches": 41,
+        "dispatch_overhead_seconds": 0.82,
+        "measured_policy_cpu_seconds": 0.0017521320000000382,
+        "preemptions": {},
+        "events": [
+          {
+            "time": 0.0,
+            "task": "aux-00",
+            "event": "dispatch"
+          },
+          {
+            "time": 1.02,
+            "task": "aux-00",
+            "event": "useful_result"
+          },
+          {
+            "time": 1.02,
+            "task": "aux-01",
+            "event": "dispatch"
+          },
+          {
+            "time": 2.04,
+            "task": "aux-01",
+            "event": "useful_result"
+          },
+          {
+            "time": 2.04,
+            "task": "aux-02",
+            "event": "dispatch"
+          },
+          {
+            "time": 3.06,
+            "task": "aux-02",
+            "event": "useful_result"
+          },
+          {
+            "time": 3.06,
+            "task": "aux-03",
+            "event": "dispatch"
+          },
+          {
+            "time": 4.08,
+            "task": "aux-03",
+            "event": "useful_result"
+          },
+          {
+            "time": 4.08,
+            "task": "aux-04",
+            "event": "dispatch"
+          },
+          {
+            "time": 5.1,
+            "task": "aux-04",
+            "event": "useful_result"
+          },
+          {
+            "time": 5.1,
+            "task": "aux-05",
+            "event": "dispatch"
+          },
+          {
+            "time": 6.12,
+            "task": "aux-05",
+            "event": "useful_result"
+          },
+          {
+            "time": 6.12,
+            "task": "aux-06",
+            "event": "dispatch"
+          },
+          {
+            "time": 7.14,
+            "task": "aux-06",
+            "event": "useful_result"
+          },
+          {
+            "time": 7.14,
+            "task": "aux-07",
+            "event": "dispatch"
+          },
+          {
+            "time": 8.16,
+            "task": "aux-07",
+            "event": "useful_result"
+          },
+          {
+            "time": 8.16,
+            "task": "aux-08",
+            "event": "dispatch"
+          },
+          {
+            "time": 9.18,
+            "task": "aux-08",
+            "event": "useful_result"
+          },
+          {
+            "time": 9.18,
+            "task": "aux-09",
+            "event": "dispatch"
+          },
+          {
+            "time": 10.2,
+            "task": "aux-09",
+            "event": "useful_result"
+          },
+          {
+            "time": 10.2,
+            "task": "aux-10",
+            "event": "dispatch"
+          },
+          {
+            "time": 11.22,
+            "task": "aux-10",
+            "event": "useful_result"
+          },
+          {
+            "time": 11.22,
+            "task": "aux-11",
+            "event": "dispatch"
+          },
+          {
+            "time": 12.24,
+            "task": "aux-11",
+            "event": "useful_result"
+          },
+          {
+            "time": 12.24,
+            "task": "aux-12",
+            "event": "dispatch"
+          },
+          {
+            "time": 13.26,
+            "task": "aux-12",
+            "event": "useful_result"
+          },
+          {
+            "time": 13.26,
+            "task": "aux-13",
+            "event": "dispatch"
+          },
+          {
+            "time": 14.28,
+            "task": "aux-13",
+            "event": "useful_result"
+          },
+          {
+            "time": 14.28,
+            "task": "aux-14",
+            "event": "dispatch"
+          },
+          {
+            "time": 15.3,
+            "task": "aux-14",
+            "event": "useful_result"
+          },
+          {
+            "time": 15.3,
+            "task": "aux-15",
+            "event": "dispatch"
+          },
+          {
+            "time": 16.32,
+            "task": "aux-15",
+            "event": "useful_result"
+          },
+          {
+            "time": 16.32,
+            "task": "aux-16",
+            "event": "dispatch"
+          },
+          {
+            "time": 17.34,
+            "task": "aux-16",
+            "event": "useful_result"
+          },
+          {
+            "time": 17.34,
+            "task": "aux-17",
+            "event": "dispatch"
+          },
+          {
+            "time": 18.36,
+            "task": "aux-17",
+            "event": "useful_result"
+          },
+          {
+            "time": 18.36,
+            "task": "aux-18",
+            "event": "dispatch"
+          },
+          {
+            "time": 19.38,
+            "task": "aux-18",
+            "event": "useful_result"
+          },
+          {
+            "time": 19.38,
+            "task": "aux-19",
+            "event": "dispatch"
+          },
+          {
+            "time": 20.4,
+            "task": "aux-19",
+            "event": "useful_result"
+          },
+          {
+            "time": 20.4,
+            "task": "aux-20",
+            "event": "dispatch"
+          },
+          {
+            "time": 21.42,
+            "task": "aux-20",
+            "event": "useful_result"
+          },
+          {
+            "time": 21.42,
+            "task": "aux-21",
+            "event": "dispatch"
+          },
+          {
+            "time": 22.44,
+            "task": "aux-21",
+            "event": "useful_result"
+          },
+          {
+            "time": 22.44,
+            "task": "aux-22",
+            "event": "dispatch"
+          },
+          {
+            "time": 23.46,
+            "task": "aux-22",
+            "event": "useful_result"
+          },
+          {
+            "time": 23.46,
+            "task": "aux-23",
+            "event": "dispatch"
+          },
+          {
+            "time": 24.48,
+            "task": "aux-23",
+            "event": "useful_result"
+          },
+          {
+            "time": 24.48,
+            "task": "aux-24",
+            "event": "dispatch"
+          },
+          {
+            "time": 25.5,
+            "task": "aux-24",
+            "event": "useful_result"
+          },
+          {
+            "time": 25.5,
+            "task": "aux-25",
+            "event": "dispatch"
+          },
+          {
+            "time": 26.52,
+            "task": "aux-25",
+            "event": "useful_result"
+          },
+          {
+            "time": 26.52,
+            "task": "aux-26",
+            "event": "dispatch"
+          },
+          {
+            "time": 27.54,
+            "task": "aux-26",
+            "event": "useful_result"
+          },
+          {
+            "time": 27.54,
+            "task": "aux-27",
+            "event": "dispatch"
+          },
+          {
+            "time": 28.56,
+            "task": "aux-27",
+            "event": "useful_result"
+          },
+          {
+            "time": 28.56,
+            "task": "aux-28",
+            "event": "dispatch"
+          },
+          {
+            "time": 29.58,
+            "task": "aux-28",
+            "event": "useful_result"
+          },
+          {
+            "time": 29.58,
+            "task": "aux-29",
+            "event": "dispatch"
+          },
+          {
+            "time": 30.6,
+            "task": "aux-29",
+            "event": "useful_result"
+          },
+          {
+            "time": 30.6,
+            "task": "original-expensive",
+            "event": "dispatch"
+          },
+          {
+            "time": 48.62,
+            "task": "original-expensive",
+            "event": "useful_result"
+          },
+          {
+            "time": 48.62,
+            "task": "aux-30",
+            "event": "dispatch"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-30",
+            "event": "useful_result"
+          },
+          {
+            "time": 49.64,
+            "task": "aux-31",
+            "event": "dispatch"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-31",
+            "event": "useful_result"
+          },
+          {
+            "time": 50.66,
+            "task": "aux-32",
+            "event": "dispatch"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-32",
+            "event": "useful_result"
+          },
+          {
+            "time": 51.68,
+            "task": "aux-33",
+            "event": "dispatch"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-33",
+            "event": "useful_result"
+          },
+          {
+            "time": 52.7,
+            "task": "aux-34",
+            "event": "dispatch"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-34",
+            "event": "useful_result"
+          },
+          {
+            "time": 53.72,
+            "task": "aux-35",
+            "event": "dispatch"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-35",
+            "event": "useful_result"
+          },
+          {
+            "time": 54.74,
+            "task": "aux-36",
+            "event": "dispatch"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-36",
+            "event": "useful_result"
+          },
+          {
+            "time": 55.76,
+            "task": "aux-37",
+            "event": "dispatch"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-37",
+            "event": "useful_result"
+          },
+          {
+            "time": 56.78,
+            "task": "aux-38",
+            "event": "dispatch"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-38",
+            "event": "useful_result"
+          },
+          {
+            "time": 57.8,
+            "task": "aux-39",
+            "event": "dispatch"
+          },
+          {
+            "time": 58.82,
+            "task": "aux-39",
+            "event": "useful_result"
+          }
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Synthetic useful outcomes, not engineering acceptance or live model integration.",
+    "Single homogeneous resource dimension; controller tests cover admission and ownership.",
+    "Poor estimates may regress early results; comparison retains those outcomes.",
+    "Python policy CPU is measured separately; simulated time includes equal dispatch overhead."
+  ]
+}

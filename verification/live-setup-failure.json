@@ -1,0 +1,12 @@
+{
+  "complete": false,
+  "validation_kind": "live_setup_failure_before_inference",
+  "error": "live turn not observed: held execution: {\"diagnose-boundary\": {\"at\": 1792550972.683146, \"category\": \"backend\", \"notice\": \"execution did not finish normally: {\\\"code\\\": -32600, \\\"message\\\": \\\"failed to load configuration: invalid transport\\\\nin `mcp_servers.\\\\\\\"node_repl\\\\\\\"`\\\\n\\\"}\", \"operation\": \"diagnose-boundary-1-e908e743522a\"}, \"diagnose-total\": {\"at\": 1792550972.683146, \"category\": \"backend\", \"notice\": \"execution did not finish normally: {\\\"code\\\": -32600, \\\"message\\\": \\\"failed to load configuration: invalid transport\\\\nin `mcp_servers.\\\\\\\"node_repl\\\\\\\"`\\\\n\\\"}\", \"operation\": \"diagnose-total-1-b754512d2388\"}}",
+  "cleanup": {
+    "/tmp/delegation-live-luna-final/run": {
+      "mode": "stopped",
+      "active": 0
+    }
+  },
+  "resolution": "Corrected app-server MCP override key encoding; original failure kept. Subsequent same-profile run is live-agent.json."
+}

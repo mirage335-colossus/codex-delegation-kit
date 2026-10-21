@@ -1,0 +1,455 @@
+{
+  "validation_kind": "real_model_integration",
+  "directory": "/tmp/delegation-live-luna-verified",
+  "requested": {
+    "model": "gpt-6-luna",
+    "effort": "medium",
+    "service_tier": "default"
+  },
+  "acceptance": {
+    "actual_dispatch": true,
+    "actual_observation": true,
+    "result_ingestion": true,
+    "automatic_replenishment": true,
+    "controller_restart_preserved_attempt": true,
+    "no_duplicate_attempts": true,
+    "persistent_stop": true,
+    "recovery_respects_stop": true,
+    "owned_execution_released": true,
+    "protocol_interruption_observed": true,
+    "cancellation_not_accepted": true
+  },
+  "limitations": [
+    "Independent app-server sessions, not this chat's native subagent tree.",
+    "Resolved runtime settings are checked; provider-side per-token model identity is not exposed.",
+    "Only supplied-context read-only agent work is exercised; arbitrary subprocess sandbox propagation is not proved.",
+    "The three exact-answer checks establish bounded result ingestion, not patch acceptance or general model quality."
+  ],
+  "summary": {
+    "run": "live-replenish",
+    "mode": "running",
+    "stop_reason": null,
+    "elapsed_seconds": 16.60438871383667,
+    "completed": 3,
+    "original_completed": 3,
+    "original_total": 3,
+    "all_original_complete": true,
+    "all_terminal": true,
+    "active": 0,
+    "runnable_or_deferred": false,
+    "resources": {
+      "reasoning": 0,
+      "processes": 0,
+      "memory_mb": 0,
+      "cpu": 0
+    },
+    "exclusive": [],
+    "events": 13,
+    "valid_passes": 3,
+    "valid_failures": 0,
+    "acceptance_stages_completed": 0,
+    "active_service_seconds": 23.931483507156372,
+    "useful_results_per_second": 0.18067512461329321,
+    "holds": {},
+    "tasks": [
+      {
+        "id": "derive-total-fix",
+        "origin": "original",
+        "status": "completed",
+        "outcome": "passed",
+        "acceptance_status": "validated",
+        "reason": "validated explicit result contract",
+        "service_seconds": 7.801641225814819,
+        "preemptions": 0,
+        "not_before": 1792551132.4506035
+      },
+      {
+        "id": "diagnose-boundary",
+        "origin": "original",
+        "status": "completed",
+        "outcome": "passed",
+        "acceptance_status": "validated",
+        "reason": "validated explicit result contract",
+        "service_seconds": 8.35139012336731,
+        "preemptions": 0,
+        "not_before": 1792551132.4506035
+      },
+      {
+        "id": "diagnose-total",
+        "origin": "original",
+        "status": "completed",
+        "outcome": "passed",
+        "acceptance_status": "validated",
+        "reason": "validated explicit result contract",
+        "service_seconds": 7.778452157974243,
+        "preemptions": 0,
+        "not_before": 1792551132.4506035
+      }
+    ]
+  },
+  "restart_snapshot": {
+    "attempts_before": [
+      "diagnose-boundary-1-14754396ba04",
+      "diagnose-total-1-567d850e2fc1"
+    ],
+    "attempts_after": [
+      "derive-total-fix-1-144c30ada75a",
+      "diagnose-boundary-1-14754396ba04",
+      "diagnose-total-1-567d850e2fc1"
+    ]
+  },
+  "model_results": {
+    "derive-total-fix-1-144c30ada75a": {
+      "configured": {
+        "agent_tools": "read-only-no-exec",
+        "approval": "never",
+        "effort": "medium",
+        "model": "gpt-6-luna",
+        "network": false,
+        "sandbox": "read-only",
+        "service_tier": "default"
+      },
+      "detail": "model turn completed; acceptance requires controller validation",
+      "effective": {
+        "activePermissionProfile": null,
+        "approvalPolicy": "never",
+        "environments": [],
+        "model": "gpt-6-luna",
+        "modelProvider": "openai",
+        "reasoningEffort": "medium",
+        "runtimeWorkspaceRoots": [],
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "serviceTier": "default",
+        "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+        "tool_limit": "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable"
+      },
+      "operation_id": "derive-total-fix-1-144c30ada75a",
+      "result": {
+        "expression": "sum(xs)"
+      },
+      "status": "completed",
+      "thread_id": "01a15c5f-d244-73c3-8d6a-6b29691a8ced",
+      "turn_id": "01a15c5f-d278-7702-ad14-b6e06df4441c",
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 6993,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7004
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 6993,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7004
+        }
+      }
+    },
+    "diagnose-boundary-1-14754396ba04": {
+      "configured": {
+        "agent_tools": "read-only-no-exec",
+        "approval": "never",
+        "effort": "medium",
+        "model": "gpt-6-luna",
+        "network": false,
+        "sandbox": "read-only",
+        "service_tier": "default"
+      },
+      "detail": "model turn completed; acceptance requires controller validation",
+      "effective": {
+        "activePermissionProfile": null,
+        "approvalPolicy": "never",
+        "environments": [],
+        "model": "gpt-6-luna",
+        "modelProvider": "openai",
+        "reasoningEffort": "medium",
+        "runtimeWorkspaceRoots": [],
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "serviceTier": "default",
+        "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+        "tool_limit": "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable"
+      },
+      "operation_id": "diagnose-boundary-1-14754396ba04",
+      "result": {
+        "bug": "excludes_zero"
+      },
+      "status": "completed",
+      "thread_id": "01a15c5f-b2e2-7ef2-868b-e5a3ea76dd73",
+      "turn_id": "01a15c5f-b318-73f3-a6e9-fedcb2bb4c98",
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 7003,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7014
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 7003,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7014
+        }
+      }
+    },
+    "diagnose-total-1-567d850e2fc1": {
+      "configured": {
+        "agent_tools": "read-only-no-exec",
+        "approval": "never",
+        "effort": "medium",
+        "model": "gpt-6-luna",
+        "network": false,
+        "sandbox": "read-only",
+        "service_tier": "default"
+      },
+      "detail": "model turn completed; acceptance requires controller validation",
+      "effective": {
+        "activePermissionProfile": null,
+        "approvalPolicy": "never",
+        "environments": [],
+        "model": "gpt-6-luna",
+        "modelProvider": "openai",
+        "reasoningEffort": "medium",
+        "runtimeWorkspaceRoots": [],
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "serviceTier": "default",
+        "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+        "tool_limit": "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable"
+      },
+      "operation_id": "diagnose-total-1-567d850e2fc1",
+      "result": {
+        "bug": "skips_first"
+      },
+      "status": "completed",
+      "thread_id": "01a15c5f-b31a-7330-99e6-5e82bc442777",
+      "turn_id": "01a15c5f-b351-7c42-9087-c8c8e689bad0",
+      "usage": {
+        "last": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 7008,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7019
+        },
+        "modelContextWindow": 258400,
+        "total": {
+          "cacheWriteInputTokens": 0,
+          "cachedInputTokens": 0,
+          "inputTokens": 7008,
+          "outputTokens": 11,
+          "reasoningOutputTokens": 0,
+          "totalTokens": 7019
+        }
+      }
+    }
+  },
+  "dispatch_delay_seconds": 0.0017709732055664062,
+  "interruption": {
+    "receipt": {
+      "configured": {
+        "agent_tools": "read-only-no-exec",
+        "approval": "never",
+        "effort": "medium",
+        "model": "gpt-6-luna",
+        "network": false,
+        "sandbox": "read-only",
+        "service_tier": "default"
+      },
+      "detail": "turn did not complete normally: \"interrupted\"",
+      "effective": {
+        "activePermissionProfile": null,
+        "approvalPolicy": "never",
+        "environments": [],
+        "model": "gpt-6-luna",
+        "modelProvider": "openai",
+        "reasoningEffort": "medium",
+        "runtimeWorkspaceRoots": [],
+        "sandbox": {
+          "networkAccess": false,
+          "type": "readOnly"
+        },
+        "serviceTier": "default",
+        "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+        "tool_limit": "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable"
+      },
+      "operation_id": "interrupt-probe-1-c9730a0f56af",
+      "result": null,
+      "status": "hold",
+      "thread_id": "01a15c5f-f2b3-7133-a5f8-202140fd1c8d",
+      "turn_id": "01a15c5f-f2e9-7ad0-ae57-51b38f18a72e",
+      "usage": null
+    },
+    "summary": {
+      "run": "live-interrupt",
+      "mode": "stopped",
+      "stop_reason": "bounded live interruption exercise",
+      "elapsed_seconds": 5.696309804916382,
+      "completed": 0,
+      "original_completed": 0,
+      "original_total": 1,
+      "all_original_complete": false,
+      "all_terminal": true,
+      "active": 0,
+      "runnable_or_deferred": false,
+      "resources": {
+        "reasoning": 0,
+        "processes": 0,
+        "memory_mb": 0,
+        "cpu": 0
+      },
+      "exclusive": [],
+      "events": 6,
+      "valid_passes": 0,
+      "valid_failures": 0,
+      "acceptance_stages_completed": 0,
+      "active_service_seconds": 5.530860662460327,
+      "useful_results_per_second": 0.0,
+      "holds": {},
+      "tasks": [
+        {
+          "id": "interrupt-probe",
+          "origin": "original",
+          "status": "cancelled",
+          "outcome": "cancelled",
+          "acceptance_status": "pending",
+          "reason": "cancelled",
+          "service_seconds": 5.530860662460327,
+          "preemptions": 0,
+          "not_before": 1792551149.0552504
+        }
+      ]
+    }
+  },
+  "complete": true,
+  "cleanup": {
+    "/tmp/delegation-live-luna-verified/run": {
+      "run": "live-replenish",
+      "mode": "stopped",
+      "stop_reason": "live exercise cleanup",
+      "elapsed_seconds": 22.305503606796265,
+      "completed": 3,
+      "original_completed": 3,
+      "original_total": 3,
+      "all_original_complete": true,
+      "all_terminal": true,
+      "active": 0,
+      "runnable_or_deferred": false,
+      "resources": {
+        "reasoning": 0,
+        "processes": 0,
+        "memory_mb": 0,
+        "cpu": 0
+      },
+      "exclusive": [],
+      "events": 14,
+      "valid_passes": 3,
+      "valid_failures": 0,
+      "acceptance_stages_completed": 0,
+      "active_service_seconds": 23.931483507156372,
+      "useful_results_per_second": 0.1344959545807309,
+      "holds": {},
+      "tasks": [
+        {
+          "id": "derive-total-fix",
+          "origin": "original",
+          "status": "completed",
+          "outcome": "passed",
+          "acceptance_status": "validated",
+          "reason": "validated explicit result contract",
+          "service_seconds": 7.801641225814819,
+          "preemptions": 0,
+          "not_before": 1792551132.4506035
+        },
+        {
+          "id": "diagnose-boundary",
+          "origin": "original",
+          "status": "completed",
+          "outcome": "passed",
+          "acceptance_status": "validated",
+          "reason": "validated explicit result contract",
+          "service_seconds": 8.35139012336731,
+          "preemptions": 0,
+          "not_before": 1792551132.4506035
+        },
+        {
+          "id": "diagnose-total",
+          "origin": "original",
+          "status": "completed",
+          "outcome": "passed",
+          "acceptance_status": "validated",
+          "reason": "validated explicit result contract",
+          "service_seconds": 7.778452157974243,
+          "preemptions": 0,
+          "not_before": 1792551132.4506035
+        }
+      ]
+    },
+    "/tmp/delegation-live-luna-verified/interrupt-run": {
+      "run": "live-interrupt",
+      "mode": "stopped",
+      "stop_reason": "live exercise cleanup",
+      "elapsed_seconds": 5.702981472015381,
+      "completed": 0,
+      "original_completed": 0,
+      "original_total": 1,
+      "all_original_complete": false,
+      "all_terminal": true,
+      "active": 0,
+      "runnable_or_deferred": false,
+      "resources": {
+        "reasoning": 0,
+        "processes": 0,
+        "memory_mb": 0,
+        "cpu": 0
+      },
+      "exclusive": [],
+      "events": 7,
+      "valid_passes": 0,
+      "valid_failures": 0,
+      "acceptance_stages_completed": 0,
+      "active_service_seconds": 5.530860662460327,
+      "useful_results_per_second": 0.0,
+      "holds": {},
+      "tasks": [
+        {
+          "id": "interrupt-probe",
+          "origin": "original",
+          "status": "cancelled",
+          "outcome": "cancelled",
+          "acceptance_status": "pending",
+          "reason": "cancelled",
+          "service_seconds": 5.530860662460327,
+          "preemptions": 0,
+          "not_before": 1792551149.0552504
+        }
+      ]
+    }
+  },
+  "validated_runtime_identity": {
+    "controller.py": "85252dd85770586e8fd6d3f992669009db5045afd3999618ce934d26ad93ba0b",
+    "controller_store.py": "e4bf697a5c6e93c83d05ed7decda8f3fc070b83ccb91365d4b2f6dfdf49f009b",
+    "execution.py": "3a4337448719a2c14d1a6290ae7d5585d1533a25698e5df313c886f21fa2c56a",
+    "agent_backend.py": "5ec72505aaa6509b02249682e7613af76ad7dd7e11aa90b82b048969c0fe9605",
+    "scheduling.py": "18ab89bdc6497ea7e82ede26c46321a84bfb3ff818659851054ea88182da96d2",
+    "supervisor.py": "17deb5392a1ee5a3b2967c2e14e7d0725c57a792083508ccb0fa7e93cda15893"
+  }
+}
