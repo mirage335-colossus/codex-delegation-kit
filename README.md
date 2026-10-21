@@ -97,6 +97,14 @@ one monitor to an existing run and preserve its identity instead of restarting
 or duplicating it. No concurrency strategy authorizes different model settings,
 changes to the selected primary, higher service tiers, or altered limits.
 
+The policy's [five scheduling rules](policy.md#keep-useful-work-moving-after-scouting)
+prioritize quick useful outcomes, dispatch before waiting, reassess slow work,
+keep resource restrictions temporary, and use lightweight progress feedback.
+Publish stable partial results and split unstarted backlogs when useful.
+Required expensive work, validation, and escalation remain necessary; deferral
+is not completion. These rules add no fixed time caps, reporting system, or
+runtime scheduler.
+
 ## Application maintenance and interruptions
 
 For a task that actually authorizes application maintenance, use bounded

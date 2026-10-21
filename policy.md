@@ -199,55 +199,75 @@ route. No particular message API is guaranteed.
 
 ## Keep useful work moving after scouting
 
-At scout completion, contract settlement, worker handoff, and validation/review
-completion, revisit the existing plan and assignment history. Choose useful
-concurrency for the task and current routing strategy. The high-end mixed-model
-default remains quality-oriented bounded delegation; it does not automatically
-maximize occupancy. Select aggressive parallelism only when the user requests
-it or the nature of the task makes it a useful strategy. In that strategy, use
-the actual current native capacity from the available tool/configuration,
-rather than a historical target or example count, and keep it usefully occupied
-by ready independent assignments. Do not change that capacity. Replenish
-completed work when another suitable assignment exists. In every strategy,
-consider read and write overlap, dependencies, authorization, machine resource
-limits, and configured concurrency. A concurrency decision never grants
-permission to change models, reasoning effort, service tier, or routing
-boundaries. Do not impose a
-fixed number of agents, create filler or duplicate work, or reopen completed
-assignments. Ready implementation and test workers must not be starved by
-broad read-only scouting. Waiting on a real dependency or exhausted ready work
-is appropriate.
+Choose useful concurrency for the task and current routing strategy. The
+high-end mixed-model default remains quality-oriented bounded delegation.
+Use aggressive parallelism when requested or useful for the task, using actual
+available native capacity without changing it. Preserve model, effort, service
+tier, routing, authorization, and resource limits. Do not impose agent quotas,
+create filler or duplicate work, or reopen completed assignments.
 
-While one assignment awaits strong review or CI, dispatch ready work that
-advances the same requested outcome: an independent patch, focused tests,
-diagnostics, stable documentation, or mechanical updates under settled
-contracts. Reuse the established authorized validation route and prerequisites;
-the worker selects and runs proportionate existing checks within that scope.
-No new primary-agent test run is required to re-verify an unchanged route.
-In coordinator-only mode, delegate all technical setup diagnosis; in default
-engineering mode, delegate it when useful. Resolve genuinely uncertain
-authorization or consequential prerequisites through the appropriate owner once
-before dependent execution. Keep ready implementation, regression, and
-existing-run monitoring work moving; assign a
-single monitor to preserve run identities and avoid restarting or duplicating
-an existing run. Distinguish reasoning-agent capacity from scarce compiler,
-test/process, and isolated performance-capture capacity.
-Keep shared interfaces and tightly coupled edits sequential. Check read as
-well as write dependencies: an unaccepted patch or moving generated input is
-not a stable baseline. Pending review is not integration approval.
+Apply five scheduling rules within those boundaries:
 
-Prepare stable successor portions in parallel when they do not assume the
-upstream result. Defer expensive hash-bound packages, provenance binding and
-sealing until their inputs settle; identify the exact accepted revision/dirty
-content and invalidate only evidence affected by changed inputs. Reuse matching
-checks and existing worker context when scope and evidence still apply. Reuse
-does not reset assignment IDs, deadlines, failures or repair limits. Batch
-coherent review at useful integration boundaries without holding up a ready
-critical-path change merely to fill a batch. The coordinator retains dispatch
-and allocation authority. The assigned strong engineering owner performs
-technical integration and software acceptance; in coordinator-only mode this
-must be a strong subagent. Helpers perform their assigned engineering or
-evidence work within its scope and permitted project workflow.
+1. **Prioritize quick, useful outcomes.** Order ready work by expected useful
+   progress per elapsed time, including setup and review cost. Favor cheap
+   checks, discriminating experiments, and work that unlocks other tasks.
+   Respect user priorities and deadlines; keep required critical-path work
+   moving. Easy work and broad scouting must not starve implementation,
+   validation, or necessary expensive work.
+2. **Dispatch before waiting.** At completions, usable partial results, and
+   dependency changes, assign newly ready independent work before blocking
+   waits or repeated status polling. Publish stable partial results promptly
+   with their acceptance limits. Split oversized unstarted backlogs; when
+   practical, park blocked assignments and give available agents separate
+   ready work. Preserve ownership and resumption conditions. Builds, review,
+   and reporting block only actual dependents. Wait when capacity is occupied,
+   no useful independent work remains, or a concrete dependency prevents it.
+3. **Reassess slow work.** Compare its expected remaining value and cost with
+   ready alternatives. Consider a smaller faithful experiment, another method,
+   or deferral when that improves progress. Coordinate any pause or stop with
+   the owner; affect only task-owned execution when interruption is safe and
+   authorized. Preserve evidence, assignment identity, failure/repair history,
+   deadlines, and the next action or resumption condition. A scheduling
+   cancellation is neither a pass nor a demonstrated test failure; interrupted
+   timing is not qualification. Deferral leaves required work outstanding.
+   It does not bypass repair limits, required escalation, strong-owner work,
+   or acceptance criteria, and creates no new blanket time cap.
+4. **Keep resource restrictions narrow and temporary.** Distinguish reasoning
+   capacity from compiler/test processes. Add compute throttles only for a
+   measured resource problem or reduced useful throughput; high CPU use alone
+   is insufficient. State the reason, scope, and release condition, reassess,
+   and release promptly when it clears. Continue independent reasoning work.
+   Defer exclusive measurements while other useful work is ready unless they
+   unlock necessary work or priorities/deadlines require them. Prepare inputs
+   first and restrict competing activity only for required warm-up/measurement;
+   release promptly when the required measurement interval ends. Preserve timing
+   validity and existing hard limits.
+5. **Use lightweight progress feedback.** In existing updates and evidence,
+   compare useful completed outcomes, elapsed time including setup/review, and
+   the current bottleneck. If progress slows, address the observed cause, such
+   as idle dispatch, repeated setup, excessive compilation, slow experiments,
+   or review delays. Do not count occupancy, launches, retries, or deferred work
+   as completed outcomes. Add no registry or mandatory reporting cadence.
+
+Reuse established validation routes and prerequisites; workers select
+proportionate checks within that scope. No new primary-agent test is required
+to re-verify an unchanged route. In coordinator-only mode delegate technical
+setup diagnosis; otherwise delegate it when useful. Resolve genuine uncertainty
+about authorization or consequential prerequisites through the appropriate
+owner once before dependent execution. Assign one monitor per existing run;
+preserve its identity rather than restart or duplicate it.
+
+Serialize shared interfaces and tightly coupled edits. Check read and write
+dependencies: unaccepted patches and moving generated inputs are not stable
+baselines; pending review is not integration approval. Prepare stable successor
+portions without assuming upstream results. Defer expensive hash-bound packages,
+provenance binding and sealing until inputs settle. Identify the accepted
+revision/dirty content and invalidate only affected evidence. Reuse matching
+checks and worker context without resetting IDs, deadlines, failures or repairs.
+Batch coherent review without delaying ready critical-path work to fill a batch.
+The coordinator retains dispatch and allocation; the assigned strong engineering
+owner retains technical integration and software acceptance, through a strong
+subagent in coordinator-only mode. Helpers stay within their assigned scope.
 
 ## Spawn correctly
 

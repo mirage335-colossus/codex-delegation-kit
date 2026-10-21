@@ -97,8 +97,8 @@ reduction, faithful baseline/corrected discriminators, and focused regressions.
 Prefer the smallest experiment separating competing explanations; do not patch
 speculative source patterns. When assigned an existing run, retain its job/run
 identity, monitor that one run, and do not restart or duplicate it. Coordinate
-scarce compiler/test resources and isolate timing captures; agent count is not
-machine workload.
+scarce compiler/test resources; agent count is not machine workload. Limit
+exclusive timing holds to the necessary warm-up and measurement interval.
 
 Run proportionate checks within the task's authorized local route and resource
 limits, including task-implied compilation and reproducer iterations. Report
@@ -113,7 +113,10 @@ independent rejection or exhausted repair requires an assigned takeover owner
 within the current model boundary, not an unauthorized stronger model.
 Passing checks does not approve your own integration.
 
-Follow the policy's Diagnostic progress and Computationally intensive tests
+Publish stable partial results with their acceptance limits; flag blocked or
+low-yield work to the coordinator without self-reassigning or waiving required
+work. Follow the policy's scheduling rules in "Keep useful work moving after
+scouting", and its Diagnostic progress and Computationally intensive tests
 and hosted CI sections for persistent failures. Preserve causal narrowing,
 resource accounting, actual runtime evidence, and the distinction between
 functional coverage and intended-hardware throughput qualification.
