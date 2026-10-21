@@ -313,6 +313,80 @@ validation support, request a bounded worker assignment through the same
 coordinator, with ownership, dependencies and the authorized validation
 route. No particular message API is guaranteed.
 
+## Sparse Astra strategic review
+
+Use `astra_expert` (`gpt-6-astra`, `medium`) only for a bounded strategic question
+whose likely value justifies an expensive consultation. Under this user's
+mixed-model preference, this is a standing scoped exception, including from a
+verified GPT-6.1 Sol primary; it does not change the primary or other role pins.
+A hard Luna-only, inherit-only, or other explicit model/effort ceiling wins.
+Unknown active settings or eligibility still defaults to inheritance unless the
+user explicitly authorizes this consultation. Verify supported effective settings
+where available; a catalog entry does not prove access. Preserve service tier,
+resource allocation, permissions, holds and budgets. Denial never authorizes a
+substitute. Workers request this advice through the coordinator, never by nesting
+delegation or changing their own model.
+
+The coordinator needs only a concrete trigger, one question and a bounded packet.
+Consider the adviser when one of these conditions holds:
+
+- A consequential blocker survives distinct, faithful discriminating experiments,
+  or actual evidence contradicts the current causal explanation. Relevant commit
+  differences may expose an assumption or regression that local fixes missed.
+- The original user request, cross-component constraints or acceptance criteria
+  conflict with the current plan, and resolving the conflict changes substantial
+  work. Give the adviser the relevant original wording, not just a summary.
+- A costly architectural commitment needs comparison with simpler alternatives,
+  or a difficult technical/mathematical invariant spans evidence that the current
+  approach has not reconciled. Ask for a checkable argument and a useful next test.
+
+These are judgment gates, not a stronger-model requirement. Use cheap decisive
+experiments first when they are clear. If agents neglected differential diagnosis,
+restore distinct hypotheses, matched comparisons and predicted outcomes promptly;
+neglect alone is not evidence of model insufficiency. A consultation may help
+design those discriminators when that design is itself the blocker. Do not force
+hours of futile work before a clearly consequential decision, or promise
+exponential narrowing. Routine edits, bookkeeping, ordinary patch review, an
+available slot, repository size and elapsed time alone do not justify Astra.
+
+Keep use very sparse: one adviser at a time, one bounded question per consultation,
+and no repeat on the same evidence. First act on the recommendation or establish
+why it cannot work. Roughly hourly during active engineering, an existing progress
+update may consider whether new evidence or strategic drift warrants review;
+skip it when useful work is progressing. This is an eligibility checkpoint, not
+a recurring model call, timer, automation or requirement to wait an hour. Avoid
+more than one routine consultation in that interval; an earlier one needs a
+specific high-cost wrong-turn risk or explicit user request. Idle time, CI waits
+and chat inactivity do not accumulate review obligations. Carry this decision in
+existing task history; add no timestamps ledger or scheduler state. This guidance
+does not enforce a token, time or billing cap in code.
+
+Supply the relevant original prompts, desired outcome and acceptance criteria,
+current approach, source/base revisions and relevant dirty files, focused paths
+or commit range, original failures and tried hypotheses, one unresolved question,
+authorized read-only scope, and a finite time/context/output budget within the
+task's existing limits. Let the adviser retrieve needed source instead of copying
+whole chat histories or repositories. Disk size and a short commit message do not
+bound the relevant token count or reachable history. Mark omitted context and
+unobserved settings. Use existing evidence references and retain original failures.
+
+The adviser reads source and patches, may use permitted private scratch and bounded
+checks, and returns missed requirements, evidence, uncertainties, minimal viable
+alternatives and the next discriminating test with predicted outcomes and a stop
+condition. It does not edit production source, orchestrate workers or accept its
+own advice as proof. The existing engineering owner retains integration and
+acceptance; required independent patch review remains separate. Do not restart
+repair allowances, override a stop or hold, or rerun unchanged checks by default.
+
+This is a native advisory role. The automatic controller continues to use one
+explicit model/effort/tier policy for every stage; adding the role grants no
+per-task override or automatic Astra escalation. Do not move restricted work into
+another run to bypass that boundary. A separately authorized consultation must
+still fit the shared allocation and cannot mutate or silently resume the run.
+Choose the role for demonstrated task fit, not an assumed parameter count or
+guaranteed superiority. Official guidance and mixed community reports inform
+these gates, not a claim that every Astra call beats Sol or Luna.
+
 ## Keep useful work moving after scouting
 
 Choose useful concurrency for the task and current routing strategy. The

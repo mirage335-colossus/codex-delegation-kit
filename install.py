@@ -32,9 +32,10 @@ CONTROLLER_FILES = ADVISORY_FILES + (
     "scheduling.py", "ORCHESTRATION.md",
 )
 ENGINEERING_FILES = CONTROLLER_FILES + ("engineering.py",)
-FILES = ENGINEERING_FILES + (
+SWARM_FILES = ENGINEERING_FILES + (
     "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
 )
+FILES = SWARM_FILES + ("agents/astra_expert.toml",)
 LEGACY_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
@@ -49,10 +50,14 @@ PRE_SWARM_ROLES = {
     "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
     "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
 }
-ROLES = {
+PRE_ASTRA_ROLES = {
     **PRE_SWARM_ROLES,
     "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
     "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
+}
+ROLES = {
+    **PRE_ASTRA_ROLES,
+    "astra_expert": "Sparse strategic review of difficult engineering decisions.",
 }
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
@@ -174,10 +179,12 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
-                             set(ENGINEERING_FILES), set(FILES)):
+                             set(ENGINEERING_FILES), set(SWARM_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         if inventory == set(LEGACY_FILES):
             known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
+        elif inventory == set(SWARM_FILES):
+            known_blocks = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)
         elif inventory == set(FILES):
             known_blocks = expected
         else:

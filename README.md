@@ -238,6 +238,42 @@ must use inheritance unless the user explicitly authorizes a scoped exception.
 For example, authorizing the pinned expert for one final review does not
 authorize pinned workers or later expert execution outside that review.
 
+`astra_expert` is a separate, sparse strategic adviser pinned to `gpt-6-astra`,
+`medium`, with no service-tier override. The user's mixed-model preference permits
+a bounded consultation from a verified GPT-6.1 Sol primary when a difficult
+causal explanation, overlooked user requirement or costly architecture decision
+justifies it. Hard Luna-only/inherit-only limits still win. It reads relevant
+source, patches and original prompts; it does not edit the implementation or
+replace its owner and independent reviewer. See the [selection and cost
+gates](policy.md#sparse-astra-strategic-review).
+
+An existing progress update can reconsider strategy roughly hourly during active
+engineering. Time alone never triggers a paid call. There is no installed timer
+or automatic Astra escalation, and no mandatory Astra review for routine work.
+Use one consultation at a time, act on its findings, and do not repeat it without
+new evidence. The automatic controller keeps its uniform per-run model policy.
+
+A small native assignment is enough; fill in actual references and limits:
+
+```text
+Strategic question: Does the proposed fix address the original failure, or is
+there a simpler approach consistent with the user's quoted acceptance criteria?
+Why now: Two matched experiments contradict the proposed causal explanation.
+Context: Relevant original request; current plan; source/base SHAs and dirty
+paths; focused commit range; original failure and experiment result references.
+Scope: Read-only source and patches; authorized private scratch for a specific
+bounded discriminator only. Preserve all task permissions and holds.
+Budget: One consultation, within the existing task budget; for example ten
+active minutes, the named files/diffs, and a recommendation under 600 words.
+Return: Missed requirement, evidence/uncertainty, simplest viable next approach,
+next discriminating test with predicted outcomes, and a decision/stop condition.
+```
+
+These are instructions, not runtime time/token caps or an OS sandbox. Start a
+fresh chat to load the native role; use only a supported authorized spawn path.
+The [research and verification note](verification/astra-review.md) in the source
+checkout distinguishes official guidance, community anecdotes and tested behavior.
+
 The inherited role TOMLs omit both `model` and `model_reasoning_effort`. In
 inherited operation also omit spawn-time model and effort overrides, and never
 select a pinned custom role to obtain inheritance. The documented resolution
@@ -445,10 +481,11 @@ unknown source. This metadata does not make Git-to-global synchronization
 automatic.
 
 Updates from the original eight-file bundle migrate its three managed role
-registrations to the current eight. Updates from that bundle or the eleven-file
+registrations to the current nine. Updates from that bundle or the eleven-file
 bundle add the controller modules. The seventeen-file controller bundle adds
 `engineering.py`; the eighteen-file engineering bundle adds the two swarm role
-files. Every upgrade retains run state and evidence. Active and disabled
+files; the twenty-file swarm bundle adds `agents/astra_expert.toml`, giving the
+current twenty-one-file bundle. Every upgrade retains run state and evidence. Active and disabled
 installations are supported.
 The installer preserves unrelated configuration and retained evidence, and
 refuses conflicting registrations or unowned files at newly introduced paths.

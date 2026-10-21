@@ -20,6 +20,7 @@ BUNDLE_FILES = (
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
     "scheduling.py", "ORCHESTRATION.md", "engineering.py",
     "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+    "agents/astra_expert.toml",
 )
 
 
@@ -90,6 +91,7 @@ class DistributionTests(unittest.TestCase):
             "inherited_reviewer": None,
             "inherited_swarm": None,
             "luna_swarm": ("gpt-6-luna", "medium"),
+            "astra_expert": ("gpt-6-astra", "medium"),
         }
         self.assertEqual(set(configuration["agents"]), {"max_threads", *expected_roles})
         for role, settings in expected_roles.items():

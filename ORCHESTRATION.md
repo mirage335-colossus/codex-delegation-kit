@@ -121,6 +121,13 @@ controller does not use native role pins or `review/start` to select another
 model. Requested settings and the app-server's resolved settings are retained
 separately; they are not provider-side per-token identity telemetry.
 
+The optional native `astra_expert` strategic adviser does not add a task-level
+model override to this format. Its [policy gates](policy.md#sparse-astra-strategic-review)
+do not authorize changing a Luna-only run, resuming a stop or bypassing a hold.
+Any separately authorized advice stays within the shared resource allocation;
+the existing run, patch ownership and independent acceptance remain unchanged.
+No hourly agent call or new scheduling loop is installed.
+
 The input `cwd` names the source repository. Code prepares one independent
 private copy per original task under the run's workspaces and records
 `source_repository`; workers never receive write access to the original root.

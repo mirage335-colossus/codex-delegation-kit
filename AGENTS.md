@@ -4,9 +4,9 @@ Read [`policy.md`](policy.md) before changing delegation behavior, role
 instructions, installation, or evidence handling. Keep the runtime bundle at
 the explicit `FILES` inventory in [`install.py`](install.py) unless a deliberate,
 reviewed manifest-compatible change updates the installer and its checks.
-The installer recognizes earlier eight-file, eleven-file, seventeen-file, and
-eighteen-file inventories; preserve their exact role blocks and upgrade and
-disable paths when changing the current bundle.
+The installer recognizes earlier eight-file, eleven-file, seventeen-file,
+eighteen-file, and twenty-file inventories; preserve their exact role blocks
+and upgrade and disable paths when changing the current bundle.
 
 Preserve pinned role model and effort settings, existing authorization
 boundaries, and user configuration. Do not treat policy text as runtime

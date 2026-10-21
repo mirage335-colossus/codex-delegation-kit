@@ -1,8 +1,8 @@
 # Contributing
 
 The maintained runtime source includes the policy, installer, advisory helper,
-controller modules, operating guide, and six files in `agents/`. The installed
-bundle is a copy of the explicit seventeen-file `FILES` list in `install.py`;
+controller modules, operating guide, and nine files in `agents/`. The installed
+bundle is a copy of the explicit twenty-one-file `FILES` list in `install.py`;
 `CONTRIBUTING.md`, `tests/`, and `examples/` remain clone-only resources. Keep the
 manifest and bundle version behavior compatible with existing installations. If
 changing the bundle list or managed installation format, update its compatibility handling
@@ -25,14 +25,16 @@ Source relocation can require a metadata-only update. Reinstalling from the
 deployment or disabling must preserve an existing hint rather than replacing
 it with the installed directory; an unknown source remains unknown.
 
-The installer accepts the original eight-file, three-role manifest and the
-eleven-file, six-role advisory manifest. It migrates the original owned
-registration block to six roles and adds controller files to both layouts.
+The installer accepts the original eight-file, three-role manifest, the
+eleven-file, six-role advisory manifest, the seventeen/eighteen-file controller
+and engineering manifests, and the twenty-file, eight-role swarm manifest.
+It migrates their exact owned registration blocks to the current nine roles.
 Keep active and disabled legacy installations compatible, preserve unrelated
 configuration and evidence, and refuse collisions with unowned files or role
-registrations. The three inherited role files deliberately omit model and
-reasoning-effort selectors; preserve the
-original pinned pairs in the other three roles.
+registrations. The four inherited role files deliberately omit model and
+reasoning-effort selectors. Preserve the original three pinned pairs, Luna-medium
+swarm pin, and Astra-medium strategic-review pin. Adding a role must not change
+the controller's uniform per-run model policy or imply automatic escalation.
 
 Installation copies controller code but never starts a controller or enables it
 for a task. Disable removes only the managed instruction and role activation

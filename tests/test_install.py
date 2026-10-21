@@ -61,6 +61,10 @@ class InstallerTests(unittest.TestCase):
         """Create the eighteen-file engineering layout before swarm roles."""
         return self.seed_layout(kit.ENGINEERING_FILES, kit.PRE_SWARM_ROLES, active=active)
 
+    def seed_swarm(self, *, active=True):
+        """Create the twenty-file, eight-role layout before strategic review."""
+        return self.seed_layout(kit.SWARM_FILES, kit.PRE_ASTRA_ROLES, active=active)
+
     def seed_layout(self, files, roles, *, active):
         target = self.home / "delegation-kit"
         for name in files:
@@ -91,8 +95,8 @@ class InstallerTests(unittest.TestCase):
         return {path.relative_to(self.home): kit.read_state(path)
                 for path in self.home.rglob("*") if path.is_file()}
 
-    def assert_only_role_block_updated(self, target, globals_before):
-        old = kit.blocks(target, kit.PRE_SWARM_ROLES)["config.toml"].encode()
+    def assert_only_role_block_updated(self, target, globals_before, prior_roles=kit.PRE_SWARM_ROLES):
+        old = kit.blocks(target, prior_roles)["config.toml"].encode()
         new = kit.blocks(target)["config.toml"].encode()
         self.assertEqual(globals_before[self.config].data.count(old), 1)
         for path, before in globals_before.items():
@@ -242,7 +246,7 @@ class InstallerTests(unittest.TestCase):
         kit.apply(preview)
         self.assert_only_role_block_updated(target, globals_before)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
-        self.assertEqual(len(manifest["bundle_digests"]), 20)
+        self.assertEqual(len(manifest["bundle_digests"]), 21)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         self.assertEqual((target / "engineering.py").read_bytes(), (self.source / "engineering.py").read_bytes())
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -316,7 +320,7 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(set(loaded["agents"]), {"max_threads", *kit.ROLES})
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(manifest["version"], 1)
-        self.assertEqual(len(manifest["bundle_digests"]), 20)
+        self.assertEqual(len(manifest["bundle_digests"]), 21)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         for name in kit.FILES:
             self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
@@ -350,6 +354,98 @@ class InstallerTests(unittest.TestCase):
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.ENGINEERING_FILES))
         self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_swarm_upgrade_preserves_config_position_execution_history_and_modes(self):
+        target = self.seed_swarm()
+        suffix = b'\n[history]\npersistence = "save-all"\n'
+        self.config.write_bytes(self.config.read_bytes() + suffix)
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        retained = {
+            target / "state/run/operations/op-1/receipt.json": b'{"state":"running","released":false}\n',
+            target / "state/run/operations/op-1/patch.diff": b"retained original patch\n",
+            target / ".installation/backups/old/manifest.json": b"retained historical manifest\n",
+        }
+        for path, contents in retained.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(contents)
+        before = self.snapshot_home()
+        preview = kit.plan(self.home, self.source)
+        destination = target / "agents/astra_expert.toml"
+        self.assertTrue(any(change.path == destination for change in preview))
+        self.assertFalse(destination.exists())
+        self.assertEqual(self.snapshot_home(), before)
+
+        kit.apply(preview)
+        self.assert_only_role_block_updated(target, globals_before, kit.PRE_ASTRA_ROLES)
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(manifest["version"], 1)
+        self.assertEqual(len(manifest["bundle_digests"]), 21)
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        for name in kit.FILES:
+            self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), kit.State(
+            self.original[self.config].data + suffix, self.original[self.config].mode))
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_inactive_swarm_upgrade_and_idempotent_disable(self):
+        target = self.seed_swarm(active=False)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+        self.activate()
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+
+    def assert_swarm_disable_preserves_personal_astra_role(self, *, standalone):
+        target = self.seed_swarm()
+        personal = b'\n[agents.astra_expert]\nconfig_file = "personal-astra.toml"\n'
+        if standalone:
+            personal_path = self.home / "agents/different_filename.toml"
+            personal_path.parent.mkdir()
+            personal_path.write_bytes(b'name = "astra_expert"\n')
+        else:
+            self.config.write_bytes(self.config.read_bytes() + personal)
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "conflicts"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), kit.State(
+            self.original[self.config].data + (b"" if standalone else personal),
+            self.original[self.config].mode))
+        if standalone:
+            self.assertEqual(kit.read_state(personal_path), before[personal_path.relative_to(self.home)])
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertFalse(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.SWARM_FILES))
+        self.assertEqual(len(manifest["bundle_digests"]), 20)
+        self.assertFalse((target / "agents/astra_expert.toml").exists())
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_swarm_disable_preserves_personal_astra_config_role(self):
+        self.assert_swarm_disable_preserves_personal_astra_role(standalone=False)
+
+    def test_swarm_disable_preserves_personal_astra_standalone_role(self):
+        self.assert_swarm_disable_preserves_personal_astra_role(standalone=True)
+
+    def test_swarm_upgrade_refuses_unowned_astra_role_even_with_identical_bytes(self):
+        target = self.seed_swarm()
+        name = "agents/astra_expert.toml"
+        (target / name).write_bytes((self.source / name).read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
 
     def assert_historical_disable_preserves_personal_swarm_roles(self, seed, files):
         target = seed()
@@ -397,8 +493,8 @@ class InstallerTests(unittest.TestCase):
                 self.assertEqual(self.snapshot_home(), before)
                 destination.unlink()
 
-    def test_historical_inventory_cannot_claim_new_activation_block(self):
-        target = self.seed_engineering()
+    def assert_historical_inventory_cannot_claim_new_activation_block(self, seed):
+        target = seed()
         path = target / ".installation/manifest.json"
         manifest = json.loads(path.read_text())
         manifest["activation"]["config.toml"]["inserted"] = kit.blocks(target)["config.toml"]
@@ -408,6 +504,12 @@ class InstallerTests(unittest.TestCase):
             with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
                 kit.plan(self.home, self.source, uninstall=uninstall)
             self.assertEqual(self.snapshot_home(), before)
+
+    def test_historical_inventory_cannot_claim_new_activation_block(self):
+        self.assert_historical_inventory_cannot_claim_new_activation_block(self.seed_engineering)
+
+    def test_swarm_inventory_cannot_claim_new_activation_block(self):
+        self.assert_historical_inventory_cannot_claim_new_activation_block(self.seed_swarm)
 
     def test_roundtrip_exact_bytes_and_modes(self):
         self.activate()
@@ -540,6 +642,7 @@ class InstallerTests(unittest.TestCase):
             ("config.toml", b"[agents.inherited_worker]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"[agents.inherited_swarm]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"[agents.luna_swarm]\nconfig_file = 'personal.toml'\n"),
+            ("config.toml", b"[agents.astra_expert]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"not = valid = toml\n"),
             ("config.toml", b"agents = 4\n"),
         )
@@ -576,6 +679,7 @@ class InstallerTests(unittest.TestCase):
             b'name = "inherited_worker"\n',
             b'name = "inherited_swarm"\n',
             b'name = "luna_swarm"\n',
+            b'name = "astra_expert"\n',
             b'model = "unknown-name"\n',
             b'name = 17\n',
             b'name = invalid = toml\n',
