@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "id": "luna-medium-acceptance",
+  "workspace": "/tmp/delegation-engineering-main-fixture/source",
+  "policy": {
+    "capacity": {
+      "reasoning": 4,
+      "processes": 4,
+      "cpu": 4,
+      "memory_mb": 4096
+    },
+    "allowed_cwds": [
+      "/tmp/delegation-engineering-main-fixture/source"
+    ],
+    "allowed_executables": [],
+    "process_boundary": "inherited",
+    "boundary_description": "Disposable local engineering validation in the inherited OS sandbox; agent workspaces are controller-created private repository copies; network disabled.",
+    "codex_binary": "/usr/lib/chatgpt/resources/codex",
+    "agent_profile": "engineering",
+    "model": "gpt-6-luna",
+    "effort": "medium",
+    "service_tier": "default",
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "network": false,
+    "max_active_seconds": 1500,
+    "deadline_seconds": 900,
+    "task_timeout_seconds": 240
+  },
+  "source": {
+    "purpose": "one bounded Luna-medium main-chat controller acceptance exercise",
+    "fixture": "/tmp/delegation-engineering-main-fixture"
+  },
+  "tasks": [
+    {
+      "id": "parser-hypothesis",
+      "role": "scout",
+      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "write_scope": [],
+      "hypothesis": "The comma parser drops the first token before reduction.",
+      "experiment": "Run the actual parse_values(\"2,3\") and compare its ordered list to [2,3], plus matched singleton and whitespace cases.",
+      "comparison": {
+        "case": "parser-vs-reducer",
+        "inputs": [
+          "2,3",
+          "7",
+          " 2 , , 3 "
+        ],
+        "interpreter": "same private-copy Python runtime"
+      },
+      "allowed_commands": [
+        "Read/search source",
+        "python3 -B bounded parser observations"
+      ],
+      "prompt": "Inspect source read-only. Execute actual parse_values on matched text inputs including \"2,3\", \"7\", and \" 2 , , 3 \". Compare parsed lists to expected parsed values. Preserve exact outputs, command evidence and uncertainty; do not infer reducer correctness from parser results."
+    },
+    {
+      "id": "reducer-hypothesis",
+      "role": "scout",
+      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "write_scope": [
+        "scratch/"
+      ],
+      "hypothesis": "The reducer independently omits the first parsed value.",
+      "experiment": "Create a temporary Python wrapper inside declared scratch/, compile it into scratch/, import actual totals.py, and compare aggregate([2,3]), aggregate([7]), aggregate([]), and total(\"2,3\") against built-in sum or expected results.",
+      "comparison": {
+        "case": "direct-reducer-vs-parser",
+        "values": [
+          [
+            2,
+            3
+          ],
+          [
+            7
+          ],
+          []
+        ],
+        "text": "2,3",
+        "interpreter": "same private-copy Python runtime"
+      },
+      "allowed_commands": [
+        "Read/search source",
+        "Create/compile/run one bounded Python wrapper only in scratch/ against actual module"
+      ],
+      "prompt": "Read production files only. Under your declared scratch/ scope create a temporary Python wrapper that imports actual totals.py, compile it to bytecode within scratch/, and run it. Compare aggregate([2,3]), aggregate([7]), aggregate([]), and total(\"2,3\") to sum/expected outputs. No production edits. Report literal stdout, command execution and scope."
+    },
+    {
+      "id": "repeatability-slow",
+      "role": "scout",
+      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "write_scope": [],
+      "hypothesis": "The observed first-item omission is stable across repeated calls and is not transient input state.",
+      "experiment": "Using actual total() on matched repeated inputs before and after exactly one bounded 60-second sleep, compare results to expected sums; do not sleep again.",
+      "comparison": {
+        "case": "repeated-identical-calls",
+        "input": "2,3",
+        "expected": 5,
+        "interpreter": "same private-copy Python runtime",
+        "single_sleep_seconds": 60
+      },
+      "allowed_commands": [
+        "Read/search source",
+        "Run repeated actual calls and exactly one time.sleep(60)"
+      ],
+      "prompt": "Inspect production source read-only. Perform a baseline actual total(\"2,3\") call, exactly one time.sleep(60), then repeat total(\"2,3\") and total(\"-4,9,-2\"). Do not sleep again. Preserve command/output and distinguish a reproduced failure from interruption/setup failure."
+    },
+    {
+      "id": "correct-total",
+      "role": "worker",
+      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "write_scope": [
+        "totals.py"
+      ],
+      "depends_on": [
+        {
+          "task": "reducer-hypothesis",
+          "evidence": "failure_reproduced"
+        }
+      ],
+      "prompt": "Correct the actual reducer defect so all parsed values contribute. Preserve parse behavior and every unchanged assertion. Run python3 -B -m unittest -v; include observed command evidence and changed paths.",
+      "allowed_commands": [
+        "Read/search source",
+        "Edit totals.py only",
+        "python3 -B -m unittest -v"
+      ],
+      "acceptance_checks": [
+        "all existing unittest assertions pass unchanged",
+        "aggregate includes all values",
+        "empty input returns zero"
+      ],
+      "timeout_seconds": 240,
+      "active_budget_seconds": 240
+    }
+  ]
+}

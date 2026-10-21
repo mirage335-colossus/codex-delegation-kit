@@ -47,6 +47,7 @@ python3 -B controller.py --run /authorized/path/run status
 python3 -B controller.py --run /authorized/path/run explain
 python3 -B controller.py --run /authorized/path/run events --after 0
 python3 -B controller.py --run /authorized/path/run report
+python3 -B controller.py --run /authorized/path/run result --task TASK_ID
 ```
 
 `start` ingests once and runs the foreground event loop. `start --prepare-only`
@@ -54,8 +55,10 @@ only validates and creates the run; `run` starts its loop later. The controller
 owns claims, resource reservations, timers, result ingestion and replenishment.
 Workers handle their bounded engineering questions and return the requested
 result; they do not maintain a parallel ledger or reconstruct the queue after
-compaction. Use `submit tasks.json` for a JSON list of newly discovered tasks;
-managed workers identify their active assignment with `--parent-attempt`.
+compaction. Use `submit tasks.json` for one task or a JSON list of newly discovered
+tasks. It returns task IDs; omitted IDs are generated from the submitted packet
+so an identical resubmission is deduplicated. Managed subprocess workers identify
+their active assignment with `--parent-attempt`.
 Do not execute inventory prose as shell code.
 
 The control commands persist the decision before acknowledging it:
@@ -82,28 +85,124 @@ A valid failing test can complete a check inventory entry; a cancelled attempt,
 setup failure, deferred check or unaccepted patch cannot. `all_original_complete`
 refers to the original inventory, so an empty fast queue is not completion.
 Helper acceptance retains the existing checks, independent review, original
-failures and repair allowance. Record authorized review or interruption evidence
-with `record --task ID --kind KIND --actor ACTOR result.json`; a model's completed
-turn is never automatic patch acceptance. Actor names and submitted evidence
-are assertions, not authentication or proof that a command ran.
+failures and repair allowance. Engineering tasks receive a separate observed
+reviewer turn, including after takeover edits. For legacy helper work, record
+authorized review or interruption evidence with
+`record --task ID --kind KIND --actor ACTOR result.json`. A completed model turn
+is never automatic patch acceptance; actor names and submitted claims alone
+are not proof that a command ran.
 
-The first agent backend is the explicit `read-only-no-exec` profile for bounded
-reasoning from supplied context. Its per-run policy requires the executable,
-model, effort and service tier; it verifies the app-server's resolved settings
-before sending a turn. It disables known execution, delegation, connector and
-network tool paths, but does not have an exhaustive builtin-tool allowlist.
-Literal tool-free requests are refused. These are independently controlled
-app-server sessions, **not native subagents of the controlling chat**. A denied
-or unavailable capability becomes a hold, never a model/account/backend fallback.
+The automatic agent backend has two explicit profiles. `read-only-no-exec`
+keeps the supplied-context reasoning path. `engineering` lets a scout inspect
+actual source and run bounded diagnostics, a worker edit owned paths and check
+its patch, a separate reviewer inspect that patch and evidence, and an owner
+continue consequential repair. These are independently controlled app-server
+sessions, **not native subagents of the controlling chat**. Every stage uses the
+same explicit per-run model, effort and service tier; role labels never select
+a model. A Luna-medium run therefore keeps review and takeover at Luna medium.
+The backend verifies available resolved settings before inference. A denied or
+unavailable capability becomes a hold, never a model/account/backend fallback.
 
-Process execution inherits the controller process's existing OS sandbox. The
-run's allowed executable/cwd checks and declared CPU, memory, process and
-reasoning reservations do not create a new sandbox or enforce global host
-limits. Run the controller inside the authorized environment, allocate capacity
-after accounting for the primary chat and other work, and submit managed heavy
-work through admission. Starting more sessions cannot multiply a shared ceiling.
-The first backend disables nested agent delegation; unobservable work outside
-this controller remains outside its resource accounting.
+Engineering commands use the runtime's sandboxed shell. Each original task
+receives a private repository copy; the original repository stays outside the
+writable roots. Code provides private scratch space for wrappers, compilation
+and checks, sets `TMPDIR` there, and sets `PYTHONDONTWRITEBYTECODE=1`. A reviewer
+may write only its scratch directory and must leave the private patch unchanged.
+Scouts can also use an explicitly owned experimental scope. The runtime
+sandbox covers the entire private repository; role instructions and a post-run
+audit enforce the narrower patch-ownership contract. The controller retains
+before/after snapshots, a patch and ownership through review and repair. The OS boundary is the whole workspace:
+file ownership and `allowed_commands` are narrower instructions and audited
+contracts, **not an executable allowlist or a file-level OS sandbox**. Reads are
+not confined to the repository by this runtime's read-only profile. Known
+connector, network and nested-delegation paths remain disabled; no exhaustive
+builtin-tool allowlist is claimed.
+
+Process execution inherits the controller's existing OS sandbox. The run's
+allowed executable/cwd checks apply to submitted process tasks; a model's shell
+subcommands do not pass through that executable check. Native commands and
+descendants share the worker's admitted allocation and owned runner. A finished
+turn cannot release resources while descendants survive. Declared CPU, memory,
+process and reasoning reservations do not enforce global host limits or
+per-command CPU/memory quotas. Allocate capacity after accounting for the main
+chat and other work; unobservable outside work is not accounted automatically.
+
+## Submit engineering work
+
+Create a run with `agent_profile: "engineering"`, explicit model/effort/tier and
+resource allocation, and an authorized sandbox boundary as shown in
+[`ORCHESTRATION.md`](ORCHESTRATION.md#engineering-run-and-task-format).
+The task's `cwd` identifies its source repository; code creates and records the
+private workspace. Keep run records outside the writable copy. The small packet
+below is enough for an already clear implementation; no scout stage is required:
+
+```json
+{
+  "role": "worker",
+  "cwd": "repo",
+  "prompt": "Fix total() so it includes every input; preserve empty-input behavior.",
+  "write_scope": ["totals.py", "test_totals.py"],
+  "allowed_commands": ["Read and search this repository", "python3 -B -m unittest -v"],
+  "acceptance_checks": ["all inputs are included", "empty input returns zero", "unit tests pass"]
+}
+```
+
+Submit it with `controller.py --run /authorized/path/run submit task.json`.
+Code supplies IDs, attempts, private workspaces, evidence locations, a bounded
+result schema, and review/repair/takeover continuations. The loop dispatches and
+ingests them without another coordinator turn. Read `status` for progress and
+`result --task ID` for the producing attempt's actual commands, proposed result,
+effective settings and acceptance history. Its `result_location` points to full
+command events, before/after snapshots and `patch.diff`. A reviewer must judge
+whether the actual commands and patch establish the original criteria.
+
+For parallel differential diagnosis, submit distinct scout tasks with
+`hypothesis`, `experiment`, and `comparison` metadata. Name tasks only when a
+dependency needs a stable reference. Depend on the useful result's evidence label,
+such as `{ "task": "reproduce", "evidence": "failure_reproduced" }`, so a slow
+independent branch does not delay a ready correction. Preserve the original
+failing comparison; several agents agreeing is not causal evidence. The full
+example is in [the controller contract](ORCHESTRATION.md#parallel-differential-diagnosis).
+`examples/engineering_tasks.py --help` describes the checkout's disposable
+fixture/example generator; preparation itself makes no model calls.
+
+If a completed diagnostic reports `observed` but its actual command evidence
+supports a narrower conclusion, inspect `result --task ID`, make that engineering
+judgment, then record it with `assess --task ID --outcome failure_reproduced
+--reason "the cited command returned 3 for [2,3], whose expected sum is 5"`
+(or `hypothesis_rejected`). Code adds a separate assessment gate while retaining
+the raw result and outcome. It does not rerun work, infer a cause, accept a patch
+or count another completed result. The interpretation is an operator assertion,
+not authenticated or automatically proven reasoning.
+
+Original assignments receive separate private copies, so concurrent experiments
+can modify overlapping file names without sharing those bytes. Repair, review
+and takeover retain the same assignment's copy and patch ownership. The
+controller returns reviewable patches and never merges them into the source
+repository. Integrate only after reviewing the diagnostic evidence and when the
+task authorizes integration. Engineering snapshots require standalone Git source
+roots and reject unsupported linked worktrees, symlink files and submodules;
+ignored descendants inside declared audit directories are captured, including
+prior scratch outputs across stages. Other ignored caches are not copied or
+audited. See the contract for bounded snapshot limits.
+
+If the controller is interrupted, recover the **same run**. A cancelled writing
+attempt retains its patch and becomes a hold. After verified process release,
+inspect the current workspace and use the documented `resolve` continuation
+with its reviewed digest; neither recovery nor explicit resume blindly replays
+coding against possibly modified files. Permission holds require resolution of
+the same operation and cannot be bypassed through another profile. If automatic
+owner/review stages are exhausted, `continue --task ID --reason "engineering
+decision"` authorizes one further owner or review stage within the same history
+and budgets. It never clears a user pause or stop.
+
+For an invalid original worker report caused by a reviewed format issue,
+`continue` can revalidate the retained report after the normal runtime migration,
+without rerunning the worker. This requires completed released execution, an
+unchanged audited patch, no hold, no consumed worker result, and remaining
+original deadlines. The raw report and original validation error remain visible
+in `result`; independent review is still required. Command summaries come from
+actual runtime receipts, so a model need not reproduce that bookkeeping format.
 
 The run pins its runtime file identities. An upgrade cannot silently authorize
 new runtime code for existing work: changed runtime files hold new dispatch for
@@ -342,7 +441,9 @@ automatic.
 
 Updates from the original eight-file bundle migrate its three managed role
 registrations to six. Updates from either that bundle or the eleven-file bundle
-add the controller modules. Active and disabled installations are supported.
+add the controller modules. The seventeen-file controller bundle upgrades with
+`engineering.py` while retaining its run state and evidence. Active and disabled
+installations are supported.
 The installer preserves unrelated configuration and retained evidence, and
 refuses conflicting registrations or unowned files at newly introduced paths.
 
@@ -366,10 +467,10 @@ Start a fresh Codex
 session after installing, updating role instructions, or disabling: existing
 sessions may retain instructions already loaded.
 
-The runtime install contains seventeen files: this README, `policy.md`,
+The runtime install contains eighteen files: this README, `policy.md`,
 `supervisor.py`, `install.py`, `uninstall.py`, `controller.py`,
 `controller_store.py`, `execution.py`, `agent_backend.py`, `scheduling.py`,
-`ORCHESTRATION.md`, and six role TOML files in
+`engineering.py`, `ORCHESTRATION.md`, and six role TOML files in
 `agents/`: the three pinned roles and three selector-free inherited roles.
 `CONTRIBUTING.md`, `tests/`, and `examples/` are clone-only development
 resources and are not copied into the installed bundle. The policy governs

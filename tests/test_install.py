@@ -53,6 +53,10 @@ class InstallerTests(unittest.TestCase):
         """Create the eleven-file, six-role layout before controller support."""
         return self.seed_layout(kit.ADVISORY_FILES, kit.ROLES, active=active)
 
+    def seed_controller(self, *, active=True):
+        """Create the seventeen-file controller layout before engineering support."""
+        return self.seed_layout(kit.CONTROLLER_FILES, kit.ROLES, active=active)
+
     def seed_layout(self, files, roles, *, active):
         target = self.home / "delegation-kit"
         for name in files:
@@ -201,6 +205,64 @@ class InstallerTests(unittest.TestCase):
         target = self.seed_advisory()
         name = "controller.py"
         (target / name).write_bytes((self.source / name).read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+
+    def test_controller_upgrade_preserves_activation_owned_execution_and_history(self):
+        target = self.seed_controller()
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        retained = {
+            target / "state/run/state.sqlite3": b"retained scheduling database\n",
+            target / "state/run/operations/op-1/receipt.json": b'{"state":"running","released":false}\n',
+            target / "state/run/operations/op-1/patch.diff": b"retained original patch\n",
+            target / ".installation/backups/old/manifest.json": b"retained historical manifest\n",
+        }
+        for path, contents in retained.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(contents)
+
+        preview = kit.plan(self.home, self.source)
+        self.assertTrue(any(change.path == target / "engineering.py" for change in preview))
+        self.assertFalse((target / "engineering.py").exists())
+        kit.apply(preview)
+        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(len(manifest["bundle_digests"]), 18)
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual((target / "engineering.py").read_bytes(), (self.source / "engineering.py").read_bytes())
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertTrue((target / "engineering.py").is_file())
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_inactive_controller_upgrade_and_idempotent_disable(self):
+        target = self.seed_controller(active=False)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+        self.activate()
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+
+    def test_controller_can_be_disabled_without_installing_engineering(self):
+        target = self.seed_controller()
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertFalse((target / "engineering.py").exists())
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.CONTROLLER_FILES))
+
+    def test_controller_upgrade_refuses_unowned_engineering_even_with_identical_bytes(self):
+        target = self.seed_controller()
+        (target / "engineering.py").write_bytes((self.source / "engineering.py").read_bytes())
         before = self.snapshot_home()
         with self.assertRaisesRegex(kit.Refusal, "not owned"):
             kit.plan(self.home, self.source)

@@ -1,5 +1,7 @@
 # Validation and delivery record
 
+This is the historical first-controller delivery. See [the engineering extension record](engineering.md) for current engineering-backend, actual Luna-medium main-chat, recovery, and installation validation.
+
 Validated on October 20, 2026 (America/Chicago). Maintained source:
 `https://github.com/mirage335-colossus/codex-delegation-kit.git`, local checkout
 `/home/user/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision

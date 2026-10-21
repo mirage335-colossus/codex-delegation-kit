@@ -315,7 +315,12 @@ def load_events(directory):
     return events
 
 
-def derive(events, now):
+def derive(events, now, *, require_strong_review=False):
+    """Replay acceptance, optionally requiring review of takeover-authored work.
+
+    Existing advisory ledgers retain their historical strong-completion rule.
+    Engineering controllers opt in for the whole assignment, including replay.
+    """
     require(events[0]["kind"] == "open", "ledger must begin with open")
     packet = decode_json(events[0]["payload_text"])
     validate_packet(packet)
@@ -330,6 +335,9 @@ def derive(events, now):
     # Keep legacy repair comparisons unchanged. Interruption-only references
     # retain evidence but cannot make a later implementation repair ineligible.
     repair_comparison_evidence = set()
+    # Keep authors separate so the same takeover owner can continue a rejected
+    # repair without becoming eligible to approve its own implementation.
+    strong_actors = set()
 
     def expire(at):
         if at >= deadline and state["state"] in {"ready", "repair_allowed", "validation_paused"}:
@@ -450,7 +458,8 @@ def derive(events, now):
                 state.update(state="review_required", next_action="independent_review", reason="worker_checks_passed")
         elif kind == "review":
             require(state["state"] == "review_required", "no worker result is awaiting review")
-            require(actor not in state["worker_actors"], "worker cannot review its own assignment")
+            require(actor not in state["worker_actors"] and actor not in strong_actors,
+                    "worker cannot review its own assignment")
             if result["verdict"] == "substantive_reject":
                 takeover("substantive_review_rejection")
             else:
@@ -458,9 +467,15 @@ def derive(events, now):
         else:
             require(state["state"] == "takeover", "strong completion requires a takeover")
             require(actor not in state["worker_actors"], "worker cannot approve its own takeover")
+            if require_strong_review:
+                strong_actors.add(actor)
             if all_passed:
-                state.update(state="done", next_action="done", reason="strong_takeover_completed",
-                             downstream_guidance="consider_permitted_worker_for_separable_downstream_implementation")
+                if require_strong_review:
+                    state.update(state="review_required", next_action="independent_review",
+                                 reason="strong_checks_passed")
+                else:
+                    state.update(state="done", next_action="done", reason="strong_takeover_completed",
+                                 downstream_guidance="consider_permitted_worker_for_separable_downstream_implementation")
             else:
                 takeover("strong_work_incomplete")
     expire(now)

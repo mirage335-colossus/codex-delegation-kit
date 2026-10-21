@@ -18,7 +18,7 @@ BUNDLE_FILES = (
     "agents/inherited_scout.toml", "agents/inherited_worker.toml",
     "agents/inherited_reviewer.toml",
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
-    "scheduling.py", "ORCHESTRATION.md",
+    "scheduling.py", "ORCHESTRATION.md", "engineering.py",
 )
 
 
@@ -166,6 +166,11 @@ class DistributionTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("usage:", result.stdout)
+        imported = subprocess.run(
+            [sys.executable, "-B", "-c", "import engineering"],
+            cwd=target, check=False, text=True, capture_output=True,
+        )
+        self.assertEqual(imported.returncode, 0, imported.stderr)
         self.assertFalse((target / "state").exists())
         self.assertFalse(list(self.root.rglob("state.sqlite3")))
 

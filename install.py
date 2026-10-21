@@ -21,16 +21,17 @@ LEGACY_FILES = (
     "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
     "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
 )
-# Preserve both published inventories: adding the controller must not make an
-# existing, owned installation unreadable during upgrade or disable.
+# Preserve every published inventory so owned installations remain readable
+# during upgrade or disable.
 ADVISORY_FILES = LEGACY_FILES + (
     "agents/inherited_scout.toml", "agents/inherited_worker.toml",
     "agents/inherited_reviewer.toml",
 )
-FILES = ADVISORY_FILES + (
+CONTROLLER_FILES = ADVISORY_FILES + (
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
     "scheduling.py", "ORCHESTRATION.md",
 )
+FILES = CONTROLLER_FILES + ("engineering.py",)
 LEGACY_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
@@ -163,12 +164,12 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                     or "\0" in source_directory or not Path(source_directory).is_absolute()):
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
-        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(FILES)):
+        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         legacy_expected = blocks(home / "delegation-kit", LEGACY_ROLES)
         activation_names = set(value["activation"])
         legacy_layout = inventory == set(LEGACY_FILES) and activation_names == set(legacy_expected)
-        current_layout = inventory in (set(ADVISORY_FILES), set(FILES)) and activation_names == set(expected)
+        current_layout = inventory in (set(ADVISORY_FILES), set(CONTROLLER_FILES), set(FILES)) and activation_names == set(expected)
         if not (legacy_layout or current_layout):
             raise ValueError("unexpected activation file list")
         known_blocks = legacy_expected if inventory == set(LEGACY_FILES) else expected

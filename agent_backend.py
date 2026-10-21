@@ -1,9 +1,10 @@
 """Bounded Codex app-server adapter, using the documented stdio JSON protocol.
 
 These are independent externally controlled sessions, not native chat subagents.
-The initial profile supports supplied-context, read-only reasoning. It disables
-execution, delegation and connected tools; it does not claim an exhaustive
-builtin-tool allowlist. A request for literal tool-free execution is rejected.
+The reasoning profile uses supplied context. The engineering profile enables
+the runtime's sandboxed shell and file editing in one authorized workspace.
+Neither profile claims an exhaustive builtin-tool allowlist. Runtime sandboxing
+is distinct from assignment command guidance and the controller's patch audit.
 """
 from __future__ import annotations
 
@@ -23,6 +24,10 @@ import time
 
 MAX_BYTES = 1024 * 1024
 PROFILE = "read-only-no-exec"
+ENGINEERING_PROFILE = "engineering"
+# Verified by the installed app-server's default selection and environment/info.
+# Explicit selection avoids inheriting a future remote default environment.
+LOCAL_ENVIRONMENT = "local"
 # Verified by the local runtime feature catalog. Unknown feature names cause
 # startup failure, which is retained as a hold rather than silently ignored.
 DISABLED_FEATURES = (
@@ -79,8 +84,9 @@ def prepare(task, policy, directory):
     """Prepare an immutable request; never run inference or change global config.
 
     Explicit settings are required because an independent session cannot inherit
-    the calling chat's model/effort/permissions. Only this conservative first
-    profile is supported. Arbitrary config overrides are intentionally absent.
+    the calling chat's model/effort/permissions. Arbitrary config overrides are
+    intentionally absent. Commands use the runtime's sandbox, never the
+    unsandboxed thread/shellCommand API.
     """
     directory = Path(directory).absolute()
     if any(p.is_symlink() for p in (directory, *directory.parents)):
@@ -88,12 +94,15 @@ def prepare(task, policy, directory):
     for key in ("model", "effort", "service_tier", "codex_binary"):
         if not isinstance(policy.get(key), str) or not policy[key].strip():
             raise BackendError(f"agent policy requires explicit {key}")
-    if policy.get("sandbox") != "read-only" or policy.get("approval") != "never":
-        raise BackendError("this backend requires read-only sandbox and never approval")
+    profile = policy.get("agent_profile")
+    if profile not in {PROFILE, ENGINEERING_PROFILE} or policy.get("tools") == "none":
+        raise BackendError("an explicit supported agent_profile is required; literal tool-free is not verified")
+    if policy.get("approval") != "never" or policy.get("sandbox") not in {"read-only", "workspace-write"}:
+        raise BackendError("this backend requires a restricted sandbox and never approval")
+    if profile == PROFILE and policy["sandbox"] != "read-only":
+        raise BackendError("the supplied-context profile requires read-only sandbox")
     if policy.get("network") not in (False, "disabled"):
         raise BackendError("this backend requires disabled worker network access")
-    if policy.get("agent_profile") != PROFILE or policy.get("tools") == "none":
-        raise BackendError(f"explicit agent_profile={PROFILE!r} is required; literal tool-free is not verified")
     if policy.get("nested_delegation", False):
         raise BackendError("nested delegation is not supported")
     binary = Path(policy["codex_binary"])
@@ -102,6 +111,52 @@ def prepare(task, policy, directory):
     cwd = Path(task["cwd"]).resolve()
     if not cwd.is_dir():
         raise BackendError("agent cwd does not exist")
+    sandbox = "read-only"
+    role, scope, commands, source, scratch = None, [], [], None, None
+    if profile == ENGINEERING_PROFILE:
+        if os.environ.get("CODEX_EXEC_SERVER_URL"):
+            raise BackendError("engineering local execution refuses CODEX_EXEC_SERVER_URL override")
+        role, scope, commands = task.get("role"), task.get("write_scope", []), task.get("allowed_commands")
+        if role not in {"scout", "worker", "reviewer", "owner"}:
+            raise BackendError("engineering requires scout, worker, reviewer or owner responsibility")
+        original = task.get("source_repository")
+        if not isinstance(original, str) or not Path(original).is_absolute():
+            raise BackendError("engineering requires an explicit original source_repository")
+        source = Path(original).resolve()
+        if not source.is_dir() or source.is_relative_to(cwd) or cwd.is_relative_to(source):
+            raise BackendError("engineering workspace and original repository must be disjoint directories")
+        if not isinstance(scope, list) or any(not isinstance(p, str) or not p.strip() for p in scope):
+            raise BackendError("engineering write_scope must be relative paths")
+        for name in scope:
+            relative = Path(name)
+            if relative.is_absolute() or ".." in relative.parts or ".git" in relative.parts or not (cwd / name).resolve().is_relative_to(cwd):
+                raise BackendError("engineering write scope escapes workspace or includes Git metadata")
+        if not isinstance(commands, list) or not commands or any(not isinstance(c, str) or not c.strip() for c in commands):
+            raise BackendError("engineering requires bounded allowed_commands guidance")
+        scratch_name = task.get("scratch_directory")
+        if scratch_name is not None:
+            if not isinstance(scratch_name, str) or not Path(scratch_name).is_absolute():
+                raise BackendError("scratch_directory must be an absolute private directory")
+            scratch = Path(scratch_name)
+            if (not scratch.resolve().is_relative_to(cwd) or scratch.resolve() == cwd
+                    or any(p.is_symlink() for p in (scratch, *scratch.parents))
+                    or (scratch.exists() and not scratch.is_dir())):
+                raise BackendError("scratch_directory must be an unaliased directory inside the private workspace")
+            scratch = scratch.resolve()
+            relative_scratch = scratch.relative_to(cwd).as_posix()
+            if relative_scratch not in {str(Path(name)) for name in scope}:
+                raise BackendError("scratch_directory needs its exact owned write scope")
+        if role == "reviewer" and scope and (scratch is None or any(str(Path(name)) != relative_scratch for name in scope)):
+            raise BackendError("reviewers may write only their declared private scratch directory")
+        if role in {"worker", "owner"} and not scope:
+            raise BackendError("editing responsibilities require private-copy write scope")
+        if scope:
+            if policy["sandbox"] != "workspace-write":
+                raise BackendError("private-copy writes require workspace-write authorization")
+            sandbox = "workspace-write"
+        # An editing worker must not be able to alter the controller's receipts.
+        if directory.is_relative_to(cwd):
+            raise BackendError("engineering operation records must be outside its workspace")
     prompt = task.get("prompt")
     if not isinstance(prompt, str) or not prompt.strip() or len(prompt.encode()) > MAX_BYTES // 2:
         raise BackendError("agent prompt must be nonempty and at most 512 KiB")
@@ -113,28 +168,108 @@ def prepare(task, policy, directory):
         "task_id": task["id"], "cwd": str(cwd), "prompt": prompt,
         "model": policy["model"], "effort": policy["effort"],
         "service_tier": policy["service_tier"], "codex_binary": str(binary),
-        "timeout_seconds": timeout, "agent_tools": PROFILE,
-        "sandbox": "read-only", "approval": "never", "network": False,
+        "timeout_seconds": timeout, "agent_tools": profile,
+        "sandbox": sandbox, "approval": "never", "network": False,
         "output_schema": task.get("output_schema"),
     }
+    if profile == ENGINEERING_PROFILE:
+        request.update(role=role, write_scope=scope, allowed_commands=commands,
+                       resources=task.get("resources", {}), source_repository=str(source),
+                       execution_environment=LOCAL_ENVIRONMENT)
+        if scratch is not None:
+            request["scratch_directory"] = str(scratch)
+    if len(json.dumps(request, ensure_ascii=False).encode()) > MAX_BYTES:
+        raise BackendError("bounded backend request exceeds 1 MiB")
     directory.mkdir(parents=True, exist_ok=True, mode=0o700)
     _atomic(directory / "backend-request.json", request, identical=True)
+    environment = {"PYTHONDONTWRITEBYTECODE": "1"} if profile == ENGINEERING_PROFILE else {}
+    if scratch is not None:
+        environment["TMPDIR"] = str(scratch)
     return {"argv": [sys.executable, str(Path(__file__).resolve()), "run", str(directory / "backend-request.json")],
-            "cwd": str(cwd), "env": {}, "timeout_seconds": timeout + 10,
+            "cwd": str(cwd), "env": environment, "timeout_seconds": timeout + 10,
             "operation_id": request["operation_id"]}
+
+
+def _feature_overrides(request):
+    values = {f"features.{key}": False for key in DISABLED_FEATURES}
+    if request["agent_tools"] == ENGINEERING_PROFILE:
+        # Some models expose the native shell through functions.exec even with
+        # code_mode=false. The bundled host dispatches those registered tools;
+        # disabling it makes the otherwise enabled shell fail before execution.
+        values.update({"features.shell_tool": True, "features.unified_exec": True,
+                       "features.code_mode_host": True})
+    return values
+
+
+def _sandbox_policy(request):
+    if request["sandbox"] == "workspace-write":
+        return {"type": "workspaceWrite", "writableRoots": [request["cwd"]],
+                "networkAccess": False, "excludeSlashTmp": True, "excludeTmpdirEnvVar": True}
+    return {"type": "readOnly", "networkAccess": False}
+
+
+def _environments(request):
+    if request["agent_tools"] == ENGINEERING_PROFILE:
+        return [{"environmentId": LOCAL_ENVIRONMENT, "cwd": request["cwd"],
+                 "runtimeWorkspaceRoots": [request["cwd"]]}]
+    return []
+
+
+def _sandbox_config(request):
+    return {"sandbox_mode": request["sandbox"], "sandbox_workspace_write.network_access": False,
+            "sandbox_workspace_write.writable_roots": [request["cwd"]] if request["sandbox"] == "workspace-write" else [],
+            "sandbox_workspace_write.exclude_slash_tmp": True,
+            "sandbox_workspace_write.exclude_tmpdir_env_var": True}
 
 
 def _overrides(request, directory):
     settings = {
         "model": request["model"], "model_reasoning_effort": request["effort"],
         "service_tier": request["service_tier"], "approval_policy": "never",
-        "sandbox_mode": "read-only", "web_search": "disabled",
-        "sandbox_workspace_write.network_access": False,
+        "web_search": "disabled",
         "agents.enabled": False, "sqlite_home": str(directory / "runtime-state"),
         "log_dir": str(directory / "runtime-logs"),
     }
-    settings.update({f"features.{key}": False for key in DISABLED_FEATURES})
+    settings.update(_sandbox_config(request))
+    settings.update(_feature_overrides(request))
     return settings
+
+
+def _instructions(request):
+    if request["agent_tools"] == PROFILE:
+        return (
+            "You are a bounded reasoning worker in an externally controlled run. "
+            "Work only from supplied context. Do not call tools, spawn agents, "
+            "execute commands, access services, or alter files. Return one JSON "
+            "object as your final answer. Report missing context explicitly. "
+            "Your completion is a proposed result, not engineering acceptance."
+        )
+    role = request["role"]
+    responsibility = {
+        "scout": "Inspect actual source and run bounded diagnostic commands. You may create temporary wrappers, compile, test or modify copies only within owned private-workspace paths. Never modify the original repository. Report findings, evidence and uncertainties.",
+        "worker": "Investigate the bounded assignment, modify only owned private-copy paths, run relevant checks and return actual results and remaining issues. Never modify the original repository.",
+        "reviewer": "Independently inspect the actual patch, source and evidence. Run targeted checks when useful. You may create temporary wrappers and compilation outputs only in the declared private scratch directory. Do not modify the patch or source. Accept or reject with concrete findings; do not approve a patch you authored.",
+        "owner": "Continue consequential diagnosis or repair from the existing patch. Preserve earlier changes, original failures, repair history, budgets and acceptance criteria. Your patch still requires independent review.",
+    }[role]
+    return (
+        f"You are the {role} for one bounded engineering assignment. {responsibility}\n"
+        "You share the codebase. Preserve other contributors' changes. Read applicable project instructions. "
+        "The controller owns scheduling, attempts, ledgers and replenishment; do not maintain duplicate records or spawn agents. "
+        "Use only the authorized repository and permitted command scope below. Do not access network services, change global configuration, "
+        "commit, push, publish, or request broader permissions. A denied operation is a hold, not permission to retry through another route. "
+        "Run checks through the runtime shell; report exact commands and actual results, including failures and unexecuted checks. "
+        "For read-only checks use python -B or PYTHONDONTWRITEBYTECODE=1 to avoid creating bytecode caches. "
+        "Do not leave background work running. Preserve diagnostic comparisons and distinguish setup failure from a reproduced defect. "
+        "Return one JSON object in the assignment's requested schema; a completed turn is not engineering acceptance.\n"
+        f"Original repository (read-only): {request['source_repository']}\n"
+        f"Private working copy: {request['cwd']}\nOwned write paths in this copy: {json.dumps(request['write_scope'])}\n"
+        f"Permitted command scope: {json.dumps(request['allowed_commands'])}\n"
+        f"Declared resource allocation (shared by your command descendants): {json.dumps(request['resources'])}\n"
+        f"Private scratch directory/TMPDIR: {request.get('scratch_directory', 'not provided; do not assume shared temporary writes')}\n"
+        "The filesystem sandbox bounds writes to the workspace, not individual owned files. Command guidance is not an OS allowlist. "
+        "You must honor the narrower assignment scope. A scratch-enabled reviewer can technically write workspace files, "
+        "but any patch/source modification violates the assignment and invalidates independent acceptance."
+    )
 
 
 def _thread_params(request, effective_config):
@@ -156,22 +291,17 @@ def _thread_params(request, effective_config):
     if any(not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", name) for name in servers):
         raise BackendError("MCP server name cannot be safely addressed by the app-server dotted config override")
     overrides = {f"mcp_servers.{name}.enabled": False for name in sorted(servers)}
-    overrides.update({f"features.{key}": False for key in DISABLED_FEATURES})
+    overrides.update(_feature_overrides(request))
+    overrides.update(_sandbox_config(request))
     overrides.update({"agents.enabled": False, "web_search": "disabled",
                       "model_reasoning_effort": request["effort"]})
     return {
         "model": request["model"], "serviceTier": request["service_tier"],
         "allowProviderModelFallback": False, "cwd": request["cwd"],
-        "sandbox": "read-only", "approvalPolicy": "never",
-        "environments": [], "runtimeWorkspaceRoots": [request["cwd"]],
+        "sandbox": request["sandbox"], "approvalPolicy": "never",
+        "environments": _environments(request), "runtimeWorkspaceRoots": [request["cwd"]],
         "config": overrides, "ephemeral": True,
-        "developerInstructions": (
-            "You are a bounded reasoning worker in an externally controlled run. "
-            "Work only from supplied context. Do not call tools, spawn agents, "
-            "execute commands, access services, or alter files. Return one JSON "
-            "object as your final answer. Report missing context explicitly. "
-            "Your completion is a proposed result, not engineering acceptance."
-        ),
+        "developerInstructions": _instructions(request),
     }
 
 
@@ -181,24 +311,120 @@ def verify_effective(request, response):
         raise BackendError("runtime returned malformed thread settings")
     result = {key: response.get(key) for key in (
         "model", "modelProvider", "reasoningEffort", "serviceTier", "sandbox",
-        "approvalPolicy", "activePermissionProfile", "runtimeWorkspaceRoots")}
+        "approvalPolicy", "activePermissionProfile", "runtimeWorkspaceRoots", "cwd")}
     expected = {"model": request["model"], "reasoningEffort": request["effort"],
                 "serviceTier": request["service_tier"], "approvalPolicy": "never"}
     for key, value in expected.items():
         if response.get(key) != value:
             raise BackendError(f"resolved {key} differs from requested setting: {response.get(key)!r}")
     sandbox = response.get("sandbox") or {}
-    if sandbox.get("type") != "readOnly" or sandbox.get("networkAccess", False):
-        raise BackendError("runtime did not resolve read-only, network-disabled sandbox")
+    expected_sandbox = _sandbox_policy(request)
+    if sandbox.get("type") != expected_sandbox["type"] or sandbox.get("networkAccess", False):
+        raise BackendError("runtime did not resolve requested network-disabled sandbox")
+    if request["agent_tools"] == ENGINEERING_PROFILE:
+        workspace_roots = response.get("runtimeWorkspaceRoots")
+        # This runtime's legacy sandbox response may report no additional roots:
+        # workspaceWrite still includes its exact cwd. Do not mistake that empty
+        # list for broadened authority or accept any different explicit root.
+        if response.get("cwd") != request["cwd"] or workspace_roots not in ([], [request["cwd"]]):
+            raise BackendError("runtime did not confirm the authorized workspace")
+        result["requested_workspace"] = request["cwd"]
+        result["turn_sandbox_policy"] = expected_sandbox
+        result["workspace_evidence"] = (
+            "legacy explicit roots empty; exact cwd is implicit workspace-write root; "
+            "turn supplies explicit sandboxPolicy; no read isolation"
+            if not workspace_roots and request["sandbox"] == "workspace-write" else
+            "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation")
+        if request["sandbox"] == "workspace-write":
+            roots = sandbox.get("writableRoots")
+            if not isinstance(roots, list) or any(root != request["cwd"] for root in roots):
+                raise BackendError("runtime resolved additional writable roots")
+            if not sandbox.get("excludeSlashTmp") or not sandbox.get("excludeTmpdirEnvVar"):
+                raise BackendError("runtime did not exclude shared temporary write roots")
     thread = response.get("thread") or {}
-    if thread.get("environments") != []:
-        raise BackendError("runtime did not confirm disabled environment access")
+    if thread.get("environments") != _environments(request):
+        raise BackendError("runtime did not confirm the requested local environment and workspace"
+                           if request["agent_tools"] == ENGINEERING_PROFILE else
+                           "runtime did not confirm disabled environment access")
     if not isinstance(thread.get("id"), str) or not thread["id"]:
         raise BackendError("runtime did not provide a thread identity")
-    result["environments"] = []
+    result["environments"] = thread["environments"]
     result["settings_evidence"] = "app-server thread/start response; not provider-side per-token telemetry"
-    result["tool_limit"] = "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable"
+    result["tool_limit"] = (
+        "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; "
+        "reads outside the workspace and per-command resource limits are not restricted by this protocol; "
+        "owned descendants remain reserved until the process executor confirms release"
+        if request["agent_tools"] == ENGINEERING_PROFILE else
+        "known execution/delegation/connectors disabled; exhaustive builtin tool-free guarantee unavailable")
     return result
+
+
+def _observe_tool(request, state, item, completed):
+    """Retain runtime observations; model-written check claims are not receipts.
+
+    Full event payloads remain in backend-events.jsonl. The result's command
+    summary is bounded so long output cannot make the durable result unreadable.
+    Native command descendants are covered by the enclosing execution runner,
+    not independently admitted or released from these item notifications.
+    """
+    kind = item.get("type")
+    tool_types = {"commandExecution", "fileChange", "mcpToolCall", "dynamicToolCall", "collabAgentToolCall", "webSearch"}
+    if kind not in tool_types:
+        return
+    if request["agent_tools"] != ENGINEERING_PROFILE or kind not in {"commandExecution", "fileChange"}:
+        raise BackendError(f"unexpected tool activity: {kind}; result held")
+    identity = item.get("id")
+    if not isinstance(identity, str) or not identity:
+        raise BackendError("runtime tool observation has no item identity")
+    records = state["commands" if kind == "commandExecution" else "file_changes"]
+    existing = next((record for record in records if record["id"] == identity), None)
+    if existing is None:
+        if len(records) >= 128:
+            raise BackendError("bounded tool observation limit reached; full events retained")
+        existing = {"id": identity, "observed_at": time.time()}
+        records.append(existing)
+    existing.update(status=item.get("status"), completed=completed)
+    if completed:
+        existing["completed_at"] = time.time()
+    if kind == "commandExecution":
+        existing.update({key: item.get(key) for key in ("command", "cwd", "exitCode", "durationMs", "processId", "source")})
+        output = item.get("aggregatedOutput") or ""
+        if not isinstance(output, str) or not isinstance(existing["command"], str):
+            raise BackendError("malformed command observation")
+        # Output is evidence only to this explicitly reported truncation boundary.
+        existing["aggregatedOutput"] = output[:4096]
+        existing["output_truncated"] = len(output) > 4096
+        if len(existing["command"]) > 8192:
+            existing["command"] = existing["command"][:8192]
+            existing["command_truncated"] = True
+            raise BackendError("command observation exceeds bounded summary; full events retained")
+        cwd = existing["cwd"]
+        if not isinstance(cwd, str) or not Path(cwd).is_absolute() or not Path(cwd).resolve().is_relative_to(Path(request["cwd"])):
+            raise BackendError("command working directory is outside the authorized workspace")
+        if existing["status"] == "declined":
+            raise BackendError("runtime declined command execution; permission hold retained")
+    else:
+        changes = item.get("changes")
+        if not isinstance(changes, list) or len(changes) > 128:
+            raise BackendError("malformed or oversized file-change observation")
+        existing["changes"] = [{key: change.get(key) for key in ("path", "kind")} for change in changes if isinstance(change, dict)]
+        if len(existing["changes"]) != len(changes):
+            raise BackendError("malformed file-change observation")
+        if request["sandbox"] != "workspace-write":
+            raise BackendError("read-only responsibility attempted a file change")
+        for change in existing["changes"]:
+            name = change["path"]
+            if not isinstance(name, str) or not (Path(request["cwd"]) / name).resolve().is_relative_to(Path(request["cwd"])):
+                raise BackendError("file-change observation is outside the authorized workspace")
+        if existing["status"] == "declined":
+            raise BackendError("runtime declined file change; permission hold retained")
+    if len(json.dumps(state, ensure_ascii=False).encode()) > MAX_BYTES * 3 // 4:
+        # Do not discard identities or status. Full event output is still retained.
+        for record in state["commands"]:
+            if record.get("aggregatedOutput"):
+                record["aggregatedOutput"] = ""
+                record["output_truncated"] = True
+        raise BackendError("bounded result evidence limit reached; full events retained")
 
 
 class Rpc:
@@ -281,9 +507,11 @@ def run_request(path):
         stream.flush()
         os.fsync(stream.fileno())
     state = {"status": "hold", "result": None, "effective": {}, "usage": None,
+             "observed_settings": {}, "settings_verified": False,
              "configured": {key: request[key] for key in ("model", "effort", "service_tier", "sandbox", "approval", "network", "agent_tools")},
              "operation_id": request["operation_id"], "thread_id": None, "turn_id": None,
-             "detail": "startup not yet acknowledged"}
+             "detail": "startup not yet acknowledged", "commands": [], "file_changes": [],
+             "events": str(directory / "backend-events.jsonl")}
     _atomic(destination, state)
     interrupted = [False]
     def on_signal(signum, frame):
@@ -291,6 +519,8 @@ def run_request(path):
     previous_signals = {sig: signal.signal(sig, on_signal) for sig in (signal.SIGTERM, signal.SIGINT)}
     client = None
     try:
+        if request["agent_tools"] == ENGINEERING_PROFILE and os.environ.get("CODEX_EXEC_SERVER_URL"):
+            raise BackendError("engineering local execution refuses CODEX_EXEC_SERVER_URL override")
         argv = [request["codex_binary"], "app-server"]
         for key, value in _overrides(request, directory).items():
             argv.extend(["-c", f"{key}={json.dumps(value)}"])
@@ -303,17 +533,26 @@ def run_request(path):
         configuration = client.call("config/read", {"cwd": request["cwd"], "includeLayers": True}, setup_deadline)
         # Never persist configuration values: MCP environments may include secrets.
         response = client.call("thread/start", _thread_params(request, configuration), setup_deadline)
-        state["thread_id"] = response["thread"]["id"]
+        if isinstance(response, dict):
+            # Keep a mismatch's actual safe settings before verification rejects
+            # it. Do not copy configuration layers or arbitrary response fields.
+            state["observed_settings"] = {key: response.get(key) for key in (
+                "model", "modelProvider", "reasoningEffort", "serviceTier", "cwd",
+                "runtimeWorkspaceRoots", "sandbox", "approvalPolicy", "activePermissionProfile")}
+            thread = response.get("thread")
+            state["thread_id"] = thread.get("id") if isinstance(thread, dict) else None
+            state["observed_settings"]["environments"] = thread.get("environments") if isinstance(thread, dict) else None
         _atomic(destination, state)
         state["effective"] = verify_effective(request, response)
+        state["settings_verified"] = True
         state["detail"] = "thread created; turn not yet acknowledged"
         _atomic(destination, state)
         if interrupted[0]:
             raise BackendError("cancelled before turn dispatch")
         params = {"threadId": state["thread_id"], "model": request["model"], "effort": request["effort"],
                   "serviceTier": request["service_tier"], "serviceTierForTurn": request["service_tier"],
-                  "approvalPolicy": "never", "sandboxPolicy": {"type": "readOnly", "networkAccess": False},
-                  "environments": [], "input": [{"type": "text", "text": request["prompt"]}],
+                  "approvalPolicy": "never", "sandboxPolicy": _sandbox_policy(request),
+                  "environments": _environments(request), "input": [{"type": "text", "text": request["prompt"]}],
                   "clientUserMessageId": request["operation_id"]}
         if request.get("output_schema") is not None:
             params["outputSchema"] = request["output_schema"]
@@ -357,12 +596,13 @@ def run_request(path):
                     raise BackendError("runtime rerouted the requested model; result held")
                 if method == "thread/tokenUsage/updated":
                     state["usage"] = body.get("tokenUsage")
-                if method == "item/completed":
+                if method in {"item/started", "item/completed"}:
                     item = body.get("item", {})
-                    if item.get("type") == "agentMessage":
+                    _observe_tool(request, state, item, method == "item/completed")
+                    if item.get("type") in {"commandExecution", "fileChange"}:
+                        _atomic(destination, state)
+                    if method == "item/completed" and item.get("type") == "agentMessage":
                         final_text = item.get("text")
-                    elif item.get("type") in {"commandExecution", "mcpToolCall", "dynamicToolCall", "collabAgentToolCall", "fileChange", "webSearch"}:
-                        raise BackendError(f"unexpected tool activity: {item.get('type')}; result held")
                 if method == "turn/completed" and body.get("turn", {}).get("id") == state["turn_id"]:
                     turn = body["turn"]
                     if turn.get("status") != "completed" or cancellation_sent:
@@ -372,11 +612,15 @@ def run_request(path):
                         for item in turn.get("items", []):
                             if item.get("type") == "agentMessage":
                                 final_text = item.get("text")
+                    for item in turn.get("items", []):
+                        _observe_tool(request, state, item, True)
                     if not isinstance(final_text, str):
                         raise BackendError("completed turn has no final text")
                     result = _json(final_text)
                     if not isinstance(result, dict):
                         raise BackendError("final result must be one JSON object")
+                    if len(json.dumps({**state, "result": result}, ensure_ascii=False).encode()) > MAX_BYTES:
+                        raise BackendError("final result plus observations exceeds bounded evidence size")
                     state.update(status="completed", result=result, detail="model turn completed; acceptance requires controller validation")
                     break
     except (OSError, ValueError, KeyError, TypeError, TimeoutError) as error:

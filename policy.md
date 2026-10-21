@@ -92,15 +92,66 @@ sandbox or global resource enforcement. The process executor inherits the
 controller's actual sandbox; do not launch it with broader authority merely to
 resolve a restriction. Unobservable external work cannot be claimed as accounted.
 
-The first automatic agent backend uses independent Codex app-server sessions,
-not the current chat's native subagent tree. Its supported profile is bounded
-read-only reasoning from supplied context, with known execution, delegation and
-connector paths disabled. It does not establish a complete builtin-tool allowlist
-or support a literal tool-free guarantee. Standalone sessions need explicit
-per-run model, effort, tier and permission settings because they cannot inherit
-the current chat automatically. Verify available resolved settings, disclose
-what cannot be verified, and retain denied capabilities as holds. No refusal
-authorizes a substitute model, provider, account, backend or permission boundary.
+The automatic agent backend uses independent Codex app-server sessions, not the
+current chat's native subagent tree. Its explicit `engineering` profile supports
+actual repository inspection, sandboxed diagnostic commands, owned edits in a
+private repository copy, independent review and engineering takeover. The
+`read-only-no-exec` supplied-context profile remains available. Neither profile
+establishes an exhaustive builtin-tool allowlist or literal tool-free guarantee.
+Standalone sessions need explicit per-run model, effort, tier and permission
+settings because they cannot inherit the current chat automatically. Every
+engineering stage uses that same run policy; do not select a pinned role or a
+separate review model when the run is restricted to Luna medium. Responsibility
+never changes the model boundary. Verify available resolved settings, disclose
+what cannot be verified, and retain denied capabilities as holds. Engineering
+execution uses an explicitly scoped local environment for the private workspace;
+verify its resolved identity and roots, rather than inheriting another environment.
+No refusal authorizes a substitute model, provider, account, backend or permission
+boundary.
+
+For engineering work, submit the bounded task, source repository, owned paths,
+permitted command scope and original acceptance checks. Code prepares and owns
+a private copy for each original assignment. Workers may inspect the original
+repository but edits and experimental writes belong in their private copy;
+repair, review and takeover continue from that same copy. An accepted result is
+a reviewable patch, not an automatic merge into the original repository. Review
+causal evidence before integrating competing changes under the task's actual
+authorization. Do not impose a scout stage when the next useful action is clear.
+
+The backend's filesystem boundary is the private workspace, not its individual
+owned files. `write_scope` and command guidance are narrower assignment contracts;
+the patch audit detects scope violations but is not an OS sandbox. Scouts may
+run permitted bounded diagnostics and use owned private scratch files, wrappers
+or experimental copies, without modifying original source. Code supplies scratch
+space and per-execution temporary settings. Reviewers may use that scratch for
+wrappers, compilation and targeted checks, but must not modify the patch or
+source being reviewed. Their workspace sandbox technically permits broader
+private writes; role instructions and the post-run audit enforce the narrower
+contract. Retained audit scope includes ignored outputs inside owned directories
+across stages; other ignored caches are not covered. All patch authors, including
+takeover owners, require a separate permitted reviewer.
+
+Native shell commands and descendants share the admitted worker allocation and
+owned runner. Their subcommands do not pass through the process-task executable
+check, and declared resources are not per-command CPU/memory quotas. Completion
+of a model turn does not release descendants. Retain monitoring and reservations
+until the executor verifies release. Do not claim global accounting for other
+sessions, a nested agent ceiling, or unobservable work.
+
+For parallel differential diagnosis, submit distinct hypotheses with their
+small discriminating experiments, matched source/input/environment context,
+write scope, permitted commands and expected evidence. Independent tasks can
+return usable results and release their actual dependents while slower branches
+continue. Keep `hypothesis_rejected`, `failure_reproduced`, `setup_failed` and
+`not_tested` distinct. Source review and a model's interpretation do not establish
+runtime coverage, and agreement among agents is not causal confirmation. Retain
+the original failing comparison, including after a correction passes. If an
+`observed` diagnostic needs interpretation to release a narrow gate, inspect the
+actual command result and use the controller's `assess` interface with concrete
+evidence and reasoning. That records a separate operator judgment; it neither
+rewrites the original observation nor automatically proves a cause or accepts a
+patch. Do not rerun an already sufficient experiment merely to obtain a preferred
+model-written label.
 
 Completion requires the declared evidence, not a finished model turn. Keep
 execution outcome, evidence validity, scheduling disposition and engineering
@@ -115,7 +166,13 @@ Persist user pause/stop decisions and use the supported controls. Recover by
 reconciling the same run, not by launching replacement work under a new identity.
 An expired lease or missing process receipt does not prove execution stopped.
 Retain reservations and holds until the supported ownership check establishes
-release. Only explicit authorized resume clears a user pause or stop; it does
+release. Coding attempts are not automatically restarted against modified files.
+Preserve their private patch and evidence; an explicit continuation requires
+reviewing the current workspace identity and resolving the same held operation.
+An exhausted default owner/review stage can receive one further explicit
+`continue` decision under the same patch, acceptance criteria, history and
+budgets; that decision never clears a hold or user control. Only explicit
+authorized resume clears a user pause or stop; it does
 not clear permission holds or hard budgets. Stopping the controlling chat alone
 has no supported stop bridge: use `controller.py ... stop`. Disabling the kit
 also does not terminate already owned execution. Preserve run state and receipts
@@ -402,9 +459,12 @@ histories when a few verified facts and references suffice.
 
 For ordinary read-only scouting, a self-contained prompt is enough: parent
 task reference, question/use of the answer, relevant source/revision and dirty
-scope, read-only boundaries, required coverage, finite budget, stop conditions,
-and concise evidence format. Include relevant project constraints and allowed
-read commands. No owned-file checklist, test invocation, worker repair cycle,
+scope, read-only source boundaries, required coverage, finite budget, stop
+conditions, and concise evidence format. Include relevant project constraints
+and permitted bounded diagnostic commands. Explicitly scoped private scratch
+files, wrappers and compilation outputs may support those experiments; they do
+not authorize production edits. No owned-file checklist, mandatory test
+invocation, worker repair cycle,
 helper lifecycle, or separate approval round is needed solely to gather facts.
 Honor stricter project coordination rules. If runtime checks are needed, first
 resolve their authorization and prerequisites; do not infer runtime behavior

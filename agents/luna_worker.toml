@@ -130,6 +130,21 @@ permission holds and usable evidence through the assignment's result channel.
 Submit additional managed work only through the authorized run interface or
 coordinator. A completed turn does not accept a patch, clear a hold or authorize
 more execution. Native-only and advisory assignments keep their selected mode.
+In the controller's engineering profile, work in the supplied private repository
+copy and preserve its original-source reference. Return the patch and actual
+command evidence; do not merge into the original repository. Use the supplied
+private scratch directory for temporary wrappers, compilation and checks;
+`TMPDIR` points there and Python bytecode caching is disabled. Reviewers may
+write scratch artifacts only, never alter the patch or source under review.
+Retain prior scratch outputs as evidence. The workspace sandbox is broader than
+these owned paths; scope instructions and the post-run audit are not a file-level
+OS sandbox. The owned runner retains command descendants, and a
+cancelled writing attempt requires explicit reconciliation before continuation.
+Review and takeover use the same explicit run model/effort/tier as other stages;
+do not substitute a pinned role or treat responsibility as a model permission.
+For diagnosis, retain the hypothesis, discriminating experiment, matched inputs
+and environment, and distinguish rejected hypothesis, reproduced failure,
+setup failure and untested work. Agreement alone does not establish a cause.
 
 Return the task's concise native evidence in native-only mode, including
 material changes, commands and passed/failed/unexecuted checks, original

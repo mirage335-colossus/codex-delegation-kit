@@ -354,6 +354,75 @@ class SupervisorTests(unittest.TestCase):
         new = self.open("next-case", now=104)
         self.assertEqual(new["next_action"], "dispatch_worker")
 
+    def engineering_event(self, events, kind, actor, raw, at):
+        return events + [{"schema": 1, "sequence": len(events), "kind": kind,
+                          "actor": actor, "recorded_at": at, "payload_text": raw,
+                          "payload_sha256": hashlib.sha256(raw.encode()).hexdigest()}]
+
+    def test_opt_in_takeover_needs_review_without_changing_legacy_replay(self):
+        self.open()
+        self.record(self.result(failed=["unit"]))
+        events = ledger.load_events(self.store / "case")
+        events = self.engineering_event(events, "strong", "owner", self.result(), 102)
+        original = json.dumps(events, sort_keys=True)
+        _, historical = ledger.derive(events, 102)
+        self.assertEqual(historical["state"], "done")
+        _, engineering = ledger.derive(events, 102, require_strong_review=True)
+        self.assertEqual(engineering["state"], "review_required")
+        self.assertEqual(engineering["next_action"], "independent_review")
+        for actor in ("owner", "luna-1"):
+            review = self.engineering_event(events, "review", actor,
+                                            self.result(verdict="accept"), 103)
+            with self.subTest(actor=actor), self.assertRaisesRegex(ledger.LedgerError, "cannot review"):
+                ledger.derive(review, 103, require_strong_review=True)
+        accepted = self.engineering_event(events, "review", "independent",
+                                          self.result(verdict="accept"), 103)
+        _, result = ledger.derive(accepted, 103, require_strong_review=True)
+        self.assertEqual(result["state"], "done")
+        self.assertEqual(json.dumps(events, sort_keys=True), original)
+
+    def test_takeover_rejection_preserves_repair_history_and_owner_continuation(self):
+        self.open()
+        original = self.result(failed=["unit"], new_evidence=["logs/original-failure.txt"])
+        self.record(original)
+        self.record(self.result(failed=["unit"], new_evidence=["logs/repair-failure.txt"]),
+                    actor="repair-worker", now=102)
+        events = ledger.load_events(self.store / "case")
+        events = self.engineering_event(events, "strong", "owner", self.result(), 103)
+        events = self.engineering_event(events, "review", "independent",
+                                        self.result(verdict="substantive_reject"), 104)
+        _, rejected = ledger.derive(events, 104, require_strong_review=True)
+        self.assertEqual(rejected["state"], "takeover")
+        self.assertTrue(rejected["repair_used"])
+        self.assertEqual(rejected["worker_results"], 2)
+        self.assertEqual(rejected["deadline"], 160)
+        self.assertIn("logs/original-failure.txt", rejected["evidence"])
+        self.assertEqual(events[1]["payload_text"], original)
+        extra_worker = self.engineering_event(events, "worker", "fresh-worker", self.result(), 105)
+        with self.assertRaisesRegex(ledger.LedgerError, "worker result budget exhausted"):
+            ledger.derive(extra_worker, 105, require_strong_review=True)
+        events = self.engineering_event(events, "strong", "owner", self.result(), 105)
+        _, awaiting = ledger.derive(events, 105, require_strong_review=True)
+        self.assertEqual(awaiting["state"], "review_required")
+        events = self.engineering_event(events, "review", "independent",
+                                        self.result(verdict="accept"), 106)
+        _, accepted = ledger.derive(events, 106, require_strong_review=True)
+        self.assertEqual(accepted["state"], "done")
+        self.assertTrue(accepted["repair_used"])
+        self.assertEqual(accepted["deadline"], 160)
+
+    def test_incomplete_takeover_author_cannot_review_successor_work(self):
+        self.open()
+        self.record(self.result(failed=["unit"]))
+        events = ledger.load_events(self.store / "case")
+        events = self.engineering_event(events, "strong", "first-owner",
+                                        self.result(failed=["unit"]), 102)
+        events = self.engineering_event(events, "strong", "second-owner", self.result(), 103)
+        events = self.engineering_event(events, "review", "first-owner",
+                                        self.result(verdict="accept"), 104)
+        with self.assertRaisesRegex(ledger.LedgerError, "cannot review"):
+            ledger.derive(events, 104, require_strong_review=True)
+
     def test_notice_availability_labels_preserve_exact_append_only_evidence_and_budget(self):
         # These strings are synthetic fixture evidence, not actual service notices.
         cases = {
