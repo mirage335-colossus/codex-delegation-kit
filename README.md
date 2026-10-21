@@ -379,6 +379,13 @@ Report absent details honestly; do not guess a reason, assume a mistake, or ask
 the user for hidden details they cannot supply. Relevant visible command/run
 context may still be requested when genuinely needed.
 
+A failed `gh` request or sandboxed authentication check can reflect blocked
+networking while credentials are already configured. Inspect the error and use
+the supported network approval path for an already-authorized operation when
+permitted, before concluding that another login is required. Preserve explicit
+network restrictions and account/operation scope; see the policy's
+[interruption procedure](policy.md#classify-interruptions-before-implementation-escalation).
+
 If the optional helper is selected, its nonempty `notice` field retains exact
 accessible text. Label partial text `PARTIAL` and include the verbatim accessible
 portion; if no text is accessible, label the evidence limitation `UNAVAILABLE`.

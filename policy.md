@@ -825,6 +825,22 @@ failure/setup/interruption distinctions, ownership and repair limits still apply
 
 ## Classify interruptions before implementation escalation
 
+For GitHub CLI (`gh`) requests, distinguish network/sandbox failures from actual
+authentication or repository-access failures. Credentials may already be
+configured even when sandbox networking prevents the request; a failed request
+or sandboxed `gh auth status` alone does not establish that the user is logged
+out. Inspect the accessible error and execution context first. For an already
+authorized GitHub operation, use the supported network approval path when the
+applicable permissions allow it, then check the smallest relevant request in
+the same environment and account. Preserve the original failure and report what
+the new observation establishes. Do not ask the user to log in again, replace
+credentials, or change accounts merely because networking was blocked. Request
+authentication repair only when a permitted connection or conclusive local
+credential evidence supports it. Explicit network-disabled run settings, denied
+approval, service restrictions and unresolved access failures remain holds; this
+guidance does not broaden them or authorize a different backend, account,
+operation or remote write.
+
 Distinguish an implementation/acceptance failure from validation setup or tool
 permission failure, model refusal/uncertainty, and service safety/access errors
 such as `cyber_policy`. Inspect the actual accessible notice and attempted
