@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "id": "swarm-main-luna-medium",
+  "workspace": "/tmp/delegation-swarm-main/source",
+  "policy": {
+    "capacity": {
+      "reasoning": 2,
+      "processes": 2,
+      "cpu": 2,
+      "memory_mb": 0
+    },
+    "allowed_cwds": [
+      "/tmp/delegation-swarm-main/source"
+    ],
+    "allowed_executables": [],
+    "process_boundary": "inherited",
+    "boundary_description": "Authorized disposable local validation; Codex workers use controller-created private fixture copies and network-disabled workspace-write. No X11 or broader authority.",
+    "codex_binary": "/usr/lib/chatgpt/resources/codex",
+    "agent_profile": "engineering",
+    "model": "gpt-6-luna",
+    "effort": "medium",
+    "service_tier": "default",
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "network": false,
+    "max_active_seconds": 240,
+    "deadline_seconds": 300,
+    "task_timeout_seconds": 60
+  },
+  "source": {
+    "purpose": "bounded main-chat swarm-role acceptance probe",
+    "fixture": "/tmp/delegation-swarm-main"
+  },
+  "tasks": [
+    {
+      "id": "swarm-parser",
+      "role": "swarm",
+      "cwd": "/tmp/delegation-swarm-main/source",
+      "write_scope": [],
+      "priority": 2,
+      "estimate_seconds": 20,
+      "setup_seconds": 3,
+      "uncertainty": 0.2,
+      "unlock_value": 0,
+      "hypothesis": "The parser drops the first comma-separated integer before reduction.",
+      "experiment": "Call actual parse_values on matched text inputs and compare the lists with expected token lists.",
+      "comparison": {
+        "inputs": [
+          "2,3",
+          "7",
+          " 2 , , 3 "
+        ],
+        "expected": [
+          [
+            2,
+            3
+          ],
+          [
+            7
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "environment": "same local Python interpreter and private source snapshot"
+      },
+      "prompt": "Inspect production source read-only. Use one bounded `python3 -B` command to call actual parse_values on the comparison inputs, print actual/expected/match, and preserve exact results. Do not infer reducer correctness from parser output. Report hypothesis_rejected if actual runtime outputs match all expected lists; otherwise report failure_reproduced only for an observed mismatch. No edits or sleeps.",
+      "allowed_commands": [
+        "Read/search source",
+        "Run one bounded python3 -B command against actual parse_values"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "id": "swarm-reducer",
+      "role": "swarm",
+      "cwd": "/tmp/delegation-swarm-main/source",
+      "write_scope": [],
+      "priority": 2,
+      "estimate_seconds": 30,
+      "setup_seconds": 5,
+      "uncertainty": 0.2,
+      "unlock_value": 0,
+      "hypothesis": "The reducer omits the first value independently of parsing.",
+      "experiment": "Create a tiny wrapper under generated TMPDIR, compile it to that same directory, import actual totals.py and compare aggregate([]), aggregate([7]), aggregate([2,3]), and total(\"2,3\") against sum/expected values.",
+      "comparison": {
+        "inputs": [
+          [],
+          [
+            7
+          ],
+          [
+            2,
+            3
+          ],
+          "2,3"
+        ],
+        "expected": [
+          0,
+          7,
+          5,
+          5
+        ],
+        "environment": "same local Python interpreter and private source snapshot; actual module"
+      },
+      "prompt": "Inspect production source read-only. Use generated TMPDIR only for wrapper source and bytecode: create `reducer_probe.py` there, compile it with py_compile to a `.pyc` in TMPDIR, and run it via `python3 -B`. The wrapper must import and call actual `totals.py` from the private copy, not a reimplementation. Print aggregate([]), aggregate([7]), aggregate([2,3]) beside built-in sum results, and total(\"2,3\") beside 5. Leave the wrapper source intact for controller capture. No production edits, no other writes, no sleep. Report actual command/evidence and uncertainty; classify outcomes only from observed runtime comparisons.",
+      "allowed_commands": [
+        "Read/search source",
+        "Use python3 -B to create and compile a wrapper only under generated TMPDIR and invoke actual module code"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "id": "swarm-repeatability-cutoff",
+      "role": "swarm",
+      "cwd": "/tmp/delegation-swarm-main/source",
+      "write_scope": [],
+      "priority": 1,
+      "estimate_seconds": 25,
+      "setup_seconds": 5,
+      "uncertainty": 0.5,
+      "unlock_value": 0,
+      "hypothesis": "The direct-call result for total(\"2,3\") is stable across a 60-second delay.",
+      "experiment": "One permitted Python command prints and flushes a baseline actual total(\"2,3\"), waits exactly 60 seconds, and would print the repeated value; the assigned execution timeout is 25 seconds.",
+      "comparison": {
+        "input": "2,3",
+        "expected": 5,
+        "environment": "same local Python interpreter and private source snapshot",
+        "single_sleep_seconds": 60,
+        "task_timeout_seconds": 25
+      },
+      "prompt": "Run exactly one permitted Python command with the actual private-copy totals module: print and flush baseline total(\"2,3\"), call time.sleep(60) exactly once, then print the after-delay result. The task timeout is 25 seconds, so the controller may cut off this command before the second observation. Do not evade or extend the cutoff, retry, or use another process. If cutoff occurs, report inconclusive with the baseline only and state the comparison did not finish. No edits or additional sleep.",
+      "allowed_commands": [
+        "Read source",
+        "Run one python3 -B direct-call command with exactly one 60-second sleep; allow controller 25-second cutoff"
+      ],
+      "timeout_seconds": 25
+    }
+  ]
+}

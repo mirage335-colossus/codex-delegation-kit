@@ -31,19 +31,28 @@ CONTROLLER_FILES = ADVISORY_FILES + (
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
     "scheduling.py", "ORCHESTRATION.md",
 )
-FILES = CONTROLLER_FILES + ("engineering.py",)
+ENGINEERING_FILES = CONTROLLER_FILES + ("engineering.py",)
+FILES = ENGINEERING_FILES + (
+    "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+)
 LEGACY_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
     "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
 }
-ROLES = {
+# These descriptions and their order are part of published activation blocks.
+PRE_SWARM_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
     "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
     "inherited_scout": "Focused read-only source exploration and factual investigation with inherited settings.",
     "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
     "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
+}
+ROLES = {
+    **PRE_SWARM_ROLES,
+    "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
+    "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
 }
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
@@ -164,15 +173,17 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                     or "\0" in source_directory or not Path(source_directory).is_absolute()):
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
-        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES), set(FILES)):
+        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
+                             set(ENGINEERING_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
-        legacy_expected = blocks(home / "delegation-kit", LEGACY_ROLES)
-        activation_names = set(value["activation"])
-        legacy_layout = inventory == set(LEGACY_FILES) and activation_names == set(legacy_expected)
-        current_layout = inventory in (set(ADVISORY_FILES), set(CONTROLLER_FILES), set(FILES)) and activation_names == set(expected)
-        if not (legacy_layout or current_layout):
+        if inventory == set(LEGACY_FILES):
+            known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
+        elif inventory == set(FILES):
+            known_blocks = expected
+        else:
+            known_blocks = blocks(home / "delegation-kit", PRE_SWARM_ROLES)
+        if set(value["activation"]) != set(known_blocks):
             raise ValueError("unexpected activation file list")
-        known_blocks = legacy_expected if inventory == set(LEGACY_FILES) else expected
         for name, block in known_blocks.items():
             record = value["activation"][name]
             if record["inserted"] not in (block, "\n" + block):
@@ -195,7 +206,6 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
         if directory.exists() and not directory.is_dir():
             raise Refusal(f"Expected a directory: {directory}")
     expected = blocks(target)
-    legacy_expected = blocks(target, LEGACY_ROLES)
     manifest_path = target / ".installation" / "manifest.json"
     manifest_state, previous = load_manifest(manifest_path, home, expected)
     if target.exists() and previous is None and any(target.iterdir()):
@@ -214,13 +224,14 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     for configuration_to_check in (configuration, clean_configuration):
         if "agents" in configuration_to_check and not isinstance(configuration_to_check["agents"], dict):
             raise Refusal("config.toml agents must be a table")
-    for role in ROLES:
-        if role in clean_configuration.get("agents", {}):
-            raise Refusal(f"Existing agent role conflicts with the kit: {role}")
-
     changes: list[Change] = []
     activation = {}
     if not uninstall:
+        # Disable removes only the prior owned block; new role names may belong
+        # to the user in an older installation and must remain untouched.
+        for role in ROLES:
+            if role in clean_configuration.get("agents", {}):
+                raise Refusal(f"Existing agent role conflicts with the kit: {role}")
         check_personal_roles(home)
         override = read_state(home / "AGENTS.override.md")
         if override.data and override.data.strip():

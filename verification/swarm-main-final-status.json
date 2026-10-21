@@ -1,0 +1,138 @@
+{
+  "run": "swarm-main-luna-medium",
+  "mode": "stopped",
+  "stop_reason": "All three swarm probes released and evidence captured; stop durably after bounded run",
+  "elapsed_seconds": 50.86179757118225,
+  "completed": 2,
+  "original_completed": 2,
+  "original_total": 3,
+  "all_original_complete": false,
+  "all_terminal": true,
+  "active": 0,
+  "runnable_or_deferred": false,
+  "resources": {
+    "reasoning": 0,
+    "cpu": 0,
+    "processes": 0,
+    "memory_mb": 0
+  },
+  "exclusive": [],
+  "events": 23,
+  "valid_passes": 0,
+  "valid_failures": 0,
+  "acceptance_stages_completed": 0,
+  "active_service_seconds": 58.9850811958313,
+  "useful_results_per_second": 0.039322243717417854,
+  "inconclusive": 1,
+  "holds": {},
+  "tasks": [
+    {
+      "id": "swarm-parser",
+      "role": "scout",
+      "swarm": true,
+      "origin": "original",
+      "status": "completed",
+      "outcome": "hypothesis_rejected",
+      "acceptance_status": "observed",
+      "reason": "Actual parse_values outputs matched all three expected lists, so this experiment did not observe the parser dropping the first comma-separated integer. This reports parser output only; it does not establish reducer correctness.",
+      "service_seconds": 15.19580078125,
+      "preemptions": 0,
+      "not_before": 1792559014.5754848,
+      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607",
+      "diagnostic_result": {
+        "evidence": [
+          "Command: python3 -B -c 'from totals import parse_values; inputs = [\"2,3\", \"7\", \" 2 , , 3 \"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\"input={s!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'",
+          "Output: input='2,3' actual=[2, 3] expected=[2, 3] match=True; input='7' actual=[7] expected=[7] match=True; input=' 2 , , 3 ' actual=[2, 3] expected=[2, 3] match=True"
+        ],
+        "findings": "Actual parse_values outputs matched all three expected lists, so this experiment did not observe the parser dropping the first comma-separated integer. This reports parser output only; it does not establish reducer correctness.",
+        "outcome": "hypothesis_rejected"
+      },
+      "diagnostic_assessment": null,
+      "cleanup": {
+        "at": 1792559029.992532,
+        "attempt": "swarm-parser-1-ec23662ff607",
+        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+        "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
+        "completed_at": 1792559029.994894,
+        "state": "complete",
+        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+        "workspace_identity": {
+          "device": 46,
+          "inode": 399699
+        }
+      }
+    },
+    {
+      "id": "swarm-reducer",
+      "role": "scout",
+      "swarm": true,
+      "origin": "original",
+      "status": "completed",
+      "outcome": "failure_reproduced",
+      "acceptance_status": "observed",
+      "reason": "The actual reducer omits the first value: aggregate([]) matches sum at 0, but aggregate([7]) returns 0 instead of 7 and aggregate([2,3]) returns 3 instead of 5. total(\"2,3\") also returns 3 instead of 5. This demonstrates the specified contract mismatch in the private source snapshot; it does not establish why the implementation behaves this way.",
+      "service_seconds": 18.54342770576477,
+      "preemptions": 0,
+      "not_before": 1792559014.5754848,
+      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979",
+      "diagnostic_result": {
+        "evidence": [
+          "Source: totals.py implements aggregate(values) as sum(values[1:]); total(text) passes parsed values to aggregate.",
+          "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py \u2014 exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
+        ],
+        "findings": "The actual reducer omits the first value: aggregate([]) matches sum at 0, but aggregate([7]) returns 0 instead of 7 and aggregate([2,3]) returns 3 instead of 5. total(\"2,3\") also returns 3 instead of 5. This demonstrates the specified contract mismatch in the private source snapshot; it does not establish why the implementation behaves this way.",
+        "outcome": "failure_reproduced"
+      },
+      "diagnostic_assessment": null,
+      "cleanup": {
+        "at": 1792559033.678214,
+        "attempt": "swarm-reducer-1-8f5ee3c39979",
+        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
+        "capsule_sha256": "779e5cd2bd7e0fd9cbc81be3ba8caf4111940c5fe4282cfa7e89338236809bd2",
+        "completed_at": 1792559033.681326,
+        "state": "complete",
+        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+        "workspace_identity": {
+          "device": 46,
+          "inode": 399727
+        }
+      }
+    },
+    {
+      "id": "swarm-repeatability-cutoff",
+      "role": "scout",
+      "swarm": true,
+      "origin": "original",
+      "status": "unmapped",
+      "outcome": "inconclusive",
+      "acceptance_status": "unverified",
+      "reason": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
+      "service_seconds": 25.24585270881653,
+      "preemptions": 0,
+      "not_before": 1792559014.5754848,
+      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
+      "diagnostic_result": {
+        "cutoff": "swarm experiment reached its assigned time limit; no engineering outcome established",
+        "evidence": [
+          "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
+        ],
+        "findings": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
+        "outcome": "inconclusive"
+      },
+      "diagnostic_assessment": null,
+      "cleanup": {
+        "at": 1792559055.6088707,
+        "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
+        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+        "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
+        "completed_at": 1792559055.6115592,
+        "state": "complete",
+        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+        "workspace_identity": {
+          "device": 46,
+          "inode": 399755
+        }
+      }
+    }
+  ]
+}

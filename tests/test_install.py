@@ -51,11 +51,15 @@ class InstallerTests(unittest.TestCase):
 
     def seed_advisory(self, *, active=True):
         """Create the eleven-file, six-role layout before controller support."""
-        return self.seed_layout(kit.ADVISORY_FILES, kit.ROLES, active=active)
+        return self.seed_layout(kit.ADVISORY_FILES, kit.PRE_SWARM_ROLES, active=active)
 
     def seed_controller(self, *, active=True):
         """Create the seventeen-file controller layout before engineering support."""
-        return self.seed_layout(kit.CONTROLLER_FILES, kit.ROLES, active=active)
+        return self.seed_layout(kit.CONTROLLER_FILES, kit.PRE_SWARM_ROLES, active=active)
+
+    def seed_engineering(self, *, active=True):
+        """Create the eighteen-file engineering layout before swarm roles."""
+        return self.seed_layout(kit.ENGINEERING_FILES, kit.PRE_SWARM_ROLES, active=active)
 
     def seed_layout(self, files, roles, *, active):
         target = self.home / "delegation-kit"
@@ -86,6 +90,15 @@ class InstallerTests(unittest.TestCase):
     def snapshot_home(self):
         return {path.relative_to(self.home): kit.read_state(path)
                 for path in self.home.rglob("*") if path.is_file()}
+
+    def assert_only_role_block_updated(self, target, globals_before):
+        old = kit.blocks(target, kit.PRE_SWARM_ROLES)["config.toml"].encode()
+        new = kit.blocks(target)["config.toml"].encode()
+        self.assertEqual(globals_before[self.config].data.count(old), 1)
+        for path, before in globals_before.items():
+            expected = (kit.State(before.data.replace(old, new, 1), before.mode)
+                        if path == self.config else before)
+            self.assertEqual(kit.read_state(path), expected)
 
     def test_active_legacy_upgrade_preserves_config_position_history_and_roundtrip(self):
         target = self.seed_legacy()
@@ -170,7 +183,7 @@ class InstallerTests(unittest.TestCase):
         self.assertTrue(preview)
         self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
         kit.apply(preview)
-        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        self.assert_only_role_block_updated(target, globals_before)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         for name in kit.FILES:
@@ -227,9 +240,9 @@ class InstallerTests(unittest.TestCase):
         self.assertTrue(any(change.path == target / "engineering.py" for change in preview))
         self.assertFalse((target / "engineering.py").exists())
         kit.apply(preview)
-        self.assertEqual({path: kit.read_state(path) for path in globals_before}, globals_before)
+        self.assert_only_role_block_updated(target, globals_before)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
-        self.assertEqual(len(manifest["bundle_digests"]), 18)
+        self.assertEqual(len(manifest["bundle_digests"]), 20)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         self.assertEqual((target / "engineering.py").read_bytes(), (self.source / "engineering.py").read_bytes())
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -267,6 +280,134 @@ class InstallerTests(unittest.TestCase):
         with self.assertRaisesRegex(kit.Refusal, "not owned"):
             kit.plan(self.home, self.source)
         self.assertEqual(self.snapshot_home(), before)
+
+    def test_engineering_upgrade_preserves_config_position_execution_history_and_modes(self):
+        self.config.write_bytes(self.config.read_bytes() +
+                               b'\nservice_tier = "default"\n[agents]\nmax_threads = 7\n')
+        self.original[self.config] = kit.read_state(self.config)
+        target = self.seed_engineering()
+        suffix = b'\n[history]\npersistence = "save-all"\n'
+        self.config.write_bytes(self.config.read_bytes() + suffix)
+        globals_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        retained = {
+            target / "state/run/state.sqlite3": b"retained scheduling database\n",
+            target / "state/run/operations/op-1/receipt.json": b'{"state":"running","released":false}\n',
+            target / "state/run/operations/op-1/patch.diff": b"retained original patch\n",
+            target / ".installation/backups/old/manifest.json": b"retained historical manifest\n",
+        }
+        for path, contents in retained.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(contents)
+        before = self.snapshot_home()
+        preview = kit.plan(self.home, self.source)
+        for role in ("inherited_swarm", "luna_swarm"):
+            destination = target / "agents" / (role + ".toml")
+            self.assertTrue(any(change.path == destination for change in preview))
+            self.assertFalse(destination.exists())
+        self.assertEqual(self.snapshot_home(), before)
+
+        kit.apply(preview)
+        self.assert_only_role_block_updated(target, globals_before)
+        loaded = kit.parse_toml(self.config.read_bytes(), self.config)
+        self.assertEqual(loaded["model"], "primary")
+        self.assertEqual(loaded["model_reasoning_effort"], "ultra")
+        self.assertEqual(loaded["service_tier"], "default")
+        self.assertEqual(loaded["agents"]["max_threads"], 7)
+        self.assertEqual(set(loaded["agents"]), {"max_threads", *kit.ROLES})
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(manifest["version"], 1)
+        self.assertEqual(len(manifest["bundle_digests"]), 20)
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        for name in kit.FILES:
+            self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), kit.State(
+            self.original[self.config].data + suffix, self.original[self.config].mode))
+        self.assertEqual({path: path.read_bytes() for path in retained}, retained)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_inactive_engineering_upgrade_and_idempotent_disable(self):
+        target = self.seed_engineering(active=False)
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+        self.activate()
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+
+    def test_engineering_can_be_disabled_without_installing_swarm_roles(self):
+        target = self.seed_engineering()
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        for role in ("inherited_swarm", "luna_swarm"):
+            self.assertFalse((target / "agents" / (role + ".toml")).exists())
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.ENGINEERING_FILES))
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def assert_historical_disable_preserves_personal_swarm_roles(self, seed, files):
+        target = seed()
+        personal = (b'\n[agents.luna_swarm]\nconfig_file = "personal-luna.toml"\n'
+                    b'\n[agents.inherited_swarm]\nconfig_file = "personal-inherited.toml"\n')
+        self.config.write_bytes(self.config.read_bytes() + personal)
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "Existing agent role conflicts"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), kit.State(
+            self.original[self.config].data + personal, self.original[self.config].mode))
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertFalse(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(files))
+        for role in ("inherited_swarm", "luna_swarm"):
+            self.assertFalse((target / "agents" / (role + ".toml")).exists())
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_advisory_disable_preserves_personal_swarm_roles(self):
+        self.assert_historical_disable_preserves_personal_swarm_roles(
+            self.seed_advisory, kit.ADVISORY_FILES)
+
+    def test_controller_disable_preserves_personal_swarm_roles(self):
+        self.assert_historical_disable_preserves_personal_swarm_roles(
+            self.seed_controller, kit.CONTROLLER_FILES)
+
+    def test_engineering_disable_preserves_personal_swarm_roles(self):
+        self.assert_historical_disable_preserves_personal_swarm_roles(
+            self.seed_engineering, kit.ENGINEERING_FILES)
+
+    def test_engineering_upgrade_refuses_unowned_swarm_roles_even_with_identical_bytes(self):
+        target = self.seed_engineering()
+        for role in ("inherited_swarm", "luna_swarm"):
+            with self.subTest(role=role):
+                name = "agents/" + role + ".toml"
+                destination = target / name
+                destination.write_bytes((self.source / name).read_bytes())
+                before = self.snapshot_home()
+                with self.assertRaisesRegex(kit.Refusal, "not owned"):
+                    kit.plan(self.home, self.source)
+                self.assertEqual(self.snapshot_home(), before)
+                destination.unlink()
+
+    def test_historical_inventory_cannot_claim_new_activation_block(self):
+        target = self.seed_engineering()
+        path = target / ".installation/manifest.json"
+        manifest = json.loads(path.read_text())
+        manifest["activation"]["config.toml"]["inserted"] = kit.blocks(target)["config.toml"]
+        path.write_text(json.dumps(manifest))
+        before = self.snapshot_home()
+        for uninstall in (False, True):
+            with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
+                kit.plan(self.home, self.source, uninstall=uninstall)
+            self.assertEqual(self.snapshot_home(), before)
 
     def test_roundtrip_exact_bytes_and_modes(self):
         self.activate()
@@ -397,6 +538,8 @@ class InstallerTests(unittest.TestCase):
             ("AGENTS.override.md", b"This suppresses AGENTS.md\n"),
             ("config.toml", b"[agents.luna_worker]\nmodel = 'mine'\n"),
             ("config.toml", b"[agents.inherited_worker]\nconfig_file = 'personal.toml'\n"),
+            ("config.toml", b"[agents.inherited_swarm]\nconfig_file = 'personal.toml'\n"),
+            ("config.toml", b"[agents.luna_swarm]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"not = valid = toml\n"),
             ("config.toml", b"agents = 4\n"),
         )
@@ -431,6 +574,8 @@ class InstallerTests(unittest.TestCase):
         for contents in (
             b'name = "luna_worker"\n',
             b'name = "inherited_worker"\n',
+            b'name = "inherited_swarm"\n',
+            b'name = "luna_swarm"\n',
             b'model = "unknown-name"\n',
             b'name = 17\n',
             b'name = invalid = toml\n',

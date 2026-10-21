@@ -148,6 +148,9 @@ def prepare(task, policy, directory):
                 raise BackendError("scratch_directory needs its exact owned write scope")
         if role == "reviewer" and scope and (scratch is None or any(str(Path(name)) != relative_scratch for name in scope)):
             raise BackendError("reviewers may write only their declared private scratch directory")
+        if task.get("swarm") and (role != "scout" or scratch is None
+                                   or scope != [relative_scratch + "/"]):
+            raise BackendError("swarm probes require a scout with only generated scratch writes")
         if role in {"worker", "owner"} and not scope:
             raise BackendError("editing responsibilities require private-copy write scope")
         if scope:
@@ -178,6 +181,8 @@ def prepare(task, policy, directory):
                        execution_environment=LOCAL_ENVIRONMENT)
         if scratch is not None:
             request["scratch_directory"] = str(scratch)
+        if task.get("swarm"):
+            request["swarm"] = True
     if len(json.dumps(request, ensure_ascii=False).encode()) > MAX_BYTES:
         raise BackendError("bounded backend request exceeds 1 MiB")
     directory.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -251,6 +256,17 @@ def _instructions(request):
         "reviewer": "Independently inspect the actual patch, source and evidence. Run targeted checks when useful. You may create temporary wrappers and compilation outputs only in the declared private scratch directory. Do not modify the patch or source. Accept or reject with concrete findings; do not approve a patch you authored.",
         "owner": "Continue consequential diagnosis or repair from the existing patch. Preserve earlier changes, original failures, repair history, budgets and acceptance criteria. Your patch still requires independent review.",
     }[role]
+    if request.get("swarm"):
+        responsibility += (
+            f" This is a fail-fast swarm probe with {request['timeout_seconds']} seconds including startup. "
+            "Test one hypothesis with a small discriminating experiment. The private baseline is read-only too; "
+            "put wrappers, modified copies, compilation and temporary files only in the generated scratch directory. "
+            "Keep inputs and environment matched. Return early with outcome inconclusive, concrete findings, "
+            "evidence, uncertainty and a next discriminator when no useful probe fits the remaining allocation. "
+            "Do not retry, escalate, or claim a timeout is a test failure. A permission or service denial remains blocked. "
+            "Stop owned temporary servers and descendants; leave wrapper source for controller evidence capture. "
+            "The controller retains the report and cleans eligible private work after verified execution release."
+        )
     return (
         f"You are the {role} for one bounded engineering assignment. {responsibility}\n"
         "You share the codebase. Preserve other contributors' changes. Read applicable project instructions. "
@@ -511,7 +527,7 @@ def run_request(path):
              "configured": {key: request[key] for key in ("model", "effort", "service_tier", "sandbox", "approval", "network", "agent_tools")},
              "operation_id": request["operation_id"], "thread_id": None, "turn_id": None,
              "detail": "startup not yet acknowledged", "commands": [], "file_changes": [],
-             "events": str(directory / "backend-events.jsonl")}
+             "events": str(directory / "backend-events.jsonl"), "termination_kind": "error"}
     _atomic(destination, state)
     interrupted = [False]
     def on_signal(signum, frame):
@@ -606,6 +622,8 @@ def run_request(path):
                 if method == "turn/completed" and body.get("turn", {}).get("id") == state["turn_id"]:
                     turn = body["turn"]
                     if turn.get("status") != "completed" or cancellation_sent:
+                        if cancellation_sent and turn.get("status") == "interrupted" and not turn.get("error"):
+                            state["termination_kind"] = "interrupted"
                         raise BackendError("turn did not complete normally: " + json.dumps(turn.get("error") or turn.get("status")))
                     if final_text is None:
                         # Some runtimes include final items in the turn snapshot.
@@ -621,9 +639,23 @@ def run_request(path):
                         raise BackendError("final result must be one JSON object")
                     if len(json.dumps({**state, "result": result}, ensure_ascii=False).encode()) > MAX_BYTES:
                         raise BackendError("final result plus observations exceeds bounded evidence size")
-                    state.update(status="completed", result=result, detail="model turn completed; acceptance requires controller validation")
+                    state.update(status="completed", result=result, termination_kind="completed",
+                                 detail="model turn completed; acceptance requires controller validation")
                     break
-    except (OSError, ValueError, KeyError, TypeError, TimeoutError) as error:
+    except TimeoutError as error:
+        # Setup timeouts, cancellation and runtime errors remain holds. Only an
+        # acknowledged swarm turn reaching its own deadline is a budget cutoff.
+        if (request.get("swarm") and state["settings_verified"] and state["turn_id"]
+                and not interrupted[0] and time.monotonic() >= deadline):
+            state.update(status="cutoff", result=None, termination_kind="budget_cutoff",
+                         detail="swarm experiment reached its assigned time limit; no engineering outcome established")
+            try:
+                client.send("turn/interrupt", {"threadId": state["thread_id"], "turnId": state["turn_id"]})
+            except (OSError, ValueError):
+                pass  # The owned executor still must verify descendant release.
+        else:
+            state.update(status="hold", detail=str(error))
+    except (OSError, ValueError, KeyError, TypeError) as error:
         state.update(status="hold", detail=str(error))
     finally:
         if client:
@@ -648,9 +680,18 @@ def collect(directory, observation):
             raise BackendError("backend request and result must be JSON objects")
         if state.get("operation_id") != request.get("operation_id"):
             raise BackendError("backend result belongs to another operation")
-        if state.get("status") not in {"completed", "failed", "hold", "invalid"}:
+        if state.get("status") not in {"completed", "failed", "hold", "invalid", "cutoff"}:
             raise BackendError("invalid backend status")
-        if observation.get("state", observation.get("status")) in {"cancelled", "setup_error", "uncertain"} or observation.get("returncode") != 0:
+        execution_state = observation.get("state", observation.get("status"))
+        budget_cutoff = (state["status"] == "cutoff" and request.get("swarm") is True
+                         and state.get("termination_kind") == "budget_cutoff"
+                         and state.get("settings_verified") and state.get("turn_id")
+                         and observation.get("returncode") == 1
+                         and (execution_state == "completed" or (execution_state == "cancelled"
+                              and observation.get("cancellation_reason", observation.get("detail")) == "execution timeout")))
+        if state["status"] == "cutoff" and not budget_cutoff:
+            state.update(status="hold", result=None, termination_kind="error", detail="unverified or externally cancelled budget cutoff")
+        if not budget_cutoff and (execution_state in {"cancelled", "setup_error", "uncertain"} or observation.get("returncode") != 0):
             state.update(status="hold", result=None, detail="execution did not finish normally: " + state.get("detail", ""))
         if state["status"] == "completed" and not isinstance(state.get("result"), dict):
             raise BackendError("completed backend has no JSON result")

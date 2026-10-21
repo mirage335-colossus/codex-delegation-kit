@@ -32,7 +32,8 @@ Adapter receipts may survive controller crashes; identical re-observation is saf
 and `collect(directory, observation) -> dict`. Uses one supported Codex backend,
 explicit per-run model/effort/sandbox/approval/network/tool constraints, and no
 fallback on denial. Exposes configured vs observed model/effort separately.
-Collect returns `status` (`completed`, `failed`, `hold`, `invalid`), `result`
+Collect returns `status` (`completed`, `failed`, `hold`, `invalid`, or verified
+swarm `cutoff`), `result`
 (parsed final JSON if present), `effective` settings and telemetry if available,
 and `detail`. Engineering results also retain runtime-observed `commands` and
 `file_changes`; full events remain in `backend-events.jsonl`. A completed turn
@@ -230,6 +231,93 @@ replace an existing assessment, accept a patch, manufacture a new completion,
 clear user controls or establish causality by agreement. The supplied reason is
 engineering judgment by an authorized operator; the interface does not
 authenticate that operator or prove the interpretation.
+
+## Bounded swarm probes
+
+`role: "swarm"` is a small preset on the existing scout path. It uses the same
+run, scheduler, private copies, execution ownership and diagnostic evidence.
+It does not select a model or create native subagents. Use Luna/medium at run
+level when the whole run must remain Luna medium. The optional native roles
+`inherited_swarm` and `luna_swarm` are separate entrypoints for native delegation;
+only the latter pins Luna medium, and neither provides controller bookkeeping.
+
+For example, submit this packet to an engineering run with workspace-write
+permission and an available allocation:
+
+```json
+{
+  "role": "swarm",
+  "cwd": "repo",
+  "prompt": "Inspect and call the actual reducer. Return the observed values and uncertainty; do not correct source.",
+  "hypothesis": "The reducer omits the first value independently of parsing.",
+  "experiment": "Compare aggregate([]), aggregate([7]) and aggregate([2,3]) with sum() on the same lists.",
+  "comparison": {"inputs": [[], [7], [2,3]], "expected": [0, 7, 5], "environment": "local Python 3, same source snapshot"},
+  "allowed_commands": ["Read and search source", "Run a bounded python3 -B wrapper calling the actual aggregate helper"],
+  "timeout_seconds": 60
+}
+```
+
+No caller-owned source edits are accepted. Code generates the scratch scope and
+`TMPDIR`; keep wrappers, modified copies and compiled artifacts there. The
+private baseline and original repository remain read-only by assignment. The
+runtime sandbox protects the original repository, while file-level scope inside
+the private workspace is enforced by instructions and post-run audit, not an OS
+read-only mount. Source mutations become holds. A wrapper must call actual code
+or clearly identify its copied modifications and matched comparison; a faithful
+reduced diagnostic still does not replace full acceptance checks.
+
+The default probe limit is 60 seconds; explicit limits remain bounded by the
+run's budgets. Allow for model startup and useful execution when selecting a
+limit. When a cheap discriminator is unavailable, return `inconclusive` with
+observations, uncertainty and the next useful experiment. A verified budget
+cutoff also becomes inconclusive. Neither outcome supplies a `result` dependency
+label, counts as useful completed coverage, retries the task, nor escalates to a
+different model. Setup failures, permission/service holds and user stops keep
+their distinct meanings. The coordinator decides what to try next within the
+same authorization boundary. An expanding supply of cheap probes must not
+replace the original engineering objective.
+
+Leave useful wrapper source for the controller to capture. It retains compact
+observations, command logs, snapshots and reproducer material outside the private
+workspace, then removes eligible temporary work only after verified execution
+release. Cleanup has durable intent and completion records, so recovery finishes
+interrupted cleanup without relaunching a probe. Held or uncertain work remains
+available for reconciliation. Inspect retained evidence and any omission or
+cleanup notice before relying on replayability. Durable reports are intentionally
+kept; they are not expendable temporary files.
+
+`result` exposes `cleanup` with its state and capsule location. Capture is bounded
+to 128 KiB per text file and 2 MiB total; binaries, toolchains and other omissions
+are listed, so a complete replay environment is not promised. Oversized scratch
+source keeps the workspace instead of deleting its only copy. A cleanup marked
+`failed` remains visible for inspection and does not retry automatically;
+`recover` resumes committed `intent` states. `assess` can interpret a completed
+observation after intentional cleanup only after verifying the retained capsule
+and receipt hashes. It still cannot convert an inconclusive probe into coverage.
+
+Existing `start`, `submit`, `status`, `result`, `pause`, `resume`, `stop` and
+`recover` commands are unchanged. Fast results can release their own dependents
+while other probes continue. Limit concurrency to allocated capacity and useful
+distinct experiments. No exponential speedup or massive-scale benchmark is
+claimed.
+
+Prepare a self-contained two-hypothesis example without model calls:
+
+```sh
+python3 -B examples/engineering_tasks.py --directory /tmp/new-swarm-example \
+  --kind swarm --model gpt-6-luna --effort medium --service-tier default \
+  --codex-binary /absolute/path/to/codex
+python3 -B controller.py --run /tmp/new-swarm-example/run start /tmp/new-swarm-example/inventory.json
+python3 -B controller.py --run /tmp/new-swarm-example/run report
+```
+
+The first command prepares only; `start` makes actual model calls. Use the
+normal durable control commands in another terminal while the loop runs.
+An isolated X11 server is optional only when already available and authorized,
+with private display/authentication state and owned descendants. No X11 runtime
+is installed or integration promised by the preset; unavailable isolation is a
+setup limitation. Native role instructions alone cannot guarantee cleanup or
+enforce an OS sandbox.
 
 ## Design limits
 

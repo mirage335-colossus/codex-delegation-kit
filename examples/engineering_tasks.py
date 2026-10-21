@@ -144,6 +144,8 @@ def inventory(source, args):
         tasks = diagnostic_tasks() + [coding_task(depends_on=[{
             "task": "reducer", "evidence": "failure_reproduced"
         }])]
+    if args.kind == "swarm":
+        tasks = swarm_tasks()
     return {
         "version": 1, "id": "engineering-" + args.kind,
         "workspace": str(source),
@@ -167,6 +169,19 @@ def inventory(source, args):
         },
         "tasks": tasks,
     }
+
+
+def swarm_tasks():
+    """Two independent short probes; no correction or model calls here."""
+    tasks = diagnostic_tasks()[:2]
+    for task in tasks:
+        task.update(role="swarm", timeout_seconds=60, write_scope=[])
+        task["prompt"] = task["prompt"].replace("under scratch/", "under the generated TMPDIR")
+        task["allowed_commands"] = READ_COMMANDS + [
+            "Create minimal wrappers or modified copies only under the generated TMPDIR.",
+            "Compile Python wrapper source with py_compile with its output explicitly inside TMPDIR."
+        ]
+    return tasks
 
 
 def prepare(args):
@@ -204,7 +219,7 @@ def prepare(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--directory", type=Path, required=True, help="new disposable directory; never reused or overwritten")
-    parser.add_argument("--kind", choices=["coding", "diagnosis"], default="coding")
+    parser.add_argument("--kind", choices=["coding", "diagnosis", "swarm"], default="coding")
     parser.add_argument("--fixture-only", action="store_true", help="create source only; coordinator must construct its own inventory")
     parser.add_argument("--model")
     parser.add_argument("--effort")

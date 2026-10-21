@@ -226,6 +226,11 @@ guess a tier from model version names, availability, price, or historical work.
 
 The three existing pins remain intentional: the Luna roles request
 `gpt-6-luna` with `high`; `sol_expert` requests `gpt-6.1-sol` with `ultra`.
+For short independent diagnostic experiments, the additional `inherited_swarm`
+role inherits the permitted parent settings; optional `luna_swarm` pins that
+responsibility to Luna medium within an authorized mixed-model strategy. Neither
+changes the existing roles. A Luna-medium ceiling applies to review and takeover
+as well as probes. See [bounded swarm probes](ORCHESTRATION.md#bounded-swarm-probes).
 High-end routing keeps the quality-oriented strategy: delegate suitable bounded
 work and retain consequential ownership and independent review. It does not
 automatically maximize agent occupancy. Known low-cost and unknown operation
@@ -440,9 +445,10 @@ unknown source. This metadata does not make Git-to-global synchronization
 automatic.
 
 Updates from the original eight-file bundle migrate its three managed role
-registrations to six. Updates from either that bundle or the eleven-file bundle
-add the controller modules. The seventeen-file controller bundle upgrades with
-`engineering.py` while retaining its run state and evidence. Active and disabled
+registrations to the current eight. Updates from that bundle or the eleven-file
+bundle add the controller modules. The seventeen-file controller bundle adds
+`engineering.py`; the eighteen-file engineering bundle adds the two swarm role
+files. Every upgrade retains run state and evidence. Active and disabled
 installations are supported.
 The installer preserves unrelated configuration and retained evidence, and
 refuses conflicting registrations or unowned files at newly introduced paths.
@@ -467,11 +473,11 @@ Start a fresh Codex
 session after installing, updating role instructions, or disabling: existing
 sessions may retain instructions already loaded.
 
-The runtime install contains eighteen files: this README, `policy.md`,
+The runtime install contains twenty files: this README, `policy.md`,
 `supervisor.py`, `install.py`, `uninstall.py`, `controller.py`,
 `controller_store.py`, `execution.py`, `agent_backend.py`, `scheduling.py`,
-`engineering.py`, `ORCHESTRATION.md`, and six role TOML files in
-`agents/`: the three pinned roles and three selector-free inherited roles.
+`engineering.py`, `ORCHESTRATION.md`, and eight role TOML files in
+`agents/`: four pinned roles and four selector-free inherited roles.
 `CONTRIBUTING.md`, `tests/`, and `examples/` are clone-only development
 resources and are not copied into the installed bundle. The policy governs
 agent behavior; each program enforces only its documented checks. Markdown

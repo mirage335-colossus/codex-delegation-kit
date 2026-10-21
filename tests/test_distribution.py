@@ -19,6 +19,7 @@ BUNDLE_FILES = (
     "agents/inherited_reviewer.toml",
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
     "scheduling.py", "ORCHESTRATION.md", "engineering.py",
+    "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
 )
 
 
@@ -87,6 +88,8 @@ class DistributionTests(unittest.TestCase):
             "inherited_scout": None,
             "inherited_worker": None,
             "inherited_reviewer": None,
+            "inherited_swarm": None,
+            "luna_swarm": ("gpt-6-luna", "medium"),
         }
         self.assertEqual(set(configuration["agents"]), {"max_threads", *expected_roles})
         for role, settings in expected_roles.items():
@@ -95,6 +98,7 @@ class DistributionTests(unittest.TestCase):
                 self.assertEqual(configuration["agents"][role]["config_file"], str(path))
                 role_config = tomllib.loads(path.read_text(encoding="utf-8"))
                 self.assertTrue(role_config["developer_instructions"].strip())
+                self.assertNotIn("service_tier", role_config)
                 if settings is None:
                     self.assertNotIn("model", role_config)
                     self.assertNotIn("model_reasoning_effort", role_config)

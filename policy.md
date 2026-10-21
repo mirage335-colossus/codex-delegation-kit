@@ -534,6 +534,57 @@ integration and software acceptance remain the strong owner's responsibility.
 
 ## Diagnostic progress
 
+### Bounded swarm probes
+
+A swarm is an optional short diagnostic responsibility, not another scheduler
+or a substitute for the engineering owner. Use independent probes when several
+plausible causes have cheap discriminating experiments. Each probe receives one
+hypothesis, matched inputs and environment, permitted commands, a finite time
+and resource allocation, and the evidence that would distinguish alternatives.
+Known fixes do not need a preliminary swarm. More agents are useful only when
+their experiments add information; agreement is not confirmation, and rapid
+narrowing does not guarantee exponential speedup.
+
+Use `inherited_swarm` within an inherited model boundary, including a Luna-medium
+main chat. Omit spawn overrides and verify applicable defaults as for other
+inherited roles. Where the user's mixed-model policy permits it, `luna_swarm`
+pins only this diagnostic responsibility to `gpt-6-luna`, `medium`. The existing
+scout, worker and expert pins remain unchanged. Controller `role: "swarm"`
+always uses the run's explicit model, effort and tier; it never selects a native
+pin. A hard problem returns to its coordinator for a permitted next approach,
+role or model. No probe may escalate itself, create nested agents, substitute a
+backend, or bypass a permission/service hold. Luna-only runs stay Luna-only.
+
+Treat actual repository files as read-only. Inspect and invoke the actual code;
+put minimal wrappers, modified copies, compiled outputs and test data in the
+owned temporary area. Keep baseline and candidate inputs matched, preserve
+original failures, and distinguish a faithful experiment from a reduced
+diagnostic or a reimplementation of the intended logic. A wrapper passing does
+not establish the original acceptance criteria.
+
+Fail fast when the next useful experiment exceeds the allocation or requires a
+missing decision. Return concrete observations, uncertainties and the next
+discriminator as `inconclusive`; report setup failures and permission holds
+separately. Do not invent a failure, coverage, a causal conclusion or a restart
+because time expired. No automatic retry loop follows a swarm cutoff.
+
+Save a compact reproducible report before cleaning temporary work. Preserve
+command results, input identities and wrapper source or recipe as durable
+evidence. Terminate only owned execution and verify its release before removing
+owned temporary files. Report cleanup failures or surviving work explicitly.
+The controller performs this finalization for managed swarm probes; native-only
+roles depend on the agent and coordinator and provide no equivalent enforcement.
+
+An already available isolated X11 server may be used only when authorized and
+within the assigned resources, with private display/authentication state and
+owned lifecycle. Do not attach to the user's desktop, weaken shared display
+access, kill another server, or install infrastructure just to rescue a probe.
+Unavailable isolation is a setup limitation. Prompt guidance is neither an OS
+sandbox nor proof of cleanup. Parallelism remains bounded by actual allocated
+reasoning, process, memory and exclusive-resource capacity.
+
+### General diagnostic work
+
 Keep clear, low-impact fixes lightweight. For difficult or persistent failures,
 optimize reliable causal information gained per active elapsed hour. Automatically
 reassess strategy when two successive investigative rounds produce no material

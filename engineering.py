@@ -193,7 +193,7 @@ def _inventory(root, scope, root_fd):
     return names
 
 
-def snapshot(cwd, write_scope=()):
+def snapshot(cwd, write_scope=(), *, retain_source=False):
     """Capture current bytes, including dirty files, without changing the repo.
 
     Hashes cover up to 20,000 files, 8 MiB per file and 128 MiB total. Text
@@ -221,16 +221,20 @@ def snapshot(cwd, write_scope=()):
             total_bytes += len(data) if data is not None else 0
             if total_bytes > MAX_TOTAL_BYTES:
                 raise ValueError(f"repository exceeds {MAX_TOTAL_BYTES} audited bytes")
-            if data is None or not owns(name, scope):
-                continue
-            if len(data) > MAX_TEXT_BYTES or content_bytes + len(data) > MAX_CONTENT_BYTES:
-                omitted[name] = "owned text capture limit"
+            if data is None or (not retain_source and not owns(name, scope)):
                 continue
             try:
-                contents[name] = data.decode("utf-8")
-                content_bytes += len(data)
+                text = data.decode("utf-8")
             except UnicodeDecodeError:
                 omitted[name] = "non-UTF-8 content"
+                continue
+            if "\0" in text:
+                omitted[name] = "binary content (NUL bytes)"
+            elif len(data) > MAX_TEXT_BYTES or content_bytes + len(data) > MAX_CONTENT_BYTES:
+                omitted[name] = "bounded text capture limit"
+            else:
+                contents[name] = text
+                content_bytes += len(data)
     finally:
         os.close(root_fd)
     result = {"root": str(root), "revision": revision.decode().strip() if revision else None,
@@ -242,6 +246,143 @@ def snapshot(cwd, write_scope=()):
                 "modes": {name: value for name, value in modes.items() if value is not None}}
     result["digest"] = _hash(json.dumps(identity, sort_keys=True, separators=(",", ":")).encode())
     return result
+
+
+def _directory_fd(path):
+    """Pin each absolute directory component; no symlink traversal."""
+    path = Path(path).absolute()
+    descriptor = os.open("/", os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        for part in path.parts[1:]:
+            child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+            os.close(descriptor)
+            descriptor = child
+        return descriptor
+    except BaseException:
+        os.close(descriptor)
+        raise
+
+
+def directory_identity(path):
+    descriptor = _directory_fd(path)
+    try:
+        info = os.fstat(descriptor)
+        return {"device": info.st_dev, "inode": info.st_ino}
+    finally:
+        os.close(descriptor)
+
+
+def remove_private_workspace(parent, path, identity):
+    """Delete one recorded private inode using pinned directory descriptors.
+
+    No tree is opened by a path after identity validation. Replaced entries and
+    symlinks fail closed; no source or shared temporary directory is followed.
+    Missing roots are idempotent only for a caller's committed cleanup intent.
+    """
+    parent, path = Path(parent).absolute(), Path(path).absolute()
+    if path.parent != parent:
+        raise ValueError("cleanup target must be one direct generated workspace")
+    parent_fd = _directory_fd(parent)
+    def same(info, expected):
+        return {"device": info.st_dev, "inode": info.st_ino} == expected
+    def empty(descriptor, depth=0):
+        if depth > 128:
+            raise ValueError("cleanup nesting exceeds 128 levels")
+        with os.scandir(descriptor) as entries:
+            for entry in entries:
+                info = os.stat(entry.name, dir_fd=descriptor, follow_symlinks=False)
+                if stat.S_ISDIR(info.st_mode):
+                    child = os.open(entry.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                    try:
+                        expected = {"device": info.st_dev, "inode": info.st_ino}
+                        if not same(os.fstat(child), expected) or info.st_dev != identity["device"]:
+                            raise ValueError("cleanup directory identity changed or crosses filesystem")
+                        empty(child, depth + 1)
+                        if not same(os.stat(entry.name, dir_fd=descriptor, follow_symlinks=False), expected):
+                            raise ValueError("cleanup directory was replaced")
+                        os.rmdir(entry.name, dir_fd=descriptor)
+                    finally:
+                        os.close(child)
+                elif stat.S_ISREG(info.st_mode):
+                    os.unlink(entry.name, dir_fd=descriptor)
+                else:
+                    raise ValueError("cleanup refuses symlink or special entry")
+        os.fsync(descriptor)
+    try:
+        try:
+            descriptor = os.open(path.name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent_fd)
+        except FileNotFoundError:
+            return
+        try:
+            if not same(os.fstat(descriptor), identity):
+                raise ValueError("cleanup workspace identity changed")
+            empty(descriptor)
+            if not same(os.stat(path.name, dir_fd=parent_fd, follow_symlinks=False), identity):
+                raise ValueError("cleanup workspace was replaced")
+            os.rmdir(path.name, dir_fd=parent_fd)
+            os.fsync(parent_fd)
+        finally:
+            os.close(descriptor)
+    finally:
+        os.close(parent_fd)
+
+
+def durable_json(path, value):
+    """Persist bounded evidence before committing a destructive cleanup intent."""
+    path = Path(path)
+    data = (json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n").encode()
+    with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as stream:
+        temporary = Path(stream.name)
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+    descriptor = _directory_fd(path.parent)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+    return _hash(data)
+
+
+def evidence_hash(path):
+    """Hash and sync a regular evidence file without following a final symlink."""
+    path = Path(path)
+    parent = _directory_fd(path.parent)
+    try:
+        descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=parent)
+    finally:
+        os.close(parent)
+    with os.fdopen(descriptor, "rb") as stream:
+        before = os.fstat(stream.fileno())
+        if not stat.S_ISREG(before.st_mode):
+            raise ValueError("capsule evidence must be a regular file")
+        result = hashlib.file_digest(stream, "sha256").hexdigest()
+        os.fsync(stream.fileno())
+        after = os.fstat(stream.fileno())
+        if (before.st_size, before.st_mtime_ns, before.st_ino) != (after.st_size, after.st_mtime_ns, after.st_ino):
+            raise ValueError("capsule evidence changed during capture")
+        return result
+
+
+def verify_capsule(cleanup):
+    path = Path(cleanup["capsule"])
+    parent = _directory_fd(path.parent)
+    try:
+        descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=parent)
+    finally:
+        os.close(parent)
+    with os.fdopen(descriptor, "rb") as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+            raise ValueError("retained diagnostic capsule is not a regular file")
+        raw = stream.read(16 * 1024 * 1024 + 1)
+    if len(raw) > 16 * 1024 * 1024 or _hash(raw) != cleanup["capsule_sha256"]:
+        raise ValueError("retained diagnostic capsule changed")
+    capsule = json.loads(raw)
+    for name, expected in capsule["evidence_files"].items():
+        if Path(name).name != name or evidence_hash(path.parent / name) != expected:
+            raise ValueError("retained diagnostic evidence changed: " + name)
+    return capsule
 
 
 def copy_repository(source, destination, write_scope=()):

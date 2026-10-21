@@ -38,6 +38,8 @@ for line in sys.stdin:
     elif method == "config/read":
         result = {"config": {"mcp_servers": {"example": {"enabled": True}}}, "layers": []}
     elif method == "thread/start":
+        if mode == "startup-wait":
+            continue
         p = message["params"]
         thread_cwd = p["cwd"]
         assert p["allowProviderModelFallback"] is False
@@ -70,7 +72,12 @@ for line in sys.stdin:
         emit({"id": identity, "result": {"turn": {"id": turn}}})
         if mode == "wait":
             continue
-        if mode == "engineering":
+        if mode == "denied":
+            emit({"method":"item/completed", "params":{"threadId":thread, "turnId":turn,
+                "item":{"type":"commandExecution", "id":"denied", "command":"blocked", "cwd":thread_cwd,
+                        "status":"declined", "exitCode":None}}})
+            continue
+        if mode in {"engineering", "wait-command"}:
             assert message["params"]["environments"] == [{"environmentId":"local", "cwd":thread_cwd, "runtimeWorkspaceRoots":[thread_cwd]}]
             assert message["params"]["sandboxPolicy"] == {"type": "workspaceWrite", "writableRoots": [thread_cwd],
                 "networkAccess": False, "excludeSlashTmp": True, "excludeTmpdirEnvVar": True}
@@ -79,6 +86,8 @@ for line in sys.stdin:
             emit({"method":"item/started", "params":{"threadId":thread, "turnId":turn, "item":command}})
             command.update(status="completed", exitCode=0, aggregatedOutput="one actual synthetic assertion passed", durationMs=5)
             emit({"method":"item/completed", "params":{"threadId":thread, "turnId":turn, "item":command}})
+            if mode == "wait-command":
+                continue
             change = {"type":"fileChange", "id":"patch-1", "status":"completed", "changes":[{"path":"sample.py", "kind":{"type":"update"}, "diff":"synthetic patch"}]}
             emit({"method":"item/completed", "params":{"threadId":thread, "turnId":turn, "item":change}})
         item = {"type": "agentMessage", "text": '{"answer":42}'}
@@ -244,6 +253,7 @@ class AgentBackendTests(unittest.TestCase):
         self.assertIn("turn/interrupt", (self.root / "calls").read_text())
         result = json.loads((self.directory / "backend-result.json").read_text())
         self.assertEqual(result["status"], "hold")
+        self.assertEqual(result["termination_kind"], "interrupted")
         self.assertIn("interrupted", result["detail"])
         self.assertEqual(result["turn_id"], "synthetic-turn")
 
@@ -395,6 +405,62 @@ class AgentBackendTests(unittest.TestCase):
         result = json.loads((self.directory / "backend-result.json").read_text())
         self.assertIn("CODEX_EXEC_SERVER_URL", result["detail"])
         self.assertFalse((self.root / "calls").exists())
+
+    def swarm(self):
+        self.engineering("scout")
+        scratch = Path(self.task["cwd"]) / ".scratch"
+        self.task.update(swarm=True, scratch_directory=str(scratch), write_scope=[".scratch/"], timeout_seconds=.5)
+        self.policy.update(model="gpt-6-luna", effort="medium")
+
+    def test_swarm_keeps_run_settings_and_rejects_non_scratch_writes(self):
+        self.swarm()
+        self.prepare()
+        request = json.loads((self.directory / "backend-request.json").read_text())
+        self.assertTrue(request["swarm"])
+        self.assertEqual((request["model"], request["effort"], request["service_tier"]),
+                         ("gpt-6-luna", "medium", "default"))
+        self.assertIn("inconclusive", backend._instructions(request))
+        for change in ({"role": "worker"}, {"write_scope": [".scratch/", "sample.py"]},
+                       {"write_scope": []}, {"scratch_directory": None}):
+            with self.subTest(change=change), self.assertRaises(backend.BackendError):
+                backend.prepare({**self.task, **change}, self.policy, self.root / "invalid")
+
+    def test_swarm_acknowledged_timeout_retains_commands_and_needs_verified_release(self):
+        self.swarm()
+        process, result = self.run_fake("wait-command")
+        self.assertEqual(process.returncode, 1, process.stderr)
+        self.assertEqual(result["status"], "cutoff")
+        self.assertEqual(result["termination_kind"], "budget_cutoff")
+        self.assertEqual(result["commands"][0]["exitCode"], 0)
+        self.assertTrue(result["settings_verified"])
+        before = (self.directory / "backend-result.json").read_bytes()
+        self.assertEqual(backend.collect(self.directory, {"state": "running", "released": False})["status"], "hold")
+        stopped = backend.collect(self.directory, {"state": "cancelled", "released": True, "returncode": 1,
+                                                   "cancellation_reason": "user stop"})
+        self.assertEqual(stopped["status"], "hold")
+        self.assertEqual(stopped["termination_kind"], "error")
+        timeout = backend.collect(self.directory, {"state": "cancelled", "released": True, "returncode": 1,
+                                                   "cancellation_reason": "execution timeout"})
+        self.assertEqual(timeout["status"], "cutoff")
+        self.assertEqual(before, (self.directory / "backend-result.json").read_bytes())
+
+    def test_swarm_setup_timeout_permission_denial_and_setting_mismatch_stay_held(self):
+        self.swarm()
+        for mode in ("startup-wait", "denied", "mismatch"):
+            with self.subTest(mode=mode):
+                self.directory = self.root / mode
+                process, result = self.run_fake(mode)
+                self.assertEqual(process.returncode, 1, process.stderr)
+                self.assertEqual(result["status"], "hold")
+                self.assertEqual(result["termination_kind"], "error")
+                self.assertIsNone(result["result"])
+
+    def test_non_swarm_timeout_preserves_existing_hold_contract(self):
+        self.task["timeout_seconds"] = .5
+        process, result = self.run_fake("wait")
+        self.assertEqual(process.returncode, 1, process.stderr)
+        self.assertEqual(result["status"], "hold")
+        self.assertEqual(result["termination_kind"], "error")
 
 
 if __name__ == "__main__":
