@@ -1,0 +1,29 @@
+H10 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- docs/development.md:96-118 ---
+   96 ## Fixed framing and physical completion
+   97 
+   98 Received header lengths must not drive modem boundaries, memory allocation,
+   99 acquisition or message completion. Keep fixed local geometry and bounded
+  100 storage while receiving. Corrected source areas stay in bounded RAM (no temporary disk files), but all
+  101 source decoding, decompression and attachment-prefix interpretation wait until
+  102 physical completion. Even a complete codec stream or an underfilled interval
+  103 cannot finish reception early. After physical completion, the existing source
+  104 codec and bounded attachment prefix may be interpreted under local quotas;
+  105 this does not authorize introducing a packet-length parser.
+  106 
+  107 The only physical end is observed absence of admitted symbols: score complete
+  108 symbols, and end after consecutive failed durations cover at least six seconds.
+  109 For a fixed duration `T`, this requires `ceil(6/T)` complete failed symbols.
+  110 At four hours per symbol, six seconds of silence within the next symbol is not
+  111 enough; one fully observed absent four-hour symbol is. EOF, cancellation, quotas,
+  112 receiver replacement, source validity, FEC and MAC outcomes never manufacture
+  113 physical completion. Simulation and recorded audio obey the same rule.
+  114 
+  115 An unconfirmed receiver clock hypothesis must retain its original acquisition
+  116 window until that window has actually been scored. Wall-clock age alone cannot
+  117 discard unprocessed samples when decoding or simulation runs slowly. Preserve
+  118 the bounded receiver workspace, and retire expired noise-only hypotheses after

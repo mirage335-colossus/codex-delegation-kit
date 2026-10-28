@@ -1,0 +1,97 @@
+{
+  "assignment_id": "P204-D",
+  "conversation_id": "p204-d",
+  "model_effort": "gpt-6-luna/high",
+  "scope": {
+    "source": "software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665; scenario records a clean baseline. Excerpt evidence only; no project commands were run.",
+    "read": [
+      "p204 contract, task, scenario, source-index, routing, scout-role",
+      "assigned excerpts R09, R11, R12"
+    ],
+    "excluded": ["other arms/views/requests", "project trees and execution", "prior pilot/results and unreleased events"]
+  },
+  "decision_use": "Favor exact configuration capture and a tiny matched retained-input fixture before broad matrices or statistical test ranking. Evidence supports that as a discriminating and inexpensive next check, not a diagnosis or a general optimum.",
+  "source_findings": [
+    {
+      "unit": "R11",
+      "paths": ["cmake/GuiInputs.cmake:5-35", "tests/test_gui_source_group.py:81-115", "gui/CMakeLists.txt:1-20"],
+      "facts": [
+        "With neither FOUNDATION_GUI_SOURCE nor FOUNDATION_GUI_INPUT_GROUP selected, CMake defaults to the retained third_party/gui-inputs group; explicit source/group selections take precedence, both together are rejected, and configuration does not fetch dependencies (GuiInputs.cmake:6-18).",
+        "For a group, the configure path invokes source_group.py restore into the binary tree, uses its returned source path, and watches manifest, checksums, archive, source_group.py and dependency_archive.py as configure dependencies (GuiInputs.cmake:19-30).",
+        "The focused fixture copies the maintained module/helpers and a tiny retained group, runs CMake configure, then checks the restored selection and bytes. The fixture initializes C++/Threads but builds no compiler or toolkit target (test_gui_source_group.py:81-113). GUI host/test selection has separate options; native host tests default off and web host defaults on in the supplied CMake excerpt (gui/CMakeLists.txt:1-8)."
+      ],
+      "limits": "This is registration/source behavior, not proof of a configured tree's selected values or runtime behavior. The excerpted fixture covers retained group restore/default selection and starts another explicit-input case; it does not qualify all hosts, backends, source revisions, or distribution builds. Capture actual FOUNDATION_GUI_SOURCE, FOUNDATION_GUI_INPUT_GROUP, host/test options, build directory and input identity before interpreting a result."
+    },
+    {
+      "unit": "R12",
+      "paths": ["tools/build_capacity.py:1-20,38-80", "tests/test_build_capacity.py:15-85", "CMakeLists.txt:584"],
+      "facts": [
+        "The helper is an admission heuristic: it reserves one usable logical CPU and some available RAM, budgets 768 MiB/job, applies only when the caller has no explicit job count, and divides an inherited worker budget across parallel parents/children (build_capacity.py:1-9,18-20).",
+        "The supplied test excerpt selects only the candidate workflow's source and sanitizer blocks, verifies auto and explicit numeric capacity export, rejects malformed selectors, and checks a tiny descendant CMake build receives a numeric job count. Its automatic calculation is stubbed to 3 in the shown tests (test_build_capacity.py:15-85)."
+      ],
+      "limits": "It does not establish actual CPU/memory available to this hypothetical campaign, compiler RSS, task-level concurrency, or throughput. The scenario's six reasoning slots/four test slots/8-CPU/16-GiB ceiling are stipulated constraints, not measurements. Record actual build invocation, explicit/auto selector, resolved parallelism, parent worker budget and observed resource cap if a build is later authorized."
+    },
+    {
+      "unit": "R09",
+      "paths": ["cmake/DependencyPaths.cmake:3-77", "tests/test_sdk_paths.py:26-69", "CMakeLists.txt:603"],
+      "facts": [
+        "The helper validates physical dependency paths against declared roots, recognizes registered generated libraries, checks unresolved expressions, and can hash a configured library (DependencyPaths.cmake:3-77).",
+        "The supplied tests include child/supplier directory-scope cases, external library/include rejection at configure, alias retargeting and in-place byte-change checks through an install guard (test_sdk_paths.py:26-69)."
+      ],
+      "limits": "A focused test covers its named roots/scope/guard case; it cannot prove all CMake generator, platform, SDK or consumer configurations. This is neighboring build-consumer evidence, not an alleged cause of any report."
+    }
+  ],
+  "research": [
+    {
+      "citation": "Kuhn & Reilly (2002), An Investigation of the Applicability of Design of Experiments to Software Testing, NASA Goddard/IEEE SEW.",
+      "url": "https://www.nist.gov/publications/investigation-applicability-design-experiments-software-testing",
+      "publication_access": "NIST first-party bibliographic/abstract page; DOI/download linked; full paper not opened.",
+      "population_outcome": "Error reports from two large open-source applications (a browser and Web server); authors report >95% of errors in those studied would be detected by all 4-way combinations and similar detectability by degrees 2–6.",
+      "support_and_limit": "Empirical support that interaction strength can inform configuration sampling, with population-specific data. It does not justify blanket pairwise or four-way coverage for this project, nor apply directly to one under-specified regression report."
+    },
+    {
+      "citation": "Lam, Zhang & Ernst (2015), When tests collide: Evaluating and coping with the impact of test dependence, UW-CSE-15-03-01 technical report.",
+      "url": "https://homes.cs.washington.edu/~mernst/pubs/deptest-impact-tr150301-abstract.html",
+      "publication_access": "Author/university-hosted abstract and linked PDF; abstract reviewed, PDF not opened.",
+      "population_outcome": "Empirically evaluates 4 prioritization, 6 selection and 2 parallelization algorithms under dependence. The abstract reports changed outcomes for 111/665 generated XML-Security tests when parallelized on 16 CPUs; dependence negatively affected downstream techniques.",
+      "support_and_limit": "Selection, ordering and parallelization can change test meaning when tests depend on one another. This supports preserving fixture/setup and avoiding treating arbitrary parallel execution or rankings as neutral. It does not show these project's tests are dependent or measure the proposed local campaign."
+    },
+    {
+      "citation": "Halin et al. (2019), Test them all, is it worth it? Assessing configuration sampling on the JHipster Web development stack, Empirical Software Engineering.",
+      "url": "https://xdevroey.be/publications/halin-2018/",
+      "publication_access": "Author publication page with DOI, replication package and dataset links; abstract reviewed; full paper not opened.",
+      "population_outcome": "Exhaustive campaign across 26,000+ JHipster configurations used 80 machines over four nights (4,376 CPU hours); 35.70% configurations failed. Dissimilarity and 2-wise sampling found more faults than 12 default CI configurations but could exceed the available test budget.",
+      "support_and_limit": "Sampling can improve over a small default set but still be too costly; preserves both potential value and cost risk. Single large configurable web-app study; cannot set this project's configuration count, fault yield, budget, or ranking."
+    }
+  ],
+  "qualified_decision": {
+    "preferred_next_discriminator": "For any report whose behavior crosses build/retained-input configuration, first record exact source revision, build directory/generator, configured source/group path, host/test options, explicit/automatic jobs and inherited worker budget. Reuse the R11 tiny retained-input configure fixture with matched baseline/corrected source and same retained group, checking selected path and bytes; use the named R12 helper test only if capacity selection itself is implicated. Keep tests sequential until independence is established when order/state is relevant.",
+    "why_not_broad_matrix_or_statistical_ranking": "No symptom, source excerpt, or report establishes a large configuration space, representative defect distribution, stable test dependence model, or objective function needed to justify broad combinatorial coverage or an aggregate ranking. A matched fixture can first separate wrong input/configuration from helper behavior cheaply while retaining identity. Expand only when a concrete interaction or missed supported configuration is evidenced and authorized.",
+    "conditions_where_research_does_not_change_campaign": "If a report is reproduced under a captured single configuration with a deterministic, independent focused fixture and no relevant build/retained-input consumer, prioritize the direct causal check; these configuration-sampling studies add no reason to expand that check. If an actual failure is configuration-specific, a supported interaction with evidence may justify targeted additional configurations; exact support and resource budget remain prerequisites.",
+    "next_falsifier": "Hold revision, retained group bytes, CMake generator, cache selections and command fixed; compare the tiny fixture before/after a suspected helper change. If selected path and restored bytes remain correct, this retained-input selection hypothesis is rejected for that fixture; if they differ, inspect which cache selection/helper input changed before attributing cause. For capacity, compare helper output and exported numeric job value under a captured auto vs explicit setting, then verify the actual build command uses that value."
+  },
+  "uncertainties": [
+    "No actual build tree/cache, helper run, test result, consumer invocation, test order or resource usage was inspected; all runtime behavior remains untested.",
+    "Literature populations and outcomes are reported from primary/authoritative abstracts, not full-text methods review; transfer to this codebase is uncertain.",
+    "The supplied R11/R12 excerpts are bounded samples and do not establish complete test or consumer inventory."
+  ],
+  "stop_condition": "Stop literature expansion here: three primary/author-hosted empirical sources cover interaction sampling, dependency effects on selection/parallelism, and real configuration sampling cost/yield; further broad survey would not change the immediate configuration-capture/matched-fixture discriminator without a specific reported interaction or changed consumer.",
+  "operation_provenance": {
+    "budget": {"total_max": 16, "search_query_max": 8, "open_max": 10},
+    "used": {"search_queries": 4, "opens": 4, "logical_total": 8},
+    "searches": [
+      "empirical study configuration testing pairwise sampling effectiveness faults software configurations ICSE study",
+      "test order dependence test suite empirical study order dependent tests software engineering",
+      "test prioritization empirical study fault detection cost effectiveness software testing primary paper",
+      "configuration testing t-wise sampling empirical comparison interaction faults software product lines study"
+    ],
+    "opened": [
+      "https://www.nist.gov/publications/investigation-applicability-design-experiments-software-testing",
+      "https://homes.cs.washington.edu/~mernst/pubs/deptest-impact-tr150301-abstract.html",
+      "https://doi.org/10.1109/ICST62969.2025.10988962 (publisher robot check blocked substantive page; result retained only as a lead and excluded from findings)",
+      "https://xdevroey.be/publications/halin-2018/"
+    ],
+    "other_operations": 0
+  },
+  "status": "completed; source/literature question answered within excerpt and abstract-level limits; no diagnosis, execution or test coverage claimed"
+}

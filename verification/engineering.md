@@ -1,8 +1,12 @@
 # Engineering controller delivery
 
+> **Current cost context (user-reported, 2026-10-28):** GPT-6.1 Sol in Desktop Codex was reported to consume included weekly allowance at about five times its previous Sol usage rate. The user-provided unitless planning index is Terra = 1, Sol ≈ 10, Astra ≈ 20, and Luna = 0.1. These estimates are not verified or calibrated to actual comparable workloads or weekly allowance use, and are not API/token or purchased-credit rates, USD amounts, or weekly usage percentages. The [official plan-pricing page](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual) explains that credit prices alone do not determine included subscription usage. See the [weekly-usage cost guidance](../policy.md#weekly-usage-cost); this context does not revise historical measurements or conclusions, or change routing, role pins, tiers, or controller behavior.
+
+Current Luna evidence-discovery guidance is summarized in the [policy](../policy.md#evidence-discovery-and-terra-screening); it does not change these historical results.
+
 Validated October 20, 2026 (America/Chicago). Maintained source is
 `https://github.com/mirage335-colossus/codex-delegation-kit.git`, checkout
-`/home/user/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
+`unbundled-home/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
 `cfe6cc5ae65b0f280cc0f4d461ad30fd332fccd4` was clean. The delivered changes remain
 uncommitted; no commit, push, publication, or unrelated workload was performed.
 The installed manifest's source path was verified against this Git checkout.
@@ -46,7 +50,7 @@ duplicate bookkeeping by workers. Model completion alone never accepts a patch.
 A's direct harness finished in approximately 62.5 seconds with two actual model
 sessions, including its controlled 25-second recovery window. Its harness is
 separate from the actual-main-chat requirement. That main chat is
-`01a15ca3-2c20-72d1-9382-fb0333421839`; it received only the source fixture,
+`study-id-hace7db2ad26f9905`; it received only the source fixture,
 problem, limits and normal operating guidance initially, then constructed its
 own inventory. It did not invoke a prewritten engineering demo or manually fix
 the fixture. All six successful sessions in B (four scouts, worker, reviewer)
@@ -77,7 +81,7 @@ report was retained, revalidated from actual receipts, and then independently
 reviewed. The reviewer independently ran all six unchanged tests. The final run
 reported 4/4 original tasks complete, the additional diagnostic complete, all nine
 attempts released (including three initial setup failures), no holds, and stopped.
-Original source hashes remained unchanged in both live exercises.
+During the original live exercises, source hashes were reported unchanged before this publication transformation.
 
 ## Interventions and limits
 
@@ -127,7 +131,7 @@ inspection of the actual A/B/C receipts.
 
 ## Installation and operation
 
-The maintained installer was previewed and applied to `/home/user/.codex`.
+The maintained installer was previewed and applied to `unbundled-installation/.codex`.
 Source/install/manifest parity and repeat-install idempotence passed. The runtime
 created seven trust entries for disposable test workspaces; after all execution
 released, only those additions were removed. Global `config.toml` and `AGENTS.md`
@@ -143,14 +147,14 @@ or differential-diagnosis fixtures without launching inference. Provide your
 authorized workspace and explicit permitted model/effort/tier.
 
 ```sh
-python3 -B controller.py --run /authorized/run start inventory.json
-python3 -B controller.py --run /authorized/run status
-python3 -B controller.py --run /authorized/run result --task TASK_ID
-python3 -B controller.py --run /authorized/run pause --reason "operator pause"
-python3 -B controller.py --run /authorized/run recover
-python3 -B controller.py --run /authorized/run resume --reason "explicit resume"
-python3 -B controller.py --run /authorized/run recover
-python3 -B controller.py --run /authorized/run stop --reason "operator stop"
+python3 -B controller.py --run replay-run start inventory.json
+python3 -B controller.py --run replay-run status
+python3 -B controller.py --run replay-run result --task TASK_ID
+python3 -B controller.py --run replay-run pause --reason "operator pause"
+python3 -B controller.py --run replay-run recover
+python3 -B controller.py --run replay-run resume --reason "explicit resume"
+python3 -B controller.py --run replay-run recover
+python3 -B controller.py --run replay-run stop --reason "operator stop"
 ```
 
 `recover` reconciles the same run and respects pause/stop. `pause` stops new
@@ -158,6 +162,6 @@ dispatch; `stop` cancels owned execution through supported ownership checks.
 Do not start a fresh run against potentially modified copies to avoid a hold.
 Reports keep original outcomes, deferred/held work, diagnostics, setup errors,
 and independently accepted patches distinct. Raw disposable receipts remain
-under `/tmp/delegation-engineering-live-a1`, `/tmp/delegation-engineering-live-a2`
-and `/tmp/delegation-engineering-main-fixture`; compact durable evidence is saved
+under `unbundled-runtime/run-hc718e3a258f742fe, `unbundled-runtime/run-h2e96dfcf7be6c013
+and `unbundled-runtime/run-h891280b52f81af70; compact durable evidence is saved
 alongside this report.

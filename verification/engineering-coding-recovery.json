@@ -47,13 +47,13 @@
       "commands": [
         {
           "aggregatedOutput": "# Global delegation policy\n\nApply this policy to coding, source investigation, log analysis,\nand technical research when this kit is active. Preserve the user's selected\nprimary model and effort. Follow current project instructions, ownership and\nauthorization contracts; this policy grants no additional tool permissions.\nIn default engineering mode, delegation may be skipped for trivial tasks or\nwork that cannot be usefully separated. Coordinator-only mode has no local\nengineering exception, regardless of task size or available parallelism.\nPreserve existing role settings, concurrency limits, and inference service tier;\nimprove scheduling rather than enabling faster inference.\n\n## Applicability and operating modes\n\nEngineering allocation and coordination mechanism are independent choices:\ndefault engineering or coordinator-only, and an explicitly selected controller,\nan authorized advisory helper/project workflow, or native-only coordination.\nCoordinator-only and native-only can be\nselected together; neither selection implies or disables the other. Use the\ndefaults below unless the latest applicable user instruction or orchestration\ncontract selects otherwise. A task-specific user instruction supersedes\nconflicting global or repository user-level delegation preferences\nabout who should delegate, how work is allocated, or which coordination workflow\nto use. Preserve substantive project contracts and authorization limits unless\nan authorized instruction explicitly changes them. System, developer, and tool\nconstraints always apply; this policy and a mode selection grant no additional\naccess or permission.\n\nThe coordinator is the main agent responsible for dispatch and allocation,\ntracking dependencies and evidence routes, and determining status and\ncompletion against delegated acceptance conditions. The strong engineering\nowner handles consequential design, diagnosis, review, integration, and\nsoftware acceptance. In default engineering mode the coordinator may also do\nengineering, including source inspection, design, edits, wrappers and tests,\ncompilation or execution, artifact/log analysis, job monitoring, and review.\nThe trivial-local exception and primary-agent strong engineering work are\navailable only in default engineering mode.\n\nIn coordinator-only mode the primary agent performs coordination work only. It\nmust not do engineering: no source inspection for engineering conclusions,\ndesign, edits, wrappers or tests, builds or execution,\nartifact/log analysis, job monitoring, technical integration, software\nacceptance, or engineering review, even for a tiny task. Reading instructions\nand native assignment state or summaries needed to\ndispatch and track work is coordination. Assign engineering responsibility\nto an available permitted strong subagent; if none is available, report the\nblocker instead of taking over engineering in the main agent.\n\nIn native-only coordination mode, use native agent tools, messages, and\nconversation references for assignment state and evidence. Do not invoke\n`controller.py` or `supervisor.py`, or create a registration, ledger, or report\nfile. Preserve the\nsame assignment identities, original failures, repair allowances, deadlines,\nholds, and acceptance conditions in native history. This changes the\ncoordination mechanism, not the assignment contract or engineering ownership.\n\nAll helper-specific procedures below, including `supervisor.py`, its\n`--kind` records, schema fields, emitted actions, and helper state names, apply\nonly when the helper workflow is authorized, available, and selected.\nWith a user-selected native-only mode, carry forward the same substantive\nrequirements in native assignment history without the helper-specific\ncommands, files, records, or action names. If the helper is unavailable in\nthe selected workflow, report the limitation and use an already-authorized\nproject workflow where available; do not silently bypass the workflow or take over an\nassignment contrary to the selected mode.\n\n## Opt-in controller mode\n\nUse `controller.py` only for an authorized run whose selected ",
-          "command": "/bin/bash -lc \"cat /home/user/.codex/delegation-kit/policy.md && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'pyproject.toml' -g 'setup.cfg'\"",
+          "command": "system-fixture/bin/bash -lc \"cat unbundled-installation/policy.md && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'pyproject.toml' -g 'setup.cfg'\"",
           "completed": true,
           "completed_at": 1792555867.3216493,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 0,
           "exitCode": 0,
-          "id": "exec-5b7c48a5-ac67-49dd-adcf-19715963c002",
+          "id": "exec-study-id-hce2a39fd3440bc23",
           "observed_at": 1792555867.3198736,
           "output_truncated": true,
           "processId": "4240",
@@ -61,14 +61,14 @@
           "status": "completed"
         },
         {
-          "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\n\"\"\"Parse comma-separated integers and total every value in order.\"\"\"\n\n\ndef parse_values(text):\n    return [int(piece.strip()) for piece in text.split(\",\") if piece.strip()]\n\n\ndef aggregate(values):\n    return sum(values[1:])\n\n\ndef total(text):\n    return aggregate(parse_values(text))\nimport unittest\n\nfrom totals import parse_values, total\n\n\nclass TotalTests(unittest.TestCase):\n    def test_empty(self):\n        self.assertEqual(total(\"\"), 0)\n\n    def test_single_value(self):\n        self.assertEqual(total(\"7\"), 7)\n\n    def test_multiple_values(self):\n        self.assertEqual(total(\"2,3\"), 5)\n\n    def test_negative_values(self):\n        self.assertEqual(total(\"-4,9,-2\"), 3)\n\n    def test_whitespace_and_empty_fields(self):\n        self.assertEqual(total(\" 2 , , 3 \"), 5)\n\n    def test_parser_preserves_values_and_order(self):\n        self.assertEqual(parse_values(\" 2 , , -3 , 5 \"), [2, -3, 5])\n\n\nif __name__ == \"__main__\":\n    unittest.main()\ntest_empty (test_totals.TotalTests.test_empty) ... ok\ntest_multiple_values (test_totals.TotalTests.test_multiple_values) ... FAIL\ntest_negative_values (test_totals.TotalTests.test_negative_values) ... FAIL\ntest_parser_preserves_values_and_order (test_totals.TotalTests.test_parser_preserves_values_and_order) ... ok\ntest_single_value (test_totals.TotalTests.test_single_value) ... FAIL\ntest_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields) ... FAIL\n\n======================================================================\nFAIL: test_multiple_values (test_totals.TotalTests.test_multiple_values)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 14, in test_multiple_values\n    self.assertEqual(total(\"2,3\"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 5\n\n======================================================================\nFAIL: test_negative_values (test_totals.TotalTests.test_negative_values)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 17, in test_negative_values\n    self.assertEqual(total(\"-4,9,-2\"), 3)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 3\n\n======================================================================\nFAIL: test_single_value (test_totals.TotalTests.test_single_value)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 11, in test_single_value\n    self.assertEqual(total(\"7\"), 7)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\nAssertionError: 0 != 7\n\n======================================================================\nFAIL: test_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 20, in test_whitespace_and_empty_fields\n    self.assertEqual(total(\" 2 , , 3 \"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 5\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (failures=4)\n",
-          "command": "/bin/bash -lc 'cat AGENTS.md && cat totals.py && cat test_totals.py && python3 -B -m unittest -v'",
+          "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\n\"\"\"Parse comma-separated integers and total every value in order.\"\"\"\n\n\ndef parse_values(text):\n    return [int(piece.strip()) for piece in text.split(\",\") if piece.strip()]\n\n\ndef aggregate(values):\n    return sum(values[1:])\n\n\ndef total(text):\n    return aggregate(parse_values(text))\nimport unittest\n\nfrom totals import parse_values, total\n\n\nclass TotalTests(unittest.TestCase):\n    def test_empty(self):\n        self.assertEqual(total(\"\"), 0)\n\n    def test_single_value(self):\n        self.assertEqual(total(\"7\"), 7)\n\n    def test_multiple_values(self):\n        self.assertEqual(total(\"2,3\"), 5)\n\n    def test_negative_values(self):\n        self.assertEqual(total(\"-4,9,-2\"), 3)\n\n    def test_whitespace_and_empty_fields(self):\n        self.assertEqual(total(\" 2 , , 3 \"), 5)\n\n    def test_parser_preserves_values_and_order(self):\n        self.assertEqual(parse_values(\" 2 , , -3 , 5 \"), [2, -3, 5])\n\n\nif __name__ == \"__main__\":\n    unittest.main()\ntest_empty (test_totals.TotalTests.test_empty) ... ok\ntest_multiple_values (test_totals.TotalTests.test_multiple_values) ... FAIL\ntest_negative_values (test_totals.TotalTests.test_negative_values) ... FAIL\ntest_parser_preserves_values_and_order (test_totals.TotalTests.test_parser_preserves_values_and_order) ... ok\ntest_single_value (test_totals.TotalTests.test_single_value) ... FAIL\ntest_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields) ... FAIL\n\n======================================================================\nFAIL: test_multiple_values (test_totals.TotalTests.test_multiple_values)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 14, in test_multiple_values\n    self.assertEqual(total(\"2,3\"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 5\n\n======================================================================\nFAIL: test_negative_values (test_totals.TotalTests.test_negative_values)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 17, in test_negative_values\n    self.assertEqual(total(\"-4,9,-2\"), 3)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 3\n\n======================================================================\nFAIL: test_single_value (test_totals.TotalTests.test_single_value)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 11, in test_single_value\n    self.assertEqual(total(\"7\"), 7)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\nAssertionError: 0 != 7\n\n======================================================================\nFAIL: test_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75/test_totals.py\", line 20, in test_whitespace_and_empty_fields\n    self.assertEqual(total(\" 2 , , 3 \"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 5\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nFAILED (failures=4)\n",
+          "command": "system-fixture/bin/bash -lc 'cat AGENTS.md && cat totals.py && cat test_totals.py && python3 -B -m unittest -v'",
           "completed": true,
           "completed_at": 1792555868.5851324,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 0,
           "exitCode": 1,
-          "id": "exec-e6579e1f-7e44-4f7f-bfc8-eb132ec671c9",
+          "id": "exec-study-id-h946f7c6d3b6e4445",
           "observed_at": 1792555868.5844667,
           "output_truncated": false,
           "processId": "95901",
@@ -77,13 +77,13 @@
         },
         {
           "aggregatedOutput": "test_empty (test_totals.TotalTests.test_empty) ... ok\ntest_multiple_values (test_totals.TotalTests.test_multiple_values) ... ok\ntest_negative_values (test_totals.TotalTests.test_negative_values) ... ok\ntest_parser_preserves_values_and_order (test_totals.TotalTests.test_parser_preserves_values_and_order) ... ok\ntest_single_value (test_totals.TotalTests.test_single_value) ... ok\ntest_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
-          "command": "/bin/bash -lc 'python3 -B -m unittest -v'",
+          "command": "system-fixture/bin/bash -lc 'python3 -B -m unittest -v'",
           "completed": true,
           "completed_at": 1792555874.4959621,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 0,
           "exitCode": 0,
-          "id": "exec-5bfc3dea-0aa9-4f8f-b1a2-6cc08588a590",
+          "id": "exec-study-id-h30f6c229004c551e",
           "observed_at": 1792555874.4952648,
           "output_truncated": false,
           "processId": "23893",
@@ -92,13 +92,13 @@
         },
         {
           "aggregatedOutput": "RECOVERY_WINDOW_START\nRECOVERY_WINDOW_END\n",
-          "command": "/bin/bash -lc \"python3 -B -c \\\"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\\\"\"",
+          "command": "system-fixture/bin/bash -lc \"python3 -B -c \\\"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\\\"\"",
           "completed": true,
           "completed_at": 1792555900.9545786,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 24890,
           "exitCode": 0,
-          "id": "exec-90d3d60d-3633-4a20-94b6-9f45e0988891",
+          "id": "exec-study-id-h8a56bfae755fce33",
           "observed_at": 1792555876.0640528,
           "output_truncated": false,
           "processId": "47868",
@@ -119,22 +119,22 @@
       "effective": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+        "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
         "environments": [
           {
-            "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+            "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
             "environmentId": "local",
             "runtimeWorkspaceRoots": [
-              "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+              "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
             ]
           }
         ],
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
-        "requested_workspace": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+        "requested_workspace": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
         "runtimeWorkspaceRoots": [
-          "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+          "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
         ],
         "sandbox": {
           "excludeSlashTmp": true,
@@ -152,7 +152,7 @@
           "networkAccess": false,
           "type": "workspaceWrite",
           "writableRoots": [
-            "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+            "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
           ]
         },
         "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
@@ -160,7 +160,7 @@
       "operation": "correct-total-1-9641be85eecd",
       "receipt": {
         "command": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293558,
           "pid": 293558,
           "ppid": 293525,
@@ -177,7 +177,7 @@
         "released": true,
         "returncode": 0,
         "runner": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293525,
           "pid": 293525,
           "ppid": 293499,
@@ -204,7 +204,7 @@
           "unexecuted": []
         },
         "commands": [
-          "`cat /home/user/.codex/delegation-kit/policy.md && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'pyproject.toml' -g 'setup.cfg'`",
+          "`cat unbundled-installation/policy.md && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'pyproject.toml' -g 'setup.cfg'`",
           "`cat AGENTS.md && cat totals.py && cat test_totals.py && python3 -B -m unittest -v` (baseline exit 1)",
           "`python3 -B -m unittest -v` (exit 0)",
           "`python3 -B -c \"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\"` (exit 0)"
@@ -223,21 +223,21 @@
       "role": "worker",
       "settings_verified": true,
       "task": "correct-total",
-      "thread_id": "01a15ca7-cd6a-7e01-bdcd-977f68c32f66",
-      "turn_id": "01a15ca7-cdb1-7a72-8029-d7ef8f4e09b5"
+      "thread_id": "study-id-h78ada93f4a0d4eb3",
+      "turn_id": "study-id-hccee83434b501421"
     },
     {
       "claimed_at": 1792555904.113622,
       "commands": [
         {
           "aggregatedOutput": "# Global delegation policy\n\nApply this policy to coding, source investigation, log analysis,\nand technical research when this kit is active. Preserve the user's selected\nprimary model and effort. Follow current project instructions, ownership and\nauthorization contracts; this policy grants no additional tool permissions.\nIn default engineering mode, delegation may be skipped for trivial tasks or\nwork that cannot be usefully separated. Coordinator-only mode has no local\nengineering exception, regardless of task size or available parallelism.\nPreserve existing role settings, concurrency limits, and inference service tier;\nimprove scheduling rather than enabling faster inference.\n\n## Applicability and operating modes\n\nEngineering allocation and coordination mechanism are independent choices:\ndefault engineering or coordinator-only, and an explicitly selected controller,\nan authorized advisory helper/project workflow, or native-only coordination.\nCoordinator-only and native-only can be\nselected together; neither selection implies or disables the other. Use the\ndefaults below unless the latest applicable user instruction or orchestration\ncontract selects otherwise. A task-specific user instruction supersedes\nconflicting global or repository user-level delegation preferences\nabout who should delegate, how work is allocated, or which coordination workflow\nto use. Preserve substantive project contracts and authorization limits unless\nan authorized instruction explicitly changes them. System, developer, and tool\nconstraints always apply; this policy and a mode selection grant no additional\naccess or permission.\n\nThe coordinator is the main agent responsible for dispatch and allocation,\ntracking dependencies and evidence routes, and determining status and\ncompletion against delegated acceptance conditions. The strong engineering\nowner handles consequential design, diagnosis, review, integration, and\nsoftware acceptance. In default engineering mode the coordinator may also do\nengineering, including source inspection, design, edits, wrappers and tests,\ncompilation or execution, artifact/log analysis, job monitoring, and review.\nThe trivial-local exception and primary-agent strong engineering work are\navailable only in default engineering mode.\n\nIn coordinator-only mode the primary agent performs coordination work only. It\nmust not do engineering: no source inspection for engineering conclusions,\ndesign, edits, wrappers or tests, builds or execution,\nartifact/log analysis, job monitoring, technical integration, software\nacceptance, or engineering review, even for a tiny task. Reading instructions\nand native assignment state or summaries needed to\ndispatch and track work is coordination. Assign engineering responsibility\nto an available permitted strong subagent; if none is available, report the\nblocker instead of taking over engineering in the main agent.\n\nIn native-only coordination mode, use native agent tools, messages, and\nconversation references for assignment state and evidence. Do not invoke\n`controller.py` or `supervisor.py`, or create a registration, ledger, or report\nfile. Preserve the\nsame assignment identities, original failures, repair allowances, deadlines,\nholds, and acceptance conditions in native history. This changes the\ncoordination mechanism, not the assignment contract or engineering ownership.\n\nAll helper-specific procedures below, including `supervisor.py`, its\n`--kind` records, schema fields, emitted actions, and helper state names, apply\nonly when the helper workflow is authorized, available, and selected.\nWith a user-selected native-only mode, carry forward the same substantive\nrequirements in native assignment history without the helper-specific\ncommands, files, records, or action names. If the helper is unavailable in\nthe selected workflow, report the limitation and use an already-authorized\nproject workflow where available; do not silently bypass the workflow or take over an\nassignment contrary to the selected mode.\n\n## Opt-in controller mode\n\nUse `controller.py` only for an authorized run whose selected ",
-          "command": "/bin/bash -lc 'cat /home/user/.codex/delegation-kit/policy.md && git status --short && git diff -- totals.py && cat totals.py && cat test_totals.py && cat /tmp/delegation-engineering-live-a2/run/operations/correct-total-1-9641be85eecd/patch.diff && cat /tmp/delegation-engineering-live-a2/run/operations/correct-total-1-9641be85eecd/engineering-before.json'",
+          "command": "system-fixture/bin/bash -lc 'cat unbundled-installation/policy.md && git status --short && git diff -- totals.py && cat totals.py && cat test_totals.py && cat unbundled-runtime/run-h8e786dc077aab9fd/run/operations/correct-total-1-9641be85eecd/patch.diff && cat unbundled-runtime/run-h8e786dc077aab9fd/run/operations/correct-total-1-9641be85eecd/engineering-before.json'",
           "completed": true,
           "completed_at": 1792555913.1718414,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 0,
           "exitCode": 0,
-          "id": "exec-c3dd9a9f-7db1-4098-b7b7-281ebeec6a20",
+          "id": "exec-study-id-h1ccd8892a94ea5f0",
           "observed_at": 1792555913.1705515,
           "output_truncated": true,
           "processId": "18545",
@@ -246,13 +246,13 @@
         },
         {
           "aggregatedOutput": "test_empty (test_totals.TotalTests.test_empty) ... ok\ntest_multiple_values (test_totals.TotalTests.test_multiple_values) ... ok\ntest_negative_values (test_totals.TotalTests.test_negative_values) ... ok\ntest_parser_preserves_values_and_order (test_totals.TotalTests.test_parser_preserves_values_and_order) ... ok\ntest_single_value (test_totals.TotalTests.test_single_value) ... ok\ntest_whitespace_and_empty_fields (test_totals.TotalTests.test_whitespace_and_empty_fields) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
-          "command": "/bin/bash -lc 'python3 -B -m unittest -v'",
+          "command": "system-fixture/bin/bash -lc 'python3 -B -m unittest -v'",
           "completed": true,
           "completed_at": 1792555914.7470639,
-          "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+          "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
           "durationMs": 0,
           "exitCode": 0,
-          "id": "exec-e02848e0-dd5b-4c62-b61f-2274984acc43",
+          "id": "exec-study-id-h8f625c839c5996cb",
           "observed_at": 1792555914.7465315,
           "output_truncated": false,
           "processId": "95679",
@@ -273,22 +273,22 @@
       "effective": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+        "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
         "environments": [
           {
-            "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+            "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
             "environmentId": "local",
             "runtimeWorkspaceRoots": [
-              "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+              "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
             ]
           }
         ],
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
-        "requested_workspace": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+        "requested_workspace": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
         "runtimeWorkspaceRoots": [
-          "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+          "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
         ],
         "sandbox": {
           "excludeSlashTmp": true,
@@ -306,7 +306,7 @@
           "networkAccess": false,
           "type": "workspaceWrite",
           "writableRoots": [
-            "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75"
+            "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75"
           ]
         },
         "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
@@ -314,7 +314,7 @@
       "operation": "correct-total.review.1-1-a1f066a6f424",
       "receipt": {
         "command": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 296628,
           "pid": 296628,
           "ppid": 296627,
@@ -331,7 +331,7 @@
         "released": true,
         "returncode": 0,
         "runner": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 296627,
           "pid": 296627,
           "ppid": 294405,
@@ -358,7 +358,7 @@
           "unexecuted": []
         },
         "commands": [
-          "`cat /home/user/.codex/delegation-kit/policy.md && git status --short && git diff -- totals.py && cat totals.py && cat test_totals.py && cat /tmp/delegation-engineering-live-a2/run/operations/correct-total-1-9641be85eecd/patch.diff && cat /tmp/delegation-engineering-live-a2/run/operations/correct-total-1-9641be85eecd/engineering-before.json` (exit 0; source and recorded evidence inspected)",
+          "`cat unbundled-installation/policy.md && git status --short && git diff -- totals.py && cat totals.py && cat test_totals.py && cat unbundled-runtime/run-h8e786dc077aab9fd/run/operations/correct-total-1-9641be85eecd/patch.diff && cat unbundled-runtime/run-h8e786dc077aab9fd/run/operations/correct-total-1-9641be85eecd/engineering-before.json` (exit 0; source and recorded evidence inspected)",
           "`python3 -B -m unittest -v` (independent review check, exit 0; 6 tests passed)",
           "Recorded original command: `cat AGENTS.md && cat totals.py && cat test_totals.py && python3 -B -m unittest -v` (exit 1; pre-correction baseline failures)",
           "Recorded recovery command: `python3 -B -c \"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\"` (exit 0)"
@@ -378,20 +378,20 @@
       "role": "reviewer",
       "settings_verified": true,
       "task": "correct-total.review.1",
-      "thread_id": "01a15ca8-828a-7143-8da7-dfeb8d068646",
-      "turn_id": "01a15ca8-82c2-7ac1-8af5-166f7ac64aba"
+      "thread_id": "study-id-h802d5b262c08b7a4",
+      "turn_id": "study-id-he13aa54123f85ba4"
     }
   ],
   "observations": [
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "start",
-        "/tmp/delegation-engineering-live-a2/inventory.json"
+        "unbundled-runtime/run-h8e786dc077aab9fd/inventory.json"
       ],
       "at": 1792555857.017869,
       "kind": "controller_launched",
@@ -402,12 +402,12 @@
       "at": 1792555876.112822,
       "command": {
         "aggregatedOutput": "",
-        "command": "/bin/bash -lc \"python3 -B -c \\\"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\\\"\"",
+        "command": "system-fixture/bin/bash -lc \"python3 -B -c \\\"import time; print('RECOVERY_WINDOW_START', flush=True); time.sleep(25); print('RECOVERY_WINDOW_END', flush=True)\\\"\"",
         "completed": false,
-        "cwd": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+        "cwd": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
         "durationMs": null,
         "exitCode": null,
-        "id": "exec-90d3d60d-3633-4a20-94b6-9f45e0988891",
+        "id": "exec-study-id-h8a56bfae755fce33",
         "observed_at": 1792555876.0640528,
         "output_truncated": false,
         "processId": "47868",
@@ -417,10 +417,10 @@
       "kind": "recovery_window_observed",
       "operation": "correct-total-1-9641be85eecd",
       "private_patch_sha256": "95d7d405af4712f664dffa362e13f715ec79ad401fe84a38d81e0cc64e15c697",
-      "private_workspace": "/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75",
+      "private_workspace": "unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75",
       "runner_receipt": {
         "command": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293558,
           "pid": 293558,
           "ppid": 293525,
@@ -430,7 +430,7 @@
         },
         "descendants": [
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293558,
             "ppid": 293525,
@@ -439,7 +439,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293567,
             "ppid": 293558,
@@ -448,7 +448,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294263,
             "pid": 294263,
             "ppid": 293567,
@@ -457,7 +457,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294381,
             "pid": 294381,
             "ppid": 293567,
@@ -466,7 +466,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294386,
             "pid": 294386,
             "ppid": 294381,
@@ -475,7 +475,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294387,
             "ppid": 294386,
@@ -484,7 +484,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294388,
             "ppid": 294387,
@@ -499,7 +499,7 @@
         "prepared_at": 1792555857.1168542,
         "released": false,
         "runner": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293525,
           "pid": 293525,
           "ppid": 293499,
@@ -526,7 +526,7 @@
       "operation": "correct-total-1-9641be85eecd",
       "receipt": {
         "command": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293558,
           "pid": 293558,
           "ppid": 293525,
@@ -536,7 +536,7 @@
         },
         "descendants": [
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293558,
             "ppid": 293525,
@@ -545,7 +545,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293567,
             "ppid": 293558,
@@ -554,7 +554,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294263,
             "pid": 294263,
             "ppid": 293567,
@@ -563,7 +563,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294381,
             "pid": 294381,
             "ppid": 293567,
@@ -572,7 +572,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294386,
             "pid": 294386,
             "ppid": 294381,
@@ -581,7 +581,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294387,
             "ppid": 294386,
@@ -590,7 +590,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294388,
             "ppid": 294387,
@@ -605,7 +605,7 @@
         "prepared_at": 1792555857.1168542,
         "released": false,
         "runner": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293525,
           "pid": 293525,
           "ppid": 293499,
@@ -621,11 +621,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "pause",
         "--reason",
         "Authorized recovery exercise: persist pause during surviving owned command"
@@ -637,11 +637,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "recover",
         "--max-seconds",
         "2"
@@ -659,7 +659,7 @@
       "kind": "paused_reconciliation",
       "operation_receipt": {
         "command": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293558,
           "pid": 293558,
           "ppid": 293525,
@@ -669,7 +669,7 @@
         },
         "descendants": [
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293558,
             "ppid": 293525,
@@ -678,7 +678,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 293558,
             "pid": 293567,
             "ppid": 293558,
@@ -687,7 +687,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294263,
             "pid": 294263,
             "ppid": 293567,
@@ -696,7 +696,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294381,
             "pid": 294381,
             "ppid": 293567,
@@ -705,7 +705,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294386,
             "pid": 294386,
             "ppid": 294381,
@@ -714,7 +714,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294387,
             "ppid": 294386,
@@ -723,7 +723,7 @@
             "state": "S"
           },
           {
-            "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+            "boot_id": "study-id-h66db1b7a241e50e8",
             "pgid": 294387,
             "pid": 294388,
             "ppid": 294387,
@@ -738,7 +738,7 @@
         "prepared_at": 1792555857.1168542,
         "released": false,
         "runner": {
-          "boot_id": "8ee719ed-ffc3-44a4-9893-a0ce9c5b4bc0",
+          "boot_id": "study-id-h66db1b7a241e50e8",
           "pgid": 293525,
           "pid": 293525,
           "ppid": 293499,
@@ -761,7 +761,7 @@
         "elapsed_seconds": 21.204301357269287,
         "events": 6,
         "exclusive": [
-          "output:/tmp/delegation-engineering-live-a2/run/workspaces/correct-total-d8ac2e0a75/totals.py"
+          "output:unbundled-runtime/run-h8e786dc077aab9fd/run/workspaces/correct-total-d8ac2e0a75/totals.py"
         ],
         "holds": {},
         "mode": "paused",
@@ -799,11 +799,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "resume",
         "--reason",
         "Explicit authorized resume after paused recovery observation"
@@ -815,11 +815,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "recover",
         "--max-seconds",
         "260"
@@ -831,11 +831,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "pause",
         "--reason",
         "Authorized durable pause assertion"
@@ -847,11 +847,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "recover",
         "--max-seconds",
         "2"
@@ -863,11 +863,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "resume",
         "--reason",
         "Explicit authorized resume to test durable stop"
@@ -879,11 +879,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "stop",
         "--reason",
         "Authorized durable stop assertion; preserve all evidence"
@@ -895,11 +895,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "recover",
         "--max-seconds",
         "15"
@@ -911,11 +911,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "status"
       ],
       "at": 1792555919.3080335,
@@ -925,11 +925,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "report"
       ],
       "at": 1792555919.3590794,
@@ -939,11 +939,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "result",
         "--task",
         "correct-total"
@@ -955,11 +955,11 @@
     },
     {
       "argv": [
-        "/usr/bin/python3",
+        "system-fixture/usr/bin/python3",
         "-B",
-        "/home/user/___quick/maintenance-cloud/codex-delegation-kit/controller.py",
+        "controller.py",
         "--run",
-        "/tmp/delegation-engineering-live-a2/run",
+        "unbundled-runtime/run-h8e786dc077aab9fd/run",
         "recover",
         "--max-seconds",
         "15"
@@ -970,5 +970,7 @@
       "started_at": 1792555919.4110746
     }
   ],
-  "raw_evidence_directory": "/tmp/delegation-engineering-live-a2"
+  "raw_evidence_directory": "unbundled-runtime/run-h8e786dc077aab9fd",
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

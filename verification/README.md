@@ -1,10 +1,17 @@
 # Validation and delivery record
 
+> **Portable publication edition.** The records below are sanitized historical representations. Machine coordinates and service identifiers have been removed; reported results and failures remain historical claims. Original hashes, byte counts and validation totals do not validate the rewritten files. Use the [reproduction guide](REPRODUCING.md), [public source metadata](reproduction.json), and current `publication-manifest.json` for a fresh offline check. No private conversation, home directory, temporary build, or original session log is required. See the [portability validation record](portability-validation.json) for the migration audit and relocated-copy check scope.
+
+> **Current cost context (user-reported, 2026-10-28):** GPT-6.1 Sol in Desktop Codex was reported to consume included weekly allowance at about five times its previous Sol usage rate. The user-provided unitless planning index is Terra = 1, Sol ≈ 10, Astra ≈ 20, and Luna = 0.1. These estimates are not verified or calibrated to actual comparable workloads or weekly allowance use, and are not API/token or purchased-credit rates, USD amounts, or weekly usage percentages. The [official plan-pricing page](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual) explains that credit prices alone do not determine included subscription usage. See the [weekly-usage cost guidance](../policy.md#weekly-usage-cost); this context does not revise historical measurements or conclusions, or change routing, role pins, tiers, or controller behavior.
+
+Current Luna evidence-discovery guidance is summarized in the [policy](../policy.md#evidence-discovery-and-terra-screening); it does not change these historical results.
+
+The canonical current index is Luna = 0.1, Terra = 1, Sol ≈ 10, Astra ≈ 20 in [weekly-usage cost guidance](../policy.md#weekly-usage-cost). Frozen nested study inputs, reports, source-before records and locks retain the earlier unknown-Luna factor as historical evidence, not current guidance.
+
 This is the historical first-controller delivery. See [the engineering extension record](engineering.md) for current engineering-backend, actual Luna-medium main-chat, recovery, and installation validation.
 
 Validated on October 20, 2026 (America/Chicago). Maintained source:
-`https://github.com/mirage335-colossus/codex-delegation-kit.git`, local checkout
-`/home/user/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
+`https://github.com/mirage335-colossus/codex-delegation-kit.git`, checkout-relative paths. Starting revision
 `9014eab8b3ed8493f32c5e0c21c82c84c444c01c` was clean. This delivery is an uncommitted
 working-tree change; no commit, push, publication or unrelated workload was
 performed. Runtime hashes used by the live test are in `live-agent.json`.
@@ -33,9 +40,9 @@ settings, not provider-side per-token identity. Three completed calls reported
 Interrupted-call usage was unavailable; no total cost claim is made.
 
 The live calls used an explicitly approved runtime launcher because ordinary
-execution in this chat could not write Codex runtime state. This launcher admitted
+the original restricted execution environment could not write runtime state. This launcher admitted
 only the read-only agent fixture. It is **not** evidence that arbitrary subprocess
-jobs inherit this chat's sandbox when launched outside it. No global model,
+jobs inherit the operator's sandbox when launched outside it. No global model,
 effort, role, tier, provider or account setting was changed. The first live setup
 attempt exposed an MCP override-encoding defect before inference; its failure
 remains in `live-setup-failure.json`, with the repair and subsequent evidence
@@ -104,7 +111,7 @@ From the maintained checkout:
 python3 -B -m unittest discover -s tests -v
 python3 -B examples/demo.py
 python3 -B examples/controller_demo.py
-python3 -B examples/benchmark.py --output /tmp/delegation-benchmark.json
+python3 -B examples/benchmark.py --output benchmark-output.json
 python3 -B examples/live_agent.py --help
 ```
 

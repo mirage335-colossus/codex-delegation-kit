@@ -1,0 +1,40 @@
+{
+  "phase": "p204 E1 decisions; initial research and screen remain locked",
+  "released_information": "Hypothetical user note: store symptom observed once in a local run but executable rebuilt in between and snapshots lack IDs. Separate focused provider test reportedly succeeded without recording the linked provider marker. Full logs, exact commands and matched artifact identities are missing. Neither statement establishes a controlled reproduction, fix, or attributable provider pass.",
+  "decisions_and_assignment_continuity": [
+    {
+      "assignment_id": "P204-A",
+      "conversation_id": "p204-a",
+      "reports": ["R01", "R03"],
+      "change_from_initial": "Raise artifact identity and provenance to explicit prerequisites before interpreting the newly reported observations; no new diagnosis or independent research needed.",
+      "R01": "Retain the original reported failure and this separate unverified one-off note. Ask for both builds' source revision, executable path/hash, configuration, command, complete inputs, output and keyed before/after IDs. A future authorized matched check uses one identified artifact and Store instance, captures every (ID,text) before and after the invalid operation and its status, and checks unaffected records. A rebuilt-between comparison cannot establish state preservation or a regression; a complete same-artifact observation could narrow that question only for that case.",
+      "R03": "Retain the reported test success as unattributed and not independently observed. Request exact command, test output, target, binary/library/package path and hash, build flags and linked provider marker, plus the original problematic bytes. Only after identifying the allegedly failing package and comparable configured semantics can the actual C++ caller be checked on matched bytes and status across providers. The markerless test does not establish Rust-provider success or the consumer's behavior.",
+      "decision_use": "Distinguish missing setup and identity from application outcomes; retain narrow contract fixtures and original failures. Existing source map and Csmith analogy already answer this choice; another literature search cannot recover actual artifact provenance.",
+      "stopping_condition": "Stop interpreting the one-off and markerless reports until identity and complete inputs are obtained; if unavailable, report the affected report unresolved. A focused pass rejects only its exact hypothesis and configuration."
+    },
+    {
+      "assignment_id": "P204-B",
+      "conversation_id": "p204-b",
+      "reports": ["R04", "R05", "R06"],
+      "change_from_initial": "None; E1 contains no event, generation or transport evidence for these reports.",
+      "next_decision": "Preserve the initial trace-first discriminators and missing consumer/configuration details; do not transfer the store or provider observations to unrelated asynchronous symptoms."
+    },
+    {
+      "assignment_id": "P204-C",
+      "conversation_id": "p204-c",
+      "reports": ["R07", "R08"],
+      "change_from_initial": "None; retain separate R08 geometry and flow questions, exact widget/overflow and consumer identities, and matched fixture-first checks."
+    },
+    {
+      "assignment_id": "P204-D",
+      "conversation_id": "p204-d",
+      "reports": ["neighboring R09", "neighboring R11", "neighboring R12"],
+      "change_from_initial": "None; configuration/retained-input and capacity source evidence remain neighboring context, not an asserted cause or actual resource measurement."
+    }
+  ],
+  "dispatch_requests": [],
+  "follow_up_rationale": "No currently useful factual research request is identified: the decisive missing facts are specific user run artifacts and identities, not literature or information contained in the supplied excerpts. Keep the two available follow-ups unused rather than fill capacity. Reopen a bounded scout question only if a released, decision-relevant source-provenance uncertainty arises within the phase rules.",
+  "acceptance_and_uncertainty": "All eight reports remain untested in this exercise; original source maps, fixture limits and first discriminators in initial-screen.json remain applicable. No project execution, build, configure, patch or tests have occurred here. The hypothetical notes do not supply independently inspected logs or evidence of a controlled baseline. In particular, R01 is not fixed or controlled-reproduced and R03 is not an attributable pass. Maintain the original correctness assertions, actual consumer/configuration identities and separate setup failure, reproduced failure, rejected hypothesis and untested work.",
+  "future_resource_and_redesign": "Any separately authorized campaign uses the shared six reasoning slots, at most four execution slots and 8-CPU/16-GiB envelope; timing-sensitive observations should not be contaminated by resource contention. Reconsider a broader matrix, controlled schedule search or prioritization only if a specific captured interaction or dependence warrants it; stop on duplicate or non-decision-changing evidence. A recurrent failure with a stable reproducer that defeats bounded discriminators, consequential boundary ambiguity or evidence against the chosen approach calls for redesign and expert review, not blind retries.",
+  "expert_and_human_triggers": "Request Sol review before consequential architecture, algorithm, objective, concurrency/resource or contract redesign and independent acceptance of any later patch; provide original requirements, source and evidence. Consult Astra for a concrete strategic risk or diminishing returns when it emerges, without waiting for scouting. E1 does not yet pose a consequential expert question. In the report ask the hypothetical human for exact versions, executable and linked package/provider hashes/marker, configuration, commands, full logs, IDs, input and output; ask for relevant R02 and R04-R08 adapter/browser/event/widget/project/consumer details as previously recorded. Do not actually message the hypothetical user. A future project campaign requires separate authorization."
+}

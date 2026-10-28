@@ -8,6 +8,24 @@ selected for the user's chat. Read [`policy.md`](policy.md)
 for the full operating guidance, including delegation boundaries, evidence,
 review, escalation, and validation.
 
+## Weekly usage cost
+
+For ChatGPT Desktop Codex included subscription usage, the user's October 28,
+2026 planning estimates are **Luna = 0.1, Terra = 1, Sol approximately 10, Astra
+approximately 20**. This is a unitless weekly-allowance
+index, not USD, credits, a percentage of a week or a fixed token/message rate.
+The user reports Sol recently increased approximately fivefold versus its prior
+usage rate; that increase is already reflected in the current estimate of 10.
+These are user-reported estimates, not independently verified official tariffs.
+
+API prices and purchased-credit rates are separate and do not determine this
+index. See the authoritative [weekly usage cost definition](policy.md#weekly-usage-cost)
+for provenance, limitations and recalibration. Keep expert consultations bounded
+and reuse compact evidence; required reviews and configured routing remain intact.
+Historical validation records and dated API examples retain their original scope.
+Frozen study records may retain Luna's earlier unknown factor; the current
+planning index above supersedes that assumption for new work.
+
 ## Choose the coordination mode
 
 | Mode | What keeps work moving | State and limits |
@@ -215,14 +233,15 @@ the controller does not claim universally exactly-once external side effects.
 Establish the applicable routing boundary from the user's instructions and
 reliable current-session evidence of the selected main model and reasoning
 effort. A global default is not evidence of the active chat's settings. Unknown
-model context or uncertain eligibility defaults to native inheritance; do not
+model context or uncertain eligibility without standing mixed-model authorization
+defaults to native inheritance; do not
 guess a tier from model version names, availability, price, or historical work.
 
 | Current routing boundary | Scout and bounded worker | Independent review, consequential design, integration, and takeover |
 | --- | --- | --- |
-| Known high-end selection, with the user's standing mixed-quality preference | Pinned `luna_scout` and `luna_worker` | Pinned `sol_expert`, or the permitted primary in default engineering mode |
-| Known low-cost selection, including Luna medium | `inherited_scout` and `inherited_worker` | `inherited_reviewer` |
-| Unknown active settings or eligibility | Native inherited roles | Native inherited reviewer |
+| Standing native mixed-model preference, including a Terra primary | Pinned `luna_scout` and `luna_worker` | `sol_expert` for architectural review; permitted owner for integration/acceptance; `astra_expert` for bounded strategy and code review |
+| Explicit inherit-only or Luna-only engineering instruction, or an established inherited-settings boundary | `inherited_scout` and `inherited_worker` | `inherited_reviewer`; disclose the permitted setting without imposing the superseded standing minimum |
+| Unknown active settings or eligibility without mixed-model authorization | Native inherited roles | Native inherited reviewer |
 
 The three existing pins remain intentional: the Luna roles request
 `gpt-6-luna` with `high`; `sol_expert` requests `gpt-6.1-sol` with `ultra`.
@@ -233,40 +252,92 @@ changes the existing roles. A Luna-medium ceiling applies to review and takeover
 as well as probes. See [bounded swarm probes](ORCHESTRATION.md#bounded-swarm-probes).
 High-end routing keeps the quality-oriented strategy: delegate suitable bounded
 work and retain consequential ownership and independent review. It does not
-automatically maximize agent occupancy. Known low-cost and unknown operation
-must use inheritance unless the user explicitly authorizes a scoped exception.
+automatically maximize agent occupancy. Without applicable mixed-model
+authorization, restricted or unknown routing boundaries use inheritance.
 For example, authorizing the pinned expert for one final review does not
 authorize pinned workers or later expert execution outside that review.
 
-`astra_expert` is a separate, sparse strategic adviser pinned to `gpt-6-astra`,
-`medium`, with no service-tier override. The user's mixed-model preference permits
-a bounded consultation from a verified GPT-6.1 Sol primary when a difficult
-causal explanation, overlooked user requirement or costly architecture decision
-justifies it. Hard Luna-only/inherit-only limits still win. It reads relevant
-source, patches and original prompts; it does not edit the implementation or
-replace its owner and independent reviewer. See the [selection and cost
-gates](policy.md#sparse-astra-strategic-review).
+The standing mixed-model preference explicitly covers a GPT-6.1 Terra primary,
+independently of primary classification, while preserving it and all role pins.
+Use Luna scouts for broad, relevant source discovery and Luna workers for
+bounded implementation; keep primary or Sol ownership for consequential design,
+diagnosis, integration, and acceptance. Before committing a substantial
+high-level architecture, algorithm, or shared-contract decision, get Sol review
+or authorized Astra review covering that decision. Batch related decisions; ordinary local implementation choices do not
+need that gate. Hard model ceilings still apply, and the controller's uniform
+single-model run policy remains in force.
 
-An existing progress update can reconsider strategy roughly hourly during active
-engineering. Time alone never triggers a paid call. There is no installed timer
-or automatic Astra escalation, and no mandatory Astra review for routine work.
-Use one consultation at a time, act on its findings, and do not repeat it without
-new evidence. The automatic controller keeps its uniform per-run model policy.
+For substantial work, begin useful Luna evidence discovery early across
+separable code, documentation, history, callers, tests, and relevant primary
+sources; surface vetted community leads as lower-confidence leads. The goal is
+at least 10x useful eligible Luna effort versus the defined prior baseline, with
+a longer-term aspiration for Luna to account for at least half of actual weekly
+usage cost where that can be measured. These are effort and cost aspirations,
+not turn/token quotas or a license for filler work. Choose Luna work for useful
+coverage and safe parallelism, with no blanket agent count. Luna's factor is 0.1
+for planning; actual weekly cost share still requires attributed allowance
+measurements. Terra can screen findings for support, contradictions, exclusions,
+and relevance, then
+send compact decision evidence with links while Sol/Astra retain direct review of
+critical source and the original prompt. Avoid routinely forwarding full scout
+reports or duplicate chatter; retain material contradictions and original
+references. Required architectural and strategic review proceeds when its
+question is ready; Terra screening is optional and never a required hop. Preserve
+permission holds and all pinned settings. See [evidence discovery and Terra
+screening](policy.md#evidence-discovery-and-terra-screening).
+
+The Luna continuation change remains a source prototype. Initial continuation
+trials found useful additions; the completed held-out exercise was inconclusive:
+no candidate-only decision-changing contribution was established, and neither
+arm dispatched continuation. An earlier standalone family/falsifier prompt
+failed its cross-domain criterion. This does not establish increased allocation,
+general research quality, tenfold useful work or savings, or justify deployment
+or adoption. See the [study and limits](verification/luna-research-prompt-study-2026-10-28/README.md).
+
+The [verification reproduction guide](verification/REPRODUCING.md) provides
+portable source packets, a manual staged replay, public numeric usage records,
+and offline integrity checks. Historical captures use relative references and
+study-local aliases; their original hashes do not validate the published bytes.
+
+Use `astra_expert`, pinned to `gpt-6-astra` with `medium` and no service-tier
+override, for bounded, event-driven strategic review. Early planning should
+check feasibility against outcome, accuracy, latency, and resource constraints;
+state assumptions and simpler alternatives; and name a falsifying experiment
+with the condition for continuing or redesigning. Ask the human early about
+consequential unresolved tradeoffs. Later, optional suggestions can arrive
+asynchronously while independent, reversible work continues; silence never
+authorizes a choice. Consult Astra when new evidence reveals a false assumption,
+a failed prediction, progress on a surrogate without end-to-end progress, or
+diminishing returns. Use one adviser at a time, with a finite context and compact
+available evidence, including Luna findings when useful, plus direct review of
+critical source and the original user wording;
+focus on consequential brainstorming or written code. An authorized Astra review
+covering the same architectural decision can satisfy the Sol minimum; advice
+does not replace independent patch acceptance. There is no hourly cap,
+trigger or required recurring paid call. See [strategic
+brainstorming and human input](policy.md#strategic-brainstorming-and-human-input)
+and [Astra strategic review](policy.md#astra-strategic-review). The
+[strategic routing examples](verification/strategic-routing-examples.md) in the source checkout are
+illustrative estimates, not measured savings or evidence of live routing.
 
 A small native assignment is enough; fill in actual references and limits:
 
 ```text
-Strategic question: Does the proposed fix address the original failure, or is
-there a simpler approach consistent with the user's quoted acceptance criteria?
-Why now: Two matched experiments contradict the proposed causal explanation.
-Context: Relevant original request; current plan; source/base SHAs and dirty
-paths; focused commit range; original failure and experiment result references.
-Scope: Read-only source and patches; authorized private scratch for a specific
-bounded discriminator only. Preserve all task permissions and holds.
-Budget: One consultation, within the existing task budget; for example ten
-active minutes, the named files/diffs, and a recommendation under 600 words.
-Return: Missed requirement, evidence/uncertainty, simplest viable next approach,
-next discriminating test with predicted outcomes, and a decision/stop condition.
+Strategic question: Is the proposed architecture feasible for the required
+outcome, accuracy, latency, and resource limits?
+Why now: The design commits to a shared contract before the end-to-end path has
+been demonstrated.
+Context: Original user wording and acceptance criteria; assumptions; current
+plan; source/base SHAs and dirty paths; original failures and experiment results.
+Alternatives: State the simpler viable approach and its tradeoffs.
+Falsifier: Name the smallest experiment, its predicted outcomes, and the result
+that means continue or redesign.
+Scope: Read-only source and patches; authorized private scratch for that bounded
+discriminator only. Preserve task permissions and holds.
+Budget: One consultation within the existing task budget, with a finite context
+and output limit.
+Return: Missed requirements, evidence and uncertainty, recommendation, and a
+decision/stop condition.
 ```
 
 These are instructions, not runtime time/token caps or an OS sandbox. Start a
@@ -517,11 +588,11 @@ Start a fresh Codex
 session after installing, updating role instructions, or disabling: existing
 sessions may retain instructions already loaded.
 
-The runtime install contains twenty files: this README, `policy.md`,
+The runtime install contains twenty-one files: this README, `policy.md`,
 `supervisor.py`, `install.py`, `uninstall.py`, `controller.py`,
 `controller_store.py`, `execution.py`, `agent_backend.py`, `scheduling.py`,
-`engineering.py`, `ORCHESTRATION.md`, and eight role TOML files in
-`agents/`: four pinned roles and four selector-free inherited roles.
+`engineering.py`, `ORCHESTRATION.md`, and nine role TOML files in
+`agents/`: five pinned roles and four selector-free inherited roles.
 `CONTRIBUTING.md`, `tests/`, and `examples/` are clone-only development
 resources and are not copied into the installed bundle. The policy governs
 agent behavior; each program enforces only its documented checks. Markdown

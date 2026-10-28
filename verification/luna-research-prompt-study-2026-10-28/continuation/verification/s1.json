@@ -1,0 +1,244 @@
+{
+  "assignment": {
+    "study_root": "verification/luna-research-prompt-study-2026-10-28",
+    "source_revision": "947ed25d4058e405ecf45d6956671f6fecb12026",
+    "source_dirty_baseline": "Pre-existing modified top-level documentation, agent roles, policy, and verification materials; untracked verification study artifacts. This verification added only continuation/verification/s1.json and continuation/verification/s1.md.",
+    "scope": "Only continuation/protocol.json scoring/resource clauses, common/scoring.md, continuation/seeds/s1/{task.md,discovery.json,source-checks.json,sources/*}, and continuation/cases/{n641,n273}/report.json were read. No prompts, frontier, other cases, pilot scores, or project trees were read.",
+    "answer": "Both continuation reports contain independently supported, decision-useful evidence beyond the shared S1 seed. Counts are per opaque case and do not imply a winner, expert acceptance, implementation, or target feasibility."
+  },
+  "verification_operations": {
+    "logical_web_operations_total": 8,
+    "limits": {
+      "pair_total_max": 16,
+      "dedicated_per_case_max": 8,
+      "time_limit_minutes": 15
+    },
+    "elapsed_minutes_estimate": 3,
+    "operations": [
+      {
+        "id": "V1",
+        "kind": "query",
+        "case": "shared",
+        "target": "Two Algorithms for Frequency Estimation of a Real Sinusoid from Short Data Records; So and Chan short-time real-sinusoid paper; IEICE listing",
+        "result": "Search indexed the full primary text of the 2000 paper, including the model, negative spectral-line mechanism, and both proposed corrections; returned the official IEICE author listing and CityUHK peer-review classification for the 2005 paper."
+      },
+      {
+        "id": "V2",
+        "kind": "query",
+        "case": "shared",
+        "target": "So and Chan real sinusoid short-record paper, PDF and official IEICE metadata",
+        "result": "Returned the author-hosted full text of the 2000 paper, the author's publication list, official IEICE journal listing for the 2005 paper, and CityUHK fingerprint record classifying the 2005 work as peer reviewed."
+      },
+      {
+        "id": "V3",
+        "kind": "query",
+        "case": "n641",
+        "target": "Quinn, On Kay's Frequency Estimator, 2000; Wiley publisher record and institutional status",
+        "result": "Publisher-indexed Wiley abstract and Macquarie University record independently expose the consistency result and assumptions; the institutional record labels the item peer reviewed."
+      },
+      {
+        "id": "V4",
+        "kind": "query",
+        "case": "n641",
+        "target": "Wiley record for On Kay's Frequency Estimator",
+        "result": "Returned publisher record with full abstract, DOI, issue, pages, and November 2000 citation. Publisher record supports the abstract claim and article publication."
+      },
+      {
+        "id": "V5",
+        "kind": "open",
+        "case": "n273",
+        "target": "https://www.ee.cityu.edu.hk/~hcso/iscas00_2.pdf",
+        "result": "Opened the four-page primary PDF; the web extractor returned no text lines. Search result V1 provided extracted paper text."
+      },
+      {
+        "id": "V6",
+        "kind": "open",
+        "case": "n273",
+        "target": "https://search.ieice.org/bin/author.php?a_name=Hing-Cheung+SO&abst=j&category=A&lang=E&year=2005",
+        "result": "Tool could not open URL; official IEICE listing remained available in search result V1/V2."
+      },
+      {
+        "id": "V7",
+        "kind": "open",
+        "case": "n641",
+        "target": "CityUHK Scholars record for Short-time frequency estimation of a real sinusoid",
+        "result": "Record URL returned a cache miss. Search results V1/V2 exposed the CityUHK peer-reviewed-journal classification; the official IEICE listing confirmed the journal citation."
+      },
+      {
+        "id": "V8",
+        "kind": "query",
+        "case": "shared",
+        "target": "Primary and institutional source provenance for the two So and Chan publications",
+        "result": "Author publication list and the official IEICE author listing surfaced with bibliographic details. No direct evidence of review process was found for the 2000 conference paper."
+      }
+    ],
+    "budget_note": "8 logical operations counted, including failed opens. Three operations were shared retrieval; dedicated source checks stayed below eight per case. No simulations or project tests were run."
+  },
+  "strict_prefix_eligibility": {
+    "rule_checked": "strict 16 total / 8 query / 10 open operation prefix; failed operations count; each opaque case assessed under the same per-case initial limits",
+    "n641": {
+      "reported_operations": 10,
+      "queries": 6,
+      "opens": 3,
+      "clicks": 1,
+      "within_per_case_limits": true,
+      "qualified_evidence_operation_ids": [
+        "OP05",
+        "OP07",
+        "OP08",
+        "OP10"
+      ],
+      "note": "All 10 reported operations are within each per-case strict budget. F6 source content begins at OP05; F7 support is OP07. F6's official listing confirmation is OP10."
+    },
+    "n273": {
+      "reported_operations": 10,
+      "queries": 5,
+      "opens": 5,
+      "clicks": 0,
+      "within_per_case_limits": true,
+      "qualified_evidence_operation_ids": [
+        "op3",
+        "op6"
+      ],
+      "note": "All 10 reported operations are within each per-case strict budget. Finding content is accessed by op3/op6; provenance check op10 confirms author-list publication metadata but is not needed to preserve an unknown peer-review status."
+    },
+    "paired_aggregate_sensitivity": {
+      "reported_operations": 20,
+      "queries": 11,
+      "opens": 8,
+      "within_pair_aggregate_16_8_10": false,
+      "strict_first_16_if_concatenated_in_report_time_order": "n641 OP01-OP10 followed by n273 op1-op6: n641 F6/F7 source evidence and n273 F1 content operations op3/op6 fall within the 16-operation prefix; n273 op10 publication-list check falls outside. This is a sensitivity note only; protocol assigns equal initial limits to each opaque case and the per-case findings remain eligible."
+    }
+  },
+  "cases": [
+    {
+      "opaque_case": "n641",
+      "report_case_id": "r733",
+      "incremental_counts": {
+        "qualified_lower_bound": 2,
+        "qualified_upper_bound": 2,
+        "unresolved_incremental_findings": 0,
+        "seed_baseline_findings_not_recounted": 5
+      },
+      "peer_reviewed_primary_source_count": 2,
+      "stage_rows": [
+        {
+          "finding_id": "F6",
+          "source_id": "S5",
+          "source": "So and Chan, Short-time frequency estimation of a real sinusoid (2005), IEICE Transactions on Fundamentals E88-A(9), 2455-2459, DOI 10.1093/ietfec/e88-a.9.2455.",
+          "exact_source_locators": [
+            "CityUHK Scholars abstract and bibliographic record, https://scholars.cityu.edu.hk/en/publications/short-time-frequency-estimation-of-a-real-sinusoid/ (researcher OP05; verifier indexed record V1/V2)",
+            "Official IEICE author listing, 2005/09/01, E88-A No. 9, pp. 2455-2459, type LETTER, with Full Text: PDF, https://search.ieice.org/bin/author.php?a_name=Hing-Cheung+SO&abst=j&category=A&lang=E&year=2005 (researcher OP10; verifier indexed V1/V2)",
+            "CityUHK fingerprint entry classifies this publication under RGC 21, Publication in refereed journal / peer-review, https://scholars.cityu.edu.hk/en/publications/short-time-frequency-estimation-of-a-real-sinusoid/fingerprints/ (verifier V1/V2)"
+          ],
+          "content_access": "Abstract and metadata only; the listed full PDF was not accessed. Abstract directly states short-observation real-periodogram bias and proposes analytic-signal conversion or negative-spectral-line subtraction.",
+          "publication_status": "Published journal letter verified by official IEICE listing.",
+          "peer_review_status": "Yes, institutional CityUHK research record explicitly classifies it as peer-reviewed journal publication. This is institutional classification evidence, not a separately inspected editorial review record.",
+          "claim_support": "Abstract-limited, supported for the stated short-record real-tone mechanism and two correction families. No quantitative performance claim is attributed to it.",
+          "task_applicability": "Adequately mapped as a discriminator: H03 explicitly retains a real-capture conjugate-image/physical-sideband ambiguity. Stationary real sinusoid and short records are relevant model context; payload/helper envelope and front-end conditions remain unverified.",
+          "novelty_vs_seed": "Qualified incremental finding. Seed F2/S2 compares Kay under a complex single-tone AWGN model; H03 flags image ambiguity but supplies no source-backed short-record negative-image bias or correction. The new source turns that caveat into a concrete check. Do not credit the verifier's retrieval as a researcher discovery.",
+          "practical_discriminator": "On identical held-out real PCM, vary start phase and aperture length; compare incumbent and one implementable image correction. Record signed bias, absolute-error tails, branch/alias outcomes, and absent-tone admissions. Keep frequency-only authority separate.",
+          "stage": {
+            "independent_verification": "qualified",
+            "terra": "retained",
+            "strict_prefix16": "retained",
+            "expert": "not individually assessed"
+          },
+          "unresolved_caveats": [
+            "No equations, measured ranges, or comparative tables were retrieved for this 2005 abstract.",
+            "No support for the proposed 0.10-Hz/6-s/95% target or receiver performance."
+          ]
+        },
+        {
+          "finding_id": "F7",
+          "source_id": "S6",
+          "source": "Quinn, On Kay's Frequency Estimator (2000), Journal of Time Series Analysis 21(6), 707-712, DOI 10.1111/1467-9892.00205.",
+          "exact_source_locators": [
+            "Wiley publisher abstract and citation, https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9892.00205 (researcher OP07; verifier search V3/V4)",
+            "Macquarie University publication record and abstract, https://researchers.mq.edu.au/en/publications/on-kays-frequency-estimator/ (verifier V3; labels item peer reviewed)",
+            "Wiley abstract states complex sinusoid with independent zero-mean equal-variance normal real/imaginary additive noise, fixed-SNR inconsistency, and a restricted strongly consistent noise class with prior frequency-range knowledge."
+          ],
+          "content_access": "Publisher-indexed abstract and metadata; full article not accessed. Publisher open failure at researcher OP04 remains accurate.",
+          "publication_status": "Published journal article verified by Wiley citation and institutional record.",
+          "peer_review_status": "Yes, Macquarie University publication record labels it a peer-reviewed journal article. No separate review record inspected.",
+          "claim_support": "Abstract-limited, directly supports the specific estimator inconsistency claim and stated model. It does not support a conclusion about all Kay-family estimators.",
+          "task_applicability": "Adequately mapped as a qualification of a proposed Kay comparator; not a prediction for the receiver. The exact estimator-variant correspondence to a future implementation is unresolved and must be checked before making implementation-specific claims.",
+          "novelty_vs_seed": "Qualified incremental finding. Seed F2 supports considering a Kay-style comparator under its model and does not mention Quinn's consistency caveat. This changes how that comparator should be interpreted and what finite-record signed-bias checks to run.",
+          "practical_discriminator": "Compare the selected Kay implementation over known generated offsets and actual finite apertures against an independent bounded profile fit/reference; retain signed bias, tail error, and no-publication outcomes.",
+          "stage": {
+            "independent_verification": "qualified",
+            "terra": "retained",
+            "strict_prefix16": "retained",
+            "expert": "not individually assessed"
+          },
+          "unresolved_caveats": [
+            "Kay estimator variant identity needs confirmation before implementation-specific transfer.",
+            "Abstract does not establish behavior on real-valued shaped captures, payload activity, or the proposed target."
+          ]
+        }
+      ],
+      "retained_seed_breadth_and_omissions": "Retain seed threshold/outlier versus local-bound evidence, bounded Kay/lag comparisons under complex-AWGN/coherence assumptions, and packet separation of conditional uncertainty, presence, and frequency-only authority. No source verifies calibrated uncertainty, the target deadline, or false-admission rates across the actual search/repeated-look policy.",
+      "rejections_and_gaps": "Unknown-frequency detection and nonstationary-estimator search hits remain leads, not findings: no primary content was opened. No ranking follows. S5 and S6 abstracts do not resolve receiver model mismatch, dB-Hz interpretation, actual aperture, evolving tone, or false publications. No consequential omission invalidates the supported discriminators."
+    },
+    {
+      "opaque_case": "n273",
+      "report_case_id": "r733",
+      "incremental_counts": {
+        "qualified_lower_bound": 1,
+        "qualified_upper_bound": 1,
+        "unresolved_incremental_findings": 0,
+        "seed_baseline_findings_not_recounted": 5
+      },
+      "peer_reviewed_primary_source_count": 0,
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "source_id": "S1",
+          "source": "So and Chan, Two Algorithms for Frequency Estimation of a Real Sinusoid from Short Data Records (2000), Proceedings of IEEE ISCAS 2000, vol. 3, pp. III-391–III-394, DOI 10.1109/ISCAS.2000.856079.",
+          "exact_source_locators": [
+            "Author-hosted primary PDF, https://www.ee.cityu.edu.hk/~hcso/iscas00_2.pdf, pp. III-391–III-394; abstract and Sections I-III; researcher op3 opened PDF and op6 retrieved extracted text, verifier V1/V2 indexed full paper text and V5 opened the PDF (extractor returned no lines)",
+            "Author publication list, https://www.ee.cityu.edu.hk/~hcso/publication.html, entry for H.C. So and Y.T. Chan, ISCAS 2000, vol. 3, pp. 391-394 (researcher op10; verifier V1/V2/V8 surfaced record)"
+          ],
+          "content_access": "Primary paper full text accessed via search extraction; PDF independently opened but text extraction returned no lines. Paper gives x(n)=alpha cos(omega0 n+phi)+white Gaussian noise, unknown amplitude/frequency/phase, and targets short N (order 100 or less); Sections II-III attribute phase-, record-length-, and frequency-dependent periodogram bias to negative spectral-line interference and propose analytic-signal construction and negative-line subtraction.",
+          "publication_status": "Proceedings publication verified by author publication list and paper's IEEE proceedings identity/copyright. Publisher DOI page was inaccessible to the researcher; no independent publisher landing-page record was retrieved.",
+          "peer_review_status": "Unknown. Conference proceedings provenance is verified; available sources do not establish the review process. Not counted as a verified peer-reviewed primary source.",
+          "claim_support": "Direct primary-text support for the mechanism and two proposed correction families. The paper's comparative experiments do not transfer as receiver performance evidence.",
+          "task_applicability": "Adequately mapped as a real-sinusoid finite-record discriminator because H03 identifies real capture and image/sideband ambiguity. Applicability is limited by the paper's stationary one-tone AWGN model and short records; actual helper envelope, payload/auxiliary activity, offsets and levels remain unmatched.",
+          "novelty_vs_seed": "Qualified incremental finding. Seed offers complex-sinusoid estimator comparisons and a generic coarse-search/outlier discussion; H03 records an unresolved image/sideband ambiguity but not this source-backed negative-image interference mechanism and remedy. It narrows the seed caveat into a falsifiable test.",
+          "practical_discriminator": "On identical real PCM/noise controls, vary initial phase and observation length including windows that cross the 137-sample chunk boundaries; compare incumbent with one feasible image correction and a bounded local fit. Measure signed bias, deadline tail error, uncertainty coverage, false admissions, and chunk invariance separately.",
+          "stage": {
+            "independent_verification": "qualified",
+            "terra": "retained",
+            "strict_prefix16": "retained for source content at op3/op6",
+            "expert": "not individually assessed"
+          },
+          "unresolved_caveats": [
+            "Capture sample rate, tone location relative to DC/Nyquist, coherent aperture, and amplitude stability determine image-bias magnitude.",
+            "No validation of payload/envelope conditions, dB-Hz levels, absent-tone admission, uncertainty calibration, or 0.10-Hz/6-s target.",
+            "Physical sideband sign ambiguity remains distinct from digital tone-frequency estimation."
+          ]
+        }
+      ],
+      "retained_seed_breadth_and_omissions": "Retain seed evidence about threshold/outlier tails, limited complex-AWGN estimator comparisons, conditional frequency uncertainty, separate presence, and frequency-only authority. H03/H05/H06 are code/test excerpts and a finite synthetic fixture, not prospective receiver performance.",
+      "rejections_and_gaps": "The Aboutanios-Mulgrew interpolation source and colored-noise/compressed-measurement leads were not reopened by this verifier. The reported interpolation rejection is plausible against the seed's coarse/fine framing but remains a researcher rationale, not a verifier-confirmed source comparison. Unknown-frequency false-publication control and actual target feasibility remain open."
+    }
+  ],
+  "pair_dedup_and_limits": {
+    "deduplicated_incremental_union_lower_bound": 2,
+    "union_mechanisms": [
+      "real-valued short-record periodogram bias from negative spectral image, with analytic-signal / image-subtraction controls; n641 F6 and n273 F1 share one mechanism and count once in paired union",
+      "Kay-estimator fixed-SNR consistency caveat; n641 F7"
+    ],
+    "unresolved_pair_level_questions": [
+      "Exact implementation variant correspondence for the Kay estimator.",
+      "No source establishes false-publication probability under the receiver's searched band and repeated-look policy.",
+      "No evidence transfers to the hypothetical target or real receiver distribution."
+    ]
+  },
+  "source_check_notes": {
+    "seed_baseline": "H03 at include/datapump/helper_tone_tracker.hpp:10-27, 62-88, 161-190 identifies real-capture conjugate-image/physical-sideband ambiguity, model-limited uncertainty, and coherence conditions. H05 at include/datapump/helper_receiver.hpp:89-157, 194-213 separates optional frequency analysis, presence and authority. H06 at tests/test_helper_carrier.cpp:643-698 is a finite synthetic fixture. These are excerpts/test source facts, not runtime evidence for the hypothetical task.",
+    "seed_original_access_error": "source-checks.json notes the Rife/Boorstyn original report overstates logged page-specific access; the independent seed verification found the passage but did not retroactively upgrade the researcher record. Preserve this caveat.",
+    "seed_peer_review_status": "The seed's peer-review labels are not uniformly verified; this continuation verification only confirms institutional peer-reviewed classification for S5 and S6. S1 ISCAS peer review remains unknown.",
+    "no_credit_transfer": "Verifier retrieval and confirmation are not researcher findings and do not add score. Existing F6/F7/F1 IDs and every operation provenance ID are preserved."
+  }
+}

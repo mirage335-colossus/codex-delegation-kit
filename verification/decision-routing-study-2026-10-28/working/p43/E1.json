@@ -1,0 +1,399 @@
+{
+  "scenario": "carrier",
+  "phase": "E1",
+  "source_units_consulted": [
+    "E1",
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H05",
+    "H06",
+    "H07",
+    "H08",
+    "H09",
+    "H10",
+    "H11",
+    "H12"
+  ],
+  "assignments": [
+    {
+      "id": "T1",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "What is established by the external summary and what provenance and matched data are missing?",
+      "purpose": "Preserve evidence identity and prevent unsupported attribution.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "model": "terra",
+      "role": "screen",
+      "conversation_id": "coordinator",
+      "deliverable": "Decision packet marking all four rows as hypothetical reported summaries, including one reported interval miss and missing denominators and provenance.",
+      "ownership": "Read-only synthesis and paper planning.",
+      "dependencies": [],
+      "stop_condition": "Screen as findings arrive; return separable gaps to existing Luna conversations; stop when decision-relevant uncertainty is explicit.",
+      "model_reason": "Coordinator checks relevance, revision, support and contradictions.",
+      "expected_work_operations": [
+        "Separate reported error threshold from uncertainty width and coverage; the target requires error \u22640.10 Hz, not interval width \u22640.10 Hz",
+        "Screen source identity, timing meaning, overlap, comparability, raw support, contradictions and gaps; return separable issues to Luna",
+        "Retain full reported miss and all rows, including apparently favorable outcomes"
+      ]
+    },
+    {
+      "id": "S1",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "What timestamps and publication paths could explain observed arrival and interval semantics, without asserting a cause?",
+      "purpose": "Define faithful instrumentation and compare applicable contract.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05",
+        "H12"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-a",
+      "deliverable": "Cited call-path and provenance map emphasizing onset, observation date, publication availability, interval and optional funding.",
+      "ownership": "Read-only source and callers; no changes.",
+      "dependencies": [],
+      "stop_condition": "Map relevant entry points and decisive unknowns; stop at diminishing relevance.",
+      "model_reason": "Bounded source discovery.",
+      "expected_work_operations": [
+        "Trace frequency sample versus reference sample, support age, recent presence, chunk boundaries and scheduling",
+        "Identify applicable estimator and configuration as unresolved until provenance is supplied"
+      ]
+    },
+    {
+      "id": "S2",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "Can fixtures generate identical PCM and truth for replay under both chunk schedules while preserving other variables?",
+      "purpose": "Design a matched chunk discriminator and reproducible matrix.",
+      "source_units": [
+        "E1",
+        "H01",
+        "H06",
+        "H07",
+        "H12"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-b",
+      "deliverable": "Paired replay construction with exact onset, seeds, truth, expected chunks and control of payload and auxiliary metadata.",
+      "ownership": "Read-only fixtures and generator code.",
+      "dependencies": [],
+      "stop_condition": "Identify usable construction seam, blind spots and smallest meaningful differences.",
+      "model_reason": "Separable fixture evidence.",
+      "expected_work_operations": [
+        "Inspect fixtures and generator for deterministic sample generation and seed handling",
+        "Design matched chunk-size comparison with same PCM and start, with differing scheduling recorded separately"
+      ]
+    },
+    {
+      "id": "S3",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "Which protections cover payload, sample progress, endpoint and phase invalidation while investigating timing?",
+      "purpose": "Prevent frequency investigation from damaging independent contracts.",
+      "source_units": [
+        "H08",
+        "H09",
+        "H10",
+        "H11"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-c",
+      "deliverable": "Cited regression and preservation map; no claim tests ran.",
+      "ownership": "Read-only tests, registration and related callers.",
+      "dependencies": [],
+      "stop_condition": "Cover each preservation boundary and distinguish selected from broader contract checks.",
+      "model_reason": "Independent bounded regression discovery.",
+      "expected_work_operations": [
+        "Trace completion, interruption, progress, retune and relevant test registration"
+      ]
+    },
+    {
+      "id": "S4",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "What alternative explanations and simple discriminators could account for the reported miss and mixed timings?",
+      "purpose": "Keep algorithm, measurement, waveform and delivery explanations open.",
+      "source_units": [
+        "E1",
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-d",
+      "deliverable": "Evidence-backed alternatives and focused controls, preserving dissent and assumptions.",
+      "ownership": "Read-only source, relevant history and bounded authoritative literature discovery.",
+      "dependencies": [],
+      "stop_condition": "Stop once distinct plausible alternatives and discriminating measurements are identified, or sources add no decision value.",
+      "model_reason": "Distinct proactive investigation rather than confirmation.",
+      "expected_work_operations": [
+        "Inspect estimator and uncertainty assumptions and adjacent caller history",
+        "Bound authoritative primary research to techniques that discriminate likely explanations"
+      ]
+    },
+    {
+      "id": "E1",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "Given a reported uncovered interval and confounded chunk differences, what protocol and measurement contract can distinguish causes and evaluate targets?",
+      "purpose": "Make timely expert judgment without requiring scouts to finish.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H12"
+      ],
+      "model": "sol",
+      "role": "owner",
+      "conversation_id": "expert",
+      "deliverable": "Reviewed protocol decisions, caveats, matched replay and competing hypotheses; no inferred diagnosis.",
+      "ownership": "Read-only measurement architecture; no code.",
+      "dependencies": [],
+      "stop_condition": "Review when a slot opens, using available evidence; do not wait for all scouts if a strategic decision is ready.",
+      "model_reason": "Consequential measurement and algorithm judgment requires Sol or authorized Astra.",
+      "expected_work_operations": [
+        "Review timestamp and coverage semantics and proposed paired chunk replay",
+        "Evaluate whether additional evidence requires redesign; maintain original full matrix and hold substantial dependent implementation until review"
+      ]
+    },
+    {
+      "id": "T2",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "What are the user\u2019s decision thresholds, operational representativeness and any authority for a future campaign?",
+      "purpose": "Clarify practical tradeoffs without blocking independent planning.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "model": "terra",
+      "role": "owner",
+      "conversation_id": "coordinator",
+      "deliverable": "Concise question and recorded answers or unknowns; no assumed authorization.",
+      "ownership": "User communication and decision log.",
+      "dependencies": [
+        "T1"
+      ],
+      "stop_condition": "Ask promptly; proceed with independent authorized planning; silence is not approval.",
+      "model_reason": "Human owns operational tolerance and scope.",
+      "expected_work_operations": [
+        "Ask whether 0.10 Hz error and six seconds are decision thresholds, and whether width matters separately",
+        "Ask whether declared range, levels and coherence reflect actual operation; preserve original requirements pending reply"
+      ]
+    },
+    {
+      "id": "L5",
+      "action": "continue",
+      "dispatch": "queued",
+      "question": "How should the reviewed manifest preserve the reported miss and test chunk delivery without confounding conditions?",
+      "purpose": "Make a reproducible hypothetical campaign specification.",
+      "source_units": [
+        "E1",
+        "H01",
+        "H05",
+        "H06",
+        "H07",
+        "H12"
+      ],
+      "model": "luna",
+      "role": "worker",
+      "conversation_id": "scout-b",
+      "deliverable": "Updated specification with paired replay, seed/PCM identities, complete matrix, onset, timestamps, raw measurements, and all declines.",
+      "ownership": "Hypothetical isolated measurement artifact only, after task authorization; preserve existing dirty files.",
+      "dependencies": [
+        "S2",
+        "E1"
+      ],
+      "stop_condition": "Stop at reviewed, runnable specification or report a blocker; no implementation before authorization.",
+      "model_reason": "Settled mechanics are separable after design review.",
+      "expected_work_operations": [
+        "Keep all offsets, levels, clean/noisy, activity and chunks plus absent control",
+        "Define first accurate estimate, time-to-first-covered, every finite-interval coverage, success denominators and censored nonpublications",
+        "Record machine/build, worker grants, capture provenance, resource measurements and exact commands in future authorized execution"
+      ]
+    },
+    {
+      "id": "L6",
+      "action": "continue",
+      "dispatch": "queued",
+      "question": "Which discriminators test chunking, statistical variation, waveform interference, coherence, resource limits and measurement misinterpretation?",
+      "purpose": "Avoid attributing the reported miss to any one cause.",
+      "source_units": [
+        "E1",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H08"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-d",
+      "deliverable": "Prioritized matched control matrix and diagnostic evidence for each explanation.",
+      "ownership": "Read-only investigation and hypothetical controls.",
+      "dependencies": [
+        "S4"
+      ],
+      "stop_condition": "Stop when controls distinguish plausible hypotheses and add no material decision value.",
+      "model_reason": "Bounded diagnostic expansion.",
+      "expected_work_operations": [
+        "Replay identical PCM in two chunk schedules with identical configuration and compare sample timestamps and wall latency",
+        "Propose controls for source onset and noise, interference and metadata, grant, presence, stale support, and phase/coherence assumptions"
+      ]
+    },
+    {
+      "id": "L7",
+      "action": "new",
+      "dispatch": "queued",
+      "question": "What specific provenance and raw evidence are needed to interpret and reproduce the operator report?",
+      "purpose": "Convert the report into verifiable evidence without inventing an executable or team.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "scout-c",
+      "deliverable": "Compact prioritized evidence request for the operator, including raw PCM, generated truth and onset, full capture table and declines, seeds, build and dirty state, commands, configuration, grants, timing definitions and chunk traces.",
+      "ownership": "Read-only evidence inventory; coordinator communicates only if appropriately authorized.",
+      "dependencies": [
+        "S3"
+      ],
+      "stop_condition": "Stop when a minimally sufficient provenance checklist is assembled; do not claim missing material exists.",
+      "model_reason": "Separable source and provenance gap identification.",
+      "expected_work_operations": [
+        "Map reported columns to actual publication and uncertainty semantics",
+        "Identify conditions and missing denominators needed for unbiased empirical coverage and reproducibility"
+      ]
+    },
+    {
+      "id": "A1",
+      "action": "continue",
+      "dispatch": "conditional",
+      "question": "Would contradictory verified evidence or a costly design dead end require strategic advice?",
+      "purpose": "Keep timely bounded Astra access while the summary alone is inconclusive.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05"
+      ],
+      "model": "astra",
+      "role": "adviser",
+      "conversation_id": "adviser",
+      "deliverable": "Strategic advice on discriminators and viable alternatives when trigger fires.",
+      "ownership": "Read-only direct source access.",
+      "dependencies": [
+        "T1"
+      ],
+      "stop_condition": "Consult promptly on consequential contradiction or diminishing returns; stop after actionable decision and unresolved uncertainties.",
+      "model_reason": "Strategic uncertainty or expensive wrong turn merits bounded Astra.",
+      "expected_work_operations": [
+        "Consult promptly on material contradiction or consequential uncertainty without compulsory screening"
+      ]
+    },
+    {
+      "id": "R1",
+      "action": "defer",
+      "dispatch": "conditional",
+      "question": "Does any subsequently produced patch or harness preserve contracts and meet reviewed protocol?",
+      "purpose": "Ensure independent review before acceptance when an actual artifact exists.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05",
+        "H08",
+        "H09",
+        "H10",
+        "H11"
+      ],
+      "model": "sol",
+      "role": "reviewer",
+      "conversation_id": "reviewer",
+      "deliverable": "Independent review of actual future diff and evidence, or explicit no-artifact status.",
+      "ownership": "Read-only independent review, distinct from author.",
+      "dependencies": [
+        "E1",
+        "L5"
+      ],
+      "stop_condition": "Accept only with evidence or return actionable findings; escalate consequential redesign.",
+      "model_reason": "Independent consequential review.",
+      "expected_work_operations": [
+        "Review the original failures and repair history without treating report as a reproduced failure"
+      ]
+    },
+    {
+      "id": "T3",
+      "action": "continue",
+      "dispatch": "conditional",
+      "question": "What can be responsibly reported now and what would a complete feasibility decision require?",
+      "purpose": "Communicate incomplete evidence and preserve decision objective.",
+      "source_units": [
+        "E1",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07"
+      ],
+      "model": "terra",
+      "role": "owner",
+      "conversation_id": "coordinator",
+      "deliverable": "Interim: reported interval miss and mixed findings; no coverage rate, causal claim or acceptance conclusion. Future report retains all required metrics.",
+      "ownership": "Read-only synthesis of authorized later evidence.",
+      "dependencies": [
+        "L5",
+        "E1"
+      ],
+      "stop_condition": "Stop at decision-ready synthesis or explicitly report incomplete evidence.",
+      "model_reason": "Ordinary synthesis with transparent evidence.",
+      "expected_work_operations": [
+        "Request full counts, samples, error and interval results, nonpublications and work/memory",
+        "Only summarize acquisition median and p95 or coverage with an adequate complete dataset; distinguish sample time and processing time"
+      ]
+    }
+  ],
+  "concurrency": "Terra coordinator plus up to four Luna scouts and one Sol expert fit the six-conversation cap. Use existing slots, run Sol as soon as useful without a screening barrier. L7 waits for scout-c; L5 and L6 reuse scout-b and scout-d as their prerequisites are met. Astra uses a freed slot if triggered; independent review reserves its own slot when an artifact exists. No evidence indicates any initial assignment actually ran. Hypothetical future processes remain capped at four with eight CPU cores and 16 GiB, shared writers serialized; study performs no campaign.",
+  "reuse": "Retain prior assignment IDs and histories; E1 assignment is the pre-existing Sol owner, whereas source unit E1 is the new external report. Scout conversations are reused after completion; hand off concise evidence, uncertainty, alternatives and full provenance with direct access to sources. Original deadlines do not reset.",
+  "expert_and_human_triggers": {
+    "sol": "Continue timely measurement-contract review now; review any consequential redesign before dependent implementation and independently review any patch before acceptance.",
+    "astra": "Consult promptly on verified contradiction, strategic uncertainty, costly wrong turn or diminishing returns; summary alone does not establish a cause. No mandatory screen.",
+    "human": "Ask early about operational tolerances and representative coherence/range; obtain future execution authority if needed. Request report provenance through the authorized channel; silence grants nothing.",
+    "repair": "Retain original report and any later observed failures. One evidence-backed local worker repair only; consequential scope changes or exhausted repair go to Sol. Preserve all gates, phase, endpoint and payload contracts."
+  },
+  "rejected_research": [
+    "Inferring chunking causes the miss from four confounded rows, or treating the report as a run of our plan.",
+    "Calculating a population coverage rate, p95 or acceptance result from the incomplete summary.",
+    "Treating 0.10 Hz as a mandatory interval width when the proposed target concerns absolute error.",
+    "Algorithm changes, weakening gates, broad uncontrolled sweeps, or execution in this paper exercise."
+  ],
+  "assumptions_and_uncertainties": [
+    "The reported +3 Hz row has 0.14 Hz error and 0.09 Hz uncertainty with truth uncovered; its actual provenance, implementation and timing semantics are unknown.",
+    "Offsets, noise/levels and chunk sizes vary together in the summary, so it cannot isolate chunk effects. Some intervals exceed 0.10 Hz, but the strict proposed target is error and separate coverage; no inference about precision acceptance follows from width alone.",
+    "No raw PCM, run commands, seeds, denominator, build identity, full table or independent verification are supplied. Preserve source/runtime distinctions and the dirty baseline."
+  ],
+  "no_tokens_or_costs_estimated": true
+}

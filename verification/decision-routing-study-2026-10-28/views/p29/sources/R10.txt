@@ -1,0 +1,173 @@
+# R10: Process-tree observation and child cleanup
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `tools/process_tree.py` lines 1-70
+
+```text
+   1 #!system-fixture/usr/bin/env python3
+   2 """Supervise one command and finish its inherited output writers before evidence.
+   3 
+   4 Linux uses a private child-subreaper process, including nested sessions and groups.
+   5 Commands must not transfer writable handles or ask another service to keep writing;
+   6 such workloads require a qualified container/service supervisor. This is lifetime
+   7 supervision of cooperating programs, not hostile-process confinement. Other POSIX
+   8 systems fail closed until an equivalent descendant owner is supplied.
+   9 Windows starts suspended and assigns a no-breakaway, kill-on-close Job Object
+  10 before resuming the initial thread; assignment failure never runs child code.
+  11 Windows termination pins verified Job member handles before requesting exit and
+  12 joins them under one deadline; changed cumulative assignments fail closed.
+  13 Normal completion checks signaled member handles and a fresh complete Job list
+  14 before waiting for accounting retirement; a running descendant fails immediately.
+  15 An explicit Windows maximum_active_processes limits this Job before any child
+  16 runs, including the primary; it is not a per-user quota or available capacity.
+  17 The default leaves the active-process limit unset; other hosts reject an explicit cap.
+  18 Native qualification is required for each supported platform and environment.
+  19 """
+  20 import ctypes
+  21 from collections import namedtuple
+  22 from contextlib import contextmanager
+  23 import json
+  24 import math
+  25 import os
+  26 from pathlib import Path
+  27 import signal
+  28 import subprocess
+  29 import sys
+  30 import threading
+  31 import time
+  32 
+  33 
+  34 class ProcessTreeError(RuntimeError):
+  35     pass
+  36 
+  37 
+  38 ObservedProcessSample = namedtuple('ObservedProcessSample', 'records complete unknown_coverage')
+  39 SupervisorStartup = namedtuple('SupervisorStartup',
+  40     'pid parent_pid executable executable_realpath version_info implementation prefix base_prefix '
+  41     'exec_prefix base_exec_prefix sys_path platlibdir flags helper_path dont_write_bytecode')
+  42 _STARTUP_FLAGS = ('isolated', 'ignore_environment', 'no_user_site', 'no_site', 'dont_write_bytecode')
+  43 _STARTUP_BYTES = 64 * 1024
+  44 _SAMPLE_BYTES = 256 * 1024
+  45 _PROC_BYTES = 64 * 1024
+  46 _SAMPLE_TOTAL_BYTES = 32 * 1024 * 1024
+  47 _TASK_ENTRIES = 16384
+  48 _REQUEST_BYTES = 256
+  49 
+  50 
+  51 def _finite_deadline(value):
+  52     try:
+  53         finite = type(value) in (int, float) and math.isfinite(value)
+  54     except OverflowError:
+  55         finite = False
+  56     if not finite:
+  57         raise ProcessTreeError('deadline must be a finite monotonic number')
+  58     return value
+  59 
+  60 
+  61 def _deadline(value):
+  62     _finite_deadline(value)
+  63     if value <= time.monotonic():
+  64         raise ProcessTreeError('observation deadline exhausted; retain output ownership')
+  65     return value
+  66 
+  67 
+  68 def _sample_limit(value):
+  69     if type(value) is not int or not 1 <= value <= 1024:
+  70         raise ProcessTreeError('maximum_processes must be an integer in 1..1024')
+```
+
+## `tests/test_process_tree.py` lines 1-90
+
+```text
+   1 """Real process-lifetime scenarios plus native launch ordering checks."""
+   2 import ctypes
+   3 import importlib.util
+   4 import os
+   5 from pathlib import Path
+   6 import subprocess
+   7 import sys
+   8 import tempfile
+   9 import time
+  10 import unittest
+  11 from types import SimpleNamespace
+  12 from unittest import mock
+  13 
+  14 ROOT = Path(__file__).resolve().parents[1]
+  15 spec = importlib.util.spec_from_file_location('process_tree', ROOT / 'tools/process_tree.py')
+  16 TREE = importlib.util.module_from_spec(spec)
+  17 spec.loader.exec_module(TREE)
+  18 
+  19 
+  20 @unittest.skipUnless(os.name in ('posix', 'nt'), 'requires a supplied native process supervisor')
+  21 class NativeProcessTree(unittest.TestCase):
+  22     def setUp(self):
+  23         self.tmp = tempfile.TemporaryDirectory(prefix='process-owner-')
+  24         self.addCleanup(self.tmp.cleanup)
+  25         self.root = Path(self.tmp.name)
+  26         self.stream = (self.root / 'console.log').open('wb')
+  27         self.addCleanup(self.stream.close)
+  28 
+  29     def launch(self, body, *, env=None):
+  30         owner = TREE.launch([sys.executable, '-B', '-c', body], self.root, self.stream, env=env)
+  31         self.addCleanup(owner.close)
+  32         return owner
+  33 
+  34     def test_default_environment_is_inherited(self):
+  35         with mock.patch.dict(os.environ, {'FOUNDATION_PROCESS_ENV_FIXTURE':'inherited'}):
+  36             owner=self.launch("import os;print(os.environ['FOUNDATION_PROCESS_ENV_FIXTURE'])")
+  37             self.assertEqual(owner.wait(timeout=10),0);self.assertEqual(owner.finish(),0);owner.close()
+  38             self.assertEqual(os.environ['FOUNDATION_PROCESS_ENV_FIXTURE'],'inherited')
+  39         self.assertEqual((self.root/'console.log').read_text().strip(),'inherited')
+  40 
+  41     def test_environment_override_is_child_only_and_reaches_descendants(self):
+  42         variable='FOUNDATION_PROCESS_ENV_FIXTURE'
+  43         with mock.patch.dict(os.environ,{variable:'parent'}):
+  44             environment=dict(os.environ,FOUNDATION_PROCESS_ENV_FIXTURE='child-only',GALLIUM_DRIVER='llvmpipe')
+  45             body=("import os,subprocess,sys;print(os.environ['FOUNDATION_PROCESS_ENV_FIXTURE'],flush=True);"
+  46                   "subprocess.run([sys.executable,'-B','-c',\"import os;print(os.environ['FOUNDATION_PROCESS_ENV_FIXTURE'])\"],check=True)")
+  47             owner=self.launch(body,env=environment)
+  48             self.assertEqual(owner.wait(timeout=10),0);self.assertEqual(owner.finish(),0);owner.close()
+  49             self.assertEqual(os.environ[variable],'parent')
+  50             self.assertEqual(environment[variable],'child-only')
+  51         self.assertEqual((self.root/'console.log').read_text().splitlines(),['child-only','child-only'])
+  52 
+  53     def test_complete_parent_and_joined_child_leave_stable_output(self):
+  54         for _ in range(8):
+  55             owner = self.launch("import subprocess,sys; subprocess.run([sys.executable,'-c','print(42)'],check=True);print('done')")
+  56             self.assertEqual(owner.wait(timeout=10), 0)
+  57             self.assertEqual(owner.finish(), 0)
+  58             owner.close()
+  59         self.assertEqual((self.root / 'console.log').read_text().splitlines(), ['42', 'done'] * 8)
+  60 
+  61     def test_successful_parent_with_inherited_output_child_is_rejected_and_stopped(self):
+  62         body = ("import subprocess,sys; subprocess.Popen([sys.executable,'-c',"
+  63                 "\"import time;time.sleep(0.5);print('late',flush=True);time.sleep(30)\"]);print('parent done')")
+  64         owner = self.launch(body)
+  65         self.assertEqual(owner.wait(timeout=10), 0)
+  66         with self.assertRaisesRegex(TREE.ProcessTreeError, 'descendants outlived'):
+  67             owner.finish()
+  68         saved = (self.root / 'console.log').read_bytes()
+  69         time.sleep(0.6)
+  70         self.assertEqual((self.root / 'console.log').read_bytes(), saved)
+  71         self.assertNotIn(b'late', saved)
+  72 
+  73     def test_termination_stops_parent_and_child_without_releasing_early(self):
+  74         child = "import os,time;print('child-ready:'+str(os.getpid()),flush=True);time.sleep(30)"
+  75         owner = self.launch("import subprocess,sys,time;subprocess.Popen([sys.executable,'-c'," +
+  76                             repr(child) + "]);print('parent-ready',flush=True);time.sleep(30)")
+  77         log = self.root / 'console.log'
+  78         deadline = time.monotonic() + 10
+  79         while True:
+  80             lines = log.read_bytes().splitlines()
+  81             children = [line.removeprefix(b'child-ready:') for line in lines if line.startswith(b'child-ready:')]
+  82             if b'parent-ready' in lines and len(children) == 1 and children[0].isdigit():
+  83                 child_pid = int(children[0]); break
+  84             if time.monotonic() >= deadline:
+  85                 self.fail('parent and output-owning child did not reach ready state')
+  86             time.sleep(0.01)
+  87         handle = None
+  88         if owner.job is not None:
+  89             # Pin this child before termination; a post-exit PID lookup could
+  90             # observe a retired or reused identity instead of our output writer.
+```

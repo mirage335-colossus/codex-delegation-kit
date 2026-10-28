@@ -1,8 +1,12 @@
 # Bounded swarm extension
 
+> **Current cost context (user-reported, 2026-10-28):** GPT-6.1 Sol in Desktop Codex was reported to consume included weekly allowance at about five times its previous Sol usage rate. The user-provided unitless planning index is Terra = 1, Sol ≈ 10, Astra ≈ 20, and Luna = 0.1. These estimates are not verified or calibrated to actual comparable workloads or weekly allowance use, and are not API/token or purchased-credit rates, USD amounts, or weekly usage percentages. The [official plan-pricing page](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual) explains that credit prices alone do not determine included subscription usage. See the [weekly-usage cost guidance](../policy.md#weekly-usage-cost); this context does not revise historical measurements or conclusions, or change routing, role pins, tiers, or controller behavior.
+
+Current Luna evidence-discovery guidance is summarized in the [policy](../policy.md#evidence-discovery-and-terra-screening); it does not change these historical results.
+
 Validated October 21, 2026 (America/Chicago). Maintained source:
 `https://github.com/mirage335-colossus/codex-delegation-kit.git`, checkout
-`/home/user/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
+`unbundled-home/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
 `3c8b2c38907fe069d74d28bf750cbf084c79c762` was clean. The installed source hint
 was verified against this checkout. This extension remains uncommitted; no push
 or publication was performed. Earlier engineering evidence remains historical
@@ -58,7 +62,7 @@ diagnostic assessment verifies the retained capsule and receipt hashes.
 ## Live validation and installation
 
 The actual [Luna-medium main chat settings](swarm-main-chat-settings.json) cover
-two operator turns in chat `01a15ca3-2c20-72d1-9382-fb0333421839`. The chat
+two operator turns in chat `study-id-hace7db2ad26f9905`. The chat
 constructed [its own inventory](swarm-main-inventory.json), using two slots for
 three probes, and operated the controller through normal commands. It did not
 invoke a prewritten demo or perform diagnostic execution outside the controller.
@@ -87,7 +91,7 @@ The [main chat report](swarm-main-report.md), [worker settings](swarm-main-setti
   disposition supplies no result label, pass/failure count, or coverage credit.
 - All three single attempts released and were ingested. Their capsules verify;
   all three private workspaces were removed after capture. Original source
-  hashes are unchanged. The successful runtime test run is durably stopped with
+  hashes were reported unchanged during the recorded run, before publication. The successful runtime test run is durably stopped with
   zero active work and no holds. It honestly reports 2/3 original diagnostic
   outcomes complete, with the remaining question inconclusive.
 

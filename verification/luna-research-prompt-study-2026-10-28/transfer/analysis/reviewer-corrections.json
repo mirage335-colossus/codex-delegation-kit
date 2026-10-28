@@ -1,0 +1,15 @@
+{
+  "recorded_utc": "2026-10-28T21:46:37.074826+00:00",
+  "authority": "Independent original-source Sol review; transfer/analysis/sol-review.md",
+  "originals_preserved": true,
+  "corrections": [
+    {
+      "artifact": "plans/p517/final.md",
+      "original": "Help is not explicitly covered in the excerpt.",
+      "corrected": "Successful ordinary help redirection is not explicitly asserted; check_cli.py:39–46 conditionally covers --help output failure through system-fixture/dev/full.",
+      "source": "views/p517/sources/R02.txt",
+      "effect": "Bounded coverage-description defect; proposed R02 discriminator and eight-report acceptance preserved. No project execution."
+    }
+  ],
+  "reviewer_advice": "Record actual artifact/assets, linked provider and test inventory alongside same-consumer normalized-event→shared-state/status/input-epoch→presentation trace. Preserve failing artifact; widen from evidenced divergence, not an assumed cause. Hypothetical future work only."
+}

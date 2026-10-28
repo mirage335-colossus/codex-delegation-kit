@@ -1,0 +1,114 @@
+{
+  "assignment_id": "P517-C",
+  "conversation_id": "p517-scout-c",
+  "source_identity": {
+    "project_revision": "software-foundation@4c471cb93702cdc03b5230bfa33372355424b665",
+    "working_tree": "scenario states clean; no runtime execution performed",
+    "kit_checkout": "codex-delegation-kit@947ed25d4058e405ecf45d6956671f6fecb12026; packet states pre-existing modifications"
+  },
+  "scope_and_method": "Read the assigned request and p517 contract/task/scenario/index/routing/scout-role plus R07, R08, R13 excerpts only. Read-only local source evidence and bounded literature search; no project commands, tests, builds, or runtime claims.",
+  "findings": [
+    {
+      "id": "R07-targeted-GUI-layer-check",
+      "source_evidence": [
+        "gui/tests/text_frame_test.cpp:24-36 checks framebuffer frame appearance, selection/focus retention across frame toggles, unchanged text geometry, and a fitting read-only text wheel reaching the parent (offset y=32) without changing text.",
+        "gui/tests/text_frame_test.cpp:46-50 checks terminal adapter presentation/selection appearance when toggling the frame.",
+        "gui/tests/wheel_chaining_test.cpp:7-22 creates nested outer/inner groups and text/list children; fitting and clamped children must pass wheel ownership to the outer pane, while overflowing children retain it. It also checks read-only text/caret preservation.",
+        "gui/tests/wheel_chaining_test.cpp:24-34 checks raw canvas wheel event delivery and runs the chaining helper against framebuffer and terminal adapters.",
+        "gui/patches/wheel-chaining-interaction.patch:4-15 predicts scroll ownership transfers to ancestors only when the current widget's scroll offset cannot move.",
+        "gui/CMakeLists.txt:548-553 registers focused wheel-chaining, text-frame, and text-frame-web checks; registration is not execution evidence."
+      ],
+      "research_support": "Jiang et al. (2019), a peer-reviewed controlled experiment reported by CityUHK Scholars, varied GUI state equivalence, state search, and inter-event waiting across 33 Android apps with real faults. State-equivalence choices affected failure detection and coverage; the study does not claim these results for this toolkit or for a single nested-scroll defect. Memon, Banerjee & Nagarajan (2003), an IEEE ASE paper described on the first author's publication page, empirically compared 11 GUI test oracles on four systems and 100 seeded faulty versions per system; more detailed/expensive oracle information found faults earlier and could detect many faults with fewer tests. These support choosing state and output observations that distinguish the suspected layer, while making no direct comparison of this proposed targeted check against broad enumeration.",
+      "decision_use": "For the reported focus-or-wheel symptom, prefer the registered nested fixture as the first discriminator over broad event enumeration: preserve the exact event, child overflow state, adapter, focused widget, text selection, child and ancestor offsets, and resulting event target. This can separate child-consumed wheel, clamped-child ancestor chaining, event-target routing, and accidental focus/selection change.",
+      "predicted_alternatives_and_cheapest_check": [
+        "If only a fitting or already-clamped child fails to move the outer pane, inspect chaining/ancestor traversal; the source patch and fixture predict ancestor movement when the child's offset cannot change.",
+        "If overflow consumes the wheel in the child but clamped state reaches the parent, behavior matches the fixture's intended ownership rule; test at both top and bottom boundaries with identical event and adapter.",
+        "If pane movement is correct but focus changes, the excerpted wheel assertions do not fully cover that report: add an assertion of focused key before/after the same wheel event. The supplied excerpts do not show a focus assertion in wheel_chaining_test.cpp.",
+        "If framebuffer and terminal agree but browser differs, the excerpt includes a registered text-frame-web check but no web fixture body; inspect the web adapter path and use the same snapshot/event/expected state before attributing the behavior to shared interaction logic."
+      ],
+      "coverage_limits_and_unknowns": "The hypothetical report does not establish whether the child overflows, which adapter/backend is used, the initial focus/selection, event coordinates/delta, or whether the pane is scrollable. Excerpts establish focused fixture declarations only, not execution or complete GUI coverage. Focus-retention coverage is explicit for text-frame changes, not for wheel interaction itself."
+    },
+    {
+      "id": "R08-canvas-report-separate-from-flow-report",
+      "source_evidence": [
+        "editor/tests/model_test.cpp:14-22 tests project serialization round-trip and that moving block layout coordinates changes serialized bytes while preserving semantic_project generation input.",
+        "editor/tests/canvas_test.cpp:38-50 tests child hit selection through a later-declared parent, resize handle selection, viewport clipping, and model/view coordinate round-trip after zoom/pan.",
+        "editor/ui/canvas.cpp:157-180 implements model/view transforms and starts hit testing with preview/finite/viewport guards; ports receive precedence over parent blocks and wires.",
+        "editor/CMakeLists.txt:130-148 conditionally registers editor tests and links the canvas test to editor UI when editor tests are enabled."
+      ],
+      "research_support": "The 2019 Jiang et al. study indicates that state abstraction granularity can change GUI failure detection and coverage; this is only a caution against collapsing distinct editor/model/view states. Memon et al. 2003 supports explicit expected-state comparison when evaluating outputs, not a specific canvas correctness rule.",
+      "decision_use": "Keep the canvas displacement report independent of the flow/truncated-output report. Determine whether changing the model value changes semantic project data, layout coordinates, or only the view transform/rendered snapshot before broadening to other editor interactions.",
+      "predicted_alternatives_and_cheapest_check": [
+        "If project/model values and object bounds are unchanged while rendered positions move, investigate canvas transform or retained view state; compare model-space bounds, pan/zoom, and rendered coordinates before/after the exact edit.",
+        "If object layout coordinates change with the value edit, investigate the edit/serialization/update path; compare parsed model and semantic_project for matched pre/post data.",
+        "If the canvas moves only after a second render or action, compare the same edit through model snapshot, canvas render, and hit-test under fixed viewport/pan/zoom to locate stale snapshot/state propagation."
+      ],
+      "coverage_limits_and_unknowns": "The report omits project, edit action, value, mode (design/preview), viewport, pan/zoom, selection, and whether displacement is visible-only or persisted. Supplied canvas tests cover coordinate round-trip and selection, not an actual model-value edit followed through the UI update path. Excerpted validate() lines 603-624 are structural-validation code and do not identify the value-edit caller."
+    },
+    {
+      "id": "R13-flow-and-truncated-consumer-report",
+      "source_evidence": [
+        "visual/flow/flow.cpp:417-467 validates WorkResult array sizes, consumed prefixes, produced/staged counts, waits and progress; it publishes outputs before consuming inputs, then updates graph counters.",
+        "editor/tests/flow_test.cpp:300-322 tests seeded self-edge values observed as {1,2,3,4,5} and cooperative stalled-graph failure.",
+        "editor/tests/flow_test.cpp:324-394 tests external wake/generation handling, cooperative/worker completion, timers, stop behavior and cancellation.",
+        "editor/tests/flow_test.cpp:396-410 tests independent output closure: one output yields {77}, another yields eight items.",
+        "editor/CMakeLists.txt:130-148 registers editor *_test.cpp targets conditionally, including flow_test.cpp if present."
+      ],
+      "research_support": "Memon et al. (2003) gives empirical support for checking explicit output details as part of the oracle, while Jiang et al. (2019) warns that state equivalence choices affect test effectiveness in its Android GUI traversal setting. Neither establishes the cause of a flow consumer's truncation or supports implicating flow from a GUI canvas symptom.",
+      "decision_use": "Treat completion and consumer truncation as two distinct observations. Use a fixed producer/input/configuration and compare exact produced/consumed counts, graph terminal snapshot, and the consumer's received sequence at the graph boundary; then compare the consumer's post-processing result. Keep graph-level flow hypotheses separate from consumer formatting/buffering/early-stop hypotheses.",
+      "predicted_alternatives_and_cheapest_check": [
+        "If graph counters and sink sequence already end early, inspect producer status/close behavior, capacity/backpressure, and consumer closure using the same input and mode.",
+        "If graph completion and sink sequence are complete but the reported consumer output is truncated, the defect lies downstream of the tested graph boundary; capture the exact consumer entry point and compare bytes/items before and after its transformation.",
+        "If output counts are correct but values differ, compare per-port produced data and consumer interpretation; the R13 excerpts assert selected fixtures, not the unknown consumer's contract."
+      ],
+      "coverage_limits_and_unknowns": "The truncated-result report lacks project/mode, graph, producer/consumer identities, data, expected length, run mode, capacities, and the point where truncation is observed. R13 supplies graph-engine and fixture evidence, but not the reported consumer's identity or downstream path. No flow or consumer tests were run."
+    }
+  ],
+  "literature": [
+    {
+      "citation": "Atif M. Memon, Ishan Banerjee, and Adithya Nagarajan, 'What Test Oracle Should I Use for Effective GUI Testing?', IEEE International Conference on Automated Software Engineering, 2003, pp. 164-173.",
+      "locator": "https://www.cs.umd.edu/~atif/papers/MemonASE2003-abstract.html",
+      "status_and_access": "Published conference paper; first-author publication page and abstract accessible; full paper was not opened.",
+      "support_and_limit": "Abstract reports 11 oracle types compared on four systems and 660,000 runs per software; detailed oracle information detected faults earlier at higher per-case cost. Supports explicit, discriminating observation design; does not validate this project's expected outputs or prove targeted checks outperform exhaustive enumeration."
+    },
+    {
+      "citation": "Bo Jiang, Yaoyue Zhang, Wing Kwong Chan, and Zhenyu Zhang, 'A Systematic Study on Factors Impacting GUI Traversal-Based Test Case Generation Techniques for Android Applications', IEEE Transactions on Reliability 68(3), 2019, pp. 913-926. DOI 10.1109/TR.2019.2928459.",
+      "locator": "https://scholars.cityu.edu.hk/en/publications/a-systematic-study-on-factors-impacting-gui-traversal-based-test-/",
+      "status_and_access": "Peer-reviewed journal publication; author-institution repository record and abstract accessible; full paper was not opened.",
+      "support_and_limit": "Controlled experiment on 33 Android apps with real faults reports state-equivalence choice affected failure detection and coverage; random versus systematic state search was similarly effective, and event waiting strategy was immaterial given long (about one-hour) sessions. Directly suggests preserving relevant state dimensions; transfer to this custom desktop/shared GUI toolkit is unverified."
+    },
+    {
+      "citation": "'Comparing model-based and dynamic event-extraction based GUI testing techniques: An empirical study', Journal of Systems and Software 97 (2014), pp. 15-46, DOI 10.1016/j.jss.2014.06.039.",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0164121214001472",
+      "status_and_access": "Search result supplied publication metadata/abstract describing a controlled comparison on seven Java GUI applications; publisher open failed with HTTP 403, so claims remain search-result-only and were not relied on for the decision.",
+      "support_and_limit": "Candidate suggests broad interaction enumeration has cost, non-executable/duplicate event tradeoffs, and code coverage may not predict fault detection. Direct source verification was blocked; retained as qualified context, not core evidence."
+    }
+  ],
+  "rejected_or_unresolved_candidates": [
+    "A GUI-test-oracle study is relevant to explicit output checks, but it does not prescribe this application's expected state; derive expectations from the supplied fixture/contracts and actual consumer once identified.",
+    "The 2014 model-based versus dynamic GUI testing paper is a plausible argument against undirected enumeration, but direct publisher access failed and search-result evidence is insufficient for a firm comparative claim.",
+    "No located study directly compares this proposed matched targeted diagnostic against broad event enumeration for this toolkit's exact focus, wheel-consumption, canvas, or flow-consumer symptoms."
+  ],
+  "next_discriminating_checks_if_authorized": [
+    "R07: replay one exact wheel event with fixed nested snapshot, overflow state, adapter, focus/selection, and before/after child and ancestor offsets; assert focused key unchanged as well as expected ownership.",
+    "R08 canvas: record exact model value, semantic_project, object bounds, pan/zoom, rendered positions, and hit target before and after the one reported edit.",
+    "R08 flow: record graph configuration, run mode, terminal state, per-port counts and exact sink items, then compare the downstream consumer's output at its boundary."
+  ],
+  "execution_status": "No source prediction was promoted to observed runtime behavior. No tests/builds/application commands were run. Original hypothetical symptoms remain unverified; source excerpts and registrations are not execution evidence.",
+  "web_operation_provenance": {
+    "counting_rule": "Count each batched search query and each open request as one logical operation; the failed open is counted.",
+    "search_queries": [
+      "site:dl.acm.org GUI testing state-based testing empirical paper user interface oracle event sequences study",
+      "original empirical software testing oracle design output oracle study software testing paper",
+      "GUI testing state-based model-based testing empirical comparison retained state focus wheel consumption paper",
+      "\"Test Oracle Strategies for Model-Based Testing\" full text experiment partial states failures",
+      "GUI state abstraction testing empirical study exploration strategy page state abstraction original paper"
+    ],
+    "opens": [
+      {"url": "https://www.cs.umd.edu/~atif/papers/MemonASE2003-abstract.html", "result": "success"},
+      {"url": "https://www.sciencedirect.com/science/article/pii/S0164121214001472", "result": "failed: HTTP 403 Forbidden"},
+      {"url": "https://scholars.cityu.edu.hk/en/publications/a-systematic-study-on-factors-impacting-gui-traversal-based-test-/", "result": "success"}
+    ],
+    "totals": {"logical_operations_used": 8, "logical_operation_budget": 8, "search_queries_used": 5, "search_query_budget": 5, "open_requests_used": 3, "open_request_budget": 6, "remaining_total_operations": 0, "remaining_search_queries": 0, "remaining_open_allowance_unusable_due_to_total_cap": 3}
+  }
+}

@@ -1,0 +1,1158 @@
+{
+  "p17": {
+    "label": {
+      "scenario": "carrier",
+      "arm": "A"
+    },
+    "unique_assignment_ids": 11,
+    "initial_vs_added": {
+      "initial": 10,
+      "E1": 1
+    },
+    "latest_model_counts": {
+      "luna": 5,
+      "terra": 2,
+      "sol": 3,
+      "astra": 1
+    },
+    "latest_dispatch": {
+      "now": 5,
+      "queued": 6
+    },
+    "conversations": [
+      "campaign",
+      "contracts",
+      "coordinator",
+      "discriminators",
+      "expert",
+      "fixture",
+      "strategy"
+    ],
+    "phase_summaries": {
+      "initial": {
+        "rows": 10,
+        "models": {
+          "luna": 4,
+          "terra": 2,
+          "sol": 3,
+          "astra": 1
+        }
+      },
+      "E1": {
+        "rows": 11,
+        "models": {
+          "luna": 5,
+          "terra": 2,
+          "sol": 3,
+          "astra": 1
+        }
+      },
+      "E2": {
+        "rows": 11,
+        "models": {
+          "terra": 2,
+          "luna": 5,
+          "astra": 1,
+          "sol": 3
+        }
+      }
+    },
+    "assignment_history": {
+      "P17-A1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P17-A2": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P17-A3": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "P17-A4": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "sol"
+        }
+      ],
+      "P17-A5": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "P17-A6": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "sol"
+        }
+      ],
+      "P17-A7": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "P17-A8": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "reroute",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "sol"
+        }
+      ],
+      "P17-A9": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "terra"
+        }
+      ],
+      "P17-A10": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E2",
+          "action": "reroute",
+          "dispatch": "now",
+          "model": "astra"
+        }
+      ],
+      "P17-A11": [
+        {
+          "phase": "E1",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ]
+    }
+  },
+  "p29": {
+    "label": {
+      "scenario": "regression",
+      "arm": "B"
+    },
+    "unique_assignment_ids": 12,
+    "initial_vs_added": {
+      "initial": 12
+    },
+    "latest_model_counts": {
+      "luna": 8,
+      "terra": 2,
+      "sol": 1,
+      "astra": 1
+    },
+    "latest_dispatch": {
+      "now": 6,
+      "queued": 3,
+      "conditional": 3
+    },
+    "conversations": [
+      "consumer",
+      "coordinator",
+      "core",
+      "expert",
+      "gui-native",
+      "gui-web",
+      "provider",
+      "strategic"
+    ],
+    "phase_summaries": {
+      "initial": {
+        "rows": 12,
+        "models": {
+          "luna": 8,
+          "terra": 2,
+          "sol": 1,
+          "astra": 1
+        }
+      },
+      "E1": {
+        "rows": 12,
+        "models": {
+          "luna": 8,
+          "terra": 2,
+          "sol": 1,
+          "astra": 1
+        }
+      },
+      "E2": {
+        "rows": 12,
+        "models": {
+          "luna": 8,
+          "terra": 2,
+          "sol": 1,
+          "astra": 1
+        }
+      }
+    },
+    "assignment_history": {
+      "P01": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P02": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P03": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "reroute",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P04": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "P05": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "P06": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "reroute",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "P07": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "P08": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "terra"
+        }
+      ],
+      "P09": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        }
+      ],
+      "P10": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E2",
+          "action": "reroute",
+          "dispatch": "now",
+          "model": "astra"
+        }
+      ],
+      "P11": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "luna"
+        }
+      ],
+      "P12": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "luna"
+        }
+      ]
+    }
+  },
+  "p43": {
+    "label": {
+      "scenario": "carrier",
+      "arm": "B"
+    },
+    "unique_assignment_ids": 13,
+    "initial_vs_added": {
+      "initial": 12,
+      "E1": 1
+    },
+    "latest_model_counts": {
+      "luna": 7,
+      "terra": 3,
+      "sol": 2,
+      "astra": 1
+    },
+    "latest_dispatch": {
+      "now": 8,
+      "queued": 4,
+      "conditional": 1
+    },
+    "conversations": [
+      "adviser",
+      "coordinator",
+      "expert",
+      "reviewer",
+      "scout-a",
+      "scout-b",
+      "scout-c",
+      "scout-d"
+    ],
+    "phase_summaries": {
+      "initial": {
+        "rows": 12,
+        "models": {
+          "luna": 6,
+          "terra": 3,
+          "sol": 2,
+          "astra": 1
+        }
+      },
+      "E1": {
+        "rows": 13,
+        "models": {
+          "terra": 3,
+          "luna": 7,
+          "sol": 2,
+          "astra": 1
+        }
+      },
+      "E2": {
+        "rows": 13,
+        "models": {
+          "terra": 3,
+          "luna": 7,
+          "sol": 2,
+          "astra": 1
+        }
+      }
+    },
+    "assignment_history": {
+      "S1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "S2": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "S3": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "S4": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "T1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "E1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "sol"
+        }
+      ],
+      "T2": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "L5": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "L6": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ],
+      "R1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "sol"
+        }
+      ],
+      "T3": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "A1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "astra"
+        }
+      ],
+      "L7": [
+        {
+          "phase": "E1",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "queued",
+          "model": "luna"
+        }
+      ]
+    }
+  },
+  "p61": {
+    "label": {
+      "scenario": "regression",
+      "arm": "A"
+    },
+    "unique_assignment_ids": 10,
+    "initial_vs_added": {
+      "initial": 10
+    },
+    "latest_model_counts": {
+      "luna": 6,
+      "terra": 1,
+      "sol": 2,
+      "astra": 1
+    },
+    "latest_dispatch": {
+      "now": 6,
+      "conditional": 4
+    },
+    "conversations": [
+      "coordinator",
+      "core",
+      "editor",
+      "gui-native",
+      "gui-web",
+      "patch-review",
+      "reused-domain",
+      "strategic",
+      "strong-review"
+    ],
+    "phase_summaries": {
+      "initial": {
+        "rows": 10,
+        "models": {
+          "luna": 6,
+          "terra": 1,
+          "sol": 2,
+          "astra": 1
+        }
+      },
+      "E1": {
+        "rows": 10,
+        "models": {
+          "luna": 6,
+          "terra": 1,
+          "sol": 2,
+          "astra": 1
+        }
+      },
+      "E2": {
+        "rows": 10,
+        "models": {
+          "luna": 6,
+          "terra": 1,
+          "sol": 2,
+          "astra": 1
+        }
+      }
+    },
+    "assignment_history": {
+      "A1": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "A2": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "reroute",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "A3": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "A4": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "luna"
+        }
+      ],
+      "A5": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "terra"
+        }
+      ],
+      "A6": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "queued",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "defer",
+          "dispatch": "conditional",
+          "model": "luna"
+        }
+      ],
+      "A7": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        }
+      ],
+      "A8": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "astra"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "now",
+          "model": "astra"
+        }
+      ],
+      "A9": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "luna"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "luna"
+        }
+      ],
+      "A10": [
+        {
+          "phase": "initial",
+          "action": "new",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E1",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        },
+        {
+          "phase": "E2",
+          "action": "continue",
+          "dispatch": "conditional",
+          "model": "sol"
+        }
+      ]
+    }
+  }
+}

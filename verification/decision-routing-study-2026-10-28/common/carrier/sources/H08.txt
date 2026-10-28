@@ -1,0 +1,49 @@
+H08 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- src/main.cpp:818-829 ---
+  818     std::optional<helper::Reference> take_update() {return receiver_?receiver_->take_update():std::nullopt;}
+  819 };
+  820 void observe_helper_capture(HelperCapture& capture,helper::Tracker& tracker,HelperMetadataReceiver& receiver,
+  821                             std::span<const float> samples,std::uint32_t rate,std::uint64_t first) {
+  822     tracker.push(samples,rate);
+  823     if(auto update=tracker.take_update();update&&update->present) {
+  824         capture.present=true;capture.observation=std::move(update);
+  825     }
+  826     receiver.push(samples,rate,first);
+  827     if(auto update=receiver.take_update();update&&
+  828         (update->metadata||!capture.reference||!capture.reference->metadata))capture.reference=std::move(update);
+  829 }
+
+
+--- src/main.cpp:928-955 ---
+  928 HelperCapture preselect_helper_wav(modem::Wav& wav,const modem::Config& config,const helper::Options& options,
+  929                                    const std::optional<Crypto>& key={}) {
+  930     const auto plan=helper::plan(options,helper::placement_band(config),
+  931         wav.sample_rate,0,modem::outer_dsss_transmit_gain(config));
+  932     HelperCapture helper_capture;
+  933     helper::Tracker tracker(plan.frequency_hz);
+  934     std::vector<Crypto> keys;if(key)keys.push_back(*key);
+  935     const auto raw_bytes=wav.samples.capacity()*sizeof(float);
+  936     const auto metadata_grant=raw_bytes<config.memory_limit?
+  937         std::min<std::size_t>(512*1024,config.memory_limit-raw_bytes):0;
+  938     HelperMetadataReceiver receiver(plan,std::move(keys),helper_precision_options(config),metadata_grant);
+  939     for(std::size_t first=0;first<wav.samples.size();first+=4096)
+  940         observe_helper_capture(helper_capture,tracker,receiver,
+  941             std::span(wav.samples).subspan(first,std::min<std::size_t>(4096,wav.samples.size()-first)),
+  942             wav.sample_rate,first);
+  943     if(helper_capture.present&&helper_capture.observation) {
+  944         // Reject the complete group in its physical PCM clock, before rate
+  945         // conversion can alias or discard either tone into Robust's band.
+  946         helper::PayloadFilter filter(wav.sample_rate,
+  947             helper_capture.observation->frequency_hz-helper::auxiliary_pilot_spacing_hz/2,425);
+  948         const auto quantum=wav.sample_rate/std::gcd(wav.sample_rate,config.sample_rate);
+  949         const auto skip=(quantum-filter.delay()%quantum)%quantum;
+  950         const auto physical_origin=skip+filter.delay();
+  951         if(physical_origin%quantum)throw Error("Helper physical filter center is off the logical sample grid");
+  952         helper_capture.payload_origin_samples=physical_origin/wav.sample_rate*config.sample_rate+
+  953             (physical_origin%wav.sample_rate)*config.sample_rate/wav.sample_rate;
+  954         std::array<float,4096> block{};
+  955         std::size_t written=0;

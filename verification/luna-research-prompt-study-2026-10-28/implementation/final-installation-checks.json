@@ -1,0 +1,88 @@
+{
+  "checked_utc": "2026-10-28T21:47:50.969692+00:00",
+  "scope": "Reapply final documentation repairs to candidate temporary home only",
+  "apply_exit": 0,
+  "full_diff_log": "unbundled-runtime/run-hb5e7e941dee72abc/candidate-final-install.log",
+  "repeat_preview_exit": 0,
+  "repeat_preview_output": "No changes needed.",
+  "bundle_count": 21,
+  "all_bytes_match_source": true,
+  "files_sha256": {
+    "README.md": "be1e52e7bb037a5cd22df5ac4418b4ab366eb919cabaf493ca3abf5c49163d2a",
+    "policy.md": "b6e7f50065387ee33b4903621ab02a5544c938b6d970cefcc1ffcf9d34b06c66",
+    "supervisor.py": "f191c3a71cc77d2f23f824ab48374be5120ccf6cd25b70140bb79101cb77d129",
+    "install.py": "99f4fa9cb4e8894e1100ca9fafb50040a1d8dd94ef0a03d9b120f6b80870861e",
+    "uninstall.py": "7b69362ae5eb20865859e99c2eb4a163baa07ed9f9337fe925353218f458e629",
+    "agents/luna_scout.toml": "9d5ac9949a632758959b292c7a8fccaeeb07500a85b38d6a6cfa63bea985fcd8",
+    "agents/luna_worker.toml": "b1fc2fd228264df74aa36b9d5fc20e567376929315176d5299b970a7f04b6ca2",
+    "agents/sol_expert.toml": "33927825b01551986c72a4d467ac68234a37be65ccdd19f8876a9f1ce6d39c9b",
+    "agents/inherited_scout.toml": "61a42a3216840ce4eba86556e53e0e83cffa1efdab2c9b0a2a138f103e5e5353",
+    "agents/inherited_worker.toml": "b129bfa40632e1243e96fd68fe7f022ac1102731c6a3382ce4b19d608a43de52",
+    "agents/inherited_reviewer.toml": "080a4b03438e28130855c499c3ba9e848addd27611689021979d29a56b72187d",
+    "controller.py": "98c858eec8185fcfd8dd8447f899a073736acc9e4189a92132e14aab3da08da1",
+    "controller_store.py": "e4bf697a5c6e93c83d05ed7decda8f3fc070b83ccb91365d4b2f6dfdf49f009b",
+    "execution.py": "3a4337448719a2c14d1a6290ae7d5585d1533a25698e5df313c886f21fa2c56a",
+    "agent_backend.py": "535138116c2dee90b633222a8323374a78d79e1b852c551d572a33116343c3de",
+    "scheduling.py": "18ab89bdc6497ea7e82ede26c46321a84bfb3ff818659851054ea88182da96d2",
+    "ORCHESTRATION.md": "2348180b8ccdef8aa0faaa3e6639cbcd2959416754db164db928a543e2f4388d",
+    "engineering.py": "3bbe033a82be1a7112908642b578f5c5522dd94ab43209d63078508020a6106a",
+    "agents/inherited_swarm.toml": "6b3d17f9165b29c6e6cb58298cd73fe84f474f09fab05d5461a98292e8bfdcb6",
+    "agents/luna_swarm.toml": "4d33e4f95fabaa1d7a3566d63b9e36d7e89013c162da40bda7a03f5efc23ffbf",
+    "agents/astra_expert.toml": "cdf48a46356d7ab25dbe58c160268344ebc012838c3847fe5f6a28c34fd0989a"
+  },
+  "configuration_byte_preserved": true,
+  "role_selectors_equal_baseline": true,
+  "role_selectors": {
+    "agents/luna_scout.toml": {
+      "model": "gpt-6-luna",
+      "model_reasoning_effort": "high",
+      "service_tier": null
+    },
+    "agents/luna_worker.toml": {
+      "model": "gpt-6-luna",
+      "model_reasoning_effort": "high",
+      "service_tier": null
+    },
+    "agents/sol_expert.toml": {
+      "model": "gpt-6.1-sol",
+      "model_reasoning_effort": "ultra",
+      "service_tier": null
+    },
+    "agents/inherited_scout.toml": {
+      "model": null,
+      "model_reasoning_effort": null,
+      "service_tier": null
+    },
+    "agents/inherited_worker.toml": {
+      "model": null,
+      "model_reasoning_effort": null,
+      "service_tier": null
+    },
+    "agents/inherited_reviewer.toml": {
+      "model": null,
+      "model_reasoning_effort": null,
+      "service_tier": null
+    },
+    "agents/inherited_swarm.toml": {
+      "model": null,
+      "model_reasoning_effort": null,
+      "service_tier": null
+    },
+    "agents/luna_swarm.toml": {
+      "model": "gpt-6-luna",
+      "model_reasoning_effort": "medium",
+      "service_tier": null
+    },
+    "agents/astra_expert.toml": {
+      "model": "gpt-6-astra",
+      "model_reasoning_effort": "medium",
+      "service_tier": null
+    }
+  },
+  "role_bytes_unchanged_after_heldout": true,
+  "global_home_written": false,
+  "native_registry_refresh_claim": false,
+  "prototype_disposition": "Source-only; no deployment/adoption acceptance; held-out complete inconclusive",
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
+}

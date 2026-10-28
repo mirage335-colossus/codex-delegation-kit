@@ -1,0 +1,198 @@
+# R11: Retained GUI input group verification and configured consumer selection
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `gui/source_group.py` lines 30-80
+
+```text
+  30     def _proc_member(self, stream):
+  31         if self.size < 0 or self.size > MAX_FILE or (not self.isfile() and self.size > MAX_JSON):
+  32             raise ValueError('archive header exceeds size limit')
+  33         return super()._proc_member(stream)
+  34 
+  35 
+  36 def portable(name):
+  37     path = archive.relative(name)
+  38     for part in path.parts:
+  39         if any(c in part for c in '*?<>|"') or part.split('.')[0].upper() in {
+  40             'CON', 'PRN', 'AUX', 'NUL', *(f'COM{i}' for i in range(1, 10)), *(f'LPT{i}' for i in range(1, 10))
+  41         }:
+  42             raise ValueError('nonportable retained path')
+  43     return path
+  44 
+  45 
+  46 def ordinary(path):
+  47     path = Path(path).absolute()
+  48     for item in (path, *path.parents):
+  49         if item.is_symlink():
+  50             raise ValueError('linked input or output path')
+  51     return path
+  52 
+  53 
+  54 def file_version(path):
+  55     info = path.lstat()
+  56     if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+  57         raise ValueError('input must be an ordinary singly linked file')
+  58     if info.st_size > MAX_FILE:
+  59         raise ValueError('retained file exceeds size limit')
+  60     return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size,
+  61             info.st_mtime_ns, info.st_ctime_ns)
+  62 
+  63 
+  64 def observed_metadata(path, logical_mode=None):
+  65     before = file_version(path)
+  66     digest = archive.digest(path)
+  67     if file_version(path) != before:
+  68         raise ValueError('retained file changed while hashing')
+  69     mode = logical_mode if WINDOWS and logical_mode is not None else (0o755 if before[2] & 0o111 else 0o644)
+  70     return {'sha256': digest, 'size': before[4], 'mode': mode}, before
+  71 
+  72 
+  73 def metadata(path, logical_mode=None):
+  74     return observed_metadata(path, logical_mode)[0]
+  75 
+  76 
+  77 def stream_identity(stream, size):
+  78     """Hash one bounded member without retaining its payload or a second copy."""
+  79     sha256 = hashlib.sha256()
+  80     blob = hashlib.sha1(b'blob ' + str(size).encode() + b'\0')
+```
+
+## `tests/test_gui_source_group.py` lines 69-115
+
+```text
+  69     def verify(self):
+  70         return subject.verify(self.group, foundation_root=self.foundation)
+  71 
+  72     def test_checkout_retains_complete_reviewed_gui_group(self):
+  73         manifest = subject.verify(ROOT / 'third_party/gui-inputs', foundation_root=ROOT)
+  74         lock = subject.archive.read_json(ROOT / 'third_party/gui-boundary.lock.json')
+  75         self.assertEqual(lock['revision'], manifest['revision'])
+  76         self.assertEqual(lock['source_tree'], manifest['source_tree'])
+  77         self.assertIn('upstream/LICENSE', manifest['files'])
+  78         self.assertIn('upstream/include/gui/contract.hpp', manifest['files'])
+  79         self.assertTrue(manifest['redistributable'])
+  80 
+  81     def cmake_input_fixture(self):
+  82         # Execute the maintained input module with tiny retained inputs. CMake
+  83         # initializes C++/Threads, but builds no compiler or toolkit target.
+  84         (self.foundation / 'cmake').mkdir()
+  85         shutil.copyfile(ROOT / 'cmake/GuiInputs.cmake', self.foundation / 'cmake/GuiInputs.cmake')
+  86         (self.foundation / 'gui/CMakeLists.txt').write_text(
+  87             'foundation_register_build_directory()\n'
+  88             'include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/GuiInputs.cmake")\n'
+  89             'foundation_gui_inputs()\n')
+  90         (self.foundation / 'tools').mkdir()
+  91         shutil.copyfile(ROOT / 'gui/source_group.py', self.foundation / 'gui/source_group.py')
+  92         shutil.copyfile(ROOT / 'tools/dependency_archive.py', self.foundation / 'tools/dependency_archive.py')
+  93         shutil.copytree(self.group, self.foundation / 'third_party/gui-inputs')
+  94         (self.foundation / 'CMakeLists.txt').write_text(
+  95             'cmake_minimum_required(VERSION 3.24)\nproject(InputSelection LANGUAGES CXX)\n'
+  96             'function(foundation_register_build_directory)\nendfunction()\n'
+  97             'add_subdirectory(gui)\n'
+  98             'file(WRITE "${CMAKE_BINARY_DIR}/selected.txt" "${FOUNDATION_GUI_SOURCE}")\n')
+  99 
+ 100     def configure_inputs(self, name, *arguments):
+ 101         output = self.root / name
+ 102         result = subprocess.run(['cmake', '-G', 'Ninja', '-S', str(self.foundation), '-B', str(output),
+ 103                                  '-DPython3_EXECUTABLE=' + sys.executable, *arguments],
+ 104                                 text=True, capture_output=True)
+ 105         return output, result
+ 106 
+ 107     def test_cmake_default_group_and_explicit_inputs(self):
+ 108         self.cmake_input_fixture()
+ 109         output, result = self.configure_inputs('default')
+ 110         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+ 111         restored = output / 'gui/retained-inputs/upstream'
+ 112         self.assertEqual(restored.resolve(), Path((output / 'selected.txt').read_text()).resolve())
+ 113         self.assertEqual((self.source / 'api.hpp').read_bytes(), (restored / 'api.hpp').read_bytes())
+ 114         # A broken bundled group must not override a caller's explicit input.
+ 115         archive = self.foundation / 'third_party/gui-inputs/gui-inputs.tar.gz'
+```
+
+## `cmake/GuiInputs.cmake` lines 1-55
+
+```text
+   1 # Shared verified GUI inputs; no application, test or installation targets.
+   2 include_guard(GLOBAL)
+   3 get_filename_component(foundation_gui_module_root "${CMAKE_CURRENT_LIST_DIR}/../gui" REALPATH)
+   4 
+   5 macro(foundation_gui_inputs)
+   6     # Preserved local input by default; explicit source/group selections take precedence.
+   7     # Configuration never fetches dependencies.
+   8     get_filename_component(foundation_gui_project_root "${foundation_gui_module_root}/.." REALPATH)
+   9     set(FOUNDATION_GUI_SOURCE "" CACHE PATH "Verified gui-boundary source checkout or archive")
+  10     set(FOUNDATION_GUI_INPUT_GROUP "" CACHE PATH "Retained complete GUI input group")
+  11     if(NOT FOUNDATION_GUI_SOURCE AND NOT FOUNDATION_GUI_INPUT_GROUP)
+  12         set(FOUNDATION_GUI_INPUT_GROUP "${foundation_gui_project_root}/third_party/gui-inputs")
+  13     endif()
+  14     if(FOUNDATION_GUI_INPUT_GROUP)
+  15         get_filename_component(FOUNDATION_GUI_INPUT_GROUP "${FOUNDATION_GUI_INPUT_GROUP}" REALPATH)
+  16         if(FOUNDATION_GUI_SOURCE)
+  17             message(FATAL_ERROR "Select FOUNDATION_GUI_INPUT_GROUP or FOUNDATION_GUI_SOURCE, not both")
+  18         endif()
+  19         execute_process(COMMAND "${Python3_EXECUTABLE}" -B "${foundation_gui_module_root}/source_group.py"
+  20             restore "${FOUNDATION_GUI_INPUT_GROUP}" --output "${CMAKE_CURRENT_BINARY_DIR}/retained-inputs"
+  21             OUTPUT_VARIABLE restored_gui COMMAND_ERROR_IS_FATAL ANY)
+  22         string(JSON FOUNDATION_GUI_SOURCE GET "${restored_gui}" source)
+  23         get_directory_property(gui_parent PARENT_DIRECTORY)
+  24         if(gui_parent)
+  25             set(FOUNDATION_GUI_SOURCE "${FOUNDATION_GUI_SOURCE}" PARENT_SCOPE)
+  26         endif()
+  27         set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+  28             "${FOUNDATION_GUI_INPUT_GROUP}/manifest.json" "${FOUNDATION_GUI_INPUT_GROUP}/SHA256SUMS"
+  29             "${FOUNDATION_GUI_INPUT_GROUP}/gui-inputs.tar.gz" "${foundation_gui_module_root}/source_group.py"
+  30             "${foundation_gui_project_root}/tools/dependency_archive.py")
+  31     endif()
+  32     if(NOT IS_DIRECTORY "${FOUNDATION_GUI_SOURCE}/include/gui")
+  33         message(FATAL_ERROR "Set FOUNDATION_GUI_SOURCE to pinned gui-boundary sources; see docs/gui-boundary.md")
+  34     endif()
+  35     get_filename_component(FOUNDATION_GUI_SOURCE "${FOUNDATION_GUI_SOURCE}" REALPATH)
+  36     get_filename_component(lock_path "${foundation_gui_module_root}/../third_party/gui-boundary.lock.json" ABSOLUTE)
+  37     file(READ "${lock_path}" lock)
+  38     string(JSON file_count LENGTH "${lock}" files)
+  39     math(EXPR last_file "${file_count} - 1")
+  40     set(FOUNDATION_GUI_DISTRIBUTABLE FALSE)
+  41     # This is reviewed dependency metadata, never a bypassable configuration option.
+  42     string(JSON redistribution_approved GET "${lock}" redistribution approved)
+  43     string(JSON license_id GET "${lock}" license)
+  44     string(JSON license_count LENGTH "${lock}" redistribution license_files)
+  45     if(redistribution_approved AND NOT license_id STREQUAL "NOASSERTION" AND license_count GREATER 0)
+  46         math(EXPR license_last "${license_count} - 1")
+  47         foreach(index RANGE 0 ${license_last})
+  48             string(JSON license_file GET "${lock}" redistribution license_files ${index})
+  49             string(JSON license_hash ERROR_VARIABLE missing_license GET "${lock}" files "${license_file}")
+  50             if(missing_license)
+  51                 message(FATAL_ERROR "Redistribution license must be in the verified input inventory")
+  52             endif()
+  53         endforeach()
+  54         set(FOUNDATION_GUI_DISTRIBUTABLE TRUE)
+  55     endif()
+```
+
+## `gui/CMakeLists.txt` lines 1-20
+
+```text
+   1 foundation_register_build_directory()
+   2 option(FOUNDATION_GUI_FLTK "Build the FLTK native host" OFF)
+   3 option(FOUNDATION_GUI_SDL "Build the SDL framebuffer window host" OFF)
+   4 option(FOUNDATION_GUI_REV "Build the Rev native host" OFF)
+   5 option(FOUNDATION_GUI_WEB "Build the hosted browser bridge" ON)
+   6 option(FOUNDATION_GUI_HOST_TESTS "Run PTY, loopback and native display checks" OFF)
+   7 include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/GuiInputs.cmake")
+   8 foundation_gui_inputs()
+   9 # Watch every file under the owned source trees, including future source suffixes.
+  10 # The Python guard selects source types; CMake must still invalidate its stamp.
+  11 file(GLOB_RECURSE foundation_gui_owned_sources LIST_DIRECTORIES FALSE CONFIGURE_DEPENDS
+  12     "${CMAKE_CURRENT_SOURCE_DIR}/shared/*" "${CMAKE_CURRENT_SOURCE_DIR}/host/*"
+  13     "${CMAKE_CURRENT_SOURCE_DIR}/hosts/*" "${CMAKE_CURRENT_SOURCE_DIR}/../rust/*"
+  14     "${CMAKE_CURRENT_SOURCE_DIR}/../include/foundation/gui/*"
+  15     "${CMAKE_CURRENT_SOURCE_DIR}/../src/gui/*")
+  16 execute_process(COMMAND "${Python3_EXECUTABLE}" -B "${CMAKE_CURRENT_SOURCE_DIR}/check_boundary.py" --dependencies
+  17     OUTPUT_VARIABLE foundation_gui_transitive_sources COMMAND_ERROR_IS_FATAL ANY)
+  18 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${foundation_gui_transitive_sources})
+  19 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/boundary-checked"
+  20     COMMAND "${Python3_EXECUTABLE}" -B "${CMAKE_CURRENT_SOURCE_DIR}/check_boundary.py"
+```

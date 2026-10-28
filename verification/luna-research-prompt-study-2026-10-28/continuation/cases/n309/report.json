@@ -1,0 +1,161 @@
+{
+  "case_id": "n309",
+  "started_utc": "2026-10-28 21:04:00 UTC",
+  "finished_utc": "2026-10-28 21:04:51 UTC",
+  "operations": [
+    {
+      "id": "n309-op-01",
+      "kind": "search",
+      "query_or_url": "site:openreview.net ReAct Synergizing Reasoning and Acting in Language Models ICLR 2023",
+      "result_status": "Search returned an OpenReview PDF record for ReAct; subsequent direct open failed at OpenReview browser challenge; not used as evidence."
+    },
+    {
+      "id": "n309-op-02",
+      "kind": "search",
+      "query_or_url": "site:aclanthology.org language models source verification retrieval augmented generation citation attribution study factuality",
+      "result_status": "Found ACL Anthology primary-source records including Evaluation of Attribution Bias (Findings ACL 2025), a candidate attribution-bias study, and CoBiT (EMNLP 2026), a scientific claim-counterclaim RAG benchmark."
+    },
+    {
+      "id": "n309-op-03",
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2025.findings-acl.1087/",
+      "result_status": "Opened ACL Anthology source record; verified Findings of ACL 2025 venue, abstract and attribution-bias claims. Considered but not selected as a top addition because CoBiT is more directly about testing counterclaims across retrieval and generation."
+    },
+    {
+      "id": "n309-op-04",
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2025.findings-acl.1087.pdf",
+      "result_status": "Opened 20-page ACL Anthology PDF; full text accessible. Verified the abstract and counterfactual attribution-bias method/results; source not selected as a top addition."
+    },
+    {
+      "id": "n309-op-05",
+      "kind": "open",
+      "query_or_url": "https://openreview.net/pdf?id=WE_vluYUL-X",
+      "result_status": "Failed; redirected to OpenReview browser challenge, no paper text accessed. Not used as evidence."
+    },
+    {
+      "id": "n309-op-06",
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2026.emnlp-main.44/",
+      "result_status": "Opened ACL Anthology record; verified EMNLP 2026 proceedings metadata and abstract for CoBiT. First accessible content and publication-status check for source cobit."
+    },
+    {
+      "id": "n309-op-07",
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2026.emnlp-main.44.pdf",
+      "result_status": "Opened 17-page ACL Anthology full text; verified counterclaim-pair design, stage-specific retrieval/reranking/generation analysis, results, and stated scope."
+    }
+  ],
+  "sources": [
+    {
+      "id": "tot",
+      "url": "https://proceedings.neurips.cc/paper/2023/hash/271db9922b8d1f4dd7aaef84ed5ac703-Abstract.html",
+      "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+      "year": 2023,
+      "venue": "NeurIPS 2023 Main Conference Track",
+      "publication_status": "Peer-reviewed conference paper; official proceedings record (seed)",
+      "status_evidence_url": "https://proceedings.neurips.cc/paper/2023/hash/271db9922b8d1f4dd7aaef84ed5ac703-Abstract.html",
+      "access_level": "Full text accessible via official proceedings PDF (seed)",
+      "content_locator": "Sections 1 and 3, PDF lines 92-108 and 165-187; Appendix B.2-B.3, lines 954-984."
+    },
+    {
+      "id": "codeagent",
+      "url": "https://aclanthology.org/2024.acl-long.737/",
+      "title": "CodeAgent: Enhancing Code Generation with Tool-Integrated Agent Systems for Real-World Repo-level Coding Challenges",
+      "year": 2024,
+      "venue": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers",
+      "publication_status": "Peer-reviewed conference proceedings paper; ACL Anthology record (seed)",
+      "status_evidence_url": "https://aclanthology.org/2024.acl-long.737/",
+      "access_level": "Full-text PDF opened; abstract and metadata accessible; seed excerpt limited to opening pages",
+      "content_locator": "ACL Anthology abstract and metadata, seed locators lines 58-60 and 115-126; PDF pages 0-1."
+    },
+    {
+      "id": "repocod",
+      "url": "https://aclanthology.org/2025.acl-long.1204/",
+      "title": "Can Language Models Replace Programmers for Coding? REPOCOD Says ‘Not Yet’",
+      "year": 2025,
+      "venue": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers",
+      "publication_status": "Peer-reviewed conference proceedings paper; ACL Anthology record (seed)",
+      "status_evidence_url": "https://aclanthology.org/2025.acl-long.1204/",
+      "access_level": "Abstract and bibliographic metadata only (seed)",
+      "content_locator": "ACL Anthology abstract and proceedings metadata, seed locators lines 58-61 and 62-93."
+    },
+    {
+      "id": "mipro",
+      "url": "https://aclanthology.org/2024.emnlp-main.525/",
+      "title": "Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs",
+      "year": 2024,
+      "venue": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+      "publication_status": "Peer-reviewed conference proceedings paper; ACL Anthology record (seed)",
+      "status_evidence_url": "https://aclanthology.org/2024.emnlp-main.525/",
+      "access_level": "Abstract and bibliographic metadata only (seed)",
+      "content_locator": "ACL Anthology abstract and conference metadata, seed locators lines 58-61 and 62-95."
+    },
+    {
+      "id": "rci",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/7cc1005ec73cfbaac9fa21192b622507-Abstract-Conference.html",
+      "title": "Language Models can Solve Computer Tasks",
+      "year": 2023,
+      "venue": "NeurIPS 2023 Main Conference Track",
+      "publication_status": "Peer-reviewed conference paper; official proceedings record (seed)",
+      "status_evidence_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/7cc1005ec73cfbaac9fa21192b622507-Abstract-Conference.html",
+      "access_level": "Abstract and bibliographic metadata only (seed)",
+      "content_locator": "Official NeurIPS abstract, seed locator lines 0-9; RCI evidence is abstract-level."
+    },
+    {
+      "id": "cobit",
+      "url": "https://aclanthology.org/2026.emnlp-main.44/",
+      "title": "Retrieving Facts or Reinforcing Beliefs? Towards Understanding Confirmation Bias in RAG Systems for Scientific Claim Verification",
+      "year": 2026,
+      "venue": "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+      "publication_status": "Peer-reviewed conference proceedings paper; ACL Anthology record verified at first-content/status-check operation n309-op-06",
+      "status_evidence_url": "https://aclanthology.org/2026.emnlp-main.44/",
+      "access_level": "Full text accessible and opened at https://aclanthology.org/2026.emnlp-main.44.pdf",
+      "content_locator": "PDF pp. 0-1: abstract and claim/counterclaim example, lines 17-40, 46-69, 84-123; task scope and pair construction, lines 98-105 and 124-158; stage-specific evaluation setup, lines 159-175. First-content/status-check operation n309-op-06; full-text support operation n309-op-07."
+    },
+    {
+      "id": "attribution-bias",
+      "url": "https://aclanthology.org/2025.findings-acl.1087/",
+      "title": "Evaluation of Attribution Bias in Generator-Aware Retrieval-Augmented Large Language Models",
+      "year": 2025,
+      "venue": "Findings of the Association for Computational Linguistics: ACL 2025",
+      "publication_status": "Peer-reviewed Findings paper; ACL Anthology record verified at n309-op-03",
+      "status_evidence_url": "https://aclanthology.org/2025.findings-acl.1087/",
+      "access_level": "Full text accessible and opened at https://aclanthology.org/2025.findings-acl.1087.pdf",
+      "content_locator": "ACL record abstract, lines 58-61; PDF abstract and counterfactual method, pp. 0-1, lines 11-38 and 82-114. First-content/status-check operation n309-op-03; PDF support operation n309-op-04. Considered, not included as a top addition."
+    }
+  ],
+  "findings": [
+    {
+      "id": "claim-counterclaim-stress-test",
+      "claim": "CoBiT evaluates RAG scientific-claim verification using 707 minimally perturbed claim-counterclaim pairs and measures bias separately at reranking and generation stages. Its experiments find stance-aligned confirmation bias can arise at different stages and can be amplified downstream; evaluated systems also differed in consistency across each pair.",
+      "source_ids": [
+        "cobit"
+      ],
+      "support_locator": "ACL Anthology proceedings abstract (n309-op-06); full paper pp. 0-1, especially lines 17-40, 84-123 and 124-175 (n309-op-07). The paper reports these as findings on OpenScholar, ScholarQA, SciRAG and LLM baselines.",
+      "decision_implication": "Extend the seed's paired-work-product discriminator by asking a scout to search a concise counterclaim with minimally changed stance wording, and compare both the evidence surfaced and the resulting summaries. Where workflow permits, record source discovery/selection separately from the final synthesis; a balanced-looking final answer alone cannot show that contrary evidence was found. Keep expert review of the decisive design choice and direct inspection of cited sources.",
+      "assumptions": "A meaningful candidate counterclaim can be stated from repository evidence, and the investigator can keep most query/context details fixed while changing the hypothesized direction. For open software design questions, a pair of alternatives may be more appropriate than a strict binary claim pair.",
+      "applicability_gap": "CoBiT addresses scientific claim verification with stance-flipped factual claims and evaluates particular literature RAG systems. It does not test repository architecture research, Luna-high scouts, mixed-model review, source prompt-injection boundaries, or patch acceptance. Its result motivates an evaluation discriminator; it does not show this workflow change improves the target task.",
+      "next_discriminator": "On matched repository questions, compare the existing concise-report workflow against one that requires a stance-swapped counterclaim search. Blind-score whether each arm finds relevant contrary evidence and viable alternatives, whether claims are source-supported, and expert correction/time. If retrieval-stage traces are unavailable, report that limitation and score observed source coverage separately from report stance.",
+      "incremental_vs_seed": "Adds a directly usable counterclaim-pair test and a distinction between evidence selection and final synthesis. This extends seed finding repo-grounding and its matched-investigation falsifier; it narrows the unresolved transfer question by identifying confirmation bias as a concrete failure mode that ordinary source-backed pro/con reporting may not detect. It does not replace the seed's bounded branching, repository-context, prompt-evaluation, or self-critique caveats.",
+      "support_operation_ids": [
+        "n309-op-06",
+        "n309-op-07"
+      ]
+    }
+  ],
+  "rejected_or_redundant": [
+    "ReAct was found in search but not used: direct OpenReview PDF access redirected to a browser challenge at n309-op-05, so paper text and publication details were not independently verified in this run.",
+    "Evaluation of Attribution Bias (ACL Findings 2025) was opened and verified at n309-op-03 and n309-op-04. Its counterfactual results show authorship metadata can affect attribution for three LLMs, but this was less directly useful than CoBiT's paired-stance, stage-specific test for the present workflow; retained in sources as considered evidence, not a top finding.",
+    "Seed access failures retained: two OpenReview PDF attempts hit a browser challenge; one ACL Anthology article returned a cache miss. The seed did not use those papers as evidence."
+  ],
+  "unresolved": [
+    "No retrieved study directly tests Luna-high scouting of unfamiliar repositories followed by mixed-model architecture review; effect and transfer remain unknown.",
+    "CoBiT's confirmation-bias mechanism and benchmark are scientific-domain, stance-paired evidence. Whether analogous counterclaim searches reveal missed alternatives in real software architecture investigations remains an empirical question.",
+    "Prompt-injection boundaries, direct expert access to decisive sources, independent patch acceptance, and timely consequential review remain task requirements; none of the reviewed evidence validates those governance controls.",
+    "The seed prompt comparison has not been run; a matched-task expert rubric remains the cheapest target-workflow falsifier."
+  ],
+  "retained_seed_summary": "Seed evidence supports a bounded branching prompt (Tree of Thoughts on constrained tasks), repository artifact/tool grounding (CodeAgent and RepoCod abstracts), metric-based prompt evaluation (MIPRO abstract), and treating critique as a question generator rather than independent verification (RCI abstract). Applicability to open architecture decisions and current mixed-model agents is untested. The seed recommends matched existing-repository tasks scored for viable alternatives, source correctness, omissions and reviewer time; preserve direct expert review, prompt-injection boundaries, and independent patch acceptance. Seed sources retain their original access limits: ToT full text, CodeAgent PDF/opening excerpt, RepoCod and MIPRO abstracts, RCI abstract. Seed also records blocked OpenReview debate/OPRO PDFs and an ACL cache miss; those sources were not treated as evidence.",
+  "stop_reason": "Stopped after finding one incremental, decision-useful mechanism and discriminator. Used 7 logical web operations total: 2 search queries and 5 opens (including one failed open); within limits of 16 operations, 8 searches and 10 opens. No further search was needed for this bounded addition; elapsed research window was under 12 minutes.",
+  "escalation_ready": "The seed already supports trying a bounded alternatives prompt with matched-task evaluation. CoBiT adds a concrete falsifier for one-sided evidence handling: stance-swapped counterclaim searches and, when observable, separate assessment of evidence selection from synthesis. Recommend retaining this as a testable workflow variant only; the paper does not support claims about Luna quality gains, architecture decision accuracy, delegation policy, or acceptance controls."
+}

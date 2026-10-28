@@ -1,0 +1,49 @@
+{
+  "publication_scope": "post_sanitization_publication_validation",
+  "purpose": "Reported validation of portability changes; current file integrity is checked separately by publication-manifest.json.",
+  "transformation_audit": {
+    "original_files": 574,
+    "valid_json_pairs": 248,
+    "numeric_and_boolean_leaves": 10252,
+    "historical_digest_leaves": 834,
+    "intentional_invalid_json": [
+      "luna-research-prompt-study-2026-10-28/pilot/r693/report-original-invalid.json"
+    ],
+    "result": "pass",
+    "scope": "Compared ordered numeric/Boolean leaves and retained historical digest leaves with the pre-publication capture. Private-log locators/fingerprints were deliberately removed from two usage summaries. This migration audit is a reported check, not a public-source authenticity proof."
+  },
+  "relocated_copy": {
+    "publication_scope": "post_sanitization_portability_smoke",
+    "clean_copy_contents": "verification tree plus six fixed repository recipes; no Git metadata or external project checkout",
+    "working_directory": "unrelated directory for all CLI calls",
+    "current_inventory_verified": true,
+    "repository_recipe_count": 6,
+    "manual_replay_participants": 4,
+    "stages_completed": [
+      "initial",
+      "E1",
+      "E2"
+    ],
+    "synthetic_submissions": 12,
+    "research_input_cases_exported": 20,
+    "focused_tests_passed": 32,
+    "numeric_usage_rows": 1112,
+    "project_or_model_campaign_executed": false,
+    "qualification": "Synthetic JSON answers test orchestration and integrity only; they are not model decisions, research findings or project outcomes."
+  },
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tests -p 'test_verification_*.py'",
+      "passed": 32
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_distribution.py",
+      "passed": 4
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ],
+  "limits": "No project campaign, model inference experiment, global installation or configuration change was performed. The project dirty-source diff and complete paper texts are not bundled; see REPRODUCING.md."
+}

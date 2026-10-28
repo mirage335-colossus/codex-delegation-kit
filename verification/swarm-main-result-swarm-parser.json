@@ -7,10 +7,10 @@
   "source": {
     "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
     "revision": null,
-    "root": "/tmp/delegation-swarm-main/source"
+    "root": "unbundled-runtime/run-h954e2065e97c08aa/source"
   },
-  "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
-  "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607",
+  "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
+  "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607",
   "proposed_result": {
     "evidence": [
       "Command: python3 -B -c 'from totals import parse_values; inputs = [\"2,3\", \"7\", \" 2 , , 3 \"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\"input={s!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'",
@@ -31,11 +31,11 @@
   "cleanup": {
     "at": 1792559029.992532,
     "attempt": "swarm-parser-1-ec23662ff607",
-    "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+    "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
     "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
     "completed_at": 1792559029.994894,
     "state": "complete",
-    "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+    "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
     "workspace_identity": {
       "device": 46,
       "inode": 399699
@@ -45,13 +45,13 @@
   "commands": [
     {
       "aggregatedOutput": "# Global delegation policy\n\nApply this policy to coding, source investigation, log analysis,\nand technical research when this kit is active. Preserve the user's selected\nprimary model and effort. Follow current project instructions, ownership and\nauthorization contracts; this policy grants no additional tool permissions.\nIn default engineering mode, delegation may be skipped for trivial tasks or\nwork that cannot be usefully separated. Coordinator-only mode has no local\nengineering exception, regardless of task size or available parallelism.\nPreserve existing role settings, concurrency limits, and inference service tier;\nimprove scheduling rather than enabling faster inference.\n\n## Applicability and operating modes\n\nEngineering allocation and coordination mechanism are independent choices:\ndefault engineering or coordinator-only, and an explicitly selected controller,\nan authorized advisory helper/project workflow, or native-only coordination.\nCoordinator-only and native-only can be\nselected together; neither selection implies or disables the other. Use the\ndefaults below unless the latest applicable user instruction or orchestration\ncontract selects otherwise. A task-specific user instruction supersedes\nconflicting global or repository user-level delegation preferences\nabout who should delegate, how work is allocated, or which coordination workflow\nto use. Preserve substantive project contracts and authorization limits unless\nan authorized instruction explicitly changes them. System, developer, and tool\nconstraints always apply; this policy and a mode selection grant no additional\naccess or permission.\n\nThe coordinator is the main agent responsible for dispatch and allocation,\ntracking dependencies and evidence routes, and determining status and\ncompletion against delegated acceptance conditions. The strong engineering\nowner handles consequential design, diagnosis, review, integration, and\nsoftware acceptance. In default engineering mode the coordinator may also do\nengineering, including source inspection, design, edits, wrappers and tests,\ncompilation or execution, artifact/log analysis, job monitoring, and review.\nThe trivial-local exception and primary-agent strong engineering work are\navailable only in default engineering mode.\n\nIn coordinator-only mode the primary agent performs coordination work only. It\nmust not do engineering: no source inspection for engineering conclusions,\ndesign, edits, wrappers or tests, builds or execution,\nartifact/log analysis, job monitoring, technical integration, software\nacceptance, or engineering review, even for a tiny task. Reading instructions\nand native assignment state or summaries needed to\ndispatch and track work is coordination. Assign engineering responsibility\nto an available permitted strong subagent; if none is available, report the\nblocker instead of taking over engineering in the main agent.\n\nIn native-only coordination mode, use native agent tools, messages, and\nconversation references for assignment state and evidence. Do not invoke\n`controller.py` or `supervisor.py`, or create a registration, ledger, or report\nfile. Preserve the\nsame assignment identities, original failures, repair allowances, deadlines,\nholds, and acceptance conditions in native history. This changes the\ncoordination mechanism, not the assignment contract or engineering ownership.\n\nAll helper-specific procedures below, including `supervisor.py`, its\n`--kind` records, schema fields, emitted actions, and helper state names, apply\nonly when the helper workflow is authorized, available, and selected.\nWith a user-selected native-only mode, carry forward the same substantive\nrequirements in native assignment history without the helper-specific\ncommands, files, records, or action names. If the helper is unavailable in\nthe selected workflow, report the limitation and use an already-authorized\nproject workflow where available; do not silently bypass the workflow or take over an\nassignment contrary to the selected mode.\n\n## Opt-in controller mode\n\nUse `controller.py` only for an authorized run whose selected ",
-      "command": "/bin/bash -lc \"cat /home/user/.codex/delegation-kit/policy.md && rg --files -g 'AGENTS.md' -g '*.py' -g '\"'!**/.git/**'\"'\"",
+      "command": "system-fixture/bin/bash -lc \"cat unbundled-installation/policy.md && rg --files -g 'AGENTS.md' -g '*.py' -g '\"'!**/.git/**'\"'\"",
       "completed": true,
       "completed_at": 1792559023.5691648,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
       "durationMs": 0,
       "exitCode": 0,
-      "id": "exec-ffabb0c1-4cd5-42aa-a0d7-26ed64590bb7",
+      "id": "exec-study-id-h37661a856c744c50",
       "observed_at": 1792559023.5677195,
       "output_truncated": true,
       "processId": "58790",
@@ -60,13 +60,13 @@
     },
     {
       "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\ntotals.py:4:def parse_values(text):\ntotals.py:13:    return aggregate(parse_values(text))\ntest_totals.py:3:from totals import parse_values, total\ntest_totals.py:23:        self.assertEqual(parse_values(\" 2 , , -3 , 5 \"), [2, -3, 5])\n",
-      "command": "/bin/bash -lc \"cat AGENTS.md && rg -n 'parse_values' totals.py test_totals.py\"",
+      "command": "system-fixture/bin/bash -lc \"cat AGENTS.md && rg -n 'parse_values' totals.py test_totals.py\"",
       "completed": true,
       "completed_at": 1792559024.797179,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
       "durationMs": 0,
       "exitCode": 0,
-      "id": "exec-f3f17535-1221-4a64-ae24-146be2234386",
+      "id": "exec-study-id-h2caf1e79ab99389b",
       "observed_at": 1792559024.796587,
       "output_truncated": false,
       "processId": "67009",
@@ -75,13 +75,13 @@
     },
     {
       "aggregatedOutput": "input='2,3' actual=[2, 3] expected=[2, 3] match=True\ninput='7' actual=[7] expected=[7] match=True\ninput=' 2 , , 3 ' actual=[2, 3] expected=[2, 3] match=True\n",
-      "command": "/bin/bash -lc \"python3 -B -c 'from totals import parse_values; inputs = [\\\"2,3\\\", \\\"7\\\", \\\" 2 , , 3 \\\"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\\\"input={s\"'!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'\"'\"",
+      "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from totals import parse_values; inputs = [\\\"2,3\\\", \\\"7\\\", \\\" 2 , , 3 \\\"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\\\"input={s\"'!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'\"'\"",
       "completed": true,
       "completed_at": 1792559026.7684343,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
       "durationMs": 0,
       "exitCode": 0,
-      "id": "exec-4812ce4a-6bc6-45c8-85f2-c8dff95fcf2a",
+      "id": "exec-study-id-h4f712da20678a837",
       "observed_at": 1792559026.7676995,
       "output_truncated": false,
       "processId": "37446",
@@ -96,22 +96,22 @@
   "effective": {
     "activePermissionProfile": null,
     "approvalPolicy": "never",
-    "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+    "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
     "environments": [
       {
-        "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+        "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
         "environmentId": "local",
         "runtimeWorkspaceRoots": [
-          "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
         ]
       }
     ],
     "model": "gpt-6-luna",
     "modelProvider": "openai",
     "reasoningEffort": "medium",
-    "requested_workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+    "requested_workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
     "runtimeWorkspaceRoots": [
-      "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
     ],
     "sandbox": {
       "excludeSlashTmp": true,
@@ -129,10 +129,12 @@
       "networkAccess": false,
       "type": "workspaceWrite",
       "writableRoots": [
-        "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+        "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
       ]
     },
     "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
   },
-  "helper_history": []
+  "helper_history": [],
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

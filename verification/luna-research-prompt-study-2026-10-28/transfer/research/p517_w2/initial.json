@@ -1,0 +1,253 @@
+{
+  "assignment_id": "P517-B",
+  "conversation_id": "p517-scout-b",
+  "source_identity": {
+    "project": "software-foundation",
+    "revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+    "dirty_state": "Scenario says clean based on git status --porcelain=v1 --untracked-files=all and git diff --stat; not independently rechecked.",
+    "execution": "No project command, test, build, or runtime experiment performed. Excerpts are incomplete source evidence."
+  },
+  "scope_and_search": {
+    "read": [
+      "request.json",
+      "views/p517/contract.md",
+      "views/p517/task.md",
+      "views/p517/scenario.md",
+      "views/p517/source-index.md",
+      "views/p517/routing.md",
+      "views/p517/scout-role.toml",
+      "views/p517/sources/R04.txt",
+      "views/p517/sources/R05.txt",
+      "views/p517/sources/R06.txt"
+    ],
+    "excluded": "Other arms, other request packets, earlier pilot/study results, unreleased events, source trees and project execution.",
+    "web_operation_counts": {
+      "logical_operations": 4,
+      "search_queries": 5,
+      "opens": 6,
+      "failed_operations": 0,
+      "remaining_budget": {
+        "logical_operations": 4,
+        "search_queries": 0,
+        "opens": 0
+      },
+      "operations": [
+        {
+          "kind": "search_batch",
+          "queries": [
+            "Luo et al. 2014 An Empirical Study of Flaky Tests ICSE paper asynchronous wait",
+            "RERAN timing touch sensitive record and replay Android OOPSLA 2013 paper",
+            "Reproducible GUI test failures asynchronous event ordering controlled scheduling paper",
+            "Systematic exploration event schedules GUI event driven applications paper"
+          ]
+        },
+        {
+          "kind": "open_batch",
+          "sources": [
+            "study-source-h5955845fa62af914",
+            "study-source-h44563b4fe0fb3901",
+            "turn157academia16",
+            "turn157academia15"
+          ]
+        },
+        {
+          "kind": "search",
+          "queries": [
+            "Android systematic event scheduling flaky tests controlled event schedule FlakeScanner paper conference"
+          ]
+        },
+        {
+          "kind": "open_batch",
+          "sources": [
+            "study-source-h5acc6c2062e8bf8d",
+            "study-source-ha093957478bf7ea7"
+          ]
+        }
+      ]
+    }
+  },
+  "local_source_map": [
+    {
+      "unit": "R04",
+      "references": [
+        "gui/shared/application.cpp:49-125",
+        "gui/tests/application_test.cpp:40-97",
+        "gui/CMakeLists.txt:25-35,91-96"
+      ],
+      "path": "Application::handle first rejects closed/shutdown state and normalizes the event against view_ (application.cpp:74-87), then applies widget changes or task actions to shared application state (91-125). append_entry mutates the store and status/editor state (49-65). The focused test is templated over Adapter and checks shared snapshots/state, stale edits and generations (application_test.cpp:40-97). Build selection is shared application plus cooperative executor under EMSCRIPTEN, native executor otherwise (gui/CMakeLists.txt:25-30).",
+      "caller_and_registration": "Adapter callback calls Application::handle in the templated test (application_test.cpp:40-44); CMake helper registers named GUI checks and prerequisites (gui/CMakeLists.txt:91-96). Exact production adapter, event ingress, rendering/presentation consumer and incident adapter identity are absent from this excerpt.",
+      "source_prediction": "If the same adapter-normalized event reaches the same shared Application state, this code predicts its normalized widget action updates the shared state synchronously. It does not show whether a backend rendered or published that state, or which adapter/event order the hypothetical report used.",
+      "unknowns": [
+        "Adapter/backend and version",
+        "exact event sequence and timestamps",
+        "visible snapshot/render path",
+        "whether the status or collection is stale in shared state, presentation, or transport",
+        "runtime configuration and consumer identity"
+      ]
+    },
+    {
+      "unit": "R05",
+      "references": [
+        "gui/shared/task_native.cpp:8-70",
+        "gui/tests/task_native_test.cpp:7-41",
+        "gui/shared/application.cpp:100-113",
+        "gui/CMakeLists.txt:25-35"
+      ],
+      "path": "Application starts the executor from a snapshot and stores returned TaskUpdate (application.cpp:100-109); cancel calls executor cancellation and clears running state (110-113). The native worker owns copied input and generation, checks active_ under mutex before publishing progress (task_native.cpp:12-35), while start advances serial/active and clears mailbox (41-49) and cancel clears active/pending/update (55-58). The focused native test checks generations, 200 cancel/start cycles, completion and shutdown (task_native_test.cpp:21-39).",
+      "caller_and_registration": "Non-Emscripten selects task_native.cpp; Emscripten selects task_cooperative.cpp (gui/CMakeLists.txt:25-30). Excerpt does not show the concrete UI callback that consumes advance(), test target registration/name, the cooperative implementation, or an injected worker scheduling seam.",
+      "source_prediction": "For the shown native code, a worker returning after cancel/replacement should fail the active_ == work.generation guard and not publish an old update. The existing repeated cycle is not evidence that the critical return/publish interleaving was forced or that the user report reproduces.",
+      "unknowns": [
+        "Whether report uses native or cooperative executor",
+        "actual old/new generation and event trace",
+        "task consumer/presentation path",
+        "whether cancellation, completion, or UI delivery races",
+        "available deterministic worker seam"
+      ]
+    },
+    {
+      "unit": "R06",
+      "references": [
+        "gui/host/browser_lifecycle.mjs:1-12",
+        "gui/tests/browser_lifecycle_test.mjs:1-15",
+        "gui/CMakeLists.txt:164-173,190-205"
+      ],
+      "path": "startPolling schedules one timer, avoids sending while client.failed, sends one poll and schedules again after its promise settles; stop clears a pending timer (browser_lifecycle.mjs:2-11). The test uses a virtual timer map and deferred promise, toggles failed, resolves the outstanding request, and checks stop/teardown (browser_lifecycle_test.mjs:5-14). CMake includes browser_lifecycle among web modules (169-173); shown browser tests register worker, responsiveness and presenter, not this lifecycle test (190-205).",
+      "caller_and_registration": "Browser lifecycle module is included in web module build list, but the excerpt does not identify its caller/consumer, transport implementation, status/render path, exact registration for browser_lifecycle_test.mjs, or actual browser/runtime version.",
+      "source_prediction": "A rejected send is swallowed then followed by a scheduled poll because catch(...).finally(schedule) is shown; the test excerpt only resolves its deferred send, so rejection recovery is not covered there. client.failed schedules without sending. The module contains no generation field in the excerpt; preserve generation as unavailable pending transport/client caller inspection.",
+      "unknowns": [
+        "Browser and version",
+        "client/transport identity and failure transition",
+        "whether the transient error rejects send or changes client.failed/closed",
+        "task generation/correlation values",
+        "consumer rendering and state refresh path",
+        "actual configured test registration"
+      ]
+    }
+  ],
+  "research_findings": [
+    {
+      "id": "W1",
+      "source": "Qingzhou Luo, Farah Hariri, Lamyaa Eloussi, Darko Marinov, 'An Empirical Analysis of Flaky Tests,' FSE 2014; author-hosted conference PDF.",
+      "locator": "https://mir.cs.illinois.edu/lamyaa/publications/fse14.pdf ; web lines study-source-heda98a6ba1e59c87 L354-L370, L387-L411 and L414-L425.",
+      "status": "Published FSE 2014 paper; accessible full paper PDF hosted by author/institution.",
+      "support": "Among 161 studied commits fixing flaky tests, 74 (45%) were classified Async Wait; paper defines this as proceeding before an asynchronous call's result is available and explains missing synchronization can affect the program under test as well as a test. It separately classifies concurrency and points out nondeterministic behavior can be legitimate while a test may incorrectly reject some valid outcomes.",
+      "applicability_and_limits": "Supports keeping missing wait/order as a candidate for R04-R06 and separating test synchronization defects from product defects. This is a selected set of historical flaky-test fix commits, not a prior probability for these three reports or this C++/JavaScript project; cohort and framework transfer is limited.",
+      "decision_use": "Keep an async-order hypothesis live, but do not route all three reports to thread-race debugging. First identify whether divergence is already in normalized/shared state, appears at render, or follows a transport/poll boundary.",
+      "discriminator": "Use one captured incident event trace and matched input/configuration; place controlled gates at the suspected event boundary and compare snapshots before/after each layer. If no controlled gate exists, capture the earliest divergence at each boundary before repeating runs."
+    },
+    {
+      "id": "W2",
+      "source": "Zhen Dong, Abhishek Tiwari, Xiao Liang Yu, Abhik Roychoudhury, 'Flaky Test Detection in Android via Event Order Exploration,' ESEC/FSE 2021; author-hosted full conference PDF and conference proceedings listing.",
+      "locator": "https://abhikrc.com/pdf/FSE21.pdf ; https://2021.esec-fse.org/details/fse-2021-papers/53/Flaky-Test-Detection-in-Android-via-Event-Order-Exploration ; PDF lines study-source-h843b57cbe2323d9f L84-L117, L118-L152, L290-L300, L403-L409, L495-L500, L802-L817.",
+      "status": "Published ESEC/FSE 2021 paper; accessible full conference PDF and conference program page.",
+      "support": "The paper says blind reruns may miss concurrency flakiness when the environment does not produce the needed order and noise does not guarantee different event orders. FlakeScanner traces events, maps test statements, identifies feasible schedule spaces for asynchronous events and systematically changes their positions. It reports 45/52 known Android flaky tests detected and average detection within three runs. It also reports constraints: Android event-loop assumptions, specific debug/runtime control, its class is concurrency/synchronization-related flakiness, and extra debug workload may affect failures, which authors check against debug-mode baselines.",
+      "applicability_and_limits": "Use as methodological support for controlled event-order discrimination versus unstructured reruns, not as a compatible tool or performance estimate for these excerpts. The project excerpt's shared C++ GUI, native worker and browser promise/transport are not Android; no shown scheduler hooks or equivalent event model. A controlled trace tests chosen schedules only and cannot rule out environment, rendering, protocol or unmodeled schedule causes.",
+      "decision_use": "For R04 compare identical normalized adapter events while controlling callback order; for R05 hold/resume worker progress around cancellation and replacement; for R06 defer/reject send and advance virtual timers. Prefer one minimal schedule that changes a boundary relevant to the symptom over broad repeated runs. Keep repeated runs only as a later check for residual environmental/nondeterministic behavior.",
+      "discriminator": "Record adapter/browser identity, input, config, event timestamps/order, task generation before and after each operation, and snapshots at normalization, shared state, render and transport boundaries. Force just the suspected completion/poll/event before versus after the competing action; assess whether the first divergent boundary follows that schedule."
+    },
+    {
+      "id": "W3",
+      "source": "Xiaobao Cai et al., 'Reproducing Timing-Dependent GUI Flaky Tests in Android Apps via a Single Event Delay,' ISSTA 2024 technical-paper proceedings abstract.",
+      "locator": "https://2024.issta.org/details/issta-2024-papers/120/Reproducing-Timing-Dependent-GUI-Flaky-Tests-in-Android-Apps-via-a-Single-Event-Delay ; web lines study-source-h2a2602d0f988d5fe L64-L72, L103-L110.",
+      "status": "Conference program/abstract for published ISSTA 2024 paper; full text not opened in this budget.",
+      "support": "Abstract reports a focused event-delay method using failure stack traces and dynamic analysis to delay only relevant events; evaluated on 80 timing-dependent flaky tests from 22 Android apps, reproducing 73 in an average 1.71 runs and consistently over 20 runs.",
+      "applicability_and_limits": "Abstract-only, Android-specific, timing-dependent flake subset, and uses inputs (stack traces) unavailable here. Do not transfer the rates or claim feasibility for this project. It is corroborating support that schedule-targeted control can be cheaper than indiscriminate reruns when a concrete race is already localized.",
+      "decision_use": "Do not pursue event perturbation until one trace or first-divergence boundary localizes a candidate interaction; then perturb only that event pair.",
+      "discriminator": "Capture a failure trace and source boundary first; compare one targeted delayed/reordered event with the baseline trace while preserving the same adapter/browser, input and generation identity."
+    },
+    {
+      "id": "W4",
+      "source": "'An Empirical Analysis of UI-based Flaky Tests,' arXiv:2103.02669.",
+      "locator": "https://arxiv.org/abs/2103.02669 ; web lines study-source-hf635c4d412ff2002 L3-L19, L34-L47, L162-L168, L655-L667.",
+      "status": "Accessible arXiv preprint; peer-reviewed publication venue/status not established by the opened source.",
+      "support": "Study analyzes 235 reported flaky UI test samples across 62 web/Android projects; reports asynchronous wait, environment, test-runner APIs, and test-script logic as cause groups, and reports timing/rendering/animation-specific categories. Its discussion states it found no strong correlation among manifestation, root cause and fix strategy groups.",
+      "applicability_and_limits": "UI-oriented corroboration for considering async wait, render timing, environment and test harness separately. Sample is issue/commit-selected and cross-platform; arXiv-only publication status is unresolved. No symptom-to-cause inference is justified from this dataset.",
+      "decision_use": "A status/list mismatch or stale view cannot by itself identify normalization, shared state, render, task scheduling or transport as cause. Instrument/check these layer boundaries independently.",
+      "discriminator": "At one exact user trace, compare normalized event, authoritative app snapshot, rendered/consumer snapshot and transport message/response; record the earliest mismatch and preserve actual adapter/browser/task identities."
+    },
+    {
+      "id": "W5",
+      "source": "Lorenzo Gomez, Iulian Neamtiu, Tanzirul Azim, Todd Millstein, 'RERAN: Timing- and Touch-Sensitive Record and Replay for Android,' ICSE 2013; author-hosted conference PDF.",
+      "locator": "https://web.cs.ucla.edu/~todd/research/icse13.pdf ; web lines study-source-h68e5d9a1fdad4151 L48-L65 and L76-L85.",
+      "status": "Published ICSE 2013 conference paper; accessible full paper PDF.",
+      "support": "Paper motivates low-level recording and timed replay because high-level GUI actions can lose gesture detail, external sensor inputs and event timing; it reports successful replay across a large Android app sample and bug reproduction examples.",
+      "applicability_and_limits": "Supports preserving a concrete input/timing trace and its environment as a reproducibility artifact. Replay holds an observed input stream/timing roughly fixed; it does not by itself explore internal worker schedules, validate transport state, or distinguish whether this code rendered/published an update. Android-specific tool is not asserted compatible here.",
+      "decision_use": "Capture the exact incident inputs and event timing before changing any run conditions. Use replay to establish a matched baseline; use separate event control to test competing orders.",
+      "discriminator": "Replay a recorded trace unchanged and then vary only the suspected completion/event ordering; compare boundary snapshots and identifiers."
+    }
+  ],
+  "controlled_trace_vs_repetition": {
+    "conclusion": "For a first causal discriminator, capture one exact user/event/transport trace and apply one controlled event-order change at a source-supported boundary. Repetition under uncontrolled scheduling is a weak first discriminator because it neither guarantees an alternative order nor identifies the divergent layer. A deterministic trace alone can miss unrecorded environment/input sources; a controlled schedule samples only the chosen order(s). If symptoms remain intermittent or no causal schedule reproduces, perform a bounded repeat under the same captured configuration and retain all failures, passes and traces; do not treat a finite clean series as proof of absence.",
+    "layer_separation": [
+      "Normalization: record raw adapter event and normalized event accepted/rejected by Application::handle (R04:74-87).",
+      "Shared state: capture app/model snapshot after state transition (R04:91-125 and test snapshot checks); establish whether mismatch exists before any rendering.",
+      "Rendering/presentation: obtain actual adapter/backend consumer and compare its visible snapshot to the authoritative shared snapshot; missing from assigned excerpts, so this remains a required evidence gap.",
+      "Task generation: retain start/cancel/replacement generation values through worker publication and UI consumption; native source guards publication but does not show the final consumer path (R05:12-35,41-58).",
+      "Transport: retain browser/client identity, poll request/settlement/error, failure flags, task/correlation generation if present, and consumer state. R06 excerpt shows poll lifecycle only, not response decoding or rendering."
+    ],
+    "identity_rule": "Do not replace missing identifiers with guesses. R04 incident adapter and R06 browser/transport are unknown. R05 native versus cooperative executor is unknown. R06 has no generation value in the shown lifecycle module; record it as unavailable until caller/client code is inspected.",
+    "no_causal_merge": "The three hypothetical symptoms are independent reports; shared GUI ancestry or similar timing language does not establish a common cause."
+  },
+  "rejected_or_unresolved_candidates": [
+    {
+      "candidate": "Run repeated tests many times as the initial discriminator.",
+      "reason": "FlakeScanner paper reports reruns can miss required orders and noise is not controlled schedule exploration; repetition may remain useful after causal trace capture as a residual nondeterminism check."
+    },
+    {
+      "candidate": "Use Android FlakeScanner/RERAN directly on this project.",
+      "reason": "Evidence is Android-specific and supplied project excerpts show C++ adapters/native worker and JS browser polling; compatibility, hooks and runtime identity are absent. Borrow method only."
+    },
+    {
+      "candidate": "Infer one shared async race because the reports mention delayed UI state/progress.",
+      "reason": "No report carries a trace or consumer identity; sources describe distinct state, worker-generation and transport paths. UI preprint finds no strong mapping from manifestation strategy to root cause, and that is not proof these reports share or do not share a cause."
+    },
+    {
+      "candidate": "Treat the browser test's deferred promise as coverage of rejection recovery.",
+      "reason": "Visible test only resolves pending promises; rejection is swallowed and then scheduled by source, but that behavior is a source prediction, not observed test coverage. Exact CMake registration for this test is not shown."
+    },
+    {
+      "candidate": "Treat R05's 200 cancel/start cycles as proof of all critical worker interleavings.",
+      "reason": "The excerpt shows repetition but no barrier proving the worker was paused at the read/advance/publish boundary; no execution evidence supplied."
+    }
+  ],
+  "next_experiment_recommendations": [
+    {
+      "unit": "R04",
+      "experiment": "Obtain the actual adapter and visible consumer from the user/run; capture raw event, normalized event, shared snapshot and rendered snapshot for the exact submit/action sequence. If mismatch localizes to state transition, replay same inputs with just the two competing events gated/reordered.",
+      "alternatives": [
+        "normalization/identity rejection",
+        "shared state transition ordering",
+        "render/presentation lag"
+      ],
+      "stopping_condition": "Stop when the earliest divergent boundary is reproduced with the same adapter, input and configuration; if it cannot be localized, first inspect adapter ingress and presentation consumer rather than increasing run count."
+    },
+    {
+      "unit": "R05",
+      "experiment": "Confirm executor selection and capture generations at UI start/cancel/restart and advance consumption. Use a barrier/test seam if available to hold old work immediately before publication, cancel/start new generation, then release and assert old generation cannot reach the consumer. If no seam exists, first inspect TaskExecutor interface and cooperative counterpart to choose the smallest valid control point.",
+      "alternatives": [
+        "stale native producer publication",
+        "UI consumer accepts/labels stale update",
+        "wrong executor/configuration or different symptom layer"
+      ],
+      "stopping_condition": "One forced stale-versus-current generation schedule either reproduces or rejects the source-supported publication hypothesis; preserve generation values and stop if report uses another executor until the matching implementation is inspected."
+    },
+    {
+      "unit": "R06",
+      "experiment": "Identify browser/client/transport and actual lifecycle caller. With the same virtual timer and input, defer then resolve and reject one poll; separately toggle failed/closed; record requests, response/correlation generation and consumer snapshot at each settlement. Compare poll scheduling with message decoding and rendering.",
+      "alternatives": [
+        "poll not issued while failed",
+        "send rejection/transport reconnect state",
+        "response accepted but UI not rendered",
+        "later action independently forces refresh"
+      ],
+      "stopping_condition": "Stop at the earliest logged divergence between timer/poll, transport response and rendered consumer. If browser/transport identity remains unavailable, mark setup/identity gap and do not infer project behavior from the generic module."
+    }
+  ],
+  "answered": true,
+  "acceptance_limits": [
+    "This answers the assigned research-selection and source-mapping question for R04-R06, not any hypothetical runtime failure.",
+    "No project tests/builds or runtime checks were executed; all behavior beyond visible source control flow is untested.",
+    "Actual adapter, browser, configuration, transport consumer, task generation trace, rendering path and report-to-source mapping remain unverified.",
+    "No empirical finding supplies a diagnosis or general incidence estimate for this project."
+  ]
+}

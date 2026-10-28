@@ -1,0 +1,114 @@
+{
+  "assignment_id": "P204-B",
+  "conversation_id": "p204-b",
+  "model_effort_as_assigned": "gpt-6-luna/high",
+  "purpose_and_decision_use": "Research how to distinguish asynchronous/order effects for hypothetical reports R04-R06 and how repeated observations should be interpreted; support Terra's E1 design choices without inferring a shared cause, runtime outcome, or scheduling guarantee.",
+  "source_identity": {
+    "application": "software-foundation",
+    "revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+    "evidence_status": "Supplied source excerpts only; no application command or test was run. Excerpts do not establish execution or complete inventory.",
+    "kit_context": "Scenario packet identifies kit checkout HEAD 947ed25d4058e405ecf45d6956671f6fecb12026 with pre-existing modifications; no kit source changes made."
+  },
+  "research_operations": {
+    "logical_operations": 15,
+    "search_query_items": 8,
+    "open_items": 7,
+    "failed_or_limited_items": [
+      "Opened IEEE DOI page for FlakeRake; IEEE robots interstitial returned no article text. Used the indexed DOI result abstract only; the paper link is retained as provenance."
+    ],
+    "budget": {"logical_operations_max": 16, "search_query_items_max": 8, "open_items_max": 10},
+    "searches": [
+      "flaky tests asynchronous empirical study test order event order",
+      "empirical study flaky tests asynchronous waiting reproduction repeated runs",
+      "event-driven software testing asynchronous event ordering trace empirical research paper",
+      "systematic concurrency testing event traces schedule control empirical software testing research",
+      "Microsoft CHESS systematic concurrency testing controlled schedules paper testing concurrent programs",
+      "systematic concurrency testing DPOR event trace reproducibility happens-before schedule testing paper",
+      "Luo An empirical analysis of flaky tests ICSE 2014 pdf",
+      "order-dependent flaky test empirical study test isolation random order Python 2021"
+    ],
+    "opened_sources": [
+      "https://doi.org/10.1109/ICST60714.2024.00032 (IEEE interstitial; indexed abstract used)",
+      "https://www.microsoft.com/en-us/research/publication/a-study-on-the-lifecycle-of-flaky-tests/",
+      "https://arxiv.org/abs/2101.09077",
+      "https://www.microsoft.com/en-us/research/publication/chess-a-systematic-testing-tool-for-concurrent-software/",
+      "https://www.cs.cornell.edu/courses/cs5154/2021sp/resources/LuoETAL14FlakyTestsAnalysis.pdf",
+      "https://arxiv.org/abs/2207.01047",
+      "https://www.nist.gov/publications/combinatorial-methods-event-sequence-testing?pub_id=906770"
+    ]
+  },
+  "findings": [
+    {
+      "report": "R04",
+      "source_map": "gui/shared/application.cpp:49-125: append_entry advances input epoch, calls core Store, clears editor/status on success, and maps validation exceptions to status; handle normalizes events against current view before handling resize/widget/submit. gui/tests/application_test.cpp:40-97: templated scenario drives an Adapter callback into Application::handle and checks rejected input, state/status, stale edit, and widget-generation behavior. gui/CMakeLists.txt:25-35 selects shared application/task executor, and 91-96 registers focused GUI checks. Adapter identity and the reported event order are not supplied.",
+      "empirical_method": "Use a compact event trace with the exact same initial model, input, adapter identity, and event order: record each emitted event plus immediate Application snapshot (editor, collection IDs, status, epoch) after every event. Replay it through the implicated adapter and a direct shared-application path; preserve any delayed presentation sample separately. This localizes a mismatch to adapter translation/dispatch, shared transition, or presentation timing. A targeted permutation of only causally ambiguous adjacent events is useful after the original sequence is captured; arbitrary repetition is secondary.",
+      "candidate_hypotheses_and_falsifiers": [
+        {"hypothesis": "Adapter-specific event translation/order causes the shared state and status to diverge.", "falsifier": "Under matched input and captured identical event sequence, the immediate authoritative Application state and status agree across the reported adapter and a second adapter/direct path; any remaining visible disagreement is downstream presentation/refresh evidence."},
+        {"hypothesis": "Shared Application transition leaves collection and status inconsistent for a given event.", "falsifier": "A direct call/replay through Application::handle produces a coherent snapshot after each event, while only delayed adapter rendering differs."}
+      ],
+      "evidence_limit": "The excerpt predicts current code behavior and gives a registered test fixture; it does not prove any adapter was exercised in the report, that the test ran, or that pixels/status refresh synchronously. The fixture's actual adapter type is not visible in supplied lines.",
+      "decision_use": "R04: establish event and adapter identity before choosing test; keep shared-state and presentation claims distinct."
+    },
+    {
+      "report": "R05",
+      "source_map": "gui/shared/task_native.cpp:8-70: one worker owns pending work; start validates before advancing serial/active generation, stores generation-tagged work, and resets prior update; worker publishes only while its generation is active; cancel clears active/pending/update; shutdown closes and joins. gui/tests/task_native_test.cpp:7-41 contains a finish loop checking generation/non-regressing progress, 200 cancel-then-start cycles, completion and shutdown cases. gui/CMakeLists.txt:25-35 selects native executor outside Emscripten.",
+      "empirical_method": "Capture a matched start(A) -> observed/blocked A progress -> cancel -> start(B) trace with operation generations, cancellation return, B's initial update and every consumed update tagged by generation and processed count. If feasible in an authorized targeted fixture, use a barrier to hold A at a chosen processing point across cancel/start(B); then release A and record the mailbox/UI consumer. First retain the user's original uninstrumented trace. This controls the race window directly instead of hoping a longer task or many loops will hit it.",
+      "candidate_hypotheses_and_falsifiers": [
+        {"hypothesis": "A late native worker update from cancelled generation A becomes visible after generation B is active.", "falsifier": "A forced old-worker completion after B starts is discarded at the producer and no A generation is consumed/rendered; if the reported progress instead carries B's generation, stale producer publication is falsified and inspect snapshot/input or UI attribution."}
+      ],
+      "evidence_limit": "The supplied test repeats a race-shaped sequence 200 times, but that does not cover all interleavings and is not reported as executed. No scheduling guarantee is inferable. Supplied excerpts do not show the Application polling/consuming task updates, so the last consumer boundary remains unknown here.",
+      "decision_use": "R05: ask for operation/generation and producer-versus-consumer trace; choose barrier-controlled targeted discrimination only if the original trace is insufficient."
+    },
+    {
+      "report": "R06",
+      "source_map": "gui/host/browser_lifecycle.mjs:1-12: schedules one poll at a time; after send settles it schedules again, swallows rejection, and skips sending while client.failed; stop clears owned timer. gui/tests/browser_lifecycle_test.mjs:1-15 uses a fake timer and deferred promise, manually toggles failed and resolves pending send. gui/CMakeLists.txt:164-173 stages/paches browser assets; 193-205 shows worker, browser-responsiveness, and browser-presenter registrations, but does not show registration of browser_lifecycle_test.mjs. Browser client/transport and fixture failure semantics are not in supplied excerpts.",
+      "empirical_method": "Use a fake scheduler and deferred transport with a recorded trace (timer armed/fired, send start/settlement/rejection, client.failed/closed transitions, timer cleanup), then compare matched traces for resolve, reject, and recovery sequences. Separately capture an authorized real-browser reproduction with browser/version, transport events, and task/refresh state before and after failure; do not infer actual transport recovery from the unit fixture. Check built/generated browser asset identity because CMake stages and patches modules.",
+      "candidate_hypotheses_and_falsifiers": [
+        {"hypothesis": "A rejected poll or failed-state transition prevents future polling/recovery.", "falsifier": "Under a controlled rejected-send then failed=false sequence, the same poll loop rearms and sends again, and in a matched browser trace the client also resumes polling after the transport reports recovery."},
+        {"hypothesis": "The lifecycle helper works but built asset/client transport or presenter integration fails to recover or display updates.", "falsifier": "The failing browser's executed module identity matches the supplied helper and its event trace shows no new poll despite failed=false; that shifts evidence back toward lifecycle behavior rather than asset/client integration."}
+      ],
+      "evidence_limit": "The fixture manually changes client.failed and resolves a promise; it does not model real transport errors, rejection recovery policy, browser scheduling, built assets, or rendering. The supplied CMake excerpt does not prove this lifecycle fixture is registered. The error handler intentionally suppresses rejection and relies on client.failed's separately managed state; that contract is unknown from these excerpts.",
+      "decision_use": "R06: identify browser/client/transport/build artifact and failure/recovery transitions; keep helper-fixture evidence separate from browser integration."
+    },
+    {
+      "report": "R10-method-control",
+      "source_map": "tools/process_tree.py:1-18 documents lifetime supervision boundaries and platform-specific behavior; :51-70 validates deadlines/sample bounds. tests/test_process_tree.py:53-71 checks stable output after joined child and rejects/stops a successful parent with an outliving output child; R10 excerpt says native process-tree suite is named in root CMake at CMakeLists.txt:584. This is a test-execution/evidence-integrity helper, not an application hypothesis for R04-R06.",
+      "empirical_method": "For repeated or trace-controlled observations, retain command output only after the run owner confirms child/output-writer completion. Record runner, command, environment, and actual run identity. A descendant continuing to write makes an apparent later transition or stable output ambiguous.",
+      "candidate_hypotheses_and_falsifiers": [
+        {"hypothesis": "An apparently delayed or changed result is caused by an unjoined descendant writing after the parent command exits.", "falsifier": "The run owner establishes complete child termination and stable output before the observed state is sampled; this removes the specific late-writer explanation for that run, not application-level asynchrony generally."}
+      ],
+      "evidence_limit": "The excerpt states supervisor scope and includes tests, but supplies no execution outcome. Its own text excludes hostile processes and service-owned writers; do not treat it as general containment or global process accounting.",
+      "decision_use": "Across R04-R06: require valid, settled run/output provenance before treating repeated observations as evidence."
+    }
+  ],
+  "research_synthesis": {
+    "trace_vs_repetition": "A trace records the differentiating causal sequence and lets a targeted fixture replay or force a suspected ordering; repeated unchanged runs estimate manifestation frequency only under a stable, specified environment. CHESS's systematic schedule generation/replay and FlakeRake's timing perturbation show that controlled schedule/timing variation can expose and reproduce some concurrency failures more effectively than blind stress/reruns, but require scheduler/instrumentation control and do not exhaust real browser/transport behavior. NIST's event-sequence combinatorial approach offers bounded t-way ordering coverage when a full permutation space is too large. For these reports, first match configuration, adapter/browser, input, asset, and event trace; vary only the suspected event boundary. Do not count repeats as proof of absence or causation.",
+    "supporting_sources": [
+      {"title": "Automatically Reproducing Timing-Dependent Flaky-Test Failures (FlakeRake), IEEE ICST 2024", "link": "https://doi.org/10.1109/ICST60714.2024.00032", "status": "Search result abstract; direct IEEE open was blocked by robot interstitial.", "support": "Indexed abstract reports inserted sleeps to perturb callback/thread timing; in its dataset, at least one exact failure was reproduced for 136 cases versus 115 by 10,000 isolated reruns and 127 by whole-suite reruns; reliable reproduction (>50%) for 107. This is study-specific and not a guarantee for this code."},
+      {"title": "CHESS: A Systematic Testing Tool for Concurrent Software", "link": "https://www.microsoft.com/en-us/research/publication/chess-a-systematic-testing-tool-for-concurrent-software/", "status": "First-party Microsoft Research abstract opened.", "support": "Describes systematic interleaving exploration of a given concurrent scenario and repeatable reproduction of erroneous executions; supports considering controlled schedule traces where a scheduler can be controlled, not claiming exhaustive coverage here."},
+      {"title": "Combinatorial Methods for Event Sequence Testing", "link": "https://www.nist.gov/publications/combinatorial-methods-event-sequence-testing?pub_id=906770", "status": "First-party NIST publication record opened.", "support": "Describes sequence generation covering every t-event order; a bounded alternative for selected event interactions when exhaustive permutations are infeasible."},
+      {"title": "A Study on the Lifecycle of Flaky Tests", "link": "https://www.microsoft.com/en-us/research/publication/a-study-on-the-lifecycle-of-flaky-tests/", "status": "First-party Microsoft Research abstract opened.", "support": "Six proprietary projects found async calls leading among their studied flaky tests; the study also found purported fixes that did not reduce failures. Relevant caution, but narrow to those projects and not evidence of this project's cause."},
+      {"title": "An Empirical Study of Flaky Tests in Python", "link": "https://arxiv.org/abs/2101.09077", "status": "Paper landing page opened; abstract and results inspected.", "support": "Analyzed 876,186 tests and 7,571 flaky tests across 22,352 Python projects; order dependency dominated its flaky subset, and estimated 170 reruns for 95% confidence that a passing test was not flaky for non-order-dependent causes. The estimate depends on sampled Python projects and model assumptions; it is not a practical universal threshold or directly transferable to C++/browser reports."},
+      {"title": "An Empirical Analysis of Flaky Tests", "link": "https://www.cs.cornell.edu/courses/cs5154/2021sp/resources/LuoETAL14FlakyTestsAnalysis.pdf", "status": "Paper PDF opened.", "support": "Study mined 201 likely flaky-fix commits in 51 Apache projects; identifies async wait, concurrency and order dependency among leading categories and critiques pass-on-any-rerun as workaround that may waste resources or mask real bugs. Commit-mining and project selection limit prevalence generalization."},
+      {"title": "An Empirical Study of Flaky Tests in JavaScript", "link": "https://arxiv.org/abs/2207.01047", "status": "Paper landing page opened; methods/results inspected.", "support": "Analyzed 452 flaky-test-related commits in popular JavaScript repositories; concurrency/async wait prominent, with platform and network stability also important. This supports separating browser transport/environment from scheduling hypotheses; mined commits and repository selection do not establish frequency or cause here."}
+    ],
+    "contrary_or_qualifying_evidence": "The Python study found order dependency, infrastructure, network and randomness differed from earlier Java findings; the JavaScript study includes platform and network causes; Microsoft proprietary projects emphasize async calls. Flakiness categories vary substantially by language, project, and identification method, so no empirical prevalence ranking selects a cause for these three reports. Reruns remain useful for measuring observed frequency after a matched setup, but passing repetitions do not prove no defect (Python study's high estimated rerun need is a direct warning). A fully controlled schedule is valuable only if its instrumentation and event model cover the relevant native or browser boundary.",
+    "weak_or_rejected_leads": [
+      "Treating a single pass, or a short repetition batch, as evidence that the defect is absent: rejected as an absence claim; may still be useful for setup sanity or an empirical rate estimate with explicit uncertainty.",
+      "Applying a universal 170-rerun threshold from Python: rejected; population/method do not match this C++/native/browser source and the threshold is not a required target.",
+      "Assuming R05 is a thread-scheduling defect because cancellation is involved: unsupported; excerpts encode generations and test selected cancel/restart patterns, but there is no runtime trace.",
+      "Assuming R06's fake promise/timer proves browser transport recovery: rejected; transport, client.failed ownership, generated asset identity, and fixture registration are not established by the excerpts."
+    ]
+  },
+  "coverage_and_gaps": {
+    "searched": "Only the assigned p204 request and views, supplied R04-R06/R10 excerpts, and bounded primary/first-party literature search/open work. No project execution, external system test, or code change.",
+    "excluded": "Other study arms/views, results, pilot scores, unreleased events, full project tree, and application tests/builds.",
+    "unknowns_to_resolve_before_runtime_claim": [
+      "Actual adapter and exact event sequence for R04; whether authoritative application state or only displayed presentation is stale.",
+      "R05 operation generations and trace from producer through Application/UI consumer; whether actual selected build is native rather than Emscripten.",
+      "R06 browser/version, executed generated module identity, actual transport error/recovery states, browser client and presenter behavior, and whether browser_lifecycle_test.mjs is registered elsewhere.",
+      "Whether any R04-R06 report reproduces, test/setup/run identities, and current environment/configuration."
+    ],
+    "answer_status": "Answered at research/source-map level for assigned R04-R06/R10 units; runtime diagnosis, test execution, completeness of broader registration inventory, and actual report causes remain untested/unknown."
+  }
+}

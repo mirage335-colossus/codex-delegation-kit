@@ -1,0 +1,67 @@
+H04 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- include/datapump/helper_receiver.hpp:13-73 ---
+   13 // A measured reference in the caller's absolute capture sample coordinates.
+   14 // Phase is the observed tone phase at sample, with a known punctuation sign
+   15 // removed after timing acquisition. It retains an unknown propagation/Tx phase.
+   16 // sample is also the latest raw observation used for this publication: no
+   17 // future input is hidden behind an earlier phase timestamp. Dwell timing is a
+   18 // modulo-400 ms measurement, not an authenticated clock.
+   19 // A metadata publication may propagate an older fitted phase to sample.
+   20 // phase_observation_sample independently dates that actual fitted phase; its
+   21 // known flag distinguishes an observation at sample zero from unknown origin.
+   22 // Propagation and frequency fusion must not manufacture a new phase anchor.
+   23 // Tone uncertainty combines an eight-standard-error local linearized LS term
+   24 // (actual finite Gram covariance, estimated white-noise residual), numerical
+   25 // floors and measured polynomial-model allowance. It is not a deterministic
+   26 // bound for interference or future oscillator drift; callers retain fallback.
+   27 // The configured process allowance separately encloses the finite raw-fit
+   28 // change caused by a uniformly bounded Wiener phase path. It does not turn
+   29 // the local AWGN linearization into a global likelihood/confidence interval.
+   30 enum class FrequencyFit { unknown, local_polynomial, conditioned_polynomial, masked_tone_profile };
+   31 // The former single-tone component fixtures retain their paired reversal.
+   32 // Production optional metadata uses the separate auxiliary, whose240ms
+   33 // reversal stays inverted until the zero-amplitude dwell boundary.
+   34 enum class PunctuationFormat { paired_legacy, auxiliary_single };
+   35 
+   36 // One ACTUAL independently qualified phase-flip fit, not an extrapolated dwell
+   37 // grid. Coordinates use Reference.sample_rate. The immutable last_sample is
+   38 // also its actual raw evidence date; later tone/metadata publications may carry
+   39 // this same observation but must not renew it. (generation,sample) identifies
+   40 // the observation ONLY within one caller-owned provider/capture domain.
+   41 // Generation is local to a Receiver instance; reconstruction requires a new
+   42 // provider identity and explicit caller history reset. Receiver::reset changes
+   43 // the local generation. An actual unknown-phase RF retune also resets its gauge.
+   44 struct PunctuationObservation {
+   45     std::uint64_t generation=0,sample=0,first_sample=0,last_sample=0;
+   46     double fraction=0,uncertainty_samples=0;
+   47     bool known=false;
+   48 };
+   49 static_assert(sizeof(PunctuationObservation)<=56);
+   50 
+   51 struct Reference {
+   52     std::uint64_t sample=0;
+   53     std::uint32_t sample_rate=0;
+   54     double frequency_hz=0,phase_radians=0;
+   55     double frequency_uncertainty_hz=0,phase_uncertainty_radians=0;
+   56     double dwell_start_seconds=0,dwell_uncertainty_seconds=0;
+   57     bool frequency_valid=false,phase_valid=false,timing_valid=false,phase_observation_known=false;
+   58     std::optional<Metadata> metadata;
+   59     // Independent frequency component's last observation; zero means sample.
+   60     // Phase remains evaluated at sample. A fused component is never from the
+   61     // future and callers must apply their frequency-age limit to this field.
+   62     std::uint64_t frequency_sample=0;
+   63     std::uint64_t phase_observation_sample=0;
+   64     // Actual raw support of the selected frequency component. The endpoint is
+   65     // frequency_sample+1 (or sample+1 for a same-date legacy component).
+   66     // The fitted kernel is a local linearization of the ordinary six-column
+   67     // real-tone fit, not an instantaneous frequency observation.
+   68     std::uint64_t frequency_first_sample=0;
+   69     FrequencyFit frequency_fit=FrequencyFit::unknown;
+   70     double frequency_phase_diffusion_gain=0; // diagnostic fitted-kernel Hz*sqrt(second)/radian
+   71     double frequency_process_uncertainty_hz=0; // already included in the CI
+   72     PunctuationObservation punctuation;
+   73 };

@@ -1,0 +1,285 @@
+{
+  "scope": "Label-blinded agent domain screen; no selection; no new research. Incremental contribution counts, never additions discovered by verifier. Seed findings are retained separately, not added to incremental counts.",
+  "strict_budget": "s3: n836 has 2 dedicated operations; n154 has 9 against 8; the first two n154 opens establish the TACL abstract and metadata, preceding excess ninth open. VOI remains unresolved independent of excess. s4: pair opens 12 vs stated verifier open cap 10, n494 dedicated opens 9 vs 8; use vopen-01 through vopen-10 only, excluding vopen-11/12 (and ninth n494 open vopen-12). CoBiT and RepoCoder supported within that prefix; CodeRAG compound claim remains unresolved. No credit from excess operations. The protocol explicitly lists pair total 16 and dedicated 8; the verifier additionally reports an open cap of 10, conservatively applied here.",
+  "cases": {
+    "n836": {
+      "seed": "s3/r693",
+      "lower": 1,
+      "upper": 1,
+      "unresolved": 0,
+      "qualified_origins": [
+        "n836:hypothesis-guided-retrieval"
+      ]
+    },
+    "n154": {
+      "seed": "s3/r693",
+      "lower": 1,
+      "upper": 2,
+      "unresolved": 1,
+      "qualified_origins": [
+        "n154:decision-critical-questions"
+      ],
+      "unresolved_origins": [
+        "n154:value-of-information-evaluation"
+      ]
+    },
+    "n309": {
+      "seed": "s4/r139",
+      "lower": 1,
+      "upper": 1,
+      "unresolved": 0,
+      "qualified_origins": [
+        "n309:claim-counterclaim-stress-test"
+      ]
+    },
+    "n494": {
+      "seed": "s4/r139",
+      "raw_report_case_id": "r139",
+      "lower": 1,
+      "upper": 2,
+      "unresolved": 1,
+      "qualified_origins": [
+        "n494:targeted-follow-up-retrieval"
+      ],
+      "unresolved_origins": [
+        "n494:retrieve-by-evidence-type-and-prune"
+      ]
+    }
+  },
+  "claim_mechanism_union": [
+    {
+      "mechanism": "Hypothesis-conditioned follow-up retrieval with contrary evidence; identical core mechanism deduplicated across cases, each retains credit",
+      "origins": [
+        "n836:hypothesis-guided-retrieval",
+        "n494:targeted-follow-up-retrieval"
+      ],
+      "status": "qualified, inference to target workflow"
+    },
+    {
+      "mechanism": "Measure decision quality and communication/reviewer effort, not length alone",
+      "origins": [
+        "n154:decision-critical-questions"
+      ],
+      "status": "qualified narrowly at abstract scope"
+    },
+    {
+      "mechanism": "Stance-swapped counterclaim search; distinguish evidence selection from synthesis",
+      "origins": [
+        "n309:claim-counterclaim-stress-test"
+      ],
+      "status": "qualified"
+    },
+    {
+      "mechanism": "Value of additional information and decision payoff",
+      "origins": [
+        "n154:value-of-information-evaluation"
+      ],
+      "status": "unresolved source identity and detailed support"
+    },
+    {
+      "mechanism": "Complementary retrieval routes and selective snippet retention",
+      "origins": [
+        "n494:retrieve-by-evidence-type-and-prune"
+      ],
+      "status": "unresolved compound claim"
+    }
+  ],
+  "stage_rows": [
+    {
+      "assigned_case": "n836",
+      "seed": "s3/r693",
+      "origin_id": "n836:hypothesis-guided-retrieval",
+      "research": "discovered",
+      "verification": "Direct support for the candidate-conditioned iterative retrieval mechanism and reported completion-task comparison. The case report's additional claims about instability across further iterations and low-duplication limits were not reached in this verifier's inspected lines and remain unconfirmed here.",
+      "terra": "retained at core method scope",
+      "expert": "not individually assessed",
+      "source_locator": "RepoCoder, §1, pp. 2471–2472; ACL Anthology PDF lines 10–28 and 52–71. The abstract and method opening describe iterative retrieval-generation using generated completion context and report superiority to vanilla retrieval-augmented completion in repository code-completion experiments.",
+      "access": "Full text available; inspected abstract and opening method section.",
+      "publication": "Peer-reviewed EMNLP 2023 proceedings paper; independently confirmed by ACL Anthology metadata (Proceedings, pages 2471–2484, DOI 10.18653/v1/2023.emnlp-main.151).",
+      "applicability": "Adequately bounded as a workflow inference, not a measured research-prompt effect. Paper task is repository-level code completion, not architecture research or subagent coordination. Candidate-shaped retrieval may reinforce an initial hypothesis; the proposed discriminator appropriately asks for contrary evidence too.",
+      "discriminator": "Compare map-only with map plus one hypothesis-conditioned lookup that seeks supporting and contrary callers/examples/tests; record decision relevance and whether evidence changes the hypothesis.",
+      "qualified": true
+    },
+    {
+      "assigned_case": "n154",
+      "seed": "s3/r693",
+      "origin_id": "n154:decision-critical-questions",
+      "research": "discovered",
+      "verification": "Qualified only for the abstract-supported finding that longer LM dialogues did not imply better decision outcomes in the studied domains. Do not credit the more specific generic-question result or proposal-iteration detail without direct §7.2 confirmation.",
+      "terra": "retained at narrowed abstract scope",
+      "expert": "not individually assessed",
+      "source_locator": "Lin et al., Decision-Oriented Dialogue for Human-AI Collaboration, abstract and front matter, TACL vol. 12 (2024), pp. 892–911. The verified abstract specifies three dialogue domains and reports lower LM rewards despite longer dialogues. The report's narrower §7.2 claims about generic questions and superficially changing proposals were not directly inspected in that section during verification.",
+      "access": "Full PDF accessible; abstract/front matter directly inspected. Specific §7.2 detail remains unverified by this verifier.",
+      "publication": "Peer-reviewed TACL journal article; independently confirmed by ACL Anthology venue/volume/pages/DOI metadata and the PDF front matter publication date (August 2024).",
+      "applicability": "The work studies GPT-3 and human assistants in reviewer assignment, itinerary planning, and group travel; it does not study repository research, smaller-model subagents, current model routing, or architecture decisions. Its bounded implication is to measure decision quality and reviewer/communication effort, rather than report length alone.",
+      "discriminator": "On matched repository decisions, compare follow-ups requiring a decision-critical unknown and falsifier with generic follow-up; assess useful evidence, missed alternatives, decision quality, and reviewer time.",
+      "qualified": true
+    },
+    {
+      "assigned_case": "n154",
+      "seed": "s3/r693",
+      "origin_id": "n154:value-of-information-evaluation",
+      "research": "discovered",
+      "verification": "Abstract-level topic is real, but the submitted finding combines a mismatched title/identity and detailed claims not confirmed in relevant primary-source passages. Unresolved; excluded from qualified lower bound.",
+      "terra": "unresolved: identity and support provenance",
+      "expert": "not individually assessed",
+      "source_locator": "Report URL https://arxiv.org/abs/2502.06152 and opened HTML https://arxiv.org/html/2502.06152 identify the paper as Explaining and Improving Information Complementarities in Multi-Agent Decision-making, not The Value of Information in Human-AI Decision-making. The accessible abstract supports a human-AI complementary-information framework and study in chest X-ray/deepfake examples. Author/Northwestern pages found by exact-title query associate the arXiv-title paper with ICLR 2026. OpenReview direct access was blocked; the report's OpenReview record is not independently verified.",
+      "access": "Full arXiv HTML accessible, but this verifier directly inspected the title and abstract only; the report's precise expected-marginal-payoff definition, controlled-study result, and designed-complementarity limitation were not verified in the relevant sections.",
+      "publication": "ICLR 2026 status supported for the arXiv-title paper by author and Northwestern pages; unresolved whether the separately named ‘The Value of Information in Human-AI Decision-making’ is that same paper or the source intended by the finding. Do not assign the verified venue status to the report's mismatched title without correction.",
+      "applicability": "Potentially useful as decision-theoretic framing for evaluating information added to human-AI decisions; transfer to architecture research and effort metrics remains an inference. Payoff-distribution requirements need direct source verification.",
+      "discriminator": "Correct the title and source identity, then inspect the paper's framework, experiment, and limitation sections directly; preserve the report's precise paper/operation provenance.",
+      "qualified": "unresolved"
+    },
+    {
+      "assigned_case": "n309",
+      "raw_report_case": "n309",
+      "seed": "s4/r139",
+      "origin_id": "claim-counterclaim-stress-test",
+      "research": "discovered",
+      "verification": "direct_full_text for study identity, pair design, and stage-specific evaluation; abstract-level for summarized result that bias can occur at different stages and be amplified. Do not extend the reported result to software architecture work.",
+      "terra": "retained core method",
+      "expert": "not individually assessed",
+      "source": {
+        "title": "Retrieving Facts or Reinforcing Beliefs? Towards Understanding Confirmation Bias in RAG Systems for Scientific Claim Verification",
+        "url": "https://aclanthology.org/2026.emnlp-main.44/",
+        "paper_url": "https://aclanthology.org/2026.emnlp-main.44.pdf",
+        "identity_status": "Verified title/authors and official 2026 EMNLP proceedings identity using ACL Anthology search result and proceedings PDF front matter (pp. 958-974; October 24-29, 2026). ACL Anthology record open failed.",
+        "peer_review_status": "Unknown from independently opened material: proceedings publication is verified, but no explicit review/acceptance statement was retrieved. Do not assert peer review as independently confirmed.",
+        "content_status": "Full PDF accessible and opened. Direct evidence: abstract pp. 0-1 says 707 minimally perturbed claim-counterclaim pairs and stage-specific ranking/generation metrics; the introduction (PDF lines 84-107) explains stance replacement and that the scientific domain was selected for objective factual grounding and clearer isolation."
+      },
+      "applicability": "adequately mapped as a feasible evaluation prompt/discriminator; benefit to repository architecture research remains untested.",
+      "discriminator": "On matched repository questions, compare the existing scout report with a variant requiring a concise counterclaim whose stance is minimally changed. Score contrary evidence found, source support, viable alternatives, and reviewer correction/time. If retrieval traces are unavailable, score source coverage separately from final synthesis.",
+      "qualified": true,
+      "research_support_operations": [
+        "n309-op-06",
+        "n309-op-07"
+      ],
+      "verifier_operations": [
+        "vsearch-01",
+        "vopen-01",
+        "vopen-02",
+        "vopen-07"
+      ]
+    },
+    {
+      "assigned_case": "n494",
+      "raw_report_case": "r139",
+      "seed": "s4/r139",
+      "origin_id": "targeted-follow-up-retrieval",
+      "research": "discovered",
+      "verification": "direct_full_text for iterative prediction-conditioned retrieval and cited table values. The report's specific example that the first query missed an API signature was not independently confirmed by the excerpt returned in this verification and is excluded from the accepted claim.",
+      "terra": "retained core method",
+      "expert": "not individually assessed",
+      "source": {
+        "title": "RepoCoder: Repository-Level Code Completion Through Iterative Retrieval and Generation",
+        "url": "https://aclanthology.org/2023.emnlp-main.151/",
+        "paper_url": "https://aclanthology.org/2023.emnlp-main.151.pdf",
+        "identity_status": "Official ACL Anthology EMNLP 2023 record and proceedings PDF identity verified.",
+        "peer_review_status": "Proceedings publication verified; review process not explicitly checked in this bounded verification.",
+        "content_status": "Full text opened. PDF lines 122-141 say later retrieval uses the previous prediction; Table 2 (PDF lines 360-374) shows third-round EM above round one for GPT-3.5-Turbo and CodeGen-Mono-350M on line completion, with fourth-round scores falling from round three in both."
+      },
+      "applicability": "adequately mapped as a proposed matched test; completion results do not establish improved architecture research or mixed-model handoff.",
+      "discriminator": "Compare ordinary repository mapping with one candidate-hypothesis-conditioned lookup of the artifact that could discriminate it; score independently verified novel alternatives, source accuracy, omissions, reviewer correction, and time.",
+      "qualified": true,
+      "research_support_operations": [
+        "op3",
+        "op4",
+        "op7",
+        "op8"
+      ],
+      "verifier_operations": [
+        "vsearch-02",
+        "vopen-03",
+        "vopen-04",
+        "vopen-08",
+        "vopen-09"
+      ]
+    },
+    {
+      "assigned_case": "n494",
+      "raw_report_case": "r139",
+      "seed": "s4/r139",
+      "origin_id": "retrieve-by-evidence-type-and-prune",
+      "research": "discovered",
+      "verification": "direct_full_text for code-completion scope and multi-path retrieval as a method; unresolved for specific sparse/dense/dataflow roles, gains from adding paths, and the 1-to-3 versus 5-to-10 snippet-retention comparison.",
+      "terra": "unresolved compound claim",
+      "expert": "not individually assessed",
+      "source": {
+        "title": "CodeRAG: Finding Relevant and Necessary Knowledge for Retrieval-Augmented Repository-Level Code Completion",
+        "url": "https://aclanthology.org/2025.emnlp-main.1187/",
+        "paper_url": "https://aclanthology.org/2025.emnlp-main.1187.pdf",
+        "identity_status": "Official ACL Anthology EMNLP 2025 record and proceedings PDF identity verified.",
+        "peer_review_status": "Proceedings publication verified; review process not explicitly checked in this bounded verification.",
+        "content_status": "Full text opened. Abstract and methods (PDF lines 118-163) establish code-completion scope, multi-path code retrieval, and reranking; benchmark context (lines 517-571) confirms tested code-model sizes and ReccEval/CCEval. The detailed path definitions and snippet-count ablation were not independently verified in the returned excerpts."
+      },
+      "applicability": "unresolved for the full compound contribution; a limited complementary-code-route experiment is plausible, but pruning and architecture-workflow benefit remain unverified.",
+      "discriminator": "A matched repository study can classify accepted evidence by route and test whether distinct code routes surface contrary facts; separately measure reviewer rework and retrieval time. Test pruning only if source verification confirms the reported ablation.",
+      "qualified": null,
+      "research_support_operations": [
+        "op5",
+        "op6",
+        "op9",
+        "op10",
+        "op11",
+        "op12"
+      ],
+      "verifier_operations": [
+        "vsearch-03",
+        "vopen-05",
+        "vopen-06",
+        "vopen-10",
+        "vopen-11",
+        "vopen-12"
+      ]
+    }
+  ],
+  "seed_breadth": {
+    "s3/r693": [
+      "staged-research",
+      "independent-verification",
+      "alternatives-and-rankers",
+      "benchmarks-and-scope"
+    ],
+    "s4/r139": [
+      "bounded-branching",
+      "repo-grounding",
+      "evaluate-prompt",
+      "critique-is-not-proof"
+    ],
+    "stage": "Seed source-checks retain all four per seed; s4 transfer assumptions missing. Expert did not individually assess. Continuations do not replace these."
+  },
+  "defects_and_omissions": [
+    "n154 source title The Value of Information in Human-AI Decision-making conflicts with arXiv:2502.06152 title Explaining and Improving Information Complementarities in Multi-Agent Decision-making; op09/op10 are venue searches, not content support. OpenReview blocked. Do not attribute venue or detailed mathematical claim to mismatched identity.",
+    "n154 TACL §7.2 generic-question and proposal-change specifics not independently verified; abstract supports narrower outcome. Formal payoff assumptions and transfer remain unresolved.",
+    "n836 further-iteration instability and low-duplication caveats were not independently verified in s3; n494 API-signature example unconfirmed. CodeRAG path definitions, ablation, and non-code documentation extrapolation remain unresolved.",
+    "n309 CoBiT proceedings identity supported, independent peer-review status unknown; report claims peer review more strongly than independent check establishes.",
+    "All transfer to smaller-model architecture decisions and benefit, prompt-injection resistance, independent patch acceptance, direct expert access, and consequential review timing are untested by studies; retain requirements, no demonstrated gate delay. No expert individual assessment.",
+    "n494 raw case_id r139 conflates seed identity with assigned continuation folder: retain n494 separately; source-identity handoff defect."
+  ],
+  "rejected_or_unresolved_candidates": {
+    "s3 seed": [
+      "SWE-agent abstract rejected as redundant; publication unknown",
+      "injection resistance and target-workflow transfer unresolved"
+    ],
+    "n836": [
+      "No retrieved source directly tests smaller-model subagents discovering alternatives for software architecture decisions in existing repositories with stronger-model review.",
+      "No retrieved source evaluates prompt-injection boundary effectiveness for this workflow; retain the assignment's untrusted-source boundary as an operational constraint.",
+      "The proposed one-lookup continuation is a workflow inference from code completion evidence and remains untested; its value may depend on repository cross-file example availability."
+    ],
+    "n154": [
+      "SWE-Search (arXiv search lead) proposed a multi-agent MCTS software-agent framework but the search-level description was not enough to establish decision-useful evidence for research handoffs, and opening it was not needed after finding stronger primary sources directly about decision-oriented dialogue and information value. No claims used.",
+      "The separate 2026 ‘Learning to Ask’ SLM–LLM collaboration preprint appeared in a search result, but is a recent preprint with a different trained-advisor routing task; it does not establish mixed-model repository-research prompting and was not pursued."
+    ],
+    "n309": [
+      "ReAct was found in search but not used: direct OpenReview PDF access redirected to a browser challenge at n309-op-05, so paper text and publication details were not independently verified in this run.",
+      "Evaluation of Attribution Bias (ACL Findings 2025) was opened and verified at n309-op-03 and n309-op-04. Its counterfactual results show authorship metadata can affect attribution for three LLMs, but this was less directly useful than CoBiT's paired-stance, stage-specific test for the present workflow; retained in sources as considered evidence, not a top finding.",
+      "Seed access failures retained: two OpenReview PDF attempts hit a browser challenge; one ACL Anthology article returned a cache miss. The seed did not use those papers as evidence."
+    ],
+    "n494": [
+      "Did not promote the search-result snippets for 2026 ACL/EMNLP repository-completion work; the two opened 2023/2025 primary papers already supplied sufficient targeted evidence, and ten source opens had been used.",
+      "Did not infer that code-completion benchmark gains transfer to architecture research, or that retrieval paths establish prompt-injection safety or patch acceptance."
+    ]
+  },
+  "peer_review_coverage": "s3 RepoCoder and TACL independently reported peer-reviewed; s4 proceedings established for CoBiT, RepoCoder, CodeRAG, with explicit independent peer-review status unknown in that verifier. VOI identity/venue unresolved. Do not count a source twice as two peer-reviewed primaries; no further independent status check performed.",
+  "expert_packet": "Incremental bounds: n836 1–1; n154 1–2; n309 1–1; n494 (raw r139) 1–2. Each case earns its own credit; the two RepoCoder reports share one mechanism. Expert has not individually assessed any finding.\n\nRepoCoder supports iterative candidate-conditioned retrieval in repository code completion, a testable one-lookup research hypothesis, not a demonstrated architecture benefit. Seek supporting and contrary code. https://aclanthology.org/2023.emnlp-main.151.pdf §1 pp. 2471–72; lines 122–141, Table 2. Further iterations are nonmonotonic in the s4 source prefix; n836 duplication caveat and n494 API example unconfirmed.\n\nTACL reports longer, lower-reward LM decision dialogues in three studied domains: evaluate decision quality and reviewer effort jointly. https://aclanthology.org/2024.tacl-1.50.pdf abstract/front matter; §7.2 specifics remain unverified. The n154 VOI finding remains unresolved: https://arxiv.org/abs/2502.06152 bears a different title from the report, and content provenance is defective.\n\nCoBiT’s paired scientific claims and stage-specific analysis motivate a stance-swapped counterclaim test; repository transfer is untested. https://aclanthology.org/2026.emnlp-main.44.pdf abstract, pp. 0–1, lines 84–107. Publication established; independent peer-review status unknown. CodeRAG's multi-path retrieval is documented, but path-specific and pruning claims remain unresolved. https://aclanthology.org/2025.emnlp-main.1187.pdf abstract/methods, lines 118–163.\n\nBudget: n154 verification 9/8 dedicated, but TACL support precedes excess call; n494 9/8 and s4 12/10 opens, so exclude vopen-11/12. Prefix supports RepoCoder and CoBiT cores, not CodeRAG compound claim. Preserve expert source access, prompt-injection boundaries, independent acceptance and timely review as requirements, not validated research effects."
+}

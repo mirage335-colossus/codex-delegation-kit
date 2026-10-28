@@ -20,7 +20,7 @@
       "swarm-reducer": 60,
       "swarm-repeatability-cutoff": 25
     },
-    "codex_binary": "/usr/lib/chatgpt/resources/codex"
+    "codex_binary": "system-fixture/usr/lib/chatgpt/resources/codex"
   },
   "observed": {
     "successful_turn_settings_verified": true,
@@ -78,7 +78,7 @@
           "service_seconds": 15.19580078125,
           "preemptions": 0,
           "not_before": 1792559014.5754848,
-          "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607",
+          "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607",
           "diagnostic_result": {
             "evidence": [
               "Command: python3 -B -c 'from totals import parse_values; inputs = [\"2,3\", \"7\", \" 2 , , 3 \"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\"input={s!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'",
@@ -91,11 +91,11 @@
           "cleanup": {
             "at": 1792559029.992532,
             "attempt": "swarm-parser-1-ec23662ff607",
-            "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+            "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
             "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
             "completed_at": 1792559029.994894,
             "state": "complete",
-            "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+            "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
             "workspace_identity": {
               "device": 46,
               "inode": 399699
@@ -114,11 +114,11 @@
           "service_seconds": 18.54342770576477,
           "preemptions": 0,
           "not_before": 1792559014.5754848,
-          "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979",
+          "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979",
           "diagnostic_result": {
             "evidence": [
               "Source: totals.py implements aggregate(values) as sum(values[1:]); total(text) passes parsed values to aggregate.",
-              "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py \u2014 exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
+              "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py — exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
             ],
             "findings": "The actual reducer omits the first value: aggregate([]) matches sum at 0, but aggregate([7]) returns 0 instead of 7 and aggregate([2,3]) returns 3 instead of 5. total(\"2,3\") also returns 3 instead of 5. This demonstrates the specified contract mismatch in the private source snapshot; it does not establish why the implementation behaves this way.",
             "outcome": "failure_reproduced"
@@ -127,11 +127,11 @@
           "cleanup": {
             "at": 1792559033.678214,
             "attempt": "swarm-reducer-1-8f5ee3c39979",
-            "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
+            "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
             "capsule_sha256": "779e5cd2bd7e0fd9cbc81be3ba8caf4111940c5fe4282cfa7e89338236809bd2",
             "completed_at": 1792559033.681326,
             "state": "complete",
-            "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+            "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
             "workspace_identity": {
               "device": 46,
               "inode": 399727
@@ -150,11 +150,11 @@
           "service_seconds": 25.24585270881653,
           "preemptions": 0,
           "not_before": 1792559014.5754848,
-          "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
+          "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
           "diagnostic_result": {
             "cutoff": "swarm experiment reached its assigned time limit; no engineering outcome established",
             "evidence": [
-              "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
+              "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
             ],
             "findings": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
             "outcome": "inconclusive"
@@ -163,11 +163,11 @@
           "cleanup": {
             "at": 1792559055.6088707,
             "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
-            "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+            "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
             "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
             "completed_at": 1792559055.6115592,
             "state": "complete",
-            "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+            "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
             "workspace_identity": {
               "device": 46,
               "inode": 399755
@@ -179,13 +179,13 @@
     "host_setup_intervention": {
       "kind": "explicit user-authorized escalated controller start",
       "tool_session_id": 30086,
-      "command": "python3 -B codex-delegation-kit/controller.py --run /tmp/delegation-swarm-main/host-run start /tmp/delegation-swarm-main/inventory.json",
+      "command": "python3 -B codex-delegation-kit/controller.py --run unbundled-runtime/run-h954e2065e97c08aa/host-run start unbundled-runtime/run-h954e2065e97c08aa/inventory.json",
       "worker_permissions_unchanged": true,
       "network_disabled": true,
       "alternate_model_account_backend": false
     },
     "first_pass_run": {
-      "path": "/tmp/delegation-swarm-main/run",
+      "path": "unbundled-runtime/run-h954e2065e97c08aa/run",
       "mode": "stopped",
       "holds": {
         "swarm-parser": {
@@ -231,11 +231,11 @@
         "cleanup": {
           "at": 1792559029.992532,
           "attempt": "swarm-parser-1-ec23662ff607",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
           "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
           "completed_at": 1792559029.994894,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
           "workspace_identity": {
             "device": 46,
             "inode": 399699
@@ -253,11 +253,11 @@
         "cleanup": {
           "at": 1792559033.678214,
           "attempt": "swarm-reducer-1-8f5ee3c39979",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
           "capsule_sha256": "779e5cd2bd7e0fd9cbc81be3ba8caf4111940c5fe4282cfa7e89338236809bd2",
           "completed_at": 1792559033.681326,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
           "workspace_identity": {
             "device": 46,
             "inode": 399727
@@ -275,11 +275,11 @@
         "cleanup": {
           "at": 1792559055.6088707,
           "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
           "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
           "completed_at": 1792559055.6115592,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
           "workspace_identity": {
             "device": 46,
             "inode": 399755
@@ -291,8 +291,8 @@
       {
         "task": "swarm-parser",
         "attempt_id": "swarm-parser-1-ec23662ff607",
-        "thread_id": "01a15cd7-fab5-7023-980f-345c76d4ffd0",
-        "turn_id": "01a15cd7-faf5-7792-9da9-16922c5df8bf",
+        "thread_id": "study-id-hccb9277f70521994",
+        "turn_id": "study-id-h23aefa86af3bbe56",
         "configured": {
           "agent_tools": "engineering",
           "approval": "never",
@@ -306,22 +306,22 @@
         "effective": {
           "activePermissionProfile": null,
           "approvalPolicy": "never",
-          "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+          "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
           "environments": [
             {
-              "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+              "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
               "environmentId": "local",
               "runtimeWorkspaceRoots": [
-                "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+                "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
               ]
             }
           ],
           "model": "gpt-6-luna",
           "modelProvider": "openai",
           "reasoningEffort": "medium",
-          "requested_workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+          "requested_workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
           "runtimeWorkspaceRoots": [
-            "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+            "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
           ],
           "sandbox": {
             "excludeSlashTmp": true,
@@ -339,7 +339,7 @@
             "networkAccess": false,
             "type": "workspaceWrite",
             "writableRoots": [
-              "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00"
+              "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00"
             ]
           },
           "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
@@ -351,24 +351,24 @@
         "returncode": 0,
         "released": true,
         "runner_argv": [
-          "/usr/bin/python3",
-          "/home/user/___quick/maintenance-cloud/codex-delegation-kit/agent_backend.py",
+          "system-fixture/usr/bin/python3",
+          "agent_backend.py",
           "run",
-          "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/backend-request.json"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/backend-request.json"
         ],
-        "runner_cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+        "runner_cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
         "runner_timeout_seconds": 60,
         "task_timeout_seconds": 60,
         "commands": [
           {
             "aggregatedOutput": "# Global delegation policy\n\nApply this policy to coding, source investigation, log analysis,\nand technical research when this kit is active. Preserve the user's selected\nprimary model and effort. Follow current project instructions, ownership and\nauthorization contracts; this policy grants no additional tool permissions.\nIn default engineering mode, delegation may be skipped for trivial tasks or\nwork that cannot be usefully separated. Coordinator-only mode has no local\nengineering exception, regardless of task size or available parallelism.\nPreserve existing role settings, concurrency limits, and inference service tier;\nimprove scheduling rather than enabling faster inference.\n\n## Applicability and operating modes\n\nEngineering allocation and coordination mechanism are independent choices:\ndefault engineering or coordinator-only, and an explicitly selected controller,\nan authorized advisory helper/project workflow, or native-only coordination.\nCoordinator-only and native-only can be\nselected together; neither selection implies or disables the other. Use the\ndefaults below unless the latest applicable user instruction or orchestration\ncontract selects otherwise. A task-specific user instruction supersedes\nconflicting global or repository user-level delegation preferences\nabout who should delegate, how work is allocated, or which coordination workflow\nto use. Preserve substantive project contracts and authorization limits unless\nan authorized instruction explicitly changes them. System, developer, and tool\nconstraints always apply; this policy and a mode selection grant no additional\naccess or permission.\n\nThe coordinator is the main agent responsible for dispatch and allocation,\ntracking dependencies and evidence routes, and determining status and\ncompletion against delegated acceptance conditions. The strong engineering\nowner handles consequential design, diagnosis, review, integration, and\nsoftware acceptance. In default engineering mode the coordinator may also do\nengineering, including source inspection, design, edits, wrappers and tests,\ncompilation or execution, artifact/log analysis, job monitoring, and review.\nThe trivial-local exception and primary-agent strong engineering work are\navailable only in default engineering mode.\n\nIn coordinator-only mode the primary agent performs coordination work only. It\nmust not do engineering: no source inspection for engineering conclusions,\ndesign, edits, wrappers or tests, builds or execution,\nartifact/log analysis, job monitoring, technical integration, software\nacceptance, or engineering review, even for a tiny task. Reading instructions\nand native assignment state or summaries needed to\ndispatch and track work is coordination. Assign engineering responsibility\nto an available permitted strong subagent; if none is available, report the\nblocker instead of taking over engineering in the main agent.\n\nIn native-only coordination mode, use native agent tools, messages, and\nconversation references for assignment state and evidence. Do not invoke\n`controller.py` or `supervisor.py`, or create a registration, ledger, or report\nfile. Preserve the\nsame assignment identities, original failures, repair allowances, deadlines,\nholds, and acceptance conditions in native history. This changes the\ncoordination mechanism, not the assignment contract or engineering ownership.\n\nAll helper-specific procedures below, including `supervisor.py`, its\n`--kind` records, schema fields, emitted actions, and helper state names, apply\nonly when the helper workflow is authorized, available, and selected.\nWith a user-selected native-only mode, carry forward the same substantive\nrequirements in native assignment history without the helper-specific\ncommands, files, records, or action names. If the helper is unavailable in\nthe selected workflow, report the limitation and use an already-authorized\nproject workflow where available; do not silently bypass the workflow or take over an\nassignment contrary to the selected mode.\n\n## Opt-in controller mode\n\nUse `controller.py` only for an authorized run whose selected ",
-            "command": "/bin/bash -lc \"cat /home/user/.codex/delegation-kit/policy.md && rg --files -g 'AGENTS.md' -g '*.py' -g '\"'!**/.git/**'\"'\"",
+            "command": "system-fixture/bin/bash -lc \"cat unbundled-installation/policy.md && rg --files -g 'AGENTS.md' -g '*.py' -g '\"'!**/.git/**'\"'\"",
             "completed": true,
             "completed_at": 1792559023.5691648,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-ffabb0c1-4cd5-42aa-a0d7-26ed64590bb7",
+            "id": "exec-study-id-h37661a856c744c50",
             "observed_at": 1792559023.5677195,
             "output_truncated": true,
             "processId": "58790",
@@ -377,13 +377,13 @@
           },
           {
             "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\ntotals.py:4:def parse_values(text):\ntotals.py:13:    return aggregate(parse_values(text))\ntest_totals.py:3:from totals import parse_values, total\ntest_totals.py:23:        self.assertEqual(parse_values(\" 2 , , -3 , 5 \"), [2, -3, 5])\n",
-            "command": "/bin/bash -lc \"cat AGENTS.md && rg -n 'parse_values' totals.py test_totals.py\"",
+            "command": "system-fixture/bin/bash -lc \"cat AGENTS.md && rg -n 'parse_values' totals.py test_totals.py\"",
             "completed": true,
             "completed_at": 1792559024.797179,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-f3f17535-1221-4a64-ae24-146be2234386",
+            "id": "exec-study-id-h2caf1e79ab99389b",
             "observed_at": 1792559024.796587,
             "output_truncated": false,
             "processId": "67009",
@@ -392,13 +392,13 @@
           },
           {
             "aggregatedOutput": "input='2,3' actual=[2, 3] expected=[2, 3] match=True\ninput='7' actual=[7] expected=[7] match=True\ninput=' 2 , , 3 ' actual=[2, 3] expected=[2, 3] match=True\n",
-            "command": "/bin/bash -lc \"python3 -B -c 'from totals import parse_values; inputs = [\\\"2,3\\\", \\\"7\\\", \\\" 2 , , 3 \\\"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\\\"input={s\"'!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'\"'\"",
+            "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from totals import parse_values; inputs = [\\\"2,3\\\", \\\"7\\\", \\\" 2 , , 3 \\\"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\\\"input={s\"'!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'\"'\"",
             "completed": true,
             "completed_at": 1792559026.7684343,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-4812ce4a-6bc6-45c8-85f2-c8dff95fcf2a",
+            "id": "exec-study-id-h4f712da20678a837",
             "observed_at": 1792559026.7676995,
             "output_truncated": false,
             "processId": "37446",
@@ -417,11 +417,11 @@
         "cleanup": {
           "at": 1792559029.992532,
           "attempt": "swarm-parser-1-ec23662ff607",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
           "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
           "completed_at": 1792559029.994894,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
           "workspace_identity": {
             "device": 46,
             "inode": 399699
@@ -450,7 +450,7 @@
           "source": {
             "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
             "revision": null,
-            "root": "/tmp/delegation-swarm-main/source"
+            "root": "unbundled-runtime/run-h954e2065e97c08aa/source"
           },
           "task": "swarm-parser",
           "version": 1
@@ -462,8 +462,8 @@
       {
         "task": "swarm-reducer",
         "attempt_id": "swarm-reducer-1-8f5ee3c39979",
-        "thread_id": "01a15cd7-fac8-7762-801b-6416bc65cc47",
-        "turn_id": "01a15cd7-fb05-7852-9091-bf0ddb261121",
+        "thread_id": "study-id-hb367b08ca32549b7",
+        "turn_id": "study-id-hff29fab4cffc4706",
         "configured": {
           "agent_tools": "engineering",
           "approval": "never",
@@ -477,22 +477,22 @@
         "effective": {
           "activePermissionProfile": null,
           "approvalPolicy": "never",
-          "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+          "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
           "environments": [
             {
-              "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+              "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
               "environmentId": "local",
               "runtimeWorkspaceRoots": [
-                "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1"
+                "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1"
               ]
             }
           ],
           "model": "gpt-6-luna",
           "modelProvider": "openai",
           "reasoningEffort": "medium",
-          "requested_workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+          "requested_workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
           "runtimeWorkspaceRoots": [
-            "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1"
+            "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1"
           ],
           "sandbox": {
             "excludeSlashTmp": true,
@@ -510,7 +510,7 @@
             "networkAccess": false,
             "type": "workspaceWrite",
             "writableRoots": [
-              "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1"
+              "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1"
             ]
           },
           "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
@@ -522,24 +522,24 @@
         "returncode": 0,
         "released": true,
         "runner_argv": [
-          "/usr/bin/python3",
-          "/home/user/___quick/maintenance-cloud/codex-delegation-kit/agent_backend.py",
+          "system-fixture/usr/bin/python3",
+          "agent_backend.py",
           "run",
-          "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/backend-request.json"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979/backend-request.json"
         ],
-        "runner_cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+        "runner_cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
         "runner_timeout_seconds": 60,
         "task_timeout_seconds": 60,
         "commands": [
           {
-            "aggregatedOutput": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1\nAGENTS.md\ntotals.py\n",
-            "command": "/bin/bash -lc \"pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '\"'!**/.git/**'\"'\"",
+            "aggregatedOutput": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1\nAGENTS.md\ntotals.py\n",
+            "command": "system-fixture/bin/bash -lc \"pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '\"'!**/.git/**'\"'\"",
             "completed": true,
             "completed_at": 1792559023.5664701,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-f71fa0a9-77d6-4992-a0b3-bf2cef17a0e3",
+            "id": "exec-study-id-he1bb995a3a8bb069",
             "observed_at": 1792559023.5660362,
             "output_truncated": false,
             "processId": "13304",
@@ -548,13 +548,13 @@
           },
           {
             "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\n\"\"\"Parse comma-separated integers and total every value in order.\"\"\"\n\n\ndef parse_values(text):\n    return [int(piece.strip()) for piece in text.split(\",\") if piece.strip()]\n\n\ndef aggregate(values):\n    return sum(values[1:])\n\n\ndef total(text):\n    return aggregate(parse_values(text))\n",
-            "command": "/bin/bash -lc 'cat AGENTS.md && cat totals.py'",
+            "command": "system-fixture/bin/bash -lc 'cat AGENTS.md && cat totals.py'",
             "completed": true,
             "completed_at": 1792559024.7816286,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-e95546e2-b3e9-40e0-b3d9-3d8d44d1be4f",
+            "id": "exec-study-id-hf53f2d7f9b4c43b0",
             "observed_at": 1792559024.7811973,
             "output_truncated": false,
             "processId": "84091",
@@ -562,14 +562,14 @@
             "status": "completed"
           },
           {
-            "aggregatedOutput": "compiled: /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.pyc\naggregate([]): 0 sum([]): 0\naggregate([7]): 0 sum([7]): 7\naggregate([2,3]): 3 sum([2,3]): 5\ntotal(\"2,3\"): 3 expected: 5\n",
-            "command": "/bin/bash -lc \"python3 -B -c 'from pathlib import Path; import py_compile; p=Path(\\\"/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4\\\"); s=\\\"import sys\\\\nsys.path.insert(0, \\\\\\\"/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1\\\\\\\")\\\\nfrom totals import aggregate, total\\\\nprint(\\\\\\\"aggregate([]):\\\\\\\", aggregate([]), \\\\\\\"sum([]):\\\\\\\", sum([]))\\\\nprint(\\\\\\\"aggregate([7]):\\\\\\\", aggregate([7]), \\\\\\\"sum([7]):\\\\\\\", sum([7]))\\\\nprint(\\\\\\\"aggregate([2,3]):\\\\\\\", aggregate([2,3]), \\\\\\\"sum([2,3]):\\\\\\\", sum([2,3]))\\\\nprint(\\\\\\\"total(\\\\\\\\\\\\\\\"2,3\\\\\\\\\\\\\\\"):\\\\\\\", total(\\\\\\\"2,3\\\\\\\"), \\\\\\\"expected:\\\\\\\", 5)\\\\n\\\"; src=p/\\\"reducer_probe.py\\\"; src.write_text(s); py_compile.compile(str(src), cfile=str(p/\\\"reducer_probe.pyc\\\"), doraise=True); print(\\\"compiled:\\\", p/\\\"reducer_probe.pyc\\\")' && python3 -B /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py\"",
+            "aggregatedOutput": "compiled: unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.pyc\naggregate([]): 0 sum([]): 0\naggregate([7]): 0 sum([7]): 7\naggregate([2,3]): 3 sum([2,3]): 5\ntotal(\"2,3\"): 3 expected: 5\n",
+            "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from pathlib import Path; import py_compile; p=Path(\\\"unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4\\\"); s=\\\"import sys\\\\nsys.path.insert(0, \\\\\\\"unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1\\\\\\\")\\\\nfrom totals import aggregate, total\\\\nprint(\\\\\\\"aggregate([]):\\\\\\\", aggregate([]), \\\\\\\"sum([]):\\\\\\\", sum([]))\\\\nprint(\\\\\\\"aggregate([7]):\\\\\\\", aggregate([7]), \\\\\\\"sum([7]):\\\\\\\", sum([7]))\\\\nprint(\\\\\\\"aggregate([2,3]):\\\\\\\", aggregate([2,3]), \\\\\\\"sum([2,3]):\\\\\\\", sum([2,3]))\\\\nprint(\\\\\\\"total(\\\\\\\\\\\\\\\"2,3\\\\\\\\\\\\\\\"):\\\\\\\", total(\\\\\\\"2,3\\\\\\\"), \\\\\\\"expected:\\\\\\\", 5)\\\\n\\\"; src=p/\\\"reducer_probe.py\\\"; src.write_text(s); py_compile.compile(str(src), cfile=str(p/\\\"reducer_probe.pyc\\\"), doraise=True); print(\\\"compiled:\\\", p/\\\"reducer_probe.pyc\\\")' && python3 -B unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py\"",
             "completed": true,
             "completed_at": 1792559029.014914,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-dd5e3701-fe40-408d-9eb9-11aaa47444ba",
+            "id": "exec-study-id-h16bc72317b37639d",
             "observed_at": 1792559029.014424,
             "output_truncated": false,
             "processId": "41838",
@@ -580,7 +580,7 @@
         "diagnostic_result": {
           "evidence": [
             "Source: totals.py implements aggregate(values) as sum(values[1:]); total(text) passes parsed values to aggregate.",
-            "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py \u2014 exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
+            "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py — exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
           ],
           "findings": "The actual reducer omits the first value: aggregate([]) matches sum at 0, but aggregate([7]) returns 0 instead of 7 and aggregate([2,3]) returns 3 instead of 5. total(\"2,3\") also returns 3 instead of 5. This demonstrates the specified contract mismatch in the private source snapshot; it does not establish why the implementation behaves this way.",
           "outcome": "failure_reproduced"
@@ -588,11 +588,11 @@
         "cleanup": {
           "at": 1792559033.678214,
           "attempt": "swarm-reducer-1-8f5ee3c39979",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
           "capsule_sha256": "779e5cd2bd7e0fd9cbc81be3ba8caf4111940c5fe4282cfa7e89338236809bd2",
           "completed_at": 1792559033.681326,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
           "workspace_identity": {
             "device": 46,
             "inode": 399727
@@ -623,7 +623,7 @@
           "source": {
             "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
             "revision": null,
-            "root": "/tmp/delegation-swarm-main/source"
+            "root": "unbundled-runtime/run-h954e2065e97c08aa/source"
           },
           "task": "swarm-reducer",
           "version": 1
@@ -635,8 +635,8 @@
       {
         "task": "swarm-repeatability-cutoff",
         "attempt_id": "swarm-repeatability-cutoff-1-8132d20e41bb",
-        "thread_id": "01a15cd8-354d-7c70-b85a-3e8a386462c5",
-        "turn_id": "01a15cd8-3583-7c80-98fa-7060e23cf011",
+        "thread_id": "study-id-hd7b0079be9051f21",
+        "turn_id": "study-id-hab021e0f980c0bcb",
         "configured": {
           "agent_tools": "engineering",
           "approval": "never",
@@ -650,22 +650,22 @@
         "effective": {
           "activePermissionProfile": null,
           "approvalPolicy": "never",
-          "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+          "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
           "environments": [
             {
-              "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+              "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
               "environmentId": "local",
               "runtimeWorkspaceRoots": [
-                "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+                "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
               ]
             }
           ],
           "model": "gpt-6-luna",
           "modelProvider": "openai",
           "reasoningEffort": "medium",
-          "requested_workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+          "requested_workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
           "runtimeWorkspaceRoots": [
-            "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+            "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
           ],
           "sandbox": {
             "excludeSlashTmp": true,
@@ -683,7 +683,7 @@
             "networkAccess": false,
             "type": "workspaceWrite",
             "writableRoots": [
-              "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+              "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
             ]
           },
           "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
@@ -695,24 +695,24 @@
         "returncode": 1,
         "released": true,
         "runner_argv": [
-          "/usr/bin/python3",
-          "/home/user/___quick/maintenance-cloud/codex-delegation-kit/agent_backend.py",
+          "system-fixture/usr/bin/python3",
+          "agent_backend.py",
           "run",
-          "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-request.json"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-request.json"
         ],
-        "runner_cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+        "runner_cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
         "runner_timeout_seconds": 25,
         "task_timeout_seconds": 25,
         "commands": [
           {
             "aggregatedOutput": "files:\ntotals.py\ntest_totals.py\nAGENTS.md\n",
-            "command": "/bin/bash -lc \"python3 -B -c 'from pathlib import Path; root=Path(\\\".\\\"); print(\\\"files:\\\"); [print(p) for p in root.rglob(\\\"*\\\") if p.is_file() and (p.name == \\\"AGENTS.md\\\" or \\\"total\\\" in p.name.lower())]'\"",
+            "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from pathlib import Path; root=Path(\\\".\\\"); print(\\\"files:\\\"); [print(p) for p in root.rglob(\\\"*\\\") if p.is_file() and (p.name == \\\"AGENTS.md\\\" or \\\"total\\\" in p.name.lower())]'\"",
             "completed": true,
             "completed_at": 1792559039.655703,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-a2ea4c30-3874-4de9-bd06-60ef1eda52ce",
+            "id": "exec-study-id-hb2d516d073fb9581",
             "observed_at": 1792559039.6551614,
             "output_truncated": false,
             "processId": "88435",
@@ -721,13 +721,13 @@
           },
           {
             "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\n\n--- totals.py ---\n\"\"\"Parse comma-separated integers and total every value in order.\"\"\"\n\n\ndef parse_values(text):\n    return [int(piece.strip()) for piece in text.split(\",\") if piece.strip()]\n\n\ndef aggregate(values):\n    return sum(values[1:])\n\n\ndef total(text):\n    return aggregate(parse_values(text))\n\n",
-            "command": "/bin/bash -lc \"python3 -B -c 'from pathlib import Path; print(Path(\\\"AGENTS.md\\\").read_text()); print(\\\"--- totals.py ---\\\"); print(Path(\\\"totals.py\\\").read_text())'\"",
+            "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from pathlib import Path; print(Path(\\\"AGENTS.md\\\").read_text()); print(\\\"--- totals.py ---\\\"); print(Path(\\\"totals.py\\\").read_text())'\"",
             "completed": true,
             "completed_at": 1792559040.965302,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
             "durationMs": 0,
             "exitCode": 0,
-            "id": "exec-dcefc320-8708-4c32-bea9-57657156f3c9",
+            "id": "exec-study-id-ha74778e2fd307105",
             "observed_at": 1792559040.964837,
             "output_truncated": false,
             "processId": "10511",
@@ -736,12 +736,12 @@
           },
           {
             "aggregatedOutput": "",
-            "command": "/bin/bash -lc \"python3 -B -c 'import time, totals; print(\\\"baseline:\\\", totals.total(\\\"2,3\\\"), flush=True); time.sleep(60); print(\\\"after-delay:\\\", totals.total(\\\"2,3\\\"), flush=True)'\"",
+            "command": "system-fixture/bin/bash -lc \"python3 -B -c 'import time, totals; print(\\\"baseline:\\\", totals.total(\\\"2,3\\\"), flush=True); time.sleep(60); print(\\\"after-delay:\\\", totals.total(\\\"2,3\\\"), flush=True)'\"",
             "completed": false,
-            "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+            "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
             "durationMs": null,
             "exitCode": null,
-            "id": "exec-6bcebc77-a9f1-4716-999d-aece75fa8d08",
+            "id": "exec-study-id-h42d240c91ce99d40",
             "observed_at": 1792559043.0433633,
             "output_truncated": false,
             "processId": "79015",
@@ -752,7 +752,7 @@
         "diagnostic_result": {
           "cutoff": "swarm experiment reached its assigned time limit; no engineering outcome established",
           "evidence": [
-            "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
+            "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
           ],
           "findings": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
           "outcome": "inconclusive"
@@ -760,11 +760,11 @@
         "cleanup": {
           "at": 1792559055.6088707,
           "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
-          "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+          "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
           "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
           "completed_at": 1792559055.6115592,
           "state": "complete",
-          "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+          "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
           "workspace_identity": {
             "device": 46,
             "inode": 399755
@@ -793,7 +793,7 @@
           "source": {
             "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
             "revision": null,
-            "root": "/tmp/delegation-swarm-main/source"
+            "root": "unbundled-runtime/run-h954e2065e97c08aa/source"
           },
           "task": "swarm-repeatability-cutoff",
           "version": 1
@@ -805,5 +805,7 @@
     ],
     "workspace_cleanup_verified": true,
     "workspace_parent_entries": []
-  }
+  },
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

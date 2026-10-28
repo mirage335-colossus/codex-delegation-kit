@@ -1,0 +1,114 @@
+{
+  "case_id": "r672",
+  "started_utc": "2026-10-28 20:44:22 UTC",
+  "finished_utc": "2026-10-28 20:45:19 UTC",
+  "operations": [
+    {"kind":"search","query_or_url":"Rife Boorstyn single tone parameter estimation discrete Fourier transform 1974 frequency estimation IEEE","result_status":"Found bibliographic records, Kay paper, and Rife-Boorstyn paper excerpts; no direct publisher full text."},
+    {"kind":"search","query_or_url":"Kay estimator sinusoidal frequency estimation 1989 IEEE frequency estimation single tone","result_status":"Found University of Rhode Island repository abstract and IEEE-related records."},
+    {"kind":"search","query_or_url":"frequency estimation phase difference estimator noisy sinusoid frequency tracking PLL acquisition carrier tracking primary paper","result_status":"Found IEEE records for phase-difference estimators, Kalman filtering, and tracking."},
+    {"kind":"search","query_or_url":"frequency acquisition unknown phase noncoherent integration sinusoidal signal detection frequency estimation peer reviewed","result_status":"Results were broad/noisy; no decision-useful source selected."},
+    {"kind":"open","query_or_url":"https://digitalcommons.uri.edu/ele_facpubs/1387/","result_status":"Opened; abstract and publication metadata, no full text."},
+    {"kind":"open","query_or_url":"https://doi.org/10.1109/TIT.1974.1055282","result_status":"Failed: inaccessible through web tool."},
+    {"kind":"open","query_or_url":"https://ieeexplore.ieee.org/abstract/document/1605457","result_status":"Failed: HTTP 418."},
+    {"kind":"open","query_or_url":"https://ieeexplore.ieee.org/document/4557479/","result_status":"Opened robot-check shell only; no paper content."},
+    {"kind":"open","query_or_url":"https://ieeexplore.ieee.org/document/1057115/","result_status":"Opened robot-check shell only; no paper content."},
+    {"kind":"search","query_or_url":"\"Single Tone Parameter Estimation From Discrete-Time Observations\" pdf Rife Boorstyn 1974","result_status":"Found IEEE/CiNii bibliographic metadata and indexed paper excerpts; direct IEEE PDF inaccessible."},
+    {"kind":"search","query_or_url":"site:ieeexplore.ieee.org \"frequency estimation\" coherent integration unknown phase low SNR frequency acquisition single tone","result_status":"No focused result selected."},
+    {"kind":"search","query_or_url":"Kay 1989 fast accurate single frequency estimator pdf author university","result_status":"Confirmed URI repository abstract; found accessible full text of Clarkson comparative paper citing Kay and Rife-Boorstyn."},
+    {"kind":"open","query_or_url":"https://ieeexplore.ieee.org/ielx5/18/22680/01055282.pdf?arnumber=1055282","result_status":"Failed: inaccessible through web tool."},
+    {"kind":"open","query_or_url":"https://bitsavers.org/magazines/Bell_System_Technical_Journal/BSTJ_V55N09_197611.pdf","result_status":"Failed: unexpected HTTP status."},
+    {"kind":"open","query_or_url":"https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf","result_status":"Opened full 4-page paper; detailed estimator equations, comparisons, simulations, and locators available."},
+    {"kind":"search","query_or_url":"\"Fast Maximum Likelihood Joint Estimation of Frequency and Frequency Rate\" 1986 paper","result_status":"Found article metadata and secondary abstract snippets, but no directly inspectable primary content; deferred."}
+  ],
+  "sources": [
+    {
+      "id":"S1",
+      "url":"https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf",
+      "title":"Efficient Single Frequency Estimators",
+      "year":1992,
+      "venue":"Conference-paper PDF hosted by University of Queensland; accessible document does not establish conference/proceedings venue details",
+      "publication_status":"Original comparative research paper; peer-review status unknown from accessible evidence",
+      "status_evidence_url":"https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf",
+      "access_level":"Full text",
+      "content_locator":"PDF pp. 0-3, especially lines 41-69 (model/CRLB and summary), 71-108 (periodogram MLE), 109-140 and 176-210 (phase-difference estimator and branch-point bias/refinement), 211-238 (simulated comparisons and limits)."
+    },
+    {
+      "id":"S2",
+      "url":"https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "title":"A Fast and Accurate Single Frequency Estimator",
+      "year":1989,
+      "venue":"IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+      "publication_status":"Journal article; venue and article record verified by author-university repository; peer-review status not independently documented on the accessible page",
+      "status_evidence_url":"https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "access_level":"Abstract-only",
+      "content_locator":"Repository lines 21-45: abstract, journal, volume, issue, pages, DOI. Abstract describes the single complex sinusoid/complex white Gaussian noise model and high/moderate-SNR computational-performance claim."
+    },
+    {
+      "id":"S3",
+      "url":"https://doi.org/10.1109/TIT.1974.1055282",
+      "title":"Single-Tone Parameter Estimation from Discrete-Time Observations",
+      "year":1974,
+      "venue":"IEEE Transactions on Information Theory 20(5), 591-598 (bibliographic record surfaced through CiNii Research)",
+      "publication_status":"Journal article metadata verified; peer-review status not independently established in accessed material",
+      "status_evidence_url":"https://cir.nii.ac.jp/crid/1364233269205840896",
+      "access_level":"Inaccessible (primary DOI/PDF attempts failed); secondary indexed excerpts only",
+      "content_locator":"No direct primary-paper passage used. Clarkson full text S1 lines 71-108 summarizes its periodogram-MLE method and coarse FFT/fine-search implementation; do not treat this as direct inspection of S3."
+    }
+  ],
+  "findings": [
+    {
+      "id":"F1",
+      "claim":"For a single stationary complex sinusoid in white Gaussian noise with unknown phase, the periodogram maximum is the ML frequency estimate; a coarse FFT followed by a local fine search is a practical approximation. Clarkson's comparison reports statistical efficiency for large sample count or SNR, while showing that O(N) phase-difference alternatives can lose efficiency outside their favorable SNR/sample-count region.",
+      "source_ids":["S1","S3"],
+      "support_locator":"S1 lines 71-108; lines 211-238. Direct S3 paper was inaccessible; S1 explicitly attributes the likelihood result to Rife and Boorstyn.",
+      "decision_implication":"Keep a bounded coarse-to-fine likelihood fit as a strong acquisition/reference candidate against the current short phase-difference estimator. Compare finite-error tails, not only RMS or the local CRLB; a finite uncertainty estimate alone does not expose missed-peak/outlier probability.",
+      "assumptions":"One tone; stationary frequency over fit aperture; complex sinusoid; independent complex white Gaussian noise; no unresolved interferer or envelope violation.",
+      "applicability_gap":"The task has real generated helper tone, payload/auxiliary activity, possible ramps/drift, finite chunks, and calibrated false publications; cited simulations and model do not validate those conditions or the proposed 95% target.",
+      "next_discriminator":"On matched tone-present and absent captures, sweep the stated offsets and reference levels; compare acquisition latency, absolute-error tail, missed/false publications, and empirical interval coverage for FFT-seeded fit versus current tracker, stratified by clean/noisy, payload activity, and chunk size."
+    },
+    {
+      "id":"F2",
+      "claim":"Weighted phase-difference/Kay-style estimators provide an O(N)-time, O(1)-memory route that avoids explicitly unwrapping every sample phase, but the accessible comparative study reports original Kay-window bias near the argument branch point. Its simple recursive phase-difference reference can set a local branch point before applying the weighted estimate, retaining linear complexity; estimator efficiency still depends on SNR/sample count and model fit.",
+      "source_ids":["S1","S2"],
+      "support_locator":"S1 lines 109-140 and 176-210; S1 lines 232-238. S2 abstract independently states Kay's estimator performs well versus ML at moderately high SNR for a single complex sinusoid in complex white Gaussian noise.",
+      "decision_implication":"This is a plausible lightweight refinement/alternative to fixed-lag short phase differences, especially if CPU/memory bounds dominate. Explicitly test wrap/branch behavior at both offset extremes and low reference level before interpreting small covariance as calibrated confidence.",
+      "assumptions":"Single complex sinusoid; white Gaussian noise; phase increments remain locally trackable; model's recursive initial estimate is good enough to position the branch point.",
+      "applicability_gap":"Source uses normalized radian/sample and synthetic trials; it does not cover real-valued/conjugate ambiguity, the helper envelope or adjacent payload, nonwhite interference, frequency evolution, or empirical uncertainty calibration.",
+      "next_discriminator":"At identical sample supports, compare current short-lag estimator with a recursively branch-tracked weighted phase-difference fit, focusing on offsets near each wrap boundary, 24 dB-Hz, onset/ramp, and sudden drift; log failures and interval coverage as well as error."
+    },
+    {
+      "id":"F3",
+      "claim":"The candidate estimator comparison itself must include threshold behavior and model failures: Clarkson's simulations show high-SNR efficiency does not establish low-SNR behavior, and the original Kay-window phase method can have large branch-point bias. CRLB-like bounds are conditional on the paper's tone/noise model and do not certify an engineering uncertainty interval or presence decision.",
+      "source_ids":["S1","S2"],
+      "support_locator":"S1 lines 41-69, 136-140, 211-238; S2 lines 27-29.",
+      "decision_implication":"Validation should report per-capture empirical quantiles/coverage, acquisition-time distribution, outlier/decline counts, and absent-control admissions. Separate any frequency fit from presence qualification and retain all nonpublications as the task requires.",
+      "assumptions":"Repeated controlled captures represent the target envelope of amplitude, noise, interference, onset, drift, and chunk delivery; timestamps and truth are accurate.",
+      "applicability_gap":"The sources do not prescribe a confidence calibration procedure for this receiver or establish sufficient capture count for the invented 95% target.",
+      "next_discriminator":"Use seeded, paired captures with known injected frequency, matched absent controls, and a held-out condition set; score empirical interval coverage and false admission separately from conditional error on successful publications."
+    },
+    {
+      "id":"F4",
+      "claim":"A frequency-rate model is a distinct candidate if matched captures show smooth within-aperture drift: published work on joint frequency/rate maximum-likelihood estimation exists, but this search found only third-party metadata/abstract snippets and could not inspect primary content. It is not evidence that a drift model is needed or superior here.",
+      "source_ids":[],
+      "support_locator":"Search results only for Abatzoglou, IEEE Transactions on Aerospace and Electronic Systems, 1986, DOI 10.1109/TAES.1986.310805; primary paper not accessed, so no technical claim beyond existence/title is relied upon.",
+      "decision_implication":"Do not select a higher-order model from this evidence. First determine whether constant-frequency fits show residual curvature or held-out error correlated with aperture duration; preserve conditional uncertainty for whichever evolution model is tested.",
+      "assumptions":"Drift is smooth and adequately represented by a linear frequency-rate model within the aperture; additional parameters can be identified at the available SNR.",
+      "applicability_gap":"No primary technical passage or direct peer-review evidence accessed; search result models may not match helper-tone dynamics.",
+      "next_discriminator":"On matched captures, compare constant-frequency and frequency-rate residuals and held-out prediction error across multiple aperture lengths; reject the added parameter if it does not improve tail error/coverage without destabilizing fits."
+    }
+  ],
+  "rejected_or_redundant": [
+    "Generalized Kay estimator and Kalman tracking records were discovered but not pursued after primary full-text evidence on periodogram ML and phase-difference methods covered the immediate estimator decision. Their model-specific results would not materially change the first matched discriminator.",
+    "Rife-Boorstyn 1974 and Kay 1989 are IEEE journal articles, but the available pages do not independently establish peer-review policy; direct Rife full text was inaccessible and Kay was abstract-only. No direct content claims are attributed to inaccessible passages.",
+    "The 1976 multiple-tone paper scan was inaccessible. Multi-tone interference treatment therefore remains a validation gap rather than a researched algorithm recommendation.",
+    "Abatzoglou frequency-rate paper was not opened: only secondary snippets were found and budget ended. No claim of its performance or applicability is made."
+  ],
+  "unresolved": [
+    "Whether actual helper captures are sufficiently stationary within independent apertures or maintain phase across dwells; the supplied comments state contracts/assumptions but not measured behavior.",
+    "Whether 24 dB-Hz and the stated chunk delivery permit the proposed time/error target; none of these publications evaluates this receiver geometry or target.",
+    "How auxiliary activity and the real capture's conjugate-image/sideband ambiguity affect the competing estimators.",
+    "Whether any reported uncertainty can achieve calibrated >=95% coverage with useful finite frequency-only publications while absence controls remain rejected."
+  ],
+  "stop_reason":"Completed the useful primary-source evidence branch and reached the 16-operation ceiling (8 queries, 8 opens; failed opens counted). No simulations or project tests run. Target deadline was met.",
+  "escalation_ready":"Sol/Astra can decide whether to add a matched coarse-to-fine periodogram/ML baseline and recursively branch-tracked phase-difference comparator to the smallest next receiver discriminator. The evidence supports testing these as distinct options, not choosing an architecture or accepting the invented target. Include present/absent controls, offsets and levels, ramps/drift, auxiliary activity, both chunk sizes, coverage and tail statistics. The user-provided excerpts remain the only evidence for project contracts/runtime seams; no project execution or measurement was performed."
+}

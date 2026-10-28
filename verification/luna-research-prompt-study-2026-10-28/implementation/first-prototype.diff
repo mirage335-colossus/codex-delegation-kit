@@ -1,0 +1,67 @@
+--- source-before/policy.md
++++ policy.md
+@@ -400,6 +400,29 @@
+ actual implementation. A paper's benchmark is not proof for the current project.
+ Preserve contrary evidence and applicability limits, not just supporting examples.
+ Do not substitute broad crawling for a decisive experiment already available.
++
++An initial source map need not end research when consequential uncertainty remains.
++Continue with a bounded Luna search when additional primary-source, citation, or
++caller evidence could change the next decision. Carry forward the original task,
++known findings and gaps; derive useful questions, seek incremental alternatives,
++counterevidence or assumption corrections, and verify each source's identity,
++publication/access status, support and applicability. Mark abstract-only,
++preprint and other limits; keep unsupported claims unresolved. Return compact
++claim, source/locator, limits and decision/check evidence. Do not require this
++continuation, a complete solution, or Terra frontier screening before ready expert
++judgment. Check the remaining finite budget before each batch and stop when the
++evidence is sufficient, repetitive, inapplicable, blocked, or has marginal value.
++The [Luna research prompt study](verification/luna-research-prompt-study-2026-10-28/README.md)
++reports a narrow source prototype and held-out exercise, including negative
++results; it does not establish general effectiveness or cost savings.
++
++Optional continuation prompt: “Given the original objective, constraints and
++supported findings below, continue useful research only where evidence could
++change the next decision. Derive your own questions; avoid duplicates; verify
++primary-source support and applicability; retain counterevidence and limits.
++Return incremental findings with source locators and decision implications. Check
++the budget before each batch and stop at sufficiency or diminishing value. It is
++acceptable to find no useful addition.”
+ 
+ Each investigation needs a decision use, source/coverage scope, finite budget,
+ next discriminator and stop condition. Widen into seemingly less relevant code
+--- source-before/agents/luna_scout.toml
++++ agents/luna_scout.toml
+@@ -98,8 +98,15 @@
+ and verify versions and applicability. Return grounded alternatives and contrary
+ evidence for Terra screening where authorized. Keep raw material at source and
+ send concise references, not search dumps or speculative answer collections.
+-Stop at duplicate/low-value evidence; the expanded Luna allocation preference
+-does not require filler, long output or delaying a ready strategic decision.
++If the initial map leaves consequential uncertainty that further evidence could
++change, continue with a bounded search from the task's findings and gaps. Derive
++questions that seek incremental alternatives, counterevidence or corrected
++assumptions; verify source identity, publication/access, support and applicability,
++and label abstract-only, preprint or unresolved claims. Check remaining budget
++before each batch. Stop at sufficiency, duplication, inapplicability, blockage or
++marginal value; this continuation is optional and never delays ready expert
++judgment or requires filler. See the [Luna research prompt study](../verification/luna-research-prompt-study-2026-10-28/README.md)
++for the narrow prototype evidence and its limits.
+ 
+ Gather focused evidence for the assigned engineering owner. Follow the bounded
+ question and stop conditions. Inspect actual source and run permitted bounded
+--- source-before/README.md
++++ README.md
+@@ -282,6 +282,12 @@
+ question is ready; Terra screening is optional and never a required hop. Preserve
+ permission holds and all pinned settings. See [evidence discovery and Terra
+ screening](policy.md#evidence-discovery-and-terra-screening).
++
++The Luna prompt change is a source prototype: a held-out exercise supports
++bounded continuation when consequential evidence gaps remain, while an earlier
++standalone family/falsifier prompt failed its cross-domain criterion. It does
++not establish general research quality, measured savings, or a required second
++pass. See the [study and limits](verification/luna-research-prompt-study-2026-10-28/README.md).
+ 
+ Use `astra_expert`, pinned to `gpt-6-astra` with `medium` and no service-tier
+ override, for bounded, event-driven strategic review. Early planning should

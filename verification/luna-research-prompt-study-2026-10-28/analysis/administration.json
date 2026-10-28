@@ -1,0 +1,556 @@
+{
+  "scope": "Research prompt experiment and kit implementation in this user turn; excludes earlier studies.",
+  "actual_token_telemetry": null,
+  "actual_inference_request_count": null,
+  "actual_api_cost": null,
+  "actual_weekly_allowance_change": null,
+  "provider_identity_verified": false,
+  "root_coordination_usage": "unavailable; additional to listed native agents",
+  "null_means": "unavailable, not zero",
+  "dispatches": [
+    {
+      "agent": "research_prompt_mapper",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "focused kit source mapping"
+    },
+    {
+      "agent": "research_eval_design",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "role": "default",
+      "fork_turns": "none",
+      "purpose": "experiment design"
+    },
+    {
+      "agent": "research_strategy_astra",
+      "model_requested": "gpt-6-astra",
+      "effort_requested": "medium",
+      "role": "astra_expert",
+      "fork_turns": "none",
+      "purpose": "initial strategic brainstorm"
+    },
+    {
+      "agent": "research_protocol_sol",
+      "model_requested": "gpt-6.1-sol",
+      "effort_requested": "ultra",
+      "role": "sol_expert",
+      "fork_turns": "none",
+      "purpose": "high-level method and architecture review"
+    },
+    {
+      "agent": "research_protocol_sol",
+      "followup": true,
+      "model_requested": "gpt-6.1-sol",
+      "effort_requested": "ultra",
+      "purpose": "prefreeze corrected-contract gate check"
+    },
+    {
+      "agent": "pilot_r698",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r672",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r801",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r733",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r654",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r693",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r612",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r842",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r139",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r806",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r147",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r318",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual pilot research"
+    },
+    {
+      "agent": "pilot_r733",
+      "followup": true,
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "same-case authorization setup resolution before research; original hold preserved"
+    },
+    {
+      "agent": "pilot_r693",
+      "followup": true,
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "serialization-only evidence-backed repair; invalid original retained"
+    },
+    {
+      "agent": "verify_carrier_1",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "label-blinded primary-source verification"
+    },
+    {
+      "agent": "verify_carrier_2",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "label-blinded primary-source verification"
+    },
+    {
+      "agent": "verify_agent_1",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "label-blinded primary-source verification"
+    },
+    {
+      "agent": "verify_agent_2",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "label-blinded primary-source verification"
+    },
+    {
+      "agent": "screen_carrier",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "followup": false,
+      "purpose": "pilot domain screening"
+    },
+    {
+      "agent": "screen_agent_research",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "followup": false,
+      "purpose": "pilot domain screening"
+    },
+    {
+      "agent": "research_strategy_astra",
+      "model_requested": "gpt-6-astra",
+      "effort_requested": "medium",
+      "followup": true,
+      "purpose": "strategic redirection after failed pilot"
+    },
+    {
+      "agent": "research_protocol_sol",
+      "model_requested": "gpt-6.1-sol",
+      "effort_requested": "ultra",
+      "followup": true,
+      "purpose": "separate continuation design gate"
+    },
+    {
+      "agent": "research_frontier_builder",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "followup": false,
+      "purpose": "source-linked frontiers, no external knowledge"
+    },
+    {
+      "agent": "research_prompt_mapper",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "followup": true,
+      "purpose": "frontier input audit"
+    },
+    {
+      "agent": "continuation_n532",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n154",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n641",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n309",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n273",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n685",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n836",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "continuation_n494",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "actual evidence-driven continuation research"
+    },
+    {
+      "agent": "verify_continuation_s1",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "independent incremental source verification"
+    },
+    {
+      "agent": "verify_continuation_s2",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "independent incremental source verification"
+    },
+    {
+      "agent": "verify_continuation_s3",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "independent incremental source verification"
+    },
+    {
+      "agent": "verify_continuation_s4",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "role": "luna_scout",
+      "fork_turns": "none",
+      "purpose": "independent incremental source verification"
+    },
+    {
+      "agent": "continuation_screen_carrier",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "fork_turns": "none",
+      "purpose": "label-blinded continuation screening"
+    },
+    {
+      "agent": "continuation_screen_agents",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "fork_turns": "none",
+      "purpose": "label-blinded continuation screening"
+    },
+    {
+      "agent": "research_candidate_review",
+      "model_requested": "gpt-6.1-sol",
+      "effort_requested": "ultra",
+      "purpose": "source prototype factual and design gate",
+      "followup": false
+    },
+    {
+      "agent": "implement_research_continuation",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "bounded three-file research-continuation prototype",
+      "followup": false
+    },
+    {
+      "agent": "implement_research_continuation",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "same-assignment evidence-wording repair",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p204",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "independent locked held-out initial allocation",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p517",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "independent locked held-out initial allocation",
+      "followup": false
+    },
+    {
+      "agent": "research_eval_design",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "study report draft with held-out outcome pending",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p204_w1",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p517_w1",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p204_w2",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p517_w2",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p204_w3",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p517_w3",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p204_w4",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p517_w4",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "actual initial held-out source/literature research",
+      "followup": false
+    },
+    {
+      "agent": "verify_transfer_p204_initial",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "independent held-out initial primary-source verification",
+      "followup": false
+    },
+    {
+      "agent": "verify_transfer_p517_initial",
+      "model_requested": "gpt-6-luna",
+      "effort_requested": "high",
+      "purpose": "independent held-out initial primary-source verification",
+      "followup": false
+    },
+    {
+      "agent": "transfer_p204",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "initial source screening",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p517",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "initial source screening",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p204",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E1 decisions",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p517",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E1 decisions",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p204",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E1 no-new-research screening checkpoint",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p517",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E1 no-new-research screening checkpoint",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p204",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E2 final decisions",
+      "followup": true
+    },
+    {
+      "agent": "transfer_p517",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "E2 final decisions",
+      "followup": true
+    },
+    {
+      "agent": "research_candidate_review",
+      "model_requested": "gpt-6.1-sol",
+      "effort_requested": "ultra",
+      "purpose": "held-out original-source strategy and written source-prototype acceptance review",
+      "followup": true
+    },
+    {
+      "agent": "research_strategy_astra",
+      "model_requested": "gpt-6-astra",
+      "effort_requested": "medium",
+      "purpose": "bounded final strategic review",
+      "followup": true
+    },
+    {
+      "agent": "research_eval_design",
+      "model_requested": "gpt-6.1-terra",
+      "effort_requested": "high",
+      "purpose": "final study report and comparison summary",
+      "followup": true
+    }
+  ],
+  "provenance": "Requested native collaboration dispatch settings recorded by coordinator; no independent provider receipts or complete inference trace.",
+  "recorded_utc": "2026-10-28T21:47:50.825473+00:00",
+  "researcher_reported_operations": 185,
+  "operations_limitations": "Self-reported logical operations, not provider receipts; per-case deviations preserved in pilot-lock.json. Aggregate below192 does not cure arm/case ceiling violations.",
+  "continuation_researcher_reported_operations": 73,
+  "native_dispatched_turns": 70,
+  "native_turns_by_requested_model": {
+    "gpt-6-luna": 44,
+    "gpt-6.1-terra": 18,
+    "gpt-6-astra": 3,
+    "gpt-6.1-sol": 5
+  },
+  "transfer_initial_research_operations_reported_or_item_recount": {
+    "p204": 48,
+    "p517": 35
+  },
+  "transfer_initial_verification_operations_reported": {
+    "p204": 16,
+    "p517": 16
+  },
+  "transfer_E1_research_and_verification_operations": 0,
+  "final_Sol_source_opens_reported": 4
+}

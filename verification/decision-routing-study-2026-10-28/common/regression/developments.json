@@ -1,0 +1,16 @@
+{
+  "scenario_id": "prospective-regression-routing-2026-10-28",
+  "source_revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+  "stages": [
+    {
+      "stage": "after-initial-plans-are-locked",
+      "label": "Hypothetical neutral follow-up 1: incomplete, non-discriminating evidence",
+      "message": "A follow-up user note says the store symptom still occurs once in a local run, but the executable was rebuilt in between and the before/after snapshots do not include IDs. In a separate target, a focused provider test reports success, but the target did not record which provider marker was linked. No full logs, exact commands, or matched artifact identities are available. This does not classify either report as fixed or reproduced against a controlled baseline; preserve the uncertainty and state what evidence is missing."
+    },
+    {
+      "stage": "after-the-next-plan-or-checkpoint-is-locked",
+      "label": "Hypothetical neutral follow-up 2: contrary consumer evidence opens a cross-component branch",
+      "message": "A CI rerun on a second configured consumer reports that direct shared-GUI application checks pass, while an installed consumer reports stale visible state after a valid edit/submit sequence. CI confirms that the consumer package manifest and source revision match the declared inputs, but its test inventory and selected provider differ from the first target. The reporter supplies no trace proving which layer emitted or retained the stale value. No cause or preferred repair is supplied. This is fabricated prospective feedback, not an executed study result."
+    }
+  ]
+}

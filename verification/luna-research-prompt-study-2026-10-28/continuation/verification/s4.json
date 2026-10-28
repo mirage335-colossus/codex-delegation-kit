@@ -1,0 +1,145 @@
+{
+  "study": "luna-research-prompt-study-2026-10-28",
+  "continuation_seed": "s4",
+  "source_revision": "947ed25d4058e405ecf45d6956671f6fecb12026",
+  "source_dirty_baseline": "Pre-existing modifications include AGENTS.md, CONTRIBUTING.md, FURTHER.md, ORCHESTRATION.md, README.md, policy.md, role files, verification reports, and untracked study artifacts; none were changed by this verification.",
+  "inputs_used": [
+    "continuation/protocol.json (scoring/resource clauses only)",
+    "common/scoring.md",
+    "continuation/seeds/s4/task.md",
+    "continuation/seeds/s4/discovery.json",
+    "continuation/seeds/s4/source-checks.json",
+    "continuation/cases/n309/report.json",
+    "continuation/cases/n494/report.json"
+  ],
+  "operations": {
+    "logical_search_queries": 3,
+    "logical_opens": 12,
+    "total_logical_operations": 15,
+    "limits": {"total": 16, "search_queries": 8, "opens": 10, "dedicated_per_case": 8},
+    "eligibility": "INELIGIBLE: total and query caps met, but 12 opens exceeded the 10-open cap. n309-dedicated opens=3; n494-dedicated opens=9, exceeding the 8-per-case cap by one. No more web operations were made.",
+    "operation_ids": [
+      {"id":"vsearch-01","kind":"search","query":"CoBiT ACL Anthology 2026 EMNLP"},
+      {"id":"vsearch-02","kind":"search","query":"RepoCoder ACL Anthology 2023 EMNLP"},
+      {"id":"vsearch-03","kind":"search","query":"CodeRAG ACL Anthology 2025 EMNLP"},
+      {"id":"vopen-01","kind":"open","target":"CoBiT ACL Anthology record; inaccessible via open tool"},
+      {"id":"vopen-02","kind":"open","target":"CoBiT 2026.emnlp-main.44.pdf; full paper, abstract, example, and proceedings front matter"},
+      {"id":"vopen-03","kind":"open","target":"RepoCoder ACL Anthology record"},
+      {"id":"vopen-04","kind":"open","target":"RepoCoder PDF; method and paper scope"},
+      {"id":"vopen-05","kind":"open","target":"CodeRAG ACL Anthology record"},
+      {"id":"vopen-06","kind":"open","target":"CodeRAG PDF; abstract and methods"},
+      {"id":"vopen-07","kind":"open","target":"CoBiT PDF lines 84-112; pair construction and domain rationale"},
+      {"id":"vopen-08","kind":"open","target":"RepoCoder PDF lines 93-149; iterative retrieval method"},
+      {"id":"vopen-09","kind":"open","target":"RepoCoder PDF lines 335-410; matched settings and completion results"},
+      {"id":"vopen-10","kind":"open","target":"CodeRAG PDF lines 118-188; multi-path code retrieval method"},
+      {"id":"vopen-11","kind":"open","target":"CodeRAG PDF lines 517-571; model and benchmark context"},
+      {"id":"vopen-12","kind":"open","target":"CodeRAG PDF lines 748-792; costs and stated limitation"}
+    ],
+    "reported_support_operation_ids": {
+      "n309:claim-counterclaim-stress-test": ["n309-op-06","n309-op-07"],
+      "r139:targeted-follow-up-retrieval": ["op3","op4","op7","op8"],
+      "r139:retrieve-by-evidence-type-and-prune": ["op5","op6","op9","op10","op11","op12"]
+    },
+    "support_trace_assessment": "Submitted finding-to-operation IDs exist and refer to the primary records/PDFs described in each report. This verification independently opened primary PDFs and bibliographic records, but the verification itself is over the strict open budgets; therefore the output is evidence with an explicit eligibility failure, not a cap-compliant verification pass."
+  },
+  "cases": [
+    {
+      "case_id": "n309",
+      "source_report_case_id": "n309",
+      "incremental_counts": {"qualified_lower": 1, "qualified_upper": 1, "unresolved_findings": 0},
+      "findings": [
+        {
+          "origin_id": "claim-counterclaim-stress-test",
+          "origin_stage": "continuation report research finding; not seed material",
+          "disposition": "qualified_incremental_contribution",
+          "qualified": true,
+          "incremental_vs_seed": "Seed has bounded branching, repository-grounding, prompt-evaluation, and critique ideas; it does not offer stance-swapped counterclaim pairs or separate evidence-selection from synthesis. This is a distinct, actionable matched-test discriminator.",
+          "primary_source": {
+            "title": "Retrieving Facts or Reinforcing Beliefs? Towards Understanding Confirmation Bias in RAG Systems for Scientific Claim Verification",
+            "url": "https://aclanthology.org/2026.emnlp-main.44/",
+            "paper_url": "https://aclanthology.org/2026.emnlp-main.44.pdf",
+            "identity_status": "Verified title/authors and official 2026 EMNLP proceedings identity using ACL Anthology search result and proceedings PDF front matter (pp. 958-974; October 24-29, 2026). ACL Anthology record open failed.",
+            "peer_review_status": "Unknown from independently opened material: proceedings publication is verified, but no explicit review/acceptance statement was retrieved. Do not assert peer review as independently confirmed.",
+            "content_status": "Full PDF accessible and opened. Direct evidence: abstract pp. 0-1 says 707 minimally perturbed claim-counterclaim pairs and stage-specific ranking/generation metrics; the introduction (PDF lines 84-107) explains stance replacement and that the scientific domain was selected for objective factual grounding and clearer isolation."
+          },
+          "claim_support": "direct_full_text for study identity, pair design, and stage-specific evaluation; abstract-level for summarized result that bias can occur at different stages and be amplified. Do not extend the reported result to software architecture work.",
+          "task_applicability": "adequately mapped as a feasible evaluation prompt/discriminator; benefit to repository architecture research remains untested.",
+          "feasible_discriminator": "On matched repository questions, compare the existing scout report with a variant requiring a concise counterclaim whose stance is minimally changed. Score contrary evidence found, source support, viable alternatives, and reviewer correction/time. If retrieval traces are unavailable, score source coverage separately from final synthesis.",
+          "gaps_and_limits": [
+            "The benchmark is scientific claim verification with stance-flipped factual claims, not architectural exploration or Luna subagents.",
+            "The source does not validate prompt-injection boundaries, direct expert inspection, independent patch acceptance, or review timing.",
+            "Peer-review status is not explicitly verified in this run."
+          ],
+          "verifier_operation_ids": ["vsearch-01","vopen-01","vopen-02","vopen-07"],
+          "reported_support_operation_ids": ["n309-op-06","n309-op-07"],
+          "stage_matrix": {"research_origin":"retained as distinct incremental evidence","verification":"supported with applicability limit; publication peer-review status unresolved","Terra":"not assessed by this task","expert":"not assessed by this task"}
+        }
+      ],
+      "retained_seed_breadth_and_omissions": "Retain seed's ToT bounded branching and cost caveat; CodeAgent/RepoCod repository coding evidence; MIPRO metric-evaluated prompt hypothesis; RCI critique-as-question-generator only. No direct evidence establishes current model effects, architecture decision benefit, or governance controls.",
+      "critical_omissions_or_errors": "No material claim error found in the CoBiT core claim. Peer-review wording is stronger than this verifier could independently substantiate."
+    },
+    {
+      "case_id": "n494",
+      "source_report_case_id": "r139",
+      "incremental_counts": {"qualified_lower": 1, "qualified_upper": 2, "unresolved_findings": 1},
+      "findings": [
+        {
+          "origin_id": "targeted-follow-up-retrieval",
+          "origin_stage": "continuation report research finding; not seed material",
+          "disposition": "qualified_incremental_contribution",
+          "qualified": true,
+          "incremental_vs_seed": "Seed advises repository-grounded claims and a minimal repository check, but does not state the hypothesis-conditioned iterative-retrieval mechanism. RepoCoder adds a bounded, source-checkable procedure and benchmark evidence on retrieval rounds.",
+          "primary_source": {
+            "title": "RepoCoder: Repository-Level Code Completion Through Iterative Retrieval and Generation",
+            "url": "https://aclanthology.org/2023.emnlp-main.151/",
+            "paper_url": "https://aclanthology.org/2023.emnlp-main.151.pdf",
+            "identity_status": "Official ACL Anthology EMNLP 2023 record and proceedings PDF identity verified.",
+            "peer_review_status": "Proceedings publication verified; review process not explicitly checked in this bounded verification.",
+            "content_status": "Full text opened. PDF lines 122-141 say later retrieval uses the previous prediction; Table 2 (PDF lines 360-374) shows third-round EM above round one for GPT-3.5-Turbo and CodeGen-Mono-350M on line completion, with fourth-round scores falling from round three in both."
+          },
+          "claim_support": "direct_full_text for iterative prediction-conditioned retrieval and cited table values. The report's specific example that the first query missed an API signature was not independently confirmed by the excerpt returned in this verification and is excluded from the accepted claim.",
+          "task_applicability": "adequately mapped as a proposed matched test; completion results do not establish improved architecture research or mixed-model handoff.",
+          "feasible_discriminator": "Compare ordinary repository mapping with one candidate-hypothesis-conditioned lookup of the artifact that could discriminate it; score independently verified novel alternatives, source accuracy, omissions, reviewer correction, and time.",
+          "gaps_and_limits": [
+            "RepoCoder evaluates code completion, not open-ended research, alternative discovery, or architecture decisions.",
+            "Observed round gains are small and not monotonic; the fourth round does not uniformly improve over the third.",
+            "Do not treat generated architectural explanations as reliable retrieval queries without the proposed matched test."
+          ],
+          "verifier_operation_ids": ["vsearch-02","vopen-03","vopen-04","vopen-08","vopen-09"],
+          "reported_support_operation_ids": ["op3","op4","op7","op8"],
+          "stage_matrix": {"research_origin":"retained as distinct incremental evidence","verification":"core method and results supported; example detail excluded","Terra":"not assessed by this task","expert":"not assessed by this task"}
+        },
+        {
+          "origin_id": "retrieve-by-evidence-type-and-prune",
+          "origin_stage": "continuation report research finding; not seed material",
+          "disposition": "partially_supported_unresolved",
+          "qualified": null,
+          "incremental_vs_seed": "Seed's repository-grounding advice is broad. CodeRAG's reported multi-path code retrieval is a concrete refinement, but the verifier did not independently establish the detailed sparse/dense/dataflow claim, the pruning result, and all linked performance assertions within the allowed investigation window.",
+          "primary_source": {
+            "title": "CodeRAG: Finding Relevant and Necessary Knowledge for Retrieval-Augmented Repository-Level Code Completion",
+            "url": "https://aclanthology.org/2025.emnlp-main.1187/",
+            "paper_url": "https://aclanthology.org/2025.emnlp-main.1187.pdf",
+            "identity_status": "Official ACL Anthology EMNLP 2025 record and proceedings PDF identity verified.",
+            "peer_review_status": "Proceedings publication verified; review process not explicitly checked in this bounded verification.",
+            "content_status": "Full text opened. Abstract and methods (PDF lines 118-163) establish code-completion scope, multi-path code retrieval, and reranking; benchmark context (lines 517-571) confirms tested code-model sizes and ReccEval/CCEval. The detailed path definitions and snippet-count ablation were not independently verified in the returned excerpts."
+          },
+          "claim_support": "direct_full_text for code-completion scope and multi-path retrieval as a method; unresolved for specific sparse/dense/dataflow roles, gains from adding paths, and the 1-to-3 versus 5-to-10 snippet-retention comparison.",
+          "task_applicability": "unresolved for the full compound contribution; a limited complementary-code-route experiment is plausible, but pruning and architecture-workflow benefit remain unverified.",
+          "feasible_discriminator": "A matched repository study can classify accepted evidence by route and test whether distinct code routes surface contrary facts; separately measure reviewer rework and retrieval time. Test pruning only if source verification confirms the reported ablation.",
+          "gaps_and_limits": [
+            "CodeRAG is specialized repository code completion, not smaller reasoning-model research or architecture selection.",
+            "The full report's suggestion to include semantic documentation or issue context is an extrapolation, not a route evaluated by CodeRAG.",
+            "The paper itself reports reranker/retriever-model misalignment may remain (PDF lines 786-792).",
+            "The verification open cap was exceeded, so the detailed evidence-route and pruning subclaims remain unresolved here."
+          ],
+          "verifier_operation_ids": ["vsearch-03","vopen-05","vopen-06","vopen-10","vopen-11","vopen-12"],
+          "reported_support_operation_ids": ["op5","op6","op9","op10","op11","op12"],
+          "stage_matrix": {"research_origin":"retain as candidate, do not count in lower bound","verification":"partially supported; detailed claims unresolved","Terra":"not assessed by this task","expert":"not assessed by this task"}
+        }
+      ],
+      "retained_seed_breadth_and_omissions": "Keep bounded branching and discriminators (ToT), repository grounding (CodeAgent/RepoCod), prompt metric evaluation (MIPRO), and critique as a question generator (RCI). These completion studies do not show benefits for architecture research, mixed-model coordination, or acceptance/governance requirements.",
+      "critical_omissions_or_errors": "RepoCoder's round data are nonmonotonic; report appropriately notes this. The API-signature example and CodeRAG detailed path/ablation claims remain unconfirmed by this verifier. No architecture-workflow benefit is supported by either completion paper."
+    }
+  ],
+  "selection_or_acceptance": "No winner, expert acceptance, project execution, or implementation recommendation made. This is source verification only, and cap ineligibility limits its use under the frozen verification protocol."
+}

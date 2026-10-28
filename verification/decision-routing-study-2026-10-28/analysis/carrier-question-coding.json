@@ -1,0 +1,194 @@
+{
+  "coding": {
+    "basis": "protocol.json measurements rubric; common/contract.md; common/carrier/scenario.md; locked/p17/{initial,E1,E2}.json; locked/p43/{initial,E1,E2}.json",
+    "revision": "947ed25d4058e405ecf45d6956671f6fecb12026",
+    "source_dirty_baseline": "Repository had pre-existing unrelated dirty paths and untracked study artifacts at coding time; this output is the only file written by this assignment. Original locked plans were preserved.",
+    "blinding": "Partial blinding only. No arm map, policy text, cost forecasts, other participants or unlocked plans were consulted. Participant codes and routing/role language in the allowed records can reveal arm distinctions; no claim of full blindness.",
+    "unit": "A stable assignment is a work record, not a unique question, conversation, or invocation. Continued work and rephrasing merge unless an independently discriminable objective/control is newly introduced. Review gates, coordination and final synthesis are not new factual questions absent a novel discriminator.",
+    "qualification": "A planned candidate qualifies when source-grounded, decision-relevant to feasibility or the focused-investigation decision, plausible within stated scope/resources, and nonredundant. Qualification does not mean the question was answered, accepted, executed, or successful.",
+    "coverage_limit": "Source units below are planned assignment coverage only, not evidence that a participant read them, tests passed, runtime coverage occurred, or the source units were sufficient."
+  },
+  "question_catalog": [
+    {
+      "qid": "Q1",
+      "question": "What source paths, publication/support dates, presence/funding qualifications, uncertainty semantics and authority boundaries govern frequency evidence and interpretation of the reported estimates?",
+      "p17": {"assignments": ["P17-A1"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H02", "H03", "H04", "H05", "H08", "H09", "H10", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["S1"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H03", "H04", "H05", "H12", "E1", "E2"]},
+      "purpose_discriminator": "Separate evidence time from availability, recent-presence and optional-work conditions, uncertainty provenance, and frequency-only authority from phase/presence/payload claims.",
+      "qualified": true,
+      "ambiguity": "E1/E2 wording broadens the same contract question; it does not create another question."
+    },
+    {
+      "qid": "Q2",
+      "question": "Which existing synthetic fixture/source seams can produce exact frequency truth with representative payload/metadata, noise and the specified chunk sizes, and what are their limits?",
+      "p17": {"assignments": ["P17-A2"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H01", "H06", "H07", "H11", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["S2"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H01", "H06", "H07", "H12", "E1", "E2"]},
+      "purpose_discriminator": "Identify an exact-truth, reproducible fixture and assess payload, auxiliary activity, noise, seed and chunk construction without treating test registration as a result.",
+      "qualified": true,
+      "ambiguity": "Paired identical-PCM replay is coded separately as Q12 when introduced after E1; it is independently discriminable from merely locating a fixture."
+    },
+    {
+      "qid": "Q3",
+      "question": "What estimands, denominators, timing frontiers, censoring rules and empirical uncertainty-coverage definitions make the hypothetical targets interpretable?",
+      "p17": {"assignments": ["P17-A3"], "phase_introduced": "initial", "primary_model": "terra", "source_units": ["H03", "H04", "H05", "H06", "H07", "E1", "E2"]},
+      "p43": {"assignments": ["T1"], "phase_introduced": "initial", "primary_model": "terra", "source_units": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12", "E1", "E2"]},
+      "purpose_discriminator": "Keep first accurate, first covered and final estimates distinct; retain all finite publications, nonpublications and censored captures in explicit denominators; do not treat an uncertainty field as calibrated confidence.",
+      "qualified": true,
+      "ambiguity": "T1 also screens target operationalization and missing evidence, but those are part of the same measurement-contract question, not an additional unique question."
+    },
+    {
+      "qid": "Q4",
+      "question": "Does the proposed measurement design and dataset fairly test the targets while preserving frequency-only authority and applicable source contracts?",
+      "p17": {"assignments": ["P17-A4"], "phase_introduced": "initial", "primary_model": "sol", "source_units": ["H01", "H03", "H04", "H05", "H06", "H07", "H08", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["E1"], "phase_introduced": "initial", "primary_model": "sol", "source_units": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H12", "E1", "E2"]},
+      "purpose_discriminator": "Independent strategic review of truth/time alignment, interval semantics, selection, controls and contract conflicts before dependent work.",
+      "qualified": true,
+      "ambiguity": "Same review question continued in E1/E2; no extra question counted for each review stage."
+    },
+    {
+      "qid": "Q5",
+      "question": "Can a reviewed, reproducible measurement protocol be represented by the existing fixture/instrumentation while preserving the stated baseline and contracts?",
+      "p17": {"assignments": ["P17-A5"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H01", "H05", "H06", "H07", "H11", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["L5"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H01", "H05", "H06", "H07", "H12", "E1", "E2"]},
+      "purpose_discriminator": "Determine a feasible minimal run manifest and collection method for all outcomes, publication/support times, declines, resources and preservation checks; proposed work remains gated on authorization.",
+      "qualified": true,
+      "ambiguity": "P17 asks instrumentability and p43 specifies the run manifest/analysis. These are grouped as one protocol-to-fixture feasibility question; counting them separately would duplicate the same intended artifact."
+    },
+    {
+      "qid": "Q6",
+      "question": "What accuracy, acquisition, empirical interval coverage, declines and resource use result over the full matched matrix and absent-tone controls?",
+      "p17": {"assignments": ["P17-A7"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H05", "H06", "H07", "H11", "H12", "E1", "E2"]},
+      "p43": null,
+      "purpose_discriminator": "Prospective campaign outcome needed to decide feasibility; the proposed campaign is not authorized or executed by this paper-planning study.",
+      "qualified": true,
+      "ambiguity": "p43 asks for a protocol and interim decision, but has no assignment to run the full measurement matrix; T3 synthesis is not coded as measurement evidence."
+    },
+    {
+      "qid": "Q7",
+      "question": "Which distinct mechanisms could explain a consequential reported error, uncovered interval or nonpublication, and what evidence discriminates measurement/timing, estimator, waveform/interference, chunk/delivery and resource explanations?",
+      "p17": {"assignments": ["P17-A8"], "phase_introduced": "initial", "primary_model": "sol", "source_units": ["H01", "H03", "H05", "H06", "H07", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["S4", "L6"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H01", "H02", "H03", "H04", "H05", "H08", "E1", "E2"]},
+      "purpose_discriminator": "Maintain competing causes and choose bounded matched comparisons; separate mechanism hypotheses from claims of a reproduced failure or accepted diagnosis.",
+      "qualified": true,
+      "ambiguity": "A broad question contains several independent controls; Q12 isolates paired identical-PCM chunk replay. P17-A8 is conditional on later evidence."
+    },
+    {
+      "qid": "Q8",
+      "question": "What provenance and complete report records are available or needed to interpret the operator summaries without claiming reproduction?",
+      "p17": {"assignments": ["P17-A11"], "phase_introduced": "E1", "primary_model": "luna", "source_units": ["E1", "H01", "H03", "H04", "H05", "H06", "H07", "E2"]},
+      "p43": {"assignments": ["L7"], "phase_introduced": "E1", "primary_model": "luna", "source_units": ["E1", "E2", "H03", "H04", "H05"]},
+      "purpose_discriminator": "Inventory generator/truth review, commands, revision/configuration, seeds, full timestamped estimates/declines, chunk traces, denominators and timing definitions; explicitly mark unavailable items.",
+      "qualified": true,
+      "ambiguity": "Distinct from Q7: provenance availability is answerable by records request/inventory; causal discrimination requires matched source or runtime evidence."
+    },
+    {
+      "qid": "Q9",
+      "question": "Which strategic evidence route or simpler measurement approach best informs whether a focused implementation investigation is worthwhile under unresolved assumptions?",
+      "p17": {"assignments": ["P17-A10"], "phase_introduced": "initial", "primary_model": "astra", "source_units": ["H03", "H04", "H05", "E1", "E2"]},
+      "p43": {"assignments": ["A1"], "phase_introduced": "initial", "primary_model": "astra", "source_units": ["H03", "H04", "H05", "E1", "E2"]},
+      "purpose_discriminator": "Bounded strategic challenge of practical assumptions, cost of wrong turns and competing measurement choices; this is decision support, not a new source experiment.",
+      "qualified": true,
+      "ambiguity": "Conditional in p17 initially and escalated to now in p17 E2; p43 requests timely advice in E2. These are one question across phases."
+    },
+    {
+      "qid": "Q10",
+      "question": "Which existing callers/tests protect payload, PCM progress, live-row lifecycle, endpoint and retune behavior during any later measurement work?",
+      "p17": null,
+      "p43": {"assignments": ["S3"], "phase_introduced": "initial", "primary_model": "luna", "source_units": ["H08", "H09", "H10", "H11", "E2"]},
+      "purpose_discriminator": "Locate preservation contracts and relevant checks so frequency evidence cannot be mistaken for completion, absence, phase validity or payload recovery.",
+      "qualified": true,
+      "ambiguity": "Related to Q1/Q5 but independently answerable through test/caller inventory; it is not duplicate source-semantics mapping."
+    },
+    {
+      "qid": "Q11",
+      "question": "What are the user's practical delay, uncertainty, offset/coherence and future-execution authorization thresholds if results are inconclusive or targets fail?",
+      "p17": null,
+      "p43": {"assignments": ["T2"], "phase_introduced": "initial", "primary_model": "human_response", "source_units": ["H03", "H04", "H05", "E1", "E2"]},
+      "purpose_discriminator": "Resolve operational decision tolerances that cannot be inferred from source or model; independent authorized planning can continue while awaiting a reply.",
+      "qualified": false,
+      "ambiguity": "Decision-relevant human clarification, but not a source-grounded factual investigation candidate. Kept in catalog and excluded from model question counts. No response is represented in the locked plans."
+    },
+    {
+      "qid": "Q12",
+      "question": "Does replaying identical generated PCM with only the chunk schedule changed alter publication/error timing or coverage?",
+      "p17": {"assignments": ["P17-A2", "P17-A4", "P17-A11"], "phase_introduced": "E1", "primary_model": "luna", "source_units": ["E1", "H01", "H06", "H07", "H12"]},
+      "p43": {"assignments": ["S2", "L6", "E1"], "phase_introduced": "E1", "primary_model": "luna", "source_units": ["E1", "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H12"]},
+      "purpose_discriminator": "Use paired PCM/truth/configuration and vary chunk delivery alone to test the chunk hypothesis confounded in the E1 summary.",
+      "qualified": true,
+      "ambiguity": "E1 records add this specific matched discriminator; because earlier Q2/L6 already mention chunks, a conservative coding treats it as refinement rather than a new unique question (see count range)."
+    },
+    {
+      "qid": "Q13",
+      "question": "Does a later actual harness/patch preserve the reviewed measurement and independent contracts before acceptance?",
+      "p17": {"assignments": ["P17-A6"], "phase_introduced": "initial", "primary_model": "sol", "source_units": ["H03", "H04", "H05", "H09", "H10", "H11", "E1", "E2"]},
+      "p43": {"assignments": ["R1"], "phase_introduced": "initial", "primary_model": "sol", "source_units": ["H03", "H04", "H05", "H08", "H09", "H10", "H11", "E1", "E2"]},
+      "purpose_discriminator": "Independent patch/artifact review if an artifact exists.",
+      "qualified": false,
+      "ambiguity": "Required acceptance gate, but the locked plans specify no actual artifact; no novel factual discriminator is assigned yet. Excluded from unique-question counts."
+    },
+    {
+      "qid": "Q14",
+      "question": "What do completed measurements establish about feasibility and the narrow next decision?",
+      "p17": {"assignments": ["P17-A9"], "phase_introduced": "initial", "primary_model": "terra", "source_units": ["H01", "H02", "H03", "H04", "H05", "H08", "H09", "H10", "H12", "E1", "E2"]},
+      "p43": {"assignments": ["T3"], "phase_introduced": "initial", "primary_model": "terra", "source_units": ["H03", "H04", "H05", "H06", "H07", "E1", "E2"]},
+      "purpose_discriminator": "Synthesize the full evidence and preserve source/runtime distinction and contract risk for the user's decision.",
+      "qualified": false,
+      "ambiguity": "Coordination/final synthesis, dependent on other questions and not a new factual investigation; excluded from counts."
+    }
+  ],
+  "counts": {
+    "unit": "Qualified unique candidate questions, counted once per participant; primary model is the proposed owner of the question, not conversation or number of assignments. Added range differs only on whether Q12 is a new question or a refinement of Q7/Q2.",
+    "p17": {
+      "initial": {"unique_questions": 8, "by_primary_model": {"luna": 4, "terra": 1, "sol": 2, "astra": 1}},
+      "E1_added": {"unique_questions": "1-2", "by_primary_model": {"luna": "1-2"}, "stable_questions": "P17-A1/A2/A3/A4/A8/A10 continued or rerouted; not new question IDs"},
+      "E2_added": {"unique_questions": 0, "by_primary_model": {}, "stable_questions": "P17-A1/A2/A3/A4/A5/A6/A7/A8/A9 continued/deferred and A10 rerouted; same question objectives"},
+      "qualified_total": "9-10"
+    },
+    "p43": {
+      "initial": {"unique_questions": 8, "by_primary_model": {"luna": 5, "terra": 1, "sol": 1, "astra": 1}},
+      "E1_added": {"unique_questions": "1-2", "by_primary_model": {"luna": "1-2"}, "stable_questions": "T1/S1/S2/S3/S4/E1/T2/L5/L6/A1/T3 continued; L7 provenance work is a new assignment and question Q8"},
+      "E2_added": {"unique_questions": 0, "by_primary_model": {}, "stable_questions": "All question objectives continued; advice activation and longer diagnostic framing change timing/scope, not question identity"},
+      "qualified_total": "9-10"
+    }
+  },
+  "comparison_and_changes": {
+    "same_question_different_model": [
+      "Q7 causal differential: p17 assigns the consequential diagnosis to Sol (P17-A8); p43 assigns its broad alternatives and matched controls to Luna (S4/L6). This is a real owner/model contrast, not two questions merely because task wording differs.",
+      "Q3 estimands/target interpretation: Terra owns it in both participants (P17-A3; T1).",
+      "Q9 strategic measurement choice: Astra is assigned in both (P17-A10; A1); p17 changes conditional to now after E2, which is escalation timing, not new Luna work.",
+      "Q8 report provenance is added as Luna work in both participants after E1 (P17-A11; L7). P43 explicitly creates a new stable assignment L7; p17 creates P17-A11."
+    ],
+    "new_luna_work_vs_resplitting": "Q8 is new, independently answerable provenance inventory/request work prompted by missing report records. Q12 is a specific matched chunk discriminator newly made explicit after E1; it is plausible novel evidence work, but both plans had already mentioned chunks, so strict coding merges it into Q7/Q2 and reports the lower count. Rewording source-contract checks, continuing broad fixture mapping, or splitting cause lists among estimators/waveform/resources without a distinct control is not counted as new work.",
+    "E1_E2_escalation_redesign_human": "E1 leads to paired chunk design review and expanded provenance/diagnostic tasks, but locked plans do not assert an observed run or cause. E2 prompts p17 to start Astra now and both participants to retain original six-second/error/interval targets while adding eight/ten-second diagnostics; no target is replaced. P43's T2 asks the human about practical tolerances/operating assumptions and future authorization; plans record no reply. Sol review remains a gate before consequential dependent implementation; independent patch review is conditional on an actual artifact. No project execution is authorized by this study.",
+    "downstream_expert_processing": "Expert work should receive separately identified E1 and E2 summaries, provenance limits, complete denominators and timing uncertainty, not pooled cohorts or inferred target success. Sol can review the same measurement contract and refine the matched discriminator; Q7 ownership differs (Sol in p17, Luna investigations plus Sol design review in p43). Astra advice is a separate strategic synthesis and in p17 is explicitly elevated to now after E2. Keep raw reports and dissent attached to the later decision; no plan supports reproduction, root cause, population rate, confidence coverage or hardware-limit claims."
+  },
+  "planned_source_coverage": {
+    "p17_initial": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12"],
+    "p17_added": ["E1", "E2"],
+    "p43_initial": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12"],
+    "p43_added": ["E1", "E2"],
+    "interpretation": "Both assignment sets explicitly plan coverage of the complete H01-H12 source inventory by initial phase and the delivered report units in later phases. This is not evidence that sources were actually opened or that tests/runtime checks were performed."
+  },
+  "redundant_or_excluded": [
+    {"item": "P17-A6; R1", "reason": "Independent artifact review is a necessary gate but no patch exists in this planning record; not a new factual candidate question."},
+    {"item": "P17-A9; T3", "reason": "Decision synthesis/coordination repeats the user's objective and depends on other assignments; no new measurement discriminator."},
+    {"item": "P43-T2", "reason": "Useful human clarification, but human response is not source-grounded model investigation and is excluded from model counts."},
+    {"item": "P17-A1/E1/E2; S1/E1/E2", "reason": "Same source-contract question continued across phases; E1/E2 labels are added sources, not separate questions."},
+    {"item": "P17-A2/E1/E2; S2/E1/E2; P17-A5; L5", "reason": "Fixture exploration, later paired protocol elaboration and run-manifest design are distinct only at the Q2/Q5/Q12 granularity stated; do not count each phase or assignment as a separate study question."},
+    {"item": "P17-A8; P17-A11; S4; L6; L7", "reason": "Differential mechanism analysis merges as Q7; provenance inventory is separately Q8; paired chunk replay is separately Q12 only under the higher-count interpretation."}
+  ],
+  "review_issues": {
+    "resource_schema_gate_violations": [],
+    "basis": "Against the allowed protocol and common contract, the locked plans state the six-conversation cap (including coordinator/expert), at most four test processes/eight cores/16 GiB for future authorized work, no token/cost estimates, no project execution in this study, and authorization gates for proposed changes/campaign. I found no clear violation from the permitted records. This is not a schema audit because the decision schema and other materials were outside assigned scope.",
+    "review_observations_not_violations": [
+      "Some initial assignment lists are dense, but p17/p43 concurrency notes describe reused conversations and bounded future processes.",
+      "Source-unit lists are planned coverage and sometimes include report IDs E1/E2 before delivery; later phase records repeat them. No inference of actual access is made.",
+      "Routing language partly reveals the allocation, so the coding is only partially blind."
+    ]
+  },
+  "count_sensitivity": {
+    "lower": "Q12 is treated as a more concrete subtest within Q7 (and fixture/chunk work Q2/Q5); qualified totals p17 9 and p43 9.",
+    "upper": "Q12 is a novel independently discriminable matched control because it changes only chunk schedule on identical PCM in response to the confounded E1 report; qualified totals p17 10 and p43 10.",
+    "other_exclusions": "If the future campaign Q6 is considered infeasible because authorization is never granted, it remains a qualified planned candidate under the rubric but not completed work. Counts do not turn contingent assignments into actual experiments."
+  }
+}

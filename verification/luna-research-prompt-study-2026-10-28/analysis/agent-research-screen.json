@@ -1,0 +1,937 @@
+{
+  "screen_scope": "Opaque label-blinded screen; no prompts, arm map, other-domain results, new searches, or expert brainstorming. No winner selected.",
+  "score_convention": "Counts are per case; lower/unresolved/upper. Full-report scores describe content including post-budget evidence; strict scores do not retrocredit verifier additions. r318 F2 eligibility is unresolved, not falsely rejected. r801 f2 independent abstract support is not proof original eligible operations inspected it. r612 f4 full-report score is conditional on operation 17 and independent verification, not strict credit.",
+  "cases": [
+    {
+      "case_id": "r693",
+      "original_count": 4,
+      "strict_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "full_content_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "packet": "Decision: test staged research with concise evidence, alternatives and falsifiers under direct expert access and independent acceptance. Agentless FSE \u00a71, \u00a75 supplies issue-repair pipeline and clue sensitivity; CoVe ACL abstract supplies verification questions; NLP ideation preprint \u00a75, \u00a77.1, Appendix F supplies novelty/feasibility and self-ranker caution. These sources do not test this workflow. Candidate approaches: bounded localization-to-discriminator; separately check claims; generate distinct alternatives and have an expert evaluate them. Clue-rich tasks may inflate apparent benefit. Cheapest falsifier: matched clue-rich and ambiguous repository tasks, compare missed alternatives and reviewer reconstruction. Unresolved: whether any benefit transfers and whether source boundaries resist injection. Rejected SWE-agent abstract as redundant; peer-review status unknown, no full-paper claim. Retain original four IDs as distinct stages, verification, alternative evaluation, and benchmark caveat.",
+      "stage_matrix": [
+        {
+          "id": "staged-research",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full-text support for the study's bounded three-phase localization/repair/validation system and the complexity/debug burden of long autonomous loops",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "This is an issue-repair system evaluated on SWE-bench, not a mixed-model architecture research delegation study. The decision implication recommending brief alternatives and discriminators is an inference, not a measured paper result.",
+          "discriminator_feasible": true,
+          "original_claim": "Repository-level research can be made legible and economical by asking for bounded stages (locate relevant files/functions, form candidate explanations or approaches, validate with a small discriminating check) and concise handoffs, rather than open-ended agent autonomy. Agentless's evaluated repair system uses a hierarchical localization, candidate generation, and patch-validation pipeline; it also documents the cost and debugging burden of agentic action loops.",
+          "original_discriminator": "On representative existing-repository decisions, compare an ordinary map-only handoff with the staged prompt; measure whether reviewers can identify a relevant alternative and verify its supporting evidence with less reconstruction, while tracking omissions and expert correction.",
+          "original_source_ids": [
+            "agentless"
+          ]
+        },
+        {
+          "id": "independent-verification",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "direct abstract support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "CoVe tested factual QA and long-form generation, not repositories, architecture, or subagent handoffs. Its verification questions are answered by the same model, so shared assumptions remain possible.",
+          "discriminator_feasible": true,
+          "original_claim": "Chain-of-Verification supports separating an initial claim from independently answered verification questions before producing a corrected response; the paper reports reduced hallucination on factual QA and long-form generation tasks.",
+          "original_discriminator": "Have a reviewer verify a sample of claims directly at cited locations and compare errors with a free-form report; retain expert review for high-impact decisions.",
+          "original_source_ids": [
+            "cove"
+          ]
+        },
+        {
+          "id": "alternatives-and-rankers",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "unknown beyond preprint",
+          "claim_support": "direct full-text support; source appendix explicitly details decomposition, intermediate information, combination, reflection and an evaluator requiring greater detail/comprehensiveness",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "NLP research-idea ratings are not repository-change quality or mixed-model evidence. The evaluation-ranker criticism is an implication of the explicit detail criterion, not evidence that it necessarily selected verbosity in practice.",
+          "discriminator_feasible": true,
+          "original_claim": "A controlled human study of NLP research ideation reports that LLM-generated ideas were rated more novel but slightly less feasible than expert ideas; its authors also report weak model self-evaluation and low diversity. Its appendix's collaborative prompt uses decomposition, subtask information, combination, and reflection, while its proposed-method evaluator rewards outputs for being more detailed/comprehensive, a design that risks selecting verbosity rather than decision value.",
+          "original_discriminator": "Score alternatives for distinctness, evidence support, and ability to change the decision; compare reviewer effort and missed viable alternatives across matched tasks.",
+          "original_source_ids": [
+            "idea_study"
+          ]
+        },
+        {
+          "id": "benchmarks-and-scope",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full-text support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "The paper's task clues concern SWE-bench repair localization; they do not establish which prompt works for local architecture research.",
+          "discriminator_feasible": true,
+          "original_claim": "The Agentless paper reports both strong benchmark performance and benchmark-label defects (issues with exact solutions, insufficient information, or misleading descriptions), and finds its approach struggles when an issue contains no localization clue. Thus benchmarks and prompt workflows are sensitive to task construction and clue distribution.",
+          "original_discriminator": "Use matched tasks with and without explicit code/location clues and require a recorded uncertainty when the evidence does not discriminate among options.",
+          "original_source_ids": [
+            "agentless"
+          ]
+        }
+      ],
+      "original_rejected": [
+        "SWE-agent arXiv record (https://arxiv.org/abs/2405.15793) was opened, but its abstract/metadata did not establish publication status or add more decision-useful evidence than the full Agentless study for this assignment; no full-text claims were used."
+      ],
+      "original_unresolved": [
+        "No retrieved study directly tests smaller-model subagents discovering alternatives for architecture decisions in existing repositories while stronger models review them.",
+        "No source in the retrieved set establishes prompt-injection boundary effectiveness for web/repository research; retain the assignment's explicit untrusted-source boundary as an operational constraint, not as a research finding.",
+        "Peer-reviewed publication status for the arXiv research-ideation study and SWE-agent was not verified."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "agentless",
+          "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+          "locator": "\u00a71, pp. 2\u20134 (three-stage localization/repair/validation and problems with agentic planning); \u00a74\u20135 (evaluation and benchmark caveats); \u00a78, p. 20.",
+          "original_access_claim": "Full text",
+          "original_publication_claim": "Peer-reviewed ACM FSE 2025 proceedings paper; the accessible author-hosted copy identifies the ACM proceedings volume and article number."
+        },
+        {
+          "id": "cove",
+          "url": "https://aclanthology.org/2024.findings-acl.212/",
+          "locator": "Abstract and ACL proceedings metadata; paper \u00a72\u20133 describes draft, independent verification questions/answers, and revised response.",
+          "original_access_claim": "Full paper PDF linked and accessible; page metadata and abstract accessible",
+          "original_publication_claim": "Peer-reviewed conference findings publication, verified by ACL Anthology proceedings metadata."
+        },
+        {
+          "id": "idea_study",
+          "url": "https://arxiv.org/abs/2409.04109",
+          "locator": "Abstract; \u00a75 main results; \u00a77.1 limitations; Appendix F, collaborative reasoning prompt and evaluator.",
+          "original_access_claim": "Full text",
+          "original_publication_claim": "Preprint; subsequent peer-reviewed publication status unknown"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    },
+    {
+      "case_id": "r801",
+      "original_count": 4,
+      "strict_score": {
+        "qualified_lower": 3,
+        "unresolved": 1,
+        "upper": 4
+      },
+      "full_content_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "packet": "Decision: compare selective scoped exploration, perspective-led questions and short evidence-responsive challenge against broader agent consultation. Ansible preprint \u00a7\u00a75.5, 6.3\u20136.4 records forced consultation's higher calls and tokens and lower point estimates; paired significance differs by gold definition. STORM abstract supports diverse perspectives; its full-text open was operation 17, outside the eligible prefix. Debate drift and Flip-Test abstracts show conditional failure; GAVEL and Agent-Blame abstracts motivate atomic provenance and synthesis checks. Limits: localization, public writing and QA are not architecture research; documentation co-evolution wording remains unverified. Cheapest falsifier: matched selective versus forced consultation with relevance, missed dependencies, reviewer effort and drift recorded. Unresolved: original eligible evidence for STORM-specific claims, provenance completeness and target transfer. Rejected forced universal consultation, unrestricted debate and drop-in STORM; bounded responsive critique remains viable.",
+      "stage_matrix": [
+        {
+          "id": "f1",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "unknown; arXiv preprint",
+          "claim_support": "direct full-text support for the 8-to-22 calls, 16.1M-to-25.1M token increase, lower reported F1 and hard all-gold, and mixed paired significance results. The inspected text supports documentation/test-file misses, but the report's specific 'documentation co-evolution' phrasing was not verified.",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "Single Ansible localization study, small evaluation set and preprint; the curated-set paired comparison was nonsignificant while PR-based gold gave p=.015. It does not test architecture decisions or target models. The report appropriately avoids transferring numerical outcomes.",
+          "discriminator_feasible": true,
+          "original_claim": "The closest direct repository evidence favors structured, bounded, domain-scoped exploration with selective consultation over indiscriminately adding subagents. In the authors\u2019 Ansible localization study, forcing consultation increased calls from 8 to 22 and reported token use from 16.1M to 25.1M; micro-F1 and hard all-gold were lower, while the paired per-instance test did not reject the null. The study also reports naive filesystem exploration can overpredict test files and miss documentation co-evolution.",
+          "original_discriminator": "On representative existing-repository investigations, compare selective domain-scoped research against current delegation with same task, model budget and direct expert access; score missed plausible alternatives, evidence accuracy, review burden and latency.",
+          "original_source_ids": [
+            "repo-exploration"
+          ]
+        },
+        {
+          "id": "f2",
+          "verifier_result": "yes",
+          "terra_strict": "unresolved",
+          "terra_reason": "STORM full-text original open was operation 17; independently verified abstract cannot establish original eligible inspection.",
+          "expert": "not individually assessed",
+          "content_access": "abstract for this verification",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited support for diverse perspectives, source-grounded questions, improved organization/breadth on its own article-writing baseline, and named source-bias/over-association risks",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "Public-topic Wikipedia-like article preparation is unlike proprietary repository investigation and architecture review. The full-text PDF was outside the strict pilot prefix; this review did not inspect its detailed limitations section. Abstract supports the reported risk names but not further detail.",
+          "discriminator_feasible": true,
+          "original_claim": "Perspective-led question generation followed by iterative source-grounded follow-up research is a plausible way to surface coverage dimensions missed by a first-pass query. STORM evaluated this for Wikipedia-like article preparation; editors found broader and better organized output than its outline-driven RAG baseline, while also identifying source-bias transfer and false association risks.",
+          "original_discriminator": "Blind expert comparison of baseline and perspective-led briefs on real investigations, checking useful novel alternatives and factual/source errors rather than word count.",
+          "original_source_ids": [
+            "storm"
+          ]
+        },
+        {
+          "id": "f3",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstracts",
+          "publication_status": "drift: yes; Flip-Test review status unknown",
+          "claim_support": "abstract-limited support; drift rates and reviewed sample support drift claim; Flip-Test reports 65\u201370% flips and opportunity-conditioned destructive/constructive rates",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "Debate tasks do not equal architecture research. Flip-Test is a workshop paper whose review process was not established; its result is model- and task-specific. It also reports a scale-dependent 70B result, so the claim should remain conditional, not reject all critique.",
+          "discriminator_feasible": true,
+          "original_claim": "Long debate is a weak default for alternative discovery: debate can drift from the original problem, and in one small-model multi-hop QA study flips more often destroyed an available correct answer than created one. These are contrary findings to a general 'more critique improves reasoning' premise.",
+          "original_discriminator": "Track whether each critique changes an evidence-backed claim and whether the change improves blind expert judgments; separately count drift and discarded correct findings.",
+          "original_source_ids": [
+            "drift",
+            "flip-test"
+          ]
+        },
+        {
+          "id": "f4",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstracts",
+          "publication_status": "yes for both proceedings papers",
+          "claim_support": "abstract-limited support for evidence binding, citation validation, reported provenance-metric gains, citation/faithfulness errors and orchestrator-origin failures",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "Fact-checking and web deep-research systems differ from private repositories and heterogeneous-model architecture review. Citation validation does not establish completeness, truth, or source trustworthiness.",
+          "discriminator_feasible": true,
+          "original_claim": "A source-grounded handoff should bind atomic claims to precise evidence and make claim/citation checking an explicit synthesis step. GAVEL's fact-checking results report gains on provenance-aware benchmarks and ablations for evidence binding and citation validation; deep-research error analysis reports propagation/citation failures across agents, with many final-report errors attributed to orchestrators.",
+          "original_discriminator": "Audit a sample of investigator reports at claim level for supported locator, missing contrary evidence, and provenance loss between worker and coordinator; compare against expert source inspection.",
+          "original_source_ids": [
+            "gavel",
+            "agent-blame"
+          ]
+        }
+      ],
+      "original_rejected": [
+        {
+          "idea": "Forced consultation of every domain / more agents should increase useful coverage",
+          "reason": "Direct but limited repository study found no measurable benefit, substantial extra token use, and reported lower point metrics under forced consultation. Keep selective dispatch as the default candidate; do not generalize beyond that study."
+        },
+        {
+          "idea": "Unconstrained multi-round debate or assigned pro/con defenders as the primary alternative generator",
+          "reason": "Relevant studies report drift, destructive answer flips, and stance rigidity; one premise-selection study did report gains from responsive critique, so a short evidence-responsive critique remains a candidate, not a rejected mechanism."
+        },
+        {
+          "idea": "STORM as a drop-in implementation",
+          "reason": "It addresses public-topic long-form writing and source retrieval, not proprietary repo navigation or architecture selection; only its perspective-guided question-asking principle is relevant."
+        }
+      ],
+      "original_unresolved": [
+        "No source establishes an optimal prompt, number of roles, or research budget for smaller subagents supporting mixed-model software architecture review.",
+        "No retrieved study evaluates prompt-injection resistance in repository research. Preserve the stated boundary: repository/source contents are evidence, not instructions; no cited study here proves a particular defense.",
+        "Whether one coordinator can preserve provenance and dissent while keeping a brief useful depends on the target repository and task; a small matched evaluation is needed.",
+        "Operation accounting: actual web use totaled 17 logical operations (7 searches, 7 opens, 3 finds), one over the 16-operation ceiling, due to a final two-open call after an earlier batch had consumed 15. The research itself remained within the 12-minute target; report this deviation rather than conceal it."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "storm",
+          "url": "https://aclanthology.org/2024.naacl-long.347/",
+          "locator": "PDF pp. 1\u20132 (abstract, introduction, perspective-guided questions); p. 9 and Limitations (neutrality/verifiability)",
+          "original_access_claim": "full text",
+          "original_publication_claim": "peer-reviewed conference proceedings; verified by ACL Anthology publication record and accessible paper"
+        },
+        {
+          "id": "repo-exploration",
+          "url": "https://arxiv.org/abs/2606.11976",
+          "locator": "\u00a7\u00a74.3, 5.5, 6.3\u20136.4, 7; lines 175\u2013180, 301\u2013304, 374\u2013387, 405",
+          "original_access_claim": "full text HTML",
+          "original_publication_claim": "preprint; review status unknown"
+        },
+        {
+          "id": "drift",
+          "url": "https://aclanthology.org/2026.findings-eacl.268/",
+          "locator": "ACL Anthology abstract; study covers 10 tasks and human analysis of 170 drifting debates",
+          "original_access_claim": "abstract and metadata only in this review",
+          "original_publication_claim": "peer-reviewed conference proceedings; verified by ACL Anthology record"
+        },
+        {
+          "id": "flip-test",
+          "url": "https://aclanthology.org/2026.insights-1.8/",
+          "locator": "ACL Anthology abstract; 2,417 MuSiQue examples with Llama 3.1 8B and Ministral 3 8B",
+          "original_access_claim": "abstract and metadata only in this review",
+          "original_publication_claim": "workshop proceedings; ACL record confirms proceedings, review process not established"
+        },
+        {
+          "id": "gavel",
+          "url": "https://aclanthology.org/2026.findings-acl.1789/",
+          "locator": "ACL Anthology abstract; Evidence Contract, Mechanized Chain of Scrutiny, FEVEROUS/HOVER results and ablations",
+          "original_access_claim": "abstract and metadata only in this review",
+          "original_publication_claim": "peer-reviewed conference proceedings; verified by ACL Anthology record"
+        },
+        {
+          "id": "agent-blame",
+          "url": "https://aclanthology.org/2026.emnlp-main.1681/",
+          "locator": "ACL Anthology abstract; per-invocation faithfulness audit, four error classes, orchestrator and citation-recall findings",
+          "original_access_claim": "abstract and metadata only in this review",
+          "original_publication_claim": "peer-reviewed conference proceedings; verified by ACL Anthology record"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    },
+    {
+      "case_id": "r318",
+      "original_count": 4,
+      "strict_score": {
+        "qualified_lower": 3,
+        "unresolved": 1,
+        "upper": 4
+      },
+      "full_content_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "packet": "Decision: test a strong single-agent baseline, independent citation/factuality/coverage audit, handoff audit and separate injection-risk evaluation. ACL discussion paper abstract supports a conditional single-agent baseline; OpenScholar full article supports multidimensional synthesis assessment; repository QA preprint abstract identifies handoff failure; EMNLP injection benchmark abstract identifies vulnerability, not an effective defense. These are task- and model-specific. Cheapest falsifier: matched direct retrieval versus scout handoff, audit actual source passages and record missed decision evidence; evaluate injection boundary separately. Unresolved: effect on the target workflow and whether excess searches contributed to OpenScholar discovery. Ten searches exceed the eight-search cap. Rejected ICML debate claim because its content was not retained in the opened excerpt; Agentless and broader papers were not developed as findings.",
+      "stage_matrix": [
+        {
+          "id": "F1",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "Tested reasoning tasks and models differ from repo research and target models; the paper does not say collaboration never helps.",
+          "discriminator_feasible": true,
+          "original_claim": "Adding discussion between agents is conditional rather than an established general win: the ACL 2024 study reports strong prompting can bring a single agent close to the best discussion method, with discussion helping only when demonstrations are absent in its tested reasoning tasks.",
+          "original_discriminator": "On representative repository decisions, compare a concise evidence-first scout prompt with the current prompt at equal retrieval budget; independently score sourced alternative discovery and expert decision usefulness.",
+          "original_source_ids": [
+            "S1"
+          ]
+        },
+        {
+          "id": "F2",
+          "verifier_result": "yes",
+          "terra_strict": "unresolved",
+          "terra_reason": "Search 9 specifically names OpenScholar; contribution of excess search versus search 7 cannot be isolated.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full-text support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "OpenScholar relies on a specialized corpus, retriever and evaluation benchmark; its performance does not transfer to ordinary web search or repository research.",
+          "discriminator_feasible": true,
+          "original_claim": "A useful literature-scout report needs separate checks for citation accuracy, factual correctness, topic coverage and coherence; citation-backed prose alone is not adequate evaluation.",
+          "original_discriminator": "Blindly audit a small sample of reports against source passages and expert-selected relevant papers, scoring claim support, missed contrary evidence, and decision utility separately.",
+          "original_source_ids": [
+            "S2"
+          ]
+        },
+        {
+          "id": "F3",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "unknown (arXiv preprint under journal review)",
+          "claim_support": "abstract-limited support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "S4 concerns indexed, read-only repository QA; it does not show that delegation is generally worse or establish transfer to architecture research. S4 publication remains unverified.",
+          "discriminator_feasible": true,
+          "original_claim": "Subagent handoff can be a major silent failure point in repository-level Q&A: one 2026 preprint abstract reports 41.8% of deep-agentic-search failures at planner/sub-agent handoff and lower accuracy/cost results than semantic search in its SWE-QA setup.",
+          "original_discriminator": "For matched factual repository questions, compare scout handoffs with direct expert retrieval and record source-location agreement and silent error rate.",
+          "original_source_ids": [
+            "S4"
+          ]
+        },
+        {
+          "id": "F4",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited support",
+          "applicability": "adequately mapped with explicit limits",
+          "caveat": "This benchmark does not establish the effectiveness of any boundary wording or behavior of these models. Treat the recommendation as an operational boundary, not a research-validated control.",
+          "discriminator_feasible": true,
+          "original_claim": "Retrieved text creates an instruction-following risk that must be measured independently from evidence quality; the EMNLP benchmark abstract reports significant injection vulnerabilities in the tested instruction-following models.",
+          "original_discriminator": "If validating the workflow, separately audit whether source-origin instructions altered scope or tool use; do not infer safety from successful research outputs.",
+          "original_source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "original_rejected": [
+        "Did not use ICML 2024 debate-strategy result in a finding: opened PMLR page confirmed publication metadata but the relevant content was not retained in the opened excerpt; abstract-level corroboration was insufficient for the content constraint.",
+        "Agentless and broader multi-agent software-engineering papers were not developed into claims because the stronger direct repository-search result already supplied a close empirical handoff comparison and task asks for investigation workflow rather than patching performance."
+      ],
+      "original_unresolved": [
+        "No retrieved peer-reviewed empirical study directly tests prompts for smaller-model subagents researching academic alternatives for mixed-model software architecture decisions.",
+        "Actual Luna performance, cost, accuracy, model identity, prompt effects, and expert-review burden were not measured; this case provides literature-informed hypotheses only.",
+        "The retrieved-research limitations are constrained by the 16-operation total, and the search ceiling was exceeded: 10 search queries were issued although the contract allowed at most 8. Six opens were used; total logical operations reached 16. No more web operations were performed after noticing this accounting error."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "S1",
+          "url": "https://aclanthology.org/2024.acl-long.331/",
+          "locator": "Abstract on ACL Anthology page; page reports strong prompted single-agent performance nearly matching the best discussion approach, with discussion outperforming single-agent only when prompts lacked demonstrations.",
+          "original_access_claim": "abstract-only on opened page",
+          "original_publication_claim": "peer-reviewed conference paper; venue/citation listed by ACL Anthology"
+        },
+        {
+          "id": "S2",
+          "url": "https://www.nature.com/articles/s41586-025-10072-4",
+          "locator": "ScholarQABench evaluation discussion; article lines 107 onward describes citation accuracy plus human rubric assessment of coverage, coherence, writing quality and factual correctness.",
+          "original_access_claim": "full text (HTML)",
+          "original_publication_claim": "journal article; peer-review acknowledgment shown on Nature listing"
+        },
+        {
+          "id": "S3",
+          "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+          "locator": "p. 10, lines 616-629: distinguishes agentless RAG baseline and reports resolved rate, inference cost, token use and location accuracy as evaluation metrics.",
+          "original_access_claim": "full text (PDF)",
+          "original_publication_claim": "peer-reviewed FSE proceedings paper; publication details in the paper at p. 10"
+        },
+        {
+          "id": "S4",
+          "url": "https://arxiv.org/abs/2608.01507",
+          "locator": "Abstract: on SWE-QA, semantic search answered 65.2% versus deep agentic search 46.2% and cost less than half; 41.8% of deep-search failures involved silent planner/sub-agent handoffs.",
+          "original_access_claim": "abstract-only (abstract page)",
+          "original_publication_claim": "preprint; peer-review/publication status unknown"
+        },
+        {
+          "id": "S5",
+          "url": "https://aclanthology.org/2024.emnlp-main.33/",
+          "locator": "Abstract, lines 59-60: benchmark evaluates instruction following under prompt injection and reports significant vulnerabilities in tested models.",
+          "original_access_claim": "abstract-only on opened page",
+          "original_publication_claim": "peer-reviewed conference paper; venue/citation listed by ACL Anthology"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    },
+    {
+      "case_id": "r139",
+      "original_count": 4,
+      "strict_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "full_content_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "packet": "Decision: compare bounded alternative search and repository-grounded claims against a simple baseline; evaluate outcomes rather than confidence or length. Tree of Thoughts full paper supports branching and backtracking on narrow benchmark tasks; CodeAgent and RepoCod abstracts support artifact and repository-context questions; MIPRO abstract supports metric-based prompt optimization; RCI abstract supports critique experiments, not source verification. None validates architecture scouting. Cheapest falsifier: matched existing-repository decisions scored for distinct viable alternatives, source correctness, omissions and reviewer time. Unresolved: transfer and whether self-critique adds value after direct checks. Rejected debate and OPRO material behind access challenges and a cache-missed source; preserve independent acceptance and untrusted-source boundaries as task constraints.",
+      "stage_matrix": [
+        {
+          "id": "bounded-branching",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full",
+          "applicability": "missing assumption",
+          "caveat": "The three benchmark tasks are not repository research or architecture decisions; the paper explicitly notes cost and narrow task coverage.",
+          "discriminator_feasible": "yes",
+          "original_claim": "A useful prompt can represent investigation as a small search: state competing candidate explanations or approaches, compare their evidence, then select a next discriminator. Tree of Thoughts formalizes alternative generation, evaluation, lookahead and backtracking; its paper also reports a GPT-3.5 result better than chain-of-thought on two benchmark tasks, but on different tasks than repository research.",
+          "original_discriminator": "On matched real investigations, compare ordinary mapping with a prompt requiring at most a few alternative hypotheses, source-backed pro/con evidence and one falsifiable discriminator; have an expert score useful alternatives and correctness blind to arm.",
+          "original_source_ids": [
+            "tot"
+          ]
+        },
+        {
+          "id": "repo-grounding",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes for both",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "Both results concern code generation/retrieval benchmarks; CodeAgent's reported gains and RepoCod's retrieval comparison do not test architecture scouting or current models.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Repository investigation benefits from interaction with software artifacts and retrieval/testing tools, while repository benchmarks caution that toy or narrow contexts may not predict realistic work. CodeAgent reports gains on its own repository benchmark from artifact retrieval/implementation/testing; RepoCod reports that retrieval-augmented context beat target-function dependency context and that performance was low on more realistic tasks.",
+          "original_discriminator": "Judge paired reports for source accuracy, missed contrary evidence, actionable discriminators and expert rework required on actual repository investigations, holding source access and budgets constant.",
+          "original_source_ids": [
+            "codeagent",
+            "repocod"
+          ]
+        },
+        {
+          "id": "evaluate-prompt",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "MIPRO optimizes LM-program task metrics; it does not establish quality for open research or mixed-model software decisions.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Prompt changes should be treated as hypotheses evaluated against downstream outcomes. MIPRO proposes instructions using program/data context and iteratively evaluates them against a metric; it reports improvements in five of seven tested multi-stage LM programs with Llama-3-8B, showing feasibility for one smaller open model while leaving transfer to this research task unestablished.",
+          "original_discriminator": "A small paired comparison on representative existing investigations, scored for factual support, useful alternatives, rejected assumptions, review burden and turnaround, would resolve whether this prompt improves this workflow.",
+          "original_source_ids": [
+            "mipro"
+          ]
+        },
+        {
+          "id": "critique-is-not-proof",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "The RCI abstract reports computer-task and reasoning results but says nothing about source verification; the independent-verification caution is not a paper result.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Recursive critique/improvement has been studied and was reported to help computer-task performance, but an agent's self-critique remains an output of that agent and should not be taken as independent verification.",
+          "original_discriminator": "Check whether a critique step increases independently verified counterevidence or reduces reviewer corrections on matched investigations.",
+          "original_source_ids": [
+            "rci"
+          ]
+        }
+      ],
+      "original_rejected": [
+        "Did not use the OpenReview multi-agent-debate search result as evidence: both direct opens hit a browser challenge, so claims and venue status were not verified from accessible paper content.",
+        "Did not use OPRO as evidence: search snippet identified an ICLR 2024 paper but its OpenReview PDF could not be opened. Did not use the Justify Your Prompts article because its ACL Anthology page returned a cache miss."
+      ],
+      "original_unresolved": [
+        "No paper directly tests a Luna-high scout discovering counterintuitive alternatives, checking repository assumptions, or handing compact evidence to a stronger mixed-model architecture reviewer.",
+        "The proportionate local test needs matched tasks and an expert rubric; this case researched the question and did not run that prompt comparison.",
+        "Prompt-injection boundaries and independent patch acceptance were supplied as task constraints; the reviewed papers do not establish those governance properties. Preserve them as workflow requirements rather than claiming these studies validate them."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "tot",
+          "url": "https://proceedings.neurips.cc/paper/2023/hash/271db9922b8d1f4dd7aaef84ed5ac703-Abstract.html",
+          "locator": "Sections 1 and 3, lines 92-108 and 165-187; Appendix B.2-B.3, lines 954-984 (PDF line locators).",
+          "original_access_claim": "Full text accessible via official proceedings PDF",
+          "original_publication_claim": "Peer-reviewed conference paper; official proceedings record"
+        },
+        {
+          "id": "codeagent",
+          "url": "https://aclanthology.org/2024.acl-long.737/",
+          "locator": "ACL Anthology abstract and proceedings metadata, lines 58-60 and 115-126; PDF title/abstract at pages 0-1.",
+          "original_access_claim": "Full-text PDF opened; accessible paper metadata and abstract; only opening pages returned in excerpt",
+          "original_publication_claim": "Peer-reviewed conference proceedings paper; ACL Anthology record"
+        },
+        {
+          "id": "repocod",
+          "url": "https://aclanthology.org/2025.acl-long.1204/",
+          "locator": "ACL Anthology abstract, lines 58-61; proceedings and venue metadata, lines 62-93.",
+          "original_access_claim": "Abstract and bibliographic metadata only",
+          "original_publication_claim": "Peer-reviewed conference proceedings paper; ACL Anthology record"
+        },
+        {
+          "id": "mipro",
+          "url": "https://aclanthology.org/2024.emnlp-main.525/",
+          "locator": "ACL Anthology abstract, lines 58-61; conference metadata, lines 62-95.",
+          "original_access_claim": "Abstract and bibliographic metadata only",
+          "original_publication_claim": "Peer-reviewed conference proceedings paper; ACL Anthology record"
+        },
+        {
+          "id": "rci",
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/7cc1005ec73cfbaac9fa21192b622507-Abstract-Conference.html",
+          "locator": "Official NeurIPS abstract, lines 0-9; Recursive Criticizes and Improves (RCI) claim is abstract-level.",
+          "original_access_claim": "Abstract and bibliographic metadata only",
+          "original_publication_claim": "Peer-reviewed conference paper; official proceedings record"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    },
+    {
+      "case_id": "r612",
+      "original_count": 4,
+      "strict_score": {
+        "qualified_lower": 3,
+        "unresolved": 1,
+        "upper": 4
+      },
+      "full_content_score": {
+        "qualified_lower": 4,
+        "unresolved": 0,
+        "upper": 4
+      },
+      "packet": "Decision: compare research idea generation with bounded external critique against a simpler route. ResearchAgent abstract describes research/idea/review pipeline; ICML debate abstract reports no dependable advantage over simpler baselines; ACL self-bias abstract supports caution about model self-review. Agentless full paper opened at operation 12 supports a simple repair pipeline and benchmark result; its validity-limits find at operation 17 exceeds the 16-operation limit. Cheapest falsifier: compare matched tasks with one evidence-specific challenge and direct source assessment; track lost alternatives, errors and expert effort. Unresolved: Agentless f4 validity clause under strict budget and all cross-domain transfer. Reject default open-ended debate, self-review as independent validation and direct transfer of benchmark wins. Eight searches meet the search cap; 18 total operations exceed the total cap.",
+      "stage_matrix": [
+        {
+          "id": "f1",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "ResearchAgent generates scientific research ideas from literature and uses collaborative LLM review; it does not test repository exploration or a smaller model with expert handoff.",
+          "discriminator_feasible": "yes",
+          "original_claim": "A research workflow can stage exploration of prior work, cross-source idea generation, candidate design, and iterative review. ResearchAgent describes academic-graph retrieval plus cross-paper concept retrieval, followed by proposal generation and LLM reviewer feedback; it reports human and model evaluation across disciplines.",
+          "original_discriminator": "Compare a bounded source-first/alternative-and-check prompt against the current prompt on matched repository investigations; have experts score unique useful alternatives, verified assumptions, and review burden.",
+          "original_source_ids": [
+            "researchagent"
+          ]
+        },
+        {
+          "id": "f2",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "Benchmark questions and evaluated systems differ from architecture investigation and Luna; full method appraisal remains unavailable.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Multi-agent debate is not a dependable default improvement: the ICML study reports debate systems did not reliably outperform self-consistency or ensembles, and were more sensitive to hyperparameter settings.",
+          "original_discriminator": "On matched cases, compare concise evidence-based critique with no critique and measure corrected material errors versus added expert review time.",
+          "original_source_ids": [
+            "mad"
+          ]
+        },
+        {
+          "id": "f3",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "Studied tasks are translation, constrained generation and math reasoning, not software architecture or prompt-injection handling.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Self-review can favor a model's own prior answer: ACL 2024 reports self-bias across six examined models and tasks; self-refinement could improve fluency while amplify bias, while accurate external assessment mitigated it.",
+          "original_discriminator": "Check whether an evidence-only independent reviewer catches unsupported claims more often than same-agent self-critique on a small matched set.",
+          "original_source_ids": [
+            "selfbias"
+          ]
+        },
+        {
+          "id": "f4",
+          "verifier_result": "unresolved",
+          "terra_strict": "unresolved",
+          "terra_reason": "External-validity clause first surfaced by operation 17, outside total-operation cap.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full for pipeline/results; unresolved for the external-validity clause under the original operation cutoff",
+          "applicability": "missing assumption",
+          "caveat": "The original full PDF was opened within operation 12 and filtering results were surfaced at operation 16. The report's Threats to Validity evidence was first found at operation 17, outside the permitted first-16 window; thus its claim about stated external-validity limits cannot count as verified for this evaluation. Agentless remains issue repair, not architecture scouting.",
+          "discriminator_feasible": "yes",
+          "original_claim": "A simpler, structured workflow can compete with complex software agents on benchmark repair tasks, while repository task difficulty and benchmark construction materially affect comparisons. The FSE paper's Agentless pipeline uses localization, repair, and validation; it reports strong results, filters SWE-bench Lite issues with inadequate or misleading descriptions, and notes external-validity limits.",
+          "original_discriminator": "Use a small blinded paired evaluation on current-project investigations and track unique validated alternatives, rejected assumptions, citation accuracy, expert effort, and whether consequential review occurred in time.",
+          "original_source_ids": [
+            "agentless"
+          ]
+        }
+      ],
+      "original_rejected": [
+        {
+          "item": "Unstructured multi-agent debate as the default research-prompt mechanism",
+          "reason": "The ICML evidence does not show reliable gains over simpler multi-path prompting; an evidence-specific bounded critique is more directly testable."
+        },
+        {
+          "item": "Treating self-refinement as independent validation",
+          "reason": "ACL evidence finds self-bias; retain source inspection and external expert acceptance."
+        },
+        {
+          "item": "Transferring benchmark win rates to this workflow",
+          "reason": "Agentless is a repair benchmark result with different tasks/models; use only to motivate a simple matched comparison."
+        }
+      ],
+      "original_unresolved": [
+        "No study retrieved directly evaluates small-model repository scouts in a mixed-model architecture-decision workflow, including expert workload, timeliness, prompt-injection boundaries, or independent patch acceptance.",
+        "Only abstracts were available for ResearchAgent, the ICML debate paper, and the ACL self-bias paper; their detailed protocols/effect sizes remain unchecked.",
+        "The contract ceiling was exceeded: 18 logical web operations were performed (8 queries, 7 opens, 3 finds), two over the 16-operation maximum, because each batched find counted separately. Research stopped immediately after detecting this."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "researchagent",
+          "url": "https://aclanthology.org/2025.naacl-long.342/",
+          "locator": "Abstract, lines 57\u201361; publication metadata, lines 62\u201393",
+          "original_access_claim": "abstract and metadata only",
+          "original_publication_claim": "peer-reviewed conference paper; ACL Anthology identifies proceedings, DOI, and pages 6709\u20136738"
+        },
+        {
+          "id": "mad",
+          "url": "https://proceedings.mlr.press/v235/smit24a.html",
+          "locator": "Abstract, lines 22\u201324",
+          "original_access_claim": "abstract and metadata only; PDF open failed",
+          "original_publication_claim": "peer-reviewed conference paper; PMLR proceedings record"
+        },
+        {
+          "id": "selfbias",
+          "url": "https://aclanthology.org/2024.acl-long.826/",
+          "locator": "Abstract, lines 58\u201359; venue and bibliographic record, lines 61\u201392",
+          "original_access_claim": "abstract and metadata only",
+          "original_publication_claim": "peer-reviewed conference paper; ACL Anthology proceedings record"
+        },
+        {
+          "id": "agentless",
+          "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+          "locator": "\u00a76.1\u20136.3, PDF pp. 15\u201319, lines 1046\u20131156 and 1227\u20131276; \u00a78, lines 1277\u20131283",
+          "original_access_claim": "full text",
+          "original_publication_claim": "peer-reviewed FSE research paper; official track describes review and publication process at https://conf.researchr.org/track/fse-2025/fse-2025-research-papers"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    },
+    {
+      "case_id": "r654",
+      "original_count": 5,
+      "strict_score": {
+        "qualified_lower": 5,
+        "unresolved": 0,
+        "upper": 5
+      },
+      "full_content_score": {
+        "qualified_lower": 5,
+        "unresolved": 0,
+        "upper": 5
+      },
+      "packet": "Decision: evaluate targeted retrieval and citation/coverage audit, optional specialized roles, and lean repository context against simple baselines. ICML debate abstract cautions against default debate; OpenScholar full article reports specialized scholarly retrieval and synthesis; LiRA abstract reports specialized literature roles; ContextBench and AGENTS.md preprints report context-selection and cost limits. ContextBench concerns issue resolution and AGENTS.md findings distinguish generated and developer context; do not remove required instructions. Cheapest falsifier: compare relevant context used, missed alternatives, errors, reviewer effort and cost on matched tasks; compare optional role splits separately. Unresolved: target transfer, unpublished review status for both preprints and role-split benefit. Rejected SWE-bench abstract as nondiscriminating and generic debate studies as redundant; retain conditional positive debate evidence.",
+      "stage_matrix": [
+        {
+          "id": "f1",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "General benchmark debate strategies do not establish useful software architecture critique or model-tier transfer.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Evidence does not justify defaulting to multi-agent debate as the way to discover useful alternatives: in a peer-reviewed benchmark study, debate protocols did not reliably outperform self-consistency or ensembles, though tuning some protocols improved results and made them sensitive to settings.",
+          "original_discriminator": "On a small matched set of real repository decisions, compare a scoped evidence brief with and without a single adversarial reviewer; measure expert-discovered useful alternatives, factual support, review time and cost.",
+          "original_source_ids": [
+            "s1"
+          ]
+        },
+        {
+          "id": "f2",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "yes",
+          "claim_support": "direct full",
+          "applicability": "missing assumption",
+          "caveat": "OpenScholar is a specialized scholarly retrieval/synthesis system evaluated on literature QA benchmarks; it does not establish that iterations always help or validate repository-scoped claims.",
+          "discriminator_feasible": "yes",
+          "original_claim": "For literature synthesis, retrieval of relevant passages, attribution, iterative retrieval-based verification, and evaluation of citations/coverage/factual correctness are empirically useful components; OpenScholar reports gains for an 8B model and a GPT-4o-backed pipeline on its ScholarQABench tasks.",
+          "original_discriminator": "Audit a sample of submitted claims against cited source passages, tracking unsupported/misattributed claims and whether direct links let the architecture decision-maker resolve disagreements quickly.",
+          "original_source_ids": [
+            "s2"
+          ]
+        },
+        {
+          "id": "f3",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "abstract",
+          "publication_status": "yes",
+          "claim_support": "abstract-limited",
+          "applicability": "missing assumption",
+          "caveat": "The abstract's domain is systematic literature-review production, not architecture decisions or heterogeneous model coordination; no cost or patch-acceptance result.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Role-specialized multi-agent workflows have a positive but domain-limited published example: LiRA assigns outlining, subsection-writing, editing and reviewing roles and reports improved writing/citation quality on scientific review datasets.",
+          "original_discriminator": "Compare a single broad repository investigation against two bounded, disjoint evidence questions with one expert synthesis; judge novel actionable findings and time to decision.",
+          "original_source_ids": [
+            "s3"
+          ]
+        },
+        {
+          "id": "f4",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "unknown (arXiv preprint only)",
+          "claim_support": "direct full",
+          "applicability": "missing assumption",
+          "caveat": "Preprint status only; evaluates repository issue-resolution context retrieval with frontier models, not architecture-alternative discovery by lower-tier scouts.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Repository exploration should be treated as a retrieval/selection problem with observable quality dimensions: ContextBench evaluates context precision, recall and efficiency and reports a gap between explored and used context, with elaborate scaffolding yielding only marginal retrieval gains in its evaluation.",
+          "original_discriminator": "For actual investigations, sample whether cited source locations are decision-relevant and whether any consequential alternative was missed; track retrieval breadth and report size alongside expert utility.",
+          "original_source_ids": [
+            "s4"
+          ]
+        },
+        {
+          "id": "f5",
+          "verifier_result": "yes",
+          "terra_strict": "retained",
+          "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+          "expert": "not individually assessed",
+          "content_access": "full",
+          "publication_status": "unknown (arXiv v3 preprint only)",
+          "claim_support": "direct full",
+          "applicability": "missing assumption",
+          "caveat": "It studies issue-fixing success and cost rather than investigation quality; developer-written and generated context differ, and the result does not justify removing useful local practice instructions.",
+          "discriminator_feasible": "yes",
+          "original_claim": "Repository context files are not a guaranteed shortcut: a recent arXiv study across four agent/model configurations found generated context files did not significantly improve success and increased inference cost over 20% on average; repository overviews were not useful, while instructions for non-standard practices may still be useful.",
+          "original_discriminator": "Use a matched local evaluation of current versus proposed research prompt on the same repository questions, scoring supported alternatives, omissions, citation accuracy, review effort and cost.",
+          "original_source_ids": [
+            "s5"
+          ]
+        }
+      ],
+      "original_rejected": [
+        {
+          "item": "SWE-bench original paper",
+          "reason": "Useful context that repository-level issue work spans multiple functions/files and is challenging, but it evaluates patch completion, not investigation/prompt workflows; the opened arXiv record exposed only the abstract and did not change the decision implications above.",
+          "source_id": "https://arxiv.org/abs/2310.06770"
+        },
+        {
+          "item": "Additional generic debate and multi-agent system studies surfaced in search",
+          "reason": "Not pursued after the ICML benchmark supplied both negative and conditional-positive evidence directly relevant to whether debate should be the default; extra broad results would be redundant within the operation budget."
+        }
+      ],
+      "original_unresolved": [
+        "No retrieved study directly tests whether lower-reasoning subagents discover better architecture alternatives in existing repositories under mixed-model coordination. The proposed workflow therefore needs a matched local evaluation.",
+        "The sources do not establish that any prompt method preserves prompt-injection resistance, expert access to decisive sources, independent patch acceptance, or timely consequential review; these remain explicit process constraints to retain and separately assess.",
+        "ContextBench and AGENTS.md findings are arXiv preprints in the accessed records; publication status may change. LiRA and MAD full papers were not opened, so their reported results are bounded to publisher abstracts and metadata."
+      ],
+      "sources_and_locators": [
+        {
+          "id": "s1",
+          "url": "https://proceedings.mlr.press/v235/smit24a.html",
+          "locator": "Abstract, lines 13\u201316 and 22\u201325",
+          "original_access_claim": "abstract and metadata; PDF linked but not opened",
+          "original_publication_claim": "peer-reviewed conference paper; PMLR lists it in ICML 2024 proceedings"
+        },
+        {
+          "id": "s2",
+          "url": "https://www.nature.com/articles/s41586-025-10072-4",
+          "locator": "Abstract; Introduction; evaluation and citation-accuracy discussion, especially lines 91\u2013111",
+          "original_access_claim": "full text, open access HTML",
+          "original_publication_claim": "published journal article; Nature page says published 4 February 2026"
+        },
+        {
+          "id": "s3",
+          "url": "https://ojs.aaai.org/index.php/AAAI/article/view/41489",
+          "locator": "Abstract and publication/citation metadata, lines 32\u201345",
+          "original_access_claim": "abstract and metadata only; paper PDF linked but not opened",
+          "original_publication_claim": "published AAAI proceedings paper; issue and DOI listed on publisher page"
+        },
+        {
+          "id": "s4",
+          "url": "https://arxiv.org/abs/2602.05892",
+          "locator": "Abstract, lines 3\u20134; context retrieval cost at line 160",
+          "original_access_claim": "full HTML paper",
+          "original_publication_claim": "preprint; publication status unknown beyond arXiv"
+        },
+        {
+          "id": "s5",
+          "url": "https://arxiv.org/abs/2602.11988",
+          "locator": "Abstract lines 16\u201318; study conditions and results in paper sections summarized at alphaXiv lines 27\u201343",
+          "original_access_claim": "full HTML text via linked alphaXiv rendering plus arXiv metadata/abstract",
+          "original_publication_claim": "preprint, v3 dated 29 September 2026; arXiv record only, publication status unknown"
+        }
+      ],
+      "expert_question": "Do the retained mechanisms and their caveats justify a bounded matched test for this decision, and which decisive source passages or contrary candidate alter it?",
+      "handoff": "Expert must assess transfer, inspect decisive sources, preserve task constraints, and review unresolved strict-budget provenance before scoring; no expert acceptance is implied."
+    }
+  ],
+  "mechanism_union": [
+    {
+      "mechanism": "staged bounded investigation and selective dispatch",
+      "origin_ids": [
+        "r693:staged-research",
+        "r801:f1",
+        "r612:f4"
+      ]
+    },
+    {
+      "mechanism": "alternative generation and perspective questions",
+      "origin_ids": [
+        "r693:alternatives-and-rankers",
+        "r801:f2",
+        "r139:bounded-branching"
+      ]
+    },
+    {
+      "mechanism": "claim verification and provenance",
+      "origin_ids": [
+        "r693:independent-verification",
+        "r801:f4",
+        "r139:critique-is-not-proof",
+        "r612:f3"
+      ]
+    },
+    {
+      "mechanism": "benchmark scope and local evaluation",
+      "origin_ids": [
+        "r693:benchmarks-and-scope",
+        "r139:evaluate-prompt",
+        "r612:f4"
+      ]
+    },
+    {
+      "mechanism": "debate limits and simple baseline",
+      "origin_ids": [
+        "r801:f3",
+        "r318:F1",
+        "r612:f2",
+        "r654:f1"
+      ]
+    },
+    {
+      "mechanism": "synthesis evaluation and cited retrieval",
+      "origin_ids": [
+        "r318:F2",
+        "r654:f2"
+      ]
+    },
+    {
+      "mechanism": "repository handoff and context quality",
+      "origin_ids": [
+        "r318:F3",
+        "r139:repo-grounding",
+        "r654:f4",
+        "r654:f5"
+      ]
+    },
+    {
+      "mechanism": "separate prompt injection risk",
+      "origin_ids": [
+        "r318:F4"
+      ]
+    },
+    {
+      "mechanism": "specialized research or synthesis roles",
+      "origin_ids": [
+        "r612:f1",
+        "r654:f3"
+      ]
+    }
+  ],
+  "caveats": "Union is descriptive cross-case clustering, not arm comparison; multiple related IDs can contain distinct consequences. No model usage, token, native resource or weekly allowance telemetry established. No experiment or transfer proven.",
+  "budget_correction": "agent-2.md originally says r612 exceeded both total and 8-query limits. Its own logged 8 searches meet the 8-query cap; 18 total operations exceed 16. Preserve original statement as a recorded error."
+}

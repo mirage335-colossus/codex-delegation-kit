@@ -1,6 +1,10 @@
 # Delegation controller acceptance exercise
 
-**Verified final state: stopped, 4/4 original tasks complete, independent review accepted, zero active work.** The delivery process corrected this heading and the successful-session count from the durable state; the original main-authored narrative remains at `/tmp/delegation-engineering-main-fixture/report.md`. Original setup and format failures remain in the records.
+> **Current cost context (user-reported, 2026-10-28):** GPT-6.1 Sol in Desktop Codex was reported to consume included weekly allowance at about five times its previous Sol usage rate. The user-provided unitless planning index is Terra = 1, Sol ≈ 10, Astra ≈ 20, and Luna = 0.1. These estimates are not verified or calibrated to actual comparable workloads or weekly allowance use, and are not API/token or purchased-credit rates, USD amounts, or weekly usage percentages. The [official plan-pricing page](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual) explains that credit prices alone do not determine included subscription usage. See the [weekly-usage cost guidance](../policy.md#weekly-usage-cost); this context does not revise historical measurements or conclusions, or change routing, role pins, tiers, or controller behavior.
+
+Current Luna evidence-discovery guidance is summarized in the [policy](../policy.md#evidence-discovery-and-terra-screening); it does not change these historical results.
+
+**Verified final state: stopped, 4/4 original tasks complete, independent review accepted, zero active work.** The delivery process corrected this heading and the successful-session count from the durable state; the original main-authored narrative remains at `unbundled-runtime/run-h477d4d60251ff030/report.md`. Original setup and format failures remain in the records.
 
 ## Run settings and runtime verification
 
@@ -26,7 +30,7 @@ The first correction worker attempt (`correct-total-1-2288894efa32`) changed onl
 
 After the reviewed receipt-normalization runtime was migrated while paused, `continue --task correct-total` revalidated the retained original report using actual command receipts; it did not rerun the model or reexecute the patch. It created the independent review stage. Reviewer task `correct-total.review.1` inspected the retained patch and checks, independently ran the unchanged unittest command successfully, and completed with verdict `accept`; controller status records `validated`. Thus the original correction is passed after actual independent review. The initial `commands` object/string schema error remains in report validation history and is not erased. The reviewer wrote one scratch lock file inside its declared private scratch; no production file was changed.
 
-The final CLI stop is persisted. Final report: run stopped, all tasks terminal, zero active work, 4/4 original tasks completed (with the additional counterfactual follow-up also complete). Original source hashes remain unchanged.
+The final CLI stop is persisted. Final report: run stopped, all tasks terminal, zero active work, 4/4 original tasks completed (with the additional counterfactual follow-up also complete). Source hashes were reported unchanged during the original run, before publication.
 
 ## Evidence files
 

@@ -1,0 +1,155 @@
+{
+  "assignment_id": "P204-A",
+  "conversation_id": "p204-a",
+  "model_effort": "gpt-6-luna/high (request and role pin; runtime inheritance not independently verifiable)",
+  "source_identity": {
+    "project_under_investigation": "software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665; excerpts are supplied source evidence, not execution evidence",
+    "kit_context": "codex-delegation-kit HEAD 947ed25d4058e405ecf45d6956671f6fecb12026; pre-existing modifications/untracked verification material are noted in the supplied scenario; no project files were accessed or changed",
+    "scope_read": "only p204 contract/task/scenario/source-index/routing/scout role and assigned excerpts R01, R02, R03, R09; no other view, arm report, pilot result, or project checkout",
+    "runtime": "No code, test, configure, build, or application command was run. Findings below are source predictions and literature evidence only."
+  },
+  "web_operations": {
+    "counts": {
+      "search_queries": 5,
+      "opens_attempted": 5,
+      "logical_total": 10,
+      "limits": {
+        "search_queries": 8,
+        "opens": 10,
+        "total": 16
+      }
+    },
+    "searches": [
+      "empirical study test case prioritization effectiveness industrial software regression testing study primary paper",
+      "differential testing empirical evaluation software testing effectiveness study primary paper",
+      "metamorphic testing empirical study applicability oracle problem testing primary paper software",
+      "differential testing empirical study compilers diverse implementations effectiveness bugs paper primary source Csmith",
+      "test prioritization simple heuristics outperform sophisticated long running test suites empirical ISSTA 2024 paper"
+    ],
+    "opens": [
+      {
+        "url": "https://2024.issta.org/details/issta-2024-papers/50/Revisiting-Test-Case-Prioritization-on-Long-Running-Test-Suites",
+        "status": "opened; conference paper record/abstract"
+      },
+      {
+        "url": "https://users.cs.utah.edu/~regehr/papers/pldi11-preprint.pdf",
+        "status": "opened; author-posted PLDI 2011 paper"
+      },
+      {
+        "url": "https://doi.org/10.1145/3057269",
+        "status": "fetch failed (403); used search-result bibliographic/abstract record only"
+      },
+      {
+        "url": "https://doi.org/10.1109/TSE.2013.46",
+        "status": "redirected to IEEE page; blocked by recaptcha, abstract already available from search result"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6380623/",
+        "status": "fetch failed with internal/checking-browser error; abstract only, not relied on for decision"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "source": "Cheng, Wang, Jabbarvand, Marinov, ISSTA 2024, Revisiting Test-Case Prioritization on Long-Running Test Suites",
+      "link": "https://doi.org/10.1145/3650212.3680307",
+      "status": "primary empirical study; conference record opened",
+      "study_context": "21,255 CI builds and 57,437 suite runs from 10 large open-source Jenkins projects, 2020-2023; mean suite run 6.5 hours; comparison of 59 prioritization techniques.",
+      "claim": "The authors report that prioritizing faster tests that recently failed performed best and outperformed sophisticated techniques. The abstract says 9 prior findings were confirmed and 2 refuted.",
+      "support_and_limits": "Supports beginning with known, cheap, high-signal focused checks and not inventing a ranking model without a demonstrated need. It studies ordering tests in long-running suites with history, not causal diagnosis of eight hypothetical reports, and does not establish an optimal order for this project. No local duration or failure-history data is supplied."
+    },
+    {
+      "source": "Kazmi et al., ACM Computing Surveys 2017, Effective Regression Test Case Selection: A Systematic Literature Review",
+      "link": "https://doi.org/10.1145/3057269",
+      "status": "systematic literature review; DOI open returned 403, search result abstract/bibliographic record read",
+      "study_context": "Review of 47 empirical studies published 2007-2015.",
+      "claim": "The review reports heterogeneous measures (7 cost measures, 13 coverage types, 5 fault-detection metrics) and says only 39% of the studies followed experimental guidelines and were reproducible.",
+      "support_and_limits": "This cautions against treating one ranking result as universally transferable or comparing strategies without defining the outcome and validity criteria. It is secondary evidence and does not decide the focused checks for this source."
+    },
+    {
+      "source": "Yang, Chen, Eide, Regehr, PLDI 2011, Finding and Understanding Bugs in C Compilers",
+      "link": "https://users.cs.utah.edu/~regehr/papers/pldi11-preprint.pdf",
+      "status": "primary empirical study; author-posted paper opened",
+      "study_context": "Three-year Csmith campaign using randomized differential testing of C compilers; paper reports more than 325 previously unknown bugs. It generates valid defined-behavior programs and compares outputs across compilers (PDF lines 4-18, 54-61, 62-78).",
+      "claim": "Differential testing can expose defects with no direct expected-output oracle when implementations share semantics; Csmith specifically avoids undefined/unspecified behavior to make comparisons meaningful. The authors also report cases missed by compilers' fixed suites (lines 74-78).",
+      "support_and_limits": "Supports a paired provider comparison only after identifying exact provider/package/build identity and establishing equivalent ABI/spec/configuration. It does not show a C++/Rust provider mismatch here, validate an arbitrary package, or justify random campaigns for this bounded triage. The fixed-suite result is a contrary consideration if a narrow check passes despite known input-domain gaps; it does not invalidate exact contract tests."
+    },
+    {
+      "source": "Liu et al., IEEE TSE 2014, How Effectively Does Metamorphic Testing Alleviate the Oracle Problem?",
+      "link": "https://doi.org/10.1109/TSE.2013.46",
+      "status": "primary empirical paper; IEEE open blocked after redirect, abstract was available in search result",
+      "study_context": "Study of metamorphic relations for checking relations across multiple executions; abstract reports a small number of diverse relations showed similar fault-detection capability to an oracle in the studied programs.",
+      "claim": "Metamorphic checks can help where expected outputs are unavailable, provided useful input/output relations are known.",
+      "support_and_limits": "Weak alternative here: R01-R03 and R09 excerpts already state concrete expected contracts and have focused fixtures, so direct matched assertions should be cheaper and more interpretable. Relations do not recover missing provider identity or clarify what the user meant by redirected output."
+    }
+  ],
+  "source_map": [
+    {
+      "report": "R01",
+      "excerpt_refs": [
+        "sources/R01.txt:14-28",
+        "sources/R01.txt:30-52",
+        "sources/R01.txt:55-88"
+      ],
+      "source_prediction": "Store::update validates before lookup, then constructs a replacement and swaps only the matching record text. Existing store fixture checks failed-operation snapshot equality and record-ID behavior. This predicts a useful discriminator, not actual behavior.",
+      "entry_and_consumer": "src/store.cpp Store::update; Store callers are not enumerated in this excerpt, so downstream consumer path remains unknown.",
+      "next_falsifier": "On one identified Store instance with two records, record each (ID,text) pair before an invalid update of one ID and compare the complete keyed snapshot afterward; also verify the other ID remains unchanged. Preserve the original input and exact rejection status. This directly tests the omitted-IDs ambiguity.",
+      "fixture_and_limit": "tests/store_test.cpp rejects empty, overlength, newline, and NUL updates, then compares snapshot at R01 lines 70-80; source excerpt does not prove test execution and the original report has no IDs or reproducer."
+    },
+    {
+      "report": "R02",
+      "excerpt_refs": [
+        "sources/R02.txt:5-41",
+        "sources/R02.txt:43-65",
+        "sources/R02.txt:67-79"
+      ],
+      "source_prediction": "CLI parses/validates all values into Store before emitting rows; the fixture expects empty stdout for a later invalid value. --help flushes stdout and returns failure on flush error. These are separate observations with distinct discriminators.",
+      "entry_and_consumer": "src/main.cpp run(argc,argv), executed through foundation-cli and tests/check_cli.py; CMake registers core.cli under non-Emscripten configuration in the supplied excerpt.",
+      "next_falsifier": "Use the exact binary/configuration and capture exit status plus raw stdout/stderr for '-- Valid bad\\ntext'; then separately run '--help' with ordinary redirection and, if testing write failure, a sink known to fail on flush. Record which redirect/sink reproduces the claimed error. Do not combine atomic-output and help-flush claims.",
+      "fixture_and_limit": "tests/check_cli.py captures bytes and expects invalid input to produce no stdout; --help is covered through system-fixture/dev/full only where that device exists (R02 lines 17-46). Registration is core.cli at lines 468-479. No executable run or platform identity is available."
+    },
+    {
+      "report": "R03",
+      "excerpt_refs": [
+        "sources/R03.txt:5-35",
+        "sources/R03.txt:36-86",
+        "sources/R03.txt:87-120"
+      ],
+      "source_prediction": "C++ Store bridges bytes and length to the C ABI. CMake selects expected provider at build time; component fixture checks provider identity and every single byte plus length/buffer boundaries. The visible C++ provider accepts printable ASCII 32..126. The Rust implementation is not shown, so no provider behavior can be inferred.",
+      "entry_and_consumer": "src/text_validation.cpp foundation::detail::validate_text -> foundation_text_validate_v1; Store::validate in R01 is a caller. CMake registers core.text_validation and core.text_status; the supplied test asserts configured provider identity.",
+      "next_falsifier": "First capture exact package/crate version/checksum, provider choice, build/configuration flags and linked provider ID from the failing consumer. Then run the same C++ caller and byte/boundary corpus against C++ and that exact Rust artifact under otherwise matched settings; compare status for all bytes 0..255 and lengths 0,1,256,257. Keep the original failing byte sequence and package identity in the record.",
+      "fixture_and_limit": "core.text_validation checks the complete one-byte domain and all invalid-byte positions in 256-byte input (R03 lines 37-63); CMake registers it and expects Rust only if configured so (lines 96-110). core.text_status injects statuses to check caller translation and state preservation, not Rust implementation (lines 114-145). The report omitted package/provider identity, so a differential result without recovering it is not comparable evidence."
+    },
+    {
+      "report": "R09",
+      "excerpt_refs": [
+        "sources/R09.txt:5-84",
+        "sources/R09.txt:87-134"
+      ],
+      "source_prediction": "Dependency helper validates physical containment, registered build roots and file hashes; fixtures distinguish child/supplier directory scope, out-of-root paths, symlink retargeting, and changed bytes. This is good focused coverage of multiple phases, not proof that any configured consumer ran.",
+      "entry_and_consumer": "cmake/DependencyPaths.cmake validation helpers, consumed by generated/configured SDK dependency checks and install guard; exact downstream consumer configuration is not included.",
+      "next_falsifier": "Use the reported configuration and dependency identity to replay the same imported library/include through top-level, registered child, and supplier subdirectory paths. Preserve physical paths and registration; then exercise the exact reported phase (configure vs post-configure guard). For an alias complaint, record target before and after retargeting; for a changed-bytes complaint, record configured hash and current file hash.",
+      "fixture_and_limit": "tests/test_sdk_paths.py explicitly configures and builds focused fixtures for child/supplier scope and checks retarget/change guards (R09 lines 90-133). The excerpt does not enumerate every imported target or establish any real configuration's provenance."
+    }
+  ],
+  "decision": {
+    "qualified_implication": "For R01-R03 and R09, start from the existing focused contract fixture or a tiny matched reproduction tied to the actual caller/configuration. Use direct state/status/byte/path observations before adding ranking machinery. Defer cross-provider comparison until provider/package identity and equivalent contract/configuration are captured. The empirical prioritization result concerns ordering large historical CI suites; absent local duration/history data it cannot rank these report-specific checks.",
+    "contrary_or_alternative": "Csmith's study shows systematic differential generation can find defects missed by fixed suites, so a passing focused fixture cannot establish broad adequacy where inputs or configurations are underrepresented. Metamorphic testing is a possible oracle substitute when no exact output is available, but the supplied reports have specific existing contract fixtures; no need is established yet.",
+    "concrete_next_falsifier": "For each assigned report, reproduce with a recorded source/build/provider/config identity and run the report-specific matched discriminator above. A failed discriminator supports a reproduced failure only with captured output; a pass rejects only that stated hypothesis/case, not all consumers or the untested domain. For R03, if exact Rust package/provider identity cannot be obtained, provider attribution remains unresolved and no matched differential conclusion is valid.",
+    "unknowns_preserved": [
+      "No symptom was reproduced; no project checks were executed.",
+      "R01 record IDs and full original dump are missing.",
+      "R02 redirection target/platform and exact invocation are missing.",
+      "R03 package version, provider artifact and build identity are missing; Rust source was not in assigned excerpts.",
+      "R09 failing consumer/configuration and exact dependency path/phase are missing.",
+      "Assigned scope excludes R04-R08 and cannot supply their callers or fixtures.",
+      "No local test durations, recent failure histories, risk history, or suite inventory were supplied; no project-specific ranking strategy can be validated."
+    ],
+    "rejected_or_weak_leads": [
+      "Elaborate ML/coverage ranking: no suite-history/features or demonstrated high suite-cost constraint here; current evidence says simple heuristics can win in very long suites, with no project-specific ranking outcome.",
+      "Metamorphic checks as first-line for these four reports: weak because concrete contract assertions and focused fixtures already exist in excerpts.",
+      "Treating C++ versus Rust as a valid oracle comparison without artifact identity: rejected because provider/configuration/package mismatches confound the comparison.",
+      "Treating the excerpts, test names, or paper results as proof the project checks ran or passed: rejected; there is no run evidence."
+    ]
+  }
+}

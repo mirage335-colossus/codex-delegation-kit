@@ -1,6 +1,16 @@
 
 # Programmatically Enfofcing Parallelism and Ordering
 
+Current cost context (October 28, 2026): the user's unitless Desktop Codex
+included-allowance estimates are Luna = 0.1, Terra = 1, Sol approximately 10 and
+Astra approximately 20. See [weekly usage cost](policy.md#weekly-usage-cost).
+This is separate from API dollars, paid credits and execution-time/resource
+costs. It is not implemented scheduler accounting or an amendment to the
+historical implementation request below.
+Current evidence-discovery and screening guidance is maintained in
+[policy.md](policy.md#evidence-discovery-and-terra-screening); it does not
+rewrite the historical proposal below.
+
 ## WARNING
 
 CAUTION: WARNING: This approach is not tested for production use, and should NOT be made default. Suggest to keep this in a separate git branch.

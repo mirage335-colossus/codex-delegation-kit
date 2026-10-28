@@ -1,0 +1,201 @@
+{
+  "case_id": "r842",
+  "packet": {
+    "decision_constraints": "Choose a next acquisition comparison while retaining frequency-only authority.",
+    "supported_facts": "Rife/Barankin threshold caution, Kay block estimate, lag tradeoff and Doppler-spread abstract motivate stationary versus time-varying comparisons.",
+    "contrary_evidence_limits": "Doppler multiplicative noise is not proven equivalent to oscillator drift; peer-review labels S1\u2013S5 are unverified despite publication metadata.",
+    "expert_question": "Does time variation negate longer coherent support, and is lag range adequate?",
+    "cheapest_falsifier": "Use matched stationary/time-varying PCM with reset controls and measure error tails and absence admissions.",
+    "consequential_rejections": "Do not treat invented planning targets as measured requirements or immediately expand to ESPRIT/MUSIC/EKF."
+  },
+  "source_records": [
+    {
+      "id": "S1",
+      "url": "https://doi.org/10.1109/TIT.1974.1055282",
+      "title": "Single tone parameter estimation from discrete-time observations",
+      "year": 1974,
+      "venue": "IEEE Transactions on Information Theory 20(5), 591-598",
+      "publication_status": "peer-reviewed journal article; journal, volume, issue, and pages established by bibliographic record; full content not accessible in this run",
+      "status_evidence_url": "https://cir.nii.ac.jp/crid/1364233269205840896",
+      "access_level": "metadata plus abstract from index record",
+      "content_locator": "Abstract/record: finite noisy discrete-time observations; derives CR bounds and ML algorithms, relates ML to DFT, and discusses threshold behavior."
+    },
+    {
+      "id": "S2",
+      "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "title": "A Fast and Accurate Single Frequency Estimator",
+      "year": 1989,
+      "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+      "publication_status": "peer-reviewed journal article; institutional record identifies IEEE journal citation",
+      "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "access_level": "abstract only",
+      "content_locator": "Institutional record lines 21-45: single complex sinusoid in complex white Gaussian noise; Kay estimator is more computationally efficient than optimal ML and performs comparably at moderately high SNR."
+    },
+    {
+      "id": "S3",
+      "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+      "title": "Frequency estimation of a single complex sinusoid using a generalized Kay estimator",
+      "year": 2006,
+      "venue": "IEEE Transactions on Communications 54(3), 407-415",
+      "publication_status": "peer-reviewed journal article; IEEE result record gives venue, issue, pages, date and DOI",
+      "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+      "access_level": "abstract/metadata only; open request failed HTTP 418",
+      "content_locator": "IEEE abstract: generalized differential-phase delay estimator changes variance/range/complexity tradeoffs; delay 2 approaches CRB asymptotically at high SNR and large N; comparisons include autocorrelation and periodogram."
+    },
+    {
+      "id": "S4",
+      "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+      "title": "The Barankin bound and threshold behavior in frequency estimation",
+      "year": 1997,
+      "venue": "IEEE Transactions on Signal Processing 45(9), 2398-2401",
+      "publication_status": "peer-reviewed journal article; IEEE result gives publication metadata",
+      "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/622965",
+      "access_level": "abstract/metadata only; open request failed HTTP 418",
+      "content_locator": "IEEE abstract: CRB can become misleading near threshold; Barankin bound departure from CRB indicates threshold, with SNR*T/ln(T) described as a useful indicator for its studied model."
+    },
+    {
+      "id": "S5",
+      "url": "https://strathprints.strath.ac.uk/3515/",
+      "title": "Frequency estimation in the presence of Doppler spread: performance analysis",
+      "year": 2001,
+      "venue": "IEEE Transactions on Signal Processing 49(4), 777-789",
+      "publication_status": "peer-reviewed journal article; institutional record identifies IEEE venue and pagination",
+      "status_evidence_url": "https://strathprints.strath.ac.uk/3515/",
+      "access_level": "abstract only; repository explicitly says full text unavailable",
+      "content_locator": "Repository lines 14-20: multiplicative/Doppler spread smears spectral line; finite-sample CRBs and covariance-angle estimators are analyzed; coherent and noncoherent SNR both matter."
+    }
+  ],
+  "stage_rows": [
+    {
+      "finding_id": "F1",
+      "raw_source_ids": [
+        "S1",
+        "S4"
+      ],
+      "support_locator": "S1 abstract describes threshold analysis for one ML algorithm; S4 abstract relates threshold onset to Barankin-vs-CRB divergence.",
+      "union_key": "threshold",
+      "discovered": true,
+      "original_claim": "A small local variance bound or finite uncertainty number cannot alone establish low error probability at acquisition: single-tone ML/block estimators have a threshold region where errors can depart sharply from the local CRB.",
+      "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+      "independent_verification": {
+        "id": "F1",
+        "discovered": true,
+        "source_content": "full via third-party mirror plus abstracts",
+        "publication_status": "journal publication verified; peer review unknown",
+        "claim_support": "direct full / abstract-limited",
+        "task_applicability": "missing assumptions",
+        "caveat": "Rife/Boorstyn supports a threshold effect and its full mirror discusses wrong-maximum/outlier behavior; Barankin abstract supports threshold departure from CRB for its sinusoid/AWGN model. Neither maps threshold to the hypothetical C/N0 or receiver.",
+        "next_discriminator_feasible": true,
+        "qualified_decision_useful": "yes",
+        "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+      },
+      "terra_stage": {
+        "status": "retained",
+        "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+      },
+      "strict_prefix_stage": {
+        "status": "retained",
+        "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+      },
+      "expert_stage": "not individually assessed"
+    },
+    {
+      "finding_id": "F2",
+      "raw_source_ids": [
+        "S2",
+        "S1"
+      ],
+      "support_locator": "S2 institutional abstract lines 27-29; S1 abstract documents finite-sample ML/DFT algorithms and threshold effects.",
+      "union_key": "kay",
+      "discovered": true,
+      "original_claim": "A computationally light single-tone frequency estimator can be competitive with ML at moderately high SNR, while performance depends on model and SNR; there is a meaningful practical baseline to compare against before adding a more elaborate tracker.",
+      "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+      "independent_verification": {
+        "id": "F2",
+        "discovered": true,
+        "source_content": "abstract",
+        "publication_status": "journal publication verified; peer review unknown",
+        "claim_support": "abstract-limited",
+        "task_applicability": "missing assumptions",
+        "caveat": "Kay's result is limited to a complex sinusoid in complex white Gaussian noise at moderately high SNR.",
+        "next_discriminator_feasible": true,
+        "qualified_decision_useful": "yes",
+        "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+      },
+      "terra_stage": {
+        "status": "retained",
+        "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+      },
+      "strict_prefix_stage": {
+        "status": "retained",
+        "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+      },
+      "expert_stage": "not individually assessed"
+    },
+    {
+      "finding_id": "F3",
+      "raw_source_ids": [
+        "S3"
+      ],
+      "support_locator": "IEEE abstract/metadata for 2006 paper, DOI 10.1109/TCOMM.2006.869864; publisher page could not be opened.",
+      "union_key": "lag",
+      "discovered": true,
+      "original_claim": "Differential-phase estimators expose a tradeoff in delay: larger phase separation can reduce high-SNR variance in some regimes, but estimator range, low-SNR behavior, and complexity also change.",
+      "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+      "independent_verification": {
+        "id": "F3",
+        "discovered": true,
+        "source_content": "publisher abstract/metadata",
+        "publication_status": "journal publication verified; peer review unknown",
+        "claim_support": "abstract-limited",
+        "task_applicability": "missing assumptions",
+        "caveat": "Delay-dependent variance and range/complexity tradeoffs are supported at abstract level; continuous phase across apertures is an external requirement, not established by this source.",
+        "next_discriminator_feasible": true,
+        "qualified_decision_useful": "yes",
+        "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+      },
+      "terra_stage": {
+        "status": "retained",
+        "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+      },
+      "strict_prefix_stage": {
+        "status": "retained",
+        "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+      },
+      "expert_stage": "not individually assessed"
+    },
+    {
+      "finding_id": "F4",
+      "raw_source_ids": [
+        "S5"
+      ],
+      "support_locator": "Strathprints abstract lines 17-20; peer-reviewed IEEE article metadata at lines 14-16.",
+      "union_key": "timevarying",
+      "discovered": true,
+      "original_claim": "Frequency drift or multiplicative phase/frequency variation broadens a tone and degrades estimators derived for stationary sinusoids; coherent and noncoherent signal-to-noise conditions both matter.",
+      "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+      "independent_verification": {
+        "id": "F4",
+        "discovered": true,
+        "source_content": "abstract",
+        "publication_status": "journal publication verified; peer review unknown",
+        "claim_support": "abstract-limited",
+        "task_applicability": "missing assumptions",
+        "caveat": "Doppler spreading is modeled as multiplicative noise; it may not match the receiver's oscillator drift or amplitude behavior.",
+        "next_discriminator_feasible": true,
+        "qualified_decision_useful": "yes",
+        "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+      },
+      "terra_stage": {
+        "status": "retained",
+        "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+      },
+      "strict_prefix_stage": {
+        "status": "retained",
+        "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+      },
+      "expert_stage": "not individually assessed"
+    }
+  ],
+  "verification_omissions_errors": "The report labels S1-S5 peer-reviewed; the accessible evidence establishes journal publication metadata, not peer-review status under this verifier contract. Its uncertainty about task-specific parameters and transfer is appropriately retained."
+}

@@ -1,0 +1,1491 @@
+{
+  "assumptions": {
+    "phase_proof": "locked/E2-lock.json confirms all four E2 submissions before estimation",
+    "unit": "One request is one inference invocation; tool calls may induce multiple invocations per agent turn. All estimates hypothetical, not telemetry.",
+    "scope": "Incremental phase work consolidated by stable ID; ranges assume initial dispatched work meaningfully progresses before developments; overlap/interruption may reduce it. Two-hour horizon plus developments is ambiguous and does not guarantee completion. Future code/campaign operations require authorization.",
+    "request_method": "Low/high counts manually estimated per phase from reads, tool cycles, discriminator design, synthesis, review and bounded repair; future execution ranges include normal retry/repair capacity, not automatic repair. Zero increment on a deferred phase means scope refinement only, not an extra full restart.",
+    "source_method": "Union of H excerpts from the assignment across phases. Low source payload = 0.20 tokens/byte; high = 0.75 tokens/byte (0.50 tokens/byte times 1.5 for repeated reads). Bytes are a rough proxy, not tokenization; development summaries/history are included in request-history allowance.",
+    "input_formula": "input_low = 16000*requests_low + ceil(0.20*source_bytes) + 700*requests_low; input_high = 48000*requests_high + ceil(0.75*source_bytes) + 2200*requests_high. Source and history components count included/repeated tool results, prior responses and handoffs. For unmeasured overhead C use input = C*requests + payload_history.",
+    "cache_formula": "Low endpoint cached input = floor(0.8*16000*(requests_low-new_conversations)); first request per new conversation cold, reused conversations start eligible. High endpoint all cold. Cached input is a subset of input; source/history is conservatively cold.",
+    "output_formula": "Low output = 450*requests_low; high output = 1400*requests_high. Output includes unknown reasoning and deliverable tokens; actual effort and hidden reasoning can fall outside this illustrative range.",
+    "unmeasured_context": "C=16k\u201348k per request is an uncalibrated shared-instruction/tool-context sensitivity, not a floor or guarantee. An extra full policy is about 85 KB/11.5k words and role/tool harness may place actual context outside this range; use variable C above.",
+    "price": "User-supplied pricing verified 2026-10-28, Standard short context API USD per million input/cached/output tokens: Luna 0.10/0.01/0.50, Terra 1/0.05/5, Sol 2/0.10/10, Astra 10/1/50. Comparison only; actual settings unchanged.",
+    "usd_formula": "((input-cached)*input_rate + cached*cached_rate + output*output_rate)/1000000; no-cache low replaces cached with zero; high is already cold.",
+    "subscription": "No token-to-week conversion: Terra=1, Sol approximately 10, Astra approximately 20 are user-reported relative weekly indices; Luna unknown. None calibrates this work or API dollars.",
+    "classification": "Base includes planned read-only work and continuations now/queued, including E2-triggered Astra; reserve is individually conditional on future authorization and evidence. Reserve totals are scenarios if all those rows execute, not a prediction that they will."
+  },
+  "participants": {
+    "p17": {
+      "assignments": [
+        {
+          "id": "P17-A1",
+          "model": "luna",
+          "conversation_id": "contracts",
+          "basis": "contract tracing plus publication-date and provenance follow-ups",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H02",
+            "H03",
+            "H04",
+            "H05",
+            "H08",
+            "H09",
+            "H10",
+            "H12"
+          ],
+          "source_bytes": 31599,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 139920,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 776700,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 11920,
+          "payload_history_input_high": 56700,
+          "usd_low": 0.007728,
+          "usd_high": 0.08817,
+          "usd_low_no_cache": 0.015792
+        },
+        {
+          "id": "P17-A2",
+          "model": "luna",
+          "conversation_id": "fixture",
+          "basis": "fixture tracing plus paired replay and longer-window follow-ups",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H06",
+            "H07",
+            "H11",
+            "H12"
+          ],
+          "source_bytes": 18315,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 137263,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 766737,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 9263,
+          "payload_history_input_high": 46737,
+          "usd_low": 0.007462,
+          "usd_high": 0.087174,
+          "usd_low_no_cache": 0.015526
+        },
+        {
+          "id": "P17-A3",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "protocol synthesis plus paired comparison and report interpretation",
+          "phase_requests": {
+            "initial": [
+              3,
+              6
+            ],
+            "E1_increment": [
+              2,
+              3
+            ],
+            "E2_increment": [
+              2,
+              3
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07"
+          ],
+          "source_bytes": 25039,
+          "requests_low": 7,
+          "requests_high": 12,
+          "new_conversations": 1,
+          "reused_requests_low": 6,
+          "reused_requests_high": 11,
+          "input_low": 121908,
+          "cached_input_low": 76800,
+          "output_low": 3150,
+          "input_high": 621180,
+          "cached_input_high": 0,
+          "output_high": 16800,
+          "common_input_low": 112000,
+          "common_input_high": 576000,
+          "payload_history_input_low": 9908,
+          "payload_history_input_high": 45180,
+          "usd_low": 0.064698,
+          "usd_high": 0.70518,
+          "usd_low_no_cache": 0.137658
+        },
+        {
+          "id": "P17-A4",
+          "model": "sol",
+          "conversation_id": "expert",
+          "basis": "independent design review plus two timing and coverage reviews",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07",
+            "H08",
+            "H12"
+          ],
+          "source_bytes": 34057,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 140412,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 778543,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 12412,
+          "payload_history_input_high": 58543,
+          "usd_low": 0.146584,
+          "usd_high": 1.767086,
+          "usd_low_no_cache": 0.316824
+        },
+        {
+          "id": "P17-A5",
+          "model": "luna",
+          "conversation_id": "fixture",
+          "basis": "future fixture instrumentation and focused checks; later phases refine scope, not new starts",
+          "phase_requests": {
+            "initial": [
+              7,
+              14
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H01",
+            "H05",
+            "H06",
+            "H07",
+            "H11",
+            "H12"
+          ],
+          "source_bytes": 25091,
+          "requests_low": 7,
+          "requests_high": 14,
+          "new_conversations": 0,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 121919,
+          "cached_input_low": 89600,
+          "output_low": 3150,
+          "input_high": 721619,
+          "cached_input_high": 0,
+          "output_high": 19600,
+          "common_input_low": 112000,
+          "common_input_high": 672000,
+          "payload_history_input_low": 9919,
+          "payload_history_input_high": 49619,
+          "usd_low": 0.005703,
+          "usd_high": 0.081962,
+          "usd_low_no_cache": 0.013767
+        },
+        {
+          "id": "P17-A6",
+          "model": "sol",
+          "conversation_id": "expert",
+          "basis": "future independent review of actual fixture and checks",
+          "phase_requests": {
+            "initial": [
+              4,
+              8
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H03",
+            "H04",
+            "H05",
+            "H09",
+            "H10",
+            "H11"
+          ],
+          "source_bytes": 28497,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 72500,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 422973,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 8500,
+          "payload_history_input_high": 38973,
+          "usd_low": 0.06572,
+          "usd_high": 0.957946,
+          "usd_low_no_cache": 0.163
+        },
+        {
+          "id": "P17-A7",
+          "model": "luna",
+          "conversation_id": "campaign",
+          "basis": "future campaign execution and bounded diagnostic interpretation",
+          "phase_requests": {
+            "initial": [
+              7,
+              14
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H05",
+            "H06",
+            "H07",
+            "H11",
+            "H12"
+          ],
+          "source_bytes": 21395,
+          "requests_low": 7,
+          "requests_high": 14,
+          "new_conversations": 1,
+          "reused_requests_low": 6,
+          "reused_requests_high": 13,
+          "input_low": 121179,
+          "cached_input_low": 76800,
+          "output_low": 3150,
+          "input_high": 718847,
+          "cached_input_high": 0,
+          "output_high": 19600,
+          "common_input_low": 112000,
+          "common_input_high": 672000,
+          "payload_history_input_low": 9179,
+          "payload_history_input_high": 46847,
+          "usd_low": 0.006781,
+          "usd_high": 0.081685,
+          "usd_low_no_cache": 0.013693
+        },
+        {
+          "id": "P17-A8",
+          "model": "sol",
+          "conversation_id": "expert",
+          "basis": "E1 reroutes diagnosis to queued; E2 adds report comparison",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              4,
+              7
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07",
+            "H12"
+          ],
+          "source_bytes": 30944,
+          "requests_low": 6,
+          "requests_high": 11,
+          "new_conversations": 0,
+          "reused_requests_low": 6,
+          "reused_requests_high": 11,
+          "input_low": 106389,
+          "cached_input_low": 76800,
+          "output_low": 2700,
+          "input_high": 575408,
+          "cached_input_high": 0,
+          "output_high": 15400,
+          "common_input_low": 96000,
+          "common_input_high": 528000,
+          "payload_history_input_low": 10389,
+          "payload_history_input_high": 47408,
+          "usd_low": 0.093858,
+          "usd_high": 1.304816,
+          "usd_low_no_cache": 0.239778
+        },
+        {
+          "id": "P17-A9",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "queued interim synthesis, then separate reported evidence and next decision",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H02",
+            "H03",
+            "H04",
+            "H05",
+            "H08",
+            "H09",
+            "H10",
+            "H12"
+          ],
+          "source_bytes": 35295,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 73859,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 428072,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 9859,
+          "payload_history_input_high": 44072,
+          "usd_low": 0.034219,
+          "usd_high": 0.484072,
+          "usd_low_no_cache": 0.082859
+        },
+        {
+          "id": "P17-A10",
+          "model": "astra",
+          "conversation_id": "strategy",
+          "basis": "E2 triggers strategic consultation; earlier conditional planning does not imply execution",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              4,
+              7
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05"
+          ],
+          "source_bytes": 16614,
+          "requests_low": 4,
+          "requests_high": 7,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 6,
+          "input_low": 70123,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 363861,
+          "cached_input_high": 0,
+          "output_high": 9800,
+          "common_input_low": 64000,
+          "common_input_high": 336000,
+          "payload_history_input_low": 6123,
+          "payload_history_input_high": 27861,
+          "usd_low": 0.44563,
+          "usd_high": 4.12861,
+          "usd_low_no_cache": 0.79123
+        },
+        {
+          "id": "P17-A11",
+          "model": "luna",
+          "conversation_id": "discriminators",
+          "basis": "new confounder scout at E1; E2 extends controls and discriminators",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              3,
+              6
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07"
+          ],
+          "source_bytes": 28735,
+          "requests_low": 5,
+          "requests_high": 10,
+          "new_conversations": 1,
+          "reused_requests_low": 4,
+          "reused_requests_high": 9,
+          "input_low": 89247,
+          "cached_input_low": 51200,
+          "output_low": 2250,
+          "input_high": 523552,
+          "cached_input_high": 0,
+          "output_high": 14000,
+          "common_input_low": 80000,
+          "common_input_high": 480000,
+          "payload_history_input_low": 9247,
+          "payload_history_input_high": 43552,
+          "usd_low": 0.005442,
+          "usd_high": 0.059355,
+          "usd_low_no_cache": 0.01005
+        },
+        {
+          "id": "ADMIN-COORD",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "coordination beyond explicit assigned synthesis: slots, handoffs and authorization holds",
+          "phase_requests": {
+            "initial": [
+              2,
+              4
+            ],
+            "E1_increment": [
+              1,
+              2
+            ],
+            "E2_increment": [
+              1,
+              2
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [],
+          "source_bytes": 0,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 66800,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 401600,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 2800,
+          "payload_history_input_high": 17600,
+          "usd_low": 0.02716,
+          "usd_high": 0.4576,
+          "usd_low_no_cache": 0.0758
+        }
+      ],
+      "totals_by_model": {
+        "luna": {
+          "requests_low": 21,
+          "requests_high": 40,
+          "new_conversations": 3,
+          "reused_requests_low": 18,
+          "reused_requests_high": 37,
+          "input_low": 366430,
+          "cached_input_low": 230400,
+          "output_low": 9450,
+          "input_high": 2066989,
+          "cached_input_high": 0,
+          "output_high": 56000,
+          "usd_low": 0.020632,
+          "usd_high": 0.234699,
+          "usd_low_no_cache": 0.041368
+        },
+        "terra": {
+          "requests_low": 15,
+          "requests_high": 28,
+          "new_conversations": 1,
+          "reused_requests_low": 14,
+          "reused_requests_high": 27,
+          "input_low": 262567,
+          "cached_input_low": 179200,
+          "output_low": 6750,
+          "input_high": 1450852,
+          "cached_input_high": 0,
+          "output_high": 39200,
+          "usd_low": 0.126077,
+          "usd_high": 1.646852,
+          "usd_low_no_cache": 0.296317
+        },
+        "sol": {
+          "requests_low": 14,
+          "requests_high": 26,
+          "new_conversations": 1,
+          "reused_requests_low": 13,
+          "reused_requests_high": 25,
+          "input_low": 246801,
+          "cached_input_low": 166400,
+          "output_low": 6300,
+          "input_high": 1353951,
+          "cached_input_high": 0,
+          "output_high": 36400,
+          "usd_low": 0.240442,
+          "usd_high": 3.071902,
+          "usd_low_no_cache": 0.556602
+        },
+        "astra": {
+          "requests_low": 4,
+          "requests_high": 7,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 6,
+          "input_low": 70123,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 363861,
+          "cached_input_high": 0,
+          "output_high": 9800,
+          "usd_low": 0.44563,
+          "usd_high": 4.12861,
+          "usd_low_no_cache": 0.79123
+        }
+      },
+      "conditional_reserve_by_model": {
+        "luna": {
+          "requests_low": 14,
+          "requests_high": 28,
+          "new_conversations": 1,
+          "reused_requests_low": 13,
+          "reused_requests_high": 27,
+          "input_low": 243098,
+          "cached_input_low": 166400,
+          "output_low": 6300,
+          "input_high": 1440466,
+          "cached_input_high": 0,
+          "output_high": 39200,
+          "usd_low": 0.012484,
+          "usd_high": 0.163647,
+          "usd_low_no_cache": 0.02746
+        },
+        "sol": {
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 72500,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 422973,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "usd_low": 0.06572,
+          "usd_high": 0.957946,
+          "usd_low_no_cache": 0.163
+        }
+      },
+      "total_usd_low": 0.832781,
+      "total_usd_high": 9.082063,
+      "total_usd_low_no_cache": 1.685517,
+      "conditional_reserve_usd_low": 0.078204,
+      "conditional_reserve_usd_high": 1.121593,
+      "conditional_reserve_usd_low_no_cache": 0.19046
+    },
+    "p43": {
+      "assignments": [
+        {
+          "id": "S1",
+          "model": "luna",
+          "conversation_id": "scout-a",
+          "basis": "source and caller mapping, then timestamp and qualification follow-ups",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05",
+            "H12"
+          ],
+          "source_bytes": 18823,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 137365,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 767118,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 9365,
+          "payload_history_input_high": 47118,
+          "usd_low": 0.007472,
+          "usd_high": 0.087212,
+          "usd_low_no_cache": 0.015536
+        },
+        {
+          "id": "S2",
+          "model": "luna",
+          "conversation_id": "scout-b",
+          "basis": "generator and fixture mapping, then matched replay and provenance",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H06",
+            "H07",
+            "H12"
+          ],
+          "source_bytes": 14330,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 136466,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 763748,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 8466,
+          "payload_history_input_high": 43748,
+          "usd_low": 0.007383,
+          "usd_high": 0.086875,
+          "usd_low_no_cache": 0.015447
+        },
+        {
+          "id": "S3",
+          "model": "luna",
+          "conversation_id": "scout-c",
+          "basis": "boundary map and targeted preservation follow-ups",
+          "phase_requests": {
+            "initial": [
+              3,
+              6
+            ],
+            "E1_increment": [
+              1,
+              3
+            ],
+            "E2_increment": [
+              1,
+              2
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H08",
+            "H09",
+            "H10",
+            "H11"
+          ],
+          "source_bytes": 14996,
+          "requests_low": 5,
+          "requests_high": 11,
+          "new_conversations": 1,
+          "reused_requests_low": 4,
+          "reused_requests_high": 10,
+          "input_low": 86500,
+          "cached_input_low": 51200,
+          "output_low": 2250,
+          "input_high": 563447,
+          "cached_input_high": 0,
+          "output_high": 15400,
+          "common_input_low": 80000,
+          "common_input_high": 528000,
+          "payload_history_input_low": 6500,
+          "payload_history_input_high": 35447,
+          "usd_low": 0.005167,
+          "usd_high": 0.064045,
+          "usd_low_no_cache": 0.009775
+        },
+        {
+          "id": "S4",
+          "model": "luna",
+          "conversation_id": "scout-d",
+          "basis": "bounded estimator and reference scouting, then evidence-model review",
+          "phase_requests": {
+            "initial": [
+              4,
+              8
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H02",
+            "H03",
+            "H04",
+            "H05"
+          ],
+          "source_bytes": 22075,
+          "requests_low": 8,
+          "requests_high": 16,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 15,
+          "input_low": 138015,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 819757,
+          "cached_input_high": 0,
+          "output_high": 22400,
+          "common_input_low": 128000,
+          "common_input_high": 768000,
+          "payload_history_input_low": 10015,
+          "payload_history_input_high": 51757,
+          "usd_low": 0.007537,
+          "usd_high": 0.093176,
+          "usd_low_no_cache": 0.015602
+        },
+        {
+          "id": "T1",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "coordinator evidence screening and provenance with two incremental developments",
+          "phase_requests": {
+            "initial": [
+              3,
+              5
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H02",
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07",
+            "H08",
+            "H09",
+            "H10",
+            "H11",
+            "H12"
+          ],
+          "source_bytes": 47705,
+          "requests_low": 7,
+          "requests_high": 13,
+          "new_conversations": 1,
+          "reused_requests_low": 6,
+          "reused_requests_high": 12,
+          "input_low": 126441,
+          "cached_input_low": 76800,
+          "output_low": 3150,
+          "input_high": 688379,
+          "cached_input_high": 0,
+          "output_high": 18200,
+          "common_input_low": 112000,
+          "common_input_high": 624000,
+          "payload_history_input_low": 14441,
+          "payload_history_input_high": 64379,
+          "usd_low": 0.069231,
+          "usd_high": 0.779379,
+          "usd_low_no_cache": 0.142191
+        },
+        {
+          "id": "E1",
+          "model": "sol",
+          "conversation_id": "expert",
+          "basis": "independent measurement review followed by reporting and latency review",
+          "phase_requests": {
+            "initial": [
+              4,
+              7
+            ],
+            "E1_increment": [
+              2,
+              4
+            ],
+            "E2_increment": [
+              2,
+              4
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H01",
+            "H02",
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07",
+            "H12"
+          ],
+          "source_bytes": 32709,
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 140142,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 777532,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "common_input_low": 128000,
+          "common_input_high": 720000,
+          "payload_history_input_low": 12142,
+          "payload_history_input_high": 57532,
+          "usd_low": 0.146044,
+          "usd_high": 1.765064,
+          "usd_low_no_cache": 0.316284
+        },
+        {
+          "id": "T2",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "human clarification preparation across phases, not the act of sending messages",
+          "phase_requests": {
+            "initial": [
+              1,
+              2
+            ],
+            "E1_increment": [
+              1,
+              2
+            ],
+            "E2_increment": [
+              1,
+              2
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05"
+          ],
+          "source_bytes": 16614,
+          "requests_low": 3,
+          "requests_high": 6,
+          "new_conversations": 0,
+          "reused_requests_low": 3,
+          "reused_requests_high": 6,
+          "input_low": 53423,
+          "cached_input_low": 38400,
+          "output_low": 1350,
+          "input_high": 313661,
+          "cached_input_high": 0,
+          "output_high": 8400,
+          "common_input_low": 48000,
+          "common_input_high": 288000,
+          "payload_history_input_low": 5423,
+          "payload_history_input_high": 25661,
+          "usd_low": 0.023693,
+          "usd_high": 0.355661,
+          "usd_low_no_cache": 0.060173
+        },
+        {
+          "id": "L5",
+          "model": "luna",
+          "conversation_id": "scout-b",
+          "basis": "future instrumentation/matrix execution; later phases refine scope, not new starts",
+          "phase_requests": {
+            "initial": [
+              7,
+              14
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H01",
+            "H05",
+            "H06",
+            "H07",
+            "H12"
+          ],
+          "source_bytes": 21106,
+          "requests_low": 7,
+          "requests_high": 14,
+          "new_conversations": 0,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 121122,
+          "cached_input_low": 89600,
+          "output_low": 3150,
+          "input_high": 718630,
+          "cached_input_high": 0,
+          "output_high": 19600,
+          "common_input_low": 112000,
+          "common_input_high": 672000,
+          "payload_history_input_low": 9122,
+          "payload_history_input_high": 46630,
+          "usd_low": 0.005623,
+          "usd_high": 0.081663,
+          "usd_low_no_cache": 0.013687
+        },
+        {
+          "id": "L6",
+          "model": "luna",
+          "conversation_id": "scout-d",
+          "basis": "future paired controls and bounded diagnostic runs",
+          "phase_requests": {
+            "initial": [
+              5,
+              10
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H02",
+            "H03",
+            "H04",
+            "H05",
+            "H08"
+          ],
+          "source_bytes": 21492,
+          "requests_low": 5,
+          "requests_high": 10,
+          "new_conversations": 0,
+          "reused_requests_low": 5,
+          "reused_requests_high": 10,
+          "input_low": 87799,
+          "cached_input_low": 64000,
+          "output_low": 2250,
+          "input_high": 518119,
+          "cached_input_high": 0,
+          "output_high": 14000,
+          "common_input_low": 80000,
+          "common_input_high": 480000,
+          "payload_history_input_low": 7799,
+          "payload_history_input_high": 38119,
+          "usd_low": 0.004145,
+          "usd_high": 0.058812,
+          "usd_low_no_cache": 0.009905
+        },
+        {
+          "id": "R1",
+          "model": "sol",
+          "conversation_id": "reviewer",
+          "basis": "future independent review of an actual artifact",
+          "phase_requests": {
+            "initial": [
+              4,
+              8
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              0,
+              0
+            ]
+          },
+          "conditional": true,
+          "condition": "future authorization and applicable preceding review/artifact",
+          "source_units": [
+            "H03",
+            "H04",
+            "H05",
+            "H08",
+            "H09",
+            "H10",
+            "H11"
+          ],
+          "source_bytes": 31610,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 7,
+          "input_low": 73122,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 425308,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 9122,
+          "payload_history_input_high": 41308,
+          "usd_low": 0.091284,
+          "usd_high": 0.962616,
+          "usd_low_no_cache": 0.164244
+        },
+        {
+          "id": "T3",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "initial final synthesis remains contingent; E1 request plus E2 interim report now",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              1,
+              2
+            ],
+            "E2_increment": [
+              3,
+              6
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05",
+            "H06",
+            "H07"
+          ],
+          "source_bytes": 25039,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 71808,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 420380,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 7808,
+          "payload_history_input_high": 36380,
+          "usd_low": 0.032168,
+          "usd_high": 0.47638,
+          "usd_low_no_cache": 0.080808
+        },
+        {
+          "id": "A1",
+          "model": "astra",
+          "conversation_id": "adviser",
+          "basis": "E2 triggers strategic consultation; earlier conditional planning does not imply execution",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              0,
+              0
+            ],
+            "E2_increment": [
+              4,
+              7
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05"
+          ],
+          "source_bytes": 16614,
+          "requests_low": 4,
+          "requests_high": 7,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 6,
+          "input_low": 70123,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 363861,
+          "cached_input_high": 0,
+          "output_high": 9800,
+          "common_input_low": 64000,
+          "common_input_high": 336000,
+          "payload_history_input_low": 6123,
+          "payload_history_input_high": 27861,
+          "usd_low": 0.44563,
+          "usd_high": 4.12861,
+          "usd_low_no_cache": 0.79123
+        },
+        {
+          "id": "L7",
+          "model": "luna",
+          "conversation_id": "scout-c",
+          "basis": "new E1 mapping of columns and denominators; E2 requests available details",
+          "phase_requests": {
+            "initial": [
+              0,
+              0
+            ],
+            "E1_increment": [
+              3,
+              5
+            ],
+            "E2_increment": [
+              2,
+              3
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [
+            "H03",
+            "H04",
+            "H05"
+          ],
+          "source_bytes": 16614,
+          "requests_low": 5,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 5,
+          "reused_requests_high": 8,
+          "input_low": 86823,
+          "cached_input_low": 64000,
+          "output_low": 2250,
+          "input_high": 414061,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 80000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 6823,
+          "payload_history_input_high": 30061,
+          "usd_low": 0.004047,
+          "usd_high": 0.047006,
+          "usd_low_no_cache": 0.009807
+        },
+        {
+          "id": "ADMIN-COORD",
+          "model": "terra",
+          "conversation_id": "coordinator",
+          "basis": "coordination beyond explicit screening: six-slot scheduling, handoffs and authorization holds",
+          "phase_requests": {
+            "initial": [
+              2,
+              4
+            ],
+            "E1_increment": [
+              1,
+              2
+            ],
+            "E2_increment": [
+              1,
+              2
+            ]
+          },
+          "conditional": false,
+          "condition": null,
+          "source_units": [],
+          "source_bytes": 0,
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 0,
+          "reused_requests_low": 4,
+          "reused_requests_high": 8,
+          "input_low": 66800,
+          "cached_input_low": 51200,
+          "output_low": 1800,
+          "input_high": 401600,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "common_input_low": 64000,
+          "common_input_high": 384000,
+          "payload_history_input_low": 2800,
+          "payload_history_input_high": 17600,
+          "usd_low": 0.02716,
+          "usd_high": 0.4576,
+          "usd_low_no_cache": 0.0758
+        }
+      ],
+      "totals_by_model": {
+        "luna": {
+          "requests_low": 34,
+          "requests_high": 65,
+          "new_conversations": 4,
+          "reused_requests_low": 30,
+          "reused_requests_high": 61,
+          "input_low": 585169,
+          "cached_input_low": 384000,
+          "output_low": 15300,
+          "input_high": 3328131,
+          "cached_input_high": 0,
+          "output_high": 91000,
+          "usd_low": 0.031606,
+          "usd_high": 0.378314,
+          "usd_low_no_cache": 0.066167
+        },
+        "terra": {
+          "requests_low": 18,
+          "requests_high": 35,
+          "new_conversations": 1,
+          "reused_requests_low": 17,
+          "reused_requests_high": 34,
+          "input_low": 318472,
+          "cached_input_low": 217600,
+          "output_low": 8100,
+          "input_high": 1824020,
+          "cached_input_high": 0,
+          "output_high": 49000,
+          "usd_low": 0.152252,
+          "usd_high": 2.06902,
+          "usd_low_no_cache": 0.358972
+        },
+        "sol": {
+          "requests_low": 8,
+          "requests_high": 15,
+          "new_conversations": 1,
+          "reused_requests_low": 7,
+          "reused_requests_high": 14,
+          "input_low": 140142,
+          "cached_input_low": 89600,
+          "output_low": 3600,
+          "input_high": 777532,
+          "cached_input_high": 0,
+          "output_high": 21000,
+          "usd_low": 0.146044,
+          "usd_high": 1.765064,
+          "usd_low_no_cache": 0.316284
+        },
+        "astra": {
+          "requests_low": 4,
+          "requests_high": 7,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 6,
+          "input_low": 70123,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 363861,
+          "cached_input_high": 0,
+          "output_high": 9800,
+          "usd_low": 0.44563,
+          "usd_high": 4.12861,
+          "usd_low_no_cache": 0.79123
+        }
+      },
+      "conditional_reserve_by_model": {
+        "luna": {
+          "requests_low": 12,
+          "requests_high": 24,
+          "new_conversations": 0,
+          "reused_requests_low": 12,
+          "reused_requests_high": 24,
+          "input_low": 208921,
+          "cached_input_low": 153600,
+          "output_low": 5400,
+          "input_high": 1236749,
+          "cached_input_high": 0,
+          "output_high": 33600,
+          "usd_low": 0.009768,
+          "usd_high": 0.140475,
+          "usd_low_no_cache": 0.023592
+        },
+        "sol": {
+          "requests_low": 4,
+          "requests_high": 8,
+          "new_conversations": 1,
+          "reused_requests_low": 3,
+          "reused_requests_high": 7,
+          "input_low": 73122,
+          "cached_input_low": 38400,
+          "output_low": 1800,
+          "input_high": 425308,
+          "cached_input_high": 0,
+          "output_high": 11200,
+          "usd_low": 0.091284,
+          "usd_high": 0.962616,
+          "usd_low_no_cache": 0.164244
+        }
+      },
+      "total_usd_low": 0.775532,
+      "total_usd_high": 8.341008,
+      "total_usd_low_no_cache": 1.532653,
+      "conditional_reserve_usd_low": 0.101052,
+      "conditional_reserve_usd_high": 1.103091,
+      "conditional_reserve_usd_low_no_cache": 0.187836
+    }
+  }
+}

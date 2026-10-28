@@ -1,0 +1,62 @@
+H06 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- tests/test_helper_carrier.cpp:643-698 ---
+  643 void tracker() {
+  644     constexpr std::uint32_t rate=4000;
+  645     h::Tracker tracker(1000);
+  646     std::mt19937 random(17432);std::normal_distribution<double> normal(0,.02);
+  647     bool present=false,confirmed=false;
+  648     std::vector<float> chunk(137);
+  649     std::uint64_t position=0;
+  650     for(unsigned group=0;group<195;++group) {
+  651         for(auto& value:chunk) {
+  652             value=static_cast<float>(.2*std::cos(tau*1002.2*static_cast<double>(position)/rate)+normal(random));++position;
+  653         }
+  654         tracker.push(chunk,rate);
+  655         if(const auto observation=tracker.take_update()) {
+  656             present|=observation->present;confirmed|=observation->confirmed;
+  657             require(std::abs(observation->frequency_hz-1002.2)<1,"tone estimate missed subcell frequency");
+  658         }
+  659     }
+  660     require(present&&confirmed,"helper-only presence did not confirm after six seconds");
+  661     tracker.reset();require(!tracker.take_update(),"discontinuity retained stale evidence");
+  662     std::vector<float> silence(rate*7);tracker.push(silence,rate);
+  663     const auto absent=tracker.take_update();
+  664     require(absent&&!absent->present&&!absent->confirmed&&absent->observed_seconds==0,
+  665             "silence manufactured helper presence");
+  666     require(absent->absent_seconds>=6,"fully observed absence did not cover six seconds");
+  667     // Independent seeded Gaussian controls. Statistical evidence is a model
+  668     // bound above; this finite fixture catches calibration/normalization errors.
+  669     unsigned false_admissions=0;
+  670     std::vector<float> noise(rate*4);
+  671     for(unsigned seed=0;seed<64;++seed) {
+  672         h::Tracker control(1000);std::mt19937 rng(seed);std::normal_distribution<double> gaussian(0,.1);
+  673         for(auto& value:noise)value=static_cast<float>(gaussian(rng));
+  674         for(std::size_t begin=0;begin<noise.size();begin+=400) {
+  675             control.push(std::span(noise).subspan(begin,400),rate);
+  676             if(const auto update=control.take_update();update&&update->present)++false_admissions;
+  677         }
+  678     }
+  679     require(false_admissions<=2,"Gaussian false-helper controls exceeded expected bound");
+  680     std::cout<<"helper Gaussian controls false_admissions="<<false_admissions<<" streams=64 duration=4s\n";
+  681     for(const auto callsign:{"","N0CALL"}) {
+  682         h::Options options;options.power_w=4;options.callsign=callsign;
+  683         const auto plan=h::plan(options,500,100,rate);
+  684         h::Generator generator(options,plan);h::Tracker actual(plan.frequency_hz);
+  685         bool found=false;
+  686         for(std::size_t begin=0;begin<rate*7;begin+=400) {
+  687             std::array<float,400> samples{};
+  688             for(std::size_t i=0;i<samples.size();++i)
+  689                 samples[i]=generator.mix(0,static_cast<long double>(begin+i)/rate,rate,{},0);
+  690             actual.push(samples,rate);
+  691             if(const auto observation=actual.take_update()) {
+  692                 found|=observation->confirmed;
+  693                 require(std::isfinite(observation->snr_db),"helper tracker exposed nonfinite SNR");
+  694             }
+  695         }
+  696         require(found,"real helper ramps/punctuation/metadata prevented continuous presence");
+  697     }
+  698     rejects([]{h::Tracker bad(1000,101);});

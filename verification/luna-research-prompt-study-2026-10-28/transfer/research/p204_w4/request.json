@@ -1,0 +1,21 @@
+{
+  "assignment_id": "P204-D",
+  "conversation_id": "p204-d",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "purpose_and_decision_use": "Assess empirical evidence for selecting and interpreting focused tests under configuration and resource variation, including external-validity and measurement risks across reports.",
+  "source_units": [
+    "R09",
+    "R11",
+    "R12"
+  ],
+  "dependencies": "None; independent first wave. Neighboring units are evidence of consumers and capacity, not alleged causes of reports.",
+  "web_operation_budget": {
+    "total_max": 16,
+    "search_query_max": 8,
+    "open_max": 10
+  },
+  "prompt": "Read only p204's supplied contract, scenario, source index and assigned excerpt units R09, R11 and R12, plus bounded original empirical research or first-party documentation on test selection under configuration variation, test order/resource effects, or limits of generalizing focused test results. Do not inspect other views, working trees, results or unreleased events; do not execute code. Map build or retained-input consumers and exact selection/capacity limits supported by these excerpts; consider whether configuration capture and a matched fixture are more useful than a broad matrix or statistical ranking. Seek contradicting evidence and identify conditions under which the research would not change the campaign. Return study populations, outcomes, primary links, source lines, excluded alternatives, uncertainty and next falsifier; do not infer runtime behavior. Stop when further evidence is repetitive or not actionable. At most 16 logical web operations, 8 queries and 10 opens.",
+  "expected_artifact": "Compact decision-use evidence on selection and configuration, linked to actual consumer paths and limits.",
+  "model_rationale": "Luna-high can survey this separable literature and source boundary without taking expert design or acceptance ownership."
+}

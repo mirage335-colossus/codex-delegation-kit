@@ -1,0 +1,177 @@
+# R03: C++ caller and provider ABI for text validation
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `src/text_validation.cpp` lines 1-35
+
+```text
+   1 #include "text_validation.h"
+   2 
+   3 #if defined(FOUNDATION_USE_RUST) && FOUNDATION_USE_RUST
+   4 #include <cstdlib>
+   5 
+   6 extern "C" [[noreturn]]
+   7 #if (defined(__GNUC__) || defined(__clang__)) && !defined(_WIN32)
+   8 __attribute__((visibility("hidden")))
+   9 #endif
+  10 void foundation_rust_panic() noexcept {
+  11     std::abort();
+  12 }
+  13 #else
+  14 extern "C" uint32_t foundation_text_validate_v1(const uint8_t *bytes,
+  15                                                  size_t length) noexcept {
+  16     if (length == 0 || length > 256) return FOUNDATION_TEXT_INVALID_LENGTH;
+  17     if (bytes == nullptr) return FOUNDATION_TEXT_INVALID_POINTER;
+  18     for (size_t index = 0; index < length; ++index) {
+  19         if (bytes[index] < 32 || bytes[index] > 126) {
+  20             return FOUNDATION_TEXT_INVALID_ASCII;
+  21         }
+  22     }
+  23     return FOUNDATION_TEXT_OK;
+  24 }
+  25 
+  26 extern "C" uint32_t foundation_text_provider_v1() noexcept {
+  27     return FOUNDATION_TEXT_PROVIDER_CPP;
+  28 }
+  29 #endif
+  30 
+  31 namespace foundation::detail {
+  32 uint32_t validate_text(const uint8_t *bytes, size_t length) noexcept {
+  33     return foundation_text_validate_v1(bytes, length);
+  34 }
+  35 }
+```
+
+## `tests/rust_component_test.cpp` lines 14-69
+
+```text
+  14 int main() {
+  15     try {
+  16 #if defined(FOUNDATION_EXPECT_RUST) && FOUNDATION_EXPECT_RUST
+  17         constexpr uint32_t expected_provider = FOUNDATION_TEXT_PROVIDER_RUST;
+  18 #else
+  19         constexpr uint32_t expected_provider = FOUNDATION_TEXT_PROVIDER_CPP;
+  20 #endif
+  21         require(foundation_text_provider_v1() == expected_provider,
+  22                 "linked text provider differs from configured provider");
+  23         const uint8_t one = 'x';
+  24         require(foundation::detail::validate_text(&one, 1) == FOUNDATION_TEXT_OK,
+  25                 "C++ validation bridge rejected valid text");
+  26         for (const auto* pointer : {static_cast<const uint8_t*>(nullptr), &one}) {
+  27             for (const size_t length : {size_t{0}, size_t{257},
+  28                                        std::numeric_limits<size_t>::max()}) {
+  29                 require(foundation_text_validate_v1(pointer, length) == FOUNDATION_TEXT_INVALID_LENGTH,
+  30                         "invalid length did not precede buffer access");
+  31             }
+  32         }
+  33         for (const size_t length : {size_t{1}, size_t{256}}) {
+  34             require(foundation_text_validate_v1(nullptr, length) == FOUNDATION_TEXT_INVALID_POINTER,
+  35                     "nonnull buffer contract was not enforced");
+  36         }
+  37         for (unsigned value = 0; value <= 255; ++value) {
+  38             const auto byte = static_cast<uint8_t>(value);
+  39             const uint32_t expected = value >= 32 && value <= 126
+  40                 ? FOUNDATION_TEXT_OK : FOUNDATION_TEXT_INVALID_ASCII;
+  41             require(foundation_text_validate_v1(&byte, 1) == expected,
+  42                     "single byte acceptance differs from printable ASCII");
+  43         }
+  44         std::array<uint8_t, 256> bytes;
+  45         bytes.fill('~');
+  46         const auto valid_bytes = bytes;
+  47         for (size_t length = 1; length <= bytes.size(); ++length) {
+  48             require(foundation_text_validate_v1(bytes.data(), length) == FOUNDATION_TEXT_OK,
+  49                     "allowed length rejected");
+  50         }
+  51         require(bytes == valid_bytes, "validation changed valid borrowed bytes");
+  52         for (size_t position = 0; position < bytes.size(); ++position) {
+  53             for (const uint8_t invalid : {uint8_t{0}, uint8_t{31}, uint8_t{127},
+  54                                          uint8_t{128}, uint8_t{255}}) {
+  55                 bytes[position] = invalid;
+  56                 const auto input = bytes;
+  57                 require(foundation_text_validate_v1(bytes.data(), bytes.size()) == FOUNDATION_TEXT_INVALID_ASCII,
+  58                         "invalid byte was missed within a bounded buffer");
+  59                 require(bytes == input, "validation changed invalid borrowed bytes");
+  60             }
+  61             bytes[position] = '~';
+  62         }
+  63         require(bytes == valid_bytes, "validation changed the borrowed buffer");
+  64         std::cout << "text component ABI passed (provider="
+  65                   << (expected_provider == FOUNDATION_TEXT_PROVIDER_RUST ? "Rust" : "C++")
+  66                   << ")\n";
+  67     } catch (const std::exception& error) {
+  68         std::cerr << error.what() << '\n';
+  69         return 1;
+```
+
+## `tests/rust_component_status_test.cpp` lines 27-64
+
+```text
+  27 namespace foundation::detail {
+  28 // This executable substitutes a component result to test the caller's contract.
+  29 uint32_t validate_text(const uint8_t*, size_t) noexcept {
+  30     return injected_status;
+  31 }
+  32 }
+  33 
+  34 int main() {
+  35     try {
+  36         foundation::Store store(1);
+  37         const auto id = store.add("Original");
+  38         const auto before = store.snapshot();
+  39         injected_status = FOUNDATION_TEXT_INVALID_LENGTH;
+  40         rejects<std::invalid_argument>([&] { store.add("Input"); },
+  41                                        "text must contain 1..256 bytes");
+  42         injected_status = FOUNDATION_TEXT_INVALID_ASCII;
+  43         rejects<std::invalid_argument>([&] { store.update(id, "Input"); },
+  44                                        "text must contain printable ASCII only");
+  45         for (const uint32_t status : {uint32_t{FOUNDATION_TEXT_INVALID_POINTER},
+  46                                       uint32_t{4}, std::numeric_limits<uint32_t>::max()}) {
+  47             injected_status = status;
+  48             rejects<std::logic_error>([&] { store.add("Input"); },
+  49                                       "text validation component failed");
+  50             rejects<std::logic_error>([&] { store.update(id, "Input"); },
+  51                                       "text validation component failed");
+  52             rejects<std::logic_error>([&] { store.update(0, "Input"); },
+  53                                       "text validation component failed");
+  54         }
+  55         require(store.snapshot() == before, "component failure changed records");
+  56         injected_status = FOUNDATION_TEXT_OK;
+  57         require(store.erase(id), "original record was lost");
+  58         require(store.add("Next") == id + 1, "component failure consumed an ID");
+  59         std::cout << "component failure translation passed\n";
+  60     } catch (const std::exception& error) {
+  61         std::cerr << error.what() << '\n';
+  62         return 1;
+  63     }
+  64 }
+```
+
+## `CMakeLists.txt` lines 502-526
+
+```text
+ 502   add_executable(foundation_rust_component_test EXCLUDE_FROM_ALL tests/rust_component_test.cpp)
+ 503   target_link_libraries(foundation_rust_component_test PRIVATE foundation::core)
+ 504   target_include_directories(foundation_rust_component_test PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+ 505   if(FOUNDATION_CORE_PROVIDER STREQUAL "rust")
+ 506     target_compile_definitions(foundation_rust_component_test PRIVATE FOUNDATION_EXPECT_RUST=1)
+ 507   endif()
+ 508   foundation_options(foundation_rust_component_test)
+ 509   if(EMSCRIPTEN)
+ 510     add_test(NAME core.text_validation COMMAND "${FOUNDATION_NODE_EXECUTABLE}" $<TARGET_FILE:foundation_rust_component_test>)
+ 511   else()
+ 512     add_test(NAME core.text_validation COMMAND foundation_rust_component_test)
+ 513   endif()
+ 514   set_tests_properties(core.text_validation PROPERTIES LABELS "fast;core" TIMEOUT 30)
+ 515   foundation_test_prerequisites(core.text_validation foundation_rust_component_test)
+ 516   add_executable(foundation_text_status_test EXCLUDE_FROM_ALL tests/rust_component_status_test.cpp src/store.cpp)
+ 517   target_include_directories(foundation_text_status_test PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_SOURCE_DIR}/src")
+ 518   target_compile_features(foundation_text_status_test PRIVATE cxx_std_20)
+ 519   foundation_options(foundation_text_status_test)
+ 520   if(EMSCRIPTEN)
+ 521     add_test(NAME core.text_status COMMAND "${FOUNDATION_NODE_EXECUTABLE}" $<TARGET_FILE:foundation_text_status_test>)
+ 522   else()
+ 523     add_test(NAME core.text_status COMMAND foundation_text_status_test)
+ 524   endif()
+ 525   set_tests_properties(core.text_status PROPERTIES LABELS "fast;core" TIMEOUT 30)
+ 526   foundation_test_prerequisites(core.text_status foundation_text_status_test)
+```

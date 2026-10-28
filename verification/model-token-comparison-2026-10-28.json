@@ -1,0 +1,1244 @@
+{
+  "recorded_utc": "2026-10-28T22:10:38.898706+00:00",
+  "cohorts": {
+    "earlier": {
+      "source_manifest": "verification/decision-routing-study-2026-10-28/analysis/administration.json",
+      "delegated": {
+        "gpt-6-luna": {
+          "input_tokens": 4552778,
+          "cached_input_tokens": 4288256,
+          "output_tokens": 62864,
+          "reasoning_output_tokens": 30497,
+          "total_tokens": 4615642,
+          "responses": 57,
+          "turns": 4,
+          "agents": 4,
+          "uncached_input_tokens": 264522
+        },
+        "gpt-6.1-sol": {
+          "input_tokens": 2345855,
+          "cached_input_tokens": 2236416,
+          "output_tokens": 12062,
+          "reasoning_output_tokens": 4218,
+          "total_tokens": 2357917,
+          "responses": 28,
+          "turns": 2,
+          "agents": 1,
+          "uncached_input_tokens": 109439
+        },
+        "gpt-6.1-terra": {
+          "input_tokens": 6629811,
+          "cached_input_tokens": 6304384,
+          "output_tokens": 61605,
+          "reasoning_output_tokens": 2790,
+          "total_tokens": 6691416,
+          "responses": 106,
+          "turns": 18,
+          "agents": 7,
+          "uncached_input_tokens": 325427
+        }
+      },
+      "main_chat": {
+        "gpt-6.1-sol": {
+          "input_tokens": 13589031,
+          "cached_input_tokens": 13221888,
+          "output_tokens": 42400,
+          "reasoning_output_tokens": 10552,
+          "total_tokens": 13631431,
+          "responses": 71
+        }
+      },
+      "root_turns": [
+        "study-id-h93c07d99b90f738a"
+      ],
+      "root_turn_counter_checks": true
+    },
+    "latest": {
+      "source_manifest": "verification/luna-research-prompt-study-2026-10-28/analysis/administration.json",
+      "delegated": {
+        "gpt-6-luna": {
+          "input_tokens": 31056161,
+          "cached_input_tokens": 28697216,
+          "output_tokens": 361693,
+          "reasoning_output_tokens": 142815,
+          "total_tokens": 31417854,
+          "responses": 502,
+          "turns": 44,
+          "agents": 40,
+          "uncached_input_tokens": 2358945
+        },
+        "gpt-6.1-terra": {
+          "input_tokens": 7725055,
+          "cached_input_tokens": 7357952,
+          "output_tokens": 53593,
+          "reasoning_output_tokens": 2292,
+          "total_tokens": 7778648,
+          "responses": 124,
+          "turns": 18,
+          "agents": 8,
+          "uncached_input_tokens": 367103
+        },
+        "gpt-6-astra": {
+          "input_tokens": 534053,
+          "cached_input_tokens": 499840,
+          "output_tokens": 3481,
+          "reasoning_output_tokens": 336,
+          "total_tokens": 537534,
+          "responses": 11,
+          "turns": 3,
+          "agents": 1,
+          "uncached_input_tokens": 34213
+        },
+        "gpt-6.1-sol": {
+          "input_tokens": 3743416,
+          "cached_input_tokens": 3591936,
+          "output_tokens": 24850,
+          "reasoning_output_tokens": 9730,
+          "total_tokens": 3768266,
+          "responses": 44,
+          "turns": 5,
+          "agents": 2,
+          "uncached_input_tokens": 151480
+        }
+      },
+      "main_chat": {
+        "gpt-6.1-sol": {
+          "input_tokens": 25810877,
+          "cached_input_tokens": 25628928,
+          "output_tokens": 104631,
+          "reasoning_output_tokens": 43032,
+          "total_tokens": 25915508,
+          "responses": 169
+        }
+      },
+      "root_turns": [
+        "study-id-h81ec15a62d25634e"
+      ],
+      "root_turn_counter_checks": true
+    }
+  },
+  "children": {
+    "regression_packet": {
+      "usage": {
+        "input_tokens": 2690067,
+        "cached_input_tokens": 2580096,
+        "output_tokens": 24644,
+        "reasoning_output_tokens": 11390,
+        "total_tokens": 2714711
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 26,
+      "turns": 1,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "carrier_packet": {
+      "usage": {
+        "input_tokens": 778170,
+        "cached_input_tokens": 707456,
+        "output_tokens": 7581,
+        "reasoning_output_tokens": 2725,
+        "total_tokens": 785751
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "study_method_review": {
+      "usage": {
+        "input_tokens": 2345855,
+        "cached_input_tokens": 2236416,
+        "output_tokens": 12062,
+        "reasoning_output_tokens": 4218,
+        "total_tokens": 2357917
+      },
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "responses": 28,
+      "turns": 2,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "planner_p17": {
+      "usage": {
+        "input_tokens": 565226,
+        "cached_input_tokens": 501504,
+        "output_tokens": 11763,
+        "reasoning_output_tokens": 212,
+        "total_tokens": 576989
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 11,
+      "turns": 3,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "planner_p29": {
+      "usage": {
+        "input_tokens": 764655,
+        "cached_input_tokens": 726784,
+        "output_tokens": 8554,
+        "reasoning_output_tokens": 454,
+        "total_tokens": 773209
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 13,
+      "turns": 3,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "planner_p43": {
+      "usage": {
+        "input_tokens": 521260,
+        "cached_input_tokens": 487168,
+        "output_tokens": 8096,
+        "reasoning_output_tokens": 177,
+        "total_tokens": 529356
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 10,
+      "turns": 3,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "planner_p61": {
+      "usage": {
+        "input_tokens": 820264,
+        "cached_input_tokens": 784000,
+        "output_tokens": 6834,
+        "reasoning_output_tokens": 320,
+        "total_tokens": 827098
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 14,
+      "turns": 3,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "carrier_decision_coding": {
+      "usage": {
+        "input_tokens": 415500,
+        "cached_input_tokens": 375808,
+        "output_tokens": 15389,
+        "reasoning_output_tokens": 7586,
+        "total_tokens": 430889
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 8,
+      "turns": 1,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "regression_decision_coding": {
+      "usage": {
+        "input_tokens": 669041,
+        "cached_input_tokens": 624896,
+        "output_tokens": 15250,
+        "reasoning_output_tokens": 8796,
+        "total_tokens": 684291
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "carrier_usage_estimation": {
+      "usage": {
+        "input_tokens": 841562,
+        "cached_input_tokens": 803072,
+        "output_tokens": 8537,
+        "reasoning_output_tokens": 673,
+        "total_tokens": 850099
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 15,
+      "turns": 2,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "regression_usage_estimation": {
+      "usage": {
+        "input_tokens": 853294,
+        "cached_input_tokens": 817536,
+        "output_tokens": 8387,
+        "reasoning_output_tokens": 675,
+        "total_tokens": 861681
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 16,
+      "turns": 2,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "study_synthesis": {
+      "usage": {
+        "input_tokens": 2263550,
+        "cached_input_tokens": 2184320,
+        "output_tokens": 9434,
+        "reasoning_output_tokens": 279,
+        "total_tokens": 2272984
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 27,
+      "turns": 2,
+      "roots": [
+        "study-id-h93c07d99b90f738a"
+      ]
+    },
+    "research_prompt_mapper": {
+      "usage": {
+        "input_tokens": 833864,
+        "cached_input_tokens": 772736,
+        "output_tokens": 5562,
+        "reasoning_output_tokens": 2060,
+        "total_tokens": 839426
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 13,
+      "turns": 2,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "research_eval_design": {
+      "usage": {
+        "input_tokens": 1432449,
+        "cached_input_tokens": 1342720,
+        "output_tokens": 7885,
+        "reasoning_output_tokens": 357,
+        "total_tokens": 1440334
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 19,
+      "turns": 3,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "research_strategy_astra": {
+      "usage": {
+        "input_tokens": 534053,
+        "cached_input_tokens": 499840,
+        "output_tokens": 3481,
+        "reasoning_output_tokens": 336,
+        "total_tokens": 537534
+      },
+      "models": [
+        "gpt-6-astra"
+      ],
+      "responses": 11,
+      "turns": 3,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "research_protocol_sol": {
+      "usage": {
+        "input_tokens": 794787,
+        "cached_input_tokens": 764928,
+        "output_tokens": 8409,
+        "reasoning_output_tokens": 3804,
+        "total_tokens": 803196
+      },
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "responses": 15,
+      "turns": 3,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r698": {
+      "usage": {
+        "input_tokens": 551297,
+        "cached_input_tokens": 513920,
+        "output_tokens": 7740,
+        "reasoning_output_tokens": 2792,
+        "total_tokens": 559037
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 10,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r672": {
+      "usage": {
+        "input_tokens": 637258,
+        "cached_input_tokens": 596992,
+        "output_tokens": 7743,
+        "reasoning_output_tokens": 3037,
+        "total_tokens": 645001
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r801": {
+      "usage": {
+        "input_tokens": 477552,
+        "cached_input_tokens": 399104,
+        "output_tokens": 5394,
+        "reasoning_output_tokens": 892,
+        "total_tokens": 482946
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 9,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r733": {
+      "usage": {
+        "input_tokens": 895253,
+        "cached_input_tokens": 825984,
+        "output_tokens": 8126,
+        "reasoning_output_tokens": 2449,
+        "total_tokens": 903379
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 17,
+      "turns": 2,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r654": {
+      "usage": {
+        "input_tokens": 467973,
+        "cached_input_tokens": 424064,
+        "output_tokens": 5453,
+        "reasoning_output_tokens": 1535,
+        "total_tokens": 473426
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 9,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r693": {
+      "usage": {
+        "input_tokens": 1361516,
+        "cached_input_tokens": 1310848,
+        "output_tokens": 8307,
+        "reasoning_output_tokens": 2737,
+        "total_tokens": 1369823
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 21,
+      "turns": 2,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r612": {
+      "usage": {
+        "input_tokens": 698042,
+        "cached_input_tokens": 638976,
+        "output_tokens": 5736,
+        "reasoning_output_tokens": 1796,
+        "total_tokens": 703778
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r842": {
+      "usage": {
+        "input_tokens": 454255,
+        "cached_input_tokens": 418048,
+        "output_tokens": 5271,
+        "reasoning_output_tokens": 1214,
+        "total_tokens": 459526
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 9,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r139": {
+      "usage": {
+        "input_tokens": 643416,
+        "cached_input_tokens": 597248,
+        "output_tokens": 7065,
+        "reasoning_output_tokens": 2187,
+        "total_tokens": 650481
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r806": {
+      "usage": {
+        "input_tokens": 585855,
+        "cached_input_tokens": 543744,
+        "output_tokens": 6253,
+        "reasoning_output_tokens": 2371,
+        "total_tokens": 592108
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r147": {
+      "usage": {
+        "input_tokens": 988775,
+        "cached_input_tokens": 928768,
+        "output_tokens": 8355,
+        "reasoning_output_tokens": 3519,
+        "total_tokens": 997130
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 16,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "pilot_r318": {
+      "usage": {
+        "input_tokens": 666526,
+        "cached_input_tokens": 622976,
+        "output_tokens": 8148,
+        "reasoning_output_tokens": 3985,
+        "total_tokens": 674674
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_carrier_1": {
+      "usage": {
+        "input_tokens": 958581,
+        "cached_input_tokens": 821248,
+        "output_tokens": 14892,
+        "reasoning_output_tokens": 4960,
+        "total_tokens": 973473
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 14,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_carrier_2": {
+      "usage": {
+        "input_tokens": 843293,
+        "cached_input_tokens": 777856,
+        "output_tokens": 15170,
+        "reasoning_output_tokens": 7516,
+        "total_tokens": 858463
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_agent_1": {
+      "usage": {
+        "input_tokens": 1879999,
+        "cached_input_tokens": 1791872,
+        "output_tokens": 24272,
+        "reasoning_output_tokens": 11920,
+        "total_tokens": 1904271
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 21,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_agent_2": {
+      "usage": {
+        "input_tokens": 962360,
+        "cached_input_tokens": 892288,
+        "output_tokens": 16107,
+        "reasoning_output_tokens": 7200,
+        "total_tokens": 978467
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 13,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "screen_carrier": {
+      "usage": {
+        "input_tokens": 925306,
+        "cached_input_tokens": 872832,
+        "output_tokens": 5349,
+        "reasoning_output_tokens": 330,
+        "total_tokens": 930655
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 14,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "screen_agent_research": {
+      "usage": {
+        "input_tokens": 741205,
+        "cached_input_tokens": 705536,
+        "output_tokens": 5413,
+        "reasoning_output_tokens": 298,
+        "total_tokens": 746618
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 14,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "research_frontier_builder": {
+      "usage": {
+        "input_tokens": 281035,
+        "cached_input_tokens": 256256,
+        "output_tokens": 2579,
+        "reasoning_output_tokens": 124,
+        "total_tokens": 283614
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 6,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n532": {
+      "usage": {
+        "input_tokens": 811068,
+        "cached_input_tokens": 762240,
+        "output_tokens": 8342,
+        "reasoning_output_tokens": 4235,
+        "total_tokens": 819410
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 14,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n154": {
+      "usage": {
+        "input_tokens": 1040766,
+        "cached_input_tokens": 975104,
+        "output_tokens": 9298,
+        "reasoning_output_tokens": 4172,
+        "total_tokens": 1050064
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 16,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n641": {
+      "usage": {
+        "input_tokens": 772811,
+        "cached_input_tokens": 725248,
+        "output_tokens": 6969,
+        "reasoning_output_tokens": 2865,
+        "total_tokens": 779780
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 13,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n309": {
+      "usage": {
+        "input_tokens": 733932,
+        "cached_input_tokens": 662016,
+        "output_tokens": 8519,
+        "reasoning_output_tokens": 3377,
+        "total_tokens": 742451
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n273": {
+      "usage": {
+        "input_tokens": 746019,
+        "cached_input_tokens": 683136,
+        "output_tokens": 7135,
+        "reasoning_output_tokens": 3317,
+        "total_tokens": 753154
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 13,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n685": {
+      "usage": {
+        "input_tokens": 913560,
+        "cached_input_tokens": 861568,
+        "output_tokens": 8869,
+        "reasoning_output_tokens": 3446,
+        "total_tokens": 922429
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 16,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n836": {
+      "usage": {
+        "input_tokens": 469769,
+        "cached_input_tokens": 439296,
+        "output_tokens": 4974,
+        "reasoning_output_tokens": 2049,
+        "total_tokens": 474743
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 9,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_n494": {
+      "usage": {
+        "input_tokens": 635747,
+        "cached_input_tokens": 581376,
+        "output_tokens": 9568,
+        "reasoning_output_tokens": 3945,
+        "total_tokens": 645315
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_continuation_s1": {
+      "usage": {
+        "input_tokens": 658156,
+        "cached_input_tokens": 585472,
+        "output_tokens": 12655,
+        "reasoning_output_tokens": 5420,
+        "total_tokens": 670811
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_continuation_s2": {
+      "usage": {
+        "input_tokens": 440193,
+        "cached_input_tokens": 398336,
+        "output_tokens": 9212,
+        "reasoning_output_tokens": 4318,
+        "total_tokens": 449405
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 8,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_continuation_s3": {
+      "usage": {
+        "input_tokens": 470448,
+        "cached_input_tokens": 423040,
+        "output_tokens": 10648,
+        "reasoning_output_tokens": 5101,
+        "total_tokens": 481096
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 8,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_continuation_s4": {
+      "usage": {
+        "input_tokens": 684272,
+        "cached_input_tokens": 621952,
+        "output_tokens": 13896,
+        "reasoning_output_tokens": 7367,
+        "total_tokens": 698168
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_screen_carrier": {
+      "usage": {
+        "input_tokens": 634959,
+        "cached_input_tokens": 599296,
+        "output_tokens": 4292,
+        "reasoning_output_tokens": 135,
+        "total_tokens": 639251
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "continuation_screen_agents": {
+      "usage": {
+        "input_tokens": 435635,
+        "cached_input_tokens": 404224,
+        "output_tokens": 3985,
+        "reasoning_output_tokens": 218,
+        "total_tokens": 439620
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 9,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "research_candidate_review": {
+      "usage": {
+        "input_tokens": 2948629,
+        "cached_input_tokens": 2827008,
+        "output_tokens": 16441,
+        "reasoning_output_tokens": 5926,
+        "total_tokens": 2965070
+      },
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "responses": 29,
+      "turns": 2,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "implement_research_continuation": {
+      "usage": {
+        "input_tokens": 1044306,
+        "cached_input_tokens": 998400,
+        "output_tokens": 4787,
+        "reasoning_output_tokens": 1038,
+        "total_tokens": 1049093
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 18,
+      "turns": 2,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p204": {
+      "usage": {
+        "input_tokens": 1703369,
+        "cached_input_tokens": 1651968,
+        "output_tokens": 12753,
+        "reasoning_output_tokens": 386,
+        "total_tokens": 1716122
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 26,
+      "turns": 5,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p517": {
+      "usage": {
+        "input_tokens": 1571097,
+        "cached_input_tokens": 1525120,
+        "output_tokens": 11337,
+        "reasoning_output_tokens": 444,
+        "total_tokens": 1582434
+      },
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "responses": 25,
+      "turns": 5,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p204_w1": {
+      "usage": {
+        "input_tokens": 663773,
+        "cached_input_tokens": 605184,
+        "output_tokens": 7868,
+        "reasoning_output_tokens": 2771,
+        "total_tokens": 671641
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 10,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p517_w1": {
+      "usage": {
+        "input_tokens": 655599,
+        "cached_input_tokens": 602496,
+        "output_tokens": 6231,
+        "reasoning_output_tokens": 2540,
+        "total_tokens": 661830
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 10,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p204_w2": {
+      "usage": {
+        "input_tokens": 800113,
+        "cached_input_tokens": 741248,
+        "output_tokens": 8374,
+        "reasoning_output_tokens": 2538,
+        "total_tokens": 808487
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p517_w2": {
+      "usage": {
+        "input_tokens": 699680,
+        "cached_input_tokens": 637696,
+        "output_tokens": 9893,
+        "reasoning_output_tokens": 3387,
+        "total_tokens": 709573
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 11,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p204_w3": {
+      "usage": {
+        "input_tokens": 894933,
+        "cached_input_tokens": 825984,
+        "output_tokens": 8851,
+        "reasoning_output_tokens": 2704,
+        "total_tokens": 903784
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 13,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p517_w3": {
+      "usage": {
+        "input_tokens": 778213,
+        "cached_input_tokens": 722560,
+        "output_tokens": 8337,
+        "reasoning_output_tokens": 3172,
+        "total_tokens": 786550
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p204_w4": {
+      "usage": {
+        "input_tokens": 697772,
+        "cached_input_tokens": 635008,
+        "output_tokens": 5617,
+        "reasoning_output_tokens": 1441,
+        "total_tokens": 703389
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 12,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "transfer_p517_w4": {
+      "usage": {
+        "input_tokens": 597289,
+        "cached_input_tokens": 537984,
+        "output_tokens": 7197,
+        "reasoning_output_tokens": 2534,
+        "total_tokens": 604486
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 10,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_transfer_p204_initial": {
+      "usage": {
+        "input_tokens": 971364,
+        "cached_input_tokens": 898560,
+        "output_tokens": 11508,
+        "reasoning_output_tokens": 3903,
+        "total_tokens": 982872
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 15,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    },
+    "verify_transfer_p517_initial": {
+      "usage": {
+        "input_tokens": 970563,
+        "cached_input_tokens": 896640,
+        "output_tokens": 13351,
+        "reasoning_output_tokens": 5005,
+        "total_tokens": 983914
+      },
+      "models": [
+        "gpt-6-luna"
+      ],
+      "responses": 15,
+      "turns": 1,
+      "roots": [
+        "study-id-h81ec15a62d25634e"
+      ]
+    }
+  },
+  "method": "Per-response local token_usage_record sums; cached input and reasoning output are subsets. Model observed in turn_context. Exact listed children; main chat by matching child root_turn_id to parent turn_id; complete perturn sums match stable final turn_token_usage. Live root event counters can lag, so use per-response/thread/turn records.",
+  "checks": "All63listedchild conversations found; no duplicate responses/model mismatches; all child and fullroot sum/thread counters match; completed study root sums equal final perturn counters.",
+  "excluded": "Other experiments, subsequent user questions, current audit; no projected project campaign estimates.",
+  "summary": {
+    "earlier": {
+      "delegated_total_tokens": 13664975,
+      "main_chat_total_tokens": 13631431,
+      "all_total_tokens": 27296406,
+      "Luna_share_delegated_tokens": 0.33777171198630074,
+      "Luna_share_including_main_tokens": 0.16909339639804596,
+      "Sol_combined_total_tokens": 15989348,
+      "Sol_combined_share": 0.5857675182586308
+    },
+    "latest": {
+      "delegated_total_tokens": 43502302,
+      "main_chat_total_tokens": 25915508,
+      "all_total_tokens": 69417810,
+      "Luna_share_delegated_tokens": 0.7222112981515323,
+      "Luna_share_including_main_tokens": 0.45259068241997263,
+      "Sol_combined_total_tokens": 29683774,
+      "Sol_combined_share": 0.42761034956303
+    }
+  },
+  "latest_divided_by_earlier_token_totals": {
+    "gpt-6-luna": 6.806822106220543,
+    "gpt-6.1-sol": 1.5981334372668758,
+    "gpt-6.1-terra": 1.1624816032959242,
+    "main_chat_Sol": 1.9011582863163816,
+    "all_Sol": 1.8564718211149072,
+    "all_models_including_main": 2.5431117195428583
+  },
+  "independent_review": {
+    "agent": "compare_luna_usage_records",
+    "result": "All per-model child and main study-turn totals independently match exactly. All listed non-Luna children found; no model/duplicate mismatches; completed child event and root final perturn counter checks pass.",
+    "current_audit_excluded": true
+  },
+  "limitations": [
+    "Observed local app/provider usage counters; not independently audited billing.",
+    "Input includes cached input, output includes reasoning; subsets are not added again.",
+    "Repeated context counted per recorded response; not unique content.",
+    "Different experimental workloads; not equal-scope project campaigns or causal allocation/savings result.",
+    "No conversion from raw token share to weekly-allowance share, API dollars or useful work.",
+    "Main chat was observed gpt-6.1-sol in both study turns; settings were not changed for this audit."
+  ],
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts.",
+  "public_recomputation": {
+    "dataset": "verification/telemetry/usage-records.jsonl",
+    "command": "python3 -B examples/recompute_verification_usage.py",
+    "scope": "Recomputes grouped arithmetic from published numeric observations. Does not authenticate provider identity, original logs, completeness, or actual weekly allowance consumption."
+  }
+}

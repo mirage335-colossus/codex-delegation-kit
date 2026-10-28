@@ -1,0 +1,188 @@
+{
+  "assignment": "s3 paired continuation verification",
+  "source_revision": "947ed25d4058e405ecf45d6956671f6fecb12026",
+  "baseline": "The checkout was already dirty at intake (tracked documentation/role/policy edits and untracked verification study artifacts, including this study). This verification wrote only the two requested s3 outputs.",
+  "scope_read": [
+    "continuation/protocol.json (scoring and resource clauses only)",
+    "common/scoring.md",
+    "continuation/seeds/s3/task.md",
+    "continuation/seeds/s3/discovery.json",
+    "continuation/seeds/s3/source-checks.json",
+    "continuation/cases/n836/report.json",
+    "continuation/cases/n154/report.json"
+  ],
+  "operations": {
+    "new_logical_operations": 11,
+    "pair_limit": 16,
+    "search_queries": 1,
+    "search_query_limit": 8,
+    "opens": 10,
+    "open_limit": 10,
+    "per_case": {
+      "n836": 2,
+      "n154": 9,
+      "dedicated_case_limit": 8
+    },
+    "eligibility": "Pair-wide count, query count, and open count are within their ceilings. The n154 dedicated count is 9 if each source open/line-open is counted as a logical operation, exceeding its 8-operation cap by 1; therefore strict per-case budget eligibility is false. The extra call was a repeated TACL/arXiv line-addressed open, not new source retrieval. No further web operations were made.",
+    "operation_map": [
+      {
+        "case": "n836",
+        "kind": "open",
+        "locator": "https://aclanthology.org/2023.emnlp-main.151.pdf",
+        "result": "full EMNLP proceedings paper text; abstract and opening method description inspected"
+      },
+      {
+        "case": "n836",
+        "kind": "open",
+        "locator": "https://aclanthology.org/2023.emnlp-main.151/",
+        "result": "ACL Anthology metadata confirms EMNLP 2023, pages, DOI, and venue"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "https://aclanthology.org/2024.tacl-1.50.pdf",
+        "result": "full PDF; abstract/front matter inspected"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "https://aclanthology.org/2024.tacl-1.50/",
+        "result": "ACL Anthology metadata confirms TACL 2024, volume, pages, DOI, and venue"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "https://arxiv.org/html/2502.06152",
+        "result": "full arXiv HTML accessible; title and abstract inspected"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "https://openreview.net/forum?id=rp2RDBRA0Y",
+        "result": "blocked by browser verification page; no content retrieved"
+      },
+      {
+        "case": "n154",
+        "kind": "search_query",
+        "locator": "Exact title search for Explaining and Improving Information Complementarities in Multi-Agent Decision-making + ICLR 2026",
+        "result": "author and Northwestern primary pages identify that title as ICLR 2026; search also returned ICLR-marked author-hosted proceedings PDF"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "study-source-h58b2fdd635bfd66f at line 940 (TACL PDF)",
+        "result": "opened bibliography lines; not the claimed §7.2 passage"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "study-source-h7486e2009d5440c0 at line 126 (arXiv HTML)",
+        "result": "opened framework definition vicinity, but tool returned only one line; insufficient to verify full formal claim"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "study-source-h7486e2009d5440c0 at line 382 (arXiv HTML)",
+        "result": "opened bibliography; not the claimed experiment passage"
+      },
+      {
+        "case": "n154",
+        "kind": "open",
+        "locator": "study-source-h7486e2009d5440c0 at line 550 (arXiv HTML)",
+        "result": "opened Appendix E heading/time-analysis passage; insufficient to verify claimed §5 and §7 details"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "n836",
+      "origin_case_id": "r693",
+      "continuation_id": null,
+      "incremental_total": 1,
+      "qualified_lower_bound": 1,
+      "unresolved_upper_additions": 0,
+      "origin_stage_rows": [
+        {
+          "origin_id": "n836:hypothesis-guided-retrieval",
+          "stage": "continuation; new primary-source finding",
+          "seed_relation": "Distinct from the seed's general staged localization/validation finding: it adds one bounded candidate-conditioned repository retrieval after an initial map, with an explicit counterexample search.",
+          "source_id": "repocoder",
+          "source_locator": "RepoCoder, §1, pp. 2471–2472; ACL Anthology PDF lines 10–28 and 52–71. The abstract and method opening describe iterative retrieval-generation using generated completion context and report superiority to vanilla retrieval-augmented completion in repository code-completion experiments.",
+          "publication_status": "Peer-reviewed EMNLP 2023 proceedings paper; independently confirmed by ACL Anthology metadata (Proceedings, pages 2471–2484, DOI 10.18653/v1/2023.emnlp-main.151).",
+          "content_access": "Full text available; inspected abstract and opening method section.",
+          "support": "Direct support for the candidate-conditioned iterative retrieval mechanism and reported completion-task comparison. The case report's additional claims about instability across further iterations and low-duplication limits were not reached in this verifier's inspected lines and remain unconfirmed here.",
+          "applicability": "Adequately bounded as a workflow inference, not a measured research-prompt effect. Paper task is repository-level code completion, not architecture research or subagent coordination. Candidate-shaped retrieval may reinforce an initial hypothesis; the proposed discriminator appropriately asks for contrary evidence too.",
+          "novelty": "Meaningful incremental mechanism relative to the four retained seed findings; not another name for staged research or independent claim verification.",
+          "discriminator_feasible": true,
+          "next_discriminator": "Compare map-only with map plus one hypothesis-conditioned lookup that seeks supporting and contrary callers/examples/tests; record decision relevance and whether evidence changes the hypothesis.",
+          "qualified_decision_useful": true,
+          "expert_status": "not individually assessed"
+        }
+      ],
+      "errors_or_gaps": [
+        "Iteration-stability and low-duplication caveats in the continuation report are not independently verified in the inspected source passages.",
+        "No direct evidence that this code-completion mechanism improves smaller-model architecture research or mixed-model handoffs."
+      ]
+    },
+    {
+      "case_id": "n154",
+      "origin_case_id": "r693",
+      "continuation_id": "n154",
+      "incremental_total": 2,
+      "qualified_lower_bound": 1,
+      "unresolved_upper_additions": 1,
+      "origin_stage_rows": [
+        {
+          "origin_id": "n154:decision-critical-questions",
+          "stage": "continuation; incremental peer-reviewed evidence, qualified at abstract-supported scope",
+          "seed_relation": "Adds human–AI decision-dialogue evidence on decision quality versus dialogue length, absent from the seed's software-agent, verification, ideation, and benchmark findings.",
+          "source_id": "decision_dialogue",
+          "source_locator": "Lin et al., Decision-Oriented Dialogue for Human-AI Collaboration, abstract and front matter, TACL vol. 12 (2024), pp. 892–911. The verified abstract specifies three dialogue domains and reports lower LM rewards despite longer dialogues. The report's narrower §7.2 claims about generic questions and superficially changing proposals were not directly inspected in that section during verification.",
+          "publication_status": "Peer-reviewed TACL journal article; independently confirmed by ACL Anthology venue/volume/pages/DOI metadata and the PDF front matter publication date (August 2024).",
+          "content_access": "Full PDF accessible; abstract/front matter directly inspected. Specific §7.2 detail remains unverified by this verifier.",
+          "support": "Qualified only for the abstract-supported finding that longer LM dialogues did not imply better decision outcomes in the studied domains. Do not credit the more specific generic-question result or proposal-iteration detail without direct §7.2 confirmation.",
+          "applicability": "The work studies GPT-3 and human assistants in reviewer assignment, itinerary planning, and group travel; it does not study repository research, smaller-model subagents, current model routing, or architecture decisions. Its bounded implication is to measure decision quality and reviewer/communication effort, rather than report length alone.",
+          "novelty": "Distinct decision-process evidence and an evaluation criterion beyond the seed's repository repair pipeline and evidence-verification studies.",
+          "discriminator_feasible": true,
+          "next_discriminator": "On matched repository decisions, compare follow-ups requiring a decision-critical unknown and falsifier with generic follow-up; assess useful evidence, missed alternatives, decision quality, and reviewer time.",
+          "qualified_decision_useful": true,
+          "expert_status": "not individually assessed"
+        },
+        {
+          "origin_id": "n154:value-of-information-evaluation",
+          "stage": "continuation; unresolved because source identity/title and claim-to-operation provenance do not align",
+          "seed_relation": "Potentially distinct decision-theoretic evaluation evidence, but not counted until the report's source identity is reconciled.",
+          "source_id": "voi (report label)",
+          "source_locator": "Report URL https://arxiv.org/abs/2502.06152 and opened HTML https://arxiv.org/html/2502.06152 identify the paper as Explaining and Improving Information Complementarities in Multi-Agent Decision-making, not The Value of Information in Human-AI Decision-making. The accessible abstract supports a human-AI complementary-information framework and study in chest X-ray/deepfake examples. Author/Northwestern pages found by exact-title query associate the arXiv-title paper with ICLR 2026. OpenReview direct access was blocked; the report's OpenReview record is not independently verified.",
+          "publication_status": "ICLR 2026 status supported for the arXiv-title paper by author and Northwestern pages; unresolved whether the separately named ‘The Value of Information in Human-AI Decision-making’ is that same paper or the source intended by the finding. Do not assign the verified venue status to the report's mismatched title without correction.",
+          "content_access": "Full arXiv HTML accessible, but this verifier directly inspected the title and abstract only; the report's precise expected-marginal-payoff definition, controlled-study result, and designed-complementarity limitation were not verified in the relevant sections.",
+          "support": "Abstract-level topic is real, but the submitted finding combines a mismatched title/identity and detailed claims not confirmed in relevant primary-source passages. Unresolved; excluded from qualified lower bound.",
+          "applicability": "Potentially useful as decision-theoretic framing for evaluating information added to human-AI decisions; transfer to architecture research and effort metrics remains an inference. Payoff-distribution requirements need direct source verification.",
+          "novelty": "Potentially novel relative to seed; not credited until source identity and content are verified.",
+          "discriminator_feasible": true,
+          "next_discriminator": "Correct the title and source identity, then inspect the paper's framework, experiment, and limitation sections directly; preserve the report's precise paper/operation provenance.",
+          "qualified_decision_useful": "unresolved",
+          "expert_status": "not individually assessed"
+        }
+      ],
+      "errors_or_gaps": [
+        "Report source title ‘The Value of Information in Human-AI Decision-making’ does not match arXiv:2502.06152's displayed title ‘Explaining and Improving Information Complementarities in Multi-Agent Decision-making’.",
+        "Report support operation IDs op09/op10 refer to venue/title searches, not primary content passages; op08 is the only listed content open, and the verifier's directly inspected content was the abstract.",
+        "OpenReview access returned a browser verification page. ICLR 2026 evidence from author/institution pages applies to the arXiv-titled paper, not conclusively to the report's differently titled source.",
+        "The direct primary-text passages claimed for the TACL §7.2 result and the VOI framework/experiment/limitations were not directly inspected in this verification run. The TACL lower-bound credit is restricted to its directly inspected abstract.",
+        "Dedicated n154 verification operations exceed the case cap by one; pair-wide, search, and open ceilings remain within their limits. Strict per-case budget eligibility therefore fails."
+      ]
+    }
+  ],
+  "stage_summary": {
+    "n836": "1 qualified, 0 unresolved; no claim of target-workflow benefit.",
+    "n154": "1 qualified at abstract-supported scope, 1 unresolved; no claim of target-workflow benefit.",
+    "expert_acceptance": "No expert acceptance decision made; all findings remain not individually assessed by the expert stage."
+  },
+  "overall_gaps": [
+    "No source directly evaluates smaller-model subagents finding alternatives for existing-repository architecture decisions under stronger-model review.",
+    "No source verifies prompt-injection boundary effectiveness; preserve the task's boundary as an operational constraint only.",
+    "The n154 case cannot satisfy the strict dedicated verification-operation ceiling as counted in this audit."
+  ],
+  "conclusion": "Incremental evidence supports one bounded repository retrieval mechanism in n836 and one abstract-level decision-quality/communication-cost caution in n154. One further n154 finding remains unresolved due to a paper-title/source-identity mismatch and insufficient direct inspection of the claimed sections. No winner, architecture, or implementation acceptance is determined."
+}

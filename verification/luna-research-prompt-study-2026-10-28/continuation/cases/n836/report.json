@@ -1,0 +1,107 @@
+{
+  "case_id": "n836",
+  "started_utc": "2026-10-28 21:03:45 UTC",
+  "finished_utc": "2026-10-28 21:04:40 UTC",
+  "operations": [
+    {
+      "operation_id": "op-001",
+      "kind": "search_query",
+      "query_or_url": "RepoCoder repository-level code completion iterative retrieval augmentation paper primary study",
+      "result_status": "success; ACL Anthology proceedings metadata, abstract, citation and linked full paper located"
+    },
+    {
+      "operation_id": "op-002",
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2023.emnlp-main.151.pdf",
+      "result_status": "success; full 14-page EMNLP proceedings paper accessible; source text inspected"
+    }
+  ],
+  "operation_use": {
+    "logical_operations": 2,
+    "logical_operation_limit": 16,
+    "search_queries": 1,
+    "search_query_limit": 8,
+    "source_opens": 1,
+    "source_open_limit": 10
+  },
+  "sources": [
+    {
+      "id": "agentless",
+      "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "title": "Demystifying LLM-Based Software Engineering Agents",
+      "year": 2025,
+      "venue": "Proceedings of the ACM on Software Engineering, Volume 2, FSE, Article FSE037",
+      "publication_status": "Peer-reviewed ACM FSE 2025 proceedings paper; accessible author-hosted copy identifies the ACM proceedings volume and article number.",
+      "status_evidence_url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "access_level": "Full text",
+      "content_locator": "§1, pp. 2–4; §4–5; §8, p. 20.",
+      "provenance": "seed discovery.json; not re-retrieved in this continuation"
+    },
+    {
+      "id": "cove",
+      "url": "https://aclanthology.org/2024.findings-acl.212/",
+      "title": "Chain-of-Verification Reduces Hallucination in Large Language Models",
+      "year": 2024,
+      "venue": "Findings of the Association for Computational Linguistics: ACL 2024",
+      "publication_status": "Peer-reviewed conference findings publication, verified by ACL Anthology proceedings metadata.",
+      "status_evidence_url": "https://aclanthology.org/2024.findings-acl.212/",
+      "access_level": "Full paper PDF linked and accessible; page metadata and abstract accessible",
+      "content_locator": "Abstract and ACL proceedings metadata; paper §2–3.",
+      "provenance": "seed discovery.json; not re-retrieved in this continuation"
+    },
+    {
+      "id": "idea_study",
+      "url": "https://arxiv.org/abs/2409.04109",
+      "title": "Can LLMs Generate Novel Research Ideas? A Large-Scale Human Study with 100+ NLP Researchers",
+      "year": 2024,
+      "venue": "arXiv preprint 2409.04109; peer-reviewed venue not established from accessible evidence",
+      "publication_status": "Preprint; subsequent peer-reviewed publication status unknown",
+      "status_evidence_url": "https://arxiv.org/abs/2409.04109",
+      "access_level": "Full text",
+      "content_locator": "Abstract; §5; §7.1; Appendix F.",
+      "provenance": "seed discovery.json; not re-retrieved in this continuation"
+    },
+    {
+      "id": "repocoder",
+      "url": "https://aclanthology.org/2023.emnlp-main.151.pdf",
+      "title": "RepoCoder: Repository-Level Code Completion Through Iterative Retrieval and Generation",
+      "year": 2023,
+      "venue": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, pages 2471–2484",
+      "publication_status": "Peer-reviewed EMNLP proceedings paper; ACL Anthology metadata gives venue, year, pages, and DOI.",
+      "status_evidence_url": "https://aclanthology.org/2023.emnlp-main.151/",
+      "access_level": "Full text; 14-page proceedings PDF opened",
+      "content_locator": "§1, pp. 2471–2472 (retrieving with generated candidate context); §5–6, pp. 2476–2478 (results/analysis); Limitations, p. 2478 (low duplication and iteration stability).",
+      "provenance": "new retrieval; publication status supported by op-001 ACL Anthology result; first content inspected in op-002"
+    }
+  ],
+  "findings": [
+    {
+      "id": "hypothesis-guided-retrieval",
+      "claim": "RepoCoder provides a specific repository-context mechanism beyond a one-pass map: retrieve cross-file examples using the unfinished code, generate a candidate, then use that candidate to refine the next retrieval. In its repository-level code-completion setting, this iterative method beat vanilla retrieval augmentation in the reported experiments; the paper notes performance can be unstable across additional iterations and gains may be limited where repositories have little code duplication.",
+      "source_ids": [
+        "repocoder"
+      ],
+      "support_locator": "§1, pp. 2471–2472; §5–6, pp. 2476–2478; Limitations, p. 2478.",
+      "decision_implication": "A practical research prompt could permit one hypothesis-guided repository lookup after the initial map: use a candidate explanation or named API/symbol to find concrete callers, examples, or tests, then report whether that evidence corroborates or contradicts the hypothesis. Keep the retrieval bounded and require a direct source locator. This is an inference from a code-completion study, not an evaluated research workflow.",
+      "assumptions": "The repository has searchable related examples or cross-file context; the investigator can inspect retrieved code and identify whether it bears on the decision.",
+      "applicability_gap": "RepoCoder predicts code completions, uses similarity retrieval and code-generation models, and evaluates on completion datasets; it does not study architecture research, mixed-model teams, prompting, or modern subagents. Code duplication is not equivalent to useful evidence availability. Candidate-shaped retrieval could also reinforce its starting hypothesis unless the prompt explicitly seeks disconfirming examples.",
+      "next_discriminator": "On matched repository decisions, compare map-only investigation with map plus one hypothesis-directed lookup that explicitly seeks both supporting and contrary evidence. Record whether the lookup finds a decision-relevant caller/test or changes the hypothesis, stratified by whether relevant cross-file examples exist; avoid treating completion accuracy results as expected workflow gains.",
+      "incremental_vs_seed": "Adds a concrete, low-cost retrieval mechanism and a boundary for follow-up depth. The seed supports staged localization/validation in general but does not identify hypothesis-conditioned cross-file retrieval or its iteration/duplication caveats. It sharpens the proposed discriminator toward checking relevant repository examples and counterexamples after an initial hypothesis.",
+      "support_operation_ids": [
+        "op-001",
+        "op-002"
+      ],
+      "source_first_content_operation_id": "op-002",
+      "source_status_check_operation_id": "op-001"
+    }
+  ],
+  "retained_seed_summary": "Seed evidence retained without re-retrieval: agentless (peer-reviewed ACM FSE 2025, full author-hosted text), cove (peer-reviewed ACL 2024 Findings; linked full PDF and accessible metadata/abstract), and idea_study (arXiv preprint; later peer-review status unknown; full text). Seed search log records 16 successful operations (8 queries, 8 opens) and no failures; it opened SWE-agent abstracts but used no claims from them. Seed findings remain distinct: staged localization/repair/validation (Agentless), independent claim verification (CoVe), alternative diversity and self-ranking cautions (idea study), and benchmark/task-clue caveats (Agentless).",
+  "rejected_or_redundant": [],
+  "unresolved": [
+    "No retrieved source directly tests smaller-model subagents discovering alternatives for software architecture decisions in existing repositories with stronger-model review.",
+    "No retrieved source evaluates prompt-injection boundary effectiveness for this workflow; retain the assignment's untrusted-source boundary as an operational constraint.",
+    "The proposed one-lookup continuation is a workflow inference from code completion evidence and remains untested; its value may depend on repository cross-file example availability."
+  ],
+  "stop_reason": "Stopped after one incremental primary source provided a distinct bounded mechanism and a consequential iteration/coverage caveat. Use: 2/16 logical operations, 1/8 search queries, and 1/10 source opens; no failed attempts or overshoots.",
+  "escalation_ready": "The source supports testing a single hypothesis-directed repository lookup after an initial map, with a required locator and an explicit search for counterexamples. The reported repository code-completion improvements do not establish benefit for this task. Keep expert access to decisive code and tests, independent patch acceptance, and prompt-injection boundaries; this report does not accept an architecture or implementation."
+}

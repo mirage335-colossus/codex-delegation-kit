@@ -1,0 +1,84 @@
+H09 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- tests/test_live_helper_presence.cpp:35-89 ---
+   35 void lifecycle() {
+   36     Fixture f;
+   37     check(!f.observe(0,1000,false),"noise created a helper row");
+   38     check(!f.observe(1000,2000,true,40,false),"disabled helper created a row");
+   39     auto row=f.observe(2000,3000,true,40,true,1000,"K1ABC");
+   40     check(row && row->id==100 && !row->complete && row->helper_carrier && !row->binary &&
+   41           row->received_bits==0 && row->raw_bits.empty(),"present tone did not create bit-free pending row");
+   42     // Presence has no synchronization-qualified input. A tone cannot need a
+   43     // frequency precision certificate merely to be visible in Signals.
+   44     for(std::uint64_t first=3000;first<23000;first+=1000) {
+   45         row=f.observe(first,first+1000,true,30);
+   46         check(!row || (row->id==100 && !row->complete),"long presence prematurely completed helper row");
+   47     }
+   48     check(row && row->text.find("C/N0 current 30.0 dB-Hz, peak 40.0 dB-Hz")!=std::string::npos &&
+   49           row->text.find("SNR (10 Hz) current 20.0 dB, peak 30.0 dB")!=std::string::npos &&
+   50           row->text.find("observed capture 23.000 s (sample 23000 @ 1000 Hz)")!=std::string::npos &&
+   51           row->text.find("peak capture 3.000 s (sample 3000 @ 1000 Hz)")!=std::string::npos &&
+   52           row->text.find("callsign K1ABC")!=std::string::npos,"helper measurement units/date/peak/callsign lost");
+   53     row=f.observe(23000,23100,false);
+   54     check(row && !row->complete && row->id==100,"first absent frontier completed helper row");
+   55     row=f.observe(23100,29099,false);
+   56     check(!row || !row->complete,"helper completed before six captured seconds after false END anchor");
+   57     row=f.observe(29099,29100,false);
+   58     check(row && row->complete && row->id==100 && row->snr_db==20 &&
+   59           row->text.find("C/N0 last 30.0 dB-Hz, peak 40.0 dB-Hz")!=std::string::npos &&
+   60           row->text.find("callsign K1ABC")!=std::string::npos,"physical helper END lost measurements/identity");
+   61     f.presence.acknowledge(row->id); // This terminal reached the simulated snapshot consumer.
+   62     check(!f.presence.pending_id() && !f.observe(29100,40000,false),"completed helper kept emitting terminal rows");
+   63     row=f.observe(40000,41000,true,12);
+   64     check(row && row->id==101 && !row->complete && row->text.find("peak 12.0")!=std::string::npos &&
+   65           row->text.find("K1ABC")==std::string::npos,"reappearance reused old identity/peak/callsign");
+   66 }
+   67 void interruptions() {
+   68     Fixture f;f.observe(0,1000,true);f.observe(1000,2000,false);f.observe(2000,7000,false);
+   69     auto row=f.observe(8000,9000,false); // Actual missing PCM.
+   70     check(!row || !row->complete,"capture gap counted as silence");
+   71     row=f.observe(9000,14000,false);
+   72     check(!row || !row->complete,"absence survived capture gap");
+   73     f.presence.interrupt(); // EOF/cancel/reconfiguration cannot manufacture END.
+   74     check(f.presence.pending_id()==100,"interrupt silently retired pending helper");
+   75     check(!f.observe(14000,100000,false,40,false),"disable completed helper");
+   76     row=f.observe(100000,101000,false);
+   77     check(!row || !row->complete,"reenable counted disabled time");
+   78     row=f.observe(101000,106000,false);
+   79     check(!row || !row->complete,"reenable absence did not restart");
+   80     row=f.observe(106000,107000,true);
+   81     check(row && row->id==100 && !row->complete,"return before END changed stable helper ID");
+   82     f.observe(107000,108000,false);
+   83     row=f.observe(108000,114000,false,40,true,2000); // New sample clock.
+   84     check(!row || !row->complete,"rate change counted old absence duration");
+   85     row=f.observe(114000,125999,false,40,true,2000);
+   86     check(!row || !row->complete,"rate-changed helper ended before six seconds");
+   87     row=f.observe(125999,126000,false,40,true,2000);
+   88     check(row && row->complete,"rate-changed helper failed to complete after six seconds");
+   89 }
+
+
+--- tests/test_live_helper_presence.cpp:205-224 ---
+  205     line.missing_symbols=8;line.recovery_progress.state=transfer::RecoveryState::running;
+  206     check(signals.update(line),"helper row not added");
+  207     const auto& stored=signals.lines().front();
+  208     check(!stored.binary && !stored.validated && stored.reception_id.empty() &&
+  209           !stored.received_bits && !stored.expected_bits && stored.raw_bits.empty() && !stored.pattern_score &&
+  210           stored.missing_symbols==0 && stored.recovery_progress.state==transfer::RecoveryState::none &&
+  211           gui::signal_recovery_label(stored).empty() && gui::signal_gap_label(stored).empty(),
+  212           "helper row retained payload/recovery fields");
+  213     check(!signals.copy_id(0) && !signals.copy_bits(0) && !signals.copy_raw_bits(0) &&
+  214           !signals.copy_bytes(0),"helper enabled payload copy/recovery operations");
+  215     const auto rows=gui::signal_records(signals);
+  216     check(rows.front().activatable && signals.copy_text(0)==rows.front().cells[4].text &&
+  217           signals.copy_text(0,true)==signals.copy_text(0) &&
+  218           signals.copy_text(0)->find('\x1b')==std::string::npos,
+  219           "pending helper copy must match the restricted displayed diagnostic");
+  220     check(gui::signal_status_label(stored)=="helper pending","helper pending label lost");
+  221     line.complete=true;signals.update(line);
+  222     check(signals.lines().size()==1 && gui::signal_status_label(signals.lines().front())=="helper received" &&
+  223           gui::signal_records(signals).front().activatable && signals.copy_text(0)==gui::signal_display_text(signals.lines().front()),
+  224           "helper physical END did not update same GUI row");

@@ -1,0 +1,106 @@
+{
+  "case_id": "r693",
+  "packet": "Decision: test staged research with concise evidence, alternatives and falsifiers under direct expert access and independent acceptance. Agentless FSE \u00a71, \u00a75 supplies issue-repair pipeline and clue sensitivity; CoVe ACL abstract supplies verification questions; NLP ideation preprint \u00a75, \u00a77.1, Appendix F supplies novelty/feasibility and self-ranker caution. These sources do not test this workflow. Candidate approaches: bounded localization-to-discriminator; separately check claims; generate distinct alternatives and have an expert evaluate them. Clue-rich tasks may inflate apparent benefit. Cheapest falsifier: matched clue-rich and ambiguous repository tasks, compare missed alternatives and reviewer reconstruction. Unresolved: whether any benefit transfers and whether source boundaries resist injection. Rejected SWE-agent abstract as redundant; peer-review status unknown, no full-paper claim. Retain original four IDs as distinct stages, verification, alternative evaluation, and benchmark caveat.",
+  "sources_and_locators": [
+    {
+      "id": "agentless",
+      "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "locator": "\u00a71, pp. 2\u20134 (three-stage localization/repair/validation and problems with agentic planning); \u00a74\u20135 (evaluation and benchmark caveats); \u00a78, p. 20.",
+      "original_access_claim": "Full text",
+      "original_publication_claim": "Peer-reviewed ACM FSE 2025 proceedings paper; the accessible author-hosted copy identifies the ACM proceedings volume and article number."
+    },
+    {
+      "id": "cove",
+      "url": "https://aclanthology.org/2024.findings-acl.212/",
+      "locator": "Abstract and ACL proceedings metadata; paper \u00a72\u20133 describes draft, independent verification questions/answers, and revised response.",
+      "original_access_claim": "Full paper PDF linked and accessible; page metadata and abstract accessible",
+      "original_publication_claim": "Peer-reviewed conference findings publication, verified by ACL Anthology proceedings metadata."
+    },
+    {
+      "id": "idea_study",
+      "url": "https://arxiv.org/abs/2409.04109",
+      "locator": "Abstract; \u00a75 main results; \u00a77.1 limitations; Appendix F, collaborative reasoning prompt and evaluator.",
+      "original_access_claim": "Full text",
+      "original_publication_claim": "Preprint; subsequent peer-reviewed publication status unknown"
+    }
+  ],
+  "stage_matrix": [
+    {
+      "id": "staged-research",
+      "verifier_result": "yes",
+      "terra_strict": "retained",
+      "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+      "expert": "not individually assessed",
+      "content_access": "full",
+      "publication_status": "yes",
+      "claim_support": "direct full-text support for the study's bounded three-phase localization/repair/validation system and the complexity/debug burden of long autonomous loops",
+      "applicability": "adequately mapped with explicit limits",
+      "caveat": "This is an issue-repair system evaluated on SWE-bench, not a mixed-model architecture research delegation study. The decision implication recommending brief alternatives and discriminators is an inference, not a measured paper result.",
+      "discriminator_feasible": true,
+      "original_claim": "Repository-level research can be made legible and economical by asking for bounded stages (locate relevant files/functions, form candidate explanations or approaches, validate with a small discriminating check) and concise handoffs, rather than open-ended agent autonomy. Agentless's evaluated repair system uses a hierarchical localization, candidate generation, and patch-validation pipeline; it also documents the cost and debugging burden of agentic action loops.",
+      "original_discriminator": "On representative existing-repository decisions, compare an ordinary map-only handoff with the staged prompt; measure whether reviewers can identify a relevant alternative and verify its supporting evidence with less reconstruction, while tracking omissions and expert correction.",
+      "original_source_ids": [
+        "agentless"
+      ]
+    },
+    {
+      "id": "independent-verification",
+      "verifier_result": "yes",
+      "terra_strict": "retained",
+      "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+      "expert": "not individually assessed",
+      "content_access": "abstract",
+      "publication_status": "yes",
+      "claim_support": "direct abstract support",
+      "applicability": "adequately mapped with explicit limits",
+      "caveat": "CoVe tested factual QA and long-form generation, not repositories, architecture, or subagent handoffs. Its verification questions are answered by the same model, so shared assumptions remain possible.",
+      "discriminator_feasible": true,
+      "original_claim": "Chain-of-Verification supports separating an initial claim from independently answered verification questions before producing a corrected response; the paper reports reduced hallucination on factual QA and long-form generation tasks.",
+      "original_discriminator": "Have a reviewer verify a sample of claims directly at cited locations and compare errors with a free-form report; retain expert review for high-impact decisions.",
+      "original_source_ids": [
+        "cove"
+      ]
+    },
+    {
+      "id": "alternatives-and-rankers",
+      "verifier_result": "yes",
+      "terra_strict": "retained",
+      "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+      "expert": "not individually assessed",
+      "content_access": "full",
+      "publication_status": "unknown beyond preprint",
+      "claim_support": "direct full-text support; source appendix explicitly details decomposition, intermediate information, combination, reflection and an evaluator requiring greater detail/comprehensiveness",
+      "applicability": "adequately mapped with explicit limits",
+      "caveat": "NLP research-idea ratings are not repository-change quality or mixed-model evidence. The evaluation-ranker criticism is an implication of the explicit detail criterion, not evidence that it necessarily selected verbosity in practice.",
+      "discriminator_feasible": true,
+      "original_claim": "A controlled human study of NLP research ideation reports that LLM-generated ideas were rated more novel but slightly less feasible than expert ideas; its authors also report weak model self-evaluation and low diversity. Its appendix's collaborative prompt uses decomposition, subtask information, combination, and reflection, while its proposed-method evaluator rewards outputs for being more detailed/comprehensive, a design that risks selecting verbosity rather than decision value.",
+      "original_discriminator": "Score alternatives for distinctness, evidence support, and ability to change the decision; compare reviewer effort and missed viable alternatives across matched tasks.",
+      "original_source_ids": [
+        "idea_study"
+      ]
+    },
+    {
+      "id": "benchmarks-and-scope",
+      "verifier_result": "yes",
+      "terra_strict": "retained",
+      "terra_reason": "Independent verifier supports the bounded decision implication; target transfer remains untested.",
+      "expert": "not individually assessed",
+      "content_access": "full",
+      "publication_status": "yes",
+      "claim_support": "direct full-text support",
+      "applicability": "adequately mapped with explicit limits",
+      "caveat": "The paper's task clues concern SWE-bench repair localization; they do not establish which prompt works for local architecture research.",
+      "discriminator_feasible": true,
+      "original_claim": "The Agentless paper reports both strong benchmark performance and benchmark-label defects (issues with exact solutions, insufficient information, or misleading descriptions), and finds its approach struggles when an issue contains no localization clue. Thus benchmarks and prompt workflows are sensitive to task construction and clue distribution.",
+      "original_discriminator": "Use matched tasks with and without explicit code/location clues and require a recorded uncertainty when the evidence does not discriminate among options.",
+      "original_source_ids": [
+        "agentless"
+      ]
+    }
+  ],
+  "original_unresolved": [
+    "No retrieved study directly tests smaller-model subagents discovering alternatives for architecture decisions in existing repositories while stronger models review them.",
+    "No source in the retrieved set establishes prompt-injection boundary effectiveness for web/repository research; retain the assignment's explicit untrusted-source boundary as an operational constraint, not as a research finding.",
+    "Peer-reviewed publication status for the arXiv research-ideation study and SWE-agent was not verified."
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "title": "Portable verification study reproduction metadata",
+  "purpose": "Describe portable inputs, source provenance, prerequisites, and manual replay stages. This metadata is not an experiment result or participant answer.",
+  "bundle": {
+    "verification_root": ".",
+    "integrity_manifest": "publication-manifest.json",
+    "manifest_scope": "Current post-sanitization bytes of every file under the verification root except the manifest itself, plus the fixed repository recipe allowlist below; integrity only, not authenticity or timing proof.",
+    "repository_recipe_allowlist": [
+      "tools/publish_verification.py",
+      "examples/verification_replay.py",
+      "examples/recompute_verification_usage.py",
+      "tests/test_verification_publication.py",
+      "tests/test_verification_replay.py",
+      "tests/test_verification_usage.py"
+    ],
+    "required_complete_bundle": true,
+    "baseline_source_commit_note": "The public kit baseline commit does not by itself contain this publication update; obtain a complete published bundle or a later source revision that includes these files."
+  },
+  "prerequisites": {
+    "python": ">=3.11",
+    "dependencies": "Python standard library only",
+    "offline_validation": true,
+    "git": "Optional; needed only to inspect public source revisions.",
+    "codex_account_or_app": false,
+    "provider_credentials_or_api": false,
+    "private_home_or_build_environment": false
+  },
+  "public_sources": [
+    {
+      "name": "codex-delegation-kit",
+      "url": "https://github.com/mirage335-colossus/codex-delegation-kit",
+      "commit": "947ed25d4058e405ecf45d6956671f6fecb12026",
+      "role": "Kit baseline; this commit alone does not contain the new publication files."
+    },
+    {
+      "name": "pumpModem",
+      "url": "https://github.com/mirage335-colossus/pumpModem",
+      "commit": "dae58eaccfd68cbf2366b85fd746b56fde089cd3",
+      "role": "Carrier planning source excerpts H01-H12.",
+      "provenance_limit": "Source checkout was dirty when packet was prepared; complete diff is not bundled. H01-H12 are the assigned planning inputs, not a full project snapshot."
+    },
+    {
+      "name": "software-foundation",
+      "url": "https://github.com/mirage335-colossus/software-foundation",
+      "commit": "4c471cb93702cdc03b5230bfa33372355424b665",
+      "role": "Regression and held-out research source excerpts R01-R13.",
+      "provenance_limit": "R01-R13 are assigned planning inputs, not a full project snapshot or execution evidence."
+    }
+  ],
+  "inputs": {
+    "decision_planning": {
+      "root": "decision-routing-study-2026-10-28/common",
+      "shared": [
+        "contract.md",
+        "decision-schema.json",
+        "policy-A.md",
+        "policy-B.md"
+      ],
+      "carrier": [
+        "carrier/scenario.md",
+        "carrier/developments.json",
+        "carrier/sources/H01.txt",
+        "carrier/sources/H02.txt",
+        "carrier/sources/H03.txt",
+        "carrier/sources/H04.txt",
+        "carrier/sources/H05.txt",
+        "carrier/sources/H06.txt",
+        "carrier/sources/H07.txt",
+        "carrier/sources/H08.txt",
+        "carrier/sources/H09.txt",
+        "carrier/sources/H10.txt",
+        "carrier/sources/H11.txt",
+        "carrier/sources/H12.txt"
+      ],
+      "regression": [
+        "regression/scenario.md",
+        "regression/developments.json",
+        "regression/sources/R01.txt",
+        "regression/sources/R02.txt",
+        "regression/sources/R03.txt",
+        "regression/sources/R04.txt",
+        "regression/sources/R05.txt",
+        "regression/sources/R06.txt",
+        "regression/sources/R07.txt",
+        "regression/sources/R08.txt",
+        "regression/sources/R09.txt",
+        "regression/sources/R10.txt",
+        "regression/sources/R11.txt",
+        "regression/sources/R12.txt",
+        "regression/sources/R13.txt"
+      ],
+      "events_are_released_by_stage": true,
+      "do_not_stage_unreleased_events_in_participant_payload": true
+    },
+    "research_input_export": {
+      "root": "luna-research-prompt-study-2026-10-28",
+      "selection": "12 pilot cases and 8 seeded-continuation cases",
+      "allowed_case_files": [
+        "contract.md",
+        "task.md",
+        "prompt.md",
+        "schema.json",
+        "discovery.json",
+        "source-checks.json",
+        "frontier.md",
+        "sources/*.txt"
+      ],
+      "excludes": [
+        "reports and participant answers",
+        "scores and arm maps",
+        "locks, analysis, and comparison outputs"
+      ]
+    },
+    "usage_records": "telemetry/usage-records.jsonl"
+  },
+  "replay": {
+    "script": "../examples/verification_replay.py",
+    "new_run_dir_must_be_empty": true,
+    "run_dir_must_be_outside_source_checkout": true,
+    "participants": {
+      "p17": { "scenario": "carrier", "policy": "policy-A.md", "source_access": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12"] },
+      "p43": { "scenario": "carrier", "policy": "policy-B.md", "source_access": ["H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09", "H10", "H11", "H12"] },
+      "p61": { "scenario": "regression", "policy": "policy-A.md", "source_access": ["R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08", "R09", "R10", "R11", "R12", "R13"], "historical_plan_assigned_count": 10 },
+      "p29": { "scenario": "regression", "policy": "policy-B.md", "source_access": ["R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08", "R09", "R10", "R11", "R12", "R13"], "historical_plan_assigned_count": 13 }
+    },
+    "historical_plan_assigned_scope_is_not_source_access": true,
+    "phases": [
+      {
+        "name": "initial",
+        "answer_phase_value": "initial",
+        "release_after_all_four_submissions": "E1",
+        "context": "In a fresh independent context, attach assigned contract, policy, scenario, decision schema, and own scenario source excerpts only."
+      },
+      {
+        "name": "E1",
+        "answer_phase_value": "E1",
+        "release_after_all_four_submissions": "E2",
+        "context": "In a fresh independent context, reattach that participant's original staged inputs, own locked initial response, and identical E1 event for that scenario."
+      },
+      {
+        "name": "E2",
+        "answer_phase_value": "E2",
+        "release_after_all_four_submissions": "complete",
+        "context": "In a fresh independent context, reattach that participant's original staged inputs, own locked initial and E1 responses, and ordered E1/E2 events for that scenario."
+      }
+    ],
+    "submission_contract": {
+      "top_level_fields": [
+        "scenario",
+        "phase",
+        "source_units_consulted",
+        "assignments"
+      ],
+      "required_assignment_fields": [
+        "id",
+        "action",
+        "dispatch",
+        "question",
+        "purpose",
+        "source_units",
+        "model",
+        "role",
+        "conversation_id",
+        "deliverable",
+        "ownership",
+        "dependencies",
+        "stop_condition",
+        "model_reason",
+        "expected_work_operations"
+      ],
+      "response_history": "Submit all phases to the same run directory; the run records stage-specific responses and locks without editing prior response files.",
+      "isolation_limit": "File staging and instructions are procedural separation, not OS-level participant isolation or proof of what a provider read. Each stateless provider call must reinclude the original participant inputs and only that participant's permitted prior responses/events. No original or private Codex chat is needed. Never expose another participant's material or unreleased events."
+    },
+    "published_conversation_id_semantics": "conversation_id fields in historical plan records are synthetic study-local work-stream reuse aliases, not Codex chat references or identifiers for original private conversations.",
+    "commands": {
+      "prepare": "python3 -B examples/verification_replay.py prepare --run-dir RUN_DIR",
+      "submit": "python3 -B examples/verification_replay.py submit --run-dir RUN_DIR --participant PARTICIPANT --answer-file ANSWER_JSON",
+      "advance": "python3 -B examples/verification_replay.py advance --run-dir RUN_DIR",
+      "export_research": "python3 -B examples/verification_replay.py export-research --run-dir RESEARCH_DIR",
+      "verify_publication": "python3 -B examples/verification_replay.py verify-publication"
+    },
+    "model_settings": {
+      "decision_planning": {
+        "Terra": "high",
+        "Luna": "high",
+        "Sol": "ultra",
+        "Astra": "medium"
+      },
+      "research_runs": "Use the study's documented Luna-high researchers and Terra screening settings where available; retain each role's recorded setting.",
+      "deviation_rule": "Record an unavailable setting and the actual analogue; never silently substitute."
+    },
+    "provider_calls": false,
+    "outcome_repeatability_promised": false
+  },
+  "historical_claims": {
+    "classification": "historical_pre_publication",
+    "hashes_timestamps_byte_counts_and_validation_claims": "Do not treat as current validation of sanitized public bytes.",
+    "current_validation": "Use publication-manifest.json to check all verification files except the manifest itself and the fixed six repository recipes listed in bundle.repository_recipe_allowlist. Rerun the documented offline checks against the complete obtained bundle."
+  },
+  "literature": {
+    "bundled_full_text": false,
+    "access_limit": "Public paper URLs and DOI targets may move, be unavailable, or require payment. Record access failure and citation limits; do not infer full-text support from an abstract or metadata."
+  },
+  "usage": {
+    "recompute_script": "../examples/recompute_verification_usage.py",
+    "command": "python3 -B examples/recompute_verification_usage.py",
+    "record_scope": "Sanitized numeric response usage aliases and input, cached-input, output, and reasoning counts.",
+    "limits": "Not independently authenticated provider receipts; log completeness is unknown. Cached input is part of input. The weekly usage index is a planning estimate, not a quota formula."
+  }
+}

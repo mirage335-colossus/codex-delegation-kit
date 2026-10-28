@@ -1,0 +1,41 @@
+{
+  "required": [
+    "case_id",
+    "started_utc",
+    "finished_utc",
+    "operations",
+    "sources",
+    "findings",
+    "rejected_or_redundant",
+    "unresolved",
+    "stop_reason",
+    "escalation_ready"
+  ],
+  "operations_item": [
+    "kind",
+    "query_or_url",
+    "result_status"
+  ],
+  "sources_item": [
+    "id",
+    "url",
+    "title",
+    "year",
+    "venue",
+    "publication_status",
+    "status_evidence_url",
+    "access_level",
+    "content_locator"
+  ],
+  "findings_item": [
+    "id",
+    "claim",
+    "source_ids",
+    "support_locator",
+    "decision_implication",
+    "assumptions",
+    "applicability_gap",
+    "next_discriminator"
+  ],
+  "notes": "At most six top nonduplicate decision-useful findings; fewer is fine. Exact source passages may be paraphrased within copyright limits. Do not expose private chain of thought. Brief reasons and evidence only."
+}

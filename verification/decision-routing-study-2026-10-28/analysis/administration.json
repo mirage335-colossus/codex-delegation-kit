@@ -1,0 +1,117 @@
+{
+  "recorded_utc": "2026-10-28T20:26:49.882465+00:00",
+  "scope": "This bounded study only, excluding prior policy changes and older experiments in the same chat. Root coordination is additional and unquantified.",
+  "provenance": "Orchestrator record of native collaboration spawn/followup calls in the historical coordination record; requested settings, not independent provider-side receipts. Native list_agents confirms names/status but does not expose token totals.",
+  "groups": [
+    {
+      "purpose": "source-packet preparation",
+      "agents": [
+        "carrier_packet",
+        "regression_packet"
+      ],
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "high",
+      "requested_role": null,
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 1,
+      "role_note": "Exact role selector not independently restated here; Luna high was the requested model/effort class."
+    },
+    {
+      "purpose": "method design and final independent review",
+      "agents": [
+        "study_method_review"
+      ],
+      "requested_model": "gpt-6.1-sol",
+      "requested_effort": "ultra",
+      "requested_role": "sol_expert",
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 2
+    },
+    {
+      "purpose": "independent initial/E1/E2 planning",
+      "agents": [
+        "planner_p17",
+        "planner_p29",
+        "planner_p43",
+        "planner_p61"
+      ],
+      "requested_model": "gpt-6.1-terra",
+      "requested_effort": "high",
+      "requested_role": "default",
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 3
+    },
+    {
+      "purpose": "label-blinded question coding",
+      "agents": [
+        "carrier_decision_coding",
+        "regression_decision_coding"
+      ],
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "high",
+      "requested_role": null,
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 1,
+      "role_note": "Exact role selector not independently restated here; Luna high was the requested model/effort class."
+    },
+    {
+      "purpose": "assignment-derived usage estimation after E2 lock",
+      "agents": [
+        "carrier_usage_estimation",
+        "regression_usage_estimation"
+      ],
+      "requested_model": "gpt-6.1-terra",
+      "requested_effort": "high",
+      "requested_role": "default",
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 2,
+      "followup_purpose": "Separate reviewer accounting corrections, preserving originals"
+    },
+    {
+      "purpose": "study synthesis",
+      "agents": [
+        "study_synthesis"
+      ],
+      "requested_model": "gpt-6.1-terra",
+      "requested_effort": "high",
+      "requested_role": "default",
+      "fork_turns": "none",
+      "native_agent_turns_dispatched_per_agent": 2,
+      "followup_purpose": "Incorporate independent review and corrected accounting"
+    }
+  ],
+  "totals_by_requested_model": {
+    "gpt-6-luna": {
+      "unique_agents": 4,
+      "native_agent_turns_dispatched": 4
+    },
+    "gpt-6.1-sol": {
+      "unique_agents": 1,
+      "native_agent_turns_dispatched": 2
+    },
+    "gpt-6.1-terra": {
+      "unique_agents": 7,
+      "native_agent_turns_dispatched": 18
+    }
+  },
+  "total_unique_agents": 12,
+  "total_native_agent_turns_dispatched": 24,
+  "actual_model_inference_requests": null,
+  "actual_input_tokens": null,
+  "actual_cached_input_tokens": null,
+  "actual_output_reasoning_tokens": null,
+  "actual_api_dollars": null,
+  "actual_weekly_allowance_change": null,
+  "null_means": "unavailable, not zero",
+  "provider_identity_verified": false,
+  "hidden_prompt_assembly_audited": false,
+  "lock_order_evidence": [
+    "../input-freeze.json",
+    "../locked/initial-lock.json",
+    "../locked/E1-release.json",
+    "../locked/E1-lock.json",
+    "../locked/E2-release.json",
+    "../locked/E2-lock.json"
+  ],
+  "ordering_attestation": "Four initial plans dispatched after input freeze; each development dispatched after all prior plans locked; coding/usage agents dispatched only after E2 lock. Timestamp/hash artifacts attest file sequencing, not model runtime identity."
+}

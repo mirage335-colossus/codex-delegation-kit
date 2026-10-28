@@ -1,6 +1,6 @@
 {
   "run": "engineering-coding",
-  "raw_run": "/tmp/delegation-engineering-live-a1/run",
+  "raw_run": "unbundled-runtime/run-h9d46042ed17c7b95/run",
   "mode": "stopped",
   "created_at": 1792554884.4426205,
   "deadline": 1792555784.4426205,
@@ -22,9 +22,9 @@
       "source_identity": {
         "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "revision": null,
-        "root": "/tmp/delegation-engineering-live-a1/source"
+        "root": "unbundled-runtime/run-h9d46042ed17c7b95/source"
       },
-      "cwd": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+      "cwd": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
       "diagnostic_result": null,
       "diagnostic_assessment": null,
       "hold_history": [
@@ -38,7 +38,7 @@
           "resolution": {
             "action": "continue",
             "evidence": [
-              "/tmp/delegation-engineering-handshake-output.json: exact private cwd, no additional roots; legacy implicit cwd verified; no inference/edits occurred",
+              "unbundled-runtime/run-hf51b4f392f1e28d3: exact private cwd, no additional roots; legacy implicit cwd verified; no inference/edits occurred",
               "Backend contract corrected and20 focused tests pass; same model/profile/account/authority"
             ],
             "workspace_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096"
@@ -48,7 +48,7 @@
           "hold": {
             "at": 1792555077.1834834,
             "category": "setup",
-            "notice": "[Errno 17] File exists: '/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a/.controller-scratch-2ddac481abbb'",
+            "notice": "[Errno 17] File exists: 'unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a/.controller-scratch-2ddac481abbb'",
             "operation": "correct-total-2-85d161fc366b"
           },
           "resolution": {
@@ -76,7 +76,7 @@
               },
               "commands": [
                 {
-                  "command": "pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'policy.md' /tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a /tmp/delegation-engineering-live-a1/source /home/user/.codex/delegation-kit 2>/dev/null",
+                  "command": "pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'policy.md' unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a unbundled-runtime/run-h9d46042ed17c7b95/source unbundled-installation/delegation-kit 2>system-fixture/dev/null",
                   "result": "Not executed; tool host returned `code-mode host is disabled`."
                 }
               ],
@@ -100,7 +100,7 @@
           "resolution": {
             "action": "continue",
             "evidence": [
-              "Runtime warning identifies disabled local code_mode_host; bundled /usr/lib/chatgpt/resources/codex-code-mode-host exists and help succeeds. Engineering profile enables only this local tool host, with code_mode still false.",
+              "Runtime warning identifies disabled local code_mode_host; bundled system-fixture/usr/lib/chatgpt/resources/codex-code-mode-host exists and help succeeds. Engineering profile enables only this local tool host, with code_mode still false.",
               "Backend tests 20 pass. Same model Luna medium, account, backend, no network, approval never, private writable workspace. No edits or executed commands in prior attempt; original deadline and history retained."
             ],
             "workspace_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096"
@@ -127,7 +127,7 @@
       "source": {
         "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "revision": null,
-        "root": "/tmp/delegation-engineering-live-a1/source"
+        "root": "unbundled-runtime/run-h9d46042ed17c7b95/source"
       },
       "backend_status": "hold",
       "configured": {
@@ -141,7 +141,7 @@
       },
       "observed_settings": null,
       "effective": {},
-      "thread_id": "01a15c99-93a7-72c3-bce1-7d5329829eff",
+      "thread_id": "study-id-h3e94ba0ae6012870",
       "turn_id": null,
       "result": null,
       "commands": [],
@@ -150,7 +150,7 @@
         "violations": [],
         "before_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "after_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
-        "result_location": "/tmp/delegation-engineering-live-a1/run/operations/correct-total-1-dc7b67ef61bc",
+        "result_location": "unbundled-runtime/run-h9d46042ed17c7b95/run/operations/correct-total-1-dc7b67ef61bc",
         "patch": ""
       }
     },
@@ -164,7 +164,7 @@
       "source": {
         "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "revision": null,
-        "root": "/tmp/delegation-engineering-live-a1/source"
+        "root": "unbundled-runtime/run-h9d46042ed17c7b95/source"
       },
       "backend_status": null,
       "configured": null,
@@ -193,7 +193,7 @@
       "source": {
         "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "revision": null,
-        "root": "/tmp/delegation-engineering-live-a1/source"
+        "root": "unbundled-runtime/run-h9d46042ed17c7b95/source"
       },
       "backend_status": "completed",
       "configured": {
@@ -208,7 +208,7 @@
       "observed_settings": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "cwd": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
@@ -225,12 +225,12 @@
       "effective": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "cwd": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "environments": [],
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
-        "requested_workspace": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "requested_workspace": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "runtimeWorkspaceRoots": [],
         "sandbox": {
           "excludeSlashTmp": true,
@@ -248,13 +248,13 @@
           "networkAccess": false,
           "type": "workspaceWrite",
           "writableRoots": [
-            "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a"
+            "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a"
           ]
         },
         "workspace_evidence": "legacy explicit roots empty; exact cwd is implicit workspace-write root; turn supplies explicit sandboxPolicy; no read isolation"
       },
-      "thread_id": "01a15c9d-52cc-7f53-95d8-69a4030a4ab2",
-      "turn_id": "01a15c9d-5300-7db3-a13b-c852945ae4da",
+      "thread_id": "study-id-h8cdfcd83721b98cc",
+      "turn_id": "study-id-hac6a83ed1bbef2b2",
       "result": {
         "changed_paths": [],
         "checks": {
@@ -267,7 +267,7 @@
         },
         "commands": [
           {
-            "command": "pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'policy.md' /tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a /tmp/delegation-engineering-live-a1/source /home/user/.codex/delegation-kit 2>/dev/null",
+            "command": "pwd && rg --files -g 'AGENTS.md' -g 'totals.py' -g '*test*' -g 'policy.md' unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a unbundled-runtime/run-h9d46042ed17c7b95/source unbundled-installation/delegation-kit 2>system-fixture/dev/null",
             "result": "Not executed; tool host returned `code-mode host is disabled`."
           }
         ],
@@ -292,7 +292,7 @@
         "violations": [],
         "before_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "after_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
-        "result_location": "/tmp/delegation-engineering-live-a1/run/operations/correct-total-3-d7a8ac1e5277",
+        "result_location": "unbundled-runtime/run-h9d46042ed17c7b95/run/operations/correct-total-3-d7a8ac1e5277",
         "patch": ""
       }
     },
@@ -306,7 +306,7 @@
       "source": {
         "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "revision": null,
-        "root": "/tmp/delegation-engineering-live-a1/source"
+        "root": "unbundled-runtime/run-h9d46042ed17c7b95/source"
       },
       "backend_status": "completed",
       "configured": {
@@ -321,7 +321,7 @@
       "observed_settings": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "cwd": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
@@ -338,12 +338,12 @@
       "effective": {
         "activePermissionProfile": null,
         "approvalPolicy": "never",
-        "cwd": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "cwd": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "environments": [],
         "model": "gpt-6-luna",
         "modelProvider": "openai",
         "reasoningEffort": "medium",
-        "requested_workspace": "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a",
+        "requested_workspace": "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a",
         "runtimeWorkspaceRoots": [],
         "sandbox": {
           "excludeSlashTmp": true,
@@ -361,13 +361,13 @@
           "networkAccess": false,
           "type": "workspaceWrite",
           "writableRoots": [
-            "/tmp/delegation-engineering-live-a1/run/workspaces/correct-total-115138772a"
+            "unbundled-runtime/run-h9d46042ed17c7b95/run/workspaces/correct-total-115138772a"
           ]
         },
         "workspace_evidence": "legacy explicit roots empty; exact cwd is implicit workspace-write root; turn supplies explicit sandboxPolicy; no read isolation"
       },
-      "thread_id": "01a15ca2-692d-73f3-8351-e48d130c7fd4",
-      "turn_id": "01a15ca2-6964-72d2-bfca-fdd78c2d0c93",
+      "thread_id": "study-id-h13d30f40e295e306",
+      "turn_id": "study-id-h022c1ddb548dc1b4",
       "result": {
         "changed_paths": [],
         "checks": {
@@ -401,9 +401,11 @@
         "violations": [],
         "before_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
         "after_digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
-        "result_location": "/tmp/delegation-engineering-live-a1/run/operations/correct-total-4-cad182c7542e",
+        "result_location": "unbundled-runtime/run-h9d46042ed17c7b95/run/operations/correct-total-4-cad182c7542e",
         "patch": ""
       }
     }
-  ]
+  ],
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

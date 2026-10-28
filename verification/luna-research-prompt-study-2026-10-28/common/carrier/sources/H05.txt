@@ -1,0 +1,98 @@
+H05 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- include/datapump/helper_receiver.hpp:89-157 ---
+   89 // Optional precision work is separately funded and may be reclaimed before any
+   90 // mandatory payload allocation. The prior is declared from the physical link
+   91 // model, centered on immutable expected_hz; it must be a subset of the original
+   92 // constructor band and is never selected from an observed peak.
+   93 struct FrequencyWorkOptions {
+   94     std::uint32_t sample_rate=0;
+   95     std::size_t workspace_grant=0;
+   96     std::optional<double> physical_prior_half_width_hz;
+   97     // This model requires common phase ACROSS dwells, as well as constant
+   98     // gain within each clean dwell group. Fixed-frequency coherent radios and
+   99     // the sampled Generator may provide it. Native retuning with unknown
+  100     // per-hop phase does not provide this certificate.
+  101     // This optional profile supports 24/48/48.96kHz physical PCM geometry.
+  102     // Known Generator envelopes and one continuous burst are assumed. Notify
+  103     // actual absence/reset with clear_optional_frequency_history before reuse.
+  104     bool coherent_phase_model=false;
+  105 };
+  106 enum class FrequencyWorkState { disabled, ingested_support, frozen_work, all_cells_complete, analysis_declined, publication_qualified };
+  107 enum class FrequencyWorkDecline { none, grant_unavailable, coherence_unavailable, unsupported_geometry,
+  108     warming_aperture, no_new_opportunity, analysis_incomplete, no_reference, aliases_remain,
+  109     stale_support, presence_unqualified, generation_changed };
+  110 struct FrequencyWorkDescriptor {
+  111     // actual_bytes includes heap plus separately charged optional worker scratch.
+  112     // The base Receiver 9KiB remains charged independently during overlap.
+  113     std::size_t required_bytes=0,actual_bytes=0,heap_bytes=0,worker_scratch_bytes=0;
+  114     std::size_t processed_cells=0,total_cells=0,processed_work_units=0;
+  115     std::size_t maximum_work_units_per_advance=8,maximum_shape_subsets_per_mask=326;
+  116     std::uint32_t sample_rate=0;
+  117     std::uint64_t generation=0,capture_revision=0,look_ordinal=0,opportunity_ordinal=0;
+  118     // Frozen support is inclusive; capture_next_sample is the raw frontier.
+  119     std::uint64_t first_sample=0,end_sample=0,capture_next_sample=0;
+  120     // A separate observed-presence test, evaluated on the indicated recent
+  121     // interval. Selected bins can be non-contiguous; exact envelope support
+  122     // is dated separately. No support is redated to commit/capture frontier.
+  123     std::uint64_t presence_interval_first_sample=0,presence_interval_end_sample=0;
+  124     std::uint64_t presence_first_sample=0,presence_end_sample=0;
+  125     double presence_snr_db=0,presence_noise_bandwidth_hz=10;
+  126     bool recent_presence_qualified=false;
+  127     double aperture_seconds=0,look_cadence_seconds=.4,maximum_support_age_seconds=1;
+  128     double physical_prior_half_width_hz=0;
+  129     FrequencyWorkState state=FrequencyWorkState::disabled;
+  130     FrequencyWorkDecline decline=FrequencyWorkDecline::grant_unavailable;
+  131 };
+  132 // Pure planning geometry. This reports configured support and a fixed optional
+  133 // startup policy; it never predicts or qualifies a received reference. The
+  134 // ten-second cold deadline starts at the first retained sample and is never
+  135 // renewed. At expiry the caller must release every staged sample to ordinary
+  136 // broad processing; this pure descriptor does not perform staging or expiry.
+  137 struct FrequencyWorkGeometry {
+  138     bool supported=false,eligible=false;
+  139     std::uint32_t sample_rate=0;
+  140     std::size_t bin_samples=0,aperture_bins=0,required_bytes=0,heap_bytes=0,worker_scratch_bytes=0;
+  141     double aperture_seconds=0,look_cadence_seconds=.4,maximum_support_age_seconds=1;
+  142     double maximum_supported_fit_seconds=8.0,startup_support_seconds=0,cold_staging_deadline_seconds=10;
+  143     double physical_prior_half_width_hz=0;
+  144     FrequencyWorkDecline decline=FrequencyWorkDecline::unsupported_geometry;
+  145 };
+  146 enum class FrequencyPresenceState { unavailable, present, absent };
+  147 struct FrequencyPresenceCertificate {
+  148     std::uint64_t capture_revision=0,generation=0,observed_sample=0;
+  149     FrequencyPresenceState state=FrequencyPresenceState::unavailable;
+  150 };
+  151 struct FrequencyWorkAdvance { std::size_t processed_cells=0,processed_work_units=0;bool complete=false; };
+  152 
+  153 // Independent assistance, never payload completion or presence admission.
+  154 // Strong coherent fits retain phase/metadata measurement. Optional long-profile
+  155 // frequency inversion preserves every compatible frequency/mask cell. Its
+  156 // configured CW/AWGN/Wiener model has lifetime coverage spending; unsupported
+  157 // fading, unannounced phase resets or insufficient precision yield to payload.
+
+
+--- include/datapump/helper_receiver.hpp:194-213 ---
+  194     // One pending look, no queue. Every fixed 400ms opportunity spends its
+  195     // lifetime ordinal even when skipped or canceled. prepare copies bounded
+  196     // bin history; advance does no allocation and scores at most max_cells
+  197     // complete precision cells and eight bounded work stages. A call may
+  198     // complete zero cells: each recent-presence stage tests one fixed-domain
+  199     // cell; each shape stage handles one prefix, one mask Schur construction,
+  200     // or one of <=326 dirty-group deletions. No unfinished scan publishes.
+  201     // If EVERY recent-presence cell fails, the look declines before precision
+  202     // inversion; the pending completed look has zero processed_cells and
+  203     // state analysis_declined until commit consumes that pending result.
+  204     bool prepare_optional_frequency(std::uint64_t capture_revision);
+  205     FrequencyWorkAdvance advance_optional_frequency(std::size_t max_cells);
+  206     // The completed profile must qualify its separately tested recent1.6s
+  207     // presence interval (6dB in10Hz, full-search noise/lifetime spending).
+  208     // It is bounded-stale evidence at the frozen endpoint, not instantaneous
+  209     // presence. A known newer measured absence vetoes; unknown/older external
+  210     // observations provide no authority. No partial scan publishes.
+  211     // Commit changes only frequency provenance;
+  212     // phase, metadata, payload progress and completion have no authority here.
+  213     bool commit_optional_frequency(const FrequencyPresenceCertificate&);

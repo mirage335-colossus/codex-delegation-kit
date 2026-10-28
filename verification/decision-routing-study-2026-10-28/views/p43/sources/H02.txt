@@ -1,0 +1,30 @@
+H02 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- include/datapump/helper_carrier.hpp:164-187 ---
+  164 struct Observation {
+  165     bool present=false, confirmed=false;
+  166     double frequency_hz=0, snr_db=0, observed_seconds=0, absent_seconds=0;
+  167 };
+  168 // Bounded independent observer: 100 ms matched fits. New evidence groups use
+  169 // K=4+ceil(2*log1p(completed_groups)) windows, bounded by 96, to accumulate more
+  170 // evidence as the lifetime multiple-look admission threshold becomes stricter.
+  171 // snr_db is excess fitted tone power / noise in a 10 Hz resolution cell,
+  172 // not payload SNR. observed_seconds is consecutive qualifying group duration;
+  173 // confirmed means >=6 s. Missing PCM must be signalled with reset(), never zeros.
+  174 // AWGN familywise false-admission probability <=.01 per reset, including all
+  175 // searched frequency cells and an unlimited sequence of evidence groups.
+  176 // Once admitted, the >=6dB level gate maintains presence without another
+  177 // multiple-look admission test. Six seconds of observed absence retires that
+  178 // admission; a later signal must pass the original lifetime gate again.
+  179 // This is a noise-model gate, not a posterior/authentication claim. Other tones
+  180 // and colored interference can be present; metadata decoding is independent.
+  181 class Tracker {
+  182 public:
+  183     static constexpr std::size_t workspace_bound=5*1024;
+  184     explicit Tracker(double expected_frequency,double search_half_width_hz=20);
+  185     void push(std::span<const float>,std::uint32_t rate);
+  186     std::optional<Observation> take_update();
+  187     void reset();

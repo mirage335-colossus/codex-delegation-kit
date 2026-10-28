@@ -1,0 +1,83 @@
+{
+  "case_id": "r733",
+  "started_utc": "2026-10-28 21:03:20 UTC",
+  "finished_utc": "2026-10-28 21:05:24 UTC",
+  "operations": [
+    {"id":"OP01","kind":"query","query_or_url":"site:ieeexplore.ieee.org sinusoid detection unknown frequency false alarm probability frequency search periodogram original paper","result_status":"Returned primary-source leads on unknown-frequency sinusoid detection; no source opened from this query."},
+    {"id":"OP02","kind":"query","query_or_url":"sinusoidal signal detection unknown frequency multiple testing false alarm probability periodogram journal paper pdf","result_status":"Returned a 1986 likelihood-ratio paper and an IEEE 2002 invariant-detection paper; no source opened from these results."},
+    {"id":"OP03","kind":"query","query_or_url":"frequency estimation sinusoid frequency drift nonstationary phase model Fisher information original journal paper","result_status":"Returned nonstationary estimator papers; no source opened because these did not resolve the immediate discriminator."},
+    {"id":"OP04","kind":"open","query_or_url":"https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9892.00205","result_status":"Failed: HTTP 403; publisher page inaccessible."},
+    {"id":"OP05","kind":"open","query_or_url":"CityUHK Scholars record for Short-time frequency estimation of a real sinusoid","result_status":"Opened author institutional record. Abstract, publication date, journal citation, and institutional peer-reviewed-journal classification visible; no full text."},
+    {"id":"OP06","kind":"open","query_or_url":"https://ieeexplore.ieee.org/document/972479/","result_status":"Failed: IEEE JavaScript/bot verification page; no paper content accessible."},
+    {"id":"OP07","kind":"query","query_or_url":"\"On Kay's Frequency Estimator\" Quinn 2000 pdf","result_status":"Publisher-indexed abstract reports the estimator's inconsistency under its stated assumptions; full article not accessed."},
+    {"id":"OP08","kind":"query","query_or_url":"\"Short-time frequency estimation of a real sinusoid\" pdf So Chan","result_status":"Returned the author institutional record and IEICE author listing; abstract describes short-record real-tone bias and two corrections."},
+    {"id":"OP09","kind":"click","query_or_url":"Attempted click from IEICE author-search result to a linked item","result_status":"Failed: web tool could not resolve link selector; no content accessed."},
+    {"id":"OP10","kind":"query","query_or_url":"site:search.ieice.org/bin/summary.php e88-a_9_2455 \"Short-Time Frequency Estimation\" pdf full text","result_status":"Official IEICE author listing confirms September 2005 journal letter metadata and lists a full-text PDF link; PDF itself was not opened."}
+  ],
+  "sources": [
+    {
+      "id":"S5",
+      "url":"https://doi.org/10.1093/ietfec/e88-a.9.2455",
+      "title":"Short-time frequency estimation of a real sinusoid",
+      "year":2005,
+      "venue":"IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences E88-A(9), 2455-2459",
+      "publication_status":"Published journal letter; the CityUHK author record classifies it under peer-reviewed journal publications. This was not independently checked against a review record.",
+      "status_evidence_url":"https://search.ieice.org/bin/author.php?a_name=Hing-Cheung+SO&abst=j&category=A&lang=E&year=2005",
+      "access_level":"Abstract and bibliographic metadata only. Author institutional record and official IEICE listing opened/indexed; listed PDF was not opened.",
+      "content_locator":"CityUHK Scholars record, abstract and citation (OP05): for short observation intervals, the real-sinusoid periodogram can be biased; the paper proposes transforming the real tone to a complex sinusoid or subtracting the negative spectral line before applying the periodogram. Official IEICE author listing OP10 identifies it as a 2005 letter and lists the PDF.",
+      "first_content_operation_id":"OP05",
+      "status_check_operation_ids":["OP05","OP10"]
+    },
+    {
+      "id":"S6",
+      "url":"https://doi.org/10.1111/1467-9892.00205",
+      "title":"On Kay's Frequency Estimator",
+      "year":2000,
+      "venue":"Journal of Time Series Analysis 21(6), 707-712",
+      "publication_status":"Publisher-indexed metadata identifies a journal article; peer-review status was not independently verified. Direct publisher open returned HTTP 403.",
+      "status_evidence_url":"https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9892.00205",
+      "access_level":"Publisher search-index abstract and bibliographic metadata only; direct open failed.",
+      "content_locator":"Publisher-indexed abstract in OP07: under Kay's stated complex-sinusoid additive-noise assumptions, the analyzed estimator is not consistent at fixed SNR as sample size grows; the abstract also describes a restricted noise class and prior frequency-range condition for consistency.",
+      "first_content_operation_id":"OP07",
+      "status_check_operation_ids":["OP04","OP07"]
+    }
+  ],
+  "findings": [
+    {
+      "id":"F6",
+      "claim":"A real-valued sinusoid can have short-record periodogram bias that is not represented by the complex-sinusoid Kay comparison. So and Chan's abstract proposes two specific controls: convert the real tone to a complex representation, or subtract its negative-frequency spectral line before periodogram estimation.",
+      "source_ids":["S5"],
+      "support_locator":"CityUHK Scholars abstract, OP05; official IEICE listing for the journal-letter record and full-text availability, OP10. Abstract only; no equations or quantitative results were retrieved.",
+      "decision_implication":"The receiver excerpt specifically retains an unresolved conjugate-image/physical-sideband branch. On identical short clean real-tone records, a small control comparing the incumbent, one of these negative-line/image corrections, and the complex-AWGN candidate could distinguish finite-record real-signal bias from estimator-family differences. Keep branch ambiguity and frequency-only authority explicit.",
+      "assumptions":"The paper studies a real sinusoid and short observations; exact noise assumptions and quantitative operating range were not available in the abstract. The receiver may have a shaped or modulated helper rather than a stationary tone.",
+      "applicability_gap":"The source does not establish performance at the proposed offsets, levels, six-second deadline, payload activity, or real receiver front end. Its short-time periodogram result is not runtime evidence for this receiver.",
+      "next_discriminator":"Using fixed held-out real PCM with randomized initial phase and the same finite apertures, compare the uncorrected spectrum with one implementable negative-line/image correction. Stratify by offset and aperture length; report signed bias, absolute-error tails, branch/alias outcomes, and absent-tone admissions.",
+      "support_operation_ids":["OP05","OP10"],
+      "incremental_vs_seed":"Adds a real-valued short-record spectral-image mechanism and concrete correction controls. Seed S2/F2 supports a Kay-family option under a complex single-tone AWGN model, while H03 explicitly records real-capture image ambiguity; this source narrows a new discriminator between those model forms. It does not rank the correction or imply target feasibility."
+    },
+    {
+      "id":"F7",
+      "claim":"A published analysis challenges consistency of the specific Kay frequency estimator under its stated complex-sinusoid additive-noise assumptions: for fixed SNR, its large-sample limit can differ from the true frequency. Its abstract describes consistency only for a more restricted noise class with prior frequency-range knowledge.",
+      "source_ids":["S6"],
+      "support_locator":"Publisher-indexed abstract for Quinn, OP07. Wiley page open failed at OP04, so details are abstract-limited and peer-review status remains unverified here.",
+      "decision_implication":"Treat a Kay-family candidate as a finite-condition comparator rather than a self-validating asymptotic or ground-truth estimator. Check signed bias over the actual finite aperture, frequency offsets, and sample-rate chunks; do not let agreement between related estimators replace an external/reference frequency comparison.",
+      "assumptions":"The abstract says the inconsistency result applies under the assumptions of Kay's analyzed complex-sinusoid estimator; details of the proof and estimator variant were not retrieved.",
+      "applicability_gap":"The study does not assess this receiver, a real tone, modulated/payload captures, or the proposed accuracy deadline. The abstract does not establish whether the seed's precise proposed Kay implementation is identical in all relevant details.",
+      "next_discriminator":"On matched finite captures with known generated frequency, measure signed bias and tail error for the selected Kay implementation across the planned offsets and aperture lengths; compare with an independent bounded sinusoidal profile fit and preserve no-publication outcomes.",
+      "support_operation_ids":["OP07"],
+      "incremental_vs_seed":"Qualifies seed F2's recommendation to include a Kay-family comparator: a primary-paper abstract supplies a contrary consistency result for a particular Kay estimator under its model. It changes the comparator's interpretation and test metrics, not the recommendation to compare it. Because direct text was unavailable, the estimator-variant mapping needs confirmation before implementation-level conclusions."
+    }
+  ],
+  "retained_seed_summary":"Seed evidence remains decision-relevant: Rife-Boorstyn warns that threshold outliers can dominate error despite local bound-like behavior; Kay-family and generalized-lag papers support bounded comparisons only under specified complex-sinusoid/coherence assumptions; packet excerpts separate uncertainty, presence, and frequency-only authority. Seed and source-check gaps remain: no source establishes the prospective 0.10-Hz/6-s target, receiver performance, or calibrated uncertainty. Test tails, acquisition timing, false admissions, chunk invariance, and model mismatch separately.",
+  "rejected_or_redundant":[
+    "The search results on unknown-frequency detection and nonstationary estimators were leads only; they add no verified finding in this continuation because no source content was accessed.",
+    "No ranking of estimator families or feasibility claim follows from either new source. Repeating general CRLB/local-error arguments would duplicate the seed; the useful addition is the real-tone/image discriminator plus a caution about one Kay estimator's asymptotics."
+  ],
+  "unresolved":[
+    "No accessible primary text here quantifies false-publication probability for the receiver's specific searched frequency range and repeated-look policy; absent-tone controls and search-wide false-admission scoring remain necessary.",
+    "S5 and S6 were abstract-limited. Full method details, noise assumptions, performance tables, and exact estimator-variant matching remain unverified.",
+    "The distinction among reference level dB-Hz, real capture geometry, amplitude/envelope variation, interference, and any frequency evolution still prevents direct transfer of stationary-tone results to the proposed target."
+  ],
+  "stop_reason":"Stopped after two incremental source-backed findings and one final first-party metadata lookup; remaining evidence would not change the immediate discriminator. Web use: 10 logical operations total (6 queries, 3 opens, 1 failed click); failed attempts counted. No simulation or project tests run. Elapsed research window was about 2 minutes.",
+  "escalation_ready":"A useful next bounded discriminator is an externally referenced finite-record comparison on identical real-valued PCM: incumbent, one Kay-family option, and one implementable negative-image correction or bounded profile fit. Preserve randomized phase, planned offsets and levels, payload/envelope strata, absent-tone controls, and both chunk delivery sizes. Score signed bias, tail error at the deadline, time to qualified output, false admissions, uncertainty coverage, and chunk invariance. This evidence supports adding the real-tone/image branch and checking Kay bias; it does not select an architecture or validate the proposed target."
+}

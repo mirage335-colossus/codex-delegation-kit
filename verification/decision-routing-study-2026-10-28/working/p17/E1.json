@@ -1,0 +1,101 @@
+{
+  "scenario": "HelperCarrier frequency measurement and acquisition",
+  "phase": "E1",
+  "source_units_consulted": ["E1", "H01", "H03", "H04", "H05", "H06", "H07", "H08", "H12"],
+  "assignments": [
+    {
+      "id": "P17-A1", "action": "continue", "dispatch": "now",
+      "question": "Which publication, support, uncertainty and presence semantics could apply to the reported estimates, and which facts cannot be determined from E1?",
+      "purpose": "Separate the hypothetical report from source contracts and identify interpretation gaps.",
+      "source_units": ["E1", "H03", "H04", "H05", "H08", "H12"], "model": "luna", "role": "scout", "conversation_id": "contracts",
+      "deliverable": "Cited contract map and concise list of missing report provenance and ambiguous dates/interval semantics.", "ownership": "Read-only source and report inspection.", "dependencies": [], "stop_condition": "Answer from available evidence and identify unresolved information without assuming the reported path.", "model_reason": "Bounded contract mapping remains suited to Luna.",
+      "expected_work_operations": ["Map possible publication and support dates", "Compare interval semantics and presence qualification", "List unknown producer and configuration"]
+    },
+    {
+      "id": "P17-A2", "action": "continue", "dispatch": "now",
+      "question": "Can existing fixtures provide paired identical PCM with only chunk delivery varied, while retaining exact truth and recording per-publication dates?",
+      "purpose": "Make chunk behavior testable without confounding offset, noise, seed or signal content.",
+      "source_units": ["E1", "H01", "H06", "H07", "H12"], "model": "luna", "role": "scout", "conversation_id": "fixture",
+      "deliverable": "Cited feasible paired replay seam, any fixture limitations and targeted instrumentation needs.", "ownership": "Read-only fixture inspection.", "dependencies": [], "stop_condition": "Identify the seam or report the missing capability and bounded alternatives.", "model_reason": "A focused fixture investigation can run independently on Luna.",
+      "expected_work_operations": ["Trace deterministic truth and seed construction", "Check replay of identical samples in 137 and 4096 chunk regimes", "Identify event and resource instrumentation"]
+    },
+    {
+      "id": "P17-A3", "action": "continue", "dispatch": "now",
+      "question": "How should the report change the protocol without treating the four summary rows as a representative sample or reproduced failure?",
+      "purpose": "Preserve target definitions and identify paired discriminators and missing evidence.",
+      "source_units": ["E1", "H03", "H04", "H05"], "model": "terra", "role": "owner", "conversation_id": "coordinator",
+      "deliverable": "Revised protocol draft and explicit evidence request: raw PCM, truth and capture onset, build/dirty state, commands, seeds, configurations, all publications and denominators, dates, chunk sequences, logs and resource data.", "ownership": "Protocol and synthesis; no source changes.", "dependencies": [], "stop_condition": "Document E1 as unverified and distinguish first accurate estimate, first covered estimate and interval-width measurements.", "model_reason": "Coordinator synthesis is proportionate to the reported feedback.",
+      "expected_work_operations": ["Retain universal finite-interval coverage target and error/time target separately", "Define paired chunk comparison and matching variables", "Flag that width above 0.10 Hz is not itself failure of the stated absolute-error target"]
+    },
+    {
+      "id": "P17-A11", "action": "new", "dispatch": "now",
+      "question": "What bounded source and report evidence is needed to distinguish measurement/analysis error from waveform, noise, estimator, chunk delivery or resource effects?",
+      "purpose": "Prepare a causal discriminator list without labeling the reported uncovered interval as reproduced.",
+      "source_units": ["E1", "H01", "H03", "H04", "H05", "H06", "H07"], "model": "luna", "role": "scout", "conversation_id": "discriminators",
+      "deliverable": "Prioritized evidence request and matched comparisons, including identical input replay with chunking as the only changed variable, plus expected observations and limitations.", "ownership": "Read-only evidence planning; no campaign execution.", "dependencies": [], "stop_condition": "Identify useful bounded comparisons and distinguish evidence unavailable in E1.", "model_reason": "Generating a factual discriminator inventory is separable and bounded; consequential interpretation remains expert-owned.",
+      "expected_work_operations": ["Inspect summary for confounding", "List required raw artifacts and instrumented event chronology", "Propose checks for truth calibration, interval interpretation and work/latency"]
+    },
+    {
+      "id": "P17-A4", "action": "continue", "dispatch": "queued",
+      "question": "Does the protocol and paired replay design correctly evaluate E1's possible missed interval and chunk concern while honoring frequency provenance and target semantics?",
+      "purpose": "Review the consequential measurement contract before substantial dependent implementation.",
+      "source_units": ["E1", "H01", "H03", "H04", "H05", "H06", "H07", "H12"], "model": "sol", "role": "reviewer", "conversation_id": "expert",
+      "deliverable": "Independent design review with blockers, appropriate controls, data requirements and decisions on measurement ambiguities.", "ownership": "Read-only independent design review.", "dependencies": ["P17-A1", "P17-A2", "P17-A3", "P17-A11"], "stop_condition": "Resolve or escalate consequential objections before dependent implementation.", "model_reason": "The measurement-contract decision requires strong independent judgment.",
+      "expected_work_operations": ["Review paired comparison and confounders", "Check availability frontier versus observation date", "Challenge finite-interval coverage and no-publication denominators"]
+    },
+    {
+      "id": "P17-A8", "action": "reroute", "dispatch": "queued",
+      "question": "What can and cannot be concluded from E1, and what evidence would discriminate competing causes of an apparent coverage miss?",
+      "purpose": "Give consequential diagnosis strong ownership without treating hypothetical feedback as a run by this plan.",
+      "source_units": ["E1", "H03", "H04", "H05", "H07", "H12"], "model": "sol", "role": "owner", "conversation_id": "expert",
+      "deliverable": "Evidence-ranked differential and bounded discriminator plan; explicitly no root-cause or reproduced-failure claim.", "ownership": "Read-only consequential diagnosis.", "dependencies": ["P17-A11", "P17-A4"], "stop_condition": "State the next evidence needed and stop if raw information is unavailable.", "model_reason": "The reported uncovered interval raises consequential interpretation and scope questions for a strong owner.",
+      "expected_work_operations": ["Review original summary and missing provenance", "Compare competing measurement, estimator, interference, chunk and resource explanations", "Prioritize matched checks"]
+    },
+    {
+      "id": "P17-A5", "action": "defer", "dispatch": "queued",
+      "question": "Can reviewed measurement and paired chunk replay be instrumented without production behavior changes?",
+      "purpose": "Prepare trustworthy evidence once the protocol and authorization are in place.",
+      "source_units": ["E1", "H05", "H06", "H07", "H12"], "model": "luna", "role": "worker", "conversation_id": "fixture",
+      "deliverable": "Minimal hypothetical fixture/instrumentation patch and reproducible manifest including paired identical input and chunk sequences.", "ownership": "Exclusive proposed fixture/harness files agreed after mapping; preserve dirty baseline and other work.", "dependencies": ["P17-A2", "P17-A4", "campaign execution and project changes authorized"], "stop_condition": "Record reviewed metrics or report a missing seam; do not loosen gates.", "model_reason": "Settled fixture implementation remains bounded worker work.",
+      "expected_work_operations": ["Instrument reviewed publication and support dates", "Prepare exact truth and paired replay", "Record seeds, environment and resources"]
+    },
+    {
+      "id": "P17-A6", "action": "defer", "dispatch": "queued",
+      "question": "Does the proposed instrumentation faithfully implement the reviewed protocol and preserve contracts?",
+      "purpose": "Independently review a patch before acceptance.", "source_units": ["H03", "H04", "H05", "H09", "H10", "H11"], "model": "sol", "role": "reviewer", "conversation_id": "expert",
+      "deliverable": "Independent patch review and focused preservation checks, with original failures retained.", "ownership": "Read-only review; independent of patch author.", "dependencies": ["P17-A5"], "stop_condition": "Accept with evidence or return specific defects; escalate exhausted repair or consequential change.", "model_reason": "Independent strong review safeguards a consequential measurement instrument.",
+      "expected_work_operations": ["Inspect truth and date handling", "Check absence and retune behavior", "Review preservation checks"]
+    },
+    {
+      "id": "P17-A7", "action": "defer", "dispatch": "queued",
+      "question": "What results arise across the frozen matrix and paired chunk comparison?",
+      "purpose": "Obtain reproducible evidence rather than extrapolate from E1's four confounded rows.", "source_units": ["E1", "H05", "H06", "H07", "H11", "H12"], "model": "luna", "role": "worker", "conversation_id": "campaign",
+      "deliverable": "Raw records and per-cell results including empirical coverage, counts, declines, latency, work/memory, absent control and paired chunk outcomes.", "ownership": "Exclusive hypothetical campaign outputs; serialize shared build writers.", "dependencies": ["P17-A4", "P17-A6", "campaign execution authorized"], "stop_condition": "Complete reviewed matrix or preserve incomplete cells, original failures and logs.", "model_reason": "A settled campaign is bounded work suitable for Luna.",
+      "expected_work_operations": ["Replay identical captures across chunk sizes", "Run reviewed matched cells and controls", "Retain data and provenance"]
+    },
+    {
+      "id": "P17-A9", "action": "continue", "dispatch": "queued",
+      "question": "What evidence supports the feasibility decision, and what remains unresolved?",
+      "purpose": "Report all results and their limitations with source predictions separate from observations.", "source_units": ["E1", "H01", "H02", "H03", "H04", "H05", "H08", "H09", "H10", "H12"], "model": "terra", "role": "owner", "conversation_id": "coordinator",
+      "deliverable": "Decision report or interim inconclusive report, including E1 provenance and any future verified evidence.", "ownership": "Synthesis and reporting.", "dependencies": ["P17-A7 or explicit incomplete-study disposition", "P17-A8"], "stop_condition": "Describe missing evidence and all failures without claiming success or cause.", "model_reason": "Coordinator synthesis of independently reviewed evidence is appropriate.",
+      "expected_work_operations": ["Distinguish E1 feedback from observed campaign data", "Report metrics, denominators and uncertainty semantics", "Identify narrow next decision"]
+    },
+    {
+      "id": "P17-A10", "action": "continue", "dispatch": "conditional",
+      "question": "Is there a better strategic discriminator if the reviewed evidence leaves a consequential ambiguity or contradicts practical assumptions?",
+      "purpose": "Avoid an expensive wrong turn once the bounded investigation cannot resolve the question.", "source_units": ["E1", "H03", "H04", "H05"], "model": "astra", "role": "adviser", "conversation_id": "strategy",
+      "deliverable": "Read-only critique and ranked discriminators with explicit limits.", "ownership": "Read-only strategic advice.", "dependencies": ["Material unresolved strategic ambiguity, contradicted assumption, expensive wrong turn or diminishing returns"], "stop_condition": "Answer a bounded question or identify missing evidence.", "model_reason": "Astra is timely for strategic uncertainty, without an automatic consultation quota.",
+      "expected_work_operations": ["Inspect focused findings", "Challenge assumptions", "Prioritize discriminators"]
+    }
+  ],
+  "concurrency": "Coordinator, contracts, fixture and discriminator conversations can work concurrently. Sol reviews once their evidence is ready; diagnosis follows without assuming a campaign ran. Up to six reasoning conversations total including coordinator and any expert; queue Astra or reuse the expert slot when necessary. At most four admitted test processes, eight CPU cores and 16 GiB; serialize shared build and nested writers. Keep original two-hour horizon and deadlines; actual study runs no campaign.",
+  "reuse": "Continue existing contracts, fixture and coordinator conversations, and reuse expert for independent design review and diagnosis. The discriminator scout supplies bounded missing evidence rather than repeating complete mappings; fixture work retains its established owner. Review remains independent of patch authorship.",
+  "expert_and_human_triggers": {
+    "sol": "Review consequential measurement design before substantial implementation, own interpretation of the reported miss and any exhausted repair or scope change, and independently review any patch before acceptance.",
+    "astra": "Consult promptly when strategic uncertainty, contradicted assumptions, expensive wrong turns or diminishing returns remain after bounded investigation.",
+    "human": "Request material tolerances and representativeness clarification early, and seek access to the operator's underlying evidence where available; clarify whether the proposed strict targets are desired. Continue independent analysis pending optional answers. Silence does not authorize execution or project changes. Escalate contract conflicts and consequential tradeoffs."
+  },
+  "rejected_research": ["Do not infer chunk causality: the reported rows vary offset, level, noise and chunking together.", "Do not call the apparent interval miss reproduced or use four rows as a campaign denominator.", "Defer broad literature searches, hardware studies and algorithm modification until a specific evidence gap justifies them; do not weaken coverage or acceptance targets."],
+  "assumptions_and_uncertainties": ["E1 is hypothetical external summary feedback, not a report from any assignment in this plan; source path, build, PCM, seeds, publication semantics and counts are unknown.", "The 0.10 Hz threshold concerns absolute truth error, not necessarily interval half-width; empirical coverage is evaluated separately for every finite interval.", "Actual execution, build and project mutation remain outside this paper study and require represented authorization; deadline and resource constraints remain unchanged."],
+  "no_tokens_or_costs_estimated": true
+}

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "id": "swarm-main-luna-medium",
-  "workspace": "/tmp/delegation-swarm-main/source",
+  "workspace": "unbundled-runtime/run-h954e2065e97c08aa/source",
   "policy": {
     "capacity": {
       "reasoning": 2,
@@ -10,12 +10,12 @@
       "memory_mb": 0
     },
     "allowed_cwds": [
-      "/tmp/delegation-swarm-main/source"
+      "unbundled-runtime/run-h954e2065e97c08aa/source"
     ],
     "allowed_executables": [],
     "process_boundary": "inherited",
     "boundary_description": "Authorized disposable local validation; Codex workers use controller-created private fixture copies and network-disabled workspace-write. No X11 or broader authority.",
-    "codex_binary": "/usr/lib/chatgpt/resources/codex",
+    "codex_binary": "system-fixture/usr/lib/chatgpt/resources/codex",
     "agent_profile": "engineering",
     "model": "gpt-6-luna",
     "effort": "medium",
@@ -29,13 +29,13 @@
   },
   "source": {
     "purpose": "bounded main-chat swarm-role acceptance probe",
-    "fixture": "/tmp/delegation-swarm-main"
+    "fixture": "unbundled-runtime/run-h954e2065e97c08aa"
   },
   "tasks": [
     {
       "id": "swarm-parser",
       "role": "swarm",
-      "cwd": "/tmp/delegation-swarm-main/source",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/source",
       "write_scope": [],
       "priority": 2,
       "estimate_seconds": 20,
@@ -75,7 +75,7 @@
     {
       "id": "swarm-reducer",
       "role": "swarm",
-      "cwd": "/tmp/delegation-swarm-main/source",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/source",
       "write_scope": [],
       "priority": 2,
       "estimate_seconds": 30,
@@ -114,7 +114,7 @@
     {
       "id": "swarm-repeatability-cutoff",
       "role": "swarm",
-      "cwd": "/tmp/delegation-swarm-main/source",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/source",
       "write_scope": [],
       "priority": 1,
       "estimate_seconds": 25,

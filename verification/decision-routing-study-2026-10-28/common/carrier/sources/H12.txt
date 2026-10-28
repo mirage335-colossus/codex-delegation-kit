@@ -1,0 +1,36 @@
+H12 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- tests/test_helper_receiver.cpp:598-627 ---
+  598 // The following weak-tone fixtures explicitly fund the optional profile and
+  599 // drive its joined work seam. Their coherent Generator supplies the declared
+  600 // cross-dwell phase model; default strong Receiver fixtures remain unfunded.
+  601 class FundedFrequencyReceiver {
+  602     helper::Receiver receiver_;
+  603     std::uint32_t rate_;
+  604 public:
+  605     FundedFrequencyReceiver(double expected,double width,std::uint32_t rate,std::vector<Crypto> keys={},
+  606                             helper::FrequencyPrecisionOptions precision={})
+  607         :receiver_(expected,width,std::move(keys),std::nullopt,precision),rate_(rate) {
+  608         helper::FrequencyWorkOptions work;work.sample_rate=rate;work.coherent_phase_model=true;
+  609         const auto geometry=helper::Receiver::optional_frequency_geometry(expected,width,work,precision);
+  610         check(geometry.supported&&!geometry.eligible);
+  611         work.workspace_grant=geometry.required_bytes;
+  612         check(helper::Receiver::optional_frequency_geometry(expected,width,work,precision).eligible);
+  613         check(receiver_.set_optional_frequency_work(work));
+  614         const auto actual=receiver_.optional_frequency_work();
+  615         check(actual.actual_bytes==work.workspace_grant&&
+  616               actual.heap_bytes+actual.worker_scratch_bytes==actual.actual_bytes);
+  617     }
+  618     void push(std::span<const float> samples,std::uint32_t rate,std::uint64_t first) {
+  619         check(rate==rate_);receiver_.push(samples,rate,first);
+  620         if(receiver_.prepare_optional_frequency(7)) {
+  621             while(!receiver_.advance_optional_frequency(64).complete) {}
+  622             const auto actual=receiver_.optional_frequency_work();
+  623             receiver_.commit_optional_frequency({7,actual.generation,0,helper::FrequencyPresenceState::unavailable});
+  624         }
+  625     }
+  626     std::optional<helper::Reference> take_update() {return receiver_.take_update();}
+  627 };

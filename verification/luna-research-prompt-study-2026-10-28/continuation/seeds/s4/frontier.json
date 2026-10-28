@@ -1,0 +1,25 @@
+{
+  "seed": "s4",
+  "status": "optional research leads; not acceptance or architecture",
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Does bounded alternative search improve useful source-backed alternatives enough to justify its extra work on repository research?",
+      "seed_basis": "bounded-branching / tot https://proceedings.neurips.cc/paper/2023/hash/271db9922b8d1f4dd7aaef84ed5ac703-Abstract.html; narrow benchmark and reported token-cost limits",
+      "decision_use": "Whether to evaluate the alternative-search prompt for this workflow."
+    },
+    {
+      "id": "Q2",
+      "question": "Do source-grounded reports reduce missed contrary evidence and expert reconstruction on actual investigations?",
+      "seed_basis": "repo-grounding / codeagent https://aclanthology.org/2024.acl-long.737/ and repocod https://aclanthology.org/2025.acl-long.1204/; code-generation benchmark transfer unresolved",
+      "decision_use": "Whether grounding requirements improve the handoff."
+    },
+    {
+      "id": "Q3",
+      "question": "Does a critique step add independently supported counterevidence or reduce reviewer correction?",
+      "seed_basis": "critique-is-not-proof / rci https://proceedings.neurips.cc/paper_files/paper/2023/hash/7cc1005ec73cfbaac9fa21192b622507-Abstract-Conference.html; abstract-only computer-task results",
+      "decision_use": "Whether to include critique in a matched prompt comparison."
+    }
+  ],
+  "limitations": "The branching source is full text; CodeAgent access was limited to opening pages, and RepoCod and RCI were abstract-only. Benchmark results do not validate this workflow. Independent acceptance and untrusted-source boundaries remain task constraints."
+}

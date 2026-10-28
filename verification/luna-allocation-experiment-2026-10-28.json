@@ -1,0 +1,709 @@
+{
+  "kind": "model_authored_forecast_not_observed_benchmark",
+  "date": "2026-10-28",
+  "source_baseline": "verification/strategic-routing-examples.md",
+  "pricing": {
+    "source": "https://developers.openai.com/api/docs/pricing",
+    "accessed": "2026-10-28",
+    "units": "USD per 1M tokens",
+    "assumption": "standard short-context; comparison only, actual tier unchanged",
+    "rates": {
+      "luna": {
+        "input": 0.1,
+        "cached_input": 0.01,
+        "output": 0.5
+      },
+      "terra": {
+        "input": 1,
+        "cached_input": 0.05,
+        "output": 5
+      },
+      "sol": {
+        "input": 2,
+        "cached_input": 0.1,
+        "output": 10
+      },
+      "astra": {
+        "input": 10,
+        "cached_input": 1,
+        "output": 50
+      }
+    },
+    "formula": "((input - cached_input) * input_rate + cached_input * cached_input_rate + output * output_rate) / 1000000",
+    "counts_unit": "thousands of tokens",
+    "cached_input_is_subset": true,
+    "cache_hit_assumed_not_guaranteed": true
+  },
+  "definition_10x": "Multiply aggregate Luna input, cached subset and output each by 10, other model counts unchanged; token stress case, not 10x findings or a proposed useful allocation",
+  "scenarios": {
+    "pump_modem": {
+      "baseline": {
+        "models": {
+          "luna": {
+            "input_thousands": 360,
+            "cached_input_subset_thousands": 120,
+            "output_thousands": 80,
+            "usd": 0.0652,
+            "no_cache_usd": 0.076
+          },
+          "terra": {
+            "input_thousands": 120,
+            "cached_input_subset_thousands": 30,
+            "output_thousands": 25,
+            "usd": 0.2165,
+            "no_cache_usd": 0.245
+          },
+          "sol": {
+            "input_thousands": 100,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 20,
+            "usd": 0.362,
+            "no_cache_usd": 0.4
+          },
+          "astra": {
+            "input_thousands": 90,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 15,
+            "usd": 1.47,
+            "no_cache_usd": 1.65
+          }
+        },
+        "total_usd": 2.1137,
+        "no_cache_total_usd": 2.371
+      },
+      "mechanical_10x_luna_only": {
+        "models": {
+          "luna": {
+            "input_thousands": 3600,
+            "cached_input_subset_thousands": 1200,
+            "output_thousands": 800,
+            "usd": 0.652,
+            "no_cache_usd": 0.76
+          },
+          "terra": {
+            "input_thousands": 120,
+            "cached_input_subset_thousands": 30,
+            "output_thousands": 25,
+            "usd": 0.2165,
+            "no_cache_usd": 0.245
+          },
+          "sol": {
+            "input_thousands": 100,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 20,
+            "usd": 0.362,
+            "no_cache_usd": 0.4
+          },
+          "astra": {
+            "input_thousands": 90,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 15,
+            "usd": 1.47,
+            "no_cache_usd": 1.65
+          }
+        },
+        "total_usd": 2.7005,
+        "no_cache_total_usd": 3.055
+      },
+      "current_policy_forecast": {
+        "models": {
+          "luna": {
+            "input_thousands": 900,
+            "cached_input_subset_thousands": 300,
+            "output_thousands": 200,
+            "usd": 0.163,
+            "no_cache_usd": 0.19
+          },
+          "terra": {
+            "input_thousands": 180,
+            "cached_input_subset_thousands": 45,
+            "output_thousands": 35,
+            "usd": 0.31225,
+            "no_cache_usd": 0.355
+          },
+          "sol": {
+            "input_thousands": 110,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 22,
+            "usd": 0.402,
+            "no_cache_usd": 0.44
+          },
+          "astra": {
+            "input_thousands": 100,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 17,
+            "usd": 1.67,
+            "no_cache_usd": 1.85
+          }
+        },
+        "total_usd": 2.54725,
+        "no_cache_total_usd": 2.835
+      }
+    },
+    "software_foundation": {
+      "baseline": {
+        "models": {
+          "luna": {
+            "input_thousands": 2000,
+            "cached_input_subset_thousands": 600,
+            "output_thousands": 350,
+            "usd": 0.321,
+            "no_cache_usd": 0.375
+          },
+          "terra": {
+            "input_thousands": 220,
+            "cached_input_subset_thousands": 70,
+            "output_thousands": 40,
+            "usd": 0.3535,
+            "no_cache_usd": 0.42
+          },
+          "sol": {
+            "input_thousands": 150,
+            "cached_input_subset_thousands": 30,
+            "output_thousands": 25,
+            "usd": 0.493,
+            "no_cache_usd": 0.55
+          },
+          "astra": {
+            "input_thousands": 100,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 15,
+            "usd": 1.57,
+            "no_cache_usd": 1.75
+          }
+        },
+        "total_usd": 2.7375,
+        "no_cache_total_usd": 3.095
+      },
+      "mechanical_10x_luna_only": {
+        "models": {
+          "luna": {
+            "input_thousands": 20000,
+            "cached_input_subset_thousands": 6000,
+            "output_thousands": 3500,
+            "usd": 3.21,
+            "no_cache_usd": 3.75
+          },
+          "terra": {
+            "input_thousands": 220,
+            "cached_input_subset_thousands": 70,
+            "output_thousands": 40,
+            "usd": 0.3535,
+            "no_cache_usd": 0.42
+          },
+          "sol": {
+            "input_thousands": 150,
+            "cached_input_subset_thousands": 30,
+            "output_thousands": 25,
+            "usd": 0.493,
+            "no_cache_usd": 0.55
+          },
+          "astra": {
+            "input_thousands": 100,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 15,
+            "usd": 1.57,
+            "no_cache_usd": 1.75
+          }
+        },
+        "total_usd": 5.6265,
+        "no_cache_total_usd": 6.47
+      },
+      "current_policy_forecast": {
+        "models": {
+          "luna": {
+            "input_thousands": 3000,
+            "cached_input_subset_thousands": 900,
+            "output_thousands": 525,
+            "usd": 0.4815,
+            "no_cache_usd": 0.5625
+          },
+          "terra": {
+            "input_thousands": 300,
+            "cached_input_subset_thousands": 90,
+            "output_thousands": 55,
+            "usd": 0.4895,
+            "no_cache_usd": 0.575
+          },
+          "sol": {
+            "input_thousands": 170,
+            "cached_input_subset_thousands": 30,
+            "output_thousands": 30,
+            "usd": 0.583,
+            "no_cache_usd": 0.64
+          },
+          "astra": {
+            "input_thousands": 120,
+            "cached_input_subset_thousands": 20,
+            "output_thousands": 19,
+            "usd": 1.97,
+            "no_cache_usd": 2.15
+          }
+        },
+        "total_usd": 3.524,
+        "no_cache_total_usd": 3.9275
+      }
+    }
+  },
+  "forecast_agents": {
+    "pump_modem": {
+      "terra_coordinator": 1,
+      "luna_scouts": 5,
+      "luna_workers_up_to": 3,
+      "sol_owner": 1,
+      "sol_independent_reviewer": 1,
+      "astra_reused": 1,
+      "astra_planned_checkpoints_for_this_consequential_scenario": 2
+    },
+    "software_foundation": {
+      "terra_coordinator": 1,
+      "luna_scouts": 5,
+      "luna_workers_initial_range": [
+        3,
+        5
+      ],
+      "luna_workers_conditional_range": [
+        8,
+        12
+      ],
+      "sol_owner": 1,
+      "sol_independent_reviewer": 1,
+      "astra_reused": 1,
+      "worker_batches": "3-5 initial workers; expand to 8-12 only after distinct case qualification; shared fixture work serialized",
+      "astra_planned_checkpoints_for_this_consequential_scenario": 2
+    }
+  },
+  "forecast_inclusions": [
+    "Base budgets attempt to cover inherited instructions and repeated tool context; actual full common prompt overhead is unknown",
+    "Repeated cached input is a subset of total input",
+    "Coordination and Terra screening",
+    "Hidden reasoning as output",
+    "Expert source review, architecture, integration and independent review",
+    "Modest repair reserve"
+  ],
+  "weekly_sensitivity": {
+    "status": "conditional hypothetical normalized workload, not measured usage or calibrated to tokens",
+    "weekly_factors": {
+      "terra": 1,
+      "sol_approx": 10,
+      "astra_approx": 20,
+      "luna": 0.1
+    },
+    "baseline_work_units": {
+      "luna": 1,
+      "terra": 1,
+      "sol": 1,
+      "astra": 1
+    },
+    "illustrative_alternative_work_units": {
+      "luna": 2.5,
+      "terra": 1.5,
+      "sol": 0.8,
+      "astra": 0.8
+    },
+    "baseline_expression": "31 + lambda",
+    "alternative_expression": "25.5 + 2.5 * lambda",
+    "lower_pressure_condition": "lambda < 11/3",
+    "half_baseline_condition": "25.5 + 2.5*lambda <= (31 + lambda)/2; impossible for lambda >= 0",
+    "luna_half_share_condition": "2.5*lambda >= 25.5, i.e. lambda >= 10.2; incompatible with lower pressure here",
+    "general_half_baseline": "H_current + L_current * lambda <= (H_baseline + L_baseline * lambda)/2",
+    "factor_provenance": "User-supplied current planning index on2026-10-28: Luna0.1,Terra1,Sol approximately10,Astra approximately20; unitless and not independently calibrated or official API/credit pricing.",
+    "parameterization": "Original sensitivity equations retain lambda as a symbolic parameter; use lambda=0.1 for the current user-provided planning choice. Workload-unit comparability is hypothetical; this does not convert recorded tokens or API dollars into allowance."
+  },
+  "limits": [
+    "No actual model usage, weekly attribution, campaign results, or controlled blind comparison",
+    "Scope depends on later authorization and real case qualification",
+    "No cache and request-length/tier sensitivity are distinct",
+    "No claim that candidate cases already exist or that hardware checks were executed"
+  ],
+  "api_break_even_sensitivity": {
+    "status": "conditional, no demonstrated saving; same scope, acceptance and Astra review gates",
+    "assumptions": "Extra Luna and Terra budgets are taken from C; expert costs start at A and any savings arise only from removing genuinely unnecessary expert context or duplicated work, not required architecture, source review or strategic checkpoints. Rates assume uncached short-context input or output exclusively. No claim these reductions are available.",
+    "pump_modem": {
+      "extra_luna_usd": 0.0978,
+      "extra_terra_usd": 0.09575,
+      "required_expert_reduction_usd": 0.19355,
+      "uncached_sol_input_thousands_equivalent": 96.775,
+      "sol_output_thousands_equivalent": 19.355,
+      "uncached_astra_input_thousands_equivalent": 19.355,
+      "astra_output_thousands_equivalent": 3.871
+    },
+    "software_foundation": {
+      "extra_luna_usd": 0.1605,
+      "extra_terra_usd": 0.136,
+      "required_expert_reduction_usd": 0.2965,
+      "uncached_sol_input_thousands_equivalent": 148.25,
+      "sol_output_thousands_equivalent": 29.65,
+      "uncached_astra_input_thousands_equivalent": 29.65,
+      "astra_output_thousands_equivalent": 5.93
+    }
+  },
+  "wide_ordinary_regression_triage": {
+    "status": "new conditional model-authored forecast; neither baseline nor campaign observed, and separate from frozen prior examples",
+    "acceptance": "same 40 qualified ordinary suites and outcome/coverage accounting in both scenarios; each execution requires future authorization and admitted resources",
+    "baseline_conventional": {
+      "models": {
+        "luna": {
+          "input_thousands": 400,
+          "cached_input_subset_thousands": 120,
+          "output_thousands": 80,
+          "usd": 0.0692,
+          "no_cache_usd": 0.08
+        },
+        "terra": {
+          "input_thousands": 150,
+          "cached_input_subset_thousands": 40,
+          "output_thousands": 30,
+          "usd": 0.262,
+          "no_cache_usd": 0.3
+        },
+        "sol": {
+          "input_thousands": 200,
+          "cached_input_subset_thousands": 40,
+          "output_thousands": 35,
+          "usd": 0.674,
+          "no_cache_usd": 0.75
+        },
+        "astra": {
+          "input_thousands": 30,
+          "cached_input_subset_thousands": 5,
+          "output_thousands": 5,
+          "usd": 0.505,
+          "no_cache_usd": 0.55
+        }
+      },
+      "total_usd": 1.5102,
+      "no_cache_total_usd": 1.68
+    },
+    "conditional_luna_heavy": {
+      "models": {
+        "luna": {
+          "input_thousands": 4000,
+          "cached_input_subset_thousands": 1200,
+          "output_thousands": 800,
+          "usd": 0.692,
+          "no_cache_usd": 0.8
+        },
+        "terra": {
+          "input_thousands": 450,
+          "cached_input_subset_thousands": 130,
+          "output_thousands": 80,
+          "usd": 0.7265,
+          "no_cache_usd": 0.85
+        },
+        "sol": {
+          "input_thousands": 170,
+          "cached_input_subset_thousands": 40,
+          "output_thousands": 30,
+          "usd": 0.564,
+          "no_cache_usd": 0.64
+        },
+        "astra": {
+          "input_thousands": 30,
+          "cached_input_subset_thousands": 5,
+          "output_thousands": 5,
+          "usd": 0.505,
+          "no_cache_usd": 0.55
+        }
+      },
+      "total_usd": 2.4875,
+      "no_cache_total_usd": 2.84
+    },
+    "baseline_agents": {
+      "luna_agents": 4,
+      "suite_group_assignments": 10,
+      "suites_per_group": 4,
+      "terra_coordinator": 1,
+      "sol_owner_and_independent_reviewers": 2,
+      "astra_agents_if_triggered": 1
+    },
+    "luna_heavy_agents": {
+      "luna_agents_up_to": 12,
+      "suite_assignments": 40,
+      "batch_max_concurrent_agents": 6,
+      "terra_coordinator": 1,
+      "sol_owner_and_independent_reviewers": 2,
+      "astra_agents_if_triggered": 1
+    },
+    "astra_reserve": "One reused Astra agent, one bounded strategic consultation only if a consequential trust or architecture trigger arises; USD reserve included in both forecasts, subtract 0.505 if unused",
+    "important_constraints": [
+      "40 candidate suites must be selected and qualified; no assertion all are currently permitted or independent",
+      "exclude appended suites unless separately authorized; separately authorize optional Linux distribution tests",
+      "shared configuration first; isolate writers, admit resources, serialize coupled integration",
+      "10x aggregate Luna input, cached subset and output; not 10x useful findings, agents, concurrency or tests",
+      "actual outcome and feedback unavailable; no tests or builds ran"
+    ]
+  },
+  "request_bridge": {
+    "status": "assumed aggregate model requests, not observed; multiple model requests can occur within an agent turn; averages are unvalidated accounting assumptions, not calibrated complete context",
+    "requests": {
+      "pump_modem_C": {
+        "luna": 30,
+        "terra": 12,
+        "sol": 10,
+        "astra": 8
+      },
+      "software_foundation_C": {
+        "luna": 60,
+        "terra": 15,
+        "sol": 10,
+        "astra": 8
+      },
+      "wide_baseline": {
+        "luna": 20,
+        "terra": 10,
+        "sol": 10,
+        "astra": 5
+      },
+      "wide_luna_heavy": {
+        "luna": 100,
+        "terra": 25,
+        "sol": 10,
+        "astra": 5
+      }
+    },
+    "formula": "average input or output in thousands = aggregate thousands / assumed requests; cached input remains subset",
+    "astra": "requests included in reserve; zero if entire optional reserve unused in wide scenario; one consultation can span multiple requests"
+  },
+  "pump_screening_variants": {
+    "base": "A expert budget plus C Luna and Terra; same acceptance and expert gates; not equal to conservative C",
+    "success": {
+      "sol_uncached_input_avoided_thousands": 20,
+      "sol_output_avoided_thousands": 2,
+      "astra_output_avoided_thousands": 1,
+      "saved_usd": 0.11,
+      "total_usd": 2.19725,
+      "delta_vs_A_usd": 0.08355
+    },
+    "failure": {
+      "sol_uncached_input_added_thousands": 10,
+      "astra_output_added_thousands": 1,
+      "added_usd": 0.07,
+      "total_usd": 2.37725,
+      "delta_vs_A_usd": 0.26355
+    },
+    "status": "illustrative changes in expert input and reasoning/output; do not establish available savings or required repair"
+  },
+  "additional_prompt_sensitivity": {
+    "status": "hypothetical extra input per model request, only if not already in base budget; not measured floor or tokenizer conversion; common overhead may also affect frozen baselines",
+    "formula": "additional USD = sum(requests_by_model * P / 1000000 * model_input_rate); use cached_input_rate in all-cache-hit case",
+    "examples": {
+      "pump_modem_C": {
+        "10000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 300000,
+              "cold_usd": 0.03,
+              "all_cache_hit_usd": 0.003
+            },
+            "terra": {
+              "extra_input_tokens": 120000,
+              "cold_usd": 0.12,
+              "all_cache_hit_usd": 0.006
+            },
+            "sol": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.01
+            },
+            "astra": {
+              "extra_input_tokens": 80000,
+              "cold_usd": 0.8,
+              "all_cache_hit_usd": 0.08
+            }
+          },
+          "cold_total_usd": 1.15,
+          "all_cache_hit_total_usd": 0.099
+        },
+        "20000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 600000,
+              "cold_usd": 0.06,
+              "all_cache_hit_usd": 0.006
+            },
+            "terra": {
+              "extra_input_tokens": 240000,
+              "cold_usd": 0.24,
+              "all_cache_hit_usd": 0.012
+            },
+            "sol": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.4,
+              "all_cache_hit_usd": 0.02
+            },
+            "astra": {
+              "extra_input_tokens": 160000,
+              "cold_usd": 1.6,
+              "all_cache_hit_usd": 0.16
+            }
+          },
+          "cold_total_usd": 2.3,
+          "all_cache_hit_total_usd": 0.198
+        }
+      },
+      "software_foundation_C": {
+        "10000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 600000,
+              "cold_usd": 0.06,
+              "all_cache_hit_usd": 0.006
+            },
+            "terra": {
+              "extra_input_tokens": 150000,
+              "cold_usd": 0.15,
+              "all_cache_hit_usd": 0.0075
+            },
+            "sol": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.01
+            },
+            "astra": {
+              "extra_input_tokens": 80000,
+              "cold_usd": 0.8,
+              "all_cache_hit_usd": 0.08
+            }
+          },
+          "cold_total_usd": 1.21,
+          "all_cache_hit_total_usd": 0.1035
+        },
+        "20000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 1200000,
+              "cold_usd": 0.12,
+              "all_cache_hit_usd": 0.012
+            },
+            "terra": {
+              "extra_input_tokens": 300000,
+              "cold_usd": 0.3,
+              "all_cache_hit_usd": 0.015
+            },
+            "sol": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.4,
+              "all_cache_hit_usd": 0.02
+            },
+            "astra": {
+              "extra_input_tokens": 160000,
+              "cold_usd": 1.6,
+              "all_cache_hit_usd": 0.16
+            }
+          },
+          "cold_total_usd": 2.42,
+          "all_cache_hit_total_usd": 0.207
+        }
+      },
+      "wide_baseline": {
+        "10000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.02,
+              "all_cache_hit_usd": 0.002
+            },
+            "terra": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 0.1,
+              "all_cache_hit_usd": 0.005
+            },
+            "sol": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.01
+            },
+            "astra": {
+              "extra_input_tokens": 50000,
+              "cold_usd": 0.5,
+              "all_cache_hit_usd": 0.05
+            }
+          },
+          "cold_total_usd": 0.82,
+          "all_cache_hit_total_usd": 0.067
+        },
+        "20000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 400000,
+              "cold_usd": 0.04,
+              "all_cache_hit_usd": 0.004
+            },
+            "terra": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.01
+            },
+            "sol": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.4,
+              "all_cache_hit_usd": 0.02
+            },
+            "astra": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 1.0,
+              "all_cache_hit_usd": 0.1
+            }
+          },
+          "cold_total_usd": 1.64,
+          "all_cache_hit_total_usd": 0.134
+        }
+      },
+      "wide_luna_heavy": {
+        "10000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 1000000,
+              "cold_usd": 0.1,
+              "all_cache_hit_usd": 0.01
+            },
+            "terra": {
+              "extra_input_tokens": 250000,
+              "cold_usd": 0.25,
+              "all_cache_hit_usd": 0.0125
+            },
+            "sol": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.01
+            },
+            "astra": {
+              "extra_input_tokens": 50000,
+              "cold_usd": 0.5,
+              "all_cache_hit_usd": 0.05
+            }
+          },
+          "cold_total_usd": 1.05,
+          "all_cache_hit_total_usd": 0.0825
+        },
+        "20000": {
+          "models": {
+            "luna": {
+              "extra_input_tokens": 2000000,
+              "cold_usd": 0.2,
+              "all_cache_hit_usd": 0.02
+            },
+            "terra": {
+              "extra_input_tokens": 500000,
+              "cold_usd": 0.5,
+              "all_cache_hit_usd": 0.025
+            },
+            "sol": {
+              "extra_input_tokens": 200000,
+              "cold_usd": 0.4,
+              "all_cache_hit_usd": 0.02
+            },
+            "astra": {
+              "extra_input_tokens": 100000,
+              "cold_usd": 1.0,
+              "all_cache_hit_usd": 0.1
+            }
+          },
+          "cold_total_usd": 2.1,
+          "all_cache_hit_total_usd": 0.165
+        }
+      }
+    }
+  }
+}

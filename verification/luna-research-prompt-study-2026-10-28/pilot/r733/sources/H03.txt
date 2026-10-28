@@ -1,0 +1,87 @@
+H03 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- include/datapump/helper_tone_tracker.hpp:10-27 ---
+   10 struct ToneTrackerConfig {
+   11     std::uint32_t sample_rate=0;
+   12     double expected_hz=0,search_half_width_hz=0;
+   13     double phase_noise_radians_per_sqrt_second=0;
+   14     // Operational following gate, not a drift rate inferred from ppm accuracy.
+   15     // Unknown temperature evolution is not a prediction or a future lease.
+   16     double maximum_tracking_slew_hz_per_second=.5;
+   17     // Pure pilot with independent-aperture frequency fallback. An unretuned
+   18     // pilot may also use continuous phase below; auxiliary decoding is separate.
+   19     bool segmented_pilot=false;
+   20     // An unretuned pure pilot retains phase across publication windows and
+   21     // amplitude ramps. Explicit retunes always invalidate this coherence.
+   22     // False retains the independent200ms frequency-pooling baseline.
+   23     bool continuous_pilot=true;
+   24     // Explicit operational evolution model, not static oscillator accuracy.
+   25     // Zero retains the conditional constant-drift control. Positive values
+   26     // permit changing drift with white frequency-rate acceleration (Hz^2/s^3).
+   27     double frequency_acceleration_psd_hz2_per_second3=0;
+
+
+--- include/datapump/helper_tone_tracker.hpp:62-88 ---
+   62 struct ToneTrackerSnapshot {
+   63     std::uint64_t sample=0,captured_end_sample=0,first_sample=0;
+   64     std::uint32_t sample_rate=0;
+   65     ToneFrequencyObservation frequency_observation;
+   66     double frequency_hz=0,uncertainty_hz=0,carrier_to_noise_db_hz=0;
+   67     double frequency_rate_hz_per_second=0;
+   68     // Covariance of the locally linear frequency model evaluated at sample.
+   69     // Units are Hz^2, Hz^2/s and Hz^2/s^2, respectively. Includes measured
+   70     // residual inflation; it carries no phase authority or future lease.
+   71     double frequency_variance_hz2=0,frequency_rate_covariance_hz2_per_second=0;
+   72     double frequency_rate_variance_hz2_per_second2=0;
+   73     double frequency_model_expected_hz=0,frequency_model_residual_scale=1;
+   74     bool frequency_covariance_valid=false;
+   75     // Dated oscillator knowledge survives phase ambiguity and temporary loss.
+   76     // This alone grants no current presence/acquisition or phase authority.
+   77     bool frequency_knowledge_valid=false;
+   78     double frequency_acceleration_psd_hz2_per_second3=0;
+   79     bool present=false,qualified=false;
+   80     // Independent contexts refine the FLL; a continuous unretuned pilot also
+   81     // retains up to128s of numeric phase observations. Full frequency support
+   82     // is first_sample..sample. This conditional evolution model includes the
+   83     // declared process, measured residual inflation and a current tone witness.
+   84     // Abrupt frequency or drift changes can temporarily exceed its engineering
+   85     // uncertainty before withdrawal; it grants no future thermal/Doppler bound.
+   86     bool frequency_precision_refined=false;
+   87     bool frequency_continuous_phase=false;
+   88     std::uint64_t continuous_phase_resets=0;
+
+
+--- include/datapump/helper_tone_tracker.hpp:161-190 ---
+  161 // workspace_required/bytes include this object and its fixed owned implementation.
+  162 // Synchronous strongest-tone acquisition followed by short phase-difference
+  163 // frequency measurements. The interval is an engineering noise/variance gate,
+  164 // not a calibrated 99% confidence claim. No epoch, UTC or message authority
+  165 // is created; source-clock evidence is independently conditional. Real capture
+  166 // retains an unresolved conjugate-image/physical-sideband branch ambiguity.
+  167 // Qualified following needs the tone at least200Hz from DC/Nyquist so its
+  168 // independent nearby noise projections remain physically representable.
+  169 class ToneTracker {
+  170 public:
+  171     static std::size_t workspace_required(const ToneTrackerConfig&);
+  172     explicit ToneTracker(ToneTrackerConfig,std::size_t workspace_grant,
+  173                          std::uint64_t first_sample=0);
+  174     ~ToneTracker();
+  175     ToneTracker(ToneTracker&&)noexcept;
+  176     ToneTracker& operator=(ToneTracker&&)noexcept;
+  177     ToneTracker(const ToneTracker&)=delete;
+  178     ToneTracker& operator=(const ToneTracker&)=delete;
+  179     std::size_t workspace_bytes()const noexcept;
+  180     void reset(std::uint64_t first_sample=0)noexcept;
+  181     void push(std::span<const float>,std::uint64_t first_sample);
+  182     // Call at an actual retune boundary, before its first new sample. The phase
+  183     // is always invalidated. Frequency records survive only with an explicitly
+  184     // justified model: (observed_hz-expected_hz)/residual_scale is the common
+  185     // quantity. A single tone cannot establish RF versus audio-clock scaling.
+  186     // A nonzero settled_end_sample is the caller-justified EXCLUSIVE end of
+  187     // the usable straight-pilot aperture. No Helper-calendar/ramp alignment is
+  188     // inferred or subtracted. Its Hann kernel assumes constant amplitude
+  189     // within each row. It requests one bounded full-dwell fit with one causal
+  190     // reprojection of its discovery PCM. Phase remains

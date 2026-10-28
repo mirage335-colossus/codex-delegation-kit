@@ -1,5 +1,14 @@
 # Contributing
 
+Cost documentation uses the [weekly usage cost definition](policy.md#weekly-usage-cost)
+for Desktop Codex included allowance: user-provided Luna = 0.1, Terra = 1, Sol
+approximately 10, Astra approximately 20. Keep that rough unitless index distinct
+from API dollars, purchased-credit rates and measured usage. Preserve historical
+evidence and dated API examples; annotate their scope rather than rewriting
+measurements. A cost estimate grants no permission to change routing or pins.
+For the current Luna evidence-discovery strategy and its limits, see
+[policy.md](policy.md#evidence-discovery-and-terra-screening).
+
 The maintained runtime source includes the policy, installer, advisory helper,
 controller modules, operating guide, and nine files in `agents/`. The installed
 bundle is a copy of the explicit twenty-one-file `FILES` list in `install.py`;

@@ -7,15 +7,15 @@
   "source": {
     "digest": "52ff84dd164c5eafb714b8aff491d16758a244758f776737535df46b69a1c096",
     "revision": null,
-    "root": "/tmp/delegation-swarm-main/source"
+    "root": "unbundled-runtime/run-h954e2065e97c08aa/source"
   },
-  "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
-  "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
+  "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+  "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
   "proposed_result": null,
   "diagnostic": {
     "cutoff": "swarm experiment reached its assigned time limit; no engineering outcome established",
     "evidence": [
-      "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
     ],
     "findings": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
     "outcome": "inconclusive"
@@ -24,11 +24,11 @@
   "cleanup": {
     "at": 1792559055.6088707,
     "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
-    "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+    "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
     "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
     "completed_at": 1792559055.6115592,
     "state": "complete",
-    "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+    "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
     "workspace_identity": {
       "device": 46,
       "inode": 399755
@@ -38,13 +38,13 @@
   "commands": [
     {
       "aggregatedOutput": "files:\ntotals.py\ntest_totals.py\nAGENTS.md\n",
-      "command": "/bin/bash -lc \"python3 -B -c 'from pathlib import Path; root=Path(\\\".\\\"); print(\\\"files:\\\"); [print(p) for p in root.rglob(\\\"*\\\") if p.is_file() and (p.name == \\\"AGENTS.md\\\" or \\\"total\\\" in p.name.lower())]'\"",
+      "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from pathlib import Path; root=Path(\\\".\\\"); print(\\\"files:\\\"); [print(p) for p in root.rglob(\\\"*\\\") if p.is_file() and (p.name == \\\"AGENTS.md\\\" or \\\"total\\\" in p.name.lower())]'\"",
       "completed": true,
       "completed_at": 1792559039.655703,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
       "durationMs": 0,
       "exitCode": 0,
-      "id": "exec-a2ea4c30-3874-4de9-bd06-60ef1eda52ce",
+      "id": "exec-study-id-hb2d516d073fb9581",
       "observed_at": 1792559039.6551614,
       "output_truncated": false,
       "processId": "88435",
@@ -53,13 +53,13 @@
     },
     {
       "aggregatedOutput": "# Disposable totals fixture\n\nUse Python's standard library and the existing unittest entrypoint. Preserve\nall original assertions and parser behavior. Do not commit, publish, access\nnetwork services, or modify global configuration. Managed assignments use a\nprivate controller copy; the original repository remains read-only. Experimental\nwrappers belong only in the assignment's declared private scratch scope.\n\n--- totals.py ---\n\"\"\"Parse comma-separated integers and total every value in order.\"\"\"\n\n\ndef parse_values(text):\n    return [int(piece.strip()) for piece in text.split(\",\") if piece.strip()]\n\n\ndef aggregate(values):\n    return sum(values[1:])\n\n\ndef total(text):\n    return aggregate(parse_values(text))\n\n",
-      "command": "/bin/bash -lc \"python3 -B -c 'from pathlib import Path; print(Path(\\\"AGENTS.md\\\").read_text()); print(\\\"--- totals.py ---\\\"); print(Path(\\\"totals.py\\\").read_text())'\"",
+      "command": "system-fixture/bin/bash -lc \"python3 -B -c 'from pathlib import Path; print(Path(\\\"AGENTS.md\\\").read_text()); print(\\\"--- totals.py ---\\\"); print(Path(\\\"totals.py\\\").read_text())'\"",
       "completed": true,
       "completed_at": 1792559040.965302,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
       "durationMs": 0,
       "exitCode": 0,
-      "id": "exec-dcefc320-8708-4c32-bea9-57657156f3c9",
+      "id": "exec-study-id-ha74778e2fd307105",
       "observed_at": 1792559040.964837,
       "output_truncated": false,
       "processId": "10511",
@@ -68,12 +68,12 @@
     },
     {
       "aggregatedOutput": "",
-      "command": "/bin/bash -lc \"python3 -B -c 'import time, totals; print(\\\"baseline:\\\", totals.total(\\\"2,3\\\"), flush=True); time.sleep(60); print(\\\"after-delay:\\\", totals.total(\\\"2,3\\\"), flush=True)'\"",
+      "command": "system-fixture/bin/bash -lc \"python3 -B -c 'import time, totals; print(\\\"baseline:\\\", totals.total(\\\"2,3\\\"), flush=True); time.sleep(60); print(\\\"after-delay:\\\", totals.total(\\\"2,3\\\"), flush=True)'\"",
       "completed": false,
-      "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+      "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
       "durationMs": null,
       "exitCode": null,
-      "id": "exec-6bcebc77-a9f1-4716-999d-aece75fa8d08",
+      "id": "exec-study-id-h42d240c91ce99d40",
       "observed_at": 1792559043.0433633,
       "output_truncated": false,
       "processId": "79015",
@@ -91,22 +91,22 @@
   "effective": {
     "activePermissionProfile": null,
     "approvalPolicy": "never",
-    "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+    "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
     "environments": [
       {
-        "cwd": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+        "cwd": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
         "environmentId": "local",
         "runtimeWorkspaceRoots": [
-          "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
         ]
       }
     ],
     "model": "gpt-6-luna",
     "modelProvider": "openai",
     "reasoningEffort": "medium",
-    "requested_workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+    "requested_workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
     "runtimeWorkspaceRoots": [
-      "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
     ],
     "sandbox": {
       "excludeSlashTmp": true,
@@ -124,10 +124,12 @@
       "networkAccess": false,
       "type": "workspaceWrite",
       "writableRoots": [
-        "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+        "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
       ]
     },
     "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
   },
-  "helper_history": []
+  "helper_history": [],
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

@@ -1,0 +1,199 @@
+# R13: Editor flow execution and terminal-state behavior
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `visual/flow/flow.cpp` lines 417-467
+
+```text
+ 417             if (result.consumed.size() != ctx.inputs_.size() || result.produced.size() != ctx.outputs_.size() ||
+ 418                 result.close_outputs.size() != ctx.outputs_.size())
+ 419                 throw std::runtime_error("Work resized port count arrays");
+ 420             if (result.status == WorkStatus::error)
+ 421                 throw std::runtime_error(result.error.empty() ? "Work reported error" : result.error);
+ 422             if (result.status != WorkStatus::progress && result.status != WorkStatus::waiting &&
+ 423                 result.status != WorkStatus::finished)
+ 424                 throw std::runtime_error("Work returned an invalid status");
+ 425             std::uint64_t consumed = 0, produced = 0;
+ 426             bool progress = result.state_changed || result.status == WorkStatus::finished;
+ 427             for (std::size_t i = 0; i < ctx.inputs_.size(); ++i) {
+ 428                 const auto* p = ctx.inputs_[i];
+ 429                 if (result.consumed[i] > (p ? p->count : 0) || result.consumed[i] < ctx.taken_[i])
+ 430                     throw std::runtime_error("input " + specs_[instance.id].inputs[i].id + ": invalid consumed prefix");
+ 431                 consumed += result.consumed[i];
+ 432             }
+ 433             for (std::size_t i = 0; i < ctx.outputs_.size(); ++i) {
+ 434                 const auto* p = ctx.outputs_[i];
+ 435                 const auto offered = p && !p->producer_closed && !p->consumer_closed ? p->available() : 0;
+ 436                 if (result.produced[i] > offered || (p && !p->trivial() && result.produced[i] != p->staged) ||
+ 437                     (p && p->staged > result.produced[i]))
+ 438                     throw std::runtime_error("output " + specs_[instance.id].outputs[i].id + ": invalid produced/constructed count");
+ 439                 produced += result.produced[i];
+ 440                 progress |= result.close_outputs[i] && p && !p->producer_closed;
+ 441             }
+ 442             for (const auto& w : result.waits) {
+ 443                 if (w.kind != WaitCondition::Kind::input && w.kind != WaitCondition::Kind::output &&
+ 444                     w.kind != WaitCondition::Kind::external && w.kind != WaitCondition::Kind::timer)
+ 445                     throw std::runtime_error("waiting condition has an invalid kind");
+ 446                 if ((w.kind == WaitCondition::Kind::input && w.port >= ctx.inputs_.size()) ||
+ 447                     (w.kind == WaitCondition::Kind::output && w.port >= ctx.outputs_.size()))
+ 448                     throw std::runtime_error("waiting condition names invalid port");
+ 449             }
+ 450             progress |= consumed || produced;
+ 451             if (result.status == WorkStatus::progress && !progress)
+ 452                 throw std::runtime_error("Work reported progress without items or state change");
+ 453             // Publish before consuming: a seeded self-edge can offer both leases
+ 454             // in one Work call, and its original tail must stay correctly based.
+ 455             for (std::size_t i = 0; i < ctx.outputs_.size(); ++i) {
+ 456                 if (auto* p = ctx.outputs_[i]) {
+ 457                     p->publish(result.produced[i]);
+ 458                     if (result.close_outputs[i] && !p->producer_closed) { p->producer_closed = true; ++p->revision; }
+ 459                 }
+ 460             }
+ 461             for (std::size_t i = 0; i < ctx.inputs_.size(); ++i)
+ 462                 if (auto* p = ctx.inputs_[i]) p->consume(result.consumed[i]);
+ 463             {
+ 464                 std::lock_guard lock(mutex_);
+ 465                 ++snapshot_.work_calls;
+ 466                 snapshot_.items_consumed += consumed;
+ 467                 snapshot_.items_produced += produced;
+```
+
+## `editor/tests/flow_test.cpp` lines 300-410
+
+```text
+ 300     const auto delayed = seeded.add({"delay", {PortSpec::typed<int>("in")}, {PortSpec::typed<int>("out")}, [&] {
+ 301         return make_block([seed = true, &observed](WorkContext& c, WorkResult& r) mutable {
+ 302             auto in = c.input<int>(0); auto out = c.output<int>(0);
+ 303             if (seed) {
+ 304                 out[0] = 1; r.produced[0] = 1; r.status = WorkStatus::waiting;
+ 305                 r.waits.push_back(WaitCondition::input(0)); seed = false;
+ 306             }
+ 307             else if (!in.empty() && !out.empty()) {
+ 308                 observed.push_back(in[0]); out[0] = in[0] + 1;
+ 309                 r.consumed[0] = 1; r.produced[0] = 1;
+ 310                 r.status = in[0] == 5 ? WorkStatus::finished : WorkStatus::progress;
+ 311             }
+ 312         });
+ 313     }, true});
+ 314     seeded.connect(delayed, 0, delayed, 0, 2); seeded.start(RunMode::cooperative); complete(seeded);
+ 315     assert(observed == std::vector<int>({1, 2, 3, 4, 5}));
+ 316 
+ 317     Graph stalled;
+ 318     stalled.add({"wait", {}, {}, [] { return make_block([](WorkContext&, WorkResult&) {}); }});
+ 319     stalled.start(RunMode::cooperative); stalled.step(2);
+ 320     assert(stalled.snapshot().state == GraphState::failed);
+ 321     assert(stalled.snapshot().error.find("stalled") != std::string::npos);
+ 322 }
+ 323 
+ 324 void stop_wake_command_and_worker() {
+ 325     Graph waiting(GraphOptions{1024, 8192, 64 * 1024 * 1024, 1});
+ 326     bool finish = false;
+ 327     waiting.add({"external", {}, {}, [&] {
+ 328         return make_block([&](WorkContext&, WorkResult& r) {
+ 329             r.status = finish ? WorkStatus::finished : WorkStatus::waiting;
+ 330             if (!finish) r.waits.push_back(WaitCondition::external());
+ 331         });
+ 332     }});
+ 333     waiting.start(RunMode::cooperative); waiting.step(1);
+ 334     auto generation = waiting.generation();
+ 335     assert(waiting.step(1) == 0 && waiting.snapshot().state == GraphState::running);
+ 336     assert(waiting.post(generation, [&] { finish = true; }));
+ 337     assert(!waiting.post(generation, [] {}));
+ 338     complete(waiting);
+ 339 
+ 340     finish = false; waiting.start(RunMode::cooperative); waiting.step(1);
+ 341     generation = waiting.generation(); waiting.request_stop();
+ 342     assert(waiting.snapshot().state == GraphState::stopping);
+ 343     assert(!waiting.wake(generation)); waiting.join();
+ 344     assert(waiting.snapshot().state == GraphState::stopped);
+ 345 
+ 346     Graph timer;
+ 347     timer.add({"timer", {}, {}, [] {
+ 348         return make_block([initial = true](WorkContext&, WorkResult& r) mutable {
+ 349             if (initial) {
+ 350                 r.waits.push_back(WaitCondition::timer(std::chrono::steady_clock::now() + std::chrono::milliseconds(2)));
+ 351                 initial = false;
+ 352             } else r.status = WorkStatus::finished;
+ 353         });
+ 354     }});
+ 355     timer.start(); timer.join(); assert(timer.snapshot().state == GraphState::completed);
+ 356 
+ 357     Graph worker;
+ 358     std::vector<int> data;
+ 359     const auto a = source(worker, "source", 100), b = sink(worker, "sink", data);
+ 360     worker.connect(a, 0, b, 0, 7); worker.start(); worker.join();
+ 361     assert(worker.snapshot().state == GraphState::completed && data.size() == 100);
+ 362 
+ 363     std::promise<void> checking, let_return;
+ 364     auto returned = let_return.get_future().share();
+ 365     std::atomic<bool> signalled{};
+ 366     Graph wake_during_work;
+ 367     wake_during_work.add({"external-race", {}, {}, [&] {
+ 368         return make_block([first = true, &checking, &returned, &signalled](WorkContext&, WorkResult& r) mutable {
+ 369             if (first) {
+ 370                 first = false; checking.set_value(); returned.wait();
+ 371                 r.waits.push_back(WaitCondition::external());
+ 372             } else r.status = signalled.load() ? WorkStatus::finished : WorkStatus::error;
+ 373         });
+ 374     }});
+ 375     wake_during_work.start(); checking.get_future().wait();
+ 376     signalled.store(true); assert(wake_during_work.wake(wake_during_work.generation()));
+ 377     let_return.set_value(); wake_during_work.join();
+ 378     assert(wake_during_work.snapshot().state == GraphState::completed);
+ 379 
+ 380     std::promise<void> entered, release;
+ 381     auto released = release.get_future().share();
+ 382     Graph cooperative_call;
+ 383     cooperative_call.add({"bounded-call", {}, {}, [&] {
+ 384         return make_block([&](WorkContext& c, WorkResult& r) {
+ 385             entered.set_value(); released.wait();
+ 386             assert(c.cancelled()); r.status = WorkStatus::finished;
+ 387         });
+ 388     }});
+ 389     cooperative_call.start(); entered.get_future().wait();
+ 390     cooperative_call.request_stop();
+ 391     assert(cooperative_call.snapshot().state == GraphState::stopping);
+ 392     release.set_value(); cooperative_call.join();
+ 393     assert(cooperative_call.snapshot().state == GraphState::stopped);
+ 394 }
+ 395 
+ 396 void output_close_independent() {
+ 397     Graph graph;
+ 398     std::vector<int> short_stream, long_stream;
+ 399     const auto a = graph.add({"split-rate-source", {}, {PortSpec::typed<int>("short"), PortSpec::typed<int>("long")}, [] {
+ 400         return make_block([next = 0](WorkContext& c, WorkResult& r) mutable {
+ 401             const auto short_out = c.output<int>(0), long_out = c.output<int>(1);
+ 402             if (!next && !short_out.empty()) { short_out[0] = 77; r.produced[0] = 1; r.close_outputs[0] = true; }
+ 403             if (!long_out.empty()) { long_out[0] = next++; r.produced[1] = 1; }
+ 404             r.status = next == 8 ? WorkStatus::finished : r.produced[1] ? WorkStatus::progress : WorkStatus::waiting;
+ 405         });
+ 406     }});
+ 407     const auto b = sink(graph, "short", short_stream), c = sink(graph, "long", long_stream);
+ 408     graph.connect(a, 0, b, 0, 1); graph.connect(a, 1, c, 0, 2);
+ 409     graph.start(RunMode::cooperative); complete(graph);
+ 410     assert(short_stream == std::vector<int>({77}) && long_stream.size() == 8);
+```
+
+## `editor/CMakeLists.txt` lines 130-148
+
+```text
+ 130 if(FOUNDATION_EDITOR_TESTS)
+ 131   enable_testing()
+ 132   file(GLOB editor_tests CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*_test.cpp")
+ 133   foreach(source IN LISTS editor_tests)
+ 134     get_filename_component(name "${source}" NAME_WE)
+ 135     add_executable("foundation-editor-${name}" "${source}")
+ 136     target_link_libraries("foundation-editor-${name}" PRIVATE foundation_editor_core)
+ 137     if(name MATCHES "^(application|ui|canvas)_test$")
+ 138       if(NOT TARGET foundation_editor_ui)
+ 139         add_library(foundation_editor_ui STATIC ui/application.cpp ui/canvas.cpp)
+ 140         target_link_libraries(foundation_editor_ui PUBLIC foundation_editor_core)
+ 141         foundation_options(foundation_editor_ui)
+ 142       endif()
+ 143       target_link_libraries("foundation-editor-${name}" PRIVATE foundation_editor_ui)
+ 144     endif()
+ 145     foundation_options("foundation-editor-${name}")
+ 146     add_test(NAME "editor.${name}" COMMAND "foundation-editor-${name}")
+ 147     set_tests_properties("editor.${name}" PROPERTIES TIMEOUT 45 LABELS editor)
+ 148   endforeach()
+```

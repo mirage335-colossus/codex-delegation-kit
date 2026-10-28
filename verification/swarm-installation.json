@@ -1,7 +1,7 @@
 {
   "source_revision": "3c8b2c38907fe069d74d28bf750cbf084c79c762",
-  "source_directory": "/home/user/___quick/maintenance-cloud/codex-delegation-kit",
-  "installed_directory": "/home/user/.codex/delegation-kit",
+  "source_directory": "repository root",
+  "installed_directory": "unbundled-installation/delegation-kit",
   "manifest_source_verified": true,
   "files": {
     "README.md": true,
@@ -33,9 +33,9 @@
   "global_AGENTS_unchanged": true,
   "test_trust_cleanup": {
     "removed_test_trust_entries": [
-      "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
-      "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
-      "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
+      "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae"
     ],
     "before_cleanup_sha256": "fd989eb7747b8a76b1882450762708e2dcc755849412a591d40766decca505ea",
     "after_cleanup_sha256": "133c1d67f9d3520ed21df71cd2438c66df51a10a2d6d0027d6bb77bb9c800eae",
@@ -68,5 +68,7 @@
     "agents/inherited_swarm.toml": "6b3d17f9165b29c6e6cb58298cd73fe84f474f09fab05d5461a98292e8bfdcb6",
     "agents/luna_swarm.toml": "4d33e4f95fabaa1d7a3566d63b9e36d7e89013c162da40bda7a03f5efc23ffbf"
   },
-  "live_run_runtime_matches_final_source": true
+  "live_run_runtime_matches_final_source": true,
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

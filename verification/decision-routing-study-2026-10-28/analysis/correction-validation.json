@@ -1,0 +1,774 @@
+{
+  "checked_utc": "2026-10-28T20:28:44.599235+00:00",
+  "purpose": "Independent correction arithmetic and explicit scope checks; not estimate calibration",
+  "passed": true,
+  "checks_count": 141,
+  "failures": [],
+  "checks": [
+    {
+      "check": "original correction row preserved L5",
+      "passed": true
+    },
+    {
+      "check": "original correction row preserved L6",
+      "passed": true
+    },
+    {
+      "check": "L5 shared low",
+      "passed": true
+    },
+    {
+      "check": "L5 input components low",
+      "passed": true
+    },
+    {
+      "check": "L5 cached subset low",
+      "passed": true
+    },
+    {
+      "check": "L5 independent cost low",
+      "passed": true
+    },
+    {
+      "check": "L5 shared high",
+      "passed": true
+    },
+    {
+      "check": "L5 input components high",
+      "passed": true
+    },
+    {
+      "check": "L5 cached subset high",
+      "passed": true
+    },
+    {
+      "check": "L5 independent cost high",
+      "passed": true
+    },
+    {
+      "check": "L5 no cache",
+      "passed": true
+    },
+    {
+      "check": "L5 first request cold",
+      "passed": true
+    },
+    {
+      "check": "L6 shared low",
+      "passed": true
+    },
+    {
+      "check": "L6 input components low",
+      "passed": true
+    },
+    {
+      "check": "L6 cached subset low",
+      "passed": true
+    },
+    {
+      "check": "L6 independent cost low",
+      "passed": true
+    },
+    {
+      "check": "L6 shared high",
+      "passed": true
+    },
+    {
+      "check": "L6 input components high",
+      "passed": true
+    },
+    {
+      "check": "L6 cached subset high",
+      "passed": true
+    },
+    {
+      "check": "L6 independent cost high",
+      "passed": true
+    },
+    {
+      "check": "L6 no cache",
+      "passed": true
+    },
+    {
+      "check": "L6 first request cold",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/new_conversations",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/reused_requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/reused_requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/cached_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/output_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/cached_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/output_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/common_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/common_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/payload_history_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/payload_history_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/luna/usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/new_conversations",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/reused_requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/reused_requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/cached_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/output_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/cached_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/output_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/common_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/common_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/payload_history_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/payload_history_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/terra/usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/new_conversations",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/reused_requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/reused_requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/cached_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/output_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/cached_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/output_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/common_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/common_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/payload_history_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/payload_history_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/sol/usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/new_conversations",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/reused_requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/reused_requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/cached_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/output_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/cached_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/output_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/common_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/common_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/payload_history_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/payload_history_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate False/astra/usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total base_usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total base_usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total base_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/new_conversations",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/reused_requests_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/reused_requests_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/cached_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/output_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/cached_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/output_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/common_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/common_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/payload_history_input_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/payload_history_input_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected aggregate True/sol/usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total conditional_reserve_usd_low",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total conditional_reserve_usd_high",
+      "passed": true
+    },
+    {
+      "check": "carrier corrected total conditional_reserve_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment shared low",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment input components low",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment cached subset low",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment independent cost low",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment shared high",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment input components high",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment cached subset high",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment independent cost high",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment no cache",
+      "passed": true
+    },
+    {
+      "check": "p29 conditional acceptance increment first request cold",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p29/total_usd_low",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p29/total_usd_low",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p29/total_usd_high",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p29/total_usd_high",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p29/total_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p29/total_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p61/total_usd_low",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p61/total_usd_low",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p61/total_usd_high",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p61/total_usd_high",
+      "passed": true
+    },
+    {
+      "check": "regression original full-trigger total p61/total_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "regression corrected full-trigger total p61/total_usd_low_no_cache",
+      "passed": true
+    },
+    {
+      "check": "regression Luna explicit coverage correction",
+      "passed": true
+    }
+  ],
+  "initial_assigned_source_units_by_model": {
+    "p17": {
+      "luna": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "terra": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H12"
+      ],
+      "sol": [
+        "H01",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "astra": [
+        "H03",
+        "H04",
+        "H05"
+      ]
+    },
+    "p43": {
+      "luna": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "terra": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "sol": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "astra": [
+        "H03",
+        "H04",
+        "H05"
+      ]
+    },
+    "p61": {
+      "luna": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R11",
+        "R13"
+      ],
+      "terra": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "sol": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "astra": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ]
+    },
+    "p29": {
+      "luna": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "terra": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "sol": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "astra": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ]
+    }
+  },
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
+}

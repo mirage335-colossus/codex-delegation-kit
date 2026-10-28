@@ -1,0 +1,174 @@
+{
+  "scope": "Label-blinded carrier screen only; no arm map, selection, or new research",
+  "counts": {
+    "n641": {
+      "lower": 2,
+      "upper": 2,
+      "unresolved": 0
+    },
+    "n273": {
+      "lower": 1,
+      "upper": 1,
+      "unresolved": 0
+    },
+    "n532": {
+      "lower": 0,
+      "upper": 1,
+      "unresolved": 1
+    },
+    "n685": {
+      "lower": 1,
+      "upper": 1,
+      "unresolved": 0
+    }
+  },
+  "bounds_note": "Upper includes unresolved potentially qualified finding. s2 verifier JSON records n532 upper 0 despite unresolved 1; this screen uses 1 under common scoring unresolved lower/upper contract; neither value treats transfer as false.",
+  "case_identity_note": "n641 folder is assigned identity; its raw report case_id is r733 (seed ID). n273 raw report says n273; s1 verifier incorrectly states its report_case_id is r733. Preserve origin and seed separately.",
+  "stage_rows": [
+    {
+      "case": "n641",
+      "seed": "s1/r733",
+      "origin": "n641/F6",
+      "source": "S5",
+      "claim": "Short real-record negative spectral image bias; analytic signal or negative-line subtraction",
+      "access": "CityUHK abstract OP05; official IEICE listing OP10; full text not inspected",
+      "locator": "https://scholars.cityu.edu.hk/en/publications/short-time-frequency-estimation-of-a-real-sinusoid/",
+      "publication": "2005 IEICE journal letter verified; CityUHK institutional classification peer reviewed",
+      "support": "abstract-limited",
+      "applicability": "Real capture image ambiguity maps to a test; stationary model and receiver transfer uncertain",
+      "discriminator": "Vary phase and aperture; compare one image correction and measure signed bias, tails, branch and false admissions",
+      "novelty": "New source-backed mechanism compared with s1 complex-tone baseline",
+      "verifier": "s1 V1/V2; qualified",
+      "terra": "retained",
+      "strict_prefix": "eligible OP05/OP10",
+      "expert": "not individually assessed"
+    },
+    {
+      "case": "n641",
+      "seed": "s1/r733",
+      "origin": "n641/F7",
+      "source": "S6",
+      "claim": "Specific Kay estimator fixed-SNR consistency caveat under stated model",
+      "access": "Publisher-indexed Wiley abstract OP07; OP04 failed; full paper not inspected",
+      "locator": "https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-9892.00205",
+      "publication": "2000 Wiley journal article; Macquarie institutional peer-reviewed classification",
+      "support": "abstract-limited",
+      "applicability": "Qualifies a comparator; precise implementation variant correspondence unresolved",
+      "discriminator": "Finite-aperture known-frequency signed bias and tails versus independent reference",
+      "novelty": "New caution on s1 Kay comparator",
+      "verifier": "s1 V3/V4; qualified",
+      "terra": "retained",
+      "strict_prefix": "eligible OP07",
+      "expert": "not individually assessed"
+    },
+    {
+      "case": "n273",
+      "seed": "s1/r733",
+      "origin": "n273/F1",
+      "source": "S1",
+      "claim": "Real-tone negative image induces phase/record-dependent short-record bias; correction families",
+      "access": "Primary paper pp. III-391–394, abstract and sections I–III; op3 PDF and op6 extracted text",
+      "locator": "https://www.ee.cityu.edu.hk/~hcso/iscas00_2.pdf",
+      "publication": "2000 IEEE ISCAS proceedings, author-list confirmation op10; peer review unknown",
+      "support": "direct primary text",
+      "applicability": "H03 real capture ambiguity suggests a discriminator; AWGN/stationary/short-record conditions may not match",
+      "discriminator": "Matched real PCM, vary phase and aperture, compare image correction and local fit; score tails, admissions and chunks",
+      "novelty": "New source-backed mechanism versus s1 complex-tone baseline",
+      "verifier": "s1 V1/V2/V5; qualified",
+      "terra": "retained",
+      "strict_prefix": "eligible content op3/op6; op10 within individual budget",
+      "expert": "not individually assessed"
+    },
+    {
+      "case": "n532",
+      "seed": "s2/r842",
+      "origin": "n532/N-F1",
+      "source": "N1",
+      "claim": "GNSS periodic-code double dwell trades detection, false alarms and acquisition time",
+      "access": "J-STAGE article abstract op8; full text restricted",
+      "locator": "https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article",
+      "publication": "2016 IEICE journal publication verified; peer review unknown",
+      "support": "direct abstract for GNSS claim",
+      "applicability": "Unresolved helper analogue; H05/H06 already have staged looks and confirmation, and seed already proposes related metrics",
+      "discriminator": "If still a live policy choice, compare specified current staged and fixed dwell at matched false-publication rate",
+      "novelty": "Source-level policy new, incremental decision value beyond seed and excerpts unresolved",
+      "verifier": "s2-v1; source verified, incremental value unresolved",
+      "terra": "unresolved; not rejected as false",
+      "strict_prefix": "eligible n532-op-8",
+      "expert": "not individually assessed"
+    },
+    {
+      "case": "n685",
+      "seed": "s2/r842",
+      "origin": "n685/F5",
+      "source": "S6",
+      "claim": "Profile time-varying amplitude to a periodogram-like criterion; frequency-difference amplitude test",
+      "access": "Publisher-indexed abstract op08; direct publisher opens op05/op11 HTTP 403; full paper unavailable",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S105120049890330X",
+      "publication": "1999 Digital Signal Processing regular journal article; peer review unknown",
+      "support": "abstract-limited; real-envelope and additive-disturbance qualifiers not verified by abstract",
+      "applicability": "Plausible ramp-window test; helper equivalence, finite-SNR, interference and cost unresolved",
+      "discriminator": "Matched stationary/ramped constant-amplitude versus envelope profile, with absent and auxiliary controls, tails, nonpublications and work",
+      "novelty": "Distinct envelope formulation and amplitude test versus s2 Doppler-spread and stationary baselines",
+      "verifier": "s2-v3/v4; qualified as candidate discriminator",
+      "terra": "retained with qualification",
+      "strict_prefix": "eligible op08",
+      "expert": "not individually assessed"
+    }
+  ],
+  "deduplicated_union": [
+    {
+      "mechanism": "real-tone negative image bias and correction",
+      "origins": [
+        "n641/F6",
+        "n273/F1"
+      ],
+      "lower": 1,
+      "upper": 1
+    },
+    {
+      "mechanism": "specific Kay estimator consistency caveat",
+      "origins": [
+        "n641/F7"
+      ],
+      "lower": 1,
+      "upper": 1
+    },
+    {
+      "mechanism": "unknown-envelope estimation and variation test",
+      "origins": [
+        "n685/F5"
+      ],
+      "lower": 1,
+      "upper": 1
+    },
+    {
+      "mechanism": "GNSS staged acquisition policy transfer to helper",
+      "origins": [
+        "n532/N-F1"
+      ],
+      "lower": 0,
+      "upper": 1
+    }
+  ],
+  "seed_retained": {
+    "s1/r733": "Rife threshold/outlier caution, Kay and coherent lag comparison, uncertainty versus presence and frequency-only authority; Kay 1984 retrieval lead. Original Rife page locator exceeded logged access; independent confirmation does not upgrade original provenance.",
+    "s2/r842": "Threshold/tails, block/Kay and lag/range, stationary versus time-varying/Doppler-spread comparisons, reset/chunk and absence controls. Doppler spread is not established as oscillator drift. Peer-review labels S1–S5 unverified."
+  },
+  "strict_budget": "All evidence operations within each case 16 total/8 queries/10 opens, failed operations count. n641 10 (6 queries/3 opens/1 click); n273 10 (5/5); n532 10 (8/2); n685 11 (6/5). s1 verifier concatenated 16-op sensitivity retains n641 content and n273 op3/op6, excludes n273 op10; pair aggregate is not the per-case allocation. n273 elapsed ~12m20s, estimated; time target exceeded ~20s, not operation budget.",
+  "handoff_defects": [
+    "n641 report mislabeled case_id r733; n273 verifier misreports raw case_id r733.",
+    "s1 seed Rife original locator exceeds logged access; independently confirmed passage is separate.",
+    "n532 broad incremental claim omits existing staged excerpts and overlapping seed metrics; transfer and value unresolved.",
+    "n685 real-envelope and additive disturbance qualifiers unsupported by accessible abstract; method and receiver mapping need confirmation.",
+    "Expert has not individually assessed these rows; no expert acceptance or extrapolated project performance."
+  ],
+  "rejected_or_unresolved_candidates": [
+    "n273 Aboutanios–Mulgrew interpolation deemed redundant by researcher; verifier did not re-open it, so overlap unconfirmed.",
+    "n273 colored-noise/compressed-measurement leads lacked established fit.",
+    "n641 unknown-frequency detection and nonstationary leads had no opened primary content.",
+    "n532 Jaffer sequential DFT primary source inaccessible; GNSS/CFAR abstracts mostly overlapping and model-limited.",
+    "n685 ION GNSS numeric results and further CRB citations do not establish helper-specific behavior; retain as model-limited leads."
+  ],
+  "decision_packet": "The 6 s, 0.10 Hz and 95% targets and 24/30 dB-Hz levels are hypothetical, not measured feasibility. Preserve frequency-only authority; score presence separately. Seed r733/r842 evidence calls for error tails and nonpublications, not CRB or finite uncertainty alone; compare block/Kay and coherent lags on matched captures, including resets, chunks, absent tone, and stationary versus changing conditions. Doppler spread is not established as oscillator drift. The seed Rife page locator exceeds its logged access; independent confirmation does not repair the researcher's provenance.\n\nA real-tone negative spectral image can bias short-window frequency estimates: n641 F6 (2005 IEICE letter, CityUHK abstract OP05/official listing OP10; peer-reviewed institutional classification) and n273 F1 (2000 ISCAS paper pp. III-391–394, op3/op6; peer review unknown) share one mechanism. Vary start phase and aperture and test image correction, without assuming receiver benefit. n641 F7 (Quinn, Wiley abstract OP07, Macquarie peer-reviewed classification) cautions that a specific Kay estimator can be inconsistent under its model; verify variant identity and compare finite-aperture signed bias to a reference. Neither predicts receiver performance.\n\nn685 F5 (Besson–Stoica, publisher-indexed abstract op08, direct page 403, peer review unknown) motivates comparing constant-amplitude and envelope-profile fits on matched stationary/ramped windows, with false admissions, nonpublications and computation. Real-envelope and additive-noise qualifiers are not confirmed by that abstract; model fit and budget remain open. n532 N-F1's J-STAGE abstract (op8, peer review unknown) supports GNSS double dwell, but its code periodicity has no established helper analogue and existing excerpts already stage looks; compare staged versus fixed only if a live policy choice, at matched false-publication rate. Transfer and incremental value remain unresolved.\n\nUseful rejected leads: n273 interpolation may overlap seed coarse/fine work but was not independently rechecked; n532 Jaffer sequential DFT lacks accessible primary content; n685 GNSS numeric gains do not transfer. No architecture, calibrated confidence, false-publication rate or target success is established; expert review remains outstanding."
+}

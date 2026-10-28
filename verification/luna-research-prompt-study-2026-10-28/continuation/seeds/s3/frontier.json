@@ -1,0 +1,25 @@
+{
+  "seed": "s3",
+  "status": "optional research leads; not acceptance or architecture",
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Do staged investigations yield useful alternatives and discriminators for mixed-model architecture research with manageable review burden?",
+      "seed_basis": "staged-research / agentless https://lingming.cs.illinois.edu/publications/fse2025.pdf; unresolved direct transfer from issue repair",
+      "decision_use": "Whether a staged research prompt merits a matched evaluation."
+    },
+    {
+      "id": "Q2",
+      "question": "Do verification questions expose independently supported counterevidence when shared assumptions may persist?",
+      "seed_basis": "independent-verification / cove https://aclanthology.org/2024.findings-acl.212/; same-model checks and factual-QA transfer limits",
+      "decision_use": "Whether the verification step adds value to the handoff."
+    },
+    {
+      "id": "Q3",
+      "question": "How should useful alternatives and concise handoffs be assessed when novelty, feasibility and detail can diverge?",
+      "seed_basis": "alternatives-and-rankers / idea_study https://arxiv.org/abs/2409.04109; preprint, repository applicability unresolved",
+      "decision_use": "Which evaluation criteria would distinguish decision value from report length."
+    }
+  ],
+  "limitations": "Agentless and CoVe are full-text sources; the ideation study is a preprint with subsequent peer-reviewed status unknown. The verbosity concern is an inference, not an observed outcome. None validates the target workflow."
+}

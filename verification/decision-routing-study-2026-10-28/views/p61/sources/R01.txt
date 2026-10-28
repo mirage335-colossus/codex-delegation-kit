@@ -1,0 +1,88 @@
+# R01: Store validation, capacity and state preservation
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `src/store.cpp` lines 11-55
+
+```text
+  11 Store::Store(std::size_t capacity) : capacity_(capacity) {
+  12     if (capacity == 0 || capacity > max_capacity) {
+  13         throw std::invalid_argument("capacity must be 1..4096");
+  14     }
+  15 }
+  16 
+  17 void Store::validate(std::string_view text) {
+  18     static_assert(max_text_bytes == 256, "private text ABI length limit changed");
+  19     const auto status = detail::validate_text(
+  20         reinterpret_cast<const std::uint8_t*>(text.data()), text.size());
+  21     switch (status) {
+  22     case FOUNDATION_TEXT_OK:
+  23         return;
+  24     case FOUNDATION_TEXT_INVALID_LENGTH:
+  25         throw std::invalid_argument("text must contain 1..256 bytes");
+  26     case FOUNDATION_TEXT_INVALID_ASCII:
+  27         throw std::invalid_argument("text must contain printable ASCII only");
+  28     default:
+  29         throw std::logic_error("text validation component failed");
+  30     }
+  31 }
+  32 
+  33 RecordId Store::add(std::string_view text) {
+  34     validate(text);
+  35     if (records_.size() == capacity_) {
+  36         throw std::length_error("collection is full");
+  37     }
+  38     if (next_id_ == std::numeric_limits<RecordId>::max()) {
+  39         throw std::overflow_error("record identifiers exhausted");
+  40     }
+  41     const auto id = next_id_;
+  42     records_.push_back({id, std::string(text)});
+  43     ++next_id_;
+  44     return id;
+  45 }
+  46 
+  47 bool Store::update(RecordId id, std::string_view text) {
+  48     validate(text);
+  49     const auto found = std::find_if(records_.begin(), records_.end(),
+  50         [id](const Record& row) { return row.id == id; });
+  51     if (found == records_.end()) return false;
+  52     std::string replacement(text);
+  53     found->text.swap(replacement);
+  54     return true;
+  55 }
+```
+
+## `tests/store_test.cpp` lines 26-55
+
+```text
+  26 int main() {
+  27     try {
+  28         rejects<std::invalid_argument>([] { foundation::Store store(0); });
+  29         rejects<std::invalid_argument>([] { foundation::Store store(4097); });
+  30         foundation::Store store(2);
+  31         const auto a = store.add("Alpha");
+  32         const auto b = store.add("Beta");
+  33         require(a == 1 && b == 2, "initial IDs");
+  34         const auto before = store.snapshot();
+  35         rejects<std::length_error>([&] { store.add("Gamma"); });
+  36         constexpr auto length_error = "text must contain 1..256 bytes";
+  37         constexpr auto ascii_error = "text must contain printable ASCII only";
+  38         rejects_text([&] { store.add(""); }, length_error);
+  39         rejects_text([&] { store.add("bad\ntext"); }, ascii_error);
+  40         rejects_text([&] { store.update(a, std::string_view{}); }, length_error);
+  41         rejects_text([&] { store.update(a, std::string(257, 'x')); }, length_error);
+  42         rejects_text([&] { store.update(a, std::string(257, '\n')); }, length_error);
+  43         rejects_text([&] { store.update(a, "bad\ntext"); }, ascii_error);
+  44         rejects_text([&] { store.update(a, std::string("a\0b", 3)); }, ascii_error);
+  45         rejects_text([&] { store.update(0, ""); }, length_error);
+  46         rejects_text([&] { store.update(0, "bad\ntext"); }, ascii_error);
+  47         require(store.snapshot() == before, "failed operation changed state");
+  48         require(!store.update(0, "Valid") && !store.erase(0), "missing ID accepted");
+  49         require(store.update(a, std::string(256, 'x')), "maximum length rejected");
+  50         auto copy = store.get(a);
+  51         copy->text = "local";
+  52         require(store.get(a)->text.size() == 256, "copy modified owned state");
+  53         require(store.erase(a) && !store.get(a), "erase failed");
+  54         require(store.add("Gamma") == 3, "ID reused or failure consumed ID");
+  55         require(store.get(b)->text == "Beta", "unrelated record changed");
+```

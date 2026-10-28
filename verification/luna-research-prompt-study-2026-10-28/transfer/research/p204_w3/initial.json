@@ -1,0 +1,152 @@
+{
+  "assignment_id": "P204-C",
+  "conversation_id": "p204-c",
+  "model_effort": "gpt-6-luna/high (assigned; no model-setting changes)",
+  "source_identity": {
+    "project": "software-foundation",
+    "revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+    "dirty_baseline": "Scenario declares clean at preparation: git status --porcelain and git diff --stat were empty. This was not rechecked; project tree was not accessed.",
+    "kit_context": "The supplied scenario identifies codex-delegation-kit HEAD 947ed25d4058e405ecf45d6956671f6fecb12026 with existing modifications; no kit source was consulted."
+  },
+  "scope_and_execution": {
+    "read": [
+      "transfer/research/p204_w3/request.json",
+      "transfer/views/p204/contract.md",
+      "transfer/views/p204/task.md",
+      "transfer/views/p204/scenario.md",
+      "transfer/views/p204/source-index.md",
+      "transfer/views/p204/routing.md",
+      "transfer/views/p204/scout-role.toml",
+      "transfer/views/p204/sources/R07.txt",
+      "transfer/views/p204/sources/R08.txt",
+      "transfer/views/p204/sources/R11.txt",
+      "transfer/views/p204/sources/R13.txt"
+    ],
+    "excluded": "Other arm/request/results, unreleased events, project working tree/history/builds, tests and application execution.",
+    "result": "Source and literature investigation only. No project commands, test/build/configure, or runtime observations. All project outcomes remain untested."
+  },
+  "findings": [
+    {
+      "area": "R07 wheel/focus/overflow",
+      "source_evidence": [
+        "R07 gui/tests/text_frame_test.cpp:24-36: software adapter fixture checks read-only text, focus/selection retention and a fitting text child passing wheel to the parent; assertions cover text unchanged and parent offset 32.",
+        "R07 gui/tests/wheel_chaining_test.cpp:7-23,32-34: same scene helper varies text/list and overflow; overflowing child retains wheel, then a clamped child passes subsequent wheel to outer ancestor; inner group remains at zero. Read-only text selection/content are checked. Both framebuffer and terminal adapters invoke the helper.",
+        "R07 gui/tests/wheel_chaining_test.cpp:24-30: raw canvas wheel is asserted to be emitted once with target, sign, coordinates and no parent scroll.",
+        "R07 gui/patches/wheel-chaining-interaction.patch:4-15: implementation walks ancestors only when the child's offset does not change. gui/CMakeLists.txt:548-553 registers focused wheel, text-frame and web text-frame checks. Registration is not execution evidence."
+      ],
+      "practical_discriminator": "First capture exact project/mode, adapter/backend, nested widget tree and event sequence. In a single small deterministic fixture, compare fitting text, overflowing text, and overflowing text already at the relevant clamp; send the same wheel event and assert child/ancestor offsets, focus, selection, source text and any emitted canvas event. Repeat over the claimed adapter only after a concrete failure is reproduced. This separates routing/clamping from focus/rendering and canvas ownership without cross-producting all widget kinds/backends.",
+      "missing_evidence": "The hypothetical report does not identify whether a child actually overflowed, wheel direction/position, the containing pane, adapter/backend, focus state or event order. The supplied registration and test source do not establish a runtime failure or cover every GUI host."
+    },
+    {
+      "area": "R08 model/canvas displacement",
+      "source_evidence": [
+        "R08 editor/ui/canvas.cpp:157-163 maps model/view coordinates using viewport, pan and zoom and implements the inverse; lines 174-180 begin viewport-clipped hit testing with endpoint precedence.",
+        "R08 editor/tests/canvas_test.cpp:38-50 checks selected-object hit and resize handle, viewport clipping, and a model-to-view-to-model round trip after zoom=2 and pan=(25,30).",
+        "R08 editor/tests/model_test.cpp:14-22 distinguishes serialized project change from semantic generation input: moving block coordinates changes written bytes while semantic_project remains equal."
+      ],
+      "practical_discriminator": "Obtain the exact project, mode (design/preview), model field changed, prior/new value and viewport/pan/zoom. Use one block with fixed model bounds and a fixed canvas option snapshot; record model bounds, object bounds, rendered location, inverse/forward coordinate round-trip and hit-test result before/after changing exactly the reported value. If only view state changed, hold model bytes fixed and vary one of pan/zoom/viewport. This identifies whether the report is model geometry, transform, or rendering/hit-testing while preserving existing contract assertions.",
+      "missing_evidence": "‘Changing a model value’ and ‘displaced’ do not identify the field, coordinate frame, mode or intended invariant. Existing excerpts cover selected cases only; no execution or report-specific fixture is available."
+    },
+    {
+      "area": "R08 flow/truncated consumer result and R11 retained-input consumer boundary",
+      "source_evidence": [
+        "R13 visual/flow/flow.cpp:417-462 validates consumed/produced counts and staged output, publishes output before consuming input (comment says this preserves seeded self-edge tail basis), then consumes inputs; lines 463-467 update snapshot counters.",
+        "R13 editor/tests/flow_test.cpp:300-322 exercises seeded self-edge output and stalled state; lines 357-362 checks a 100-item source-to-sink run and collected vector size; lines 396-410 checks independently closing outputs. CMake registers editor tests under editor/CMakeLists.txt:130-148.",
+        "R11 gui/source_group.py:54-70 checks retained file identity/metadata around hashing. tests/test_gui_source_group.py:81-105 constructs a tiny retained-input fixture and configures a consumer using CMake; lines 107-115 verify the default selected restored source and bytes, then begin explicit-input precedence coverage. cmake/GuiInputs.cmake:5-35 selects retained group or explicit source and resolves the selected source; gui/CMakeLists.txt:7-8 calls the helper."
+      ],
+      "practical_discriminator": "For truncation, identify the concrete graph, producer, consumer, capacity, expected full sequence and collection boundary. Compare a tiny known sequence (including lengths below, equal to, and above reported capacity if capacity is implicated) through one graph and assert every value/order plus final state and counters at both flow and actual consumer. Retain source/configuration identity. For retained input, identify whether the alleged consumer is a real configured GUI build, the isolated CMake fixture, or another path; check selected source path/revision and consumer-visible bytes in that exact path before attributing flow behavior to it.",
+      "missing_evidence": "Report combines canvas displacement and flow truncation without project, graph, input length, capacity, expected result or consumer identity. R13 excerpt does not show the downstream consumer alleged in the report. R11's tiny fixture proves only its named helper/configure selection checks when run; it does not prove a full GUI/backend build or the flow consumer. Neither registered tests nor helper source show that tests ran."
+    }
+  ],
+  "research_synthesis": {
+    "controlled_fixture_first": "Prefer one falsifiable symptom-specific fixture, exact baseline/corrected comparison with matched input/configuration, and assertions on the state at the boundary where the report is observed. Existing R07 tests already offer the most useful minimal dimensions (child content fits/overflows/clamped; adapter) and explicit observables. R08 already supplies coordinate invariants and flow sequence/consumer examples, but the report's actual field and consumer are missing. This is a proposed investigation, not evidence that any test detects the hypothetical defect.",
+    "combinatorial_method": "Useful later if evidence reveals a genuine multi-factor configuration space (e.g. several GUI hosts, input modes, and independent options) and the goal changes to broad assurance. It can cover selected t-way value combinations far more cheaply than exhaustive enumeration, but it requires correctly chosen factors/levels/constraints and does not by itself model ordered stateful event sequences or establish a correctness oracle. It is not the first discriminator for these underspecified reports.",
+    "sequence_and_oracle": "GUI event ordering/context matters (Xie & Memon pilot-study abstract); evaluate intermediate expected state after each event, not only final pixels/status. Local R07 assertions exemplify a cheap partial oracle: offsets, focus, selection, event ownership and source text. For editor geometry/flow, use known invariants and the actual consumer's full result; no visual/result oracle can be inferred from the phrase ‘displaced’ or ‘truncated’.",
+    "failure_minimization": "If a failure first becomes reproducible in a longer interaction/input, delta debugging can reduce the failing circumstances or isolate a failing-vs-passing difference. It requires a stable binary/three-valued oracle and repeated executions. The classic algorithm guarantees 1-minimality under its assumptions, not necessarily a globally smallest explanation; paper discusses non-monotonic/undoing changes. It is a follow-on after reproduction, not a substitute for identifying initial project/mode/input."
+  },
+  "primary_research": [
+    {
+      "citation": "Kuhn, Kacker & Lei, Combinatorial Testing: Theory and Practice, Advances in Computers 99 (2015), NIST-hosted full chapter, https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=918448",
+      "status": "Published research chapter; primary NIST-hosted full text opened.",
+      "support": "§1.1-1.2 reports empirical fault profiles across studied domains, with many failures involving few interacting values, then explains covering arrays and input-space coverage. §6.1 reports a DOM Events experiment where 4-way covering arrays found all faults found by the discretized exhaustive set at under 5% test count (PDF lines 1078-1103). It also notes selection of values matters and coverage applies only to encoded valid combinations (lines 97-137).",
+      "applicability_limit": "This supports factor-combination reduction for an explicitly modeled configuration domain, not that 4-way suffices here. The DOM result compares a specific discretization and detected faults within that experimental subject; it is not proof for order-sensitive GUI sequences, omitted factors, or the present source."
+    },
+    {
+      "citation": "Xie & Memon, Using a Pilot Study to Derive a GUI Model for Automated Testing, ACM TOSEM (2008), author-hosted abstract, https://www.cs.umd.edu/~atif/papers/XieMemonTOSEM2008-abstract.html",
+      "status": "Published journal article; author's university publication page opened (abstract only).",
+      "support": "Abstract says a pilot study empirically derives an event-interaction graph and finds responses vary with context established by preceding events and their order; techniques are evaluated on four fielded open-source applications.",
+      "applicability_limit": "Grounds explicit sequence/context control for GUI experiments, but provides no direct result for this repository's adapters, wheel routing or canvas. Full paper was not opened for this bounded investigation."
+    },
+    {
+      "citation": "Memon, Pollack & Soffa, Automated Test Oracles for GUIs, SIGSOFT FSE 2000, author-hosted publication abstract, https://www.cs.umd.edu/~atif/pubs/MemonFSE2000-abstract.html",
+      "status": "Published conference paper; author's university publication page opened (abstract only).",
+      "support": "Describes a formal GUI model of objects/properties/actions, derives expected state per action, then compares execution-monitor state to expected state; experimental evaluation used WordPad.",
+      "applicability_limit": "Supports checking intermediate state as a practical oracle design. Its model/monitor and WordPad evaluation are distinct from the source-level framebuffer/terminal adapter tests here."
+    },
+    {
+      "citation": "Zeller & Hildebrandt, Simplifying and Isolating Failure-Inducing Input, IEEE Transactions on Software Engineering 28(2), 2002, paper PDF opened: https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/delta-debug-input.pdf",
+      "status": "Published journal article; full paper opened from university-hosted copy.",
+      "support": "Paper formalizes ddmin simplification and dd passing/failing difference isolation; case studies include Mozilla user-action sequences. It states ddmin returns a 1-minimal case, and discusses non-monotonic/undoing changes as a limitation (PDF lines 443-447, 1242-1258).",
+      "applicability_limit": "Requires a reproducible failure oracle and a defined set of circumstances to minimize. Does not diagnose an under-specified report or establish a globally minimum causal explanation."
+    },
+    {
+      "citation": "Barr et al., The Oracle Problem in Software Testing: A Survey, IEEE TSE 41(5), 2015, open-access author copy hosted at UCL: https://discovery.ucl.ac.uk/id/eprint/1471263/1/06963470.pdf",
+      "status": "Published journal survey; full author copy opened.",
+      "support": "Defines oracle as distinguishing correct from incorrect behavior; says partial oracles can come from metamorphic relations, execution, or documentation, but oracle automation remains an open bottleneck (PDF lines 15-60).",
+      "applicability_limit": "Broad survey, not a project-specific oracle or experiment result. The assertions proposed above must still come from actual contracts/consumer expectations."
+    }
+  ],
+  "contrary_evidence_and_rejections": [
+    "Do not infer pairwise or 4-way coverage is adequate from generic interaction-rule statistics. NIST's DOM study itself found 2-way coverage detected only 37.5% of faults; its successful 4-way result was subject-specific. Keep a fixture keyed to the actual symptom and preserve relevant contract checks.",
+    "Do not substitute an unordered combinatorial matrix for ordered GUI sequences: the GUI pilot evidence specifically reports preceding-event context/order effects. A later covering-array exercise would need an explicit state/sequence model, not only factor levels.",
+    "Do not treat pixel-only screenshots or test registration as proof of behavior. The report needs expected state and an oracle at the user-visible consumer; R07's concrete state assertions are stronger for its covered cases.",
+    "Rejected as not actionable for this decision: generic tool/vendor comparisons, community answers and non-primary summaries; an attempted DOI resolver page for the 2024 ACM MR-Scout article returned 403, and an alternate publisher page for the DD paper timed out. No conclusion relies on either."
+  ],
+  "next_falsifier": [
+    "R07: request exact project/mode, host/adapter, child widget kind/content extent, nesting/scroll extents, wheel coordinates/direction and event order. Then run a matched controlled fitting/overflow/clamped fixture through the identified adapter and inspect focus, selection, child/ancestor offsets and emitted event.",
+    "R08 canvas: request changed model field/value, mode, prior/new project/model identity and viewport/pan/zoom. Hold other variables constant and check model bounds, rendered object bounds, transform round trip and hit target.",
+    "R08 flow: request graph/consumer identity, input sequence and count, capacity/retention boundary, expected complete output and exact observed truncation. Check emitted/published items and the actual consumer collection in one matched run. For retained GUI inputs, record selected source path/revision and consumer before making any link to the retained-input helper."
+  ],
+  "web_operation_provenance": {
+    "budget": {
+      "logical_total_max": 16,
+      "search_query_max": 8,
+      "open_max": 10
+    },
+    "dispatched": {
+      "search_queries": 6,
+      "opens": 9,
+      "total": 15
+    },
+    "failed": [
+      {
+        "operation": "open https://issta16.cispa.saarland/papers/tse2002/ (search result study-source-ha676828756e28c28)",
+        "outcome": "fetch timeout / HTTP-like 400 tool error; no evidence extracted. Alternate Columbia-hosted full paper opened successfully."
+      },
+      {
+        "operation": "open https://doi.org/10.1145/3656340 (search result study-source-hed9d3a7b95cdcfff)",
+        "outcome": "403 Forbidden; excluded as unnecessary to assignment."
+      }
+    ],
+    "searches": [
+      "site:cs.umd.edu software testing oracle problem empirical test oracle survey paper",
+      "combinatorial interaction testing empirical study faults interaction strength NIST paper",
+      "GUI testing event sequence empirical study software testing paper oracle",
+      "delta debugging empirical study minimal failure inducing inputs paper Zeller",
+      "The Oracle Problem in Software Testing survey DOI test oracle paper empirical software",
+      "metamorphic testing formal definition test oracle software testing research paper ACM"
+    ],
+    "opened_sources": [
+      "https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=918448",
+      "https://www.cs.umd.edu/~atif/papers/XieMemonTOSEM2008-abstract.html",
+      "https://issta16.cispa.saarland/papers/tse2002/ (failed timeout)",
+      "https://www.cs.umd.edu/~atif/pubs/MemonFSE2000-abstract.html",
+      "https://www.nist.gov/publications/evaluation-fault-detection-effectiveness-combinatorial-and-exhaustive-selection",
+      "https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/delta-debug-input.pdf",
+      "https://discovery.ucl.ac.uk/id/eprint/1471263/1/06963470.pdf",
+      "https://doi.org/10.1145/3656340 (failed 403)",
+      "https://discovery.ucl.ac.uk/id/eprint/1471645/"
+    ],
+    "accounting": "Every batched query and open item counted separately, including failed opens. No further web operations were made. Search results were used for discovery; research claims above rely on opened primary/authoritative research pages or article text."
+  }
+}

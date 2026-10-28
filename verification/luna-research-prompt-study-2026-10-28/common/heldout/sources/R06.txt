@@ -1,0 +1,76 @@
+# R06: Browser polling lifecycle and transport failure handling
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `gui/host/browser_lifecycle.mjs` lines 1-12
+
+```text
+   1 // One outstanding poll is sufficient: transport order also orders task steps.
+   2 export function startPolling(client, scheduler=globalThis, interval=25) {
+   3   let stopped=false, timer=null;
+   4   const schedule=()=>{if(!stopped)timer=scheduler.setTimeout(run,interval);};
+   5   const run=()=>{
+   6     timer=null;if(stopped||client.closed)return;
+   7     if(client.failed){schedule();return;}
+   8     client.send({type:'poll'}).catch(()=>{}).finally(schedule);
+   9   };
+  10   schedule();
+  11   return ()=>{stopped=true;if(timer!==null)scheduler.clearTimeout(timer);timer=null;};
+  12 }
+```
+
+## `gui/tests/browser_lifecycle_test.mjs` lines 1-15
+
+```text
+   1 import assert from 'node:assert/strict';
+   2 import {pathToFileURL} from 'node:url';
+   3 import {resolve} from 'node:path';
+   4 const {startPolling}=await import(pathToFileURL(resolve(process.argv[2])));
+   5 const timers=new Map();let next=0,pending,requests=0;
+   6 const scheduler={setTimeout(run,delay){assert.equal(delay,25);timers.set(++next,run);return next;},clearTimeout(id){timers.delete(id);}};
+   7 const client={failed:false,closed:false,send(value){assert.deepEqual(value,{type:'poll'});++requests;return new Promise(resolve=>{pending=resolve;});}};
+   8 const run=()=>{assert.equal(timers.size,1);const [id,callback]=timers.entries().next().value;timers.delete(id);callback();};
+   9 const flush=async()=>{await Promise.resolve();await Promise.resolve();await Promise.resolve();};
+  10 const stop=startPolling(client,scheduler);run();assert.equal(requests,1);assert.equal(timers.size,0);
+  11 pending();await flush();assert.equal(timers.size,1);
+  12 client.failed=true;run();assert.equal(requests,1);assert.equal(timers.size,1);
+  13 client.failed=false;run();assert.equal(requests,2);stop();pending();await flush();assert.equal(timers.size,0);
+  14 stop();assert.equal(timers.size,0);
+  15 console.log('Single outstanding poll, failed-transport pause and owned timer teardown passed');
+```
+
+## `gui/CMakeLists.txt` lines 164-173
+
+```text
+ 164 configure_file(host/renderer_compat.mjs "${CMAKE_CURRENT_BINARY_DIR}/web/renderer.mjs" COPYONLY)
+ 165 foundation_gui_patch(backends/web/boot.mjs web-lifecycle.patch patch-inputs/boot-lifecycle.mjs)
+ 166 foundation_gui_repatch(patch-inputs/boot-lifecycle.mjs web-presentation.patch patch-inputs/boot-presentation.mjs)
+ 167 foundation_gui_repatch(patch-inputs/boot-presentation.mjs web-embedding.patch web/boot.mjs)
+ 168 foundation_gui_patch(backends/web/host.py web-assets.patch web/host.py)
+ 169 set(foundation_web_modules browser_lifecycle wasm_transport wasm_worker browser_presenter file_services
+ 170     browser_client browser_services browser_limits browser_composition renderer_channel renderer_frame browser_embedding)
+ 171 set(foundation_web_assets "${CMAKE_CURRENT_BINARY_DIR}/web/boot.mjs"
+ 172     "${CMAKE_CURRENT_BINARY_DIR}/web/renderer.mjs" "${CMAKE_CURRENT_BINARY_DIR}/web/renderer_dom.mjs")
+ 173 foreach(module IN LISTS foundation_web_modules)
+```
+
+## `gui/CMakeLists.txt` lines 190-205
+
+```text
+ 190     web-physical/renderer_surface_dom.mjs)
+ 191 foundation_gui_repatch(patch-inputs/renderer-surface-frame.mjs mouse-surface-frame.patch
+ 192     web-physical/renderer_surface_frame.mjs)
+ 193 if(BUILD_TESTING AND FOUNDATION_NODE_EXECUTABLE)
+ 194     add_test(NAME foundation.gui.worker COMMAND "${FOUNDATION_NODE_EXECUTABLE}"
+ 195         "${CMAKE_CURRENT_SOURCE_DIR}/tests/worker_test.mjs"
+ 196         "${CMAKE_CURRENT_BINARY_DIR}/web/wasm_transport.mjs"
+ 197         "${CMAKE_CURRENT_BINARY_DIR}/web/wasm_worker.mjs")
+ 198     foundation_test_prerequisites(foundation.gui.worker)
+ 199     set_tests_properties(foundation.gui.worker PROPERTIES LABELS "gui;focused" TIMEOUT 30)
+ 200     add_test(NAME foundation.gui.browser-responsiveness COMMAND "${FOUNDATION_NODE_EXECUTABLE}"
+ 201         "${CMAKE_CURRENT_SOURCE_DIR}/tests/browser_responsiveness_test.mjs" "${CMAKE_CURRENT_BINARY_DIR}/web/renderer.mjs")
+ 202     add_test(NAME foundation.gui.browser-presenter COMMAND "${FOUNDATION_NODE_EXECUTABLE}"
+ 203         "${CMAKE_CURRENT_SOURCE_DIR}/tests/browser_presenter_test.mjs"
+ 204         "${CMAKE_CURRENT_BINARY_DIR}/web/browser_presenter.mjs" "${CMAKE_CURRENT_BINARY_DIR}/web/renderer.mjs"
+ 205         "${CMAKE_CURRENT_BINARY_DIR}/web/boot.mjs")
+```

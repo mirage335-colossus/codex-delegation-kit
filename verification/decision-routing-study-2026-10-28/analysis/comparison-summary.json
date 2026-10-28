@@ -1,0 +1,130 @@
+{
+  "study": "decision-first prospective routing planning comparison",
+  "status": "planning_only_no_project_execution",
+  "arms": {
+    "carrier": {
+      "A": "p17",
+      "B": "p43"
+    },
+    "regression": {
+      "A": "p61",
+      "B": "p29"
+    }
+  },
+  "qualified_questions": {
+    "carrier": {
+      "A": {
+        "initial": 8,
+        "initial_primary_luna": 4,
+        "E1_added_luna": "1-2",
+        "E2_added": 0
+      },
+      "B": {
+        "initial": 8,
+        "initial_primary_luna": 5,
+        "E1_added_luna": "1-2",
+        "E2_added": 0
+      },
+      "sensitivity": "E1 matched chunk comparison may be refinement"
+    },
+    "regression": {
+      "A": {
+        "initial": 10,
+        "initial_primary_luna": 10,
+        "E1_added": 0,
+        "E2_added_luna": 2
+      },
+      "B": {
+        "initial": "10-11",
+        "initial_primary_luna": "10-11",
+        "E1_added": 0,
+        "E2_added_luna": 2
+      },
+      "sensitivity": "Q11 overlaps A prerequisites and retained-input work; 0-1 additional, original coder counted 1"
+    }
+  },
+  "planned_source_scope": {
+    "carrier": "both H01-H12 across assignments",
+    "regression": "A 10/13 explicitly assigned, B 13/13; R09 consulted but not assigned in A",
+    "luna_explicit_units": "carrier A 12/B 12; regression A 10/B 13"
+  },
+  "api_usd_base_and_conditional_reserve": {
+    "carrier_A": {
+      "base": [
+        0.832781,
+        9.082063
+      ],
+      "no_cache_low": 1.685517,
+      "reserve": [
+        0.078204,
+        1.121593
+      ]
+    },
+    "carrier_B": {
+      "base": [
+        0.784557,
+        8.458603
+      ],
+      "no_cache_low": 1.55435,
+      "reserve": [
+        0.091284,
+        0.962616
+      ],
+      "scope": "corrected read-only L5/L6; no explicit full campaign owner"
+    },
+    "regression_A": {
+      "base": [
+        0.695615,
+        6.565122
+      ],
+      "no_cache_low": 1.173695,
+      "reserve": [
+        0.224375,
+        2.402383
+      ]
+    },
+    "regression_B": {
+      "base": [
+        0.696362,
+        6.61699
+      ],
+      "no_cache_low": 1.181353,
+      "reserve": [
+        0.117313,
+        1.274272
+      ]
+    }
+  },
+  "interpretation": "Hypothetical endpoints, not telemetry or savings. Cached input is a subset of input; future conditional reserve is separate from base.",
+  "administration": {
+    "dispatch_counts": "12 agents, 24 native agent turns: Luna 4/4, Terra 7/18, Sol 1/2; requested settings only",
+    "actual_tokens": "unavailable",
+    "weekly_attribution": "unavailable"
+  },
+  "limitations": [
+    "one planner per arm and scenario",
+    "reconstructed baseline",
+    "partially blind coding and shared filesystem",
+    "provider identity not independently audited",
+    "fabricated E1/E2 reports",
+    "planned source coverage is not achieved coverage",
+    "no token-to-weekly-quota conversion",
+    "no causal, measured savings, project outcome or tenfold increase claim"
+  ],
+  "ledgers": [
+    "carrier-question-coding.json",
+    "regression-question-coding.json",
+    "carrier-usage-estimate.json",
+    "regression-usage-estimate.json",
+    "mechanical-plan-summary.json",
+    "carrier-usage-correction.json",
+    "regression-usage-correction.json",
+    "final-method-review.md",
+    "administration.json"
+  ],
+  "regression_B_acceptance_increment_if_both_reviews": [
+    0.082584,
+    1.127008
+  ],
+  "review_corrections": "final-method-review.md; original coder and estimates preserved"
+}

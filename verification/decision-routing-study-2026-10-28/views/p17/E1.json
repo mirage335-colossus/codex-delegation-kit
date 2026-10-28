@@ -1,0 +1,50 @@
+{
+  "id": "E1",
+  "release_phase": "after-all-four-initial-plans-locked",
+  "source": "Hypothetical neutral capture-lab operator feedback after a newly requested calibration capture; no executable, algorithm, or team is identified.",
+  "notice": "The operator reports that the first short capture set was mixed: some estimates were close, some intervals were wider than the requested 0.10 Hz target, and one reported interval missed known truth. The capture lab says chunk delivery differed between runs and cannot currently tell whether that matters. This is an inconclusive report, not a causal analysis.",
+  "synthetic_reported_summary_only": true,
+  "table_columns": [
+    "truth_offset_hz",
+    "condition",
+    "reported_abs_error_hz",
+    "reported_uncertainty_hz",
+    "time_to_estimate_s",
+    "truth_covered"
+  ],
+  "rows": [
+    {
+      "truth_offset_hz": -12,
+      "condition": "24 dB-Hz, noisy, 137-sample chunks",
+      "reported_abs_error_hz": 0.08,
+      "reported_uncertainty_hz": 0.12,
+      "time_to_estimate_s": 3.6,
+      "truth_covered": true
+    },
+    {
+      "truth_offset_hz": -3,
+      "condition": "30 dB-Hz, clean, 4096-sample batches",
+      "reported_abs_error_hz": 0.04,
+      "reported_uncertainty_hz": 0.05,
+      "time_to_estimate_s": 1.2,
+      "truth_covered": true
+    },
+    {
+      "truth_offset_hz": 3,
+      "condition": "24 dB-Hz, noisy, 4096-sample batches",
+      "reported_abs_error_hz": 0.14,
+      "reported_uncertainty_hz": 0.09,
+      "time_to_estimate_s": 5.2,
+      "truth_covered": false
+    },
+    {
+      "truth_offset_hz": 12,
+      "condition": "30 dB-Hz, clean, 137-sample chunks",
+      "reported_abs_error_hz": 0.07,
+      "reported_uncertainty_hz": 0.11,
+      "time_to_estimate_s": 2.8,
+      "truth_covered": true
+    }
+  ],
+  "limits": "The report provides no raw PCM, build identity, run command, seeds, denominator, full capture table, or independently verified analysis. Treat figures as hypothetical reported feedback only; do not label a reproduced failure or infer cause."
+}

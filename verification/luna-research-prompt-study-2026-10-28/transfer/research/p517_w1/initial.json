@@ -1,0 +1,97 @@
+{
+  "assignment_id": "P517-A",
+  "conversation_id": "p517-scout-a",
+  "source_boundary": {
+    "project": "software-foundation",
+    "revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+    "dirty_state": "scenario states clean; not independently checked",
+    "read": [
+      "transfer/views/p517/{contract.md,task.md,scenario.md,source-index.md,routing.md,scout-role.toml}",
+      "transfer/views/p517/sources/R01.txt",
+      "transfer/views/p517/sources/R02.txt",
+      "transfer/views/p517/sources/R03.txt"
+    ],
+    "excluded": "Other arms, project checkout/history, tests/builds/application commands, pilot scores, and unreleased events. Excerpts are incomplete; no runtime behavior inferred."
+  },
+  "research": [
+    {
+      "id": "L1",
+      "source": "Gulzar, Zhu, Han, ‘Perception and Practices of Differential Testing,’ ICSE-SEIP 2019, DOI 10.1109/ICSE-SEIP.2019.00016",
+      "locator": "https://people.cs.vt.edu/~gulzar/assets/pdf/p71-gulzar.pdf (published conference paper; PDF opened; pp. 71–72 / lines 29–44, 95–103, 144–168)",
+      "status_support": "Original empirical practice study: survey of 117 engineers across 100+ teams, five interviews, and analysis of 2,104 diff tests. Reports differential testing supplements unit tests and helps examine preserved behavior where a full oracle is unavailable; also reports noisy/flaky outcomes, substantial run/differencing cost, and sampling/differencing challenges.",
+      "applicability_limit": "Large Google-specific end-to-end practice study, not a controlled comparison of these tiny local regressions or a correctness guarantee. Differential disagreement flags a candidate; it cannot choose the correct provider/version, and agreement does not prove correctness.",
+      "decision_use": "R01–R03: retain exact expected-contract assertions and narrow fixtures first. A matched baseline/current or C++/Rust comparison is supplementary when the same operation, bytes, executable/package, provider marker, and environment can be recorded. Preserve IDs, stdout bytes, exit status, and identity in the comparison."
+    },
+    {
+      "id": "L2",
+      "source": "Graves et al., ‘An Empirical Study of Regression Test Selection Techniques,’ ACM TOSEM 10(2), 2001",
+      "locator": "https://www.cs.umd.edu/users/aporter/Docs/p184-graves.pdf (published paper; PDF opened; pp. 185–189, 203–206)",
+      "status_support": "Original empirical study compares selection costs and fault detection across program versions. Safe selection retained all fault-revealing tests while selecting 60% of tests at the median, but sometimes could not reduce the suite; results were sensitive to program, change, and suite composition. Cost model did not directly measure selection-analysis cost and simplified heterogeneous costs.",
+      "applicability_limit": "Older subjects/techniques and synthetic fault-revealing datasets; evidence supports conditional trade-offs, not a universal selection rule or a quota for this repository.",
+      "decision_use": "Use source-linked local fixtures and actual reported contract as first discriminators. Consider systematic broader selection/generation only if exact fixtures fail to separate plausible causes, repeated similar cases justify its setup cost, or neighboring-path coverage is material; do not prune required acceptance based on historical averages."
+    },
+    {
+      "id": "L3",
+      "source": "Di Nardo, Alshahwan, Briand, Labiche, ‘Coverage-based regression test case selection, minimization and prioritization: A case study on an industrial system,’ STVR 25(4), 2015, DOI 10.1002/stvr.1572",
+      "locator": "https://pure.ul.ie/en/publications/coverage-based-regression-test-case-selection-minimization-and-pr/ (university publication record and abstract; full paper not opened)",
+      "status_support": "Published industrial case study with real regression faults. University record says test selection saved under 2% execution cost in that system; fine-grained minimization saved up to 79.5% while retaining fault detection above 70%, a trade-off; modification-informed prioritization did not significantly improve fault detection.",
+      "applicability_limit": "Abstract/record only here; results are from one industrial system, and minimization allowed a detection loss. Not a basis for dropping cases under this task's fixed acceptance.",
+      "decision_use": "Counterweight to assuming more systematic selection pays off: for R01–R03's few fast core fixtures, select the direct discriminator by source path and preserve all contract checks."
+    }
+  ],
+  "source_map_and_discriminators": [
+    {
+      "row": "R01",
+      "source_prediction": "src/store.cpp:17–30 validates before mutation; update at 47–54 constructs replacement then swaps. tests/store_test.cpp:30–55 seeds IDs 1/2, snapshots, checks rejected add/update snapshot equality, and later verifies ID progression/unrelated record. CMakeLists.txt:468–476 registers core.store and core.cli when not Emscripten.",
+      "consumer_or_unknown": "Store API caller is not identified in the supplied excerpt. Original report's dumps omitted IDs, so whether a row was replaced, removed, reordered, or an identifier changed remains unknown.",
+      "cheapest_discriminator": "With the actual caller and same store/input, capture full pre/post snapshots including ordered (id,text) pairs and next successful ID; pair the rejected update with the existing focused store fixture. This directly tests preservation without assuming an old/new provider is an oracle.",
+      "unrun": true
+    },
+    {
+      "row": "R02",
+      "source_prediction": "src/main.cpp:34–40 validates all argv entries into Store before printing rows, flushes output, and returns failure for invalid argument/output errors; --help branch at 24–28 returns flush status. tests/check_cli.py:11–46 checks exact stdout and exit on valid/invalid batches, Unicode/raw POSIX bytes, and system-fixture/dev/full write failures, but the excerpt does not explicitly invoke --help. CMakeLists.txt:474–476 registers core.cli.",
+      "consumer_or_unknown": "Exact command, built executable, OS/argv conversion, output destination and redirected-help destination are unknown. Report bundles two cases; keep them separate.",
+      "cheapest_discriminator": "Run the exact built CLI twice: batch `-- Valid bad\\ntext` with captured stdout/stderr/status, then `--help` to the reported redirect target with stdout/stderr/status. Compare byte-exact stdout and exit code against tests/check_cli.py's contract; identify executable/configuration. The existing system-fixture/dev/full case gives a nearby write-failure fixture but must be matched to the user's target.",
+      "unrun": true
+    },
+    {
+      "row": "R03",
+      "source_prediction": "src/store.cpp:17–30 calls the C ABI bridge; src/text_validation.cpp:3–29 selects C++ implementation or Rust provider by FOUNDATION_USE_RUST and exposes provider marker, with bridge at 31–35. tests/rust_component_test.cpp:16–22 asserts configured provider identity; 23–63 checks boundary lengths and every one-byte value plus invalid positions. tests/rust_component_status_test.cpp:27–58 checks caller mapping/state preservation with injected statuses. CMakeLists.txt:502–526 registers core.text_validation and core.text_status with configured prerequisites.",
+      "consumer_or_unknown": "The alleged Rust package/provider and actual configured package/library are not identified. The source excerpt and test name do not prove the implicated package was built or exercised.",
+      "cheapest_discriminator": "First capture package/version, configured provider marker, linked library and exact raw bytes. Feed the same byte buffer (including length) through the real C++ caller in each identified provider build; compare status, record snapshot/IDs and package identity to the public expected ASCII/length contract. Retain the existing exhaustive byte tests. Provider agreement alone is not an oracle.",
+      "unrun": true
+    }
+  ],
+  "contrary_and_rejected": [
+    "A baseline-vs-current or C++-vs-Rust diff is not proof of correctness: either side may be wrong, provider identity may differ, or output comparison may be noisy. Keep expected contract and identity as independent checks (L1).",
+    "Systematic generation can reveal interactions outside a minimized example, but literature does not show universal payoff; study effects depend on change and suite composition, and added selection/differencing costs can dominate small suites (L1–L3).",
+    "L3 is abstract/record-only, not full-text-verified; its reported minimization trade-off is expressly inapplicable to reducing this task's required coverage.",
+    "No evidence supports a preferred diagnosis, common cause among R01–R03, or a claim that any registered test passed."
+  ],
+  "web_operations": {
+    "budget": {
+      "total": 8,
+      "queries": 5,
+      "opens": 6
+    },
+    "used": {
+      "total": 8,
+      "queries": 3,
+      "opens": 5
+    },
+    "search_queries": [
+      "software engineering empirical study regression test selection prioritization fault detection cost empirical paper",
+      "differential testing empirical study oracle independent implementations software testing paper",
+      "empirical evaluation automated test generation regression testing developer-written tests cost"
+    ],
+    "opened": [
+      "https://people.cs.vt.edu/~gulzar/assets/pdf/p71-gulzar.pdf",
+      "https://www.cs.umd.edu/users/aporter/Docs/p184-graves.pdf",
+      "https://digitalcommons.unl.edu/csearticles/8/ (Elbaum et al., empirical prioritization study; supports only general prioritization result and program-dependent variation)",
+      "https://pure.ul.ie/en/publications/coverage-based-regression-test-case-selection-minimization-and-pr/"
+    ],
+    "unspent": 0,
+    "counting": "3 search items + 5 open items; grouped tool-call batches are not counted as one operation."
+  },
+  "status": "Answered as bounded literature/source evidence for R01–R03 and the simple-matched-example versus systematic-generation decision. No project command, test, build, or application behavior was executed; runtime remains untested."
+}

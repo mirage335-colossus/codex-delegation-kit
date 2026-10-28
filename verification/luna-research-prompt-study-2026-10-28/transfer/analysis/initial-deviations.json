@@ -1,0 +1,31 @@
+{
+  "recorded_utc": "2026-10-28T21:37:14.607395+00:00",
+  "originals_unchanged": true,
+  "notes": [
+    {
+      "research_id": "p204_w1",
+      "kind": "protocol scope deviation",
+      "event": "Agent reports an initial inventory/status command printed filenames of unassigned source/study artifacts; it reports not opening or using their contents. Protocol isolation only; no OS isolation or independent full trace."
+    },
+    {
+      "research_id": "p517_w2",
+      "kind": "logical operation counting inconsistency",
+      "reported_logical": 4,
+      "reported_query_items": 5,
+      "reported_open_items": 6,
+      "recomputed_total_from_ordered_items": 11,
+      "request_total_ceiling": 8,
+      "eligible_prefix": "4 query items then4 open items exhaust total8; later1query+2opens exceed. Verifier and Terra must preserve and classify findings dependent on suffix. Original totals not overwritten."
+    },
+    {
+      "research_id": "p517_w1",
+      "kind": "operation provenance missing",
+      "event": "Verifier finds four open locators although five opens reported. One operation remains unlocated; no full trace proves the reported count. Campaign total35 is item-recount for B plus other reported totals, not measured operations."
+    }
+  ],
+  "aggregate_research_operations_self_reported_or_item_recount": {
+    "p204": 48,
+    "p517": 35
+  },
+  "uncertainty": "Native tool/provider telemetry unavailable. Aggregate item counts do not cure per-assignment limits; source validity/eligibility assessed independently."
+}

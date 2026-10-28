@@ -1,5 +1,13 @@
 # Repository guidance
 
+For model-cost documentation, use the unitless [weekly usage cost index](policy.md#weekly-usage-cost):
+user-provided Luna = 0.1, Terra = 1, Sol approximately 10, Astra approximately 20.
+Keep included subscription allowance separate from API dollars and paid credits.
+Do not present these estimates as official rates or change routing/pins from them.
+
+For current evidence-discovery and screening guidance, see
+[policy.md](policy.md#evidence-discovery-and-terra-screening).
+
 Read [`policy.md`](policy.md) before changing delegation behavior, role
 instructions, installation, or evidence handling. Keep the runtime bundle at
 the explicit `FILES` inventory in [`install.py`](install.py) unless a deliberate,

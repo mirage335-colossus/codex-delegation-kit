@@ -5,6 +5,13 @@ library code. Native-only and the existing advisory supervisor remain available.
 No controller starts on installation. External Codex executions are independent
 sessions, not children in this chat's native subagent tree.
 
+For included Desktop Codex allowance, the [weekly usage cost index](policy.md#weekly-usage-cost)
+uses the user's rough relative estimates: Luna = 0.1, Terra = 1, Sol
+approximately 10 and Astra approximately 20. This is separate from API USD, purchased
+credits and the scheduler's time/resource costs. It neither adds a run-format
+field nor changes ranking, role selection, uniform run settings or budget
+enforcement. Observed tokens do not by themselves calibrate weekly allowance use.
+
 The durable authority is `run/state.sqlite3`. Execution receipts and logs in
 `run/operations/<operation-id>/` are observations reconciled into that authority.
 Only one controller holds `run/controller.lock`. Short SQLite transactions allow
@@ -122,11 +129,16 @@ model. Requested settings and the app-server's resolved settings are retained
 separately; they are not provider-side per-token identity telemetry.
 
 The optional native `astra_expert` strategic adviser does not add a task-level
-model override to this format. Its [policy gates](policy.md#sparse-astra-strategic-review)
-do not authorize changing a Luna-only run, resuming a stop or bypassing a hold.
-Any separately authorized advice stays within the shared resource allocation;
-the existing run, patch ownership and independent acceptance remain unchanged.
-No hourly agent call or new scheduling loop is installed.
+model override to this format. The native [strategic brainstorming and human
+input](policy.md#strategic-brainstorming-and-human-input) and [Astra review
+gates](policy.md#astra-strategic-review) preserve hard model ceilings and do
+not authorize changing a restricted run, resuming a stop or bypassing a hold.
+They also do not change the controller's uniform single-model policy. Any
+separately authorized advice stays within the shared resource allocation; the
+existing run, patch ownership and independent acceptance remain unchanged.
+The native Luna evidence-discovery strategy is summarized in
+[policy.md](policy.md#evidence-discovery-and-terra-screening); controller runs
+retain their uniform explicit model/effort/tier boundary.
 
 The input `cwd` names the source repository. Code prepares one independent
 private copy per original task under the run's workspaces and records

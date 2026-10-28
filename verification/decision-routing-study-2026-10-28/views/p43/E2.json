@@ -1,0 +1,32 @@
+{
+  "id": "E2",
+  "release_phase": "after-all-four-E1-responses-locked",
+  "source": "Hypothetical follow-up from the same neutral capture lab after it offered a longer capture window and a second operator reviewed the logged ground-truth labels.",
+  "notice": "On a separate newly generated set, a second operator reports 12 captures at 24 dB-Hz. Ten captures published an estimate by 8.0 s; across those ten the median final absolute error at 8.0 s was 0.11 Hz and median reported uncertainty was 0.06 Hz, and three of those ten reported intervals did not cover truth. The remaining two captures had no publication by the separate 10.0 s publication deadline. The operator says generator settings and chunk-size labels match the request, but raw captures and the exact processing revision are unavailable. No causal explanation or preferred estimator is supplied.",
+  "synthetic_reported_summary_only": true,
+  "table_columns": [
+    "condition",
+    "total_captures",
+    "published_by_summary_time",
+    "summary_time_s",
+    "median_final_abs_error_hz_among_published",
+    "median_reported_uncertainty_hz_among_published",
+    "interval_misses_among_published",
+    "publication_deadline_s",
+    "no_publication_by_deadline"
+  ],
+  "rows": [
+    {
+      "condition": "24 dB-Hz, mixed offsets, noisy",
+      "total_captures": 12,
+      "published_by_summary_time": 10,
+      "summary_time_s": 8.0,
+      "median_final_abs_error_hz_among_published": 0.11,
+      "median_reported_uncertainty_hz_among_published": 0.06,
+      "interval_misses_among_published": 3,
+      "publication_deadline_s": 10.0,
+      "no_publication_by_deadline": 2
+    }
+  ],
+  "limits": "No raw PCM, per-capture values, build identity, exact command, seed list, or audited timing definition is available. Do not claim a fresh real test, root cause, hardware limit, failure mechanism, or preferred estimator. The supplied summary is small and cannot establish population rates."
+}

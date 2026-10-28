@@ -1,0 +1,170 @@
+{
+  "assignment": "s2 incremental source verification",
+  "source_revision": {
+    "repository": "repository root",
+    "head": "947ed25d4058e405ecf45d6956671f6fecb12026",
+    "dirty_baseline": "Existing unrelated tracked edits and untracked study artifacts were present; preserved. Only the two assigned verification outputs were added."
+  },
+  "scope": "Only the frozen s2 seed/task/discovery/source-check packet and paired n532/n685 continuation reports were used. No prompt/frontier, other seed/case, pilot score, or project tree was inspected.",
+  "operations": {
+    "new_logical_total": 4,
+    "new_search_queries": 2,
+    "new_source_opens": 2,
+    "limits": {
+      "total": 16,
+      "search_queries": 8,
+      "source_opens": 10,
+      "dedicated_per_case": 8
+    },
+    "dedicated_per_case": {
+      "n532": 1,
+      "n685": 3
+    },
+    "eligibility": "Within all stated limits. The paired source retrievals were not charged again; no verifier discovery was credited to either continuation.",
+    "items": [
+      {
+        "id": "s2-v1",
+        "case": "n532",
+        "kind": "open",
+        "url": "https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article",
+        "result": "Publisher-hosted article record and abstract opened. Lines 37-45 identify restricted-access journal article, 2016 issue/pages, DOI, and publication date; lines 71-74 provide abstract. Full text was not inspected."
+      },
+      {
+        "id": "s2-v2",
+        "case": "n685",
+        "kind": "open",
+        "url": "https://www.sciencedirect.com/science/article/pii/S105120049890330X",
+        "result": "Failed with HTTP 403; no page content obtained."
+      },
+      {
+        "id": "s2-v3",
+        "case": "n685",
+        "kind": "search",
+        "query": "\"Nonlinear Least-Squares Approach to Frequency Estimation and Detection for Sinusoidal Signals with Arbitrary Envelope\" DOI abstract",
+        "result": "Search returned the ScienceDirect publisher record and full abstract, including 1999 Digital Signal Processing 9(1), pages 45-56, 'Regular Article', DOI, the profiled-envelope periodogram-like criterion, asymptotic-efficiency statement, and frequency-difference test. Direct article open separately failed."
+      },
+      {
+        "id": "s2-v4",
+        "case": "n685",
+        "kind": "search",
+        "query": "\"S105120049890330X\" unknown time-varying amplitude periodogram frequency criterion",
+        "result": "Second query returned ScienceDirect abstract corroborating the time-varying-amplitude estimator claim. This duplicates s2-v3 content and adds no new independent evidence."
+      }
+    ]
+  },
+  "seed_baseline": {
+    "case_id": "r842",
+    "retained_findings": [
+      "threshold/tail versus local uncertainty",
+      "block/Kay baseline",
+      "differential-phase lag tradeoffs",
+      "stationary versus time-varying or Doppler-spread mismatch"
+    ],
+    "retained_discriminators": [
+      "matched estimator comparisons",
+      "error tails",
+      "absent-tone admissions",
+      "reset/chunk controls",
+      "stationary versus time-varying captures",
+      "dwell and acquisition outcomes"
+    ],
+    "source_status_caveat": "The seed packet records journal publication metadata, abstracts, and prior failed opens; its peer-review labels are not independently established by the packet. Those findings and source operations were reused, not re-verified or re-counted."
+  },
+  "cases": {
+    "n532": {
+      "source": {
+        "source_id": "N1",
+        "title": "Efficient Weak Signals Acquisition Strategy for GNSS Receivers",
+        "authors": [
+          "Weijun Lu",
+          "Yanbin Zhang",
+          "Dengyun Lei",
+          "Dunshan Yu"
+        ],
+        "venue": "IEICE Transactions on Communications E99.B(1), 288-295 (2016)",
+        "locator": "Publisher record and abstract: https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article (metadata lines 35-47; abstract lines 71-74).",
+        "content_access": "Publisher abstract and bibliographic record; full article is restricted and was not inspected.",
+        "publication_status": "Journal publication/date/issue/pages/DOI verified on publisher-hosted J-STAGE record. Peer-review status not independently verified.",
+        "source_supported_claim": "The abstract describes a double-dwell weak-GNSS acquisition method based on periodic spread-spectrum-code structure, contrasting it with threshold/MAX/TC verification and reporting theoretical analysis and numerical simulation. The quoted 15-second mean-acquisition-time change is specific to the paper's GNSS comparison and is not transferable."
+      },
+      "finding_rows": [
+        {
+          "origin_id": "N-F1",
+          "support_operation_ids": [
+            "s2-v1"
+          ],
+          "stage": "Continuation origin N-F1 retained as a source-supported GNSS-specific method; task-level transfer is unresolved, not counted as a qualified incremental contribution.",
+          "novelty_vs_seed": "The seed does not name a double-dwell policy. The paper therefore adds a source-level candidate policy, but its concrete acquisition cue is GNSS periodic spreading-code structure, absent from the helper-tone evidence. The proposed comparison reuses seed validation dimensions (false admissions, nonpublication/acquisition outcome, and a dwell/deadline endpoint). The s2 excerpts also already describe staged optional looks, a separately qualified recent-presence interval, a fixed cadence, a cold staging deadline (H05), and six-second confirmation plus silence controls (H06). Thus a staged-versus-fixed experiment is at most a narrow policy comparison; the citation does not establish a new transferable mechanism for this receiver.",
+          "source_claim_support": "Direct publisher abstract support for the existence and GNSS-specific basis of double-dwell, and for reporting detection/false-alarm/MAT comparisons. No full-text details inspected.",
+          "task_applicability": "Unresolved / materially limited: no spread-spectrum code-periodicity analogue is established. Source excerpts indicate staged processing and confirmation already exist, while seed already calls for false-admission, nonpublication, dwell, and acquisition-outcome measurements. Runtime effect of staged versus fixed confirmation remains unobserved.",
+          "next_discriminator": "Only if policy behavior remains a live engineering decision: on matched tone-present/absent helper captures, compare the current staged policy with a specified fixed-dwell policy at a matched false-publication constraint, preserving time-to-frequency-publication distributions and all nonpublications. Treat this as a code-specific comparison, not a transfer of the GNSS paper's gains.",
+          "qualified_incremental": false,
+          "unresolved_incremental": true,
+          "reason": "Source content is verified, but transfer and incremental decision value over the seed's already proposed tail/admission/dwell checks and the supplied staged-code excerpts are unresolved."
+        }
+      ],
+      "incremental_counts": {
+        "qualified_lower": 0,
+        "qualified_upper": 0,
+        "unresolved": 1
+      },
+      "omissions_or_errors": [
+        "The continuation appropriately rejects numeric transfer, but its broad 'new incremental validation evidence' wording should be qualified by the already-staged H05/H06 excerpts and the seed's overlapping measurements. Peer-review label is not verified."
+      ]
+    },
+    "n685": {
+      "source": {
+        "source_id": "S6",
+        "title": "Nonlinear Least-Squares Approach to Frequency Estimation and Detection for Sinusoidal Signals with Arbitrary Envelope",
+        "authors": [
+          "Olivier Besson",
+          "Petre Stoica"
+        ],
+        "venue": "Digital Signal Processing 9(1), 45-56 (1999)",
+        "locator": "Publisher abstract surfaced in s2-v3/s2-v4 at https://www.sciencedirect.com/science/article/pii/S105120049890330X; publisher page itself failed to open in s2-v2.",
+        "content_access": "Publisher-indexed full abstract; direct article page returned HTTP 403; no full paper or methods details beyond the abstract inspected.",
+        "publication_status": "Publisher record verifies journal, volume, issue, pages, year, DOI, and Regular Article designation. Peer-review status is unknown from inspected evidence.",
+        "source_supported_claim": "For a sinusoid with constant or time-varying amplitude, the abstract says nonlinear least squares can be minimized over amplitude/envelope to leave a periodogram-like frequency criterion; it reports an asymptotically efficient estimator and a statistical amplitude-variation test based on the difference between two frequency estimates, with numerical examples. The inspected abstract does not establish helper-signal equivalence or receiver performance."
+      },
+      "finding_rows": [
+        {
+          "origin_id": "F5",
+          "support_operation_ids": [
+            "s2-v3"
+          ],
+          "stage": "Continuation origin F5 retained with abstract-limited support; qualified as a distinct decision-useful candidate discriminator, not as a receiver result.",
+          "novelty_vs_seed": "Adds an explicit unknown-envelope single-tone estimation formulation and an amplitude-variation test. This is distinct from seed S5's Doppler-spread/multiplicative-noise model and from its stationary-tone/lag comparisons. The s2 H05 excerpt says constant gain is assumed within clean dwell groups and H06 includes generated helper ramps; these make matched ramp-window comparison a concrete question, but do not establish the paper's signal model.",
+          "source_claim_support": "Direct publisher abstract support for the profiled-envelope periodogram-like criterion and the frequency-difference test. Asymptotic efficiency is abstract-supported but must not be read as finite-sample or low-SNR performance. Exact disturbance assumptions and full method details remain unverified.",
+          "task_applicability": "Partially mapped with missing assumptions: plausible for a single sinusoid over selected pilot windows with amplitude ramps; not established for payload/auxiliary components, arbitrary modulation, phase resets, absent-tone decisions, the given offsets/SNR/deadline/chunks, or workspace limits.",
+          "next_discriminator": "On matched stationary and known-ramp pilot windows, compare constant-amplitude block fitting with an envelope-profiled frequency criterion using identical support; report error tails, false admissions, nonpublications, and work per update, with absent-tone and auxiliary-activity controls. Evaluate the frequency-difference test separately for whether it tracks injected envelope changes without vetoing valid frequency publications.",
+          "qualified_incremental": true,
+          "unresolved_incremental": false,
+          "reason": "Despite applicability limits and abstract-only access, the primary publisher abstract supports a distinct, feasible comparison absent from the seed; it can change which ramp-window model is tested without implying it wins."
+        }
+      ],
+      "incremental_counts": {
+        "qualified_lower": 1,
+        "qualified_upper": 1,
+        "unresolved": 0
+      },
+      "omissions_or_errors": [
+        "The continuation calls the unknown envelope real and disturbance additive; the retrieved abstract does not state those precise qualifiers, so they remain unverified and should not be attributed to this source on this evidence. The continuation correctly leaves implementation cost, helper-envelope equivalence, and receiver performance unresolved. Peer-review label is not verified."
+      ]
+    }
+  },
+  "overall": {
+    "per_case_incremental_counts": {
+      "n532": {
+        "qualified": 0,
+        "unresolved": 1
+      },
+      "n685": {
+        "qualified": 1,
+        "unresolved": 0
+      }
+    },
+    "union_note": "No cross-case transfer or borrowing. n532 and n685 cover different models; their counts remain case-specific.",
+    "retained_breadth_and_omissions": "Retain all four seed mechanisms and their caveats. Neither continuation resolves threshold tails/target feasibility, actual helper-vs-paper model equivalence, peer review, or receiver-level runtime behavior. n532's GNSS metrics/mechanism remain domain-specific; n685's asymptotic abstract does not predict finite-sample performance.",
+    "unresolved_upper_bound_note": "The n532 case has one source-supported lead whose transfer and incremental value remain unresolved; do not count it in the qualified lower bound. No additional source is attributed across arms."
+  }
+}

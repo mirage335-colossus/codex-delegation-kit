@@ -1,0 +1,325 @@
+{
+  "phase": "p204 initial Terra screen; locked prior to E1",
+  "identity_and_scope": "Supplied software-foundation revision 4c471cb93702cdc03b5230bfa33372355424b665, scenario clean at capture; source excerpts are not runtime proof. No project command or research performed by Terra. Original research and verifier records remain unchanged.",
+  "eligible_prefix_and_protocol": "Research operation totals reported A=10, B=15, C=15, D=8, all within the initial <=16, <=8 queries and <=10 opens ceilings; verifier checked arithmetic but cannot independently audit sessions. Verifier used its full 16-operation allocation; incomplete verification is not negative evidence. Treat reported eligible work as bounded source/research material, not independently established outcome or a measured allocation comparison. One researcher reported inventory filenames outside assigned scope without reading their contents; this is a protocol limitation, not evidence about contents or outcomes. No numerical usefulness or allocation claim is inferred.",
+  "paper_screen": [
+    {
+      "source_id": "P204-A.evidence[0]",
+      "stage": "qualified",
+      "work": "Revisiting Test-Case Prioritization on Long-Running Test Suites",
+      "locator": "https://2024.issta.org/details/issta-2024-papers/50/Revisiting-Test-Case-Prioritization-on-Long-Running-Test-Suites",
+      "status": "ISSTA 2024 Technical Papers program page opened; research conference paper identity and DOI 10.1145/3650212.3680307 confirmed. Abstract supports 21,255 builds, 57,437 runs, 10 projects, 2020-23, 6.5h mean, 59 techniques, and faster/recently-failed heuristic result.",
+      "qualification": "Supports a simple-start heuristic only in historical long-running CI prioritization with history; does not rank these eight causal investigations or establish local duration/history.",
+      "source_file": "transfer/research/p204_w1/initial.json#evidence[0]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-A.evidence[1]",
+      "stage": "unresolved",
+      "work": "Effective Regression Test Case Selection: A Systematic Literature Review",
+      "locator": "https://doi.org/10.1145/3057269",
+      "status": "Original report says DOI open failed 403 and relied on search abstract. Independent query did not surface a usable ACM record. Identity/47-study and 39% reproducibility claims not independently verified in this phase.",
+      "qualification": "Secondary review; decision caution is plausible but the exact statistic remains unresolved.",
+      "source_file": "transfer/research/p204_w1/initial.json#evidence[1]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-A.evidence[2]",
+      "stage": "qualified",
+      "work": "Finding and Understanding Bugs in C Compilers (Yang et al., PLDI 2011)",
+      "locator": "https://users.cs.utah.edu/~regehr/papers/pldi11-preprint.pdf",
+      "status": "Author-hosted paper surfaced in independent search; title/authors, PLDI 2011 provenance, three-year Csmith study, >325 reported bugs, differential comparison, and exclusion of undefined/unspecified behavior confirmed from indexed paper text.",
+      "qualification": "Compiler differential-testing evidence is a distant analogy; provider comparison requires same specification, artifact/package and build identity. It does not support random campaign expansion here.",
+      "source_file": "transfer/research/p204_w1/initial.json#evidence[2]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "conditional method choice as described in deduplicated decisions; source-specific results do not prove a local outcome"
+    },
+    {
+      "source_id": "P204-A.evidence[3]",
+      "stage": "unresolved",
+      "work": "How Effectively Does Metamorphic Testing Alleviate the Oracle Problem?",
+      "locator": "https://doi.org/10.1109/TSE.2013.46",
+      "status": "Original report says IEEE access blocked and used search abstract. Independent search did not return a usable primary record; publication details and effect-size wording not checked.",
+      "qualification": "Weak alternative; direct source contracts are already available for R01-R03/R09.",
+      "source_file": "transfer/research/p204_w1/initial.json#evidence[3]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-B.research_synthesis.supporting_sources[0]",
+      "stage": "qualified",
+      "work": "Automatically Reproducing Timing-Dependent Flaky-Test Failures (FlakeRake)",
+      "locator": "https://doi.org/10.1109/ICST60714.2024.00032; https://conf.researchr.org/details/icst-2024/icst-2024-papers/7/Automatically-Reproducing-Timing-Dependent-Flaky-Test-Failures",
+      "status": "Search results identify the five authors, 2024 IEEE ICST research-paper track, title and abstract; IEEE open failed with an interstitial. Indexed abstract supports counts 136/115/127, 107 reliable reproductions and sleep-based timing perturbation.",
+      "qualification": "Peer-reviewed conference-paper venue identity supported by conference program/IEEE metadata, but this verifier did not open full paper. Results apply to known TD flaky failures/dataset, not a diagnosis or prescribed sleep instrumentation for this project.",
+      "source_file": "transfer/research/p204_w2/initial.json#research_synthesis.supporting_sources[0]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "conditional method choice as described in deduplicated decisions; source-specific results do not prove a local outcome"
+    },
+    {
+      "source_id": "P204-B.research_synthesis.supporting_sources[1]",
+      "stage": "qualified",
+      "work": "CHESS: A Systematic Testing Tool for Concurrent Software",
+      "locator": "https://www.microsoft.com/en-us/research/publication/chess-a-systematic-testing-tool-for-concurrent-software/",
+      "status": "Microsoft Research technical report MSR-TR-2007-149 (Nov. 2007), not a conference/journal record on this page. First-party abstract supports systematic interleaving of a given scenario and reproducible failures.",
+      "qualification": "Supports controlled scheduling only where the relevant schedule is controllable/modelled; no exhaustive claim for native worker or browser transport here.",
+      "source_file": "transfer/research/p204_w2/initial.json#research_synthesis.supporting_sources[1]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "conditional method choice as described in deduplicated decisions; source-specific results do not prove a local outcome"
+    },
+    {
+      "source_id": "P204-B.research_synthesis.supporting_sources[2]",
+      "stage": "qualified",
+      "work": "Combinatorial Methods for Event Sequence Testing",
+      "locator": "https://www.nist.gov/publications/combinatorial-methods-event-sequence-testing",
+      "status": "NIST record opened; author/date/title and ICST 2012 proceedings/workshop provenance confirmed. Abstract supports testing every t-event order.",
+      "qualification": "Bounded sequence coverage requires a relevant event model; it does not establish the right model or project behavior.",
+      "source_file": "transfer/research/p204_w2/initial.json#research_synthesis.supporting_sources[2]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-B.research_synthesis.supporting_sources[3..5]",
+      "stage": "unresolved",
+      "work": "Lifecycle of Flaky Tests; Empirical Study of Flaky Tests in Python; Empirical Study of Flaky Tests in JavaScript; Luo et al. flaky-tests analysis",
+      "locator": "Originals list Microsoft Research page, arXiv pages, Cornell-hosted PDF.",
+      "status": "Not independently reopened within cap. Preserve as author-reported source access; prevalence/generalization statements not rechecked here.",
+      "qualification": "Existing report already treats these as population-specific; no prevalence ranking should select a cause.",
+      "source_file": "transfer/research/p204_w2/initial.json#research_synthesis.supporting_sources[3..5]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-C.primary_research[0]",
+      "stage": "qualified",
+      "work": "Combinatorial Testing: Theory and Practice (NIST-hosted chapter)",
+      "locator": "https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=918448",
+      "status": "Original report states opened full NIST-hosted chapter, but this verification used budget on other sources and did not independently reopen it; therefore source identity/access remains unverified by verifier.",
+      "qualification": "Report's own summary properly limits subject-specific DOM 4-way results and says factors/valid combinations govern applicability. Citation status uncertain here. Original scout reported access, but independent verifier did not verify it; do not promote to independently verified.",
+      "source_file": "transfer/research/p204_w3/initial.json#primary_research[0]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-C.primary_research[1..2]",
+      "stage": "unresolved",
+      "work": "GUI model pilot (Xie & Memon, ACM TOSEM 2008); Automated Test Oracles for GUIs (FSE 2000)",
+      "locator": "https://www.cs.umd.edu/~atif/papers/XieMemonTOSEM2008-abstract.html; https://www.cs.umd.edu/~atif/pubs/MemonFSE2000-abstract.html",
+      "status": "Original report says author/university abstract pages opened; verifier did not reopen within cap. Exact publication record and claims remain at abstract-only level and unverified here.",
+      "qualification": "Event-context and intermediate-state oracle advice is plausible, but not repository-specific.",
+      "source_file": "transfer/research/p204_w3/initial.json#primary_research[1..2]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-C.primary_research[3]",
+      "stage": "qualified",
+      "work": "Simplifying and Isolating Failure-Inducing Input (Zeller & Hildebrandt, IEEE TSE 28(2), 2002)",
+      "locator": "https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/delta-debug-input.pdf",
+      "status": "University-hosted full paper opened; title/authors, Mozilla 95-action case reduced to 3 actions, and 1-minimal/limitations content are visible in paper. Journal article identity given in PDF; access full text confirmed.",
+      "qualification": "Minimization follows stable reproduction and a defined oracle; it does not find a global minimum causal explanation.",
+      "source_file": "transfer/research/p204_w3/initial.json#primary_research[3]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "conditional method choice as described in deduplicated decisions; source-specific results do not prove a local outcome"
+    },
+    {
+      "source_id": "P204-C.primary_research[4]",
+      "stage": "unresolved",
+      "work": "The Oracle Problem in Software Testing: A Survey (Barr et al., IEEE TSE 2015)",
+      "locator": "https://discovery.ucl.ac.uk/id/eprint/1471263/1/06963470.pdf",
+      "status": "Original report says author copy/full survey opened; verifier did not reopen within cap. Publication status/access not independently checked here.",
+      "qualification": "Survey is not an oracle for this project; actual expected behavior must still be grounded in contracts/consumer expectations.",
+      "source_file": "transfer/research/p204_w3/initial.json#primary_research[4]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-D.research[0]",
+      "stage": "qualified",
+      "work": "An Investigation of the Applicability of Design of Experiments to Software Testing (Kuhn & Reilly, 2002)",
+      "locator": "https://www.nist.gov/publications/investigation-applicability-design-experiments-software-testing",
+      "status": "NIST first-party record opened; authors/date/27th NASA Goddard-IEEE SEW proceedings identity confirmed. Abstract supports >95% 4-way result for error reports from one browser and one server.",
+      "qualification": "Preliminary, two-system, historical result; supports project-specific factor sampling only after factor/domain evidence, not blanket t-way sufficiency.",
+      "source_file": "transfer/research/p204_w4/initial.json#research[0]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-D.research[1]",
+      "stage": "qualified",
+      "work": "When tests collide: Evaluating and coping with the impact of test dependence (Lam, Zhang & Ernst, UW-CSE-15-03-01, 2015)",
+      "locator": "https://homes.cs.washington.edu/~mernst/pubs/deptest-impact-tr150301-abstract.html",
+      "status": "Author/university abstract opened; technical report provenance and 4 prioritization/6 selection/2 parallelization algorithms plus 111/665 XML-Security result on 16 CPUs confirmed.",
+      "qualification": "Report/abstract, not peer-reviewed venue established on opened page. Supports checking dependence before treating order/parallelization as neutral; no evidence this suite is dependent.",
+      "source_file": "transfer/research/p204_w4/initial.json#research[1]",
+      "terra_status": "retain_qualified",
+      "decision_effect": "conditional method choice as described in deduplicated decisions; source-specific results do not prove a local outcome"
+    },
+    {
+      "source_id": "P204-D.research[2]",
+      "stage": "unresolved",
+      "work": "Test them all, is it worth it? Assessing configuration sampling on the JHipster Web development stack (Halin et al.)",
+      "locator": "https://xdevroey.be/publications/halin-2018/",
+      "status": "The verifier's open returned a generic publication-site shell, not the cited record. Original report says author publication page/abstract inspected but full text not opened. 26,000 configs, 80 machines, 4,376 CPU-hours, and 35.70% figure remain unverified here.",
+      "qualification": "Retain as source-reported, population-specific evidence; it cannot determine this project's factor set, defect yield or budget.",
+      "source_file": "transfer/research/p204_w4/initial.json#research[2]",
+      "terra_status": "unresolved",
+      "decision_effect": "context only unless a specific need below is triggered"
+    },
+    {
+      "source_id": "P204-B.research_synthesis.supporting_sources[6]",
+      "work": "Empirical Study of Flaky Tests in JavaScript",
+      "terra_status": "unresolved",
+      "status": "Scout reported paper landing page; independent verification grouped other flaky studies and did not establish a separate verification for this item.",
+      "qualification": "Population-specific, cannot infer project cause or prevalence.",
+      "decision_effect": "context only"
+    }
+  ],
+  "deduplicated_decisions": [
+    {
+      "question": "What boundary first differs under the reported conditions?",
+      "status": "retain",
+      "ids": [
+        "P204-A.source_map[0..2]",
+        "P204-B.findings[0..2]",
+        "P204-C.findings[0..2]"
+      ],
+      "decision_change": "Prioritize identifying the exact consumer, configuration, inputs and original failure; then compare boundary-specific matched fixtures. This is grounded principally in project excerpts and scenario, not an empirical claim of optimal report order."
+    },
+    {
+      "question": "When is provider differential testing meaningful?",
+      "status": "retain_qualified",
+      "ids": [
+        "P204-A.evidence[2]",
+        "P204-A.source_map[2]"
+      ],
+      "decision_change": "Recover artifact/provider identity and common semantics before comparing the same C++ caller and byte inputs. Csmith supports the comparison concept for compilers, not the diagnosis or an expanded random campaign."
+    },
+    {
+      "question": "How to investigate asynchronous order and interpret repetitions?",
+      "status": "retain_qualified",
+      "ids": [
+        "P204-B.research_synthesis.supporting_sources[0..2]",
+        "P204-B.findings[0..2]"
+      ],
+      "decision_change": "Preserve original event trace; compare controlled boundaries or schedules where feasible, rather than interpreting a short clean rerun as absence. FlakeRake is abstract-only, CHESS a technical report and event-sequence coverage requires a model; none establishes this project’s cause."
+    },
+    {
+      "question": "When to minimize a failure?",
+      "status": "retain_qualified",
+      "ids": [
+        "P204-C.primary_research[3]"
+      ],
+      "decision_change": "Once a reproducible failure and valid oracle exist, reduce a longer failing sequence; 1-minimal under assumptions does not mean globally minimal cause."
+    },
+    {
+      "question": "When to widen to factor coverage or change parallel ordering?",
+      "status": "retain_qualified",
+      "ids": [
+        "P204-D.research[0..1]",
+        "P204-C.primary_research[0]",
+        "P204-B.research_synthesis.supporting_sources[2]"
+      ],
+      "decision_change": "Consider modeled interactions and test-dependence checks if concrete evidence exposes relevant factors or shared state. NIST and Lam are population-specific; C chapter remains independently unverified. No blanket pairwise/four-way coverage or local dependence follows."
+    },
+    {
+      "question": "Is test-prioritization machinery needed now?",
+      "status": "reject_for_current_decision",
+      "ids": [
+        "P204-A.evidence[0]",
+        "P204-A.evidence[1]",
+        "P204-D.research[2]"
+      ],
+      "decision_change": "No local durations, failure history or broad ranking requirement. ISSTA record supports its historical long-suite finding but is context, not a ranking for these causal reports; Kazmi and Halin are unresolved."
+    },
+    {
+      "question": "Should metamorphic or GUI-oracle literature determine the oracle?",
+      "status": "defer",
+      "ids": [
+        "P204-A.evidence[3]",
+        "P204-C.primary_research[1..2]",
+        "P204-C.primary_research[4]"
+      ],
+      "decision_change": "Current named fixtures and actual contract/consumer observation are more direct; literature records are not independently verified and provide context only. Revisit only if no direct oracle can be established."
+    }
+  ],
+  "report_coverage": {
+    "R01": {
+      "ids": [
+        "P204-A.source_map[0]"
+      ],
+      "entry_consumer": "src/store.cpp Store::update; caller downstream not identified",
+      "fixture": "tests/store_test.cpp failed-operation snapshot/IDs; core.store registration; not run",
+      "unknown_and_discriminator": "Capture original IDs/input/configuration and compare keyed pre/post snapshots including unaffected record; rejection status and actual consumer remain needed."
+    },
+    "R02": {
+      "ids": [
+        "P204-A.source_map[1]"
+      ],
+      "entry_consumer": "src/main.cpp run -> foundation-cli; tests/check_cli.py",
+      "fixture": "core.cli registered in non-Emscripten setup; system-fixture/dev/full help case platform-dependent; not run",
+      "unknown_and_discriminator": "Separately capture exact binary, args, stdout/stderr and exit for later invalid input, and ordinary redirect versus known flush-failing sink for help."
+    },
+    "R03": {
+      "ids": [
+        "P204-A.source_map[2]"
+      ],
+      "entry_consumer": "Store::validate -> src/text_validation.cpp C ABI -> configured provider",
+      "fixture": "core.text_validation and core.text_status; provider and boundaries tested in source only; Rust implementation absent",
+      "unknown_and_discriminator": "Obtain exact package, linked provider ID, configuration and original bytes; compare same caller and inputs under matched semantics. Attribution remains unresolved without identity."
+    },
+    "R04": {
+      "ids": [
+        "P204-B.findings[0]"
+      ],
+      "entry_consumer": "gui/shared/application.cpp Application::handle -> Store and adapter/presentation; actual adapter unknown",
+      "fixture": "gui/tests/application_test.cpp adapter-template transitions, GUI CMake registration; not run",
+      "unknown_and_discriminator": "Capture adapter, initial state and event order; compare matched per-event shared state/status with adapter and displayed snapshots to discriminate boundary."
+    },
+    "R05": {
+      "ids": [
+        "P204-B.findings[1]"
+      ],
+      "entry_consumer": "gui/shared/task_native.cpp generation-tagged worker/mailbox; UI consumer not in excerpt",
+      "fixture": "gui/tests/task_native_test.cpp cancellation, generation and shutdown cycles; native configuration; not run",
+      "unknown_and_discriminator": "Capture original start/cancel/start, generation values, mailbox and UI-consumed progress; controlled barrier only after reproduction where feasible."
+    },
+    "R06": {
+      "ids": [
+        "P204-B.findings[2]"
+      ],
+      "entry_consumer": "gui/host/browser_lifecycle.mjs polling -> browser client/transport/presenter; latter paths and generated asset unknown",
+      "fixture": "browser_lifecycle_test.mjs fake timer/deferred promise; supplied CMake excerpt does not show its registration, no universal absence claim; not run",
+      "unknown_and_discriminator": "Capture browser/version, actual generated asset, transport failure/recovery and refresh trace; use matched timer/send/reject/recovery states to locate boundary."
+    },
+    "R07": {
+      "ids": [
+        "P204-C.findings[0]"
+      ],
+      "entry_consumer": "text frame and wheel chaining interaction -> parent pane, framebuffer/terminal adapters",
+      "fixture": "text_frame_test.cpp and wheel_chaining_test.cpp; relevant GUI registrations; not run",
+      "unknown_and_discriminator": "Capture widget/backend, focus and event sequence plus whether child fits, overflows or is clamped; compare offsets, selection, focus and event ownership with matched scene."
+    },
+    "R08": {
+      "ids": [
+        "P204-C.findings[1]",
+        "P204-C.findings[2]"
+      ],
+      "entry_consumer": "editor/model/project.cpp -> editor/ui/canvas.cpp; separate visual/flow/flow.cpp -> downstream consumer",
+      "fixture": "editor model/canvas tests and R13 flow_test.cpp cases; editor registrations; not run",
+      "unknown_and_discriminator": "Keep displacement and truncation separate. Capture project, mode, field, geometry and pan/zoom for matched model/view round-trip; separately capture graph, sequence, capacity and actual consumer full output."
+    }
+  },
+  "neighbor_evidence": {
+    "R09": "P204-A.source_map[3], P204-D.source_findings[2]: SDK dependency validation and fixture identify a build consumer; actual configuration absent, not an alleged report cause.",
+    "R10": "P204-B.findings[3]: process supervision may protect output provenance; excerpt does not prove complete process containment.",
+    "R11": "P204-C.findings[2], P204-D.source_findings[0]: retained-input selection and tiny configure consumer; not full GUI/build qualification.",
+    "R12": "P204-D.source_findings[1]: capacity admission/export logic; no measured concurrency or memory use.",
+    "R13": "P204-C.findings[2]: selected flow publish/consume cases and fixture, not coverage of the unknown truncated consumer."
+  },
+  "expert_and_human_triggers": "Sol reviews any consequential objective, architecture, shared-state, algorithm, resource strategy or redesign before dependent implementation, and independently reviews a later patch; original requirements and decisive sources accompany compact decision packet. Astra when concrete strategic risk or diminishing returns warrants; expert requests proceed when ready without screening barrier. No present consequential redesign question is established. Report questions for human: exact commands, inputs and outputs; record IDs; package/provider/build identity; adapter/event/generation traces; browser/transport/asset; overflow/widget; project/mode/graph and actual consumer; clarification of unresolved product contract. Future execution needs separate authorization; do not message a hypothetical user.",
+  "discarded_research": "Defer broad crawling, exhaustive platform/provider matrices, abstract-only effect-size claims as decision facts, elaborate ranking without local history, arbitrary event permutations, repetition as proof of absence, and differential comparison without matching identity/semantics. Do not add work for quotas or infer runtime from registration. Prior comparable allocation and adequate telemetry unavailable; no measured multiple or savings.",
+  "acceptance": "All eight are classified with qualified excerpt paths, named fixtures and discriminators, including separate R08 symptoms; actual affected downstream consumer and configuration remain unknown where indicated. Original reported failures are hypothetical and unreproduced, with no project test, build, configure, fix or runtime observation. Distinguish future setup failure, reproduced failure, rejected hypothesis and untested scope; preserve assertions."
+}

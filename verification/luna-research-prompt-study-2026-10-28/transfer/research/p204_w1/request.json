@@ -1,0 +1,22 @@
+{
+  "assignment_id": "P204-A",
+  "conversation_id": "p204-a",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "purpose_and_decision_use": "Assess empirical evidence for choosing between focused contract/state checks, differential provider checks and test prioritization for R01-R03, including when simple matched cases dominate ranking machinery.",
+  "source_units": [
+    "R01",
+    "R02",
+    "R03",
+    "R09"
+  ],
+  "dependencies": "None; independent first wave.",
+  "web_operation_budget": {
+    "total_max": 16,
+    "search_query_max": 8,
+    "open_max": 10
+  },
+  "prompt": "Read only p204's supplied contract, scenario, source index and assigned excerpt units R01-R03 and R09, plus relevant original empirical papers or first-party primary sources within the web budget. Do not inspect other views, working trees, results or unreleased events; do not execute code. Identify actual callers, fixtures and registration/configuration limits, and search for empirical test prioritization or differential/metamorphic testing evidence that could inform the decision between matched state/CLI/provider discriminators and more elaborate selection. Seek at least one plausible alternative or contrary/limited result, without a source-count target. Explain whether the evidence applies to under-specified inputs and provider/package identity, what it cannot prove, and a concrete next falsifier. Preserve original report unknowns. Return primary source links with study context and precise claims, excerpt line references, rejected/weak leads, and unanswered questions. Stop when additional evidence repeats findings or cannot change the decision; maximum 16 logical web operations, at most 8 queries and 10 opens. No tests or runtime claims.",
+  "expected_artifact": "Compact cited evidence map with applicability, alternatives, next discriminators and explicit untested scope.",
+  "model_rationale": "Pinned Luna-high is suited to bounded independent source and original-literature discovery; Terra retains judgment and screening."
+}

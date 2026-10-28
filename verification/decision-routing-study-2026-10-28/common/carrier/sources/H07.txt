@@ -1,0 +1,73 @@
+H07 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- tests/test_helper_receiver.cpp:555-580 ---
+  555 void frequency_drift() {
+  556     for(const auto rate:{8000U,11025U,44100U,48000U})for(const auto drift:{0.,-.2,.2,-1.,1.}) {
+  557         helper::Receiver receiver(2100,20);
+  558         std::mt19937 rng(91);std::normal_distribution<double> noise(0,.0001);
+  559         std::array<float,137> samples{};std::size_t accepted=0;
+  560         for(std::uint64_t first=0;first<rate*2;first+=samples.size()) {
+  561             const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(samples.size(),rate*2-first));
+  562             for(std::size_t i=0;i<count;++i) {
+  563                 const auto time=static_cast<double>(first+i)/rate;
+  564                 samples[i]=static_cast<float>(.7*std::cos(tau*(2100.37*time+drift*time*time/2)+.81)+noise(rng));
+  565             }
+  566             receiver.push(std::span<const float>(samples).first(count),rate,first);
+  567             if(const auto reference=receiver.take_update()) {
+  568                 ++accepted;check(reference->sample<first+count);
+  569             check((reference->frequency_sample?reference->frequency_sample:reference->sample)<=reference->sample);
+  570                 const auto time=static_cast<double>(reference->sample)/rate;
+  571                 const auto phase_error=std::abs(std::remainder(reference->phase_radians-
+  572                     tau*(2100.37*time+drift*time*time/2)-.81,tau));
+  573                 const auto frequency_error=std::abs(reference->frequency_hz-2100.37-drift*time);
+  574                 check(phase_error<=reference->phase_uncertainty_radians);
+  575                 check(frequency_error<=reference->frequency_uncertainty_hz);
+  576             }
+  577         }
+  578         check(accepted>20);
+  579     }
+  580 }
+
+
+--- tests/test_helper_receiver.cpp:633-670 ---
+  633 LinkResult realistic_link(double cn0_db_hz,double power,double amplitude,std::size_t chunk,unsigned seed) {
+  634     constexpr std::uint32_t rate=48000;
+  635     constexpr double expected=6380,frequency=6380.37,delay=.03719;
+  636     helper::Options options;options.power_w=power;options.data_power_w=4;
+  637     options.callsign="N0CALL";options.timecode=false;
+  638     AuxiliaryFixture generator(options,frequency,amplitude,.1,1700000000,true,{},true);
+  639     FundedFrequencyReceiver receiver(expected,20,rate);
+  640     const auto noise_sigma=std::sqrt(amplitude*amplitude*rate/(4*std::pow(10.,cn0_db_hz/10)));
+  641     std::mt19937 rng(seed);std::normal_distribution<double> noise(0,noise_sigma);
+  642     std::vector<float> samples(chunk);LinkResult result;
+  643     for(std::uint64_t first=0;first<rate*12;first+=chunk) {
+  644         const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(chunk,rate*12-first));
+  645         for(std::size_t i=0;i<count;++i) {
+  646             const auto time=static_cast<long double>(first+i)/rate-delay;
+  647             const auto helper=time<0?0.:generator.mix(time,rate);
+  648             const auto payload=amplitude*std::sqrt(4/power)*std::cos(tau*1500*static_cast<double>(time));
+  649             samples[i]=static_cast<float>(helper+payload+noise(rng));
+  650         }
+  651         receiver.push(std::span<const float>(samples).first(count),rate,first);
+  652         if(auto reference=receiver.take_update()) {
+  653             check(reference->sample<first+count);
+  654             check((reference->frequency_sample?reference->frequency_sample:reference->sample)<=reference->sample);
+  655             check(reference->frequency_valid&&!reference->phase_valid&&!reference->timing_valid&&!reference->metadata);
+  656             ++result.references;result.last=reference;
+  657             check(std::isfinite(reference->frequency_hz)&&std::isfinite(reference->frequency_uncertainty_hz)&&
+  658                   reference->frequency_uncertainty_hz>=0&&
+  659                   std::abs(reference->frequency_hz-frequency)<=reference->frequency_uncertainty_hz);
+  660             if(reference->frequency_uncertainty_hz<=.1) {
+  661                 if(!result.usable)result.first_usable=static_cast<double>(reference->sample)/rate;
+  662                 ++result.usable;
+  663                 const auto error=std::abs(reference->frequency_hz-frequency);
+  664                 result.max_error=std::max(result.max_error,error);
+  665                 result.max_uncertainty=std::max(result.max_uncertainty,reference->frequency_uncertainty_hz);
+  666                 check(error<=reference->frequency_uncertainty_hz);
+  667             }
+  668         }
+  669     }
+  670     return result;

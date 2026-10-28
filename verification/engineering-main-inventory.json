@@ -1,7 +1,7 @@
 {
   "version": 1,
   "id": "luna-medium-acceptance",
-  "workspace": "/tmp/delegation-engineering-main-fixture/source",
+  "workspace": "unbundled-runtime/run-h477d4d60251ff030/source",
   "policy": {
     "capacity": {
       "reasoning": 4,
@@ -10,12 +10,12 @@
       "memory_mb": 4096
     },
     "allowed_cwds": [
-      "/tmp/delegation-engineering-main-fixture/source"
+      "unbundled-runtime/run-h477d4d60251ff030/source"
     ],
     "allowed_executables": [],
     "process_boundary": "inherited",
     "boundary_description": "Disposable local engineering validation in the inherited OS sandbox; agent workspaces are controller-created private repository copies; network disabled.",
-    "codex_binary": "/usr/lib/chatgpt/resources/codex",
+    "codex_binary": "system-fixture/usr/lib/chatgpt/resources/codex",
     "agent_profile": "engineering",
     "model": "gpt-6-luna",
     "effort": "medium",
@@ -29,13 +29,13 @@
   },
   "source": {
     "purpose": "one bounded Luna-medium main-chat controller acceptance exercise",
-    "fixture": "/tmp/delegation-engineering-main-fixture"
+    "fixture": "unbundled-runtime/run-h477d4d60251ff030"
   },
   "tasks": [
     {
       "id": "parser-hypothesis",
       "role": "scout",
-      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "cwd": "unbundled-runtime/run-h477d4d60251ff030/source",
       "write_scope": [],
       "hypothesis": "The comma parser drops the first token before reduction.",
       "experiment": "Run the actual parse_values(\"2,3\") and compare its ordered list to [2,3], plus matched singleton and whitespace cases.",
@@ -57,7 +57,7 @@
     {
       "id": "reducer-hypothesis",
       "role": "scout",
-      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "cwd": "unbundled-runtime/run-h477d4d60251ff030/source",
       "write_scope": [
         "scratch/"
       ],
@@ -87,7 +87,7 @@
     {
       "id": "repeatability-slow",
       "role": "scout",
-      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "cwd": "unbundled-runtime/run-h477d4d60251ff030/source",
       "write_scope": [],
       "hypothesis": "The observed first-item omission is stable across repeated calls and is not transient input state.",
       "experiment": "Using actual total() on matched repeated inputs before and after exactly one bounded 60-second sleep, compare results to expected sums; do not sleep again.",
@@ -107,7 +107,7 @@
     {
       "id": "correct-total",
       "role": "worker",
-      "cwd": "/tmp/delegation-engineering-main-fixture/source",
+      "cwd": "unbundled-runtime/run-h477d4d60251ff030/source",
       "write_scope": [
         "totals.py"
       ],

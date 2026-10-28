@@ -1,0 +1,83 @@
+{
+  "case_id": "r693",
+  "continuation_id": "n154",
+  "started_utc": "approx. 2026-10-28 20:54:00 UTC; intake clock not sampled",
+  "finished_utc": "2026-10-28 21:05:29 UTC",
+  "operations": [
+    {"id":"op01","kind":"search_query","query_or_url":"site:arxiv.org multi-agent software engineering agents benchmark collaboration communication cost SWE-bench paper 2024 2025","result_status":"failed locally: JavaScript syntax error before web tool execution; counted as an attempted logical query; no external retrieval"},
+    {"id":"op02","kind":"search_query","query_or_url":"site:aclanthology.org LLM human AI collaboration decision making alternatives reviewer effort study","result_status":"failed locally: same malformed tool invocation as op01; counted as an attempted logical query; no external retrieval"},
+    {"id":"op03","kind":"search_query","query_or_url":"site:arxiv.org multi-agent software engineering agents benchmark collaboration communication cost SWE-bench paper 2024 2025","result_status":"success; results included SWE-Search and unrelated items; no claims taken from snippets"},
+    {"id":"op04","kind":"search_query","query_or_url":"site:aclanthology.org LLM human AI collaboration decision making alternatives reviewer effort study","result_status":"success; identified peer-reviewed Decision-Oriented Dialogue paper and unrelated papers; used exact paper record only as a lead"},
+    {"id":"op05","kind":"open","query_or_url":"https://aclanthology.org/2024.tacl-1.50.pdf","result_status":"success; full TACL paper accessible; first content and venue metadata checked"},
+    {"id":"op06","kind":"search_query","query_or_url":"site:dl.acm.org 2024 human AI decision support advice taking overreliance peer reviewed study","result_status":"success; results did not add a more useful source"},
+    {"id":"op07","kind":"search_query","query_or_url":"site:arxiv.org human AI decision making ask information acquisition value information LLM collaboration empirical study","result_status":"success; identified Value of Information paper and other leads"},
+    {"id":"op08","kind":"open","query_or_url":"https://arxiv.org/abs/2502.06152","result_status":"success; full-text HTML accessible; paper content and stated proof-of-concept limitation checked"},
+    {"id":"op09","kind":"search_query","query_or_url":"\"Explaining and Improving Information Complementarities in Multi-Agent Decision-making\" venue publication","result_status":"success; author publication page and ICLR 2026 OpenReview record identified"},
+    {"id":"op10","kind":"search_query","query_or_url":"\"The Value of Information in Human-AI Decision-making\" Guo Wu Hartline Hullman","result_status":"success; OpenReview search result labels paper published at ICLR 2026 and exposes abstract/full text"},
+    {"id":"op11","kind":"open","query_or_url":"https://openreview.net/pdf?id=rp2RDBRA0Y","result_status":"failed; redirected to browser verification page; no PDF content retrieved; venue status is supported by op09/op10 search results, not this open"}
+  ],
+  "operations_budget": {"logical_operations_used":11,"logical_operations_limit":16,"search_queries_attempted":8,"search_query_limit":8,"opens_attempted":3,"open_limit":10,"overshoots":0,"notes":"Counted the two parser-failed query items as failed attempts per contract. Stopped after sufficient incremental evidence."},
+  "retained_seed_summary":"Retain the four seed findings as separate, qualified evidence: (1) Agentless motivates bounded localization, candidate, and validation stages but is an issue-repair benchmark, not mixed-model research delegation; (2) CoVe motivates claim-specific verification questions, with same-model/shared-assumption limits; (3) the research-ideation preprint motivates distinct alternatives and distrust of self-ranking/detail metrics, but has uncertain publication status and no repository-task transfer; (4) Agentless clue and benchmark caveats require testing on representative clear and ambiguous tasks. The seed does not establish prompt-injection resistance or direct target-workflow benefit. Continue preserving direct expert source inspection, independent patch acceptance, and timely consequential review.",
+  "sources": [
+    {
+      "id":"decision_dialogue",
+      "url":"https://aclanthology.org/2024.tacl-1.50/",
+      "title":"Decision-Oriented Dialogue for Human-AI Collaboration",
+      "year":2024,
+      "venue":"Transactions of the Association for Computational Linguistics, vol. 12, pp. 892–911",
+      "publication_status":"Peer-reviewed TACL journal article; the paper PDF gives volume, pages, DOI 10.1162/tacl_a_00679, and publication date August 2024.",
+      "status_evidence_url":"https://aclanthology.org/2024.tacl-1.50/",
+      "access_level":"Full text PDF",
+      "content_locator":"§1 (pp. 892–893), §2 (p. 893), §7.2 (pp. 902–903), and §9 (p. 904). Full text first accessed in op05; publication metadata also appears in the PDF front matter in op05."
+    },
+    {
+      "id":"voi",
+      "url":"https://arxiv.org/abs/2502.06152",
+      "title":"The Value of Information in Human-AI Decision-making",
+      "year":2026,
+      "venue":"International Conference on Learning Representations (ICLR 2026)",
+      "publication_status":"Published as an ICLR 2026 conference paper, verified from the OpenReview paper search result in op09 and op10. OpenReview PDF open op11 was blocked by a browser verification page; content claims below use the accessible full arXiv text, not that PDF.",
+      "status_evidence_url":"https://openreview.net/pdf?id=rp2RDBRA0Y",
+      "access_level":"Full arXiv text; OpenReview PDF not retrieved",
+      "content_locator":"Abstract and §§1, 3, 5, 7 in the accessible full text. §1 defines information value as expected marginal payoff improvement over existing information; §5 reports a crowdsourced controlled study; §7 says complementarity was designed into the experiment and calls for real-deployment work. First content in op08; venue status in op09/op10."
+    }
+  ],
+  "findings": [
+    {
+      "id":"decision-critical-questions",
+      "claim":"In three controlled decision-dialogue domains, Lin et al. found GPT-3 assistants asked questions but often used generic prompts that failed to elicit decision-critical information; iterative proposals often changed superficially without improving decision score. Human assistants instead asked and proposed in ways that narrowed options. Human–LM dialogues were longer yet lower-scoring. The paper’s formal task objective includes both decision quality and communication cost.",
+      "source_ids":["decision_dialogue"],
+      "support_locator":"§1, pp. 892–893, on partial information and decision relevance; §2 on joint decision utility and communication cost; §7.2, pp. 902–903, on generic questions, superficially iterative proposals, and longer lower-scoring LM dialogues.",
+      "support_operation_ids":["op05"],
+      "decision_implication":"For a research handoff, ask for the one unresolved fact or check most likely to distinguish the live alternatives, why its answer could change the decision, and when to stop. In evaluation, pair decision-relevance and missed-alternative measures with reviewer time or communication cost; extra questions and longer reports are not success measures by themselves. Keep the stronger decision owner responsible for acceptance.",
+      "assumptions":"Architecture research has an explicit decision or shortlist of alternatives, and the investigator can identify evidence that would discriminate among them.",
+      "applicability_gap":"This is a TACL study of GPT-3 on reviewer assignment, itinerary planning, and group scheduling—not repository research, smaller-model subagents, contemporary model routing, prompt injection, or software architecture. It supplies a warning and a testable interaction principle, not evidence that the proposed prompt will improve target tasks.",
+      "next_discriminator":"On matched architecture decisions, compare generic follow-up with a prompt requiring a decision-critical unknown, its expected effect on the choice, and a low-cost falsifier. Score whether the question reveals useful new evidence and changes or justifiably preserves the decision, alongside reviewer time and missed alternatives.",
+      "incremental_vs_seed":{"new_evidence":"A peer-reviewed human–AI decision-dialogue study directly reports that generic questions often failed to uncover decision-critical information, and that longer LM dialogues could score lower; it also formalizes communication cost alongside decision quality.","seed_claim_or_gap_changed":"Adds an empirical rationale for discriminating questions and measuring reviewer/communication burden to the seed’s staged repository-work proposal. The seed had no direct dialogue-quality or question-selection evidence. It does not close the mixed-model repository transfer gap."}
+    },
+    {
+      "id":"value-of-information-evaluation",
+      "claim":"Guo et al. define complementary information by the expected marginal payoff gain achievable from a new signal over decisions based on already available information. They show this framework can compare human–AI performance and report a controlled study where one explanation designed to reveal complementary information improved performance over baselines. Their experiment deliberately constructed complementarity and they call for real-deployment evaluation.",
+      "source_ids":["voi"],
+      "support_locator":"§1 and §3 on expected marginal payoff and signal value; §5 on the controlled study; §7 on the proof-of-concept design and real-deployment limitation.",
+      "support_operation_ids":["op08","op09","op10"],
+      "decision_implication":"A practical pilot can record, for each added source or verification step, what information it contributed beyond the initial repository map and whether that contribution could alter the choice or confidence in a consequential way; compare the gain with retrieval and reviewer effort. This gives a principled quality-cost question for evaluation, while acknowledging that project decisions usually lack the known payoff distribution needed to compute the paper’s formal upper bound.",
+      "assumptions":"Decision owners can state decision-relevant outcomes or at least judge whether a new fact changes a concrete choice; source and review effort can be measured consistently.",
+      "applicability_gap":"The study concerns human–AI decision signals and explanations, not subagent prompts or code architecture. Its controlled experiment builds complementarity by design; its rational upper-bound framework assumes a defined decision problem and signal-generating distribution. Do not claim its observed performance effect transfers to repository tasks.",
+      "next_discriminator":"In a small prospective task set, annotate initial evidence, genuinely new evidence, whether that evidence changed the expert’s decision, and review time. Check inter-rater agreement and include cases where research adds no decision-relevant information.",
+      "incremental_vs_seed":{"new_evidence":"A peer-reviewed ICLR 2026 paper supplies a formal decision-theoretic distinction between additional information and information that can improve a decision, plus a quality comparison that is explicit about the proof-of-concept scope.","seed_claim_or_gap_changed":"Refines the seed’s proposed evaluation of reviewer effort and decision relevance: count decision-changing information added per effort, rather than counting findings/reports. The seed’s general recommendation to benchmark on local tasks remains; this paper does not validate the target prompt or models."}
+    }
+  ],
+  "rejected_or_redundant":[
+    "SWE-Search (arXiv search lead) proposed a multi-agent MCTS software-agent framework but the search-level description was not enough to establish decision-useful evidence for research handoffs, and opening it was not needed after finding stronger primary sources directly about decision-oriented dialogue and information value. No claims used.",
+    "The separate 2026 ‘Learning to Ask’ SLM–LLM collaboration preprint appeared in a search result, but is a recent preprint with a different trained-advisor routing task; it does not establish mixed-model repository-research prompting and was not pursued."
+  ],
+  "unresolved":[
+    "No source retrieved directly tests smaller-model subagents finding alternatives for software-architecture decisions in existing repositories with a stronger model as reviewer.",
+    "No retrieved source tests prompt-injection resistance for web or repository research; preserve the task’s untrusted-source boundary as an operational constraint, not as a research conclusion.",
+    "The formal information-value metric requires a defined decision problem and signal distribution; practical repository pilots may only approximate this with adjudicated decision changes and reviewer effort.",
+    "OpenReview PDF operation op11 failed at a browser verification page; content was read from arXiv full text op08. No workaround was attempted."
+  ],
+  "stop_reason":"Two primary sources added evidence and evaluation methods; stopped at sufficient evidence under the eight-query ceiling, without claiming target-workflow improvement.",
+  "escalation_ready":"New evidence supports testing a prompt that requests decision-critical unknowns and discriminating checks, then measures genuinely decision-relevant information gained against reviewer effort. It also motivates tracking whether added evidence changes expert decisions. The direct transfer to mixed-model software-architecture research remains untested; preserve direct expert access to decisive sources, independent patch acceptance, prompt-injection boundaries, and timely consequential review."
+}

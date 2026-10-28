@@ -1,0 +1,87 @@
+{
+  "finding": "P09 scope and deliverable explicitly include independent patch review, but the original P09 basis and 4\u20138 request budget describe consequential decision review only. No separately identifiable incremental acceptance work was counted. P12 includes an author handoff, not independent review. p61 A10 already counts its independent patch review.",
+  "original_files_unchanged": true,
+  "additional_p29_conditional_acceptance_review_sensitivity": {
+    "work": "Additional independent patch acceptance review within P09 after an already-budgeted consequential decision review: inspect patch, original failing regression, focused results, contracts and neighboring consumer; produce independent findings and risks.",
+    "conditional": "Only when both a consequential decision review and a later patch acceptance review actually occur; repair requires causal evidence and separate authorization.",
+    "model": "sol",
+    "requests_low": 4,
+    "requests_high": 8,
+    "new_conversations": 0,
+    "source_units": [
+      "R01",
+      "R02",
+      "R03",
+      "R04",
+      "R05",
+      "R06",
+      "R07",
+      "R08",
+      "R13"
+    ],
+    "source_bytes": 79290,
+    "common_input_low": 64000,
+    "common_input_high": 384000,
+    "payload_history_input_low": 9932,
+    "payload_history_input_high": 79504,
+    "input_low": 73932,
+    "cached_input_low": 51200,
+    "output_low": 3200,
+    "input_high": 463504,
+    "cached_input_high": 0,
+    "output_high": 20000,
+    "usd_low": 0.082584,
+    "usd_high": 1.127008,
+    "usd_low_no_cache": 0.179864,
+    "fresh_conversation_low_sensitivity_usd": 0.106904,
+    "basis": "Same 4\u20138 request review-work assumption as p61 A10, with P09 expert conversation reused after its decision review. Not a new assignment. The review is independent of the Luna patch author."
+  },
+  "fully_triggered_comparison": {
+    "p29": {
+      "base_unchanged": {
+        "total_usd_low": 0.696362,
+        "total_usd_high": 6.61699,
+        "total_usd_low_no_cache": 1.181353
+      },
+      "conditional_reserve_original": {
+        "total_usd_low": 0.117313,
+        "total_usd_high": 1.274272,
+        "total_usd_low_no_cache": 0.202946
+      },
+      "base_plus_all_reserves_original": {
+        "total_usd_low": 0.813675,
+        "total_usd_high": 7.891262,
+        "total_usd_low_no_cache": 1.384299
+      },
+      "base_plus_all_reserves_with_p29_increment": {
+        "total_usd_low": 0.896259,
+        "total_usd_high": 9.01827,
+        "total_usd_low_no_cache": 1.564163
+      }
+    },
+    "p61": {
+      "base_unchanged": {
+        "total_usd_low": 0.695615,
+        "total_usd_high": 6.565122,
+        "total_usd_low_no_cache": 1.173695
+      },
+      "conditional_reserve_original": {
+        "total_usd_low": 0.224375,
+        "total_usd_high": 2.402383,
+        "total_usd_low_no_cache": 0.382967
+      },
+      "base_plus_all_reserves_original": {
+        "total_usd_low": 0.91999,
+        "total_usd_high": 8.967505,
+        "total_usd_low_no_cache": 1.556662
+      },
+      "base_plus_all_reserves_with_p29_increment": {
+        "total_usd_low": 0.91999,
+        "total_usd_high": 8.967505,
+        "total_usd_low_no_cache": 1.556662
+      }
+    }
+  },
+  "assumptions": "Identical method and prices to regression-usage-estimate.json: common context 16k/48k per request; payload per request ceil(0.10/0.35 \u00d7 source bytes / 4)+500/3000; output Sol 800/2500 tokens per request; low 80% prefix cache after first within reused expert conversation, high cold; Sol standard input/cached/output USD per million 2/0.10/10. Four to eight requests for focused reading, patch/failure/consumer checks and review synthesis are a judgmental sensitivity, not observed usage. Additional low no-cache and fresh-conversation sensitivity are provided.",
+  "trigger_limits": "The increment is appropriate when both decision and acceptance reviews happen. If only patch review triggers P09 and no consequential decision review is separately required, its existing P09 budget can instead represent that review, so adding the increment would double-count. Fresh or expired conversation can increase the low endpoint. Full reserve totals assume every listed conditional branch happens for comparison, not a probability, forecast, or authorization. All figures remain subject to the fixed horizon and may not fit."
+}

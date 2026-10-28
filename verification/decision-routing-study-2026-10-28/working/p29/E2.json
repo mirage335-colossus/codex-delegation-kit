@@ -1,0 +1,389 @@
+{
+  "scenario": "regression",
+  "phase": "E2",
+  "source_units_consulted": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R11",
+    "R13"
+  ],
+  "assignments": [
+    {
+      "id": "P01",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "E1 store report remains uncontrolled: identify rebuilt binary/build and match source revision, record IDs, inputs, before/after snapshots and rejection status; retain both local observation and missing baseline.",
+      "purpose": "Clarify whether mutation follows rejection under the same artifact rather than attribute it to a rebuild.",
+      "scope": "Core store and CLI consumers; source revision and targeted fixtures only.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "core",
+      "deliverable": "Evidence ledger identifying original local report and E1 separately; artifact identity, ID-bearing matched comparison, exact command/input and unresolved gaps.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [],
+      "stop_condition": "Discriminator and required identities specified, or missing evidence recorded.",
+      "model_reason": "Independent bounded contract and caller investigation.",
+      "expected_work_operations": [
+        "Compare same identified artifact and configuration with identical ID-bearing initial records and inputs; capture validation status and complete ID/text state before and after rejected update; valid control on the same artifact.",
+        "Ask for exact command, hashes or build identity, input, IDs and snapshots; if unavailable propose controlled fixture after separate authorization."
+      ]
+    },
+    {
+      "id": "P02",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "E1/E2: Which provider marker and library is actually linked in each consumer, and could matched bytes through its actual C++ caller distinguish provider behavior from configuration?",
+      "purpose": "Do not treat the unmarked focused result as evidence of Rust or cross-provider equivalence.",
+      "scope": "Provider, ABI, store and actual package consumer/selection paths.",
+      "source_units": [
+        "R03",
+        "R01",
+        "R02",
+        "R09"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "provider",
+      "deliverable": "Provider and library identity matrix with prior unmarked result, E2 differing selection, matched-byte comparison and unresolved gaps.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [],
+      "stop_condition": "Provider marker and controlled comparison specified, or identity unavailable recorded.",
+      "model_reason": "Separable identity and boundary investigation.",
+      "expected_work_operations": [
+        "Record provider marker and package/library artifact identity, build configuration and exact target/command; match original reported bytes and caller.",
+        "Compare C++ and Rust only when separately identified configured artifacts are available; run named ABI and caller checks within their actual enablement."
+      ]
+    },
+    {
+      "id": "P03",
+      "action": "reroute",
+      "dispatch": "now",
+      "question": "R04/E2: What differs between the passing direct shared-GUI check and installed consumer reporting stale visible state, and at which event/state/render boundary does the same edit/submit sequence first diverge?",
+      "purpose": "Localize cross-component stale state rather than infer a GUI or provider cause.",
+      "scope": "Direct shared application and installed consumer adapter, normalization, state, snapshots, presentation and selected dependencies.",
+      "source_units": [
+        "R04",
+        "R05"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "gui-native",
+      "deliverable": "Paired path map and matched-event discriminator, direct fixture coverage and installed consumer gaps, preserving E2 as external report.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [],
+      "stop_condition": "Earliest divergent boundary specified or trace/prerequisite missing; return separable identity gaps to P06.",
+      "model_reason": "Distinct GUI/state and worker lifecycle investigation.",
+      "expected_work_operations": [
+        "Trace edit/submit normalization -> Application::handle/append_entry -> authoritative status/list snapshot -> adapter transport/presentation -> visible collection in each consumer.",
+        "Compare identical event values, order, generations and snapshots at each boundary on identified artifacts/configurations; direct pass only covers named checks."
+      ]
+    },
+    {
+      "id": "P04",
+      "action": "continue",
+      "dispatch": "queued",
+      "question": "R06 and R07: Does polling resume after failure and does wheel behavior depend on overflow or focus?",
+      "purpose": "Distinguish transport lifecycle from GUI interaction/retained-input selection.",
+      "scope": "Browser lifecycle, text/wheel interaction, and selected GUI source-group consumer.",
+      "source_units": [
+        "R06",
+        "R07",
+        "R11"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "gui-web",
+      "deliverable": "Trace startPolling -> client send/failed -> host/view, text frame -> wheel propagation -> containing pane, and GuiInputs -> selected retained source; identify registered lifecycle and text/wheel fixtures and their limits.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [],
+      "stop_condition": "Proposed controlled failure/recovery and overflow comparison with consumer paths and dependencies.",
+      "model_reason": "Independent bounded transport and input investigation.",
+      "expected_work_operations": [
+        "Use same fake scheduler/client with success, rejection and failed-to-recovered transitions; log timers, sends and state; fixture cannot prove behavior in all browsers.",
+        "Compare identical wheel and focus events with child overflow versus none, recording child/parent offsets and focus; check patch and selected input identity without changing retained kernel."
+      ]
+    },
+    {
+      "id": "P05",
+      "action": "continue",
+      "dispatch": "queued",
+      "question": "R08: Does the model-to-view mapping explain displacement, and does flow truncate at producer, edge or consumer?",
+      "purpose": "Separate two editor symptoms rather than assume common cause.",
+      "scope": "Editor model/canvas and flow paths.",
+      "source_units": [
+        "R08",
+        "R13"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "core",
+      "deliverable": "Trace project value -> canvas render/model_to_view -> hit/paint consumer; flow WorkResult -> publish/consume -> sink, with editor.canvas_test, editor.model_test and editor.flow_test registration and limits.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [
+        "P01 conversation available"
+      ],
+      "stop_condition": "Known project/mode needed or matched checks and source gaps documented.",
+      "model_reason": "Luna can trace independent, bounded value and flow evidence.",
+      "expected_work_operations": [
+        "Compare same model point before/after one value with fixed viewport/pan/zoom, then transform round-trip, object bounds and paint/hit result.",
+        "Use same graph/data in reported and control modes, compare produced/consumed counts, terminal snapshot and exact sink sequence; flow test samples and its modes do not establish all consumers."
+      ]
+    },
+    {
+      "id": "P06",
+      "action": "reroute",
+      "dispatch": "now",
+      "question": "E2: What do the matching consumer manifest/source inputs establish, and how do installed runtime artifact, provider selection and test inventory differ from the first target?",
+      "purpose": "Separate declared input identity from actual linked provider, built package and selected test coverage.",
+      "scope": "Only selected relevant configuration, consumer and execution-integrity paths; no broad inventory.",
+      "source_units": [
+        "R09",
+        "R10",
+        "R11",
+        "R12"
+      ],
+      "model": "luna",
+      "role": "scout",
+      "conversation_id": "consumer",
+      "deliverable": "Consumer inventory and source-group/configuration map with exact declared input identities, selected tests, actual provider/package markers and unresolved runtime identity.",
+      "ownership": "Read-only source; no shared writes.",
+      "dependencies": [],
+      "stop_condition": "Relevant identity and inventory differences mapped or missing data identified; stop unrelated helper exploration.",
+      "model_reason": "Useful neighboring consumer and execution-integrity discovery.",
+      "expected_work_operations": [
+        "Compare declared source/manifest, configured provider, actual linked provider/library marker, build and installed consumer artifact identity; do not equate manifest with runtime linkage.",
+        "Compare registered and executed test inventories where evidence exists and inspect GuiInputs/source_group selection and installed consumer caller."
+      ]
+    },
+    {
+      "id": "P07",
+      "action": "continue",
+      "dispatch": "now",
+      "question": "Request exact two consumer targets, executed test inventory and logs, installed package/build/runtime library identities, actual linked provider marker, adapter and browser/host, valid input and event sequence, timing and authoritative versus visible snapshots; retain E1 requests.",
+      "purpose": "Clarify materially different consumer paths and avoid interpreting source identity as runtime identity.",
+      "scope": "All eight symptom reports and campaign coordination.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08"
+      ],
+      "model": "terra",
+      "role": "owner",
+      "conversation_id": "coordinator",
+      "deliverable": "Request IDs and input/config/version; CLI args and redirect destination; provider/package marker and bytes; adapter/events; task generations/timing; browser/transport log; overflow/focus; project/mode and full expected/actual output. Track unanswered fields explicitly.",
+      "ownership": "Coordination and read-only synthesis.",
+      "dependencies": [],
+      "stop_condition": "Requests issued as a single concise bundle, uncertainty logged; no waiting for optional replies.",
+      "model_reason": "Coordinator owns scope and user communication.",
+      "expected_work_operations": [
+        "Ask for the rebuild timing and whether source or configuration changed, old/new artifacts if available, complete snapshot IDs and input.",
+        "Request exact provider target, marker, actual linked package/library and logs; preserve unanswered fields."
+      ]
+    },
+    {
+      "id": "P08",
+      "action": "continue",
+      "dispatch": "queued",
+      "question": "Classify E1 and E2 separately: direct GUI check reported pass within named scope, installed consumer reported stale visible state with matching declared inputs and different inventory/provider; no traced cause or controlled attribution.",
+      "purpose": "Preserve uncertainty and prevent unsupported causal or fix claims.",
+      "scope": "All returned evidence and acceptance rubric.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "model": "terra",
+      "role": "screen",
+      "conversation_id": "coordinator",
+      "deliverable": "Updated eight-report ledger, exact provenance and scope of CI outcomes, paired path comparison, remaining uncertainty, decisive references and dissent.",
+      "ownership": "Read-only synthesis.",
+      "dependencies": [
+        "P01-P06 as individually available"
+      ],
+      "stop_condition": "Each finding screened when available; return separable factual gaps to available Luna; stop low-value redundant searches.",
+      "model_reason": "Ordinary evidence screening, not architecture approval.",
+      "expected_work_operations": [
+        "Screen source revision, artifact and provider identity, outcome support, contradictions and missing controls; record E1 provenance separately from planned work.",
+        "Return bounded factual gaps to Luna and provide experts compact decisive references without delaying ready review."
+      ]
+    },
+    {
+      "id": "P09",
+      "action": "continue",
+      "dispatch": "conditional",
+      "question": "Review consequential cross-component design or measurement-contract choices before substantial dependent implementation, and independently review any eventual patch.",
+      "purpose": "Authorize consequential design before dependent implementation.",
+      "scope": "Consequential judgments and independent patch review; direct source access.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "model": "sol",
+      "role": "reviewer",
+      "conversation_id": "expert",
+      "deliverable": "Decision with requirements, alternatives, decisive sources, unresolved dissent and explicit approval or redesign; independently review any eventual patch and preserved original failure.",
+      "ownership": "Read-only review; no shared writes.",
+      "dependencies": [
+        "Trigger: consequential decision, patch ready, or exhausted repair; do not wait on P08 when decision is ready"
+      ],
+      "stop_condition": "Decision reviewed or blocker identified; return factual gaps to Luna.",
+      "model_reason": "Strong independent judgment for consequential design and acceptance.",
+      "expected_work_operations": [
+        "Review causal discriminators and assumptions; challenge supported alternatives and unchanged correctness thresholds."
+      ]
+    },
+    {
+      "id": "P10",
+      "action": "reroute",
+      "dispatch": "now",
+      "question": "E2 contradicts a possible assumption that direct shared-GUI checks establish installed consumer behavior: what is the smallest matched cross-component discriminator, and which alternative layer/provider/configuration explanations should remain live?",
+      "purpose": "Timely strategic challenge to the new cross-component branch before a costly wrong turn.",
+      "scope": "Bounded read-only strategic uncertainty, not duplicate review.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "model": "astra",
+      "role": "adviser",
+      "conversation_id": "strategic",
+      "deliverable": "Short alternative and discriminator assessment with decisive references, missing trace and decision gates; no preferred cause inferred.",
+      "ownership": "Read-only source.",
+      "dependencies": [],
+      "stop_condition": "Actionable strategic advice or precisely identified factual gaps.",
+      "model_reason": "Strategic challenge when material; an authorized review also satisfies the consequential model gate.",
+      "expected_work_operations": [
+        "Compare direct versus installed consumer paths and differences in provider/test inventory; challenge competing hypotheses and any measurement contract.",
+        "Ask Luna for separable source facts; no mandatory scouting or Terra screening barrier."
+      ]
+    },
+    {
+      "id": "P11",
+      "action": "continue",
+      "dispatch": "conditional",
+      "question": "With separate authorization and ready prerequisites, can the same valid edit/submit be traced across direct and installed consumers to isolate first divergence, alongside controlled E1 checks?",
+      "purpose": "Produce controlled causal evidence without treating E1 as a result from this plan.",
+      "scope": "Only independently authorized targeted operations and assigned fixture; no package release, kernel work or broad matrices.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "model": "luna",
+      "role": "worker",
+      "conversation_id": "gui-native",
+      "deliverable": "Preserved exact inputs, revision, build/provider/adapter markers, stdout/stderr, exit status, trace and classified result with coverage limits.",
+      "ownership": "Exclusive hypothetical fixture/output paths per worker; shared tree writer serialized.",
+      "dependencies": [
+        "Separate campaign authorization",
+        "Relevant P01-P06 finding",
+        "Ready fixture/configuration",
+        "Consequential design review if applicable"
+      ],
+      "stop_condition": "Discriminator answered, prerequisite missing or allocated horizon reached.",
+      "model_reason": "Focused settled execution is suitable bounded work.",
+      "expected_work_operations": [
+        "Record revision, manifest, actual consumer binary/library and linked provider, test inventory, same initial state and event sequence.",
+        "Compare normalized events, shared state/status/list snapshot, transport/render output and visible state; retain logs and classification; missing prerequisite is setup failure.",
+        "Run E1 store/provider controls only when identities and prerequisites permit; keep raw outcomes distinct."
+      ]
+    },
+    {
+      "id": "P12",
+      "action": "defer",
+      "dispatch": "conditional",
+      "question": "Can a local repair be justified by a controlled reproduced defect and causal evidence?",
+      "purpose": "Avoid a repair before traced causal evidence and the applicable consequential review.",
+      "scope": "One bounded defect and exclusively assigned hypothetical files.",
+      "source_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R13"
+      ],
+      "model": "luna",
+      "role": "worker",
+      "conversation_id": "gui-web",
+      "deliverable": "Patch plus unchanged original failing regression, targeted results and ownership handoff for independent review.",
+      "ownership": "Only explicitly assigned hypothetical files; no overlapping writes.",
+      "dependencies": [
+        "Separate campaign authorization",
+        "P11 causal evidence",
+        "P09 approval for consequential decisions"
+      ],
+      "stop_condition": "Remain deferred until authorized controlled causal evidence exists; one local repair then escalate exhausted attempt or consequential scope change.",
+      "model_reason": "Settled local repair with explicit causal evidence and bounded ownership.",
+      "expected_work_operations": [
+        "Preserve original failure and all thresholds, run focused existing checks under resource controls; request independent patch review."
+      ]
+    }
+  ],
+  "concurrency": "Prior hypothetical work is not presumed completed. The immediate wave has Terra coordinator, Luna P01, P02, rerouted P03 and P06, plus Astra P10: six reasoning slots. P04 and P05 queue; if Sol review is needed, pause or queue lower-priority independent discovery to free a slot. Resource use remains bounded by six total reasoning conversations, four test processes after separate authorization, eight CPUs and 16 GiB; serialize shared build and nested output writers. The initial two-hour horizon does not reset.",
+  "reuse": "Reuse the GUI-native conversation for paired direct/installed path mapping and provider for provider linkage. Use the consumer conversation for P06 configuration and inventory comparison; retain core and GUI-web findings and queue their related work. Terra keeps the earlier evidence ledger and compact cross-component alternatives with direct source access for Astra/Sol. Avoid duplicate provider searches by giving P02 the actual provider bridge and P06 consumer inventory/selection.",
+  "expert_and_human_triggers": {
+    "astra": "Dispatch bounded strategic consultation immediately: contrary consumer evidence and differing provider/test inventory expose a consequential uncertainty and a possible expensive wrong turn. A review by authorized Astra can satisfy a consequential decision gate; no mandatory screening wait.",
+    "sol": "Review any consequential architectural, algorithmic or measurement-contract decision before substantial dependent implementation; independent patch review and ownership of exhausted repair or consequential scope change. Queue Sol promptly if strategic discussion calls for it; free an existing slot.",
+    "human": "Request exact direct and installed consumer target identities, test inventories/logs, linked provider and library/package artifacts, valid edit/submit sequence and per-layer snapshots/trace, plus E1 missing information. Independent investigations continue while optional details are pending; missing answers do not authorize execution or changes."
+  },
+  "rejected_research": [
+    "Do not choose a cause, repair or shared/provider defect from stale visibility alone; the matching manifest and source revision establish declared inputs, not complete runtime linkage or trace.",
+    "Do not treat a direct GUI pass as installed consumer coverage or assert that proposed checks ran; do not erase E1 uncertainty.",
+    "Avoid unrelated broad matrices, full regression, release work, speculative patches and retained-kernel configure/compile/link/install; no tests or builds are executed in this study."
+  ],
+  "assumptions_and_uncertainties": [
+    "E2 is fabricated external feedback, not a result of P03, P06, or P11. CI claims matching declared manifest and source revision, while provider and test inventory differ; exact runtime identity and responsible layer remain unknown.",
+    "E1 store and unmarked provider observations remain uncontrolled. Other reports remain unresolved until their own evidence is obtained.",
+    "Separate campaign authorization, enabled prerequisites and fixed scope remain necessary; no comparable prior Luna baseline is available."
+  ],
+  "no_tokens_or_costs_estimated": true
+}

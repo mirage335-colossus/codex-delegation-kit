@@ -1,0 +1,178 @@
+# R12: Build-capacity planning and limit enforcement
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `tools/build_capacity.py` lines 1-80
+
+```text
+   1 #!system-fixture/usr/bin/env python3
+   2 """Select compile concurrency; stdout is a single positive job count.
+   3 
+   4 Reserve one usable logical CPU and some available RAM. This is an admission
+   5 heuristic, not a per-process memory limit or a prediction of compiler RSS.
+   6 Only callers with no explicit job count should use this policy.
+   7 Testing uses the same resource admission limits. Parallel parents divide an
+   8 inherited worker budget before launching children, so automatic nested work does
+   9 not independently claim all available resources.
+  10 """
+  11 import ctypes
+  12 import os
+  13 from pathlib import Path
+  14 import re
+  15 import subprocess
+  16 import sys
+  17 
+  18 MIB = 1024 * 1024
+  19 MEMORY_PER_JOB = 768 * MIB
+  20 WORKER_BUDGET = 'FOUNDATION_WORKER_BUDGET'
+  21 
+  22 
+  23 def read_text(path):
+  24     try:
+  25         return Path(path).read_text()
+  26     except FileNotFoundError:
+  27         return ""
+  28 
+  29 
+  30 def positive_int(value):
+  31     try:
+  32         number = int(value)
+  33         return number if number > 0 else None
+  34     except (ValueError, TypeError):
+  35         return None
+  36 
+  37 
+  38 def cgroup_directories(proc=Path('/proc')):
+  39     """Yield (controllers, leaf-to-mount-root paths), including visible parents."""
+  40     membership_text = read_text(proc / 'self/cgroup')
+  41     mount_text = read_text(proc / 'self/mountinfo')
+  42     if not membership_text.strip() or not mount_text.strip():
+  43         raise ValueError('cgroup visibility unknown')
+  44     memberships = []
+  45     for line in membership_text.splitlines():
+  46         fields = line.split(':', 2)
+  47         if len(fields) == 3:
+  48             memberships.append((set(fields[1].split(',')), fields[2]))
+  49     unescape = lambda text: re.sub(r'\\([0-7]{3})', lambda m: chr(int(m[1], 8)), text)
+  50     found = False
+  51     for line in mount_text.splitlines():
+  52         before, sep, after = line.partition(' - ')
+  53         fields, tail = before.split(), after.split()
+  54         if not sep or len(fields) < 5 or len(tail) < 3 or tail[0] not in ('cgroup', 'cgroup2'):
+  55             continue
+  56         root, mount = Path(unescape(fields[3])), Path(unescape(fields[4]))
+  57         controllers = set(tail[2].split(',')) if tail[0] == 'cgroup' else {''}
+  58         for member_controllers, member in memberships:
+  59             if not controllers.intersection(member_controllers):
+  60                 continue
+  61             try:
+  62                 relative = Path(member).relative_to(root)
+  63             except ValueError:
+  64                 continue
+  65             if '..' in relative.parts:
+  66                 continue
+  67             leaf = mount / relative
+  68             found = True
+  69             yield controllers, [leaf, *list(leaf.parents)[:len(relative.parts)]]
+  70     if not found:
+  71         raise ValueError('cgroup mount not visible')
+  72 
+  73 
+  74 def linux_limits(proc=Path('/proc')):
+  75     """Return quota CPU counts and remaining physical-memory limits (bytes)."""
+  76     cpus, memory = [], []
+  77     for controllers, directories in cgroup_directories(proc):
+  78         for directory in directories:
+  79             if '' in controllers:
+  80                 quota = read_text(directory / 'cpu.max').split()
+```
+
+## `tests/test_build_capacity.py` lines 1-85
+
+```text
+   1 import argparse
+   2 import os
+   3 from pathlib import Path
+   4 import subprocess
+   5 import sys
+   6 import tempfile
+   7 import textwrap
+   8 import unittest
+   9 from unittest.mock import patch
+  10 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+  11 import build_capacity as c
+  12 import build as b
+  13 
+  14 
+  15 class Capacity(unittest.TestCase):
+  16     def candidate_capacity_scripts(self):
+  17         workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/candidate.yml').read_text()
+  18         self.assertNotIn('CMAKE_BUILD_PARALLEL_LEVEL: ${{ inputs.build_jobs }}', workflow)
+  19         scripts = {}
+  20         for job, following, first_child in (
+  21                 ('source', 'package', '    - if: runner.os'),
+  22                 ('sanitizer', 'distribution', '    - name: Explicit pinned Rust host preparation')):
+  23             block = workflow.split('  ' + job + ':\n', 1)[1].split('  ' + following + ':\n', 1)[0]
+  24             self.assertIn('      BUILD_JOBS: ${{ inputs.build_jobs }}', block)
+  25             marker = '    - name: Resolve compile capacity\n'
+  26             self.assertEqual(block.count(marker), 1)
+  27             self.assertLess(block.index(marker), block.index(first_child))
+  28             step = block.split(marker, 1)[1].split('    - ', 1)[0]
+  29             self.assertIn('      shell: python\n', step)
+  30             scripts[job] = textwrap.dedent(step.split('      run: |\n', 1)[1])
+  31         return scripts
+  32 
+  33     def test_candidate_exports_resolved_auto_and_explicit_capacity_to_later_steps(self):
+  34         for job, script in self.candidate_capacity_scripts().items():
+  35             for selector, expected in (('auto', '3'), ('4', '4')):
+  36                 with self.subTest(job=job, selector=selector), tempfile.TemporaryDirectory() as temporary:
+  37                     environment_file = Path(temporary) / 'environment'
+  38                     environment_file.write_text('EXISTING=value\n', encoding='utf-8')
+  39                     with patch.dict(os.environ, {'BUILD_JOBS': selector, 'GITHUB_ENV': str(environment_file)}), \
+  40                             patch.object(c, 'default_jobs', return_value=3) as automatic, \
+  41                             patch.object(sys, 'path', list(sys.path)):
+  42                         exec(compile(script, 'candidate-' + job, 'exec'), {})
+  43                     self.assertEqual(environment_file.read_text(encoding='utf-8'),
+  44                                      'EXISTING=value\nCMAKE_BUILD_PARALLEL_LEVEL=' + expected + '\n')
+  45                     self.assertEqual(automatic.call_count, 1 if selector == 'auto' else 0)
+  46 
+  47     def test_candidate_rejects_invalid_capacity_before_export(self):
+  48         for job, script in self.candidate_capacity_scripts().items():
+  49             for selector in ('0', '-1', '1.5', 'many'):
+  50                 with self.subTest(job=job, selector=selector), tempfile.TemporaryDirectory() as temporary:
+  51                     environment_file = Path(temporary) / 'environment'
+  52                     environment_file.write_text('EXISTING=value\n', encoding='utf-8')
+  53                     with patch.dict(os.environ, {'BUILD_JOBS': selector, 'GITHUB_ENV': str(environment_file)}), \
+  54                             patch.object(sys, 'path', list(sys.path)), \
+  55                             self.assertRaisesRegex(ValueError, 'compile jobs must be auto or a positive integer'):
+  56                         exec(compile(script, 'candidate-' + job, 'exec'), {})
+  57                     self.assertEqual(environment_file.read_text(encoding='utf-8'), 'EXISTING=value\n')
+  58 
+  59     def test_candidate_descendant_cmake_build_uses_numeric_capacity(self):
+  60         scripts = self.candidate_capacity_scripts()
+  61         with tempfile.TemporaryDirectory() as temporary:
+  62             root = Path(temporary); source = root / 'source'; source.mkdir(); build = root / 'build'
+  63             (source / 'CMakeLists.txt').write_text(
+  64                 'cmake_minimum_required(VERSION 3.21)\nproject(capacity NONE)\n'
+  65                 'add_custom_target(probe ALL COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_BINARY_DIR}/built")\n')
+  66             environment = dict(os.environ, CMAKE_BUILD_PARALLEL_LEVEL='1')
+  67             subprocess.run(['cmake', '-G', 'Ninja', '-S', str(source), '-B', str(build)],
+  68                            env=environment, check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+  69             rejected = subprocess.run(['cmake', '--build', str(build)],
+  70                                       env=dict(environment, CMAKE_BUILD_PARALLEL_LEVEL='auto'),
+  71                                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+  72             self.assertNotEqual(rejected.returncode, 0)
+  73             self.assertIn('CMAKE_BUILD_PARALLEL_LEVEL', rejected.stdout)
+  74             self.assertIn("'auto'", rejected.stdout)
+  75             self.assertFalse((build / 'built').exists())
+  76             for job, script in scripts.items():
+  77                 for selector in ('auto', '4'):
+  78                     with self.subTest(job=job, selector=selector):
+  79                         environment_file = root / 'environment'
+  80                         environment_file.write_text('', encoding='utf-8')
+  81                         with patch.dict(os.environ, {'BUILD_JOBS': selector, 'GITHUB_ENV': str(environment_file)}), \
+  82                                 patch.object(c, 'default_jobs', return_value=3), \
+  83                                 patch.object(sys, 'path', list(sys.path)):
+  84                             exec(compile(script, 'candidate-' + job, 'exec'), {})
+  85                         key, value = environment_file.read_text(encoding='utf-8').strip().split('=', 1)
+```

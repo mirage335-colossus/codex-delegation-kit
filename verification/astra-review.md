@@ -1,10 +1,17 @@
 # Sparse Astra strategic adviser
 
+> **Current cost context (user-reported, 2026-10-28):** GPT-6.1 Sol in Desktop Codex was reported to consume included weekly allowance at about five times its previous Sol usage rate. The user-provided unitless planning index is Terra = 1, Sol ≈ 10, Astra ≈ 20, and Luna = 0.1. These estimates are not verified or calibrated to actual comparable workloads or weekly allowance use, and are not API/token or purchased-credit rates, USD amounts, or weekly usage percentages. The [official plan-pricing page](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual) explains that credit prices alone do not determine included subscription usage. See the [weekly-usage cost guidance](../policy.md#weekly-usage-cost); this context does not revise historical measurements or conclusions, or change routing, role pins, tiers, or controller behavior.
+
 October 21, 2026. Maintained source:
 `https://github.com/mirage335-colossus/codex-delegation-kit.git`, verified checkout
-`/home/user/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
+`unbundled-home/___quick/maintenance-cloud/codex-delegation-kit`. Starting revision
 `8f50984e30e56ca56ce4390c8f3accf55e0bcab1` was clean. The installed manifest's
 source hint pointed to this checkout and its twenty-file bundle.
+
+For the current Luna-heavy investigation and optional Terra evidence review,
+see [evidence discovery and Terra screening](../policy.md#evidence-discovery-and-terra-screening).
+That workflow preserves ready strategic review and does not alter this record's
+historical execution or cost evidence.
 
 ## Scope and rationale
 
@@ -17,12 +24,14 @@ wording, conflicting evidence and simpler architecture alternatives. The normal
 engineering owner keeps integration and acceptance responsibility.
 
 The mixed-model policy permits a narrowly gated Sol-to-Astra consultation while
-preserving hard Luna-only/inherit-only limits. An hourly strategy checkpoint is
-considered during existing progress updates, not an unconditional model call or
-automation. No timer, new state store or per-task controller model override was
-added. The role requires an explicit finite assignment budget; its time, context
-and output limits are instructions rather than enforced billing limits. Current
-account access and observed effective settings must still be checked at use.
+preserving hard Luna-only/inherit-only limits. This October 21, 2026 record
+considered an hourly strategy checkpoint during existing progress updates, not
+an unconditional model call or automation. Current guidance is event-driven and
+is documented in [policy](../policy.md#astra-strategic-review); no timer, new
+state store or per-task controller model override was added. The role requires
+an explicit finite assignment budget; its time, context and output limits are
+instructions rather than enforced billing limits. Current account access and
+observed effective settings must still be checked at use.
 
 Selection favors unresolved causal contradictions, difficult cross-component or
 mathematical reasoning, consequential prompt/acceptance ambiguities and costly
@@ -53,6 +62,8 @@ proof of account access, measured savings or guaranteed superiority.
   Sol adequate at less perceived cost. These are uncontrolled personal reports;
   many compare earlier Sol versions, not current GPT-6.1 Sol. They justify testing
   the difficult-blocker hypothesis, not a claim of general superiority.
+  The anecdote is historical and ambiguous about API versus subscription cost; it
+  does not measure the current user-reported weekly allowance context above.
 - [A direct report and discussion of overengineering](https://www.reddit.com/r/codex/comments/1w936rv/finding_gpt6_astra_incredible_but_wildly/)
   describes unnecessary complexity on straightforward work and suggests limiting
   architecture scope. This informs the role's minimum-change and bounded-question
@@ -78,7 +89,7 @@ eight existing role files were unchanged. Simulation and real subprocess tests
 remain distinct from live model integration. No live Astra call or model-quality
 benchmark is part of this change.
 
-The maintained installer was previewed and applied to `/home/user/.codex`.
+The maintained installer was previewed and applied to `unbundled-installation/.codex`.
 The [installation receipt](astra-installation.json) verifies all 21 installed
 files against source and manifest, nine registered roles, unchanged previous role
 bytes and runtime modules, unchanged global AGENTS, and byte-identical unrelated

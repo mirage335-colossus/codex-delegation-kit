@@ -1,0 +1,93 @@
+{
+  "status": "sealed_fabricated_prospective_messages",
+  "not_actual_run_data": true,
+  "release_order": [
+    "E1",
+    "E2"
+  ],
+  "shared_exactly_with_both_arms": true,
+  "events": [
+    {
+      "id": "E1",
+      "release_phase": "after-all-four-initial-plans-locked",
+      "source": "Hypothetical neutral capture-lab operator feedback after a newly requested calibration capture; no executable, algorithm, or team is identified.",
+      "notice": "The operator reports that the first short capture set was mixed: some estimates were close, some intervals were wider than the requested 0.10 Hz target, and one reported interval missed known truth. The capture lab says chunk delivery differed between runs and cannot currently tell whether that matters. This is an inconclusive report, not a causal analysis.",
+      "synthetic_reported_summary_only": true,
+      "table_columns": [
+        "truth_offset_hz",
+        "condition",
+        "reported_abs_error_hz",
+        "reported_uncertainty_hz",
+        "time_to_estimate_s",
+        "truth_covered"
+      ],
+      "rows": [
+        {
+          "truth_offset_hz": -12,
+          "condition": "24 dB-Hz, noisy, 137-sample chunks",
+          "reported_abs_error_hz": 0.08,
+          "reported_uncertainty_hz": 0.12,
+          "time_to_estimate_s": 3.6,
+          "truth_covered": true
+        },
+        {
+          "truth_offset_hz": -3,
+          "condition": "30 dB-Hz, clean, 4096-sample batches",
+          "reported_abs_error_hz": 0.04,
+          "reported_uncertainty_hz": 0.05,
+          "time_to_estimate_s": 1.2,
+          "truth_covered": true
+        },
+        {
+          "truth_offset_hz": 3,
+          "condition": "24 dB-Hz, noisy, 4096-sample batches",
+          "reported_abs_error_hz": 0.14,
+          "reported_uncertainty_hz": 0.09,
+          "time_to_estimate_s": 5.2,
+          "truth_covered": false
+        },
+        {
+          "truth_offset_hz": 12,
+          "condition": "30 dB-Hz, clean, 137-sample chunks",
+          "reported_abs_error_hz": 0.07,
+          "reported_uncertainty_hz": 0.11,
+          "time_to_estimate_s": 2.8,
+          "truth_covered": true
+        }
+      ],
+      "limits": "The report provides no raw PCM, build identity, run command, seeds, denominator, full capture table, or independently verified analysis. Treat figures as hypothetical reported feedback only; do not label a reproduced failure or infer cause."
+    },
+    {
+      "id": "E2",
+      "release_phase": "after-all-four-E1-responses-locked",
+      "source": "Hypothetical follow-up from the same neutral capture lab after it offered a longer capture window and a second operator reviewed the logged ground-truth labels.",
+      "notice": "On a separate newly generated set, a second operator reports 12 captures at 24 dB-Hz. Ten captures published an estimate by 8.0 s; across those ten the median final absolute error at 8.0 s was 0.11 Hz and median reported uncertainty was 0.06 Hz, and three of those ten reported intervals did not cover truth. The remaining two captures had no publication by the separate 10.0 s publication deadline. The operator says generator settings and chunk-size labels match the request, but raw captures and the exact processing revision are unavailable. No causal explanation or preferred estimator is supplied.",
+      "synthetic_reported_summary_only": true,
+      "table_columns": [
+        "condition",
+        "total_captures",
+        "published_by_summary_time",
+        "summary_time_s",
+        "median_final_abs_error_hz_among_published",
+        "median_reported_uncertainty_hz_among_published",
+        "interval_misses_among_published",
+        "publication_deadline_s",
+        "no_publication_by_deadline"
+      ],
+      "rows": [
+        {
+          "condition": "24 dB-Hz, mixed offsets, noisy",
+          "total_captures": 12,
+          "published_by_summary_time": 10,
+          "summary_time_s": 8.0,
+          "median_final_abs_error_hz_among_published": 0.11,
+          "median_reported_uncertainty_hz_among_published": 0.06,
+          "interval_misses_among_published": 3,
+          "publication_deadline_s": 10.0,
+          "no_publication_by_deadline": 2
+        }
+      ],
+      "limits": "No raw PCM, per-capture values, build identity, exact command, seed list, or audited timing definition is available. Do not claim a fresh real test, root cause, hardware limit, failure mechanism, or preferred estimator. The supplied summary is small and cannot establish population rates."
+    }
+  ]
+}

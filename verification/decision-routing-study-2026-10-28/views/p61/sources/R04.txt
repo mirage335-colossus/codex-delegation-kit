@@ -1,0 +1,175 @@
+# R04: Shared GUI application, adapter integration and state transitions
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `gui/shared/application.cpp` lines 49-125
+
+```text
+  49 void Application::append_entry() {
+  50     advance_input_epoch();
+  51     const auto& text = get("entries.editor").state.text;
+  52     try {
+  53         // Core owns collection validation, capacity, identity and mutation.
+  54         entries_.add(text);
+  55         get("entries.editor").state.text.clear();
+  56         status_ = "Entry added";
+  57         status_error_ = false;
+  58     } catch (const std::invalid_argument& error) {
+  59         status_ = error.what();
+  60         status_error_ = true;
+  61     } catch (const std::length_error& error) {
+  62         status_ = error.what();
+  63         status_error_ = true;
+  64     }
+  65 }
+  66 
+  67 void Application::advance_input_epoch() {
+  68     if (input_epoch_ == std::numeric_limits<std::uint64_t>::max()) {
+  69         throw std::overflow_error("Input epoch exhausted");
+  70     }
+  71     ++input_epoch_;
+  72 }
+  73 
+  74 void Application::handle(gui::Event event) {
+  75     if (adapter_.closed()) return;
+  76     // Closing must remain possible even if measurement or painting fails.
+  77     if (std::holds_alternative<gui::CloseEvent>(event)) {
+  78         shutdown();
+  79         presentation_pending_ = false;
+  80         adapter_.close();
+  81         return;
+  82     }
+  83     if (shutdown_) return;
+  84     // Reject queued stale edits against authoritative state, not old pixels.
+  85     if (!gui::normalize_event(view_, event, [this](const gui::WidgetKey& key) {
+  86             return adapter_.scroll_offset(key);
+  87         })) return;
+  88     if (const auto* resize = std::get_if<gui::ResizeEvent>(&event)) {
+  89         view_.client_size = resize->client_size;
+  90         view_.display_scale = resize->display_scale;
+  91     } else if (const auto* widget = std::get_if<gui::WidgetEvent>(&event)) {
+  92         auto& current = get(widget->target.id);
+  93         std::visit([&](const auto& input) {
+  94             using T = std::decay_t<decltype(input)>;
+  95             if constexpr (std::is_same_v<T, gui::EditText>) {
+  96                 advance_input_epoch();
+  97                 current.state.text = input.value;
+  98                 status_ = "Ready";
+  99                 status_error_ = false;
+ 100             } else if constexpr (std::is_same_v<T, gui::Activate>) {
+ 101                 if (widget->target.id == "entries.add") append_entry();
+ 102                 else if (widget->target.id == "entries.task.start") {
+ 103                     if (task_running_) return;
+ 104                     std::vector<std::string> input;
+ 105                     for (const auto& entry : entries_.snapshot()) input.push_back(entry.text);
+ 106                     advance_input_epoch();
+ 107                     task_progress_ = task_->start(std::move(input));
+ 108                     task_running_ = true;
+ 109                     task_status_ = "Processed 0 / " + std::to_string(task_progress_.total) + " bytes";
+ 110                 } else if (widget->target.id == "entries.task.cancel") {
+ 111                     if (!task_running_) return;
+ 112                     advance_input_epoch();
+ 113                     task_->cancel(); task_running_ = false; task_status_ = "Task cancelled";
+ 114                 } else if (widget->target.id == "entries.remove") {
+ 115                     auto& list = get("entries.list").state;
+ 116                     if (!list.selected) return;
+ 117                     advance_input_epoch();
+ 118                     for (const auto& record : entries_.snapshot())
+ 119                         if (list.selected == std::to_string(record.id)) entries_.erase(record.id);
+ 120                     list.selected.reset();
+ 121                     status_ = "Entry removed";
+ 122                     status_error_ = false;
+ 123                 }
+ 124             } else if constexpr (std::is_same_v<T, gui::SubmitText>) {
+ 125                 append_entry();
+```
+
+## `gui/tests/application_test.cpp` lines 40-97
+
+```text
+  40 template<class Adapter> gui::Snapshot scenario() {
+  41     foundation::ui::Application* current = nullptr;
+  42     Adapter adapter([&](const gui::Event& event) { if (current) current->handle(event); });
+  43     foundation::ui::Application app(adapter);
+  44     current = &app;
+  45     check(!widget(app.view(), "entries.add").state.enabled, "Empty entry accepted");
+  46     edit(adapter, "\xc3\xa9");
+  47     activate(adapter, "entries.add");
+  48     check(widget(app.view(), "entries.list").state.records.empty(), "Invalid core input changed collection");
+  49     check(widget(app.view(), "entries.editor").state.text == "\xc3\xa9", "Rejected input was lost");
+  50     check(widget(app.view(), "entries.status").state.text == "text must contain printable ASCII only",
+  51           "Core validation error did not reach the shared status label");
+  52     check(widget(app.view(), "entries.status").state.font.tone == gui::Tone::error, "Validation error is not marked");
+  53     edit(adapter, std::string(foundation::Store::max_text_bytes + 1, 'x'));
+  54     check(widget(app.view(), "entries.editor").state.text == "\xc3\xa9", "Oversized native replacement changed editor");
+  55     edit(adapter, "First entry");
+  56     activate(adapter, "entries.add");
+  57     check(widget(app.view(), "entries.list").state.records.size() == 1, "Entry missing");
+  58     check(widget(app.view(), "entries.editor").state.text.empty(), "Editor did not clear");
+  59     check(widget(app.view(), "entries.status").state.text == "Entry added", "Validation did not recover");
+  60     edit(adapter, "Second entry");
+  61     // A stale queued full replacement must not overwrite the newer value.
+  62     const auto before_stale_edit = app.input_epoch();
+  63     app.handle(gui::WidgetEvent{{"entries.editor", 1}, gui::EditText{"Obsolete", "First entry"}});
+  64     check(widget(app.view(), "entries.editor").state.text == "Second entry", "Stale edit accepted");
+  65     check(app.input_epoch() == before_stale_edit, "Stale edit changed input meaning");
+  66     activate(adapter, "entries.add");
+  67     // This adds a real control, meaning and layout solely in shared code.
+  68     const auto before_extension = app.input_epoch();
+  69     app.enable_remove_feature();
+  70     check(app.input_epoch() == before_extension + 1, "Feature extension retained old input meaning");
+  71     app.enable_remove_feature();
+  72     check(app.input_epoch() == before_extension + 1, "Repeated feature extension changed input meaning");
+  73     adapter.focus(gui::WidgetKey{"entries.list", 1});
+  74     adapter.key(gui::Key::down);
+  75     check(widget(app.view(), "entries.remove").state.enabled, "New feature not enabled");
+  76     const auto remove_key = widget(app.view(), "entries.remove").spec.key;
+  77     const auto remove_label = widget(app.view(), "entries.remove").state.label;
+  78     const auto before_selection = app.input_epoch();
+  79     const auto second_id = widget(app.view(), "entries.list").state.records.back().id;
+  80     app.handle(gui::WidgetEvent{{"entries.list", 1}, gui::SelectRecord{second_id}});
+  81     check(app.input_epoch() == before_selection + 1, "Changed Remove operand retained old input meaning");
+  82     check(widget(app.view(), "entries.remove").spec.key == remove_key &&
+  83           widget(app.view(), "entries.remove").state.label == remove_label &&
+  84           widget(app.view(), "entries.remove").state.enabled,
+  85           "Selection fixture changed the Remove control identity");
+  86     app.handle(gui::WidgetEvent{{"entries.list", 1}, gui::SelectRecord{second_id}});
+  87     check(app.input_epoch() == before_selection + 1, "Duplicate record selection changed input meaning");
+  88     app.handle(gui::WidgetEvent{{"entries.list", 1},
+  89         gui::SelectRecord{widget(app.view(), "entries.list").state.records.front().id}});
+  90     activate(adapter, "entries.remove");
+  91     check(widget(app.view(), "entries.list").state.records.size() == 1, "New feature failed");
+  92     check(widget(app.view(), "entries.list").state.records.front().accessible_text == "Second entry",
+  93           "New feature removed the wrong stable record");
+  94     const auto before_stale_generation = app.input_epoch();
+  95     app.handle(gui::WidgetEvent{{"entries.remove", 0}, gui::Activate{}});
+  96     check(widget(app.view(), "entries.list").state.records.size() == 1, "Stale generation accepted");
+  97     check(app.input_epoch() == before_stale_generation, "Stale widget generation changed input meaning");
+```
+
+## `gui/CMakeLists.txt` lines 25-35
+
+```text
+  25 if(EMSCRIPTEN)
+  26     set(foundation_task_executor shared/task_cooperative.cpp)
+  27 else()
+  28     set(foundation_task_executor shared/task_native.cpp)
+  29 endif()
+  30 add_library(foundation_gui_application STATIC shared/application.cpp ${foundation_task_executor})
+  31 add_dependencies(foundation_gui_application foundation_gui_contract)
+  32 target_link_libraries(foundation_gui_application PUBLIC foundation_gui_boundary foundation::core)
+  33 target_include_directories(foundation_gui_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+  34 set_target_properties(foundation_gui_application PROPERTIES CXX_EXTENSIONS OFF)
+  35 foundation_options(foundation_gui_application)
+```
+
+## `gui/CMakeLists.txt` lines 91-96
+
+```text
+  91 function(foundation_gui_check name target labels)
+  92     set_target_properties(${target} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+  93     add_test(NAME "foundation.gui.${name}" COMMAND ${target})
+  94     set_tests_properties("foundation.gui.${name}" PROPERTIES LABELS "gui;${labels}" TIMEOUT 90)
+  95     foundation_test_prerequisites("foundation.gui.${name}" ${target})
+  96 endfunction()
+```

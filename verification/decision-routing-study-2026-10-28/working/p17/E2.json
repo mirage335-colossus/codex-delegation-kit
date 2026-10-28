@@ -1,0 +1,94 @@
+{
+  "scenario": "HelperCarrier frequency measurement and acquisition",
+  "phase": "E2",
+  "source_units_consulted": ["E1", "E2", "H01", "H03", "H04", "H05", "H06", "H07", "H08", "H12"],
+  "assignments": [
+    {
+      "id": "P17-A3", "action": "continue", "dispatch": "now",
+      "question": "What does the E2 summary establish, and how should the measurement protocol handle its unresolved timing, selection and provenance?",
+      "purpose": "Keep reported observations separate from verified measurements and preserve the original six-second objective.", "source_units": ["E1", "E2", "H03", "H04", "H05"], "model": "terra", "role": "owner", "conversation_id": "coordinator",
+      "deliverable": "Updated evidence ledger and protocol: E2 reports ten of twelve published by eight seconds, three misses among those ten, and two without publication by ten seconds; neither six-second success nor population rates can be calculated from this summary.", "ownership": "Protocol and synthesis; no source edits.", "dependencies": [], "stop_condition": "Document unsupported inferences and retain both original targets and all denominator/censoring requirements.", "model_reason": "Coordinator can interpret summary limitations and maintain the measurement protocol.",
+      "expected_work_operations": ["Separate final-at-eight error from first accurate estimate", "Record denominators and reporting time", "Request per-capture events, raw PCM, revision, commands, seeds and timing definitions"]
+    },
+    {
+      "id": "P17-A1", "action": "continue", "dispatch": "now",
+      "question": "Which source semantics and possible publication paths are needed to interpret the reported intervals and no-publication outcomes?",
+      "purpose": "Identify missing qualifiers without assuming which path the external lab used.", "source_units": ["E2", "H03", "H04", "H05", "H08", "H12"], "model": "luna", "role": "scout", "conversation_id": "contracts",
+      "deliverable": "Cited map of frequency provenance, support, interval semantics and decline/presence gates with unknowns.", "ownership": "Read-only source inspection.", "dependencies": [], "stop_condition": "Map relevant contracts and stop at unidentifiable report details.", "model_reason": "Bounded contract evidence remains a suitable independent Luna task.",
+      "expected_work_operations": ["Trace applicable publication fields", "Identify timing and qualification differences", "List missing external configuration"]
+    },
+    {
+      "id": "P17-A2", "action": "continue", "dispatch": "now",
+      "question": "Can the fixture preserve exact truth, paired chunks, complete publication events and longer follow-up while retaining the six-second endpoint?",
+      "purpose": "Make a future reproducible comparison possible and distinguish later publication from meeting the original deadline.", "source_units": ["E2", "H01", "H06", "H07", "H12"], "model": "luna", "role": "scout", "conversation_id": "fixture",
+      "deliverable": "Cited fixture capability and missing instrumentation map for matched captures, absent controls and paired identical-input chunk replay.", "ownership": "Read-only fixture inspection.", "dependencies": [], "stop_condition": "Identify a viable seam or report missing capability.", "model_reason": "Bounded fixture mapping is independently useful Luna work.",
+      "expected_work_operations": ["Inspect deterministic signal and truth", "Map chunk replay and publication logging", "Identify limits of longer observation windows"]
+    },
+    {
+      "id": "P17-A11", "action": "continue", "dispatch": "now",
+      "question": "Which bounded comparisons distinguish truth/timing or analysis errors from estimator, waveform/interference, chunk and resource explanations?",
+      "purpose": "Prioritize discriminators without treating either external report as a reproduction.", "source_units": ["E1", "E2", "H01", "H03", "H04", "H05", "H06", "H07"], "model": "luna", "role": "scout", "conversation_id": "discriminators",
+      "deliverable": "Ranked evidence requests and controlled comparisons, including same-PCM chunk replay and capture-specific truth and publication chronology.", "ownership": "Read-only evidence planning.", "dependencies": [], "stop_condition": "Identify discriminators and explicitly mark evidence unavailable in the summaries.", "model_reason": "A factual differential inventory is bounded and separable.",
+      "expected_work_operations": ["List confounders and missing provenance", "Define paired and control comparisons", "Record predictions that would discriminate hypotheses"]
+    },
+    {
+      "id": "P17-A10", "action": "reroute", "dispatch": "now",
+      "question": "Given repeated reported interval misses, delayed or absent publications and missing raw provenance, what is the smallest decision-relevant evidence strategy and which assumptions could make the study misleading?",
+      "purpose": "Address a strategic uncertainty and avoid an expensive wrong turn before choosing an implementation investigation.", "source_units": ["E1", "E2", "H03", "H04", "H05"], "model": "astra", "role": "adviser", "conversation_id": "strategy",
+      "deliverable": "Bounded read-only critique of the protocol and ranked discriminators, with unresolved uncertainty and no preferred estimator assumed.", "ownership": "Read-only strategic advice.", "dependencies": [], "stop_condition": "Give a focused recommendation or identify indispensable missing evidence; no implementation directive.", "model_reason": "The follow-up strengthens strategic concern while unavailable raw data makes an expensive wrong turn plausible; timely expert advice is justified.",
+      "expected_work_operations": ["Inspect reported summaries and source semantics", "Challenge representativeness, timing and calibration", "Prioritize falsifiable next evidence"]
+    },
+    {
+      "id": "P17-A4", "action": "continue", "dispatch": "queued",
+      "question": "Does the revised measurement contract and dataset fairly test the original targets and distinguish late or missing publications from successful acquisition?",
+      "purpose": "Review consequential design before substantial dependent implementation.", "source_units": ["E1", "E2", "H01", "H03", "H04", "H05", "H06", "H07", "H12"], "model": "sol", "role": "reviewer", "conversation_id": "expert",
+      "deliverable": "Independent review of timing, coverage, denominator, paired replay and provenance, with blockers or reviewed decisions.", "ownership": "Read-only design review independent of implementation.", "dependencies": ["P17-A1", "P17-A2", "P17-A3", "P17-A11", "P17-A10"], "stop_condition": "Resolve or escalate consequential objections before substantial implementation.", "model_reason": "Independent strong review is required for the measurement-contract decision.",
+      "expected_work_operations": ["Review first-accurate and first-covered timing", "Check per-capture and per-publication counts", "Challenge matched controls and representativeness"]
+    },
+    {
+      "id": "P17-A8", "action": "continue", "dispatch": "queued",
+      "question": "What can distinguish the competing explanations for the reported misses and non-publications, and which conclusions are not supported?",
+      "purpose": "Maintain strong ownership of consequential diagnosis without claiming a cause or a reproduced failure.", "source_units": ["E1", "E2", "H03", "H04", "H05", "H07", "H12"], "model": "sol", "role": "owner", "conversation_id": "expert",
+      "deliverable": "Evidence-ranked differential and a bounded discriminator plan, explicitly identifying missing raw evidence.", "ownership": "Read-only diagnosis.", "dependencies": ["P17-A11", "P17-A4"], "stop_condition": "State evidence needed or a supported narrow decision; escalate consequential scope changes.", "model_reason": "Competing explanations and consequential decisions require strong ownership.",
+      "expected_work_operations": ["Examine both summary limitations", "Assess measurement, estimator, waveform, chunks and resource hypotheses", "Prioritize controlled checks"]
+    },
+    {
+      "id": "P17-A5", "action": "defer", "dispatch": "queued",
+      "question": "Can the reviewed protocol be instrumented without changing production behavior?",
+      "purpose": "Prepare reproducible measurement for a subsequently authorized campaign.", "source_units": ["E2", "H05", "H06", "H07", "H12"], "model": "luna", "role": "worker", "conversation_id": "fixture",
+      "deliverable": "Minimal hypothetical fixture and instrumentation patch plus manifest and paired replay.", "ownership": "Exclusive agreed fixture/harness files; preserve dirty baseline and others' work.", "dependencies": ["P17-A2", "P17-A4", "project changes and campaign execution authorized"], "stop_condition": "Implement reviewed metrics or report missing capability; preserve all gates.", "model_reason": "Settled fixture implementation is bounded worker work.",
+      "expected_work_operations": ["Capture all publications and support dates", "Log exact truth, chunks, seeds and configuration", "Record declines, work and memory"]
+    },
+    {
+      "id": "P17-A6", "action": "defer", "dispatch": "queued",
+      "question": "Does the instrumented patch preserve contracts and implement the reviewed measurements?",
+      "purpose": "Independently review any patch before acceptance.", "source_units": ["H03", "H04", "H05", "H09", "H10", "H11"], "model": "sol", "role": "reviewer", "conversation_id": "expert",
+      "deliverable": "Independent patch review, preservation checks and retained original failures.", "ownership": "Read-only review independent of author.", "dependencies": ["P17-A5"], "stop_condition": "Accept with evidence or return concrete defects; escalate after one evidence-backed local repair or consequential scope change.", "model_reason": "Strong independent review protects the measurement contract.",
+      "expected_work_operations": ["Inspect truth and timestamp handling", "Review absence, retune and payload preservation", "Inspect focused checks"]
+    },
+    {
+      "id": "P17-A7", "action": "defer", "dispatch": "queued",
+      "question": "What do matched seeded captures, absent controls and paired chunk replays show at the original and extended horizons?",
+      "purpose": "Obtain reproducible evidence without treating external summary data as a completed campaign.", "source_units": ["E1", "E2", "H05", "H06", "H07", "H11", "H12"], "model": "luna", "role": "worker", "conversation_id": "campaign",
+      "deliverable": "Per-capture raw evidence and per-cell accuracy, acquisition, coverage, decline, no-publication and resource summaries, with separate six-second and longer-window results.", "ownership": "Exclusive hypothetical campaign outputs; serialize shared writers.", "dependencies": ["P17-A4", "P17-A6", "campaign execution authorized"], "stop_condition": "Complete the reviewed matrix or report missing cells and preserve failures and logs.", "model_reason": "A reviewed and instrumented campaign is bounded worker work.",
+      "expected_work_operations": ["Run matched cells and absent controls", "Replay identical PCM across chunks", "Capture full provenance and results"]
+    },
+    {
+      "id": "P17-A9", "action": "continue", "dispatch": "queued",
+      "question": "Is there sufficient evidence for the requested feasibility decision and a focused implementation investigation?",
+      "purpose": "Report current uncertainty and a narrow next decision without overstating limited external summaries.", "source_units": ["E1", "E2", "H01", "H02", "H03", "H04", "H05", "H08", "H09", "H10", "H12"], "model": "terra", "role": "owner", "conversation_id": "coordinator",
+      "deliverable": "Interim inconclusive assessment if raw evidence remains unavailable; otherwise a full reproducible results report including all targets, failures and contract risks.", "ownership": "Final synthesis and report.", "dependencies": ["P17-A8", "P17-A7 or explicit incomplete-study disposition"], "stop_condition": "State what evidence is missing and what decision it would change; do not claim population rates or root cause.", "model_reason": "Coordinator synthesizes independently reviewed findings.",
+      "expected_work_operations": ["Separate external reports, source predictions and future observations", "Report denominators, timing and uncertainty semantics", "Describe feasibility limits and next decision"]
+    }
+  ],
+  "concurrency": "Coordinator plus contracts, fixture, discriminator and Astra conversations can be active, leaving one of six total slots for Sol when needed; queue or reuse slots if still occupied. Sol review follows bounded findings; no hypothetical campaign is assumed to have run. Maximum four admitted test processes, eight CPU cores and 16 GiB; serialize shared build and nested writers. Original two-hour horizon and deadlines do not reset. No actual campaign or tests run in this study.",
+  "reuse": "Continue the existing coordinator, contracts, fixture, discriminator and expert conversations with cited handoffs; use the planned strategy conversation for Astra. Fixture author is not its reviewer. Avoid repeating whole source investigations.",
+  "expert_and_human_triggers": {
+    "sol": "Review consequential measurement and design decisions before substantial implementation; own differential diagnosis, exhausted repair and consequential scope changes; independently review any patch before acceptance.",
+    "astra": "Consult now on strategic uncertainty and the risk of an expensive wrong turn; seek further bounded advice only if new evidence contradicts assumptions or leaves decision-critical ambiguity.",
+    "human": "Ask early whether the original six-second and 0.10 Hz targets and universal coverage requirement reflect the decision tolerance, whether a later estimate is useful, and which operating conditions and evidence would justify investigation. Request the lab's per-capture data and provenance if available. Continue independent read-only work while optional clarification is pending; silence is not authorization for project changes or execution. Surface contract conflicts and material tradeoffs."
+  },
+  "rejected_research": ["Do not claim E2's selected median, three reported misses or two non-publications establish a population rate, a six-second pass/fail rate, a cause or a hardware limit.", "Do not treat the separate external reports as completed planned assignments or assume chunk size caused the outcome.", "Defer algorithm changes, broad literature surveys and hardware studies until reproducible evidence identifies a decision-relevant gap; do not weaken original gates or targets."],
+  "assumptions_and_uncertainties": ["E2 is a hypothetical external summary with no raw PCM, exact revision, per-capture events, audited time definition or seed list; its reported counts are not independently verified.", "The longer window is supplementary: the original within-six-seconds accuracy target and empirical coverage requirement remain intact.", "Source uncertainty is an engineering quantity with stated limitations, not automatically a calibrated confidence interval; report empirical coverage with denominators.", "All implementation and campaign operations are hypothetical and require represented authorization; no work in this phase executes them."],
+  "no_tokens_or_costs_estimated": true
+}

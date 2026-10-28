@@ -1,0 +1,214 @@
+{
+  "case_id": "r612",
+  "started_utc": "2026-10-28 20:45:38 UTC",
+  "finished_utc": "2026-10-28 20:46:15 UTC",
+  "operations": [
+    {
+      "kind": "search",
+      "query_or_url": "LLM agents scientific research literature review workflow",
+      "result_status": "completed; relevant ResearchAgent result found"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "LLM multi-agent software engineering alternatives hypothesis tests",
+      "result_status": "completed; FSE software-engineering-agent study found"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "LLM debate factual accuracy peer-reviewed",
+      "result_status": "completed; ICML multi-agent debate study found"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "LLM hypothesis generation experiment testing",
+      "result_status": "completed; mostly tangential results"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "ResearchAgent conference proceedings",
+      "result_status": "completed; NAACL 2025 record found"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "SWE-agent paper repository tests peer reviewed",
+      "result_status": "completed; arXiv result found but not used"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "Self-Refine peer reviewed iterative feedback ACL",
+      "result_status": "completed; ACL self-bias study found"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "Demystifying LLM-Based Software Engineering Agents FSE 2025",
+      "result_status": "completed; paper and proceedings records found"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://proceedings.mlr.press/v235/smit24a.html",
+      "result_status": "completed; paper abstract and ICML/PMLR publication metadata"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://pure.kaist.ac.kr/en/publications/researchagent-iterative-research-idea-generation-over-scientific-/",
+      "result_status": "completed; publication status and abstract"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2024.acl-long.826/",
+      "result_status": "completed; abstract and ACL publication metadata"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "result_status": "completed; full paper PDF"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://conf.researchr.org/track/fse-2025/fse-2025-research-papers",
+      "result_status": "completed; official proceedings/review-process information"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://aclanthology.org/2025.naacl-long.342/",
+      "result_status": "completed; abstract and NAACL publication metadata"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://proceedings.mlr.press/v235/smit24a/smit24a.pdf",
+      "result_status": "failed; PDF inaccessible in web tool"
+    },
+    {
+      "kind": "find",
+      "query_or_url": "study-source-hfa4b08e6c8f7ed30: SWE-bench Lite-S",
+      "result_status": "completed; lines on benchmark filtering and results"
+    },
+    {
+      "kind": "find",
+      "query_or_url": "study-source-hfa4b08e6c8f7ed30: Threats to Validity",
+      "result_status": "completed; limitations section located"
+    },
+    {
+      "kind": "find",
+      "query_or_url": "study-source-hfa4b08e6c8f7ed30: Takeaway",
+      "result_status": "completed; no match"
+    }
+  ],
+  "sources": [
+    {
+      "id": "researchagent",
+      "url": "https://aclanthology.org/2025.naacl-long.342/",
+      "title": "ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models",
+      "year": 2025,
+      "venue": "NAACL-HLT 2025 Long Papers",
+      "publication_status": "peer-reviewed conference paper; ACL Anthology identifies proceedings, DOI, and pages 6709–6738",
+      "status_evidence_url": "https://aclanthology.org/2025.naacl-long.342/",
+      "access_level": "abstract and metadata only",
+      "content_locator": "Abstract, lines 57–61; publication metadata, lines 62–93"
+    },
+    {
+      "id": "mad",
+      "url": "https://proceedings.mlr.press/v235/smit24a.html",
+      "title": "Should we be going MAD? A Look at Multi-Agent Debate Strategies for LLMs",
+      "year": 2024,
+      "venue": "Proceedings of the 41st International Conference on Machine Learning, PMLR 235",
+      "publication_status": "peer-reviewed conference paper; PMLR proceedings record",
+      "status_evidence_url": "https://proceedings.mlr.press/v235/smit24a.html",
+      "access_level": "abstract and metadata only; PDF open failed",
+      "content_locator": "Abstract, lines 22–24"
+    },
+    {
+      "id": "selfbias",
+      "url": "https://aclanthology.org/2024.acl-long.826/",
+      "title": "Pride and Prejudice: LLM Amplifies Self-Bias in Self-Refinement",
+      "year": 2024,
+      "venue": "Proceedings of ACL 2024, Volume 1: Long Papers",
+      "publication_status": "peer-reviewed conference paper; ACL Anthology proceedings record",
+      "status_evidence_url": "https://aclanthology.org/2024.acl-long.826/",
+      "access_level": "abstract and metadata only",
+      "content_locator": "Abstract, lines 58–59; venue and bibliographic record, lines 61–92"
+    },
+    {
+      "id": "agentless",
+      "url": "https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "title": "Demystifying LLM-Based Software Engineering Agents",
+      "year": 2025,
+      "venue": "Proceedings of the ACM on Software Engineering, FSE 2025, Article FSE037",
+      "publication_status": "peer-reviewed FSE research paper; official track describes review and publication process at https://conf.researchr.org/track/fse-2025/fse-2025-research-papers",
+      "status_evidence_url": "https://conf.researchr.org/track/fse-2025/fse-2025-research-papers",
+      "access_level": "full text",
+      "content_locator": "§6.1–6.3, PDF pp. 15–19, lines 1046–1156 and 1227–1276; §8, lines 1277–1283"
+    }
+  ],
+  "findings": [
+    {
+      "id": "f1",
+      "claim": "A research workflow can stage exploration of prior work, cross-source idea generation, candidate design, and iterative review. ResearchAgent describes academic-graph retrieval plus cross-paper concept retrieval, followed by proposal generation and LLM reviewer feedback; it reports human and model evaluation across disciplines.",
+      "source_ids": [
+        "researchagent"
+      ],
+      "support_locator": "Abstract, lines 57–61",
+      "decision_implication": "Prompt repository scouts to retrieve relevant source evidence, derive materially different candidate approaches (including the current one), and submit each with an assumption, a task-specific falsification check, and a concise evidence locator. A reviewer pass can target missing alternatives and unsupported claims.",
+      "assumptions": "The literature can be retrieved and inspected; the task is sufficiently specified to compare candidate approaches.",
+      "applicability_gap": "The paper concerns scientific research ideation, not existing software repositories, smaller-model scouts, mixed-model orchestration, or prompt-injection handling; only the abstract was accessible in this run.",
+      "next_discriminator": "Compare a bounded source-first/alternative-and-check prompt against the current prompt on matched repository investigations; have experts score unique useful alternatives, verified assumptions, and review burden."
+    },
+    {
+      "id": "f2",
+      "claim": "Multi-agent debate is not a dependable default improvement: the ICML study reports debate systems did not reliably outperform self-consistency or ensembles, and were more sensitive to hyperparameter settings.",
+      "source_ids": [
+        "mad"
+      ],
+      "support_locator": "Abstract, lines 22–24",
+      "decision_implication": "Use a small bounded critique/review step only when it tests an identified assumption or source claim; preserve a simple independent-investigation baseline and stop when added review no longer changes a decision.",
+      "assumptions": "The reported comparison is relevant as caution about debate overhead and reliability.",
+      "applicability_gap": "The paper's tasks and evaluated prompting systems do not establish outcomes for repository architecture decisions or Luna-high subagents; full text was inaccessible.",
+      "next_discriminator": "On matched cases, compare concise evidence-based critique with no critique and measure corrected material errors versus added expert review time."
+    },
+    {
+      "id": "f3",
+      "claim": "Self-review can favor a model's own prior answer: ACL 2024 reports self-bias across six examined models and tasks; self-refinement could improve fluency while amplify bias, while accurate external assessment mitigated it.",
+      "source_ids": [
+        "selfbias"
+      ],
+      "support_locator": "Abstract, lines 58–59",
+      "decision_implication": "Require the reviewer to inspect cited source passages and actively seek contrary evidence; do not treat a scout's confidence or its own revised prose as validation. Keep decisive-source access and acceptance with the expert.",
+      "assumptions": "External assessment is genuinely evidence-grounded and sufficiently independent.",
+      "applicability_gap": "The abstract covers translation, constrained generation, and math reasoning, not software architecture; only abstract/metadata were accessible. It does not test prompt-injection defenses.",
+      "next_discriminator": "Check whether an evidence-only independent reviewer catches unsupported claims more often than same-agent self-critique on a small matched set."
+    },
+    {
+      "id": "f4",
+      "claim": "A simpler, structured workflow can compete with complex software agents on benchmark repair tasks, while repository task difficulty and benchmark construction materially affect comparisons. The FSE paper's Agentless pipeline uses localization, repair, and validation; it reports strong results, filters SWE-bench Lite issues with inadequate or misleading descriptions, and notes external-validity limits.",
+      "source_ids": [
+        "agentless"
+      ],
+      "support_locator": "§6.1–6.3 and §7–8, PDF pp. 15–20, especially lines 1096–1103, 1144–1156, 1258–1276, 1277–1283",
+      "decision_implication": "Keep the prompt intervention narrow and structured; assess it on real repository investigations with matched context and judge value by verified decision-useful findings, not verbosity or agent count. Make timely expert review and independent patch acceptance explicit workflow constraints.",
+      "assumptions": "The benchmark evidence is useful as a warning to compare simple and elaborate processes, not as a result about this prompt or model.",
+      "applicability_gap": "Agentless solves benchmarked issue-fixing tasks using GPT-4o/Claude-family systems; it does not evaluate scouting, architecture choices, Luna, or mixed-model coordination. Authors explicitly state generalization beyond the benchmark is uncertain.",
+      "next_discriminator": "Use a small blinded paired evaluation on current-project investigations and track unique validated alternatives, rejected assumptions, citation accuracy, expert effort, and whether consequential review occurred in time."
+    }
+  ],
+  "rejected_or_redundant": [
+    {
+      "item": "Unstructured multi-agent debate as the default research-prompt mechanism",
+      "reason": "The ICML evidence does not show reliable gains over simpler multi-path prompting; an evidence-specific bounded critique is more directly testable."
+    },
+    {
+      "item": "Treating self-refinement as independent validation",
+      "reason": "ACL evidence finds self-bias; retain source inspection and external expert acceptance."
+    },
+    {
+      "item": "Transferring benchmark win rates to this workflow",
+      "reason": "Agentless is a repair benchmark result with different tasks/models; use only to motivate a simple matched comparison."
+    }
+  ],
+  "unresolved": [
+    "No study retrieved directly evaluates small-model repository scouts in a mixed-model architecture-decision workflow, including expert workload, timeliness, prompt-injection boundaries, or independent patch acceptance.",
+    "Only abstracts were available for ResearchAgent, the ICML debate paper, and the ACL self-bias paper; their detailed protocols/effect sizes remain unchecked.",
+    "The contract ceiling was exceeded: 18 logical web operations were performed (8 queries, 7 opens, 3 finds), two over the 16-operation maximum, because each batched find counted separately. Research stopped immediately after detecting this."
+  ],
+  "stop_reason": "Stopped after the operation ceiling overrun was detected; the evidence gathered is sufficient for a bounded result. Deadline not reached.",
+  "escalation_ready": "Ready for Sol/Astra screening: the evidence supports testing a concise source-grounded explore→alternatives→assumptions/checks→independent critique prompt, but gives no direct causal evidence for Luna or mixed-model repository architecture work. Preserve experts' direct access to decisive sources, explicit untrusted-source boundaries, timely consequential review, and independent patch acceptance as task constraints. The over-budget search is disclosed above."
+}

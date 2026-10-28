@@ -1,6 +1,6 @@
 {
   "validation_kind": "real_model_integration",
-  "directory": "/tmp/delegation-live-luna-delivery",
+  "directory": "unbundled-runtime/run-h46355d7e0fe4ce49",
   "requested": {
     "model": "gpt-6-luna",
     "effort": "medium",
@@ -20,7 +20,7 @@
     "cancellation_not_accepted": true
   },
   "limitations": [
-    "Independent app-server sessions, not this chat's native subagent tree.",
+    "Independent app-server sessions, using a separate runtime-session backend.",
     "Resolved runtime settings are checked; provider-side per-token model identity is not exposed.",
     "Only supplied-context read-only agent work is exercised; arbitrary subprocess sandbox propagation is not proved.",
     "The three exact-answer checks establish bounded result ingestion, not patch acceptance or general model quality."
@@ -131,8 +131,8 @@
         "expression": "sum(xs)"
       },
       "status": "completed",
-      "thread_id": "01a15c63-dd5a-71d1-8660-300c73b06afc",
-      "turn_id": "01a15c63-dd92-7172-a54d-4401167eef10",
+      "thread_id": "study-id-h86f1dc868937907b",
+      "turn_id": "study-id-he2ad6b35b4e35d76",
       "usage": {
         "last": {
           "cacheWriteInputTokens": 0,
@@ -185,8 +185,8 @@
         "bug": "excludes_zero"
       },
       "status": "completed",
-      "thread_id": "01a15c63-baed-7c53-b9e7-525dca78be00",
-      "turn_id": "01a15c63-bb26-7f91-87d2-b1a774eee459",
+      "thread_id": "study-id-h546ad76c3efd0ff3",
+      "turn_id": "study-id-h958d55933a1a6502",
       "usage": {
         "last": {
           "cacheWriteInputTokens": 0,
@@ -239,8 +239,8 @@
         "bug": "skips_first"
       },
       "status": "completed",
-      "thread_id": "01a15c63-ba95-7390-b4e6-2b5233979d51",
-      "turn_id": "01a15c63-bad0-7110-bbb7-e61ca99eb283",
+      "thread_id": "study-id-h1794b2a31b753f93",
+      "turn_id": "study-id-h2ae3fa3bfd587dbe",
       "usage": {
         "last": {
           "cacheWriteInputTokens": 0,
@@ -294,8 +294,8 @@
       "operation_id": "interrupt-probe-1-4fb27fe8d994",
       "result": null,
       "status": "hold",
-      "thread_id": "01a15c63-fbdb-7530-99ea-f0b8910c798c",
-      "turn_id": "01a15c63-fc0e-7373-81f4-e2f8913c1f81",
+      "thread_id": "study-id-hf7eb7e6d86142bd0",
+      "turn_id": "study-id-h607d7887edd25d28",
       "usage": null
     },
     "summary": {
@@ -341,7 +341,7 @@
   },
   "complete": true,
   "cleanup": {
-    "/tmp/delegation-live-luna-delivery/run": {
+    "unbundled-runtime/run-h46355d7e0fe4ce49/run": {
       "run": "live-replenish",
       "mode": "stopped",
       "stop_reason": "live exercise cleanup",
@@ -403,7 +403,7 @@
         }
       ]
     },
-    "/tmp/delegation-live-luna-delivery/interrupt-run": {
+    "unbundled-runtime/run-h46355d7e0fe4ce49/interrupt-run": {
       "run": "live-interrupt",
       "mode": "stopped",
       "stop_reason": "live exercise cleanup",
@@ -451,5 +451,7 @@
     "agent_backend.py": "5ec72505aaa6509b02249682e7613af76ad7dd7e11aa90b82b048969c0fe9605",
     "scheduling.py": "18ab89bdc6497ea7e82ede26c46321a84bfb3ff818659851054ea88182da96d2",
     "supervisor.py": "17deb5392a1ee5a3b2967c2e14e7d0725c57a792083508ccb0fa7e93cda15893"
-  }
+  },
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

@@ -1,0 +1,22 @@
+{
+  "assignment_id": "P204-B",
+  "conversation_id": "p204-b",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "purpose_and_decision_use": "Investigate empirical methods for asynchronous and flaky observations to design discriminating traces and control repeated observations for R04-R06, without treating repetition as proof.",
+  "source_units": [
+    "R04",
+    "R05",
+    "R06",
+    "R10"
+  ],
+  "dependencies": "None; independent first wave.",
+  "web_operation_budget": {
+    "total_max": 16,
+    "search_query_max": 8,
+    "open_max": 10
+  },
+  "prompt": "Read only p204's supplied contract, scenario, source index and assigned excerpt units R04-R06 and R10, plus bounded original research or first-party references on flaky/asynchronous tests, event ordering and useful experimental controls. Do not inspect other views, working trees, results or unreleased events; do not execute code. Map adapters/shared state, native operation generations and browser transport/fixture boundaries as supported by excerpts. Contrast trace-based matched event sequences with repetition or broad retries; identify empirical limits, relevant counterevidence and a falsifier for each report. Avoid asserting a common cause, scheduling guarantee or runtime result. Return links with study design/limitations, source lines and actual consumer paths, weak/rejected leads and gaps. Stop on duplication or lack of decision relevance; at most 16 logical web operations, 8 queries and 10 opens.",
+  "expected_artifact": "Compact cited asynchronous-method and source map with alternatives, discriminators and coverage limits.",
+  "model_rationale": "Luna-high can independently map asynchronous evidence and research while Terra preserves causal and acceptance judgment."
+}

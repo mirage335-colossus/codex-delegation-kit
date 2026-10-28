@@ -1,0 +1,110 @@
+{
+  "case_id": "r693",
+  "started_utc": "2026-10-28 20:44:36 UTC",
+  "finished_utc": "2026-10-28 20:45:12 UTC",
+  "operations": [
+    {"kind":"search_query","query_or_url":"SWE-agent paper repository context software engineering agent LM human computer interfaces 2024 arXiv","result_status":"success"},
+    {"kind":"search_query","query_or_url":"Agentless Demystifying LLM-based Software Engineering Agents 2024 paper localization patching","result_status":"success"},
+    {"kind":"search_query","query_or_url":"LLM scientific research hypothesis generation literature review evidence retrieval agent paper 2024","result_status":"success"},
+    {"kind":"search_query","query_or_url":"Chain of Verification prompting paper reduce hallucination 2024 arXiv","result_status":"success"},
+    {"kind":"search_query","query_or_url":"site:aclanthology.org Chain-of-Verification Reduces Hallucination","result_status":"success"},
+    {"kind":"search_query","query_or_url":"site:aclanthology.org SWE-agent 2024 publication","result_status":"success"},
+    {"kind":"search_query","query_or_url":"site:dl.acm.org Demystifying LLM-Based Software Engineering Agents FSE 2025","result_status":"success; author-hosted full paper located, ACM venue metadata in paper"},
+    {"kind":"search_query","query_or_url":"site:arxiv.org Can LLMs Generate Novel Research Ideas evaluation expert researchers","result_status":"success"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2405.15793","result_status":"success; abstract/metadata only"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2407.01489","result_status":"success; full paper text accessible"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2409.04109","result_status":"success; full paper text accessible"},
+    {"kind":"open","query_or_url":"https://aclanthology.org/2024.findings-acl.212/","result_status":"success; ACL metadata/abstract accessible and linked paper PDF available"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2407.01489","result_status":"success; duplicate open, full paper text accessible"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2405.15793","result_status":"success; duplicate open, abstract/metadata only"},
+    {"kind":"open","query_or_url":"https://arxiv.org/abs/2409.04109","result_status":"success; duplicate open, full paper text accessible"},
+    {"kind":"open","query_or_url":"https://lingming.cs.illinois.edu/publications/fse2025.pdf","result_status":"success; full author-hosted ACM FSE paper text accessible"}
+  ],
+  "sources": [
+    {
+      "id":"agentless",
+      "url":"https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "title":"Demystifying LLM-Based Software Engineering Agents",
+      "year":2025,
+      "venue":"Proceedings of the ACM on Software Engineering, Volume 2, FSE, Article FSE037",
+      "publication_status":"Peer-reviewed ACM FSE 2025 proceedings paper; the accessible author-hosted copy identifies the ACM proceedings volume and article number.",
+      "status_evidence_url":"https://lingming.cs.illinois.edu/publications/fse2025.pdf",
+      "access_level":"Full text",
+      "content_locator":"§1, pp. 2–4 (three-stage localization/repair/validation and problems with agentic planning); §4–5 (evaluation and benchmark caveats); §8, p. 20."
+    },
+    {
+      "id":"cove",
+      "url":"https://aclanthology.org/2024.findings-acl.212/",
+      "title":"Chain-of-Verification Reduces Hallucination in Large Language Models",
+      "year":2024,
+      "venue":"Findings of the Association for Computational Linguistics: ACL 2024",
+      "publication_status":"Peer-reviewed conference findings publication, verified by ACL Anthology proceedings metadata.",
+      "status_evidence_url":"https://aclanthology.org/2024.findings-acl.212/",
+      "access_level":"Full paper PDF linked and accessible; page metadata and abstract accessible",
+      "content_locator":"Abstract and ACL proceedings metadata; paper §2–3 describes draft, independent verification questions/answers, and revised response."
+    },
+    {
+      "id":"idea_study",
+      "url":"https://arxiv.org/abs/2409.04109",
+      "title":"Can LLMs Generate Novel Research Ideas? A Large-Scale Human Study with 100+ NLP Researchers",
+      "year":2024,
+      "venue":"arXiv preprint 2409.04109; a peer-reviewed venue was not established from accessible evidence",
+      "publication_status":"Preprint; subsequent peer-reviewed publication status unknown",
+      "status_evidence_url":"https://arxiv.org/abs/2409.04109",
+      "access_level":"Full text",
+      "content_locator":"Abstract; §5 main results; §7.1 limitations; Appendix F, collaborative reasoning prompt and evaluator."
+    }
+  ],
+  "findings": [
+    {
+      "id":"staged-research",
+      "claim":"Repository-level research can be made legible and economical by asking for bounded stages (locate relevant files/functions, form candidate explanations or approaches, validate with a small discriminating check) and concise handoffs, rather than open-ended agent autonomy. Agentless's evaluated repair system uses a hierarchical localization, candidate generation, and patch-validation pipeline; it also documents the cost and debugging burden of agentic action loops.",
+      "source_ids":["agentless"],
+      "support_locator":"§1, pp. 2–4; §4–5; §8, p. 20.",
+      "decision_implication":"For a research subtask, structure the prompt around a decision question, evidence-backed alternatives, a falsifiable discriminator, and a short result carrying source locators. Keep implementation and patch approval outside the research handoff.",
+      "assumptions":"The architecture-decision investigation has bounded questions and can use targeted repository evidence and small checks.",
+      "applicability_gap":"Agentless automates issue repair on SWE-bench using strong code models; it does not test mixed-model research delegation or architecture recommendations. Its benchmark and cost results do not establish benefit for this workflow.",
+      "next_discriminator":"On representative existing-repository decisions, compare an ordinary map-only handoff with the staged prompt; measure whether reviewers can identify a relevant alternative and verify its supporting evidence with less reconstruction, while tracking omissions and expert correction.
+    },
+    {
+      "id":"independent-verification",
+      "claim":"Chain-of-Verification supports separating an initial claim from independently answered verification questions before producing a corrected response; the paper reports reduced hallucination on factual QA and long-form generation tasks.",
+      "source_ids":["cove"],
+      "support_locator":"Abstract; §2–3, steps (i)–(iv).",
+      "decision_implication":"Require each proposed alternative to carry evidence locators, a check that could disconfirm it, and an explicit unsupported/unknown field. Verification questions should be answered against source or repository evidence independently of the initial narrative where practical.",
+      "assumptions":"The delegated investigator can access source text, repository evidence, or an executable small check to verify material claims.",
+      "applicability_gap":"CoVe tests factual QA and text generation, not software architecture, subagents, repositories, or prompt-injection handling; self-generated checks can miss shared assumptions.",
+      "next_discriminator":"Have a reviewer verify a sample of claims directly at cited locations and compare errors with a free-form report; retain expert review for high-impact decisions.
+    },
+    {
+      "id":"alternatives-and-rankers",
+      "claim":"A controlled human study of NLP research ideation reports that LLM-generated ideas were rated more novel but slightly less feasible than expert ideas; its authors also report weak model self-evaluation and low diversity. Its appendix's collaborative prompt uses decomposition, subtask information, combination, and reflection, while its proposed-method evaluator rewards outputs for being more detailed/comprehensive, a design that risks selecting verbosity rather than decision value.",
+      "source_ids":["idea_study"],
+      "support_locator":"Abstract; §5; §7.1; Appendix F (prompt and style evaluator, especially lines 1311–1323 in accessible text).",
+      "decision_implication":"Ask the investigator to produce a small set of meaningfully different alternatives and the evidence/discriminator for each; do not let the same model's confidence or detail score decide which alternative wins. Let the stronger decision owner inspect decisive sources directly.",
+      "assumptions":"The NLP ideation result is a warning about process design, not a measured outcome for software architecture tasks.",
+      "applicability_gap":"Single-domain ideation study and preprint venue status; novelty/feasibility ratings are not quality measures for repository changes or mixed-model routing.",
+      "next_discriminator":"Score alternatives for distinctness, evidence support, and ability to change the decision; compare reviewer effort and missed viable alternatives across matched tasks.
+    },
+    {
+      "id":"benchmarks-and-scope",
+      "claim":"The Agentless paper reports both strong benchmark performance and benchmark-label defects (issues with exact solutions, insufficient information, or misleading descriptions), and finds its approach struggles when an issue contains no localization clue. Thus benchmarks and prompt workflows are sensitive to task construction and clue distribution.",
+      "source_ids":["agentless"],
+      "support_locator":"§1, pp. 2–4; §5, especially the analysis of Lite-S and issue-location clues.",
+      "decision_implication":"Treat paper results as evidence for candidate workflow components only. Test against representative local decisions and known failure cases, and measure decision relevance and review burden, not just answer length or benchmark success.",
+      "assumptions":"The local repository task mix differs from SWE-bench issue repair and should be sampled deliberately.",
+      "applicability_gap":"No direct experiment on research quality, cross-model coordination, or the target coding-agent models.",
+      "next_discriminator":"Use matched tasks with and without explicit code/location clues and require a recorded uncertainty when the evidence does not discriminate among options.
+    }
+  ],
+  "rejected_or_redundant": [
+    "SWE-agent arXiv record (https://arxiv.org/abs/2405.15793) was opened, but its abstract/metadata did not establish publication status or add more decision-useful evidence than the full Agentless study for this assignment; no full-text claims were used."
+  ],
+  "unresolved": [
+    "No retrieved study directly tests smaller-model subagents discovering alternatives for architecture decisions in existing repositories while stronger models review them.",
+    "No source in the retrieved set establishes prompt-injection boundary effectiveness for web/repository research; retain the assignment's explicit untrusted-source boundary as an operational constraint, not as a research finding.",
+    "Peer-reviewed publication status for the arXiv research-ideation study and SWE-agent was not verified."
+  ],
+  "stop_reason":"Four primary sources yielded enough relevant evidence for a cautious workflow direction; stopped at sufficient evidence after 16/16 logical web operations.",
+  "escalation_ready":"Ready for Sol/Astra judgment: the evidence favors testing a short staged prompt that demands distinct alternatives, repository/source locators, falsifiable checks, uncertainty, and concise handoff, with direct expert access to decisive evidence and independent patch acceptance. This is a testable direction, not an established improvement; no design or patch is accepted by this research report."
+}

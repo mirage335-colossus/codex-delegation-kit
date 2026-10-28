@@ -1,0 +1,59 @@
+{
+  "case_id": "n273",
+  "started_utc": "2026-10-28 20:53:00 UTC",
+  "finished_utc": "2026-10-28 21:05:20 UTC",
+  "operations": [
+    {"id":"op1","kind":"query","query_or_url":"Aboutanios Mulgrew iterative frequency estimation interpolated DFT 2005 original paper pdf","result_status":"Found an author-hosted paper PDF describing coarse-to-fine DFT interpolation and a university publication record."},
+    {"id":"op2","kind":"query","query_or_url":"sinusoidal frequency estimation colored noise interference original paper frequency estimation sinusoid colored noise maximum likelihood","result_status":"Found primary/publisher leads on colored-noise frequency estimation; no relevant source added."},
+    {"id":"op3","kind":"open","query_or_url":"https://www.ee.cityu.edu.hk/~hcso/iscas00_2.pdf","result_status":"Opened author-hosted four-page PDF; web extraction returned no text lines."},
+    {"id":"op4","kind":"open","query_or_url":"https://www.research.ed.ac.uk/en/publications/iterative-frequency-estimation-by-interpolation-on-fourier-coeffi/","result_status":"Opened university record: peer-reviewed journal article and bibliographic details; rejected as largely duplicative of seed's coarse/fine-search discussion."},
+    {"id":"op5","kind":"open","query_or_url":"https://ieeexplore.ieee.org/document/1692089/","result_status":"Failed: IEEE JavaScript/bot verification page; no paper content."},
+    {"id":"op6","kind":"query","query_or_url":"Two algorithms for frequency estimation of a real sinusoid from short data records abstract authors 2000 real sinusoid negative frequency","result_status":"Found a long extracted primary-paper text from the author-hosted PDF, including abstract, model and Sections I-II; paper states short-record periodogram bias from interference by the negative spectral line and proposes analytic-signal and negative-line-subtraction methods."},
+    {"id":"op7","kind":"query","query_or_url":"real-valued single-tone frequency estimation negative spectral image periodogram bias paper","result_status":"Found the same paper, plus alternative records; no distinct contribution pursued."},
+    {"id":"op8","kind":"query","query_or_url":"10.1109/ISCAS.2000.856079 IEEE Xplore DOI conference proceedings","result_status":"Search did not surface the target DOI; results included unrelated ISCAS records. Counted as a failed provenance search."},
+    {"id":"op9","kind":"open","query_or_url":"https://doi.org/10.1109/ISCAS.2000.856079","result_status":"Failed: URL inaccessible through web tool."},
+    {"id":"op10","kind":"open","query_or_url":"https://www.ee.cityu.edu.hk/~hcso/publication.html","result_status":"Opened author publication list; lines 462-463 identify the paper as a 2000 IEEE ISCAS proceedings paper, vol. 3, pp. 391-394. This verifies bibliographic publication provenance, not peer review."}
+  ],
+  "sources": [
+    {
+      "id":"S1",
+      "url":"https://www.ee.cityu.edu.hk/~hcso/iscas00_2.pdf",
+      "title":"Two Algorithms for Frequency Estimation of a Real Sinusoid from Short Data Records",
+      "year":2000,
+      "venue":"Proceedings of the 2000 IEEE International Symposium on Circuits and Systems (ISCAS), vol. 3, pp. III-391–III-394",
+      "publication_status":"Author's publication list identifies it as an IEEE ISCAS 2000 proceedings paper (op10, lines 462-463); the paper PDF carries IEEE copyright. Peer-review status was not independently verified.",
+      "status_evidence_url":"https://www.ee.cityu.edu.hk/~hcso/publication.html",
+      "access_level":"Primary paper PDF opened (op3); full extracted text was returned in search operation op6. Author-hosted access; publisher page was not verified.",
+      "content_locator":"PDF pp. III-391–III-394; abstract and Section I discuss severe short-record periodogram bias; Section II attributes bias to the negative spectral line and says it depends on N, tone frequency, and phase; Section III proposes analytic-signal construction and negative-line subtraction. Model is one real sinusoid in additive white Gaussian noise with unknown amplitude, frequency and phase; short records are described as N on the order of 100 or less.",
+      "first_content_operation_ids":["op3","op6"],
+      "status_check_operation_ids":["op10"]
+    }
+  ],
+  "findings": [
+    {
+      "id":"F1",
+      "claim":"A complex-sinusoid/periodogram estimator can have phase- and record-length-dependent bias on a real sampled tone because the tone includes a negative-frequency spectral component. So and Chan propose two concrete corrections: construct an analytic signal, or subtract the negative spectral line before periodogram estimation.",
+      "source_ids":["S1"],
+      "support_locator":"Primary paper abstract and Sections I-III, pp. III-391–III-394; extracted paper text returned at op6 and PDF opened at op3.",
+      "support_operation_ids":["op3","op6","op10"],
+      "decision_implication":"This identifies a model-mismatch check that could change the next estimator comparison: on matched real-valued tone captures, include a short-window periodogram baseline and one real-tone image-correction method, varying initial phase and record length. Compare frequency bias and deadline error tails; keep presence admission and frequency-only authority scored separately. The work is a comparator/discriminator, not a selected implementation.",
+      "assumptions":["Real sinusoid with unknown fixed amplitude, phase and frequency over the analyzed record.","Additive white Gaussian noise in the paper's model.","The paper's improvement is specifically motivated for short observation records, including N around 100 or less."],
+      "applicability_gap":"Supplied H03 identifies real capture and unresolved conjugate-image/physical-sideband ambiguity, so model relevance is direct; actual capture length, tone-to-sample-rate ratio, envelope variation, payload/auxiliary interference and 24/30 dB-Hz operating conditions may fall outside the paper's single-tone AWGN experiments. The source does not establish target feasibility or false-admission behavior.",
+      "next_discriminator":"Using the same real PCM and noise/control captures, vary start phase and observation length around the actual 137-sample chunk aggregation and longer windows; compare current estimator, real-tone image correction and bounded local fit. Record bias, <=0.10-Hz deadline success, large-error tails, reported uncertainty coverage, and absent-tone publications separately. Repeat with representative envelope/payload activity only after the clean single-tone discriminator isolates the image effect.",
+      "incremental_vs_seed":{"new_evidence":"A primary real-sinusoid study names a specific finite-record model failure (negative spectral-line interference) and two executable remedy families, beyond the seed's complex single-tone estimator comparisons and generic coarse-search/outlier discussion.","seed_claim_or_gap_changed":"H03 already flags unresolved conjugate-image/physical-sideband ambiguity. This turns that broad caveat into a testable estimator-bias hypothesis and a small, matched comparison; it does not resolve which branch or estimator performs best on the receiver's captures."}
+    }
+  ],
+  "retained_seed_summary":"Retain seed findings that CRLB/local uncertainty does not establish deadline tail error (Rife-Boorstyn excerpt, with original-access provenance caveat); Kay-style/ML and differential-phase lag comparisons are conditioned on stationary complex AWGN/coherence; and uncertainty, current presence and frequency-only authority are distinct. H03/H05/H06 are source excerpts and synthetic fixtures, not performance observations on prospective captures.",
+  "rejected_or_redundant":[
+    {"item":"Aboutanios and Mulgrew's iterative DFT interpolation method (2005)","reason":"The search found a peer-reviewed paper and author/university access, but its coarse-then-fine interpolation is substantially covered by the seed's coarse-search and local-refinement framing; it did not add a stronger task-specific discriminator within this continuation."},
+    {"item":"Colored-noise and compressed-measurement papers from search leads","reason":"The hits concern specialized noise or acquisition models and did not establish fit to the receiver's captures; no added claim is based on them."}
+  ],
+  "unresolved":[
+    "Actual capture sample rates, tone frequency relative to DC/Nyquist, usable coherent record lengths, and amplitude stability determine the size of negative-image bias.",
+    "The source assumes AWGN and a stationary single tone; payload, auxiliary tones, shaped/enveloped helper activity, and colored or impulsive interference require matched runtime evidence.",
+    "The paper does not calibrate the reported uncertainty field or support 95% deadline success, presence false-admission control, or the hypothetical 6 s / 0.10 Hz target.",
+    "Physical positive/negative sideband ambiguity remains separate from estimating the tone's digital frequency."
+  ],
+  "stop_reason":"One directly relevant, decision-changing primary-source gap was resolved with a concrete discriminator. Additional leads were duplicative or model-mismatched; stopped with 10 logical web operations (5 queries, 5 opens), within total and per-kind limits. One search and one open failed; all operations counted. Approximate elapsed time was 12 minutes 20 seconds; the stated 12-minute target was exceeded by about 20 seconds because this check's start time is estimated, while the hard operation budget was respected.",
+  "escalation_ready":true
+}

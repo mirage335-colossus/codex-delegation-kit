@@ -1,0 +1,134 @@
+# R09: SDK and imported dependency path validation across CMake scopes
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `cmake/DependencyPaths.cmake` lines 1-77
+
+```text
+   1 include_guard(GLOBAL)
+   2 
+   3 function(foundation_is_generated_dependency path output)
+   4   set(${output} FALSE PARENT_SCOPE)
+   5   list(FIND FOUNDATION_DEPENDENCY_GENERATED_ARCHIVES "${path}" generated_index)
+   6   if(NOT IS_ABSOLUTE "${path}" OR generated_index LESS 0)
+   7     return()
+   8   endif()
+   9   file(REAL_PATH "${FOUNDATION_DEPENDENCY_BUILD}" build_root)
+  10   set(existing "${path}")
+  11   while(NOT EXISTS "${existing}")
+  12     get_filename_component(existing "${existing}" DIRECTORY)
+  13   endwhile()
+  14   file(REAL_PATH "${existing}" physical_path)
+  15   cmake_path(IS_PREFIX build_root "${physical_path}" NORMALIZE inside)
+  16   if(NOT inside OR IS_DIRECTORY "${path}" OR IS_SYMLINK "${path}")
+  17     message(FATAL_ERROR "Generated application archive escapes its declared build root: ${path}")
+  18   endif()
+  19   set(${output} TRUE PARENT_SCOPE)
+  20 endfunction()
+  21 
+  22 # Validate physical paths, not spelling: an in-root alias may name a host file.
+  23 function(foundation_check_dependency kind path)
+  24   if(NOT IS_ABSOLUTE "${path}")
+  25     if(kind STREQUAL "include" AND NOT "${path}" STREQUAL "")
+  26       message(FATAL_ERROR "SDK dependency include directory must be absolute: ${path}")
+  27     endif()
+  28     return()
+  29   endif()
+  30   if(kind STREQUAL "library")
+  31     foundation_is_generated_dependency("${path}" generated)
+  32     if(generated)
+  33       return()
+  34     endif()
+  35   endif()
+  36   file(REAL_PATH "${path}" resolved)
+  37   set(roots "${FOUNDATION_DEPENDENCY_SYSROOT}")
+  38   if(kind STREQUAL "include")
+  39     list(APPEND roots "${FOUNDATION_DEPENDENCY_SOURCE}" "${FOUNDATION_DEPENDENCY_BUILD}" "${FOUNDATION_DEPENDENCY_GUI}")
+  40   endif()
+  41   foreach(root IN LISTS roots)
+  42     if(NOT root STREQUAL "")
+  43       file(REAL_PATH "${root}" physical_root)
+  44       cmake_path(IS_PREFIX physical_root "${resolved}" NORMALIZE inside)
+  45       if(inside)
+  46         if(NOT EXISTS "${path}" AND NOT root STREQUAL FOUNDATION_DEPENDENCY_BUILD)
+  47           message(FATAL_ERROR "SDK dependency does not exist: ${path}")
+  48         endif()
+  49         return()
+  50       endif()
+  51     endif()
+  52   endforeach()
+  53   message(FATAL_ERROR "SDK dependency escapes declared roots (${kind}): ${path} -> ${resolved}")
+  54 endfunction()
+  55 
+  56 function(foundation_check_dependency_values kind values)
+  57   foreach(value IN LISTS values)
+  58     if(value MATCHES "\\$<")
+  59       message(FATAL_ERROR "Unresolved SDK dependency expression: ${value}")
+  60     endif()
+  61     if(value MATCHES "^-L(.+)$" OR value MATCHES "^-I(.+)$")
+  62       set(value "${CMAKE_MATCH_1}")
+  63     endif()
+  64     if(value STREQUAL "" OR value MATCHES "^::@" OR value MATCHES "-NOTFOUND$")
+  65       continue()
+  66     endif()
+  67     foundation_check_dependency("${kind}" "${value}")
+  68   endforeach()
+  69 endfunction()
+  70 
+  71 function(foundation_check_dependency_hash path expected)
+  72   foundation_check_dependency(library "${path}")
+  73   file(SHA256 "${path}" actual)
+  74   if(NOT actual STREQUAL expected)
+  75     message(FATAL_ERROR "Configured SDK library bytes changed: ${path}")
+  76   endif()
+  77 endfunction()
+```
+
+## `tests/test_sdk_paths.py` lines 26-69
+
+```text
+  26     def test_imported_library_and_include_are_physically_contained(self):
+  27         result=self.configure(self.body());self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+  28         result=subprocess.run([self.cmake,'--build',str(self.root/'build'),'--target','foundation-dependency-check'],capture_output=True,text=True)
+  29         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+  30     def test_child_local_imports_are_checked_in_their_directory_scope(self):
+  31         result=self.configure('add_subdirectory(child)',{'child':'foundation_register_build_directory()\n'+self.body()})
+  32         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+  33         self.lib.write_bytes(b'changed child dependency')
+  34         result=subprocess.run([self.cmake,'--build',str(self.root/'build'),'--target','foundation-dependency-check'],capture_output=True,text=True)
+  35         self.assertNotEqual(result.returncode,0);self.assertIn('bytes changed',result.stdout+result.stderr)
+  36 
+  37     def test_supplier_project_is_registered_without_editing_supplier_source(self):
+  38         result=self.configure('add_subdirectory(supplier)',{'supplier':'project(Supplier NONE)\n'+self.body()})
+  39         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+  40         self.lib.write_bytes(b'changed supplier dependency')
+  41         result=subprocess.run([self.cmake,'--build',str(self.root/'build'),'--target','foundation-dependency-check'],capture_output=True,text=True)
+  42         self.assertNotEqual(result.returncode,0);self.assertIn('bytes changed',result.stdout+result.stderr)
+  43 
+  44     def test_unregistered_child_cannot_escape_policy(self):
+  45         result=self.configure('add_subdirectory(child)',{'child':self.body(self.external/'libfixture.a')})
+  46         self.assertNotEqual(result.returncode,0);self.assertIn('foundation_register_build_directory',result.stderr)
+  47 
+  48     def test_same_named_local_imports_retain_distinct_notice_paths(self):
+  49         child='foundation_register_build_directory()\n'+self.body()
+  50         other='foundation_register_build_directory()\n'+self.body(self.external/'libfixture.a')
+  51         result=self.configure('set(FOUNDATION_SDK_ROOT "")\nset(FOUNDATION_GUI_DISTRIBUTABLE TRUE)\nadd_subdirectory(first)\nadd_subdirectory(second)',{'first':child,'second':other})
+  52         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+  53         fragments=[p.read_text() for p in (self.root/'build/policy').glob('*-notices-.cmake')]
+  54         self.assertTrue(any(str(self.lib) in text for text in fragments));self.assertTrue(any(str(self.external/'libfixture.a') in text for text in fragments))
+  55 
+  56     def test_external_cached_imported_library_fails_at_configure(self):
+  57         result=self.configure(self.body(self.external/'libfixture.a'))
+  58         self.assertNotEqual(result.returncode,0);self.assertIn('escapes declared roots',result.stdout+result.stderr)
+  59     def test_external_include_fails_at_configure(self):
+  60         result=self.configure(self.body(include=self.external))
+  61         self.assertNotEqual(result.returncode,0);self.assertIn('escapes declared roots',result.stdout+result.stderr)
+  62     def test_alias_changed_after_configure_fails_install_guard(self):
+  63         alias=self.sysroot/'lib/libalias.a';alias.symlink_to(self.lib.name)
+  64         result=self.configure(self.body(alias));self.assertEqual(result.returncode,0,result.stderr)
+  65         alias.unlink();alias.symlink_to(self.external/'libfixture.a')
+  66         result=subprocess.run([self.cmake,'-P',str(self.root/'build/dependency-paths-.cmake')],capture_output=True,text=True)
+  67         self.assertNotEqual(result.returncode,0);self.assertIn('escapes declared roots',result.stderr)
+  68     def test_library_bytes_changed_in_place_fail_install_guard(self):
+  69         result=self.configure(self.body());self.assertEqual(result.returncode,0,result.stderr)
+```

@@ -1,0 +1,127 @@
+# R05: Native task worker ownership, cancellation and shutdown
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `gui/shared/task_native.cpp` lines 8-70
+
+```text
+   8 // One persistent producer owns its copied input. A one-slot latest-progress
+   9 // mailbox bounds memory; terminal state remains until the UI consumes it.
+  10 // Replacement/cancellation invalidate the generation without waiting on the UI.
+  11 class NativeTaskExecutor final : public TaskExecutor {
+  12     struct Work { std::uint64_t generation; std::vector<std::string> input; };
+  13     std::mutex mutex_;
+  14     std::condition_variable changed_;
+  15     std::optional<Work> pending_;
+  16     std::optional<TaskUpdate> update_;
+  17     std::uint64_t serial_ = 0, active_ = 0;
+  18     bool closed_ = false;
+  19     std::thread worker_{[this] { run(); }};
+  20     void run() {
+  21         for (;;) {
+  22             std::unique_lock lock(mutex_);
+  23             changed_.wait(lock, [this] { return closed_ || pending_.has_value(); });
+  24             if (closed_) return;
+  25             auto work = std::move(*pending_); pending_.reset();
+  26             lock.unlock();
+  27             TextTask task; task.start(std::move(work.input));
+  28             while (auto value = task.advance(4096)) {
+  29                 value->generation = work.generation;
+  30                 lock.lock();
+  31                 if (closed_) return;
+  32                 if (active_ != work.generation) { lock.unlock(); break; }
+  33                 update_ = *value;
+  34                 lock.unlock();
+  35                 if (value->complete) break;
+  36             }
+  37         }
+  38     }
+  39 public:
+  40     ~NativeTaskExecutor() override { shutdown(); }
+  41     TaskUpdate start(std::vector<std::string> input) override {
+  42         TextTask validator;
+  43         auto initial = validator.start(input); // Validate before changing live work.
+  44         std::lock_guard lock(mutex_);
+  45         if (closed_) throw std::logic_error("Task executor is closed");
+  46         if (serial_ == std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("Task identity exhausted");
+  47         initial.generation = ++serial_; active_ = serial_; update_.reset();
+  48         pending_ = Work{serial_, std::move(input)}; changed_.notify_one();
+  49         return initial;
+  50     }
+  51     std::optional<TaskUpdate> advance() override {
+  52         std::lock_guard lock(mutex_);
+  53         auto value = update_; update_.reset(); return value;
+  54     }
+  55     void cancel() noexcept override {
+  56         std::lock_guard lock(mutex_);
+  57         active_ = 0; pending_.reset(); update_.reset();
+  58     }
+  59     void shutdown() noexcept override {
+  60         {
+  61             std::lock_guard lock(mutex_);
+  62             closed_ = true; active_ = 0; pending_.reset(); update_.reset();
+  63         }
+  64         changed_.notify_one();
+  65         if (worker_.joinable()) worker_.join();
+  66     }
+  67 };
+  68 }
+  69 std::unique_ptr<TaskExecutor> make_task_executor() { return std::make_unique<NativeTaskExecutor>(); }
+  70 } // namespace foundation::ui
+```
+
+## `gui/tests/task_native_test.cpp` lines 7-41
+
+```text
+   7 void check(bool value, const char* message) { if (!value) throw std::runtime_error(message); }
+   8 TaskUpdate finish(TaskExecutor& executor, TaskUpdate initial) {
+   9     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+  10     while (std::chrono::steady_clock::now() < deadline) {
+  11         if (auto update = executor.advance()) {
+  12             check(update->generation == initial.generation && update->processed >= initial.processed,
+  13                   "Stale or regressing producer update");
+  14             initial = *update;
+  15             if (update->complete) return *update;
+  16         }
+  17         std::this_thread::yield();
+  18     }
+  19     throw std::runtime_error("Producer did not complete");
+  20 }
+  21 int main() { try {
+  22     auto executor = make_task_executor();
+  23     std::vector<std::string> input(1000, std::string(256, 'x'));
+  24     auto initial = executor->start(input); input.clear();
+  25     auto result = finish(*executor, initial);
+  26     check(result.result == 256000 && !executor->advance(), "Owned input or terminal delivery lost");
+  27     for (unsigned i=0; i<200; ++i) {
+  28         executor->start(std::vector<std::string>(1000, std::string(256,'a')));
+  29         executor->cancel();
+  30         initial = executor->start({"new value"});
+  31         result = finish(*executor,initial);
+  32         check(result.result == 8 && result.total == 9, "Cancelled work reached replacement");
+  33     }
+  34     initial = executor->start({}); check(finish(*executor, initial).complete, "Empty work lost");
+  35     executor->start(std::vector<std::string>(1000, std::string(256,'z')));
+  36     executor->shutdown(); executor->shutdown();
+  37     check(!executor->advance(), "Closed worker retained completion");
+  38     bool rejected=false; try { executor->start({"late"}); } catch(const std::logic_error&) { rejected=true; }
+  39     check(rejected,"Closed worker restarted");
+  40     std::cout << "Native owned input, bounded mailbox, replacement, cancellation and joined shutdown passed\n";
+  41 } catch(const std::exception& error) { std::cerr << error.what() << '\n'; return 1; } }
+```
+
+## `gui/CMakeLists.txt` lines 25-35
+
+```text
+  25 if(EMSCRIPTEN)
+  26     set(foundation_task_executor shared/task_cooperative.cpp)
+  27 else()
+  28     set(foundation_task_executor shared/task_native.cpp)
+  29 endif()
+  30 add_library(foundation_gui_application STATIC shared/application.cpp ${foundation_task_executor})
+  31 add_dependencies(foundation_gui_application foundation_gui_contract)
+  32 target_link_libraries(foundation_gui_application PUBLIC foundation_gui_boundary foundation::core)
+  33 target_include_directories(foundation_gui_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+  34 set_target_properties(foundation_gui_application PROPERTIES CXX_EXTENSIONS OFF)
+  35 foundation_options(foundation_gui_application)
+```

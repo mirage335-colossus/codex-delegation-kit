@@ -38,7 +38,7 @@
       "service_seconds": 15.19580078125,
       "preemptions": 0,
       "not_before": 1792559014.5754848,
-      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607",
+      "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607",
       "diagnostic_result": {
         "evidence": [
           "Command: python3 -B -c 'from totals import parse_values; inputs = [\"2,3\", \"7\", \" 2 , , 3 \"]; expected = [[2,3], [7], [2,3]]; actual = [parse_values(s) for s in inputs]; [print(f\"input={s!r} actual={a!r} expected={e!r} match={a == e}\") for s,a,e in zip(inputs,actual,expected)]'",
@@ -51,11 +51,11 @@
       "cleanup": {
         "at": 1792559029.992532,
         "attempt": "swarm-parser-1-ec23662ff607",
-        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
+        "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-parser-1-ec23662ff607/engineering-capsule.json",
         "capsule_sha256": "f71cdc861b039c1690ce037a81ac3290af860a0ce27308a9ca08d5de228e005a",
         "completed_at": 1792559029.994894,
         "state": "complete",
-        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-parser-41e2910d00",
+        "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-parser-41e2910d00",
         "workspace_identity": {
           "device": 46,
           "inode": 399699
@@ -74,11 +74,11 @@
       "service_seconds": 18.54342770576477,
       "preemptions": 0,
       "not_before": 1792559014.5754848,
-      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979",
+      "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979",
       "diagnostic_result": {
         "evidence": [
           "Source: totals.py implements aggregate(values) as sum(values[1:]); total(text) passes parsed values to aggregate.",
-          "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B /tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py \u2014 exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
+          "Command: python3 -B -c '... py_compile.compile(str(src), cfile=str(p/\"reducer_probe.pyc\"), doraise=True) ...' && python3 -B unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1/.controller-scratch-315e7cb023e4/reducer_probe.py — exited 0; output: aggregate([])=0 vs sum([])=0; aggregate([7])=0 vs sum([7])=7; aggregate([2,3])=3 vs sum([2,3])=5; total(\"2,3\")=3 vs expected 5. Wrapper source and bytecode are in the declared scratch directory."
         ],
         "findings": "The actual reducer omits the first value: aggregate([]) matches sum at 0, but aggregate([7]) returns 0 instead of 7 and aggregate([2,3]) returns 3 instead of 5. total(\"2,3\") also returns 3 instead of 5. This demonstrates the specified contract mismatch in the private source snapshot; it does not establish why the implementation behaves this way.",
         "outcome": "failure_reproduced"
@@ -87,11 +87,11 @@
       "cleanup": {
         "at": 1792559033.678214,
         "attempt": "swarm-reducer-1-8f5ee3c39979",
-        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
+        "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-reducer-1-8f5ee3c39979/engineering-capsule.json",
         "capsule_sha256": "779e5cd2bd7e0fd9cbc81be3ba8caf4111940c5fe4282cfa7e89338236809bd2",
         "completed_at": 1792559033.681326,
         "state": "complete",
-        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-reducer-1819251bb1",
+        "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-reducer-1819251bb1",
         "workspace_identity": {
           "device": 46,
           "inode": 399727
@@ -110,11 +110,11 @@
       "service_seconds": 25.24585270881653,
       "preemptions": 0,
       "not_before": 1792559014.5754848,
-      "result_location": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
+      "result_location": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb",
       "diagnostic_result": {
         "cutoff": "swarm experiment reached its assigned time limit; no engineering outcome established",
         "evidence": [
-          "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
+          "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/backend-events.jsonl"
         ],
         "findings": "bounded experiment exhausted its execution budget; retained observations do not establish the requested result",
         "outcome": "inconclusive"
@@ -123,16 +123,18 @@
       "cleanup": {
         "at": 1792559055.6088707,
         "attempt": "swarm-repeatability-cutoff-1-8132d20e41bb",
-        "capsule": "/tmp/delegation-swarm-main/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
+        "capsule": "unbundled-runtime/run-h954e2065e97c08aa/host-run/operations/swarm-repeatability-cutoff-1-8132d20e41bb/engineering-capsule.json",
         "capsule_sha256": "9df9fcd2639fc3d7a408a89916aafdfd11c245fcbb58a77d93f894a0c08bf314",
         "completed_at": 1792559055.6115592,
         "state": "complete",
-        "workspace": "/tmp/delegation-swarm-main/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
+        "workspace": "unbundled-runtime/run-h954e2065e97c08aa/host-run/workspaces/swarm-repeatability-cutoff-b1c90b52ae",
         "workspace_identity": {
           "device": 46,
           "inode": 399755
         }
       }
     }
-  ]
+  ],
+  "publication_scope": "historical_pre_publication",
+  "publication_note": "Recorded hashes, byte sizes, and outcomes are historical claims; they do not validate these rewritten public artifacts."
 }

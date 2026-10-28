@@ -1,0 +1,1632 @@
+{
+  "scope": "label-blinded carrier domain; no arm map, winner, new research or project execution",
+  "score_rule": "Each retained distinct original finding counted per case. Unresolved included only in upper bound; verifier confirmation does not rewrite original operation access. Expert assessment pending.",
+  "scores_note": "Counts are descriptive; pair means and arm unions cannot be calculated without unmasking. Full and strict-prefix differ only for r698.",
+  "cases": [
+    {
+      "case_id": "r733",
+      "original_report_bytes": 15310,
+      "original_operations": 13,
+      "scores": {
+        "full": {
+          "qualified": 5,
+          "unresolved": 0,
+          "lower": 5,
+          "upper": 5
+        },
+        "strict_prefix": {
+          "qualified": 5,
+          "unresolved": 0,
+          "lower": 5,
+          "upper": 5
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "raw_source_ids": [
+            "S1"
+          ],
+          "support_locator": "Paper excerpt pp. 593-596, especially explanation around pp. 595-596 that a distorted periodogram can place its global maximum far from the true tone and outliers then dominate MSE.",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "A CRLB or small local fit residual is not enough to establish a useful early-acquisition error rate. Rife and Boorstyn describe rare low-SNR global-maximum outliers: ordinary errors can approach the bound while occasional large errors dominate total MSE below threshold.",
+          "original_operations_access": "Only indexed excerpts logged; claimed page-specific direct access not demonstrated.",
+          "independent_verification": {
+            "finding_id": "F1",
+            "dedup_key": "threshold_outliers_vs_local_bound",
+            "source_ids": [
+              "RB1974"
+            ],
+            "content_access": "partial text via query result in original report; reviewer independently opened third-party scan",
+            "publication_status": "journal publication yes; peer review unknown",
+            "claim_support": "partial-primary-text supported; exact cited page passage was not logged as an opened operation in original report",
+            "applicability": "adequately mapped with stated stationary single-tone/Gaussian caveat",
+            "alternative_or_caveat": "The paper's threshold result concerns a particular periodogram ML model; it does not establish this receiver's outlier rate or target feasibility.",
+            "discriminator": "Count large error/outlier rate and absolute-error tails at fixed deadline, separately from presence admissions, on matched present/absent captures.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The source directly supports testing acquisition tails rather than relying on local CRB-like uncertainty; transfer limits are stated."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The source directly supports testing acquisition tails rather than relying on local CRB-like uncertainty; transfer limits are stated."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The source directly supports testing acquisition tails rather than relying on local CRB-like uncertainty; transfer limits are stated."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F2",
+          "raw_source_ids": [
+            "S2"
+          ],
+          "support_locator": "URI institutional record abstract, lines 28-29; citation and IEEE journal venue at lines 31-45.",
+          "union_key": "kay",
+          "discovered": true,
+          "original_claim": "For a clean stationary single complex sinusoid in white Gaussian noise, a low-cost estimator in Kay's family can approach the maximum-likelihood estimator's performance at moderately high SNR; the paper also explains why linear prediction does not attain the bound even at high SNR.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F2",
+            "dedup_key": "kay_simple_estimator_vs_ml",
+            "source_ids": [
+              "KAY1989"
+            ],
+            "content_access": "abstract",
+            "publication_status": "journal publication yes; peer review unknown",
+            "claim_support": "abstract-limited; its single-complex-sinusoid complex-AWGN and moderately-high-SNR conditions are preserved",
+            "applicability": "adequately mapped as a candidate comparison, not a performance prediction",
+            "alternative_or_caveat": "The abstract does not validate the real-valued shaped helper or exact estimator implementation.",
+            "discriminator": "Compare current, Kay-style, and bounded local ML/profile fit on identical clean held-out PCM before adding payload/envelope conditions.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "It supports a distinct low-complexity comparator with clearly bounded assumptions."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "It supports a distinct low-complexity comparator with clearly bounded assumptions."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "It supports a distinct low-complexity comparator with clearly bounded assumptions."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F3",
+          "raw_source_ids": [
+            "S3"
+          ],
+          "support_locator": "IEEE indexed abstract for 2006 paper: arbitrary-delay differential-phase ML derivation; delay-two high-SNR bound result; comparisons across range and SNR.",
+          "union_key": "lag",
+          "discovered": true,
+          "original_claim": "Differential-phase frequency estimation has a tunable lag: the generalized Kay paper reports lower variance than delay-one Kay at low SNR for its complex-AWGN model, while larger lags trade behavior and frequency range, so one lag is not universally best.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F3",
+            "dedup_key": "differential_phase_lag_tradeoff",
+            "source_ids": [
+              "GKAY2006"
+            ],
+            "content_access": "publisher abstract via indexed query; direct open blocked",
+            "publication_status": "journal publication yes; peer review unknown",
+            "claim_support": "abstract-limited",
+            "applicability": "adequately mapped only for an unretuned coherent interval",
+            "alternative_or_caveat": "Longer lag reduces estimation range and requires phase coherence; the source does not support cross-retune use.",
+            "discriminator": "Compare delay one with a small bounded lag set on one unretuned burst; explicitly test wrap/range limits and stop at retunes.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The abstract supports a cheap candidate lag sweep when the task's coherence condition holds."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The abstract supports a cheap candidate lag sweep when the task's coherence condition holds."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The abstract supports a cheap candidate lag sweep when the task's coherence condition holds."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F4",
+          "raw_source_ids": [
+            "S4"
+          ],
+          "support_locator": "URI institutional record abstract, lines 28-30; IEEE journal citation at lines 31-45.",
+          "union_key": "kay1984",
+          "discovered": true,
+          "original_claim": "An estimator explicitly designed for lower SNR may be worth a control: Kay's 1984 article abstract reports a simple estimator with lower-SNR accuracy than then-current techniques, but the accessible abstract is too thin to rank it against current options.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F4",
+            "dedup_key": "low_snr_kay1984_candidate",
+            "source_ids": [
+              "KAY1984"
+            ],
+            "content_access": "abstract",
+            "publication_status": "journal publication yes; peer review unknown",
+            "claim_support": "abstract-limited",
+            "applicability": "adequately mapped as a retrieval/control candidate only",
+            "alternative_or_caveat": "No algorithm equations or quantified operating region are accessible; the abstract alone cannot rank it or support implementation specifics.",
+            "discriminator": "Retrieve the full paper only if this candidate would change the small matched comparison; otherwise prioritize implementable contenders.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "It responsibly identifies a potentially relevant low-SNR control while refusing to infer the missing method."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "It responsibly identifies a potentially relevant low-SNR control while refusing to infer the missing method."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "It responsibly identifies a potentially relevant low-SNR control while refusing to infer the missing method."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F5",
+          "raw_source_ids": [],
+          "support_locator": "Supplied H03 lines 62-88 and 161-168; H05 lines 123-130 and 194-213. Supplied source facts; not runtime-tested.",
+          "union_key": "authority",
+          "discovered": true,
+          "original_claim": "The excerpts distinguish conditional frequency uncertainty from calibrated confidence: tracker intervals are engineering noise/variance gates; abrupt changes can exceed them before withdrawal. Optional long-profile frequency analysis separately tests recent presence and grants no phase/payload authority.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F5",
+            "dedup_key": "conditional_uncertainty_presence_authority",
+            "source_ids": [
+              "PACKET-H03-H05-H06"
+            ],
+            "content_access": "supplied excerpt",
+            "publication_status": "not applicable",
+            "claim_support": "direct excerpt support",
+            "applicability": "adequately mapped as code-contract context only",
+            "alternative_or_caveat": "The excerpts establish declared contracts and a finite synthetic test, not measured receiver performance.",
+            "discriminator": "Measure empirical error coverage and publication/admission timing separately, keeping present/absent controls and frequency-only authority.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The packet distinction materially constrains what the proposed validation must score."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The packet distinction materially constrains what the proposed validation must score."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The packet distinction materially constrains what the proposed validation must score."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "S1",
+          "url": "https://doi.org/10.1109/TIT.1974.1055282",
+          "title": "Single Tone Parameter Estimation from Discrete-Time Observations",
+          "year": 1974,
+          "venue": "IEEE Transactions on Information Theory 20(5), 591-598",
+          "publication_status": "Journal publication is established by bibliographic records; peer-review status not independently confirmed because the IEEE page was inaccessible.",
+          "status_evidence_url": "https://oamonitor.ireland.openaire.eu/national/search/publication?pid=10.1109%2Ftit.1974.1055282",
+          "access_level": "Partial text excerpt accessible via third-party indexed page; publisher full text inaccessible. Do not rely on the third-party host for publication status.",
+          "content_locator": "Accessible excerpt reproduces paper pp. 592-598: abstract at p. 591; threshold/outlier explanation and coarse-search discussion around pp. 593-596; CR bound derivation around pp. 592-593. IEEE direct page returned a JavaScript/bot gate."
+        },
+        {
+          "id": "S2",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+          "publication_status": "Article publication in the cited IEEE journal is established by University of Rhode Island author repository record (lines 21-45); peer-review process was not separately documented.",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "Abstract and bibliographic metadata only; full text link not opened.",
+          "content_locator": "URI record lines 28-29 (abstract), 31-47 (venue, citation, full-text link)."
+        },
+        {
+          "id": "S3",
+          "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+          "title": "Frequency Estimation of a Single Complex Sinusoid Using a Generalized Kay Estimator",
+          "year": 2006,
+          "venue": "IEEE Transactions on Communications 54(3), 407-415",
+          "publication_status": "IEEE publisher search-index metadata identifies the journal article; peer-review status not independently established. Direct page retrieval failed.",
+          "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+          "access_level": "Publisher abstract and bibliographic metadata from indexed result only; direct open failed with HTTP 418.",
+          "content_locator": "IEEE indexed abstract: proposed arbitrary-delay differential-phase ML estimator; reports reduced variance versus original Kay at low SNR and compares generalized Kay, weighted linear predictor, autocorrelation and periodogram approaches."
+        },
+        {
+          "id": "S4",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1400/",
+          "title": "Accurate Frequency Estimation at Low Signal-to-Noise Ratio",
+          "year": 1984,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 32(3), 540-547",
+          "publication_status": "Article publication in the cited IEEE journal is established by University of Rhode Island author repository record (lines 21-45); peer-review process was not separately documented.",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1400/",
+          "access_level": "Abstract and bibliographic metadata only; full text link not opened.",
+          "content_locator": "URI record lines 28-30 (abstract), 31-47 (venue, citation, full-text link)."
+        }
+      ],
+      "rejected_or_redundant_original": [
+        "Repeated tuning of the incumbent estimator is not yet justified: the literature indicates threshold/outlier behavior and model mismatch can masquerade as estimator variance; first separate stationary clean-tone accuracy from interference, coherence, and detection failures.",
+        "A finite uncertainty value or CRLB comparison alone cannot certify the proposed 95%/0.10-Hz target; these are planning numbers, and the opened sources do not validate them.",
+        "No estimator is shown superior. A matched discriminator with outlier and presence metrics should come first."
+      ],
+      "verification_omissions_errors": [
+        "The original operations list a search that surfaced Rife text excerpts but never logs opening the third-party scan. Its claimed page-specific passage locator and direct-text access are stronger than the logged evidence; verifier independently confirmed the passage, without retroactively upgrading the original research record.",
+        "The original report says only the indexed abstract was used for GKAY; that is acceptable abstract-limited support, but peer review was not verified."
+      ],
+      "factual_followups": [
+        "The paper full texts for Kay 1989, Kay 1984, and IEEE 2006 were not accessed; exact estimator equations and their full operating regions remain unverified.",
+        "The Rife-Boorstyn IEEE page was blocked, so peer-review status was not independently verified from publisher or author-institutional evidence; publication in the cited IEEE journal is supported by bibliographic records, but review status is reported as unconfirmed.",
+        "No material here determines feasibility of 0.10 Hz by 6 seconds at 24/30 dB-Hz under the stated real capture geometry. Reference-level definition, actual noise spectrum/interferers, envelope duty cycle, and unannounced frequency evolution need operational clarification/measurement.",
+        "H03/H05/H06 are excerpts only; no runtime claims are made."
+      ],
+      "packet": {
+        "decision_constraints": "Test early frequency-only evidence; 6 s, 0.10 Hz/95% are prospective targets.",
+        "supported_facts": "Rife threshold versus local bounds; Kay 1989 abstract supports a simple comparator; generalized Kay supports a bounded lag sweep under coherence. H03/H05 distinguish uncertainty, presence and authority. Kay 1984 is a retrieval lead, not an implementable result.",
+        "contrary_evidence_limits": "Rife is stationary single-tone Gaussian; its original page locator exceeds logged access although the verifier independently confirmed the passage. No C/N0 conversion or accuracy is established.",
+        "expert_question": "Does a cheap matched Kay/lag/profile comparison separate acquisition tails from mismatch?",
+        "cheapest_falsifier": "Replay matched present/absent PCM with a small coherent lag set, report tail error, declines and false admissions; retunes invalidate coherence.",
+        "consequential_rejections": "Reject CRB or finite uncertainty as proof; defer repeated tuning and ranking."
+      }
+    },
+    {
+      "case_id": "r672",
+      "original_report_bytes": 15001,
+      "original_operations": 16,
+      "scores": {
+        "full": {
+          "qualified": 3,
+          "unresolved": 1,
+          "lower": 3,
+          "upper": 4
+        },
+        "strict_prefix": {
+          "qualified": 3,
+          "unresolved": 1,
+          "lower": 3,
+          "upper": 4
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "raw_source_ids": [
+            "S1",
+            "S3"
+          ],
+          "support_locator": "S1 lines 71-108; lines 211-238. Direct S3 paper was inaccessible; S1 explicitly attributes the likelihood result to Rife and Boorstyn.",
+          "union_key": "coarse",
+          "discovered": true,
+          "original_claim": "For a single stationary complex sinusoid in white Gaussian noise with unknown phase, the periodogram maximum is the ML frequency estimate; a coarse FFT followed by a local fine search is a practical approximation. Clarkson's comparison reports statistical efficiency for large sample count or SNR, while showing that O(N) phase-difference alternatives can lose efficiency outside their favorable SNR/sample-count region.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F1",
+            "dedup_key": "periodogram_ml_coarse_fine_candidate",
+            "source_ids": [
+              "CLARKSON1992"
+            ],
+            "content_access": "full text",
+            "publication_status": "conference publication yes; peer review unknown",
+            "claim_support": "direct full-text support from Clarkson's stated model and derivation; Rife paper itself was not opened in the original report",
+            "applicability": "adequately mapped with complex stationary single-tone/AWGN gap",
+            "alternative_or_caveat": "The paper says ML efficiency holds when N or SNR is large; its FFT coarse/fine method is O(N log N), and it does not validate the proposed deadline or nonstationary captures.",
+            "discriminator": "Compare a bounded coarse-to-fine fit against current estimate on matched present/absent inputs; retain acquisition tails, not just local fit error.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The primary comparative paper directly supports a materially distinct reference/acquisition candidate and the report names its model limits."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The primary comparative paper directly supports a materially distinct reference/acquisition candidate and the report names its model limits."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The primary comparative paper directly supports a materially distinct reference/acquisition candidate and the report names its model limits."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F2",
+          "raw_source_ids": [
+            "S1",
+            "S2"
+          ],
+          "support_locator": "S1 lines 109-140 and 176-210; S1 lines 232-238. S2 abstract independently states Kay's estimator performs well versus ML at moderately high SNR for a single complex sinusoid in complex white Gaussian noise.",
+          "union_key": "branch",
+          "discovered": true,
+          "original_claim": "Weighted phase-difference/Kay-style estimators provide an O(N)-time, O(1)-memory route that avoids explicitly unwrapping every sample phase, but the accessible comparative study reports original Kay-window bias near the argument branch point. Its simple recursive phase-difference reference can set a local branch point before applying the weighted estimate, retaining linear complexity; estimator efficiency still depends on SNR/sample count and model fit.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F2",
+            "dedup_key": "kay_weighted_phase_branch_tracking",
+            "source_ids": [
+              "CLARKSON1992",
+              "KAY1989"
+            ],
+            "content_access": "full text for branch-tracking method; abstract for independent Kay context",
+            "publication_status": "conference publication yes, peer review unknown; Kay journal yes, peer review unknown",
+            "claim_support": "direct full-text support for branch bias, recursive correction and O(N)/O(1); Kay abstract only corroborates moderate/high-SNR complex-AWGN behavior",
+            "applicability": "adequately mapped to a lightweight comparator, subject to phase coherence and exact input model",
+            "alternative_or_caveat": "Longer lag/phase support requires coherence. The task packet says native unknown per-hop phase does not certify cross-hop coherent fitting.",
+            "discriminator": "Compare on identical sample supports; sweep offsets near branch boundaries and low level, and log tail errors, wrap failures and interval coverage.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The full paper supports a distinct linear-cost correction for the identified branch-point mechanism."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The full paper supports a distinct linear-cost correction for the identified branch-point mechanism."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The full paper supports a distinct linear-cost correction for the identified branch-point mechanism."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F3",
+          "raw_source_ids": [
+            "S1",
+            "S2"
+          ],
+          "support_locator": "S1 lines 41-69, 136-140, 211-238; S2 lines 27-29.",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "The candidate estimator comparison itself must include threshold behavior and model failures: Clarkson's simulations show high-SNR efficiency does not establish low-SNR behavior, and the original Kay-window phase method can have large branch-point bias. CRLB-like bounds are conditional on the paper's tone/noise model and do not certify an engineering uncertainty interval or presence decision.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F3",
+            "dedup_key": "threshold_outliers_vs_local_bound",
+            "source_ids": [
+              "CLARKSON1992",
+              "KAY1989"
+            ],
+            "content_access": "full text plus abstract",
+            "publication_status": "conference and journal publications verified; peer review unknown",
+            "claim_support": "direct support for model-specific threshold/branch effects; the statement that reported variance is not calibrated receiver confidence is an implication, not a paper claim",
+            "applicability": "adequately mapped as a validation caution; no numerical transfer",
+            "alternative_or_caveat": "Neither paper establishes a 95% confidence procedure, target feasibility, or presence test.",
+            "discriminator": "Report capture-level error quantiles, outlier/decline counts, acquisition time, empirical interval coverage, and absent-control admissions separately.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "The paper results make a distinct validation discriminator necessary; the confidence implication is properly limited."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The paper results make a distinct validation discriminator necessary; the confidence implication is properly limited."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The paper results make a distinct validation discriminator necessary; the confidence implication is properly limited."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F4",
+          "raw_source_ids": [],
+          "support_locator": "Search results only for Abatzoglou, IEEE Transactions on Aerospace and Electronic Systems, 1986, DOI 10.1109/TAES.1986.310805; primary paper not accessed, so no technical claim beyond existence/title is relied upon.",
+          "union_key": "frequency_rate",
+          "discovered": true,
+          "original_claim": "A frequency-rate model is a distinct candidate if matched captures show smooth within-aperture drift: published work on joint frequency/rate maximum-likelihood estimation exists, but this search found only third-party metadata/abstract snippets and could not inspect primary content. It is not evidence that a drift model is needed or superior here.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F4",
+            "dedup_key": "joint_frequency_rate_candidate",
+            "source_ids": [],
+            "content_access": "secondary metadata/search snippet only",
+            "publication_status": "metadata suggests an IEEE journal article; independently unverified within logged opens",
+            "claim_support": "unverifiable for technical details; no primary source passage or source_id supports performance",
+            "applicability": "unresolved",
+            "alternative_or_caveat": "The idea is framed conditionally and does not claim superiority, but the research evidence supports existence/title only.",
+            "discriminator": "Use held-out residual curvature/prediction checks at several aperture lengths before adding a rate parameter.",
+            "qualified_decision_useful": {
+              "value": "unresolved",
+              "reason": "Generic discriminator is reasonable, but this report's asserted academic basis is not verified from its operations."
+            }
+          },
+          "terra_stage": {
+            "status": "unresolved",
+            "reason": "Generic discriminator is reasonable, but this report's asserted academic basis is not verified from its operations."
+          },
+          "strict_prefix_stage": {
+            "status": "unresolved",
+            "reason": "Generic discriminator is reasonable, but this report's asserted academic basis is not verified from its operations."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "S1",
+          "url": "https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf",
+          "title": "Efficient Single Frequency Estimators",
+          "year": 1992,
+          "venue": "Conference-paper PDF hosted by University of Queensland; accessible document does not establish conference/proceedings venue details",
+          "publication_status": "Original comparative research paper; peer-review status unknown from accessible evidence",
+          "status_evidence_url": "https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf",
+          "access_level": "Full text",
+          "content_locator": "PDF pp. 0-3, especially lines 41-69 (model/CRLB and summary), 71-108 (periodogram MLE), 109-140 and 176-210 (phase-difference estimator and branch-point bias/refinement), 211-238 (simulated comparisons and limits)."
+        },
+        {
+          "id": "S2",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+          "publication_status": "Journal article; venue and article record verified by author-university repository; peer-review status not independently documented on the accessible page",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "Abstract-only",
+          "content_locator": "Repository lines 21-45: abstract, journal, volume, issue, pages, DOI. Abstract describes the single complex sinusoid/complex white Gaussian noise model and high/moderate-SNR computational-performance claim."
+        },
+        {
+          "id": "S3",
+          "url": "https://doi.org/10.1109/TIT.1974.1055282",
+          "title": "Single-Tone Parameter Estimation from Discrete-Time Observations",
+          "year": 1974,
+          "venue": "IEEE Transactions on Information Theory 20(5), 591-598 (bibliographic record surfaced through CiNii Research)",
+          "publication_status": "Journal article metadata verified; peer-review status not independently established in accessed material",
+          "status_evidence_url": "https://cir.nii.ac.jp/crid/1364233269205840896",
+          "access_level": "Inaccessible (primary DOI/PDF attempts failed); secondary indexed excerpts only",
+          "content_locator": "No direct primary-paper passage used. Clarkson full text S1 lines 71-108 summarizes its periodogram-MLE method and coarse FFT/fine-search implementation; do not treat this as direct inspection of S3."
+        }
+      ],
+      "rejected_or_redundant_original": [
+        "Generalized Kay estimator and Kalman tracking records were discovered but not pursued after primary full-text evidence on periodogram ML and phase-difference methods covered the immediate estimator decision. Their model-specific results would not materially change the first matched discriminator.",
+        "Rife-Boorstyn 1974 and Kay 1989 are IEEE journal articles, but the available pages do not independently establish peer-review policy; direct Rife full text was inaccessible and Kay was abstract-only. No direct content claims are attributed to inaccessible passages.",
+        "The 1976 multiple-tone paper scan was inaccessible. Multi-tone interference treatment therefore remains a validation gap rather than a researched algorithm recommendation.",
+        "Abatzoglou frequency-rate paper was not opened: only secondary snippets were found and budget ended. No claim of its performance or applicability is made."
+      ],
+      "verification_omissions_errors": [
+        "The paper's correct title in the retrieved PDF is 'Efficient Single Frequency Estimators'; its author publications page identifies it as Proc. ISSPA 1992, pp. 327-330. Venue is verified, peer-review status is not.",
+        "The report appropriately discloses that Rife/Kay and frequency-rate primary full texts were unavailable. The F1 technical support is available in the opened Clarkson paper itself, even though it attributes the MLE derivation to Rife and Boorstyn.",
+        "The proposed longer coherent apertures must be gated by the supplied coherence conditions; H05 says unknown native per-hop phase does not provide the cross-dwell certificate."
+      ],
+      "factual_followups": [
+        "Whether actual helper captures are sufficiently stationary within independent apertures or maintain phase across dwells; the supplied comments state contracts/assumptions but not measured behavior.",
+        "Whether 24 dB-Hz and the stated chunk delivery permit the proposed time/error target; none of these publications evaluates this receiver geometry or target.",
+        "How auxiliary activity and the real capture's conjugate-image/sideband ambiguity affect the competing estimators.",
+        "Whether any reported uncertainty can achieve calibrated >=95% coverage with useful finite frequency-only publications while absence controls remain rejected."
+      ],
+      "packet": {
+        "decision_constraints": "Choose a next frequency-only acquisition discriminator under the hypothetical deadline.",
+        "supported_facts": "Clarkson full text supports coarse/fine periodogram ML and O(N)/O(1) phase estimation with branch-point correction; model-specific threshold motivates tail checks.",
+        "contrary_evidence_limits": "Complex stationary AWGN and phase assumptions do not establish real helper performance; H05 does not certify phase across native hops. Joint frequency/rate F4 has only secondary snippets and remains unresolved.",
+        "expert_question": "Does branch correction or coarse/fine search reduce tails at equal support and cost?",
+        "cheapest_falsifier": "Compare both on matched PCM, sweep branch boundaries and report declines, absent admissions and coverage.",
+        "consequential_rejections": "Do not adopt a frequency-rate model without primary evidence and observed residual curvature; multi-tone paper inaccessible."
+      }
+    },
+    {
+      "case_id": "r806",
+      "original_report_bytes": 11401,
+      "original_operations": 10,
+      "scores": {
+        "full": {
+          "qualified": 3,
+          "unresolved": 0,
+          "lower": 3,
+          "upper": 3
+        },
+        "strict_prefix": {
+          "qualified": 3,
+          "unresolved": 0,
+          "lower": 3,
+          "upper": 3
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "raw_source_ids": [
+            "KNOCKAERT1997",
+            "KAY1989"
+          ],
+          "support_locator": "Knockaert IEEE abstract: threshold when Barankin and Cramer–Rao bounds diverge; heuristic SNR*T/ln(T) indicator under sinusoid-in-AWGN assumptions. Kay abstract: its efficient estimator reaches ML-like performance only at moderately high SNR.",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "A small nominal variance or CR-bound-like uncertainty is not enough to establish the proposed 95% / 0.10 Hz capture success rate: frequency estimators can enter a threshold/outlier region where actual error departs sharply from local CRB behavior.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F1",
+            "dedup_key": "threshold_outliers_vs_local_bound",
+            "source_ids": [
+              "KNOCKAERT1997",
+              "KAY1989"
+            ],
+            "content_access": "publisher abstract via indexed query and Kay repository abstract",
+            "publication_status": "published journal articles verified; peer review not independently established",
+            "claim_support": "abstract-limited; threshold/Barankin relation is direct abstract support, receiver confidence caution is a bounded implication",
+            "applicability": "adequately mapped with SNR/T and AWGN normalization gap explicitly retained",
+            "alternative_or_caveat": "The SNR*T/ln(T) indicator is not numerically transferable from dB-Hz or the undefined reference bandwidth in the task.",
+            "discriminator": "Capture-level tail/outlier rate at the stated deadline, plus absent-tone controls, compared with the interval the implementation reports.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "Two abstract-supported model cautions materially shape validation without claiming feasibility."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Two abstract-supported model cautions materially shape validation without claiming feasibility."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Two abstract-supported model cautions materially shape validation without claiming feasibility."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F2",
+          "raw_source_ids": [
+            "QUINN1994"
+          ],
+          "support_locator": "Macquarie author-university abstract lines 17–19; peer-reviewed/published record lines 14, 23–29.",
+          "union_key": "quinn",
+          "discovered": true,
+          "original_claim": "Three-bin Fourier interpolation is a credible cheap precision comparator to a broad nonlinear fit: Quinn reports an estimator using only three Fourier components with asymptotic variance near the periodogram maximum-likelihood/CR lower bound, up to roughly three times that variance.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F2",
+            "dedup_key": "quinn_three_bin_interpolation_candidate",
+            "source_ids": [
+              "QUINN1994"
+            ],
+            "content_access": "abstract",
+            "publication_status": "published, peer-reviewed journal article verified on Macquarie record",
+            "claim_support": "abstract-limited; computational simplicity, three Fourier coefficients, and asymptotic variance range directly supported",
+            "applicability": "adequately mapped as a cheap comparator only; asymptotics do not transfer to short, shaped/noisy captures",
+            "alternative_or_caveat": "No evidence for finite-sample tails, multiple activity, ramps, or intermittent support.",
+            "discriminator": "Use the same selected PCM and compare three-bin interpolation with the incumbent and bounded local fit; score compute and tail errors.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "Direct abstract evidence supports a concrete low-cost comparator and the report limits its claim."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Direct abstract evidence supports a concrete low-cost comparator and the report limits its claim."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Direct abstract evidence supports a concrete low-cost comparator and the report limits its claim."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F3",
+          "raw_source_ids": [
+            "KAY1989"
+          ],
+          "support_locator": "URI institutional abstract lines 21–29.",
+          "union_key": "kay",
+          "discovered": true,
+          "original_claim": "Efficient single-tone estimators can approach optimal ML performance under stated noise and signal assumptions, but estimator rankings are conditional: Kay's result is for one complex sinusoid in complex white Gaussian noise and says its simpler estimator matches ML at moderately high SNR; it also shows linear prediction can miss the CR bound even at high SNR.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "finding_id": "F3",
+            "dedup_key": "kay_simple_estimator_vs_ml",
+            "source_ids": [
+              "KAY1989"
+            ],
+            "content_access": "abstract",
+            "publication_status": "published journal article verified; peer review unknown",
+            "claim_support": "abstract-limited, correctly restricted to one complex tone, white Gaussian noise, moderate/high SNR",
+            "applicability": "adequately mapped as a candidate, not ranking evidence",
+            "alternative_or_caveat": "No evidence the receiver input is a complex stationary sinusoid or at the paper's SNR convention.",
+            "discriminator": "Matched samples and conditions; include phase-reset boundaries only as separate tests and do not apply cross-reset coherent estimators.",
+            "qualified_decision_useful": {
+              "value": "yes",
+              "reason": "Supports keeping a simple estimator as an empirical contender, not selecting it."
+            }
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Supports keeping a simple estimator as an empirical contender, not selecting it."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Supports keeping a simple estimator as an empirical contender, not selecting it."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "KAY1989",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987–1990; DOI 10.1109/29.45547",
+          "publication_status": "Published journal article; peer-review status not explicitly established on inspected author-university record",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "Abstract-only",
+          "content_locator": "Abstract, page lines 21–29: single complex sinusoid in complex white Gaussian noise; lower-complexity estimator matches optimal ML at moderately high SNR; linear prediction does not reach CRB even at high SNR."
+        },
+        {
+          "id": "QUINN1994",
+          "url": "https://researchers.mq.edu.au/en/publications/estimating-frequency-by-interpolation-using-fourier-coefficients/",
+          "title": "Estimating Frequency by Interpolation using Fourier Coefficients",
+          "year": 1994,
+          "venue": "IEEE Transactions on Signal Processing 42(5), 1264–1268; DOI 10.1109/78.295186",
+          "publication_status": "Published peer-reviewed journal article; author-university record labels article peer-review and published",
+          "status_evidence_url": "https://researchers.mq.edu.au/en/publications/estimating-frequency-by-interpolation-using-fourier-coefficients/",
+          "access_level": "Abstract-only",
+          "content_locator": "Abstract, lines 17–19 and citation/status lines 23–29: three Fourier components yield an asymptotically efficient, computationally simple estimator; asymptotic variance ranges from about the periodogram maximizer/CR bound to roughly three times that value."
+        },
+        {
+          "id": "KNOCKAERT1997",
+          "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+          "title": "The Barankin bound and threshold behavior in frequency estimation",
+          "year": 1997,
+          "venue": "IEEE Transactions on Signal Processing 45(9), 2398–2401; DOI 10.1109/78.622965",
+          "publication_status": "Published journal article confirmed by Ghent University author record; peer-review status not explicitly established on inspected evidence",
+          "status_evidence_url": "https://biblio.ugent.be/publication/184862",
+          "access_level": "Abstract-only (IEEE abstract surfaced in search; IEEE open failed with HTTP 418; university record is metadata-only)",
+          "content_locator": "IEEE abstract returned by search: threshold effect occurs when Barankin bound departs materially from CR bound; SNR*T/ln(T) proposed as a threshold indicator for sinusoid in AWGN. Ghent University record lines 8–12, 76–90 confirms publication metadata."
+        }
+      ],
+      "rejected_or_redundant_original": [
+        "Did not pursue the Rife–Boorstyn classic beyond citation metadata: search supplied no accessible paper passage needed to answer the practical decision; no claim from that paper is used.",
+        "Did not pursue broad spectral/DOA or multi-tone subspace methods because the stated decision is frequency-only evidence for a generated helper tone and these would add model assumptions without resolving the immediate threshold/calibration question.",
+        "Did not use the ResearchGate author-uploaded Knockaert full-text lead as evidence; its publisher abstract and Ghent University publication record sufficed."
+      ],
+      "verification_omissions_errors": [
+        "The report correctly states that no full texts were read and that its numeric threshold indicator is not directly transferable to the task's dB-Hz notation.",
+        "Quinn's Macquarie record explicitly marks the output as a peer-reviewed journal article; this is the only inspected item in this group with explicit peer-review evidence."
+      ],
+      "factual_followups": [
+        "No accessible full texts were inspected. Exact finite-record bounds under the project's real-signal/noisy-ramp/multiple-activity model remain unknown.",
+        "The source excerpts identify candidate coherence and amplitude-envelope conditions but no measured tracker performance. No supplied or researched paper establishes whether <=0.10 Hz by 6 s at >=95% is achievable for the hypothesized captures.",
+        "The dB-Hz reference-level conversion into each estimator's observation-SNR convention depends on signal/noise bandwidth and capture model, which were not established by the packet."
+      ],
+      "packet": {
+        "decision_constraints": "Decide which cheap frequency-only comparators merit a bounded measurement.",
+        "supported_facts": "Quinn abstract supplies three-Fourier-coefficient asymptotic comparator; Kay abstract supplies a simpler comparator; Knockaert abstract gives model-bound threshold caution. Quinn peer-review label is independently documented.",
+        "contrary_evidence_limits": "Asymptotic single-tone results do not establish finite-sample tails or shaped/payload interference. SNR*T/ln(T) is not mapped from the given dB-Hz levels.",
+        "expert_question": "Do three-bin interpolation and Kay beat the existing method on the same short apertures?",
+        "cheapest_falsifier": "Compare identical PCM and search bands, compute and error tails with no-tone controls.",
+        "consequential_rejections": "Reject threshold numerical transfer and broad multi-tone/subspace expansion as first step."
+      }
+    },
+    {
+      "case_id": "r842",
+      "original_report_bytes": 12468,
+      "original_operations": 13,
+      "scores": {
+        "full": {
+          "qualified": 4,
+          "unresolved": 0,
+          "lower": 4,
+          "upper": 4
+        },
+        "strict_prefix": {
+          "qualified": 4,
+          "unresolved": 0,
+          "lower": 4,
+          "upper": 4
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "raw_source_ids": [
+            "S1",
+            "S4"
+          ],
+          "support_locator": "S1 abstract describes threshold analysis for one ML algorithm; S4 abstract relates threshold onset to Barankin-vs-CRB divergence.",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "A small local variance bound or finite uncertainty number cannot alone establish low error probability at acquisition: single-tone ML/block estimators have a threshold region where errors can depart sharply from the local CRB.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F1",
+            "discovered": true,
+            "source_content": "full via third-party mirror plus abstracts",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "direct full / abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Rife/Boorstyn supports a threshold effect and its full mirror discusses wrong-maximum/outlier behavior; Barankin abstract supports threshold departure from CRB for its sinusoid/AWGN model. Neither maps threshold to the hypothetical C/N0 or receiver.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Separating tails/acquisition failures from local variance and uncertainty is a relevant validation decision."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F2",
+          "raw_source_ids": [
+            "S2",
+            "S1"
+          ],
+          "support_locator": "S2 institutional abstract lines 27-29; S1 abstract documents finite-sample ML/DFT algorithms and threshold effects.",
+          "union_key": "kay",
+          "discovered": true,
+          "original_claim": "A computationally light single-tone frequency estimator can be competitive with ML at moderately high SNR, while performance depends on model and SNR; there is a meaningful practical baseline to compare against before adding a more elaborate tracker.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F2",
+            "discovered": true,
+            "source_content": "abstract",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Kay's result is limited to a complex sinusoid in complex white Gaussian noise at moderately high SNR.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The proposed matched block-estimator benchmark is actionable without claiming it wins."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F3",
+          "raw_source_ids": [
+            "S3"
+          ],
+          "support_locator": "IEEE abstract/metadata for 2006 paper, DOI 10.1109/TCOMM.2006.869864; publisher page could not be opened.",
+          "union_key": "lag",
+          "discovered": true,
+          "original_claim": "Differential-phase estimators expose a tradeoff in delay: larger phase separation can reduce high-SNR variance in some regimes, but estimator range, low-SNR behavior, and complexity also change.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F3",
+            "discovered": true,
+            "source_content": "publisher abstract/metadata",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Delay-dependent variance and range/complexity tradeoffs are supported at abstract level; continuous phase across apertures is an external requirement, not established by this source.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "A small delay sweep with explicit reset controls can discriminate a plausible estimator option."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F4",
+          "raw_source_ids": [
+            "S5"
+          ],
+          "support_locator": "Strathprints abstract lines 17-20; peer-reviewed IEEE article metadata at lines 14-16.",
+          "union_key": "timevarying",
+          "discovered": true,
+          "original_claim": "Frequency drift or multiplicative phase/frequency variation broadens a tone and degrades estimators derived for stationary sinusoids; coherent and noncoherent signal-to-noise conditions both matter.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F4",
+            "discovered": true,
+            "source_content": "abstract",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Doppler spreading is modeled as multiplicative noise; it may not match the receiver's oscillator drift or amplitude behavior.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Comparing stationary and controlled time-varying captures tests whether longer coherent support helps."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "S1",
+          "url": "https://doi.org/10.1109/TIT.1974.1055282",
+          "title": "Single tone parameter estimation from discrete-time observations",
+          "year": 1974,
+          "venue": "IEEE Transactions on Information Theory 20(5), 591-598",
+          "publication_status": "peer-reviewed journal article; journal, volume, issue, and pages established by bibliographic record; full content not accessible in this run",
+          "status_evidence_url": "https://cir.nii.ac.jp/crid/1364233269205840896",
+          "access_level": "metadata plus abstract from index record",
+          "content_locator": "Abstract/record: finite noisy discrete-time observations; derives CR bounds and ML algorithms, relates ML to DFT, and discusses threshold behavior."
+        },
+        {
+          "id": "S2",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+          "publication_status": "peer-reviewed journal article; institutional record identifies IEEE journal citation",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "abstract only",
+          "content_locator": "Institutional record lines 21-45: single complex sinusoid in complex white Gaussian noise; Kay estimator is more computationally efficient than optimal ML and performs comparably at moderately high SNR."
+        },
+        {
+          "id": "S3",
+          "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+          "title": "Frequency estimation of a single complex sinusoid using a generalized Kay estimator",
+          "year": 2006,
+          "venue": "IEEE Transactions on Communications 54(3), 407-415",
+          "publication_status": "peer-reviewed journal article; IEEE result record gives venue, issue, pages, date and DOI",
+          "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+          "access_level": "abstract/metadata only; open request failed HTTP 418",
+          "content_locator": "IEEE abstract: generalized differential-phase delay estimator changes variance/range/complexity tradeoffs; delay 2 approaches CRB asymptotically at high SNR and large N; comparisons include autocorrelation and periodogram."
+        },
+        {
+          "id": "S4",
+          "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+          "title": "The Barankin bound and threshold behavior in frequency estimation",
+          "year": 1997,
+          "venue": "IEEE Transactions on Signal Processing 45(9), 2398-2401",
+          "publication_status": "peer-reviewed journal article; IEEE result gives publication metadata",
+          "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/622965",
+          "access_level": "abstract/metadata only; open request failed HTTP 418",
+          "content_locator": "IEEE abstract: CRB can become misleading near threshold; Barankin bound departure from CRB indicates threshold, with SNR*T/ln(T) described as a useful indicator for its studied model."
+        },
+        {
+          "id": "S5",
+          "url": "https://strathprints.strath.ac.uk/3515/",
+          "title": "Frequency estimation in the presence of Doppler spread: performance analysis",
+          "year": 2001,
+          "venue": "IEEE Transactions on Signal Processing 49(4), 777-789",
+          "publication_status": "peer-reviewed journal article; institutional record identifies IEEE venue and pagination",
+          "status_evidence_url": "https://strathprints.strath.ac.uk/3515/",
+          "access_level": "abstract only; repository explicitly says full text unavailable",
+          "content_locator": "Repository lines 14-20: multiplicative/Doppler spread smears spectral line; finite-sample CRBs and covariance-angle estimators are analyzed; coherent and noncoherent SNR both matter."
+        }
+      ],
+      "rejected_or_redundant_original": [
+        {
+          "item": "More estimator families (multi-tone ESPRIT/MUSIC, general EKF/PLL tracking papers)",
+          "reason": "The excerpts describe a single helper tone and ask for frequency-only acquisition; these families would broaden the question without yet resolving the critical SNR-threshold, phase-continuity, and mismatch discriminators."
+        },
+        {
+          "item": "Treat the proposed 24/30 dB-Hz values and 0.10 Hz/6 s/95% target as evidence-backed requirements",
+          "reason": "Task explicitly labels these as hypothetical planning values; the cited papers use different signal/noise models and provide no receiver-specific validation."
+        }
+      ],
+      "verification_omissions_errors": "The report labels S1-S5 peer-reviewed; the accessible evidence establishes journal publication metadata, not peer-review status under this verifier contract. Its uncertainty about task-specific parameters and transfer is appropriately retained.",
+      "factual_followups": [
+        "Whether the target precision and 6-second deadline are attainable for the actual signal, sample rate, front-end, and presence definition; this requires matched measurements or simulation in the authorized engineering assignment.",
+        "Whether continuity across delivered chunks is preserved in the actual capture path; supplied source excerpt alone does not establish runtime behavior.",
+        "Exact thresholds and confidence calibration for the specific estimator under real noise, auxiliary activity, ramps, and frequency drift."
+      ],
+      "packet": {
+        "decision_constraints": "Choose a next acquisition comparison while retaining frequency-only authority.",
+        "supported_facts": "Rife/Barankin threshold caution, Kay block estimate, lag tradeoff and Doppler-spread abstract motivate stationary versus time-varying comparisons.",
+        "contrary_evidence_limits": "Doppler multiplicative noise is not proven equivalent to oscillator drift; peer-review labels S1–S5 are unverified despite publication metadata.",
+        "expert_question": "Does time variation negate longer coherent support, and is lag range adequate?",
+        "cheapest_falsifier": "Use matched stationary/time-varying PCM with reset controls and measure error tails and absence admissions.",
+        "consequential_rejections": "Do not treat invented planning targets as measured requirements or immediately expand to ESPRIT/MUSIC/EKF."
+      }
+    },
+    {
+      "case_id": "r698",
+      "original_report_bytes": 15566,
+      "original_operations": 20,
+      "scores": {
+        "full": {
+          "qualified": 4,
+          "unresolved": 0,
+          "lower": 4,
+          "upper": 4
+        },
+        "strict_prefix": {
+          "qualified": 3,
+          "unresolved": 1,
+          "lower": 3,
+          "upper": 4
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "F1",
+          "raw_source_ids": [
+            "A1"
+          ],
+          "support_locator": "A1 abstract, lines 15–17; abstract-only evidence, so no particular bound formula or operating threshold is asserted here.",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "For a finite noisy single complex tone, likelihood/DFT-based frequency estimation has a meaningful local precision bound, while the Rife–Boorstyn abstract also identifies a threshold effect. A small predicted variance therefore does not rule out rare large errors when the search selects a wrong peak.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F1",
+            "discovered": true,
+            "source_content": "abstract/metadata plus shared full Rife mirror",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "direct full / abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Threshold evidence is conditional on a single-tone noise model and gives no receiver-specific success rate.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Tail/outlier and acquisition outcomes are decision-relevant next measurements."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Tail/outlier and acquisition outcomes are decision-relevant next measurements."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Tail/outlier and acquisition outcomes are decision-relevant next measurements."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F2",
+          "raw_source_ids": [
+            "A2"
+          ],
+          "support_locator": "A2 institutional abstract, lines 28–29; journal citation at lines 31–45.",
+          "union_key": "kay",
+          "discovered": true,
+          "original_claim": "Kay's single-frequency estimator is a distinct, computationally efficient route for a single complex sinusoid in complex white Gaussian noise; its abstract claims performance comparable to optimal ML at moderately high SNR and explains why linear prediction does not reach the CR bound even at high SNR.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F2",
+            "discovered": true,
+            "source_content": "abstract",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Kay's single complex sinusoid/white-noise/moderately-high-SNR assumptions do not validate this payload/auxiliary path.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "A matched baseline and chunk-delivery test are feasible discriminators; chunk invariance itself is not established by Kay."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "A matched baseline and chunk-delivery test are feasible discriminators; chunk invariance itself is not established by Kay."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "A matched baseline and chunk-delivery test are feasible discriminators; chunk invariance itself is not established by Kay."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F3",
+          "raw_source_ids": [
+            "A3"
+          ],
+          "support_locator": "A3 publisher abstract, lines 60–63; the publisher PDF link opened but had no extractable text, so detailed methods/results were not checked.",
+          "union_key": "kalman",
+          "discovered": true,
+          "original_claim": "A linear two-state Kalman acquisition using phase as its observation is a sequential alternative to independent block estimates. The paper reports simulation and experimental acquisition results, but the abstract's numerical result belongs to its digital-carrier/symbol setting.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F3",
+            "discovered": true,
+            "source_content": "abstract",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Two-state phase/frequency acquisition is supported by the publisher abstract, while its numeric result is digital-carrier-specific; continuity and reset behavior remain unverified for this task.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "The proposed continuous-versus-reset matched comparison can decide whether the sequential option is applicable."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "The proposed continuous-versus-reset matched comparison can decide whether the sequential option is applicable."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "The proposed continuous-versus-reset matched comparison can decide whether the sequential option is applicable."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "F4",
+          "raw_source_ids": [
+            "A4"
+          ],
+          "support_locator": "A4 lines 29–32, 58–60, 359–360. The paper's approximation and upper-bound claim are specific to its statistic and assumptions.",
+          "union_key": "scan",
+          "discovered": true,
+          "original_claim": "Thresholding the maximum of a frequency search is a scan-level decision: its false-alarm distribution depends on maximizing over frequency, and multiple candidate components require additional significance checks. The accessible Baluev preprint treats multi-frequency periodograms and cautions against reading a large maximum as proof that every modeled component exists.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "F4",
+            "discovered": true,
+            "source_content": "full author preprint; report's full-text retrieval was post-prefix",
+            "publication_status": "journal bibliographic record found; peer review unknown",
+            "claim_support": "direct full",
+            "task_applicability": "missing assumptions",
+            "caveat": "The significance approximation is for the paper's observational time-series/statistic assumptions; no receiver-specific false-alarm guarantee follows.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Calibrating a searched-band maximum and repeated-look false-admission behavior is a useful presence-validation discriminator."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Calibrating a searched-band maximum and repeated-look false-admission behavior is a useful presence-validation discriminator."
+          },
+          "strict_prefix_stage": {
+            "status": "unresolved",
+            "reason": "Full preprint opened at operation 19; prefix ends at operation 16."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "A1",
+          "url": "https://www.scinovex.com/articles/W2001188690",
+          "title": "Single tone parameter estimation from discrete-time observations",
+          "year": 1974,
+          "venue": "IEEE Transactions on Information Theory 20(5), 591–598 (venue listed by scholarly index; publisher page was inaccessible)",
+          "publication_status": "Journal article is established by the accessible bibliographic record; peer-review status is not independently established by accessible publisher or institutional evidence",
+          "status_evidence_url": "https://www.scinovex.com/articles/W2001188690",
+          "access_level": "abstract-only",
+          "content_locator": "Abstract, lines 8–17: finite noisy single-complex-tone observations, CR bounds, maximum-likelihood algorithms linked to DFT, and threshold effect"
+        },
+        {
+          "id": "A2",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987–1990",
+          "publication_status": "Institutional repository identifies it as an article in the named journal; peer-review status is not explicitly established on the accessible record",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "abstract-only",
+          "content_locator": "Repository lines 21–45: document type, original-version date, abstract and journal citation"
+        },
+        {
+          "id": "A3",
+          "url": "https://www.jstage.jst.go.jp/article/ieejeiss/123/10/123_10_1735/_article/-char/en",
+          "title": "A Practical Digital Signal Carrier Acquisition based on Kalman Filter Theory",
+          "year": 2003,
+          "venue": "IEEJ Transactions on Electronics, Information and Systems 123(10), 1735–1744",
+          "publication_status": "Official journal paper page verified; peer-review status not stated on the accessible page",
+          "status_evidence_url": "https://www.jstage.jst.go.jp/article/ieejeiss/123/10/123_10_1735/_article/-char/en",
+          "access_level": "abstract-only; linked 10-page PDF opened but yielded no extractable text",
+          "content_locator": "Publisher lines 27–37 and 60–63: journal citation, publication metadata, abstract describing two-state phase/frequency filter and claimed simulation/experiment result"
+        },
+        {
+          "id": "A4",
+          "url": "https://arxiv.org/abs/1308.6463",
+          "title": "Detecting multiple periodicities in observational data with the multi-frequency periodogram. I. Analytic assessment of the statistical significance",
+          "year": 2013,
+          "venue": "Monthly Notices of the Royal Astronomical Society 436(1), 807–818 (publisher citation surfaced in search; publisher page inaccessible)",
+          "publication_status": "Full author preprint; search returned the Oxford Academic journal record and publication metadata, but its page could not be opened",
+          "status_evidence_url": "https://academic.oup.com/mnras/article/436/1/807/977018",
+          "access_level": "full text via author preprint",
+          "content_locator": "Preprint lines 29–32 describe significance of maximized periodogram using extreme-value methods; lines 58–60 distinguish a large maximum from proof that all components exist; lines 359–360 describe upper-bound behavior under the paper's assumptions"
+        }
+      ],
+      "rejected_or_redundant_original": [
+        "No estimator is selected as superior: the accessible academic evidence uses assumptions unlike the hypothetical receiver, and no project experiments were authorized.",
+        "The Kay generalized-delay estimator and several extra Kalman/weak-GNSS papers appeared in search, but their primary full texts were not inspected and they do not change the immediate discriminator beyond F2/F3.",
+        "A numerical CR bound or confidence claim is not carried forward: source A1 was abstract-only, and a theoretical local bound under its model would not validate empirical coverage here."
+      ],
+      "verification_omissions_errors": "The report correctly left peer review unverified. Its original operation list has 20 logical operations: operations 17-20 are beyond the 16-operation total ceiling, and operations 19-20 also put the total open/click count above 10. The 8-query ceiling is met exactly at the strict prefix. The original report itself notes the overrun.",
+      "factual_followups": [
+        "What are the exact sample rate, noise bandwidth, tone amplitude/envelope and nuisance spectra behind the proposed dB-Hz levels? These are needed to translate C/N0 into estimator SNR and choose comparable aperture lengths.",
+        "Does the generated tone preserve phase across chunk boundaries, ramps and auxiliary intervals? This determines whether a continuous phase model or sequential phase/frequency estimator is applicable.",
+        "What exact confidence/coverage semantics should the uncertainty field have, and what rate of false frequency-only publication is acceptable? A finite value alone supplies neither calibration nor a target false-alarm rate.",
+        "Full derivations and peer-review status were not independently verified for A1–A3 through accessible publisher/institutional text; A4 full text was accessible as a preprint while the publisher record was not readable."
+      ],
+      "packet": {
+        "decision_constraints": "Investigate causal frequency acquisition and absent-tone control at the prospective deadline.",
+        "supported_facts": "Kay abstract supports a block comparator; J-STAGE abstract supports a phase/frequency Kalman candidate in its own digital-carrier setting. Full Baluev preprint supports scan-level significance as a limited analogy.",
+        "contrary_evidence_limits": "Baluev full text was operation 19, outside the 16-operation prefix; strict-prefix F4 is unresolved. Rife full mirror was separately verified, while original access was abstract/metadata. No source proves receiver-specific false-alarm rate.",
+        "expert_question": "Does sequential filtering survive resets, and does full-search repeated-look calibration prevent false admissions?",
+        "cheapest_falsifier": "Compare phase-continuous versus reset captures and run no-tone controls over the actual search/look schedule.",
+        "consequential_rejections": "Do not select a winner or transfer digital-symbol acquisition timing or analytical false-alarm formulas."
+      }
+    },
+    {
+      "case_id": "r147",
+      "original_report_bytes": 15141,
+      "original_operations": 16,
+      "scores": {
+        "full": {
+          "qualified": 3,
+          "unresolved": 0,
+          "lower": 3,
+          "upper": 3
+        },
+        "strict_prefix": {
+          "qualified": 3,
+          "unresolved": 0,
+          "lower": 3,
+          "upper": 3
+        }
+      },
+      "stage_rows": [
+        {
+          "finding_id": "outliers",
+          "raw_source_ids": [
+            "Rife1974"
+          ],
+          "support_locator": "pp. 596–597: global-maximum failure/outliers and threshold (lines 331–379); coarse-grid M/N discussion (317–329); simulations around half-Nyquist frequency (435–440)",
+          "union_key": "threshold",
+          "discovered": true,
+          "original_claim": "A small local error or CRLB calculation can conceal acquisition failures: the classical ML periodogram estimator exhibits low-SNR threshold behavior where occasional wrong maxima create large frequency outliers. The paper reports that a denser coarse search reduced wrong-grid choices in its studied setup, while emphasizing threshold dependence on signal and observation conditions.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "outliers",
+            "discovered": true,
+            "source_content": "full via third-party mirror",
+            "publication_status": "journal publication corroborated; peer review unknown",
+            "claim_support": "direct full",
+            "task_applicability": "missing assumptions",
+            "caveat": "The paper supports low-SNR threshold/outlier behavior under finite single-tone independent Gaussian noise; no proposed C/N0, error target or capture-rate claim is transferred.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Empirical tail, outlier and false-publication measurements are more informative than local variance alone."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Empirical tail, outlier and false-publication measurements are more informative than local variance alone."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Empirical tail, outlier and false-publication measurements are more informative than local variance alone."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "phase-vs-magnitude",
+          "raw_source_ids": [
+            "Tretter1985",
+            "Kay1989",
+            "MAPML2007"
+          ],
+          "support_locator": "Tretter IEEE abstract; Kay repository abstract; 2007 IEEE abstract",
+          "union_key": "phase_magnitude",
+          "discovered": true,
+          "original_claim": "Phase-regression methods have a high-SNR premise; a later single-tone MAP/ML derivation says phase alone is not a sufficient statistic and its approximate estimator uses both noisy-sample phase and magnitude. Kay's fast estimator is reported to approach ML performance at moderately high SNR under a constant complex sinusoid and complex white Gaussian noise model.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "phase-vs-magnitude",
+            "discovered": true,
+            "source_content": "abstracts/metadata",
+            "publication_status": "journal publication verified; peer review unknown",
+            "claim_support": "abstract-limited",
+            "task_applicability": "missing assumptions",
+            "caveat": "Tretter's high-SNR phase-regression premise and MAP/ML's reasonably-high-SNR complex-sample model are stated; Kay's abstract gives a moderately-high-SNR white-noise comparison. None addresses receiver modulation, envelope, reset path or uncertainty calibration.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Phase-only versus magnitude-weighted matched captures with explicit continuity/reset controls are a concrete option discriminator."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Phase-only versus magnitude-weighted matched captures with explicit continuity/reset controls are a concrete option discriminator."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Phase-only versus magnitude-weighted matched captures with explicit continuity/reset controls are a concrete option discriminator."
+          },
+          "expert_stage": "not individually assessed"
+        },
+        {
+          "finding_id": "information-duration",
+          "raw_source_ids": [
+            "Rife1974"
+          ],
+          "support_locator": "pp. 592–594: unknown-parameter CR bounds and periodogram ML characterization (lines 109–117, 172–183, 245–260)",
+          "union_key": "aperture",
+          "discovered": true,
+          "original_claim": "The classical analysis provides CR bounds for finite noisy discrete-time observations with unknown phase and treats the unknown-phase ML frequency as a global maximization over the Fourier/periodogram response; thus the information available depends on the full observation record and the estimator's global acquisition behavior, not merely FFT bin width or nominal sample chunk length.",
+          "original_operations_access": "Original report source access and operations retained in source_records and original report.",
+          "independent_verification": {
+            "id": "information-duration",
+            "discovered": true,
+            "source_content": "full via third-party mirror",
+            "publication_status": "journal publication corroborated; peer review unknown",
+            "claim_support": "direct full",
+            "task_applicability": "missing assumptions",
+            "caveat": "Finite-record/global-search evidence supports distinguishing aperture from delivery chunking conceptually; actual callback continuity and project runtime behavior are not established by the paper.",
+            "next_discriminator_feasible": true,
+            "qualified_decision_useful": "yes",
+            "reason": "Replaying identical PCM/timestamps with different delivery partitions can distinguish transport chunking from signal discontinuity."
+          },
+          "terra_stage": {
+            "status": "retained",
+            "reason": "Replaying identical PCM/timestamps with different delivery partitions can distinguish transport chunking from signal discontinuity."
+          },
+          "strict_prefix_stage": {
+            "status": "retained",
+            "reason": "Replaying identical PCM/timestamps with different delivery partitions can distinguish transport chunking from signal discontinuity."
+          },
+          "expert_stage": "not individually assessed"
+        }
+      ],
+      "source_records": [
+        {
+          "id": "Rife1974",
+          "url": "https://doi.org/10.1109/TIT.1974.1055282",
+          "title": "Single-tone parameter estimation from discrete-time observations",
+          "year": 1974,
+          "venue": "IEEE Transactions on Information Theory 20(5), 591–598",
+          "publication_status": "journal publication is corroborated in accessible bibliographic text; peer-review status not independently verified from an accessible publisher or institutional record",
+          "status_evidence_url": "https://ieeexplore.ieee.org/document/4099556/",
+          "access_level": "full text of a third-party uploaded mirror; original publisher page inaccessible",
+          "content_locator": "accessible mirror, pp. 592–594, 596–598: CR bounds and unknown-phase ML periodogram criterion (PDF-text lines 109–117, 172–183, 245–260); coarse-grid discussion (317–329); threshold/outlier analysis (331–379, 435–440)"
+        },
+        {
+          "id": "Tretter1985",
+          "url": "https://ieeexplore.ieee.org/document/1057115/",
+          "title": "Estimating the frequency of a noisy sinusoid by linear regression",
+          "year": 1985,
+          "venue": "IEEE Transactions on Information Theory 31(6), 832–835",
+          "publication_status": "publisher identifies a published journal article; explicit peer-review statement was not accessible",
+          "status_evidence_url": "https://ieeexplore.ieee.org/document/1057115/",
+          "access_level": "abstract and metadata only; article page body unavailable",
+          "content_locator": "IEEE abstract: high-SNR additive noise can be treated as equivalent phase noise; phase linear regression frequency and phase variances attain CR bounds; frequency variance depends on noise power spectrum"
+        },
+        {
+          "id": "Kay1989",
+          "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "title": "A Fast and Accurate Single Frequency Estimator",
+          "year": 1989,
+          "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987–1990",
+          "publication_status": "author-institution repository identifies it as an IEEE journal article; explicit peer-review statement was not accessible",
+          "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+          "access_level": "abstract and metadata only",
+          "content_locator": "repository abstract and citation, lines 21–45: complex sinusoid in complex white Gaussian noise; more computationally efficient than optimal ML and similar performance at moderately high SNR"
+        },
+        {
+          "id": "MAPML2007",
+          "url": "https://ieeexplore.ieee.org/document/4099556/",
+          "title": "MAP/ML Estimation of the Frequency and Phase of a Single Sinusoid in Noise",
+          "year": 2007,
+          "venue": "IEEE Transactions on Signal Processing 55(3), 834–845",
+          "publication_status": "IEEE publisher record identifies published journal article; explicit peer-review statement was not accessible",
+          "status_evidence_url": "https://ieeexplore.ieee.org/document/4099556/",
+          "access_level": "abstract and metadata only",
+          "content_locator": "IEEE abstract: for reasonably high SNR, derived time-domain approximate ML estimator uses both phase and magnitude; phase alone is not a sufficient statistic; recursive phase-unwrapping implementation is proposed"
+        }
+      ],
+      "rejected_or_redundant_original": [
+        {
+          "item": "Kay linear-prediction/fast-estimator alternatives beyond the matched phase-only versus complex-sample comparison",
+          "reason": "The accessible abstract is not enough to establish detailed formulas, low-SNR threshold behavior, or suitability to the envelope; no more detailed branch was needed for the next discriminator."
+        },
+        {
+          "item": "Time-frequency/compressive-sensing approaches to instantaneous frequency from sparse/incomplete samples (Orović et al., IET Signal Processing, 2014)",
+          "reason": "This work concerns nonstationary monocomponent IF with a phase-law-matched local autocorrelation and sparse reconstruction. It does not address this task's primary finite-record frequency-only tone acquisition under the stated C/N0/deadline; its strong sampling claims depend on an ideal sparse representation and matching phase nonlinearity."
+        },
+        {
+          "item": "Extended-Kalman tracking of nonsinusoidal periodic signals (Parker & Anderson, Signal Processing, 1990)",
+          "reason": "Search result abstract only; full text was inaccessible (403), and the task does not specify a dynamic amplitude/frequency law needed to assess the EKF. It is a possible later lead if a concrete tracking model is chosen."
+        }
+      ],
+      "verification_omissions_errors": "The report accurately limits most sources to abstract/metadata access and does not assert peer-review verification. Rife full text was obtained from a third-party mirror, so provenance should stay visible.",
+      "factual_followups": [
+        "No source found in this bounded search gives directly comparable performance for the exact 24/30 dB-Hz, ±3/±12-Hz, clean/noisy payload/auxiliary captures, chunk patterns, and <=6-s / <=0.10-Hz / 95% criterion.",
+        "Task sample rate, exact modulation/envelope and phase continuity across helper segments, measurement bandwidth convention for C/N0, and capture-by-capture ground-truth generation must be specified before analytic bounds or literature benchmarks can be mapped quantitatively.",
+        "A finite reported uncertainty value requires calibration/coverage evidence under the actual operating distribution; the cited single-tone theoretical bounds are conditional model results, not a confidence guarantee or evidence of absent-tone false-admission control.",
+        "Original full texts for Tretter, Kay and the 2007 IEEE paper were not retrieved; Rife/Boorstyn was read via a third-party mirror, and its exact IEEE publisher record could not be opened in this run. Peer-review status is not independently established by the accessible records listed here."
+      ],
+      "packet": {
+        "decision_constraints": "Select a discriminator for six-second frequency-only precision, preserving nonpublication.",
+        "supported_facts": "Rife mirror supports finite-record outlier/global-search caveats; Tretter and MAP/ML abstracts motivate phase versus magnitude comparisons.",
+        "contrary_evidence_limits": "The mirror is third-party; high-SNR complex-tone premises and actual chunk/phase continuity remain unverified. Chunk invariance is a proposed test, not a paper or runtime result.",
+        "expert_question": "Is performance driven by phase/magnitude weighting or by genuine signal discontinuities rather than delivery partition?",
+        "cheapest_falsifier": "Replay identical PCM/timestamps in 137 and 4096 chunks, plus a gap/reset control; compare support endpoints, tails and coverage.",
+        "consequential_rejections": "Defer sparse instantaneous-frequency and inaccessible nonsinusoidal EKF leads; neither establishes task fit."
+      }
+    }
+  ],
+  "union_catalog": {
+    "threshold": {
+      "mechanism": "Acquisition threshold and outlier tails versus local variance",
+      "origin_ids": [
+        "r733:F1",
+        "r672:F3",
+        "r806:F1",
+        "r842:F1",
+        "r698:F1",
+        "r147:outliers"
+      ]
+    },
+    "kay": {
+      "mechanism": "Simple Kay-family block comparator",
+      "origin_ids": [
+        "r733:F2",
+        "r806:F3",
+        "r842:F2",
+        "r698:F2"
+      ]
+    },
+    "lag": {
+      "mechanism": "Differential-phase lag and ambiguity tradeoff",
+      "origin_ids": [
+        "r733:F3",
+        "r842:F3"
+      ]
+    },
+    "kay1984": {
+      "mechanism": "Low-SNR Kay 1984 retrieval/control lead",
+      "origin_ids": [
+        "r733:F4"
+      ]
+    },
+    "authority": {
+      "mechanism": "Separate frequency uncertainty, presence and authority",
+      "origin_ids": [
+        "r733:F5"
+      ]
+    },
+    "coarse": {
+      "mechanism": "Coarse-to-fine periodogram/ML acquisition comparator",
+      "origin_ids": [
+        "r672:F1"
+      ]
+    },
+    "branch": {
+      "mechanism": "Kay weighted-phase branch-point bias and recursive correction",
+      "origin_ids": [
+        "r672:F2"
+      ]
+    },
+    "frequency_rate": {
+      "mechanism": "Joint frequency/rate candidate (academic support unresolved)",
+      "origin_ids": [
+        "r672:F4"
+      ]
+    },
+    "quinn": {
+      "mechanism": "Three-Fourier-coefficient interpolation comparator",
+      "origin_ids": [
+        "r806:F2"
+      ]
+    },
+    "timevarying": {
+      "mechanism": "Time variation or multiplicative-noise mismatch to stationary models",
+      "origin_ids": [
+        "r842:F4"
+      ]
+    },
+    "kalman": {
+      "mechanism": "Sequential phase/frequency Kalman candidate",
+      "origin_ids": [
+        "r698:F3"
+      ]
+    },
+    "scan": {
+      "mechanism": "Search-maximum and repeated-look false-admission calibration",
+      "origin_ids": [
+        "r698:F4"
+      ]
+    },
+    "phase_magnitude": {
+      "mechanism": "Phase-only versus magnitude-weighted observations",
+      "origin_ids": [
+        "r147:phase-vs-magnitude"
+      ]
+    },
+    "aperture": {
+      "mechanism": "Observation aperture versus delivery partition",
+      "origin_ids": [
+        "r147:information-duration"
+      ]
+    }
+  },
+  "independent_verifier_source_catalog": {
+    "carrier-1": [
+      {
+        "id": "RB1974",
+        "title": "Single-Tone Parameter Estimation from Discrete-Time Observations",
+        "url": "https://doi.org/10.1109/TIT.1974.1055282",
+        "content": "Partial primary text scan/transcription accessible via third-party Scribd, pp. 595-596 (open lines 338-370); direct DOI/CiNii page inaccessible in this run. Source report's own operation log records only a query result containing excerpts, not an open of this scan.",
+        "publication": {
+          "status": "journal publication verified from CiNii indexed metadata and paper header; peer review unknown"
+        },
+        "applicability": "The source model is a single stationary tone with Gaussian noise; it supports threshold/outlier caveats but not this receiver's dB-Hz target, envelope, interference, or six-second success rate."
+      },
+      {
+        "id": "KAY1989",
+        "title": "A Fast and Accurate Single Frequency Estimator",
+        "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+        "content": "Abstract only, lines 28-29.",
+        "publication": {
+          "status": "IEEE journal article verified, lines 31-45; peer review not independently documented"
+        },
+        "applicability": "Single complex sinusoid in complex white Gaussian noise; abstract supports a simple estimator as a candidate at moderately high SNR, with no receiver-specific result."
+      },
+      {
+        "id": "KAY1984",
+        "title": "Accurate Frequency Estimation at Low Signal-to-Noise Ratio",
+        "url": "https://digitalcommons.uri.edu/ele_facpubs/1400/",
+        "content": "Abstract only, lines 28-30.",
+        "publication": {
+          "status": "IEEE journal article verified, lines 31-45; peer review not independently documented"
+        },
+        "applicability": "Abstract says an estimator performs accurately at lower SNR than then-current techniques, but does not provide its equations or operating range; useful only as a retrieval lead/control candidate."
+      },
+      {
+        "id": "GKAY2006",
+        "title": "Frequency Estimation of a Single Complex Sinusoid Using a Generalized Kay Estimator",
+        "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+        "content": "Indexed IEEE publisher abstract retrieved by query; direct open blocked. Abstract reports arbitrary-delay differential-phase ML derivation and lower variance than delay-one Kay at low SNR for complex AWGN; delay trades estimation range.",
+        "publication": {
+          "status": "IEEE journal article metadata and date verified by indexed publisher result; peer review unknown"
+        },
+        "applicability": "Candidate for a bounded lag comparison only when phase remains coherent across the chosen lag. No claim validates unknown-phase retunes or receiver uncertainty calibration."
+      },
+      {
+        "id": "CLARKSON1992",
+        "title": "Efficient Single Frequency Estimators",
+        "url": "https://staff.itee.uq.edu.au/vaughan/Publications/isspa-92.pdf",
+        "content": "Full four-page research paper accessible. It gives the complex AWGN model, periodogram ML/coarse-to-fine method, branch-point bias, recursive branch correction, O(N) time/O(1) memory, and simulation comparisons (lines 25-40, 66-108, 109-140, 176-238).",
+        "publication": {
+          "status": "Conference publication verified by author's institutional publications page as Proc. ISSPA 1992, pp.327-330; peer review not established from inspected evidence"
+        },
+        "applicability": "Strong source for algorithm/model descriptions. Simulations remain complex single-tone AWGN and do not transfer to real helper captures, changing envelopes, payload, phase resets, or empirical coverage."
+      },
+      {
+        "id": "QUINN1994",
+        "title": "Estimating Frequency by Interpolation using Fourier Coefficients",
+        "url": "https://researchers.mq.edu.au/en/publications/estimating-frequency-by-interpolation-using-fourier-coefficients/",
+        "content": "Abstract only, lines 17-19; three Fourier components and asymptotic variance stated.",
+        "publication": {
+          "status": "published IEEE journal article and peer-review label verified by Macquarie record, lines 14, 23-30"
+        },
+        "applicability": "Supports a low-cost comparator under the abstract's sinusoidal/asymptotic setting; not finite-sample, envelope, interference, or drift evidence."
+      },
+      {
+        "id": "KNOCKAERT1997",
+        "title": "The Barankin bound and threshold behavior in frequency estimation",
+        "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+        "content": "Publisher abstract surfaced in indexed query: threshold effect when Barankin and CR bounds depart; SNR*T/ln(T) proposed as an indicator under sinusoid-in-AWGN assumptions. Direct IEEE open failed. UGent record is metadata only.",
+        "publication": {
+          "status": "published IEEE journal article verified by UGent institutional record, lines 8-12, 31-40, 76-90; peer review not explicit"
+        },
+        "applicability": "Threshold indicator is a model-bound diagnostic lead, not a direct conversion from the task's dB-Hz reference level or a feasibility test."
+      },
+      {
+        "id": "PACKET-H03-H05-H06",
+        "title": "Supplied receiver source excerpts",
+        "url": "common/carrier/sources/H03.txt; H05.txt; H06.txt",
+        "content": "Full supplied excerpts. H03 explicitly calls its interval an engineering gate rather than calibrated 99% confidence and warns abrupt changes can exceed it before withdrawal; H05 distinguishes presence and frequency authority; H06 shows a finite Gaussian test fixture, not field performance.",
+        "publication": {
+          "status": "not applicable; repository excerpts supplied as task facts"
+        },
+        "applicability": "Directly relevant contract facts, but no runtime measurements or completeness claim."
+      }
+    ],
+    "carrier-2": [
+      {
+        "id": "Rife1974",
+        "used_by": [
+          "r842",
+          "r698",
+          "r147"
+        ],
+        "url": "https://www.scribd.com/document/1071018661/Rife-Boorstyn-Single-Tone-Parameter-Estimation-From-Discrete-Time-Observations",
+        "content": "Full article text accessible on a third-party uploaded mirror; original publisher page was not readable. Title/abstract at lines 41-58 identifies finite noisy discrete-time observations, CR bounds, DFT-related ML algorithms and threshold analysis; the paper's single-tone/independent Gaussian-noise assumptions are stated around lines 61-66. Further text supports periodogram/global-maximum and threshold/outlier discussion.",
+        "publication": "IEEE Transactions on Information Theory 20(5), 591-598 (1974) publication corroborated by bibliographic records; peer-review status not independently verified from accessible primary/institutional evidence.",
+        "status_evidence": "https://cir.nii.ac.jp/crid/1364233269205840896",
+        "verification": "Content support is usable with the mirror provenance limitation; numeric bounds and transfer to the hypothetical receiver remain unverified."
+      },
+      {
+        "id": "Kay1989",
+        "used_by": [
+          "r842",
+          "r698",
+          "r147"
+        ],
+        "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+        "content": "Institutional repository abstract, lines 28-30: single complex sinusoid in complex white Gaussian noise; more computationally efficient than optimal ML and as good at moderately high SNR. Citation at lines 31-45 identifies IEEE journal, volume, issue and pages.",
+        "publication": "Journal article publication verified by institutional citation; peer-review status not explicitly established on the accessible record.",
+        "status_evidence": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+        "verification": "Abstract-limited support only; no full derivation or low-SNR/receiver-specific performance verified."
+      },
+      {
+        "id": "GeneralizedKay2006",
+        "used_by": [
+          "r842"
+        ],
+        "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+        "content": "IEEE publisher search result abstract: generalized Kay/differential-phase estimator for a single complex sinusoid in complex AWGN; arbitrary delay, variance/range/complexity comparisons; delay two approaches CRB asymptotically at high SNR as sequence length grows.",
+        "publication": "IEEE Transactions on Communications 54(3), 407-415 (2006) metadata verified in publisher search result; article page returned HTTP 418; peer-review status not separately verified.",
+        "verification": "Abstract-limited; page fetch failed, and source assumptions do not establish continuity or suitability for the receiver."
+      },
+      {
+        "id": "Barankin1997",
+        "used_by": [
+          "r842"
+        ],
+        "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+        "content": "IEEE publisher result abstract: for sinusoidal frequency estimation in additive white Gaussian noise, threshold effect occurs when Barankin bound significantly departs from CRB; SNR*T/ln(T) is described as an indicator in the studied model.",
+        "publication": "IEEE Transactions on Signal Processing 45(9), 2398-2401 (1997) metadata verified by publisher result; page fetch returned HTTP 418; peer-review status not separately verified.",
+        "verification": "Abstract-limited. The indicator is model-specific and is not a threshold calculation for this task."
+      },
+      {
+        "id": "DopplerSpread2001",
+        "used_by": [
+          "r842"
+        ],
+        "url": "https://strathprints.strath.ac.uk/3515/",
+        "content": "Institutional repository abstract, lines 17-20: complex sinusoid with multiplicative and additive complex noise; multiplicative noise smears the spectral line and may degrade accuracy; analyzes finite-sample CRBs, coherent/noncoherent SNR and covariance-angle estimators.",
+        "publication": "Repository identifies IEEE Transactions on Signal Processing 49(4), 777-789 (2001), lines 14-16; peer-review status not separately verified.",
+        "verification": "Abstract-limited; supports the stated Doppler-spread caveat but does not establish equivalence to this receiver's drift or envelope."
+      },
+      {
+        "id": "Tretter1985",
+        "used_by": [
+          "r147"
+        ],
+        "url": "https://ieeexplore.ieee.org/document/1057115/",
+        "content": "IEEE publisher search result abstract: high-SNR additive noise is treated as equivalent phase noise; phase linear regression estimates frequency/phase with CR-bound variances; frequency variance formula depends on noise power spectrum.",
+        "publication": "IEEE Transactions on Information Theory 31(6), 832-835 (1985) metadata verified by publisher result; direct open returned the JavaScript/robot page; peer-review status not separately verified.",
+        "verification": "Abstract-limited; no full text was retrieved."
+      },
+      {
+        "id": "MAPML2007",
+        "used_by": [
+          "r147"
+        ],
+        "url": "https://ieeexplore.ieee.org/document/4099556/",
+        "content": "IEEE publisher search result abstract: approximate time-domain ML under reasonably high SNR uses noisy-sample phase and magnitude; phase alone is not sufficient; proposes recursive phase unwrapping.",
+        "publication": "IEEE Transactions on Signal Processing 55(3), 834-845 (2007) metadata verified by publisher result; direct open returned the JavaScript/robot page; peer-review status not separately verified.",
+        "verification": "Abstract-limited; result is conditional on the paper's single-sinusoid AWGN model and high-SNR premise."
+      },
+      {
+        "id": "KalmanCarrier2003",
+        "used_by": [
+          "r698"
+        ],
+        "url": "https://www.jstage.jst.go.jp/article/ieejeiss/123/10/123_10_1735/_article/-char/en",
+        "content": "Publisher abstract, lines 60-63: a linear two-state phase/frequency Kalman filter uses measured carrier phase; reports acquisition within 10 symbols at stated offset/C/N in its digital-carrier setting. The linked PDF was not inspected in this verification.",
+        "publication": "Official J-STAGE record identifies IEEJ Transactions on Electronics, Information and Systems 123(10), 1735-1744, 2003, and gives published date at lines 27-35; peer-review status not stated.",
+        "verification": "Abstract-limited support; reported acquisition result is specific to its signal, symbol, offset and C/N setup."
+      },
+      {
+        "id": "Baluev2013",
+        "used_by": [
+          "r698"
+        ],
+        "url": "https://arxiv.org/abs/1308.6463",
+        "content": "Full author preprint accessible. Lines 58-60 caution that large multi-frequency periodogram values do not prove every modeled sinusoidal component is present; lines 359-360 qualify an upper-bound approximation under stated assumptions. The paper develops false-alarm/significance treatment for searched frequency tuples.",
+        "publication": "The arXiv record supplies the full author preprint; MNRAS 436, 807-818 (2013) is identified by publisher bibliographic search result, but the publisher page could not be opened in the original report. Peer-review status not independently verified here.",
+        "verification": "Full preprint content supports a scan-level significance discriminator, but not a false-alarm formula for this receiver's noise, band, repeated looks or stateful decision logic."
+      }
+    ]
+  },
+  "expert_stage": "All findings not individually assessed; no architecture accepted.",
+  "handoff_burden": [
+    "Every case requires mapping sample rate, C/N0/noise bandwidth, envelope, phase continuity and actual dynamics to capture data; these are factual prerequisites for quantitative transfer, not barriers to an expert decision on a discriminator.",
+    "r733: reconcile claimed Rife page-specific access with logged query excerpts; independent verifier confirmed the passage, not original access.",
+    "r672 F4: obtain primary frequency/rate evidence only if its candidate affects the decision.",
+    "r842: correct unverified peer-review labels.",
+    "r698: preserve 20-operation overrun and 3–4 strict-prefix bound; full-text F4 confirmed only post-prefix.",
+    "No source validates task-specific performance, calibrated uncertainty, or absence control. Do not infer false status from unknown peer review."
+  ],
+  "verification_coverage": "Two independent verification records cover all 23 original finding IDs; r672 F4 unresolved, r698 F4 unresolved at strict prefix. Source-specific access, publication and peer-review evidence are recorded per row and source catalog. Quinn alone has explicit peer-review evidence in these records.",
+  "additional_web_operations": 0,
+  "telemetry": "Original report bytes and operation counts shown. Native model/inference/token and weekly usage data unavailable; no cost or savings conclusion.",
+  "gate_timing": "No report requires a mandatory further research barrier before a ready expert question; conditional source retrieval is not a proposed universal gate."
+}

@@ -1,0 +1,453 @@
+{
+  "study": "decision-routing-study-2026-10-28",
+  "scenario": "regression",
+  "coding_scope": {
+    "participants": [
+      "p29",
+      "p61"
+    ],
+    "records": [
+      "locked/p29/initial.json",
+      "locked/p29/E1.json",
+      "locked/p29/E2.json",
+      "locked/p61/initial.json",
+      "locked/p61/E1.json",
+      "locked/p61/E2.json"
+    ],
+    "rubric": "protocol.json measurements; common/contract.md; common/regression/scenario.md",
+    "blinding": "Partial. Participant labels were treated as opaque IDs; no arm map or policy text was read. Role/model and intervention clues are inferable from the locked decision language, so this is not guaranteed arm-blind coding.",
+    "source_boundary": "The scenario source-unit map was used. Individual source snapshots were not needed and were not read. No project execution, test, build, external research, or code change was performed.",
+    "excluded_inputs": [
+      "policy-A.md",
+      "policy-B.md",
+      "analysis/arm-map.json",
+      "cost forecasts",
+      "other participants' records"
+    ],
+    "counting_note": "One assignment can carry multiple independently discriminable questions; one question can recur across assignments/phases. Assignment and conversation counts are not question counts. Registration or planned coverage is not execution or achieved coverage."
+  },
+  "question_catalog": [
+    {
+      "qid": "Q01",
+      "participant_assignment_ids": {
+        "p29": [
+          "P01"
+        ],
+        "p61": [
+          "A1"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R01"
+      ],
+      "purpose": "Determine whether a rejected store update changes the intended record state.",
+      "discriminator": "Matched valid/rejected update on the same identified executable, inputs and configuration, comparing complete before/after snapshots with record IDs.",
+      "useful_candidate": true,
+      "qualification": "Directly addresses the report and separates actual mutation from missing IDs, rebuild or mismatched artifact.",
+      "ambiguity": "The CLI and store concerns share assignments in both plans but are separate mechanisms; count this as one store question."
+    },
+    {
+      "qid": "Q02",
+      "participant_assignment_ids": {
+        "p29": [
+          "P01"
+        ],
+        "p61": [
+          "A1"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R02"
+      ],
+      "purpose": "Determine whether a CLI batch emits an earlier valid row before rejecting a later invalid value.",
+      "discriminator": "Matched valid-only and valid-then-invalid batches; capture stdout, stderr and status under the same invocation/configuration.",
+      "useful_candidate": true,
+      "qualification": "The output timing/validation contract is independently observable and decision-relevant.",
+      "ambiguity": "Split from Q01 and Q03 although p29 P01 and p61 A1 group them with other checks."
+    },
+    {
+      "qid": "Q03",
+      "participant_assignment_ids": {
+        "p29": [
+          "P01"
+        ],
+        "p61": [
+          "A1"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R02"
+      ],
+      "purpose": "Determine whether redirected --help failure follows the output sink or CLI behavior.",
+      "discriminator": "Compare --help to a normal file and a failing sink such as system-fixture/dev/full where available; capture status/output.",
+      "useful_candidate": true,
+      "qualification": "Separately discriminable from batch output and explicitly bounded by sink availability.",
+      "ambiguity": "The planned test mentions system-fixture/dev/full only where available; unsupported sink is setup-limited, not a failed hypothesis."
+    },
+    {
+      "qid": "Q04",
+      "participant_assignment_ids": {
+        "p29": [
+          "P02"
+        ],
+        "p61": [
+          "A1"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R03",
+        "R09"
+      ],
+      "purpose": "Identify the actual configured and linked text provider/package, then compare the same non-ASCII bytes through the real C++ caller.",
+      "discriminator": "Provider/package/library marker and artifact identity plus matched bytes, valid control and caller path.",
+      "useful_candidate": true,
+      "qualification": "Separates package/provider identity and caller behavior; a test pass without linked-provider identity is inconclusive.",
+      "ambiguity": "R09 is relevant to selected package/path evidence, not an automatic standalone question."
+    },
+    {
+      "qid": "Q05",
+      "participant_assignment_ids": {
+        "p29": [
+          "P03"
+        ],
+        "p61": [
+          "A2"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R04"
+      ],
+      "purpose": "Find the first divergence from equivalent adapter events through normalization, shared application state and presentation.",
+      "discriminator": "Same edit/submit sequence and snapshots across affected/reference adapters, recording normalized events, authoritative records/status and rendered view.",
+      "useful_candidate": true,
+      "qualification": "Matches the specified GUI symptom and traces a decision-relevant cross-layer boundary.",
+      "ambiguity": "R04 was already investigated initially. E2 adds the direct-versus-installed-consumer comparison in Q12; it does not create a second generic GUI question."
+    },
+    {
+      "qid": "Q06",
+      "participant_assignment_ids": {
+        "p29": [
+          "P03"
+        ],
+        "p61": [
+          "A2"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R05"
+      ],
+      "purpose": "Determine whether progress after cancel/restart is produced by a stale generation or displayed incorrectly.",
+      "discriminator": "Capture generation at production, mailbox and application consumption in a gated start/cancel/start sequence; compare with the native task fixture.",
+      "useful_candidate": true,
+      "qualification": "Independent lifecycle mechanism and a feasible focused fixture with an explicit scheduling limit.",
+      "ambiguity": "Grouped with R04 in p29 P03; source path and discriminator make this independently countable."
+    },
+    {
+      "qid": "Q07",
+      "participant_assignment_ids": {
+        "p29": [
+          "P04"
+        ],
+        "p61": [
+          "A3"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R06"
+      ],
+      "purpose": "Determine whether a transient send failure prevents polling rescheduling or whether client/transport/view state blocks refresh.",
+      "discriminator": "Matched success, rejection and recovery with same scheduler/client; capture timers, sends, lifecycle flags and view update, then trace the identified browser transport.",
+      "useful_candidate": true,
+      "qualification": "Separates polling lifecycle from downstream transport and presentation, with fixture limits stated.",
+      "ambiguity": "Does not establish behavior in every browser."
+    },
+    {
+      "qid": "Q08",
+      "participant_assignment_ids": {
+        "p29": [
+          "P04"
+        ],
+        "p61": [
+          "A3"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R07",
+        "R11"
+      ],
+      "purpose": "Determine which nested view consumes wheel input and whether overflow/focus changes the result; trace retained-input consumer only as needed.",
+      "discriminator": "Same wheel event on fitting versus overflowing/clamped read-only child; record child/parent offsets, focus and selection, and selected input path.",
+      "useful_candidate": true,
+      "qualification": "Tests the stated child/ancestor interaction boundary; R11 grounds a consumer path rather than adding a question by itself.",
+      "ambiguity": "The patch/input identity and retained-kernel constraints limit scope; no kernel configuration is proposed."
+    },
+    {
+      "qid": "Q09",
+      "participant_assignment_ids": {
+        "p29": [
+          "P05"
+        ],
+        "p61": [
+          "A4"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R08"
+      ],
+      "purpose": "Determine whether editor displacement originates in changed model data or the canvas transform/render path.",
+      "discriminator": "Hold project point, viewport, pan and zoom; compare model-to-view/view-to-model round trip, bounds and paint/hit results before/after value change.",
+      "useful_candidate": true,
+      "qualification": "A bounded, matched geometry check directly separates two plausible layers.",
+      "ambiguity": "R08 shares an assignment with the flow report; it is a separate mechanism."
+    },
+    {
+      "qid": "Q10",
+      "participant_assignment_ids": {
+        "p29": [
+          "P05"
+        ],
+        "p61": [
+          "A4"
+        ]
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R13"
+      ],
+      "purpose": "Determine where a completed editor flow loses items between production and downstream consumption.",
+      "discriminator": "Same graph/data and mode; compare produced/consumed counts, exact sink sequence and terminal state.",
+      "useful_candidate": true,
+      "qualification": "Separates producer, edge and consumer truncation and names a focused fixture.",
+      "ambiguity": "The flow fixture samples modes and does not establish all consumers."
+    },
+    {
+      "qid": "Q11",
+      "participant_assignment_ids": {
+        "p29": [
+          "P06"
+        ],
+        "p61": []
+      },
+      "phase_introduced": "initial",
+      "primary_model": "luna",
+      "source_units": [
+        "R09",
+        "R10",
+        "R11",
+        "R12"
+      ],
+      "purpose": "Establish which build or retained-input consumer, test registrations, prerequisites and wrapper limits materially constrain the eight planned discriminators.",
+      "discriminator": "Check selected source/group/manifest against actual consumer, relevant registered targets, and only those path/process/capacity helper contracts that planned checks depend on.",
+      "useful_candidate": true,
+      "qualification": "A focused feasibility question prevents setup failures being misread as regressions and covers the planned build/retained-input consumer layer.",
+      "ambiguity": "Broad but conditionally scoped to constraints on the proposed discriminators. The source units do not imply all are implicated. p61 has R11 in Q08 but no matching R09-R12 feasibility assignment; do not count incidental references as this question."
+    },
+    {
+      "qid": "Q12",
+      "participant_assignment_ids": {
+        "p29": [
+          "P03",
+          "P10"
+        ],
+        "p61": [
+          "A2",
+          "A8"
+        ]
+      },
+      "phase_introduced": "E2",
+      "primary_model": "luna",
+      "co_models": [
+        "astra"
+      ],
+      "source_units": [
+        "R03",
+        "R04",
+        "R11"
+      ],
+      "purpose": "For the new direct-pass/installed-stale-view observation, find the first divergence for the same valid edit/submit across direct and installed consumers.",
+      "discriminator": "Trace event normalization, shared records/status, provider/transport boundary and presentation snapshots in both consumers; retain competing layers until matched traces identify divergence.",
+      "useful_candidate": true,
+      "qualification": "E2 supplies a new consumer comparison absent from the original report; concrete, bounded and decision-relevant. Astra's request for the smallest matched boundary discriminator duplicates this Luna-owned question and is counted as co-participation, not another question.",
+      "ambiguity": "E2 also changes prioritization and refines Q05. Count one added question because the installed-vs-direct comparison is a new discriminator, not because assignment P03/A2 was rerouted."
+    },
+    {
+      "qid": "Q13",
+      "participant_assignment_ids": {
+        "p29": [
+          "P02",
+          "P06"
+        ],
+        "p61": [
+          "A1",
+          "A2"
+        ]
+      },
+      "phase_introduced": "E2",
+      "primary_model": "luna",
+      "source_units": [
+        "R03",
+        "R04",
+        "R09",
+        "R11"
+      ],
+      "purpose": "Establish what matching declared manifest/source revision does and does not show, and identify installed artifact, selected/linked provider and test-inventory differences.",
+      "discriminator": "Compare declared source/manifest with actual runtime binary/library/provider marker, package identity and executed test list for the named consumers.",
+      "useful_candidate": true,
+      "qualification": "This is a separate identity/configuration question needed to interpret the new consumer report; it is not a cause claim and cannot substitute for Q12's matched behavioral trace.",
+      "ambiguity": "R09/ R11 are source-map coverage for package/consumer paths. In p61 the request appears in combined R01/R03 and R04 follow-up work; these records add no independent assignment or model slot."
+    }
+  ],
+  "counts": {
+    "globally_deduplicated_qualified_questions": {
+      "initial": 11,
+      "E1_added": 0,
+      "E2_added": 2,
+      "total": 13
+    },
+    "participant_candidate_counts": {
+      "p29": {
+        "initial": 11,
+        "E1_added": 0,
+        "E2_added": 2,
+        "total": 13
+      },
+      "p61": {
+        "initial": 10,
+        "E1_added": 0,
+        "E2_added": 2,
+        "total": 12
+      }
+    },
+    "model_attribution_unique_question_participation": {
+      "p29": {
+        "initial": {
+          "luna": 11,
+          "terra": 0,
+          "sol": 0,
+          "astra": 0
+        },
+        "E1_added": {
+          "luna": 0,
+          "terra": 0,
+          "sol": 0,
+          "astra": 0
+        },
+        "E2_added": {
+          "luna": 2,
+          "terra": 0,
+          "sol": 0,
+          "astra": 1
+        }
+      },
+      "p61": {
+        "initial": {
+          "luna": 10,
+          "terra": 0,
+          "sol": 0,
+          "astra": 0
+        },
+        "E1_added": {
+          "luna": 0,
+          "terra": 0,
+          "sol": 0,
+          "astra": 0
+        },
+        "E2_added": {
+          "luna": 2,
+          "terra": 0,
+          "sol": 0,
+          "astra": 1
+        }
+      }
+    },
+    "source_coverage_planned_by_question": {
+      "p29_initial_distinct_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13"
+      ],
+      "p61_initial_distinct_units": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R11",
+        "R13"
+      ],
+      "p61_initial_uncovered_neighbor_units": [
+        "R10",
+        "R12"
+      ],
+      "both_E1": "No question-scope expansion; retain initial coverage.",
+      "both_E2": "No new distinct source unit beyond those already planned; add consumer-specific comparisons within R03/R04/R09/R11."
+    },
+    "rejected_or_non_incremental": {
+      "E1_new_factual_questions": 0,
+      "coordination_screening_review_execution_repair_records": "Excluded as new factual questions unless they state a novel discriminator: Terra ledger/request/screen assignments; Sol decision and patch review gates; generic conditional test execution and repair assignments. They remain valid process/quality obligations, not question counts.",
+      "E2_duplicate_advisory": "Astra's matched-boundary recommendation is co-participation in Q12, not a separate Q14.",
+      "other_source_units": "A source unit mentioned by a broad screen, reviewer or neighboring caller is not itself a new investigation question."
+    }
+  },
+  "same_question_routing": [
+    "Q05/Q12 remain Luna factual investigation in both planners. E2's direct-versus-installed discriminator is added under the existing R04 assignment; Astra supplies strategic advice on the same discriminator. No question moved from Sol/Astra to Luna or Terra.",
+    "Q04 remains Luna across phases; E1 sharpens provider/package identity after an unmarked success. That is continuation of its original question, not new work.",
+    "Q01 remains Luna across phases; E1 adds same-artifact/ID controls after an uncontrolled rebuilt-binary report. That is continuation, not a new question.",
+    "Q09 and Q10 are separate investigations grouped under the same R08 assignment. Q02 and Q03 are separate CLI questions grouped with store under p29 P01 and with store/provider under p61 A1.",
+    "P29 P03 and p61 A2 are marked reroute at E2 but retain Luna, role and conversation identity. The scope/priority changes to the E2 consumer branch; the data does not show a model/owner transfer. Treat the action label as a routing-status ambiguity, not evidence of a new worker or slot."
+  ],
+  "E_event_response": {
+    "E1": "Both planners preserve the original R01/R03 uncertainty, ask for missing artifact/input/provider details, and keep independent report work moving. No E1 feedback becomes a controlled reproduction or provider-specific pass; no new discriminating investigation question is introduced.",
+    "E2": "Both planners prioritize a new direct-versus-installed R04 trace and runtime/provider/test-inventory identity checks while retaining R01/R03 controls and the other report work. p29 activates Astra; p61 activates Astra in parallel with the Luna trace. Neither treats the invented report as their own experiment or as a root cause. Human requests seek consumer artifact, test list, provider, event, timing and state/presentation evidence; no human response is represented in the locked files."
+  },
+  "reviewer_issues": [
+    {
+      "file": "locked/p29/E2.json",
+      "assignment_id": "P03",
+      "issue": "action is 'reroute', but model=luna, role=scout and conversation_id=gui-native are unchanged from initial/E1. Scope/priority was redirected to installed-consumer R04 evidence, so the action label is ambiguous; no demonstrable resource or gate violation."
+    },
+    {
+      "file": "locked/p61/E2.json",
+      "assignment_id": "A2",
+      "issue": "action is 'reroute', but model=luna, role=scout and conversation_id=gui-native are unchanged from initial/E1. Scope/priority was redirected to installed-consumer R04 evidence, so the action label is ambiguous; no demonstrable resource or gate violation."
+    }
+  ],
+  "acceptance_limits": [
+    "Useful means planned source-grounded, decision-relevant, feasible and nonredundant candidate work; no accepted finding or project outcome is established.",
+    "Counts are coding judgments from the specified six locked records only; they do not show work executed, test coverage achieved, actual model dispatches, costs or savings.",
+    "The p29/p61 labels may be inferable from decision language; arm-blindness is partial and no target number of questions was assumed."
+  ]
+}

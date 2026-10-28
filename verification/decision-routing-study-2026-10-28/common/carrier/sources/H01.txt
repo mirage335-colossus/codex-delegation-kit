@@ -1,0 +1,60 @@
+H01 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- include/datapump/helper_carrier.hpp:37-43 ---
+   37 // Steady straight-tone power fractions, before ramps or auxiliary metadata.
+   38 // helper_gain is the equivalent amplitude of their combined power, not their
+   39 // worst-case voltage sum. Keep these separate for received-level accounting.
+   40 inline constexpr double pilot_power_fraction=.9,auxiliary_power_fraction=.1;
+   41 inline constexpr double pilot_amplitude_fraction=.9486832980505137996;
+   42 inline constexpr double auxiliary_amplitude_fraction=.3162277660168379332;
+   43 inline constexpr double auxiliary_pilot_spacing_hz=400;
+
+
+--- include/datapump/helper_carrier.hpp:54-73 ---
+   54 struct Plan {
+   55     double frequency_hz=0, helper_gain=0, data_gain=1, effective_power_w=0;
+   56     // frequency_hz is the pure pilot. Zero auxiliary frequency is an explicit
+   57     // pilot-only laboratory plan; production plan() always supplies both tones.
+   58     double auxiliary_frequency_hz=0;
+   59 };
+   60 struct ReferenceLevel {
+   61     // Existing fields describe total Helper power. Precision predictions must
+   62     // use the explicit pilot fields below, after the90/10 split.
+   63     double effective_power_ratio=0,straight_cn0_db_hz=0,usable_cn0_db_hz=0,payload_average_cn0_db_hz=0;
+   64     double pilot_effective_power_ratio=0,pilot_straight_cn0_db_hz=0,pilot_usable_cn0_db_hz=0;
+   65     double auxiliary_straight_cn0_db_hz=0;
+   66 };
+   67 // Nominal payload C/N0 is the ungated RF power reference. Use amplitude scale 1
+   68 // for calibrated hardware and the existing waveform backoff for sampled
+   69 // simulation. Scale and fractions must be positive and no greater than 1.
+   70 // Duty/usable fractions describe separate energy accounting;
+   71 // none of these predictions qualifies a received reference.
+   72 ReferenceLevel reference_level(const Options&,double nominal_payload_cn0_db_hz,
+   73     double amplitude_scale=1,double payload_power_fraction=1,double usable_tone_fraction=1);
+
+
+--- include/datapump/helper_carrier.hpp:75-95 ---
+   75 struct EnvelopeRequirements {
+   76     // Actual receiver aperture, including any sequential discovery/warmup.
+   77     // No level-to-precision prediction or metadata requirement is inferred.
+   78     double frequency_acquisition_seconds=0,frontend_lookahead_seconds=0;
+   79     // Optional predicted source-clock airtime beyond the complete baseline.
+   80     // A duration never qualifies the received reference. Bounded independently
+   81     // of the existing aperture/drain requirement and rounded to full dwells.
+   82     double frequency_precision_extension_seconds=0;
+   83     // Total additional capture obligation from the payload endpoint, including
+   84     // any required absence coverage. This is frozen at source completion, not
+   85     // elapsed queue lag or a deadline renewed by later cold admissions.
+   86     double receiver_buffer_deficit_seconds=0,maximum_source_capture_ratio=1;
+   87 };
+   88 struct EnvelopePlan {
+   89     long double lead_seconds=0,tail_seconds=0,preparation_seconds=0,maximum_stop_extension_seconds=0;
+   90 };
+   91 // Helper callers opt in; ordinary helper-off callers need no planning call.
+   92 // Durations use the source clock, round up to complete 400ms dwells, and retain
+   93 // the ordinary physical-absence, pulse-support and one-second capture margin.
+   94 // Preparation/stop bounds include worst dwell alignment and source rounding.
+   95 EnvelopePlan plan_envelope(const modem::Config&,const EnvelopeRequirements& = {});

@@ -1,0 +1,99 @@
+# R02: CLI parsing, atomic output and executable contract
+Source identity: software-foundation at 4c471cb93702cdc03b5230bfa33372355424b665. Excerpts are source evidence only; they do not establish that any test ran or passed.
+Project instruction excerpt (applies to this unit): `AGENTS.md` §Development checks: “Run inexpensive checks that address the current change. Defer costly full regressions, broad platform/backend matrices and complete release certification … until implementation is stable and the user has requested either that qualification or an operation requiring it.” `docs/testing.md` §Select the applicable stage: “A focused pass proves only its named scope.” `docs/testing.md` §Test design: “Keep contract regressions when refactoring. Modify an assertion only when the intended public contract changes and the change is reviewed.” These are scope/authorization filters, not execution evidence. No kit routing text is included.
+
+## `src/main.cpp` lines 13-45
+
+```text
+  13 int run(int argc, const char* const* argv) {
+  14     try {
+  15         if (argc == 2 && std::string_view(argv[1]) == "--version") {
+  16             std::cout << "software-foundation " << FOUNDATION_VERSION << '\n';
+  17             return std::cout.flush() ? 0 : 1;
+  18         }
+  19         if (argc == 2 && std::string_view(argv[1]) == "--self-check") {
+  20             foundation::Store store(1);
+  21             const auto id = store.add("example");
+  22             return store.get(id)->text == "example" && store.erase(id) ? 0 : 1;
+  23         }
+  24         if (argc == 1 || (argc == 2 && std::string_view(argv[1]) == "--help")) {
+  25             std::cout << "Usage: foundation-cli [--version|--self-check|--help]\n"
+  26                          "       foundation-cli -- TEXT [TEXT ...]\n"
+  27                          "Print a bounded collection, one record per line.\n";
+  28             return std::cout.flush() ? 0 : 1;
+  29         }
+  30         if (std::string_view(argv[1]) != "--" || argc < 3) {
+  31             std::cerr << "Use --help for usage.\n";
+  32             return 2;
+  33         }
+  34         foundation::Store store;
+  35         // Validate the complete request before emitting any records.
+  36         for (int i = 2; i < argc; ++i) store.add(argv[i]);
+  37         for (const auto& row : store.snapshot()) {
+  38             std::cout << row.id << '\t' << row.text << '\n';
+  39         }
+  40         if (!std::cout.flush()) return 1;
+  41     } catch (const std::exception& error) {
+  42         std::cerr << error.what() << '\n';
+  43         return 1;
+  44     }
+  45     return 0;
+```
+
+## `tests/check_cli.py` lines 11-46
+
+```text
+  11 def check(args, code, stdout=None):
+  12     result = subprocess.run([*command, *args], capture_output=True)
+  13     if result.returncode != code or (stdout is not None and result.stdout.replace(b"\r\n", b"\n") != stdout.encode("utf-8")):
+  14         raise RuntimeError(f"CLI contract failed: {args!r}: {result}")
+  15 
+  16 
+  17 check(["--version"], 0, "software-foundation 0.1.0\n")
+  18 check(["--self-check"], 0, "")
+  19 check(["--", "Alpha", "Beta"], 0, "1\tAlpha\n2\tBeta\n")
+  20 check(["--", "Valid", "bad\ntext"], 1, "")
+  21 check(["--unknown"], 2, "")
+  22 check(["--"], 2, "")
+  23 
+  24 # Capture bytes so a developer's Python/console code page cannot hide corruption.
+  25 # The ASCII application must reject Unicode atomically, rather than accepting
+  26 # replacement question marks from lossy Windows narrow argv conversion.
+  27 unicode_text = "caf\u00e9 \u65e5\u672c\u8a9e \U0001f30d \"quoted\" \\path"
+  28 check(["--", "Valid", unicode_text], 1, "")
+  29 check(["--", "\u65e5\u672c\u8a9e \U0001f30d"], 1, "")
+  30 if os.name == "nt":
+  31     check(["--", "invalid\ud800"], 1, "")
+  32 elif len(command) == 1:
+  33     # Native POSIX argv remains a byte interface; non-ASCII bytes are rejected.
+  34     raw = subprocess.run([os.fsencode(command[0]), b"--", b"raw-\xff"], capture_output=True)
+  35     if raw.returncode != 1 or raw.stdout != b"":
+  36         raise RuntimeError("POSIX non-ASCII argument was accepted or emitted partial output")
+  37 
+  38 
+  39 # Exercise actual write failure on hosts providing the standard full device.
+  40 from pathlib import Path
+  41 if Path("system-fixture/dev/full").exists():
+  42     for args in (["--version"], ["--help"], ["--", "Entry"]):
+  43         with open("system-fixture/dev/full", "wb") as destination:
+  44             result = subprocess.run([*command, *args], stdout=destination, stderr=subprocess.PIPE)
+  45         if result.returncode != 1:
+  46             raise RuntimeError("CLI reported success after output failure")
+```
+
+## `CMakeLists.txt` lines 468-479
+
+```text
+ 468   add_executable(foundation_core_test EXCLUDE_FROM_ALL tests/store_test.cpp)
+ 469   target_link_libraries(foundation_core_test PRIVATE foundation::core)
+ 470   foundation_options(foundation_core_test)
+ 471   if(NOT EMSCRIPTEN)
+ 472   add_test(NAME core.store COMMAND foundation_core_test)
+ 473   set_tests_properties(core.store PROPERTIES LABELS "fast;core" TIMEOUT 30)
+ 474   add_test(NAME core.cli COMMAND ${Python3_EXECUTABLE}
+ 475     "${CMAKE_CURRENT_SOURCE_DIR}/tests/check_cli.py" $<TARGET_FILE:foundation-cli>)
+ 476   set_tests_properties(core.cli PROPERTIES LABELS "fast;core" TIMEOUT 30)
+ 477   add_test(NAME docs.links COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tools/check_docs.py")
+ 478   set_tests_properties(docs.links PROPERTIES LABELS "fast;tools" TIMEOUT 30)
+ 479   else()
+```

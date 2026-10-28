@@ -1,0 +1,38 @@
+H11 — source excerpt
+Repository: pumpModem
+Revision: dae58eaccfd68cbf2366b85fd746b56fde089cd3
+
+
+--- cmake/TestGroups.cmake:30-47 ---
+   30   "helper_normal_acquisition_geometry=test_helper_normal_acquisition"
+   31   "helper_receiver_strong=test_helper_receiver"
+   32   "helper_receiver_legacy30=test_helper_receiver"
+   33   "helper_receiver_legacy24=test_helper_receiver"
+   34   "helper_receiver_weak_timecode=test_helper_receiver"
+   35   "helper_receiver_weak_noise=test_helper_receiver"
+   36   "helper_receiver_weak_signal=test_helper_receiver"
+   37   "helper_receiver_shifted=test_helper_receiver"
+   38   "helper_receiver_metadata_process=test_helper_receiver"
+   39   "helper_frequency_work_geometry=test_helper_frequency_work"
+   40   "helper_frequency_work_default=test_helper_frequency_work"
+   41   "helper_frequency_work_implicit_reset=test_helper_frequency_work"
+   42   "helper_native_frequency_noise=test_helper_native_frequency"
+   43   "conditioned_first_bit_monte_carlo=test_conditioned_first_bit"
+   44   "helper_native_timing_interleaved_v2=test_helper_native_timing"
+   45   "helper_compact_long_payload=test_helper_compact_acquisition"
+   46   "helper_compact_calendar=test_helper_compact_acquisition"
+   47   "helper_compact_phase_raw=test_helper_compact_acquisition"
+
+
+--- cmake/TestGroups.cmake:113-123 ---
+  113 # Keep this list aligned with docs/development.md. Calibration stays included:
+  114 # a cheap smoke selection must never replace the preservation contract.
+  115 set(_contract
+  116   gui_trace
+  117   helper_carrier helper_live live_helper_presence helper_live_assistance helper_actual_rf_session helper_actual_rf_independent helper_actual_rf_data helper_local_aperture helper_live_gps_clock helper_live_default_clock helper_live_final_loss helper_output_fallback helper_conditioned_native helper_metadata helper_receiver helper_receiver_conditioning helper_assistance helper_sim
+  118   helper_score_provenance helper_raw_frequency helper_tone_tracker helper_continuous helper_oscillator_model helper_live_oscillator_protocol helper_simple_dispatch helper_frequency_window helper_grid_union helper_compact_cpu_admission helper_compact_cpu_policy helper_frequency_work helper_native_frequency helper_native_frequency_noise live_helper_clock_bridge helper_cold_workspace_floor helper_selector_cache helper_cohort_model helper_continuation_rows helper_continuation_rows_long helper_warm_frequency helper_warm_frequency_payload helper_warm_frequency_loss helper_warm_frequency_anchor
+  119   conditioned_first_bit conditioned_reference_factory helper_estimate_scenario helper_native_work_curve helper_planner_forecast helper_reference_search rolling_estimate_lifetime helper_planner_capture helper_joint_cost conditioned_first_bit_monte_carlo
+  120   helper_payload_tail_history helper_payload_tail_physical helper_payload_tail_live helper_payload_tail_framed_text helper_payload_tail_attachment helper_payload_tail_retune helper_phase_continuity helper_cohort_recovery
+  121   helper_rolling_acquisition helper_thin_strip helper_prior_edge_coverage helper_prior_edge_waveform helper_normal_acquisition_geometry helper_normal_loss live_replay_staging
+  122   helper_filter_response helper_frontend helper_pilot_phase helper_pilot_stage helper_reference_dynamics helper_link_state helper_current_reference helper_current_link_runtime helper_frequency_publication helper_frequency_snapshot helper_utc_map helper_mean_caller helper_punctuation_clock helper_cold_input_stage helper_measurement_history helper_joint_clock helper_joint_clock_query helper_native_work_bound helper_fft_probe_prepay helper_frequency_coverage helper_phase_chord helper_native_timing helper_native_timing_interleaved_v2 helper_compact_acquisition helper_physical_capture helper_calendar_bandwidth
+  123   helper_compact_long_payload helper_compact_calendar helper_compact_phase_raw helper_compact_phase_long helper_compact_dispatch

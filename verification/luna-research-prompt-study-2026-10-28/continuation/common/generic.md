@@ -1,0 +1,1 @@
+Continue useful research from the shared discovery packet. Avoid duplicating existing evidence and address consequential uncertainty. Derive your own next questions and searches. Return supported incremental contributions and their decision implications under the common contract; stop at diminishing value or budget. It is acceptable to find no useful addition.

@@ -1,0 +1,170 @@
+{
+  "assignment_id": "P517-D",
+  "conversation_id": "p517-scout-d",
+  "source_baseline": {
+    "project": "software-foundation",
+    "revision": "4c471cb93702cdc03b5230bfa33372355424b665",
+    "dirty_state": "Scenario says clean based on git status and diff; not independently checked here.",
+    "scope": "Read-only assigned excerpts R09-R12 and five primary-research searches. No project tree, tests, builds, or runtime behavior inspected/executed.",
+    "symptom_boundary": "All eight reports are hypothetical and under-specified; R09-R12 are neighboring integrity evidence, not asserted causes."
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "claim": "For any focused regression-selection decision, record the concrete test/configuration and consumer identity, and check selection quality against the broader suite before treating reduced execution as adequate.",
+      "research": {
+        "source": "Bavishi et al., “An empirical comparison of four Java-based regression test selection techniques,” Journal of Systems and Software 186 (2022), article 111174, DOI 10.1016/j.jss.2021.111174; published publisher abstract/index.",
+        "locator": "https://www.sciencedirect.com/science/article/pii/S0164121221002582",
+        "status": "Search-indexed publisher abstract; direct open returned HTTP 403, so full paper was not inspected.",
+        "support": "Study compares four RTS techniques on revisions from five open-source Java projects; reports differing safety/precision, and selected suites had 8.75% lower fault-detection ability than the original suite. Selection can save time but can lose detection ability.",
+        "applicability": "Supports checking selection safety/precision and retaining a broader/full-suite qualification boundary. Does not quantify risk for this C++/Rust/CMake/GUI repository or for hand-picked targeted tests."
+      },
+      "decision_use": "Reject making diff-to-test selection the only acceptance evidence for any of R01-R08. Use changed helper/caller and selected configuration to choose a focused diagnostic; retain the exact broader acceptance requirement and report what selection cannot cover.",
+      "predicted_alternatives": [
+        "If symptom follows a particular configured consumer/provider or selected retained input, target that path and configuration.",
+        "If symptom reproduces across the relevant configured consumers, suspect shared helper/state or a broader contract and widen coverage."
+      ],
+      "cheapest_discriminator": "For a chosen report, preserve commit, exact configuration/cache, executable/provider/input identity and matched input; run one focused existing fixture or tiny offline fixture through the actual helper-to-consumer path, comparing the relevant configurations. Only widen after the focused check discriminates or leaves a coverage gap.",
+      "limits": "No configuration or consumer for the hypothetical reports is known; no tests were run. A selection result is not fault-detection proof."
+    },
+    {
+      "id": "F2",
+      "claim": "Configuration-aware selection is valuable where the software actually has modeled product variants, but evidence for SPL-wide sampling does not establish coverage for this repository’s ordinary build options or providers.",
+      "research": {
+        "source": "Jung, Kang, Lee, “Automated code-based test selection for software product line regression testing,” Journal of Systems and Software 158 (2019), article 110419, DOI 10.1016/j.jss.2019.110419; published publisher abstract/index.",
+        "locator": "https://www.sciencedirect.com/science/article/pii/S0164121219301931",
+        "status": "Search-indexed publisher abstract and indexed excerpts; direct open returned HTTP 403, so full paper was not inspected.",
+        "support": "Evaluated on six product lines; reports average end-to-end regression-time reduction of 14.8–49.1% against repeatedly applying a single-product RTS technique. The paper conditions its no-missed-fault claim on Rothermel assumptions and deterministic product-line runs.",
+        "applicability": "Useful only by analogy when valid configurations/feature variability are explicit and selection has configuration-to-code/test mappings. No such feature model or SPL claim is supplied here."
+      },
+      "decision_use": "For R03 provider, R04/R05/R06 adapter/host, and R07/R08 feature/build variants, require exact selected options/provider/host and test-registration gates before reusing another configuration’s result. Do not prescribe exhaustive combination testing or assume the SPL result transfers.",
+      "predicted_alternatives": [
+        "If test registration/consumer path changes with the configuration, one configuration’s pass does not cover another.",
+        "If the relevant path and inputs are shared and configuration-independent, a focused common-path test may discriminate without a configuration matrix."
+      ],
+      "cheapest_discriminator": "Capture the active CMake cache/options, provider/package identity, selected executable or adapter, and registered case; compare only the two implicated configurations with the same inputs and consumer assertion.",
+      "limits": "Only six SPLs and stated determinism/safety assumptions; search snippet does not expose full threat analysis. Actual project configuration and gates are unknown."
+    },
+    {
+      "id": "F3",
+      "claim": "Environment/setup differences can confound repeated-failure interpretation; preserve environment identity and classify setup failure separately, but do not presume resource pressure causes flakiness.",
+      "research": {
+        "source": "Berndt, Bach, Baltes, “Do Test and Environmental Complexity Increase Flakiness? An Empirical Study of SAP HANA,” ESEM ’24, DOI 10.1145/3674805.3695407; published ACM/IEEE conference paper, full author-hosted paper opened.",
+        "locator": "https://assets.empirical-software.engineering/pdf/esem24-flakiness-correlations.pdf",
+        "status": "Full 10-page paper inspected. Primary single-industry study; authors explicitly caution about SAP HANA external validity and confounding (paper lines 691-705).",
+        "support": "Two 12-week SAP HANA datasets (production and targeted experiments; >1.5M test results) found execution-time/flakiness correlations (r=.74 and .79), but no significant relationship with system load; CPU/memory relationship was inconclusive (lines 24-44, 662-706, 714-738). Authors caution splitting tests adds setup overhead (lines 611-619).",
+        "applicability": "Supports logging matched setup/environment and separating setup failures from product failures. Does not establish that the assumed 8 CPU/16 GiB campaign envelope is adequate, that capacity explains a report, or that an un-repeated failure is flaky."
+      },
+      "decision_use": "A missing dependency, wrong provider/build option, unavailable test host/display, or invalid build tree is a setup outcome. A valid setup that fails on matched inputs is product evidence. Keep BUILD_JOBS, CMAKE_BUILD_PARALLEL_LEVEL, effective worker budget, host/platform, provider, and relevant cache/input identity with any result.",
+      "predicted_alternatives": [
+        "Failure only under a distinct setup/configuration suggests environment or consumer-selection confounding.",
+        "Failure repeats with identical setup and input through the same consumer strengthens a product-path hypothesis.",
+        "Inconsistent repetitions remain unresolved/flaky until enough controlled evidence distinguishes product nondeterminism from environment effects."
+      ],
+      "cheapest_discriminator": "Before execution, validate the exact prerequisite/configuration with a minimal offline/helper fixture; then repeat only the focused check with identical source, input, options, and environment identity. Do not launch broad builds to diagnose a helper."
+    }
+  ],
+  "local_source_map": [
+    {
+      "unit": "R11",
+      "refs": [
+        "gui/source_group.py:36-70 validates portable paths, ordinary file/link properties, digest and metadata.",
+        "tests/test_gui_source_group.py:72-79 verifies retained checkout lock/revision/tree metadata; :81-115 constructs a tiny CMake input fixture and checks default/explicit source selection.",
+        "cmake/GuiInputs.cmake:5-35 selects explicit FOUNDATION_GUI_SOURCE or FOUNDATION_GUI_INPUT_GROUP, otherwise defaults to third_party/gui-inputs; prohibits selecting both; restore path populates FOUNDATION_GUI_SOURCE; records configure dependencies; requires include/gui."
+      ],
+      "callers_consumers": "gui/CMakeLists.txt:1-8 registers build directory, host options, includes GuiInputs.cmake and invokes foundation_gui_inputs(); :11-20 watches owned source trees and a boundary-check helper. This is a concrete helper-to-configured-GUI-input path, not evidence that a GUI binary/test ran.",
+      "test_limits": "The excerpt describes offline configure/input-selection tests with tiny retained inputs and no compiler/toolkit target; registrations are not execution evidence. Exact configured input/group and downstream test/host selection remain unknown."
+    },
+    {
+      "unit": "R12",
+      "refs": [
+        "tools/build_capacity.py:1-9 calls its CPU/RAM rule an admission heuristic, not a memory cap or RSS prediction; automatic nested work divides inherited worker budget.",
+        "tools/build_capacity.py:18-20 sets 768 MiB/job and FOUNDATION_WORKER_BUDGET.",
+        "tests/test_build_capacity.py:16-57 inspect candidate CI workflow steps, resolve auto/explicit capacity, reject invalid selectors before export; :59-85 use a tiny CMake/Ninja fixture to check numeric CMAKE_BUILD_PARALLEL_LEVEL propagation and that 'auto' fails."
+      ],
+      "callers_consumers": "Tests extract workflow steps from .github/workflows/candidate.yml for source/sanitizer jobs, then inspect later child build environment. This is a test-to-CI-workflow consumer path; the supplied excerpt does not show every production build caller.",
+      "test_limits": "The excerpted test itself has not run here. Its stubbed default_jobs result and tiny custom CMake target verify selector/export/plumbing contracts, not actual compiler memory behavior, project build success, or optimal throughput. Scenario capacity is an assumption, not measured setup."
+    },
+    {
+      "unit": "R09",
+      "refs": [
+        "cmake/DependencyPaths.cmake:3-19 recognizes generated archives only under the declared build root; :22-53 validates physical path containment across sysroot/source/build/GUI roots; :56-77 rejects unresolved expressions and can hash-check library bytes.",
+        "tests/test_sdk_paths.py:26-69 cover child/supplier scope, external paths, alias retargeting and byte-change install guard in source."
+      ],
+      "callers_consumers": "The excerpt identifies CMake dependency-check/build and install-guard consumers, but not the full caller chain or active project configuration.",
+      "test_limits": "Registered test code is source evidence only. Particularly relevant to SDK/provider configuration identity, but does not prove R03 symptom or any R01-R08 report."
+    },
+    {
+      "unit": "R10",
+      "refs": [
+        "tools/process_tree.py:1-18 documents platform-specific descendant ownership and startup conditions; :34-48 defines errors, observations, startup metadata and sample bounds.",
+        "tests/test_process_tree.py:14-18 imports the actual helper; :20-70 cover inherited/overridden child environment, joined output child, and rejecting/stopping an outliving child."
+      ],
+      "callers_consumers": "Root CMake list names tests/test_process_tree.py per source-index. No production caller/entry point is present in assigned R10 excerpt, so an actual build/test consumer relationship cannot be claimed.",
+      "test_limits": "Native helper tests are platform-gated and require supplied process supervision; no run here. Source itself says cooperating program supervision, not hostile-process confinement. Would help only if the failing command is actually launched through this helper."
+    }
+  ],
+  "rejected_or_qualified": [
+    {
+      "candidate": "Use only change-based selected tests as a universally safe substitute for broader regressions.",
+      "reason": "Rejected: 2022 RTS comparison reports differing safety and an 8.75% lower fault-detection ability than the original suite. Its Java subjects do not quantify this repository, but they contradict a general zero-loss assumption."
+    },
+    {
+      "candidate": "Assume CPU contention/build capacity causes intermittent failures.",
+      "reason": "Rejected as an assumption: SAP HANA study found no load correlation and inconclusive CPU/memory relationships. R12 explicitly calls its heuristic an admission estimate, not a memory limit. Measure the actual environment and keep the result open."
+    },
+    {
+      "candidate": "Import SPL configuration sampling as proof that a small set covers all build options/providers.",
+      "reason": "Inapplicable absent an explicit feature model, mapping and stated assumptions; six product lines are not this repository's CMake/provider matrix."
+    },
+    {
+      "candidate": "Use R09-R12 to attribute any hypothetical symptom.",
+      "reason": "Rejected: scenario explicitly calls them neighboring evidence; there is no report naming any of these helpers or a reproduced path."
+    }
+  ],
+  "unresolved": {
+    "original_unknowns": "For each hypothetical report: exact command, input, before/after record or output identity, provider/package, host/adapter, event trace, build cache/options, test registration/availability, and raw logs remain unknown as stated in scenario.md.",
+    "source_gaps": "Only assigned excerpts were read; no broader tracked inventory, full callers, full tests/docs, or project tree inspected. R10 production caller absent. R11/R12 excerpts show selected consumer paths but not actual invocation/runtime. Search-indexed RTS papers were not accessible beyond indexed abstract/snippets.",
+    "runtime": "No project commands, tests, builds, configuration, benchmark, or reproducers run; all behavior predictions are source-derived and literature-informed."
+  },
+  "web_provenance": {
+    "counts": {
+      "logical_operations": 8,
+      "search_queries": 5,
+      "open_items": 3,
+      "failed_open_items": 2
+    },
+    "searches": [
+      "regression test selection safe selective testing empirical study test selection validity paper",
+      "software product lines configuration testing empirical study configuration-aware test selection paper",
+      "empirical study flaky tests environmental factors test setup configuration original paper",
+      "configuration-aware regression test selection empirical study software product line test selection original paper",
+      "empirical study test environment configuration causes flaky tests setup failures environmental factors software testing paper"
+    ],
+    "opens": [
+      {
+        "source": "ScienceDirect, An empirical comparison of four Java-based regression test selection techniques",
+        "result": "403 Forbidden; indexed publisher abstract used; no full text."
+      },
+      {
+        "source": "ScienceDirect, Automated code-based test selection for software product line regression testing",
+        "result": "403 Forbidden; indexed publisher abstract/snippets used; no full text."
+      },
+      {
+        "source": "Author-hosted ESEM 2024 SAP HANA flakiness study PDF",
+        "result": "Opened and inspected full 10-page paper."
+      }
+    ],
+    "unspent": {
+      "logical_operations": 0,
+      "search_queries": 0,
+      "opens": 3
+    },
+    "note": "Budget counted per query/open item, not tool invocation. Searches and failed opens counted. No further query/open was made."
+  },
+  "checks": {
+    "source_review": "Read request, p517 contract/task/scenario/source-index/routing/scout-role plus R09-R12 excerpts only.",
+    "project_checks": "Unexecuted by instruction: no tests, builds, or project code.",
+    "output": "This artifact plus provenance only."
+  }
+}

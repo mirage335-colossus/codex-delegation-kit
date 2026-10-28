@@ -220,6 +220,46 @@ permission and does not automatically commit or push changes. If installation
 or preservation is blocked, retain the source changes and report the exact
 remaining step rather than claim it completed.
 
+## Weekly usage cost
+
+For ChatGPT Desktop Codex included subscription allowance, use this unitless
+relative **weekly usage cost** planning index, based on the user's report on
+October 28, 2026:
+
+| Model | Relative weekly usage cost | Basis |
+| --- | ---: | --- |
+| GPT-6 Luna | 0.1 | User's current planning estimate |
+| GPT-6.1 Terra | 1 | Normalization baseline |
+| GPT-6.1 Sol | approximately 10 | User's current relative estimate |
+| GPT-6 Astra | approximately 20 | User's provisional relative estimate |
+
+The user reports Sol's included-allowance usage rate increased approximately
+fivefold versus its previous rate in the preceding few days. The current Sol
+index of approximately 10 already reflects that report; do not multiply it by
+five again. The change date and ratios have not been independently verified.
+These estimates describe rough relative allowance pressure and are not calibrated
+to a task, token count or message rate. A value of 1 means
+neither 1% nor one week's allowance. They do not predict remaining capacity,
+reset times, absolute campaign usage or dollar charges.
+
+Keep this index separate from API USD prices and purchased-credit rates; do not
+derive its factors from either. Luna's factor of 0.1 is supplied by the user,
+not inferred from API prices or token totals. Frozen study records retain the
+earlier assumptions as historical evidence; use this current index for new
+planning. [Official pricing guidance](https://learn.chatgpt.com/docs/pricing?codex-pricing-plans=individual)
+distinguishes included subscription usage from credit billing and notes that
+context, reasoning, tools and caching affect consumption. It does not establish
+the user's specific relative estimates. Dated API examples remain API examples.
+
+Use the estimates to explain the value of compact Luna evidence packets, reused
+expert context and bounded Sol/Astra consultations. Preserve required architecture
+and strategic reviews, acceptance standards, role pins, primary model, service
+tier and authorization boundaries. The index supplies no model permission or
+runtime accounting/enforcement. The allocation preference below remains subject
+to quality and task fit. Recalibrate from matched
+work and observed allowance changes when available, labeling uncertainty;
+agent counts or token budgets alone cannot establish weekly campaign cost.
+
 ## Routing
 
 Treat model/effort eligibility and engineering responsibility as separate
@@ -235,9 +275,18 @@ or look up prices to decide eligibility. An explicit user instruction can
 authorize a scoped exception; preserve its stated scope and do not change
 global defaults.
 
-For a known high-end parent context with eligibility established by current
-session evidence or explicit user instruction, mixed-quality routing is
-permitted: use the existing pinned `luna_scout` and `luna_worker`
+The user's standing native mixed-model preference authorizes the existing
+Luna, Terra, Sol and Astra settings for the responsibilities below, including from a Terra
+main chat. Preserve the selected primary model and effort; escalate through
+bounded subagents. This is explicit routing authorization, not an inference
+from primary identity or price. A later task-specific Luna-only, inherit-only or
+other explicit ceiling wins. Verify support and available effective settings;
+report unavailable required review instead of substituting silently. Controller
+runs retain their uniform explicit model/effort/tier boundary; this preference
+adds no automatic override or permission to move restricted work elsewhere.
+
+Under that preference, or a known high-end parent context with eligibility
+established by current-session evidence, use `luna_scout` and `luna_worker`
 (`gpt-6-luna`, `high`) for suitable bounded evidence and implementation work.
 Retain consequential design, diagnosis, integration, independent review, and
 acceptance with the permitted primary in default engineering mode or the
@@ -251,13 +300,14 @@ monitoring an existing run. A settled assignment has a clear outcome,
 interfaces, ownership, and validation route; the worker can make ordinary
 implementation choices without waiting for the strong owner to pre-solve it.
 
-For a known lower-cost context, use `inherited_scout`, `inherited_worker`,
+When the applicable routing boundary requires inherited settings,
+use `inherited_scout`, `inherited_worker`,
 and `inherited_reviewer` for their evidence, implementation, and independent
 engineering responsibilities. These model-neutral role definitions omit model
 and reasoning-effort selectors; also omit spawn-time model and effort
 overrides. The inherited reviewer can own consequential diagnosis, design,
 integration, acceptance, or takeover without a stronger-model prerequisite.
-Unknown active context or unknown eligibility defaults to native inheritance:
+Unknown active context or eligibility without mixed-model authorization defaults to inheritance:
 omit model and effort overrides and do not guess. Unclassified work also
 inherits the primary's settings when the native tool supports inheritance.
 Never set a global child-model default to steer a task. Omission inherits only
@@ -271,7 +321,17 @@ unpinned default role may be used with the role instructions and no overrides;
 report the limitation. Do not substitute a pinned role whose model or effort
 exceeds the permitted boundary. Current-session capability evidence does not
 authorize future sessions; establish the boundary again from resolved runtime
-context.
+context. The standing user preference supplies authorization across native
+sessions, not evidence of future availability or an override of a newer ceiling.
+
+Prefer Luna for broad inventories, long logs, possibly relevant source, caller
+and test mapping, and independent regression groups. Bound each question and
+return compact references, contradictions, coverage limits and original failures.
+Reuse that map rather than copying the repository or whole chat to each expert.
+Sol/Astra still inspect original user requirements, critical source/diffs and
+decisive evidence directly; summaries must not hide strategic uncertainty.
+Parallel tests need stable inputs, disjoint edits and actual resource admission;
+many reasoning agents do not imply equally many concurrent builds or timing runs.
 
 Keep consequential ambiguity, architecture/shared contracts, concurrency,
 uncertain ownership, tightly coupled changes, technical integration, and
@@ -313,84 +373,244 @@ validation support, request a bounded worker assignment through the same
 coordinator, with ownership, dependencies and the authorized validation
 route. No particular message API is guaranteed.
 
-## Sparse Astra strategic review
+## Evidence discovery and Terra screening
 
-Use `astra_expert` (`gpt-6-astra`, `medium`) only for a bounded strategic question
-whose likely value justifies an expensive consultation. Under this user's
-mixed-model preference, this is a standing scoped exception, including from a
-verified GPT-6.1 Sol primary; it does not change the primary or other role pins.
-A hard Luna-only, inherit-only, or other explicit model/effort ceiling wins.
-Unknown active settings or eligibility still defaults to inheritance unless the
-user explicitly authorizes this consultation. Verify supported effective settings
-where available; a catalog entry does not prove access. Preserve service tier,
-resource allocation, permissions, holds and budgets. Denial never authorizes a
-substitute. Workers request this advice through the coordinator, never by nesting
-delegation or changing their own model.
+For substantial engineering/research work, substantially expand useful Luna
+investigation before expensive experts need to request each missing search.
+Give Luna most suitable independent discovery and diagnostic branches, including
+open questions that could reveal a simpler approach, rather than only obvious
+mechanical work or confirmation of the owner's favored solution.
+Honor the user's preference for **at least 10 times the prior useful eligible
+Luna allocation**, relative to a stated comparable baseline, where enough
+distinct valuable work exists. Prefer more source coverage, discriminating
+experiments and grounded alternatives, not longer answers or extra turns.
+If the prior baseline is unavailable, say so; do not claim a measured tenfold
+increase. This is an allocation preference, not a token floor, agent quota or
+requirement to expand trivial work. Never manufacture work to meet it.
 
-The coordinator needs only a concrete trigger, one question and a bounded packet.
-Consider the adviser when one of these conditions holds:
+The user also aims for Luna to approach **at least half overall weekly usage
+cost**. Treat this as a conditional measured target, not an instruction to burn
+allowance or suppress necessary expertise. The current planning index supplies
+Luna's factor of 0.1; adequate model-attributed allowance telemetry remains
+missing. Token share, agent counts and API-dollar shares cannot establish the
+target; report it as unverified
+until matched observations support it. Preserve budget limits and useful progress.
 
-- A consequential blocker survives distinct, faithful discriminating experiments,
-  or actual evidence contradicts the current causal explanation. Relevant commit
-  differences may expose an assumption or regression that local fixes missed.
-- The original user request, cross-component constraints or acceptance criteria
-  conflict with the current plan, and resolving the conflict changes substantial
-  work. Give the adviser the relevant original wording, not just a summary.
-- A costly architectural commitment needs comparison with simpler alternatives,
-  or a difficult technical/mathematical invariant spans evidence that the current
-  approach has not reconciled. Ask for a checkable argument and a useful next test.
+Proactively map plausible neighboring source, callers, manifests, tests, docs and
+relevant history. Search authoritative papers and first-party technical references
+when they can expose an algorithm, measurement method or architecture alternative.
+Use curated engineering reports, issue discussions and Stack Overflow as leads;
+check their version, assumptions and examples against primary sources and the
+actual implementation. A paper's benchmark is not proof for the current project.
+Preserve contrary evidence and applicability limits, not just supporting examples.
+Do not substitute broad crawling for a decisive experiment already available.
 
-These are judgment gates, not a stronger-model requirement. Use cheap decisive
-experiments first when they are clear. If agents neglected differential diagnosis,
-restore distinct hypotheses, matched comparisons and predicted outcomes promptly;
-neglect alone is not evidence of model insufficiency. A consultation may help
-design those discriminators when that design is itself the blocker. Do not force
-hours of futile work before a clearly consequential decision, or promise
-exponential narrowing. Routine edits, bookkeeping, ordinary patch review, an
-available slot, repository size and elapsed time alone do not justify Astra.
+An initial source map need not end research when consequential uncertainty remains.
+Continue with a bounded Luna search when additional primary-source, citation, or
+caller evidence could change the next decision. Carry forward the original task,
+known findings and gaps; derive useful questions, seek incremental alternatives,
+counterevidence or assumption corrections, and verify each source's identity,
+publication/access status, support and applicability. Mark abstract-only,
+preprint and other limits; keep unsupported claims unresolved. Return compact
+claim, source/locator, limits and decision/check evidence. Do not require this
+continuation, a complete solution, or Terra frontier screening before ready expert
+judgment. Check the remaining finite budget before each batch and stop when the
+evidence is sufficient, repetitive, inapplicable, blocked, or has marginal value.
 
-Keep use very sparse: one adviser at a time, one bounded question per consultation,
-and no repeat on the same evidence. First act on the recommendation or establish
-why it cannot work. Roughly hourly during active engineering, an existing progress
-update may consider whether new evidence or strategic drift warrants review;
-skip it when useful work is progressing. This is an eligibility checkpoint, not
-a recurring model call, timer, automation or requirement to wait an hour. Avoid
-more than one routine consultation in that interval; an earlier one needs a
-specific high-cost wrong-turn risk or explicit user request. Idle time, CI waits
-and chat inactivity do not accumulate review obligations. Carry this decision in
-existing task history; add no timestamps ledger or scheduler state. This guidance
-does not enforce a token, time or billing cap in code.
+Optional continuation prompt: “Given the original objective, constraints and
+supported findings below, continue useful research only where evidence could
+change the next decision. Derive your own questions; avoid duplicates; verify
+primary-source support and applicability; retain counterevidence and limits.
+Return incremental findings with source locators and decision implications. Check
+the budget before each batch and stop at sufficiency or diminishing value. It is
+acceptable to find no useful addition.”
 
-Supply the relevant original prompts, desired outcome and acceptance criteria,
-current approach, source/base revisions and relevant dirty files, focused paths
-or commit range, original failures and tried hypotheses, one unresolved question,
-authorized read-only scope, and a finite time/context/output budget within the
-task's existing limits. Let the adviser retrieve needed source instead of copying
-whole chat histories or repositories. Disk size and a short commit message do not
-bound the relevant token count or reachable history. Mark omitted context and
-unobserved settings. Use existing evidence references and retain original failures.
+Each investigation needs a decision use, source/coverage scope, finite budget,
+next discriminator and stop condition. Widen into seemingly less relevant code
+when an identified hypothesis or coverage gap justifies it; this need not wait
+for Sol/Astra to suggest the search. Dispatch independent branches within actual
+capacity, sharing stable captures and avoiding duplicate builds. Stop or redirect
+branches adding weak relevance, repeated claims, expensive review or delay without
+useful evidence. Discovery, settled implementation and validation can overlap;
+research is not a compulsory phase barrier before useful work.
 
-The adviser reads source and patches, may use permitted private scratch and bounded
-checks, and returns missed requirements, evidence, uncertainties, minimal viable
-alternatives and the next discriminating test with predicted outcomes and a stop
+In default engineering mode, use an authorized Terra primary to screen Luna
+findings when useful. Otherwise,
+the standing preference permits a supported unpinned native assignment explicitly
+selecting `gpt-6.1-terra` and supported effort for bounded screening. Preserve the
+main model and global defaults; never try to weaken a pinned Sol role with spawn
+overrides to obtain Terra. No new registered role or controller model override is
+implied. If Terra is unavailable or outside a task-specific ceiling, use the
+permitted owner and disclose the limitation. Do not spawn a redundant reviewer
+when the permitted primary can perform the same screening cheaply.
+
+Terra checks revision/source identity, support for claims, relevance, duplicate
+work, contradictions, material exclusions and remaining uncertainty. Return
+unsupported or incomplete findings for a bounded factual follow-up when useful;
+do not launder speculation into accepted facts. Screening is not architectural
+approval, independent patch acceptance or proof that a runtime check occurred.
+Do not erase dissent or uncertainty to make the packet shorter.
+
+Keep detailed evidence at its existing source/reference. Send experts a compact
+decision packet: relevant original user wording, accepted facts and precise
+references, a few viable alternatives, practical constraints, contradictions,
+the unresolved consequential question and next falsifier. Do not forward raw
+search output, every agent transcript or speculative answer collections. Experts
+must inspect critical originals directly and retrieve missing context. Assess
+whether screening actually reduces total expert input and rework; summaries that
+require experts to reconstruct everything have not saved useful work.
+
+Preserve early strategic brainstorming and the Sol architecture gate below.
+When a consequential algorithm, objective, accuracy/resource bound or redesign
+question is ready, obtain the required expert judgment immediately; do not wait
+for a broad search or Terra screening round to finish. Astra remains encouraged
+for concrete strategic risk and diminishing returns, without a clock-based cap.
+Send a focused question and sufficient evidence; return separable factual
+follow-ups to Luna through the coordinator. Do not require discovery of a complete
+solution before seeking the expertise needed to choose the right formulation.
+
+This workflow uses native assignments and existing evidence, not a new scheduler,
+quota controller or nested delegation scheme. The automatic controller retains
+its uniform explicit run model/effort/tier. Holds, original failures, deadlines,
+repair allowances, ownership and independent acceptance remain unchanged.
+
+## Strategic brainstorming and human input
+
+Before substantial implementation of a consequential algorithm or architecture,
+check whether the approach can meet the real objective even if implemented
+correctly. In existing task history retain a compact decision: original outcome;
+relevant accuracy, latency, operating-range and resource constraints; necessary
+assumptions and missing facts; current approach and one or two simpler plausible
+alternatives; cheapest falsifying experiment or checkable argument; and evidence
+for continuing, redesigning or stopping that branch. Do not invent numerical
+requirements. Routine clear fixes need no ceremonial brainstorm or new document.
+
+Under the standing mixed-model preference, every high-level software architectural
+decision requires Sol review before substantial dependent implementation. Use
+`sol_expert`, or an authorized Sol primary explicitly reviewing the proposed
+approach, including its own design. Authorized Astra review covering the same decision also meets
+this minimum. Include algorithm family, measurement/objective definition, shared
+contracts, component/state boundaries, data representation, concurrency/resource
+strategy and assumptions carrying substantial downstream work. Batch related
+decisions; ordinary choices within a settled contract need no separate review.
+Independent patch acceptance remains a separate existing requirement. Revisit materially
+changed decisions or invalidated assumptions, not unchanged ones. A newer explicit
+Luna-only/inherit-only engineering instruction supersedes the standing model
+minimum: use permitted review, disclose the different setting and continue within
+that instruction. A controller's uniform run policy likewise remains authoritative.
+If the task explicitly requires both Sol review and an incompatible ceiling,
+surface that conflict and hold only its dependent commitments. Do not bypass a
+restricted run or claim inherited review met a Sol requirement.
+
+Raise consequential unresolved requirements and tradeoffs to the user early,
+while a new chat is more likely to have their attention. Present a concrete
+proposed direction, the decision it changes and a focused question; do not ask
+them to choose routine implementation details. Use supported asynchronous
+questions when available. Later in long work, also invite clarification or
+alternative approaches when they could prevent a costly wrong turn. Continue
+independent authorized work and reversible experiments under a stated assumption
+while an optional answer is pending. Allow a reasonable response opportunity;
+unanswered suggestions are not approval. A missing prerequisite, permission or
+irreversible choice holds its dependents and never becomes authorized through
+silence. Do not infer user attention from time alone or repeatedly ask the same
+unanswered question without new context. Add no reminder, automation or ledger.
+
+Reassess feasibility at meaningful milestones and when practical error, latency
+or compute bounds contradict the plan, local metrics improve without end-to-end
+progress, or small optimizations leave the required gap implausibly large. This
+applies even when tests pass and causal narrowing continues. Compare continuing,
+a small correction, a simpler redesign and deferring optional work. Stop nearby
+speculative tuning when a necessary assumption is falsified or no credible route
+to the required constraints remains; obtain the bounded strategic decision and
+continue other useful work. Required work stays outstanding if deferred. Evidence
+justifies redirection; model agreement alone does not. Preserve original failures,
+budgets, repair allowances, ownership and acceptance criteria.
+
+## Astra strategic review
+
+Use `astra_expert` (`gpt-6-astra`, `medium`) proactively for bounded consequential
+brainstorming and review of its realization in written code, where a wrong turn
+could cost substantial work. The standing native mixed-model preference covers
+Terra and Sol primaries; it changes neither the primary nor other role pins.
+A hard Luna-only, inherit-only or other explicit model/effort ceiling wins.
+Without applicable mixed-model authorization, unknown eligibility defaults to
+inheritance. Verify supported effective settings where available; a catalog entry
+does not prove access. Preserve tier, resource allocation, permissions, holds and
+budgets. Denial never authorizes a substitute. Workers request advice through the
+coordinator, never by nesting delegation or changing their own model.
+
+The coordinator needs a concrete trigger, one question and a bounded packet.
+Consider Astra at these events; do not require Sol to exhaust attempts first:
+
+- Initial brainstorming has a consequential uncertain objective, algorithm or
+  architecture. Review before costly commitment when comparing approaches or
+  testing feasibility is itself difficult. Later inspect a focused implementation
+  diff to check that code realizes the strategy and its practical safeguards.
+- A consequential blocker survives faithful discriminating experiments, or
+  evidence contradicts the causal explanation. Relevant commit differences may
+  expose an assumption or regression that nearby fixes missed.
+- Original user requirements, cross-component constraints or acceptance criteria
+  conflict with the plan and resolving that conflict changes substantial work.
+  Supply the relevant original wording, not only a summary.
+- A costly architectural commitment needs simpler alternatives, or a difficult
+  mathematical/technical invariant remains unreconciled. Ask for a checkable
+  argument and useful next test.
+- Practical accuracy, acquisition, latency or compute bounds challenge feasibility,
+  internal scores improve without the user's observable result, or local tuning
+  reaches diminishing returns. Review even if each step passes tests; do not wait
+  for days of off-track work.
+
+These Astra selection gates use judgment; the architectural minimum above remains
+required. Use cheap decisive experiments when clear. If differential diagnosis
+was neglected, restore distinct hypotheses, matched comparisons and predicted
+outcomes; neglect alone does not prove model insufficiency. Astra may help design
+those experiments when that design is the blocker. Routine edits, bookkeeping,
+an available slot, repository size and time alone do not justify Astra.
+Consequential code review is in scope even when ordinary checks pass.
+
+Keep consultations focused: one adviser at a time, one bounded question and no
+repeat on unchanged evidence. Act on the recommendation or explain why it cannot
+work before repeating a nearby review. Reconsider strategy during early design
+and subsequent meaningful boundaries in existing progress updates. As active work
+lengthens (for example around an hour), context accumulates or returns diminish,
+lower the threshold for a fresh Astra perspective tied to a specific risk or new
+evidence. Several useful consultations may occur within an hour; there is no
+hourly cap or minimum wait. Time and observed token usage prompt reconsideration,
+not automatic paid calls or fixed 10M/100M thresholds. Do not invent usage, infer
+it from age or equate cached input with new reasoning. Idle time, CI waits and
+chat inactivity accumulate no review obligation. Add no timer or scheduler state.
+This is behavioral guidance, not enforced token, time or billing caps.
+
+Supply relevant original prompts, outcome and acceptance criteria, current
+approach and simpler alternatives, source/base revisions and dirty scope, focused
+paths/diffs, original failures and tried hypotheses, the unresolved question,
+read-only scope and finite context/time/output budget within existing limits.
+Use Luna's compact evidence map rather than copying whole histories/repositories;
+retain the critical source and original wording needed to challenge its framing.
+Let the adviser retrieve focused missing source. Disk size or a short commit
+message does not bound tokens or reachable history. Mark omissions and unobserved
+settings; retain original evidence.
+
+The adviser reads source and patches, may use permitted scratch and bounded checks,
+and returns overlooked requirements, evidence/uncertainty, simplest viable
+alternatives, the next discriminator with predicted outcomes and a decision/stop
 condition. It does not edit production source, orchestrate workers or accept its
-own advice as proof. The existing engineering owner retains integration and
-acceptance; required independent patch review remains separate. Do not restart
-repair allowances, override a stop or hold, or rerun unchanged checks by default.
+advice as proof. The engineering owner retains integration and acceptance;
+required independent patch review stays separate. Do not reset repair allowances,
+override holds or rerun unchanged checks by default.
 
-This is a native advisory role. The automatic controller continues to use one
-explicit model/effort/tier policy for every stage; adding the role grants no
-per-task override or automatic Astra escalation. Do not move restricted work into
-another run to bypass that boundary. A separately authorized consultation must
-still fit the shared allocation and cannot mutate or silently resume the run.
-Choose the role for demonstrated task fit, not an assumed parameter count or
-guaranteed superiority. Official guidance and mixed community reports inform
-these gates, not a claim that every Astra call beats Sol or Luna.
+This is a native advisory role. The automatic controller retains one explicit
+model/effort/tier policy for every stage: no per-task override or automatic Astra
+escalation. Do not move restricted work to another run to bypass that boundary.
+Separately authorized advice must fit shared allocation and cannot mutate or
+silently resume the run. Choose for task fit, not presumed parameter count or
+guaranteed superiority. Historical registration wording describes the role as
+"Sparse strategic review"; selection follows these current bounded event gates.
 
 ## Keep useful work moving after scouting
 
 Choose useful concurrency for the task and current routing strategy. The
-high-end mixed-model default remains quality-oriented bounded delegation.
+authorized mixed-model preference remains quality-oriented bounded delegation.
 Use aggressive parallelism when requested or useful for the task, using actual
 available native capacity without changing it. Preserve model, effort, service
 tier, routing, authorization, and resource limits. Do not impose agent quotas,
@@ -658,6 +878,11 @@ sandbox nor proof of cleanup. Parallelism remains bounded by actual allocated
 reasoning, process, memory and exclusive-resource capacity.
 
 ### General diagnostic work
+
+Apply the strategic feasibility checkpoint above to consequential design and
+optimization, even with passing tests or continuing causal progress. Its
+wrong-objective/redesign triggers are separate from the stagnation thresholds
+below; neither the general nor hosted-CI time heuristics delay them.
 
 Keep clear, low-impact fixes lightweight. For difficult or persistent failures,
 optimize reliable causal information gained per active elapsed hour. Automatically
@@ -1061,7 +1286,21 @@ Include main chats and all helpers in model usage, with input/cached-input and
 output by model where available. Use consistent per-session totals or interval
 deltas, not sums of repeated cumulative samples; cached input is a subset of
 input, not an extra total. Disclose missing telemetry and comparison limits.
+Report observed included-allowance changes separately from API dollars and paid
+credits. Label the relative weekly usage cost index above as an estimate, not
+measured quota consumption; do not convert token totals with uncalibrated weights.
 Agent counts, completed turns, token throughput, Luna token share, and large
 cached-input totals alone do not establish speed, cost savings, or quality.
 Keep this a small retrospective in existing records, not a mandatory per-scout
 reporting process.
+
+For the expanded Luna/Terra workflow, compare a few representative matched tasks
+against a stated prior allocation with unchanged independent acceptance. Define
+useful eligible investigation/coverage before comparing the tenfold preference;
+count accepted findings, consequential omissions, alternative discovery and
+strategic rework, not merely launches or tokens. Include sequential tasks and
+architecture-risk cases, expert input consumed, Terra screening, all-model usage,
+repairs and elapsed time. Judge total outcome and cost; more Luna can be wasteful
+if it increases expert reconstruction or delays necessary judgment. Compare
+weekly-allowance changes only when attribution is adequate, retain uncertainty,
+and leave the half-share target unverified when telemetry cannot establish it.

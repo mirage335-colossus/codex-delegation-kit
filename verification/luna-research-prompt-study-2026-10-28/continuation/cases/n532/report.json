@@ -1,0 +1,261 @@
+{
+  "case_id": "n532",
+  "started_utc": "2026-10-28T21:01:00Z",
+  "finished_utc": "2026-10-28T21:05:21Z",
+  "operations": [
+    {
+      "id": "n532-op-1",
+      "kind": "search",
+      "query_or_url": "sequential frequency estimation acquisition unknown sinusoid detection dwell time original paper IEEE sequential processing",
+      "result_status": "found primary IEEE paper on coherent/noncoherent/differentially coherent GNSS acquisition and secondary index record for Jaffer 1977 sequential DFT frequency estimation; no direct accessible primary content yet"
+    },
+    {
+      "id": "n532-op-2",
+      "kind": "search",
+      "query_or_url": "GPS carrier frequency acquisition coherent integration time detection probability noncoherent integration original paper",
+      "result_status": "found original-source abstracts on detection/false-alarm tradeoffs and staged acquisition; results are GNSS-specific"
+    },
+    {
+      "id": "n532-op-3",
+      "kind": "search",
+      "query_or_url": "\"Sequential frequency estimation and detection\" Jaffer 1977 full text",
+      "result_status": "secondary bibliographic/index record summarizes recursive DFT phase-alignment and fixed-memory Kalman approaches; not relied on as primary-source evidence"
+    },
+    {
+      "id": "n532-op-4",
+      "kind": "search",
+      "query_or_url": "\"Sequential frequency estimation and detection using the discrete Fourier transform\" 1170160",
+      "result_status": "same secondary record; no primary accessible article content"
+    },
+    {
+      "id": "n532-op-5",
+      "kind": "search",
+      "query_or_url": "site:ieeexplore.ieee.org \"A new method for signal acquisition\" frequency estimation detection probability frequency offset coherent integration C/N0",
+      "result_status": "found IEEE acquisition-combining paper and first-party J-STAGE article on double-dwell weak-signal acquisition"
+    },
+    {
+      "id": "n532-op-6",
+      "kind": "search",
+      "query_or_url": "GNSS tone acquisition detection probability false alarm coherent integration time frequency error paper abstract",
+      "result_status": "found original abstracts on fixed-Pfa comparisons, coherent/noncoherent integration, and acquisition thresholds"
+    },
+    {
+      "id": "n532-op-7",
+      "kind": "open",
+      "query_or_url": "https://doi.org/10.1109/ICASSP.1977.1170160",
+      "result_status": "failed; web retrieval tool reported DOI URL inaccessible; no primary-source content observed"
+    },
+    {
+      "id": "n532-op-8",
+      "kind": "open",
+      "query_or_url": "https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article",
+      "result_status": "opened first-party J-STAGE record; title, authors, journal/issue/pages/date/DOI, restricted-access status, and abstract available"
+    },
+    {
+      "id": "n532-op-9",
+      "kind": "search",
+      "query_or_url": "site:ieeexplore.ieee.org/document/ \"1170160\" Jaffer",
+      "result_status": "no primary IEEE result; secondary records only"
+    },
+    {
+      "id": "n532-op-10",
+      "kind": "search",
+      "query_or_url": "\"Sequential frequency estimation and detection using the discrete Fourier transform\" IEEE Xplore",
+      "result_status": "no primary IEEE result; secondary records only"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://doi.org/10.1109/TIT.1974.1055282",
+      "title": "Single tone parameter estimation from discrete-time observations",
+      "year": 1974,
+      "venue": "IEEE Transactions on Information Theory 20(5), 591-598",
+      "publication_status": "peer-reviewed journal article; journal, volume, issue, and pages established by bibliographic record; full content not accessible in this run",
+      "status_evidence_url": "https://cir.nii.ac.jp/crid/1364233269205840896",
+      "access_level": "metadata plus abstract from index record",
+      "content_locator": "Abstract/record: finite noisy discrete-time observations; derives CR bounds and ML algorithms, relates ML to DFT, and discusses threshold behavior.",
+      "seed_origin": true,
+      "peer_review_status": "not independently verified in source-checks; journal publication metadata only",
+      "seed_source_status_check": "source-check record unavailable"
+    },
+    {
+      "id": "S2",
+      "url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "title": "A Fast and Accurate Single Frequency Estimator",
+      "year": 1989,
+      "venue": "IEEE Transactions on Acoustics, Speech, and Signal Processing 37(12), 1987-1990",
+      "publication_status": "peer-reviewed journal article; institutional record identifies IEEE journal citation",
+      "status_evidence_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "access_level": "abstract only",
+      "content_locator": "Institutional record lines 21-45: single complex sinusoid in complex white Gaussian noise; Kay estimator is more computationally efficient than optimal ML and performs comparably at moderately high SNR.",
+      "seed_origin": true,
+      "peer_review_status": "not independently verified in source-checks; journal publication metadata only",
+      "seed_source_status_check": "source-check record unavailable"
+    },
+    {
+      "id": "S3",
+      "url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+      "title": "Frequency estimation of a single complex sinusoid using a generalized Kay estimator",
+      "year": 2006,
+      "venue": "IEEE Transactions on Communications 54(3), 407-415",
+      "publication_status": "peer-reviewed journal article; IEEE result record gives venue, issue, pages, date and DOI",
+      "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+      "access_level": "abstract/metadata only; open request failed HTTP 418",
+      "content_locator": "IEEE abstract: generalized differential-phase delay estimator changes variance/range/complexity tradeoffs; delay 2 approaches CRB asymptotically at high SNR and large N; comparisons include autocorrelation and periodogram.",
+      "seed_origin": true,
+      "peer_review_status": "not independently verified in source-checks; journal publication metadata only",
+      "seed_source_status_check": "source-check record unavailable"
+    },
+    {
+      "id": "S4",
+      "url": "https://ieeexplore.ieee.org/abstract/document/622965",
+      "title": "The Barankin bound and threshold behavior in frequency estimation",
+      "year": 1997,
+      "venue": "IEEE Transactions on Signal Processing 45(9), 2398-2401",
+      "publication_status": "peer-reviewed journal article; IEEE result gives publication metadata",
+      "status_evidence_url": "https://ieeexplore.ieee.org/abstract/document/622965",
+      "access_level": "abstract/metadata only; open request failed HTTP 418",
+      "content_locator": "IEEE abstract: CRB can become misleading near threshold; Barankin bound departure from CRB indicates threshold, with SNR*T/ln(T) described as a useful indicator for its studied model.",
+      "seed_origin": true,
+      "peer_review_status": "not independently verified in source-checks; journal publication metadata only",
+      "seed_source_status_check": "source-check record unavailable"
+    },
+    {
+      "id": "S5",
+      "url": "https://strathprints.strath.ac.uk/3515/",
+      "title": "Frequency estimation in the presence of Doppler spread: performance analysis",
+      "year": 2001,
+      "venue": "IEEE Transactions on Signal Processing 49(4), 777-789",
+      "publication_status": "peer-reviewed journal article; institutional record identifies IEEE venue and pagination",
+      "status_evidence_url": "https://strathprints.strath.ac.uk/3515/",
+      "access_level": "abstract only; repository explicitly says full text unavailable",
+      "content_locator": "Repository lines 14-20: multiplicative/Doppler spread smears spectral line; finite-sample CRBs and covariance-angle estimators are analyzed; coherent and noncoherent SNR both matter.",
+      "seed_origin": true,
+      "peer_review_status": "not independently verified in source-checks; journal publication metadata only",
+      "seed_source_status_check": "source-check record unavailable"
+    },
+    {
+      "id": "N1",
+      "url": "https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article",
+      "title": "Efficient Weak Signals Acquisition Strategy for GNSS Receivers",
+      "authors": [
+        "Weijun Lu",
+        "Yanbin Zhang",
+        "Dengyun Lei",
+        "Dunshan Yu"
+      ],
+      "year": 2016,
+      "venue": "IEICE Transactions on Communications E99.B(1), 288-295; DOI 10.1587/transcom.2015EBP3114",
+      "publication_status": "journal article record verified on publisher-hosted J-STAGE page; peer-review status not independently verified",
+      "status_evidence_url": "https://www.jstage.jst.go.jp/article/transcom/E99.B/1/E99.B_2015EBP3114/_article",
+      "access_level": "publisher abstract and bibliographic metadata accessible; page states journal restricted access; full text not inspected",
+      "content_locator": "J-STAGE article page lines 35-47, 71-74: double-dwell approach based on periodic spread-spectrum code; conventional threshold verification can extend mean acquisition time amid noise/interference; abstract reports theoretical/simulation comparison. The reported numerical benefit is GNSS-specific and is not transferred here.",
+      "first_content_operation_id": "n532-op-8",
+      "status_check_operation_id": "n532-op-8"
+    }
+  ],
+  "findings": [
+    {
+      "id": "N-F1",
+      "claim": "A staged screen/verification policy is a distinct acquisition design option worth measuring where an exploitable persistence or signal-structure cue exists: conventional threshold-based verification can spend extra time resolving false triggers, while a double-dwell scheme is studied to trade detection, false alarms, and mean acquisition time.",
+      "source_ids": [
+        "N1"
+      ],
+      "support_locator": "J-STAGE abstract, lines 71-74; article metadata/access at lines 35-47.",
+      "decision_implication": "Add one small matched discriminator to the eventual capture study: compare the current fixed/dwell policy with a two-stage early screen followed by confirmation, reporting time to first qualifying frequency estimate, missed/false publications, and total observation time on identical tone-present and absent-tone streams. Preserve every nonpublication and use the same false-publication criterion. Do not import the paper's claimed seconds saved or C/N0 performance.",
+      "assumptions": "The helper stream may offer stable structure across sequential looks that can support a confirmation rule; each look can be evaluated without changing frequency-only authority.",
+      "applicability_gap": "The source's scheme relies on periodic spread-spectrum code structure, while this task concerns a generated helper tone and current excerpts do not establish an analogous cue or threshold-verification workflow. It provides a design/validation lead, not evidence that double-dwell works here.",
+      "next_discriminator": "On matched synthetic captures, compare a single fixed confirmation interval against an early-look-plus-confirmation schedule, using tone-present and absent controls under the same offsets, reference levels, chunk partitions, and total deadline. Include false admissions and median/tail time-to-publication; inspect whether any gain survives payload/auxiliary activity.",
+      "support_operation_ids": [
+        "n532-op-8"
+      ],
+      "incremental_vs_seed": "Seed findings cover error tails, block versus phase-difference estimators, lag/range tradeoffs, and stationary versus time-varying mismatch. They do not identify sequential staged confirmation or mean time-to-acquisition as a design discriminator. The added paper makes that small validation comparison concrete, while its GNSS-specific periodic-code mechanism limits transfer."
+    }
+  ],
+  "rejected_or_redundant": [
+    {
+      "item": "Jaffer, ‘Sequential frequency estimation and detection using the discrete Fourier transform’ (ICASSP 1977)",
+      "reason": "Potentially relevant recursive coherent accumulation, but this run found only secondary summaries; the DOI open failed and targeted searches did not locate primary accessible content, so no substantive claim is included."
+    },
+    {
+      "item": "GNSS coherent/noncoherent integration papers and CFAR variants",
+      "reason": "Related first-party abstracts discuss detection probability and false alarm but mostly restate seed requirements for absent-tone controls and dwell-vs-sensitivity tradeoffs; no distinct additional claim was established within this bounded continuation."
+    }
+  ],
+  "unresolved": [
+    "Whether the helper acquisition path has sequential looks, threshold verification, or a temporal cue that can support a staged confirmation scheme; source excerpts do not establish this runtime behavior.",
+    "Whether staging improves time-to-frequency-publication at a controlled false-publication rate for this non-GNSS signal. The new paper's mechanism and numeric findings are specific to spread-spectrum GNSS and remain untransferred.",
+    "The existing seed uncertainties remain: threshold-tail behavior at the receiver's actual noise/activity conditions; whether chunk delivery preserves phase; estimator performance under drift/amplitude mismatch; and feasibility of the invented 0.10-Hz/6-s/95% target."
+  ],
+  "stop_reason": "Sufficient incremental validation evidence found from one first-party source. Stopped after 10 logical operations (8 search queries, 2 opens, including 1 failed open); 6 of 16 total operations and 8 of 10 source opens remained; the 8-query search allowance was exhausted. No useful primary evidence was recovered for the sequential DFT lead. Completed within the 12-minute target.",
+  "escalation_ready": "Yes. Retain the seed's four substantive cautions and do not treat the proposed metrics as observations. The only increment is a staged-confirmation versus fixed-dwell discriminator measuring both false admissions and time-to-frequency-publication; applicability is uncertain because the cited method exploits GNSS code periodicity. No estimator or architecture selected.",
+  "retained_seed_summary": "Seed evidence (S1-S5; discovery packet r842) supports threshold/outlier caution beyond CRB or finite reported uncertainty, a simple block/DFT baseline, differential-phase delay tradeoffs, and possible degradation under time variation. Source-checks note that peer review was not independently established for those records; accessible material ranges from index abstract and institutional abstract to IEEE abstract/metadata and repository abstract, and publisher/open failures are recorded in seed_operations. Seed applicability remains model-limited: complex sinusoid/AWGN and a Doppler-spread model do not establish behavior for this receiver. Keep the original discriminator set: matched block-vs-phase comparison, lag/reset/chunk controls, stationary vs drifted captures, error tails, absent-tone false admissions, and no phase/payload authority inference.",
+  "seed_operations": [
+    {
+      "kind": "search",
+      "query_or_url": "Rife-Boorstyn single-tone parameter estimation IEEE journal 1974",
+      "result_status": "found journal metadata and abstract via institutional/index records; publisher open blocked"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "Kay fast single-frequency estimator 1989",
+      "result_status": "found institutional repository record and abstract"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "single-tone frequency CRB / maximum-likelihood sample-duration evidence",
+      "result_status": "found multiple-tone interpolator paper and review discussion of threshold limits"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "frequency tracking / PLL / FLL acquisition academic evidence",
+      "result_status": "found generalized Kay estimator, tracking, and Doppler-spread papers"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://digitalcommons.uri.edu/ele_facpubs/1387/",
+      "result_status": "opened; full citation and abstract available, full paper unavailable on page"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://ieeexplore.ieee.org/document/1055282",
+      "result_status": "failed; IEEE robot/JavaScript gate"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://ieeexplore.ieee.org/abstract/document/1605457",
+      "result_status": "failed; HTTP 418"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://ieeexplore.ieee.org/document/651200/",
+      "result_status": "failed; IEEE robot/JavaScript gate"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "Barankin bound and threshold behavior in sinusoidal frequency estimation",
+      "result_status": "found IEEE abstract/metadata; publisher open attempted separately"
+    },
+    {
+      "kind": "search",
+      "query_or_url": "frequency estimation under Doppler spread / multiplicative noise",
+      "result_status": "found repository abstract and publication metadata for IEEE TSP article"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://ieeexplore.ieee.org/abstract/document/622965",
+      "result_status": "failed; HTTP 418"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://strathprints.strath.ac.uk/3515/",
+      "result_status": "opened; abstract and IEEE publication metadata; no full text"
+    },
+    {
+      "kind": "open",
+      "query_or_url": "https://www.sciencedirect.com/science/article/abs/pii/016516849090124H",
+      "result_status": "failed; HTTP 403"
+    }
+  ]
+}
