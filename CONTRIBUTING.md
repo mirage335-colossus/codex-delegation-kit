@@ -1,4 +1,8 @@
-# Contributing
+# Contributing to the source checkout
+
+This clone-only guide covers maintenance and validation. It is not part of the
+installed runtime; user-facing operation and installation steps are in the
+installed `README.md`.
 
 Cost documentation uses the [weekly usage cost definition](policy.md#weekly-usage-cost)
 for Desktop Codex included allowance: user-provided Luna = 0.1, Terra = 1, Sol
@@ -76,6 +80,19 @@ evidence using deterministic synthetic data and makes no model calls. It is a
 clone-only example, not an installed command or a substitute for the tests.
 The `supervisor.py` command interface and evidence schemas are documented in
 its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
+
+## Evaluation resources
+
+Study results and reproduction instructions belong to the source checkout;
+they are not runtime instructions or evidence that a project campaign passed.
+The [verification guide](verification/REPRODUCING.md) covers portable planning
+replay and historical usage arithmetic. The [research-prompt study](verification/luna-research-prompt-study-2026-10-28/README.md)
+records the inconclusive held-out result and limits of the continuation
+prototype; it does not establish adoption, quality improvements or savings.
+See also the [strategic routing examples](verification/strategic-routing-examples.md)
+and [Astra research note](verification/astra-review.md) for their stated evidence
+limits. The clone-only [controller demo](examples/controller_demo.py) and
+[scheduling benchmark](examples/benchmark.py) make no model calls.
 
 Changes to `policy.md` and role prompts affect user-visible operating
 instructions. Keep them consistent, preserve the configured model/effort
