@@ -23,10 +23,29 @@ PUBLISHED_LEGACY_AGENTS_BLOCK = (
     "constraints remain applicable.\n"
     "# <<< CODEX GLOBAL DELEGATION KIT <<<\n"
 )
+PUBLISHED_OLD21_AGENTS_BLOCK = (
+    "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>\n"
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial Astra review using only the original "
+    "prompt and context already available. Do no preparatory investigation, planning, decomposition, "
+    "or implementation, and do not dispatch any other subagent, before obtaining that review. "
+    "Ask about intent, constraints, ambiguities, approaches "
+    "and alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{{policy}}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+    "# <<< CODEX GLOBAL DELEGATION KIT <<<\n"
+)
 
 
 def published_legacy_agents_block(target):
     return PUBLISHED_LEGACY_AGENTS_BLOCK.replace("{{policy}}", str(target / "policy.md"))
+
+
+def published_old21_agents_block(target):
+    return PUBLISHED_OLD21_AGENTS_BLOCK.replace("{{policy}}", str(target / "policy.md"))
 
 
 class InstallerTests(unittest.TestCase):
@@ -77,9 +96,13 @@ class InstallerTests(unittest.TestCase):
         """Create the twenty-file, eight-role layout before strategic review."""
         return self.seed_layout(kit.SWARM_FILES, kit.PRE_ASTRA_ROLES, active=active)
 
+    def seed_old21(self, *, active=True):
+        """Create the published twenty-one-file Astra-first installation."""
+        return self.seed_layout(kit.OLD21_FILES, kit.OLD21_ROLES, active=active)
+
     def seed_current_with_legacy_gateway(self, *, active=True):
-        """Create a current bundle with the previously published AGENTS gateway."""
-        target = self.seed_layout(kit.FILES, kit.ROLES, active=active)
+        """Create a published old bundle with its earlier legacy AGENTS gateway."""
+        target = self.seed_layout(kit.OLD21_FILES, kit.OLD21_ROLES, active=active)
         legacy = published_legacy_agents_block(target)
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
@@ -101,7 +124,9 @@ class InstallerTests(unittest.TestCase):
             path.write_bytes((self.source / name).read_bytes())
         activation = {}
         for name, block in kit.blocks(target, roles).items():
-            if name == "AGENTS.md" and roles != kit.ROLES:
+            if name == "AGENTS.md" and roles == kit.OLD21_ROLES:
+                block = published_old21_agents_block(target)
+            elif name == "AGENTS.md" and roles != kit.ROLES:
                 block = published_legacy_agents_block(target)
             path = self.home / name
             before = kit.read_state(path)
@@ -125,10 +150,16 @@ class InstallerTests(unittest.TestCase):
         return {path.relative_to(self.home): kit.read_state(path)
                 for path in self.home.rglob("*") if path.is_file()}
 
-    def assert_only_role_block_updated(self, target, globals_before, prior_roles=kit.PRE_SWARM_ROLES):
+    def assert_only_role_block_updated(self, target, globals_before, prior_roles=kit.PRE_SWARM_ROLES,
+                                       prior_agents_block=None):
         old = kit.blocks(target, prior_roles)["config.toml"].encode()
         new = kit.blocks(target)["config.toml"].encode()
-        old_agents = published_legacy_agents_block(target).encode()
+        if prior_agents_block is not None:
+            old_agents = prior_agents_block
+        elif prior_roles == kit.OLD21_ROLES:
+            old_agents = published_old21_agents_block(target).encode()
+        else:
+            old_agents = published_legacy_agents_block(target).encode()
         new_agents = kit.blocks(target)["AGENTS.md"].encode()
         self.assertEqual(globals_before[self.config].data.count(old), 1)
         self.assertEqual(globals_before[self.agents].data.count(old_agents), 1)
@@ -183,7 +214,10 @@ class InstallerTests(unittest.TestCase):
         current = kit.blocks(target)["AGENTS.md"].encode()
         self.assertEqual(self.agents.read_bytes(), original.data.replace(legacy, current, 1))
         self.assertEqual(kit.read_state(self.agents).mode, original.mode)
-        self.assertEqual(kit.read_state(self.config), config_before)
+        old_config = kit.blocks(target, kit.OLD21_ROLES)["config.toml"].encode()
+        new_config = kit.blocks(target)["config.toml"].encode()
+        self.assertEqual(kit.read_state(self.config),
+                         kit.State(config_before.data.replace(old_config, new_config, 1), config_before.mode))
         self.assertEqual(history.read_bytes(), b'{"status": "completed"}\n')
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"], current.decode())
@@ -218,9 +252,122 @@ class InstallerTests(unittest.TestCase):
         current = kit.blocks(target)["AGENTS.md"].encode()
         self.assertEqual(self.agents.read_bytes(), original.data + b"\n" + current)
         self.assertEqual(kit.plan(self.home, self.source), [])
-
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual(kit.read_state(self.agents), original)
+
+    def test_old21_active_upgrade_preserves_published_gateway_and_unrelated_bytes(self):
+        target = self.seed_old21()
+        suffix = b"\n# user suffix without final newline"
+        self.agents.write_bytes(self.agents.read_bytes() + suffix)
+        before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+
+        kit.apply(kit.plan(self.home, self.source))
+
+        self.assert_only_role_block_updated(target, before, kit.OLD21_ROLES)
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"],
+                         kit.blocks(target)["AGENTS.md"])
+        self.assertTrue(self.agents.read_bytes().endswith(suffix))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
+    def test_old21_direct_disable_preserves_personal_new_role(self):
+        target = self.seed_old21()
+        personal = b'\n[agents.astra_initial]\nconfig_file = "personal-initial.toml"\n'
+        self.config.write_bytes(self.config.read_bytes() + personal)
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), kit.State(
+            self.original[self.config].data + personal, self.original[self.config].mode))
+        manifest = json.loads((target / ".installation/manifest.json").read_text())
+        self.assertFalse(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.OLD21_FILES))
+        self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+    def test_old21_legacy_gateway_is_accepted_and_active_disable_roundtrips(self):
+        target = self.seed_old21()
+        manifest_path = target / ".installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        inserted = manifest["activation"]["AGENTS.md"]["inserted"]
+        prefix = "\n" if inserted.startswith("\n") else ""
+        legacy = prefix + published_legacy_agents_block(target)
+        self.agents.write_text(self.agents.read_text().replace(inserted, legacy, 1))
+        manifest["activation"]["AGENTS.md"]["inserted"] = legacy
+        manifest_path.write_text(json.dumps(manifest))
+        active_globals = {path: kit.read_state(path) for path in (self.agents, self.config)}
+
+        kit.apply(kit.plan(self.home, self.source))
+        self.assert_only_role_block_updated(target, active_globals, kit.OLD21_ROLES,
+                                            prior_agents_block=legacy.encode())
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), self.original[self.agents])
+        self.assertEqual(kit.read_state(self.config), self.original[self.config])
+
+    def assert_inactive_old21_reactivation_preserves(self, *, legacy_gateway):
+        self.home = self.root / ("legacy old21 home" if legacy_gateway else "published old21 home")
+        self.home.mkdir()
+        self.agents = self.home / "AGENTS.md"
+        self.config = self.home / "config.toml"
+        self.agents.write_bytes(b"Local instructions without final newline")
+        self.agents.chmod(0o640)
+        self.config.write_bytes(
+            b'model = "primary"\nmodel_reasoning_effort = "ultra"\n'
+            b'\n[history]\npersistence = "save-all"\n')
+        self.config.chmod(0o640)
+        self.original = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        target = self.seed_old21(active=False)
+        manifest_path = target / ".installation/manifest.json"
+        if legacy_gateway:
+            manifest = json.loads(manifest_path.read_text())
+            inserted = manifest["activation"]["AGENTS.md"]["inserted"]
+            legacy = "\n" + published_legacy_agents_block(target)
+            self.assertTrue(inserted.startswith("\n"))
+            manifest["activation"]["AGENTS.md"]["inserted"] = legacy
+            manifest_path.write_text(json.dumps(manifest))
+        evidence = target / "state/prior-assignment/result.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b'{"status":"completed","keep":true}\n')
+        before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+
+        kit.apply(kit.plan(self.home, self.source))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        manifest = json.loads(manifest_path.read_text())
+        self.assertTrue(manifest["active"])
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(kit.read_state(self.agents).mode, before[self.agents].mode)
+        self.assertEqual(kit.read_state(self.config).mode, before[self.config].mode)
+        self.assertEqual(evidence.read_bytes(), b'{"status":"completed","keep":true}\n')
+
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assertEqual(kit.read_state(self.agents), before[self.agents])
+        self.assertEqual(kit.read_state(self.config), before[self.config])
+        self.assertEqual(evidence.read_bytes(), b'{"status":"completed","keep":true}\n')
+
+    def test_inactive_old21_upgrade_reactivation_and_roundtrip_both_gateways(self):
+        for legacy_gateway in (False, True):
+            with self.subTest(legacy_gateway=legacy_gateway):
+                self.assert_inactive_old21_reactivation_preserves(legacy_gateway=legacy_gateway)
+
+    def test_current22_manifest_rejects_both_historical_gateways_without_writes(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        manifest_path = target / ".installation/manifest.json"
+        original_manifest = json.loads(manifest_path.read_text())
+        historical = (published_old21_agents_block(target), published_legacy_agents_block(target))
+        for gateway in historical:
+            with self.subTest(gateway=gateway[:24]):
+                manifest = json.loads(json.dumps(original_manifest))
+                manifest["activation"]["AGENTS.md"]["inserted"] = gateway
+                manifest_path.write_text(json.dumps(manifest))
+                before = self.snapshot_home()
+                for uninstall in (False, True):
+                    with self.subTest(uninstall=uninstall), self.assertRaisesRegex(
+                            kit.Refusal, "unexpected managed block"):
+                        kit.plan(self.home, self.source, uninstall=uninstall)
+                    self.assertEqual(self.snapshot_home(), before)
+        manifest_path.write_text(json.dumps(original_manifest))
 
     def test_current_modified_gateway_refused_without_writes(self):
         self.seed_current_with_legacy_gateway()
@@ -344,7 +491,7 @@ class InstallerTests(unittest.TestCase):
         kit.apply(preview)
         self.assert_only_role_block_updated(target, globals_before)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
-        self.assertEqual(len(manifest["bundle_digests"]), 21)
+        self.assertEqual(len(manifest["bundle_digests"]), 22)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         self.assertEqual((target / "engineering.py").read_bytes(), (self.source / "engineering.py").read_bytes())
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -418,7 +565,7 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(set(loaded["agents"]), {"max_threads", *kit.ROLES})
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(manifest["version"], 1)
-        self.assertEqual(len(manifest["bundle_digests"]), 21)
+        self.assertEqual(len(manifest["bundle_digests"]), 22)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         for name in kit.FILES:
             self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
@@ -477,7 +624,7 @@ class InstallerTests(unittest.TestCase):
         self.assert_only_role_block_updated(target, globals_before, kit.PRE_ASTRA_ROLES)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(manifest["version"], 1)
-        self.assertEqual(len(manifest["bundle_digests"]), 21)
+        self.assertEqual(len(manifest["bundle_digests"]), 22)
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         for name in kit.FILES:
             self.assertEqual((target / name).read_bytes(), (self.source / name).read_bytes())
@@ -620,6 +767,36 @@ class InstallerTests(unittest.TestCase):
             with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
                 kit.plan(self.home, self.source, uninstall=uninstall)
             self.assertEqual(self.snapshot_home(), before)
+
+    def test_old21_inventory_cannot_claim_current_initial_astra_gateway(self):
+        target = self.seed_old21()
+        path = target / ".installation/manifest.json"
+        manifest = json.loads(path.read_text())
+        manifest["activation"]["AGENTS.md"]["inserted"] = kit.blocks(target)["AGENTS.md"]
+        path.write_text(json.dumps(manifest))
+        before = self.snapshot_home()
+        for uninstall in (False, True):
+            with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
+                kit.plan(self.home, self.source, uninstall=uninstall)
+            self.assertEqual(self.snapshot_home(), before)
+
+    def test_old21_upgrade_refuses_personal_initial_role(self):
+        self.seed_old21()
+        self.config.write_bytes(self.config.read_bytes() +
+                                b'\n[agents.astra_initial]\nconfig_file = "personal.toml"\n')
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "astra_initial"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+
+    def test_old21_upgrade_refuses_unowned_initial_agent_file(self):
+        target = self.seed_old21()
+        destination = target / "agents/astra_initial.toml"
+        destination.write_bytes((self.source / "agents/astra_initial.toml").read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
 
     def test_roundtrip_exact_bytes_and_modes(self):
         self.activate()

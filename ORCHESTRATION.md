@@ -128,8 +128,10 @@ controller does not use native role pins or `review/start` to select another
 model. Requested settings and the app-server's resolved settings are retained
 separately; they are not provider-side per-token identity telemetry.
 
-The optional native `astra_expert` strategic adviser does not add a task-level
-model override to this format. The native [strategic brainstorming and human
+The initial native `astra_initial` consultation uses `gpt-6-astra` at `ultra`;
+later reviews use the optional native `astra_expert` adviser pinned to
+`gpt-6-astra` at `medium`. Neither role adds a task-level model override to this
+format. The native [strategic brainstorming and human
 input](policy.md#strategic-brainstorming-and-human-input) and [Astra review
 gates](policy.md#astra-strategic-review) preserve hard model ceilings and do
 not authorize changing a restricted run, resuming a stop or bypassing a hold.

@@ -35,7 +35,18 @@ ENGINEERING_FILES = CONTROLLER_FILES + ("engineering.py",)
 SWARM_FILES = ENGINEERING_FILES + (
     "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
 )
-FILES = SWARM_FILES + ("agents/astra_expert.toml",)
+# Published twenty-one-file bundle and role map. Keep these frozen so its
+# activation can be validated after the current bundle gains another role.
+OLD21_FILES = (
+    "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
+    "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml",
+    "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
+    "scheduling.py", "ORCHESTRATION.md", "engineering.py",
+    "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+    "agents/astra_expert.toml",
+)
 LEGACY_ROLES = {
     "luna_scout": "Focused read-only source exploration and factual investigation.",
     "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
@@ -55,15 +66,40 @@ PRE_ASTRA_ROLES = {
     "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
     "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
 }
-ROLES = {
-    **PRE_ASTRA_ROLES,
+OLD21_ROLES = {
+    "luna_scout": "Focused read-only source exploration and factual investigation.",
+    "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
+    "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+    "inherited_scout": "Focused read-only source exploration and factual investigation with inherited settings.",
+    "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
+    "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
+    "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
+    "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
     "astra_expert": "Sparse strategic review of difficult engineering decisions.",
+}
+FILES = OLD21_FILES + ("agents/astra_initial.toml",)
+ROLES = {
+    **OLD21_ROLES,
+    "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
 }
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
 LEGACY_AGENTS_GATEWAY = (
     "For coding, repository investigation, debugging, software design, and technical factual research tasks, "
     "read and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+OLD21_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial Astra review using only the original "
+    "prompt and context already available. Do no preparatory investigation, planning, decomposition, "
+    "or implementation, and do not dispatch any other subagent, before obtaining that review. "
+    "Ask about intent, constraints, ambiguities, approaches "
+    "and alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
     "Preserve the user's selected primary model. Project contracts and authorization "
     "constraints remain applicable.\n"
 )
@@ -126,17 +162,19 @@ def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
     if roles == ROLES:
         gateway = (
             "For coding, repository investigation, debugging, software design, and technical factual research, "
-            "before substantive work on each new main task, obtain one initial Astra review using only the original "
-            "prompt and context already available. Do no preparatory investigation, planning, decomposition, "
-            "or implementation, and do not dispatch any other subagent, before obtaining that review. "
-            "Ask about intent, constraints, ambiguities, approaches "
-            "and alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+            "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+            "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+            "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+            "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+            "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
             "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
             "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
             f"and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
             "Preserve the user's selected primary model. Project contracts and authorization "
             "constraints remain applicable.\n"
         )
+    elif roles == OLD21_ROLES:
+        gateway = OLD21_AGENTS_GATEWAY.format(policy=target / "policy.md")
     else:
         gateway = LEGACY_AGENTS_GATEWAY.format(policy=target / "policy.md")
     instructions = f"{BEGIN}\n{gateway}{END}\n"
@@ -194,12 +232,14 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
-                             set(ENGINEERING_FILES), set(SWARM_FILES), set(FILES)):
+                             set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         if inventory == set(LEGACY_FILES):
             known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
         elif inventory == set(SWARM_FILES):
             known_blocks = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)
+        elif inventory == set(OLD21_FILES):
+            known_blocks = blocks(home / "delegation-kit", OLD21_ROLES)
         elif inventory == set(FILES):
             known_blocks = expected
         else:
@@ -209,7 +249,7 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         for name, block in known_blocks.items():
             record = value["activation"][name]
             allowed = (block, "\n" + block)
-            if inventory == set(FILES) and name == "AGENTS.md":
+            if inventory == set(OLD21_FILES) and name == "AGENTS.md":
                 legacy = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)[name]
                 allowed += (legacy, "\n" + legacy)
             if record["inserted"] not in allowed:

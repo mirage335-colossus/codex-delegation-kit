@@ -504,8 +504,9 @@ repair allowances, ownership and independent acceptance remain unchanged.
 
 Before substantive investigation, planning, decomposition, implementation, or
 dispatching any other subagent for a new task, the main chat obtains one initial
-review from `astra_expert` using only the user's original prompt and context
-already available. Neither the coordinator nor adviser performs preliminary
+review from `astra_initial` (`gpt-6-astra`, `ultra`, the highest currently
+supported effort) using only the user's original prompt and context already
+available. Neither the coordinator nor adviser performs preliminary
 investigation or tool research to prepare it. Ask Astra to interpret intent,
 identify constraints and ambiguities, suggest approaches and alternatives, and
 recommend early user questions. The adviser does not inspect source or use tools
@@ -515,7 +516,11 @@ agents within the same task; they do not require recursive or repeated initial
 consultations. A new substantive task in the main chat gets its own initial
 consultation. If Astra is unavailable, forbidden or known to be unsupported,
 report the precise blocking conflict and hold dependent substantive work; do not
-substitute another model or proceed. This consultation does not
+substitute another model or silently lower the effort to fit another role pin.
+An explicit effort ceiling still applies; if it conflicts with the required
+initial review, report the blocker and hold dependent work. A requested role pin
+does not prove runtime resolution, and missing runtime telemetry alone is not a
+blocker. This consultation does not
 replace later event-driven Astra reviews, required architecture review,
 independent patch acceptance or applicable authorization and permission checks.
 
@@ -582,10 +587,12 @@ budgets, repair allowances, ownership and acceptance criteria.
 
 ## Astra strategic review
 
-Use `astra_expert` (`gpt-6-astra`, `medium`) for the mandatory initial
-consultation above, then proactively for bounded consequential brainstorming
-and review of its realization in written code, where a wrong turn could cost
-substantial work. The standing native mixed-model preference covers Terra and
+Use `astra_expert` (`gpt-6-astra`, `medium`) for later bounded consequential
+brainstorming and review of its realization in written code, where a wrong turn
+could cost substantial work. The initial consultation above uses the separate
+`astra_initial` (`gpt-6-astra`, `ultra`) role. An ultra request parameter on the
+medium-pinned `astra_expert` role does not meet that initial requirement. The
+standing native mixed-model preference covers Terra and
 Sol primaries; it changes neither the primary nor other role pins. A hard
 Luna-only, inherit-only or other explicit model/effort ceiling wins. If the
 required initial review is unavailable, forbidden or known to be unsupported,
