@@ -587,13 +587,17 @@ budgets, repair allowances, ownership and acceptance criteria.
 
 ## Astra strategic review
 
-Use `astra_expert` (`gpt-6-astra`, `medium`) for later bounded consequential
+Use `astra_expert` (`gpt-6-astra`, `ultra`) for later bounded consequential
 brainstorming and review of its realization in written code, where a wrong turn
 could cost substantial work. The initial consultation above uses the separate
-`astra_initial` (`gpt-6-astra`, `ultra`) role. An ultra request parameter on the
-medium-pinned `astra_expert` role does not meet that initial requirement. The
-standing native mixed-model preference covers Terra and
-Sol primaries; it changes neither the primary nor other role pins. A hard
+`astra_initial` (`gpt-6-astra`, `ultra`) role; a later review does not replace
+that distinct initial consultation. If a reused adviser thread is known to be
+at lower effort, it does not satisfy this later-review setting: use an
+authorized Ultra adviser under the current role definition rather than assuming
+a spawn override changes a fixed lower pin. Missing runtime telemetry alone is
+not evidence of lower effort or a blocker. The standing native mixed-model
+preference covers Terra and Sol primaries; it changes neither the primary nor
+other role pins. A hard
 Luna-only, inherit-only or other explicit model/effort ceiling wins. If the
 required initial review is unavailable, forbidden or known to be unsupported,
 report the blocker and hold dependent work; do not silently substitute

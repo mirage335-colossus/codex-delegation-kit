@@ -130,7 +130,7 @@ separately; they are not provider-side per-token identity telemetry.
 
 The initial native `astra_initial` consultation uses `gpt-6-astra` at `ultra`;
 later reviews use the optional native `astra_expert` adviser pinned to
-`gpt-6-astra` at `medium`. Neither role adds a task-level model override to this
+`gpt-6-astra` at `ultra`. Neither role adds a task-level model override to this
 format. The native [strategic brainstorming and human
 input](policy.md#strategic-brainstorming-and-human-input) and [Astra review
 gates](policy.md#astra-strategic-review) preserve hard model ceilings and do

@@ -91,7 +91,7 @@ class DistributionTests(unittest.TestCase):
             "inherited_reviewer": None,
             "inherited_swarm": None,
             "luna_swarm": ("gpt-6-luna", "medium"),
-            "astra_expert": ("gpt-6-astra", "medium"),
+            "astra_expert": ("gpt-6-astra", "ultra"),
             "astra_initial": ("gpt-6-astra", "ultra"),
         }
         self.assertEqual(set(configuration["agents"]), {"max_threads", *expected_roles})
