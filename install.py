@@ -61,6 +61,12 @@ ROLES = {
 }
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
+LEGACY_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research tasks, "
+    "read and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
 
 
 class Refusal(RuntimeError):
@@ -117,14 +123,23 @@ def parse_toml(data: bytes | None, path: Path) -> dict:
 
 
 def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
-    instructions = (
-        f"{BEGIN}\n"
-        "For coding, repository investigation, debugging, software design, and technical factual research tasks, "
-        f"read and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
-        "Preserve the user's selected primary model. Project contracts and authorization "
-        "constraints remain applicable.\n"
-        f"{END}\n"
-    )
+    if roles == ROLES:
+        gateway = (
+            "For coding, repository investigation, debugging, software design, and technical factual research, "
+            "before substantive work on each new main task, obtain one initial Astra review using only the original "
+            "prompt and context already available. Do no preparatory investigation, planning, decomposition, "
+            "or implementation, and do not dispatch any other subagent, before obtaining that review. "
+            "Ask about intent, constraints, ambiguities, approaches "
+            "and alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+            "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+            "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+            f"and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
+            "Preserve the user's selected primary model. Project contracts and authorization "
+            "constraints remain applicable.\n"
+        )
+    else:
+        gateway = LEGACY_AGENTS_GATEWAY.format(policy=target / "policy.md")
+    instructions = f"{BEGIN}\n{gateway}{END}\n"
     config = [BEGIN]
     for role, description in roles.items():
         config.extend([
@@ -193,7 +208,11 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             raise ValueError("unexpected activation file list")
         for name, block in known_blocks.items():
             record = value["activation"][name]
-            if record["inserted"] not in (block, "\n" + block):
+            allowed = (block, "\n" + block)
+            if inventory == set(FILES) and name == "AGENTS.md":
+                legacy = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)[name]
+                allowed += (legacy, "\n" + legacy)
+            if record["inserted"] not in allowed:
                 raise ValueError("unexpected managed block")
             if type(record["original_exists"]) is not bool:
                 raise ValueError("invalid original file state")
@@ -269,15 +288,13 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
                 old = previous["activation"][name]
                 old_prefix = "\n" if old["inserted"].startswith("\n") else ""
                 inserted = old_prefix + block
-                if name == "AGENTS.md":
-                    after_text = decode(before.data, home / name)
-                else:
-                    # Replace the exact owned configuration block at its original position.
-                    raw = decode(before.data, home / name)
-                    prior_block = old["inserted"]
-                    if raw.count(prior_block) != 1:
-                        raise Refusal(f"Managed block was modified or is incomplete in {home / name}; inspect manually")
-                    after_text = raw.replace(prior_block, inserted, 1)
+                # Replace the exact owned block at its original position, retaining
+                # user text around it for both activation files.
+                raw = decode(before.data, home / name)
+                prior_block = old["inserted"]
+                if raw.count(prior_block) != 1:
+                    raise Refusal(f"Managed block was modified or is incomplete in {home / name}; inspect manually")
+                after_text = raw.replace(prior_block, inserted, 1)
                 original_exists = old["original_exists"]
             else:
                 inserted = ("\n" if text and not text.endswith("\n") else "") + block

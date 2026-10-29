@@ -8,10 +8,14 @@ Do not present these estimates as official rates or change routing/pins from the
 For current evidence-discovery and screening guidance, see
 [policy.md](policy.md#evidence-discovery-and-terra-screening).
 
-Read [`policy.md`](policy.md) before changing delegation behavior, role
-instructions, installation, or evidence handling. Keep the runtime bundle at
-the explicit `FILES` inventory in [`install.py`](install.py) unless a deliberate,
-reviewed manifest-compatible change updates the installer and its checks.
+Before substantive task work, have Astra review the original prompt and context
+already available; do no preparatory investigation. Clearly trivial mechanical
+requests are exempt. Then read the [policy](policy.md#initial-astra-consultation)
+before changing delegation behavior, role instructions, installation, or
+evidence handling. Keep the
+runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
+unless a deliberate, reviewed manifest-compatible change updates the installer
+and its checks.
 The installer recognizes earlier eight-file, eleven-file, seventeen-file,
 eighteen-file, and twenty-file inventories; preserve their exact role blocks
 and upgrade and disable paths when changing the current bundle.

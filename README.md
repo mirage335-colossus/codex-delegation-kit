@@ -17,6 +17,9 @@ coordination, review, evidence, safety boundaries, and interruptions.
 Denied or unavailable capabilities remain permission holds; they do not
 authorize a model, account, or backend fallback.
 
+For substantive tasks, obtain the policy's initial Astra consultation before
+investigation or planning; clearly trivial mechanical requests are exempt.
+
 In a suitable task, assign a scout to gather source evidence, a worker to make
 a bounded change, and an independent reviewer to assess the patch and its
 evidence. Keep consequential design and acceptance with an authorized owner.

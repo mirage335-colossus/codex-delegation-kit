@@ -4,9 +4,10 @@ Apply this policy to coding, source investigation, log analysis,
 and technical research when this kit is active. Preserve the user's selected
 primary model and effort. Follow current project instructions, ownership and
 authorization contracts; this policy grants no additional tool permissions.
-In default engineering mode, delegation may be skipped for trivial tasks or
-work that cannot be usefully separated. Coordinator-only mode has no local
-engineering exception, regardless of task size or available parallelism.
+After any required initial Astra consultation, default engineering mode may skip
+engineering delegation for trivial tasks or work that cannot be usefully
+separated. Coordinator-only mode has no local engineering exception, regardless
+of task size or available parallelism.
 Preserve existing role settings, concurrency limits, and inference service tier;
 improve scheduling rather than enabling faster inference.
 
@@ -474,6 +475,29 @@ quota controller or nested delegation scheme. The automatic controller retains
 its uniform explicit run model/effort/tier. Holds, original failures, deadlines,
 repair allowances, ownership and independent acceptance remain unchanged.
 
+## Initial Astra consultation
+
+Before substantive investigation, planning, decomposition, implementation, or
+dispatching any other subagent for a new task, the main chat obtains one initial
+review from `astra_expert` using only the user's original prompt and context
+already available. Neither the coordinator nor adviser performs preliminary
+investigation or tool research to prepare it. Ask Astra to interpret intent,
+identify constraints and ambiguities, suggest approaches and alternatives, and
+recommend early user questions. The adviser does not inspect source or use tools
+for this initial review; missing facts become follow-up recommendations. Reuse
+the consultation for ordinary progress updates, continuations and delegated
+agents within the same task; they do not require recursive or repeated initial
+consultations. A new substantive task in the main chat gets its own initial
+consultation. If Astra is unavailable, forbidden or known to be unsupported,
+report the precise blocking conflict and hold dependent substantive work; do not
+substitute another model or proceed. This consultation does not
+replace later event-driven Astra reviews, required architecture review,
+independent patch acceptance or applicable authorization and permission checks.
+
+Clearly trivial mechanical requests are exempt, such as an authorized
+configuration edit, Git pull or basic recompilation. When uncertain whether a
+task qualifies, obtain the initial review.
+
 ## Strategic brainstorming and human input
 
 At the start of a feature request involving substantial computation, signal
@@ -486,7 +510,8 @@ assumptions and missing facts; current approach and one or two simpler plausible
 alternatives; cheapest falsifying experiment or checkable argument; and evidence for continuing,
 redesigning or stopping that branch. Distinguish established limits from uncertain
 feasibility; do not invent numerical bounds. Routine clear fixes need no
-ceremonial brainstorm or new document.
+architecture brainstorm record or new document; the initial consultation rule
+above still applies unless the request is clearly trivial mechanical work.
 
 Under the standing mixed-model preference, every high-level software architectural
 decision requires Sol review before substantial dependent implementation. Use
@@ -532,24 +557,31 @@ budgets, repair allowances, ownership and acceptance criteria.
 
 ## Astra strategic review
 
-Use `astra_expert` (`gpt-6-astra`, `medium`) proactively for bounded consequential
-brainstorming and review of its realization in written code, where a wrong turn
-could cost substantial work. The standing native mixed-model preference covers
-Terra and Sol primaries; it changes neither the primary nor other role pins.
-A hard Luna-only, inherit-only or other explicit model/effort ceiling wins.
-Without applicable mixed-model authorization, unknown eligibility defaults to
-inheritance. Verify supported effective settings where available; a catalog entry
-does not prove access. Preserve tier, resource allocation, permissions, holds and
-budgets. Denial never authorizes a substitute. Workers request advice through the
-coordinator, never by nesting delegation or changing their own model.
+Use `astra_expert` (`gpt-6-astra`, `medium`) for the mandatory initial
+consultation above, then proactively for bounded consequential brainstorming
+and review of its realization in written code, where a wrong turn could cost
+substantial work. The standing native mixed-model preference covers Terra and
+Sol primaries; it changes neither the primary nor other role pins. A hard
+Luna-only, inherit-only or other explicit model/effort ceiling wins. If the
+required initial review is unavailable, forbidden or known to be unsupported,
+report the blocker and hold dependent work; do not silently substitute
+inheritance or another model. For optional later reviews, unknown eligibility
+defaults to inheritance. Verify supported effective settings where available;
+report unobserved settings without treating lack of visibility alone as a
+blocker. A catalog entry does not prove access. Preserve tier, resource
+allocation, permissions, holds and budgets. Denial never authorizes a substitute.
+Workers request advice through the coordinator, never by nesting delegation or
+changing their own model.
 
-The coordinator needs a concrete trigger, one question and a bounded packet.
-Consider Astra at these events; do not require Sol to exhaust attempts first:
+For later evidence-driven reviews, the coordinator needs a concrete trigger, one
+question and a bounded packet. Consider Astra at these events; do not require Sol
+to exhaust attempts first:
 
-- Initial brainstorming has a consequential uncertain objective, algorithm or
-  architecture. Review before costly commitment when comparing approaches or
-  testing feasibility is itself difficult. Later inspect a focused implementation
-  diff to check that code realizes the strategy and its practical safeguards.
+- After the initial consultation, review before costly commitment when a
+  consequential objective, algorithm or architecture remains uncertain, or
+  comparing approaches and testing feasibility is itself difficult. Later
+  inspect a focused implementation diff to check that code realizes the strategy
+  and its practical safeguards.
 - A consequential blocker survives faithful discriminating experiments, or
   evidence contradicts the causal explanation. Relevant commit differences may
   expose an assumption or regression that nearby fixes missed.
@@ -564,18 +596,21 @@ Consider Astra at these events; do not require Sol to exhaust attempts first:
   reaches diminishing returns. Review even if each step passes tests; do not wait
   for days of off-track work.
 
-These Astra selection gates use judgment; the architectural minimum above remains
-required. Use cheap decisive experiments when clear. If differential diagnosis
+Later Astra selection gates use judgment; the architectural minimum above remains
+required. The mandatory initial consultation is separate from these event-driven
+reviews. Use cheap decisive experiments when clear. If differential diagnosis
 was neglected, restore distinct hypotheses, matched comparisons and predicted
 outcomes; neglect alone does not prove model insufficiency. Astra may help design
-those experiments when that design is the blocker. Routine edits, bookkeeping,
-an available slot, repository size and time alone do not justify Astra.
+those experiments when that design is the blocker. For later reviews, routine
+edits, bookkeeping, an available slot, repository size and time alone do not
+justify repeating Astra consultation on unchanged evidence.
 Consequential code review is in scope even when ordinary checks pass.
 
-Keep consultations focused: one adviser at a time, one bounded question and no
-repeat on unchanged evidence. Act on the recommendation or explain why it cannot
-work before repeating a nearby review. Reconsider strategy during early design
-and subsequent meaningful boundaries in existing progress updates. As active work
+For later reviews, keep consultations focused: one adviser at a time, one bounded
+question and no repeat on unchanged evidence. Act on the recommendation or
+explain why it cannot work before repeating a nearby review. Reconsider strategy
+during early design and subsequent meaningful boundaries in existing progress
+updates. As active work
 lengthens (for example around an hour), context accumulates or returns diminish,
 lower the threshold for a fresh Astra perspective tied to a specific risk or new
 evidence. Several useful consultations may occur within an hour; there is no
@@ -585,20 +620,21 @@ it from age or equate cached input with new reasoning. Idle time, CI waits and
 chat inactivity accumulate no review obligation. Add no timer or scheduler state.
 This is behavioral guidance, not enforced token, time or billing caps.
 
-Supply relevant original prompts, outcome and acceptance criteria, current
-approach and simpler alternatives, source/base revisions and dirty scope, focused
-paths/diffs, original failures and tried hypotheses, the unresolved question,
-read-only scope and finite context/time/output budget within existing limits.
-Use Luna's compact evidence map rather than copying whole histories/repositories;
-retain the critical source and original wording needed to challenge its framing.
-Let the adviser retrieve focused missing source. Disk size or a short commit
+For later reviews, supply relevant original prompts, outcome and acceptance
+criteria, current approach and simpler alternatives, source/base revisions and
+dirty scope, focused paths/diffs, original failures and tried hypotheses, the
+unresolved question, read-only scope and finite context/time/output budget within
+existing limits. Use Luna's compact evidence map rather than copying whole
+histories/repositories; retain the critical source and original wording needed
+to challenge its framing. The adviser may retrieve focused missing source. Disk
+size or a short commit
 message does not bound tokens or reachable history. Mark omissions and unobserved
 settings; retain original evidence.
 
-The adviser reads source and patches, may use permitted scratch and bounded checks,
-and returns overlooked requirements, evidence/uncertainty, simplest viable
-alternatives, the next discriminator with predicted outcomes and a decision/stop
-condition. It does not edit production source, orchestrate workers or accept its
+For later reviews, the adviser reads source and patches, may use permitted scratch
+and bounded checks, and returns overlooked requirements, evidence/uncertainty,
+simplest viable alternatives, the next discriminator with predicted outcomes
+and a decision/stop condition. It does not edit production source, orchestrate workers or accept its
 advice as proof. The engineering owner retains integration and acceptance;
 required independent patch review stays separate. Do not reset repair allowances,
 override holds or rerun unchanged checks by default.
