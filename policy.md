@@ -286,12 +286,36 @@ report unavailable required review instead of substituting silently. Controller
 runs retain their uniform explicit model/effort/tier boundary; this preference
 adds no automatic override or permission to move restricted work elsewhere.
 
+Under the standing native mixed-model preference, a Terra primary must obtain
+bounded `sol_expert` consultation when consequential
+diagnosis remains unresolved or an existing mandatory implementation-escalation
+trigger occurs. Obtain it before choosing the next consequential diagnostic
+direction, committing to a dependent remedy, or taking over the work. Primary
+ownership does not waive this consultation. Routine diagnosis,
+settled fixes, and the first straightforward evidence-backed repair remain
+eligible unless a consequential trigger already applies; settled evidence
+gathering and independent permitted work may continue while advice is pending.
+
+Authorized Sol or Astra advice covering the current issue and decisive evidence
+qualifies. Reuse advice while
+its assumptions and evidence remain valid; an initial prompt-only Astra review
+does not pre-clear later findings. Keep its conclusion and limits in the existing
+task history. Consultation is not causal proof or automatic clearance, does not
+transfer ownership or reset repair allowance, budget, or deadline, and does not
+replace independent patch acceptance. Actual takeover remains with the assigned
+owner. A newer explicit ceiling or uniform controller boundary controls: follow
+the permitted review route and disclose its limitation; this rule does not
+override that boundary or automatically block work when Sol is deliberately
+excluded. If eligible advice is genuinely unavailable, hold only dependent
+consequential commitments; continue independent permitted work.
+
 Under that preference, or a known high-end parent context with eligibility
 established by current-session evidence, use `luna_scout` and `luna_worker`
 (`gpt-6-luna`, `high`) for suitable bounded evidence and implementation work.
 Retain consequential design, diagnosis, integration, independent review, and
 acceptance with the permitted primary in default engineering mode or the
-existing pinned `sol_expert` (`gpt-6.1-sol`, `ultra`). Coordinator-only mode
+existing pinned `sol_expert` (`gpt-6.1-sol`, `ultra`); Terra-primary diagnosis
+and takeover also follow the consultation rule above. Coordinator-only mode
 requires a permitted engineering subagent. Select work for useful progress
 and quality; do not maximize agent occupancy or impose quotas. In particular,
 consider a bounded worker for settled patches, tests, diagnostics,
@@ -337,8 +361,9 @@ many reasoning agents do not imply equally many concurrent builds or timing runs
 Keep consequential ambiguity, architecture/shared contracts, concurrency,
 uncertain ownership, tightly coupled changes, technical integration, and
 software acceptance with the strong engineering owner. The strong owner may
-be the primary in default engineering mode or an assigned authorized strong
-subagent; coordinator-only mode requires the subagent. State the concrete
+be the primary in default engineering mode, subject to the Terra consultation
+above, or an assigned authorized strong subagent; coordinator-only mode requires
+the subagent. State the concrete
 ambiguity or risk when assigning strong engineering work. This responsibility
 assignment does not itself authorize stronger model settings. For inherited
 review and takeover responsibilities, use the permitted inherited reviewer
@@ -1202,7 +1227,9 @@ After the interruption classification above, stop a worker assignment and
 assign strong engineering responsibility for consequential ambiguity,
 required architecture/contract changes, expanded scope, uncertain ownership,
 or a genuinely unresolved verification prerequisite that calls for strong
-engineering work. Keep model/effort within the established routing boundary.
+engineering work. For a Terra primary, apply the consultation rule above before
+consequential next steps or takeover. Keep model/effort within the established
+routing boundary.
 In default engineering mode the coordinator may take over this work or dispatch
 a permitted strong subagent; in coordinator-only mode it must use an available
 permitted engineering subagent and report a blocker if none is available. A wrapper
