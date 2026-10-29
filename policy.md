@@ -476,14 +476,17 @@ repair allowances, ownership and independent acceptance remain unchanged.
 
 ## Strategic brainstorming and human input
 
-Before substantial implementation of a consequential algorithm or architecture,
-check whether the approach can meet the real objective even if implemented
+At the start of a feature request involving substantial computation, signal
+processing, geometry or other coupled tradeoffs, check whether its requirements
+plausibly coexist. Before substantial implementation of a consequential algorithm
+or architecture, check whether it can meet the real objective when implemented
 correctly. In existing task history retain a compact decision: original outcome;
 relevant accuracy, latency, operating-range and resource constraints; necessary
 assumptions and missing facts; current approach and one or two simpler plausible
-alternatives; cheapest falsifying experiment or checkable argument; and evidence
-for continuing, redesigning or stopping that branch. Do not invent numerical
-requirements. Routine clear fixes need no ceremonial brainstorm or new document.
+alternatives; cheapest falsifying experiment or checkable argument; and evidence for continuing,
+redesigning or stopping that branch. Distinguish established limits from uncertain
+feasibility; do not invent numerical bounds. Routine clear fixes need no
+ceremonial brainstorm or new document.
 
 Under the standing mixed-model preference, every high-level software architectural
 decision requires Sol review before substantial dependent implementation. Use
@@ -502,12 +505,13 @@ If the task explicitly requires both Sol review and an incompatible ceiling,
 surface that conflict and hold only its dependent commitments. Do not bypass a
 restricted run or claim inherited review met a Sol requirement.
 
-Raise consequential unresolved requirements and tradeoffs to the user early,
-while a new chat is more likely to have their attention. Present a concrete
-proposed direction, the decision it changes and a focused question; do not ask
-them to choose routine implementation details. Use supported asynchronous
-questions when available. Later in long work, also invite clarification or
-alternative approaches when they could prevent a costly wrong turn. Continue
+Prompt the user in the main chat early when material constraint conflicts,
+feasibility uncertainty or missing tradeoff choices could change the design. Explain
+the consequences, recommend a practical direction and ask a focused question before
+costly dependent implementation. Raise other consequential unresolved requirements
+and tradeoffs early. Do not ask them to choose routine implementation details. Use
+supported asynchronous questions when available. Later in long work, also invite
+clarification or alternatives that could prevent a costly wrong turn. Continue
 independent authorized work and reversible experiments under a stated assumption
 while an optional answer is pending. Allow a reasonable response opportunity;
 unanswered suggestions are not approval. A missing prerequisite, permission or
