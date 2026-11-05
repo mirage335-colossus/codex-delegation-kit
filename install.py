@@ -77,11 +77,12 @@ OLD21_ROLES = {
     "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
     "astra_expert": "Sparse strategic review of difficult engineering decisions.",
 }
-FILES = OLD21_FILES + ("agents/astra_initial.toml",)
+OLD22_FILES = OLD21_FILES + ("agents/astra_initial.toml",)
 ROLES = {
     **OLD21_ROLES,
     "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
 }
+FILES = OLD22_FILES + ("CLOUD.md",)
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
 LEGACY_AGENTS_GATEWAY = (
@@ -232,7 +233,8 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
                 raise ValueError("invalid source directory")
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
-                             set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES), set(FILES)):
+                             set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES),
+                             set(OLD22_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         if inventory == set(LEGACY_FILES):
             known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
@@ -240,6 +242,8 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             known_blocks = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)
         elif inventory == set(OLD21_FILES):
             known_blocks = blocks(home / "delegation-kit", OLD21_ROLES)
+        elif inventory == set(OLD22_FILES):
+            known_blocks = blocks(home / "delegation-kit", ROLES)
         elif inventory == set(FILES):
             known_blocks = expected
         else:

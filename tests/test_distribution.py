@@ -20,7 +20,7 @@ BUNDLE_FILES = (
     "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
     "scheduling.py", "ORCHESTRATION.md", "engineering.py",
     "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
-    "agents/astra_expert.toml", "agents/astra_initial.toml",
+    "agents/astra_expert.toml", "agents/astra_initial.toml", "CLOUD.md",
 )
 
 
@@ -73,6 +73,8 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual((home / "notes.txt").read_text(encoding="utf-8"), "unrelated global content\n")
         self.assertTrue((home / "config.toml").read_text(encoding="utf-8").startswith(config))
         self.assertTrue((home / "delegation-kit" / "policy.md").is_file())
+        self.assertTrue((home / "delegation-kit" / "CLOUD.md").is_file())
+        self.assertIn("](CLOUD.md)", (home / "delegation-kit" / "README.md").read_text(encoding="utf-8"))
         manifest = json.loads((home / "delegation-kit/.installation/manifest.json").read_text(encoding="utf-8"))
         self.assertTrue(manifest["active"])
         self.assertEqual(set(manifest["bundle_digests"]), set(BUNDLE_FILES))

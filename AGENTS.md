@@ -18,9 +18,10 @@ runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
 unless a deliberate, reviewed manifest-compatible change updates the installer
 and its checks.
 The installer recognizes earlier eight-file, eleven-file, seventeen-file,
-eighteen-file, twenty-file, and twenty-one-file inventories; preserve their
-exact role blocks and upgrade and disable paths when changing the current
-bundle.
+eighteen-file, twenty-file, twenty-one-file, and twenty-two-file inventories;
+the current source bundle has twenty-three files. Preserve the exact role
+blocks and upgrade and disable paths for all supported inventories when
+changing the bundle.
 
 Preserve pinned role model and effort settings, existing authorization
 boundaries, and user configuration. Do not treat policy text as runtime

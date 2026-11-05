@@ -17,6 +17,11 @@ coordination, review, evidence, safety boundaries, and interruptions.
 Denied or unavailable capabilities remain permission holds; they do not
 authorize a model, account, or backend fallback.
 
+For repeated or hardware-constrained experiments, the optional
+[cloud experiment guide](CLOUD.md) explains when cloud may save total time and
+the standing compute authorization and private cost and cleanup controls.
+Preserve task scope and normal service permissions.
+
 For substantive tasks, obtain the policy's initial `astra_initial`
 (`gpt-6-astra`, `ultra`) consultation before investigation or planning; clearly
 trivial mechanical requests are exempt.
@@ -123,10 +128,10 @@ For controller recovery, holds, and continuation behavior, use the
 
 ## Installed files and license
 
-The runtime bundle has 21 files: this README, `policy.md`,
+The runtime bundle has 23 files: this README, `policy.md`, `CLOUD.md`,
 `ORCHESTRATION.md`, `supervisor.py`, `install.py`, `uninstall.py`,
 `controller.py`, `controller_store.py`, `execution.py`, `agent_backend.py`,
-`scheduling.py`, `engineering.py`, and nine role TOML files in `agents/`.
+`scheduling.py`, `engineering.py`, and ten role TOML files in `agents/`.
 `CONTRIBUTING.md`, tests, examples, and verification materials are source-only
 and are not installed. The policy describes expected behavior; each program
 enforces only its documented checks.

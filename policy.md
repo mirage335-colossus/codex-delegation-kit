@@ -48,12 +48,15 @@ to an available permitted strong subagent; if none is available, report the
 blocker instead of taking over engineering in the main agent.
 
 In native-only coordination mode, use native agent tools, messages, and
-conversation references for assignment state and evidence. Do not invoke
-`controller.py` or `supervisor.py`, or create a registration, ledger, or report
-file. Preserve the
-same assignment identities, original failures, repair allowances, deadlines,
-holds, and acceptance conditions in native history. This changes the
-coordination mechanism, not the assignment contract or engineering ownership.
+conversation references for assignment state and engineering evidence. Do not
+invoke `controller.py` or `supervisor.py`, or create engineering assignment
+registries, ledgers, or reports. Preserve the same assignment identities,
+original failures, repair allowances, deadlines, holds, and acceptance
+conditions in native history. Required private financial or resource-control
+state for authorized cloud operations is distinct from assignment bookkeeping;
+maintain it outside development repositories as described in [the cloud
+experiment guide](CLOUD.md). This changes the coordination mechanism, not the
+assignment contract or engineering ownership.
 
 All helper-specific procedures below, including `supervisor.py`, its
 `--kind` records, schema fields, emitted actions, and helper state names, apply
@@ -1027,6 +1030,19 @@ monitor or enforced information-gain measurement.
 
 ## Computationally intensive tests and hosted CI
 
+When planning or observing repeated experiments, builds, independent case
+batches, GPU or memory-bound work, or local hardware delays, consider cloud
+expertise before prolonged local or CI adaptation. An existing permitted
+strong owner can advise on a concrete cloud experiment; Terra can screen
+evidence, and Luna can scout facts or implement a settled adapter. Keep the
+usual Sol/Astra architecture gates, authorization, ownership, and acceptance
+criteria. Cloud is optional: stay local when adaptation, provisioning, queue,
+data, build, run, retrieval, and cleanup make total turnaround worse. No
+routine expert call, provider inventory, or account query is required. Follow
+the [cloud experiment guide](CLOUD.md) for a minimal faithful slice, the
+standing compute authorization, and its cost controls. Advice does not extend
+authorization beyond its scope or override normal service permissions.
+
 Both approximate time suggestions below concern the compute-constrained
 hosted-CI case, including GitHub Actions: diagnostic reassessment and optional
 experimentation on a promising optimization. Neither is a general limit on
@@ -1306,8 +1322,12 @@ baseline, commands, all original failures, decisions and remaining checks.
 The helper commands and file locations below apply only in the selected helper
 workflow.
 In native-only coordination mode, use native tools, messages, and conversation
-references to preserve the same assignment and evidence; do not create helper
-registrations, ledgers, or report files.
+references to preserve the same assignment and engineering evidence; do not
+create helper registrations or engineering assignment registries, ledgers, or
+report files.
+Required private financial or resource-control records for authorized cloud
+operations remain separate, live outside development repositories, and do not
+become helper or assignment records; see [the cloud experiment guide](CLOUD.md).
 
 In the selected helper/project workflow, keep an existing project's
 `.agent-work` authoritative. Honor its established task/result format and
