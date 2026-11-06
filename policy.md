@@ -487,7 +487,10 @@ the unresolved consequential question and next falsifier. Do not forward raw
 search output, every agent transcript or speculative answer collections. Experts
 must inspect critical originals directly and retrieve missing context. Assess
 whether screening actually reduces total expert input and rework; summaries that
-require experts to reconstruct everything have not saved useful work.
+require experts to reconstruct everything have not saved useful work. A compact,
+credible packet needs no extra briefing or coordination layer. Add a helper only
+for useful independent work or a concrete evidence gap; count its input, review
+and repair overhead when assessing the workflow.
 
 Preserve early strategic brainstorming and the Sol architecture gate below.
 When a consequential algorithm, objective, accuracy/resource bound or redesign
@@ -542,7 +545,21 @@ relevant accuracy, latency, operating-range and resource constraints; necessary
 assumptions and missing facts; current approach and one or two simpler plausible
 alternatives; cheapest falsifying experiment or checkable argument; and evidence for continuing,
 redesigning or stopping that branch. Distinguish established limits from uncertain
-feasibility; do not invent numerical bounds. Routine clear fixes need no
+feasibility; do not invent numerical bounds. When interacting scales or resources
+govern feasibility, identify what actually drives the limiting cost or error.
+Compare the relevant disturbance with the scale of the information or behavior
+that must survive; distinguish nuisance variation already handled by an existing
+mechanism from a change to the required outcome. Check supported configuration,
+internal representation, search ranges, scheduling and practical operator
+workarounds before assuming the broadest formulation is necessary. Evaluate a
+coupled operating envelope against full required work, memory and other binding
+resources. Preserve hard requirements: a candidate envelope, prioritizing the
+next test and reducing required qualification are different decisions. A smaller
+internal workload is useful only if the required observable outcome is retained.
+Compare a few materially different feasible options and select a bounded next
+action, with available inputs, prerequisites and an observable discriminator;
+label unverified capabilities instead of recommending an imaginary executable.
+Routine clear fixes need no quantitative exercise,
 architecture brainstorm record or new document; the initial consultation rule
 above still applies unless the request is clearly trivial mechanical work.
 
@@ -724,6 +741,7 @@ while a real prerequisite is pending.
 
 Give the reviewer the original request and later corrections, intended observable
 outcome and acceptance criteria, relevant constraints and authorization limits,
+case-specific hard requirements versus adjustable choices and assumptions,
 source/base identity and dirty scope, focused source/diff locations, actual checks
 and original failures, omitted or deferred coverage and why, tried approaches,
 remaining uncertainty, and the proposed stopping reason. Include available
@@ -751,9 +769,14 @@ The review must challenge whether the task has been adequately completed:
   and documentation for overlooked solutions. State inspected scope and meaningful
   gaps; this is a focused investigation, not a compulsory whole-repository audit.
 - Contemplate the underlying assumptions and brainstorm materially different,
-  simpler approaches to unmet requirements. Compare their applicability and costs;
-  do not stop at the first plausible explanation or add speculative work merely
-  because alternatives can be imagined.
+  simpler approaches to unmet requirements. Apply the conditional scale and
+  resource reasoning above when it could expose a practical operating envelope
+  or an existing workaround while retaining the user's outcome. Compare a few
+  credible options, not an exhaustive speculative inventory. Keep constraints
+  attached to their originating case; do not import another fixture's limits or
+  infer hard requirements solely from test inventory. Explicitly required acceptance
+  checks remain binding. Distinguish a proposed narrower envelope from demonstrated
+  coverage and from permission to reduce qualification.
 - Perform bounded external research when unresolved technical uncertainty,
   repeated failure, a niche mechanism or a claimed lack of alternatives could
   change the stopping decision. Search and inspect primary documentation and
@@ -765,8 +788,11 @@ The review must challenge whether the task has been adequately completed:
 - Identify obvious, plausible and feasible next steps: existing code to reuse,
   missing implementation, a discriminating experiment, a targeted check, or a
   research question that can resolve a consequential gap. Rank required actions
-  separately from optional improvements. Ask what specifically prevents useful
-  authorized progress now.
+  separately from optional improvements. For the next action establish its
+  purpose, available inputs, supported entry point/environment, remaining budget
+  and expected observable evidence. If a prerequisite is unverified, identify the
+  smallest way to establish it or a runnable alternative with honest claim limits.
+  Ask what specifically prevents useful authorized progress now.
 
 Use this reusable completion-review assignment, with the evidence above:
 
@@ -791,6 +817,10 @@ The coordinator resolves feasible, relevant, authorized actions addressing unmet
 objectives before concluding. Execute them or give an evidence-backed reason they
 are inapplicable, already satisfied or genuinely blocked; do not simply move them
 to "future work" or ask whether the user wants already-requested work completed.
+A helper's return does not discharge the main chat's remaining acceptance checks.
+Close feasible authorized validation gaps within the governing limits, including
+known setup repair and the affected rerun. Keep original failures and attribute
+later corrections; a parent repair is not evidence that the child originally passed.
 Material changes, newly exposed gaps or disputed consequential findings require a
 focused re-review of the affected evidence. Reuse the same adviser and unchanged
 evidence where valid. A recent evidence-driven Astra review can satisfy this gate
@@ -875,7 +905,12 @@ to re-verify an unchanged route. In coordinator-only mode delegate technical
 setup diagnosis; otherwise delegate it when useful. Resolve genuine uncertainty
 about authorization or consequential prerequisites through the appropriate
 owner once before dependent execution. Assign one monitor per existing run;
-preserve its identity rather than restart or duplicate it.
+preserve its identity rather than restart or duplicate it. Use the provided
+runner/interpreter and supported environment. A setup failure before assertions
+executes zero assertions; preserve that failure, repair a verified prerequisite
+when authorized and rerun the blocked scope. If repair needs missing authority,
+inputs or budget, return that precise gap and next check. Do not turn a readily
+repairable setup issue into a request for the user to finish authorized work.
 
 Serialize shared interfaces and tightly coupled edits. Check read and write
 dependencies: unaccepted patches and moving generated inputs are not stable
@@ -959,7 +994,20 @@ similar mechanisms, state which project component is exercised, what inputs
 and boundaries are involved, and what correctness property the test establishes.
 Keep context compact and technically accurate; do not assume the work is benign,
 omit relevant facts, or rename operations to evade safeguards. Do not copy whole
-histories when a few verified facts and references suffice.
+histories when a few verified facts and references suffice. Separate explicit
+requirements, adjustable implementation choices, assumptions and available test
+inventory, with case provenance where multiple examples are involved. Do not
+silently transfer a constraint between cases. Identify the actual supported
+entry point/environment and input availability relevant to the assignment;
+mark unknown prerequisites without blocking independent work.
+
+Define budget units when assigning a limit: tool calls, execution groups, commands,
+elapsed time and computational work are not interchangeable. Reserve capacity for
+required verification, cleanup and reporting. Count the governed units accurately;
+batching commands does not waive work, time, scope or permission limits. Keep
+limits through continuations and report the exact unfinished check if they prevent
+completion; only existing routing policy can authorize further work. This is
+behavioral guidance, not a claim that every limit has a runtime counter.
 
 For ordinary read-only scouting, a self-contained prompt is enough: parent
 task reference, question/use of the answer, relevant source/revision and dirty
@@ -1023,6 +1071,11 @@ was answered. Label source-derived predictions separately from observed runtime
 behavior; runtime claims need the command/run and output reference. For logs
 or external artifacts include the run/time or artifact identity. Do not claim
 test coverage from test names alone or universal absence from a narrow search.
+Distinguish public implementation output, private oracle/ground-truth data,
+evaluator measurements and model forecasts; do not attribute one to another.
+Equal output values do not prove matched inputs. For comparative claims establish
+the relevant input/configuration identity, reusing valid existing evidence where
+available. Retain original failures and label corrected or parent-completed work.
 
 When an omission could invalidate a workflow or caller conclusion, require a
 coverage cross-check against an independent inventory such as registrations,
@@ -1522,7 +1575,13 @@ measured quota consumption; do not convert token totals with uncalibrated weight
 Agent counts, completed turns, token throughput, Luna token share, and large
 cached-input totals alone do not establish speed, cost savings, or quality.
 Keep this a small retrospective in existing records, not a mandatory per-scout
-reporting process.
+reporting process. Freeze criteria, case constraints and runnable fixtures before
+paired prompt comparisons; preserve original outputs and separately assess useful
+reasoning, executed actions, evidence correctness and budget compliance. Fixture
+or harness defects limit the comparison; repaired runs do not erase original
+failures. Better explanations alone do not establish better execution. One pair
+cannot establish broad reliability or a model-cost advantage. Prompt-delivery
+and installation tests establish wiring and preservation, not model compliance.
 
 For the expanded Luna/Terra workflow, compare a few representative matched tasks
 against a stated prior allocation with unchanged independent acceptance. Define

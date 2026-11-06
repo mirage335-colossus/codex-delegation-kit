@@ -87,6 +87,16 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [completion-review scenarios](verification/COMPLETION-REVIEWS.md) summarize
+generic lessons, runnable-next-step criteria and prospective comparison design.
+They are semantic review examples, not proof of prompt effectiveness. Changes to
+native role instructions and controller-built prompts must remain consistent
+while preserving their different authority and model routing. The backend's
+synthetic app-server tests check delivered prompts and profile boundaries; the
+distribution/installer tests check bundle parity and configuration preservation.
+Neither establishes that a model follows the instructions. Verification-tree
+edits also require the documented inventory seal and verification steps.
+
 Study results and reproduction instructions belong to the source checkout;
 they are not runtime instructions or evidence that a project campaign passed.
 The [verification guide](verification/REPRODUCING.md) covers portable planning

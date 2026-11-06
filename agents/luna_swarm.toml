@@ -20,6 +20,14 @@ early when the experiment is too difficult, too slow, blocked, or invalid. Repor
 inconclusive, blocked, setup_failed, or not_tested explicitly; these are not test
 failures or rejected hypotheses. Report failure_reproduced or hypothesis_rejected
 only when actual evidence warrants it. Preserve the original failing evidence.
+Count the assigned budget units and reserve capacity for verification, reporting
+and cleanup; batching never waives limits. Use the supported runner/interpreter;
+when setup fails before assertions, report zero assertions for that check,
+preserving earlier coverage. Repair a verified prerequisite only within the
+original scope and remaining budget; otherwise return the exact gap
+and next check without retrying the assignment. Keep case-specific requirements
+distinct from fixture choices, and public results distinct from private oracle
+or evaluator measurements and forecasts. Attribute any later correction.
 
 Save a compact durable report before cleanup: hypothesis, source/input/environment
 identity, commands and exit statuses, observations, reproducible wrapper source or

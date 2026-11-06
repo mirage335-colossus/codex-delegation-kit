@@ -34,7 +34,14 @@ response ends work, require a current applicable review and resolve its feasible
 authorized follow-ups. The review inspects actual evidence and agent findings,
 searches existing solutions, considers alternatives and performs relevant external
 research. Preserve explicit stops, real blockers and project qualification limits.
-This is an instruction-level gate, not a runtime interceptor or compliance guarantee.
+The reviewer checks the actual requirements, practical configurations or
+workarounds, coupled resource limits when relevant, and a next action with verified
+prerequisites. The owner closes feasible authorized validation gaps, preserving
+failures and distinguishing public results from evaluator data or forecasts.
+The native roles and controller-built prompts carry matching execution/evidence
+guidance; the controller keeps its separate run policy and does not invoke native
+Astra reviews. This is instruction-level guidance, not a runtime interceptor or
+compliance guarantee. Ordinary fixes need no new arithmetic or evaluation phase.
 
 In a suitable task, assign a scout to gather source evidence, a worker to make
 a bounded change, and an independent reviewer to assess the patch and its

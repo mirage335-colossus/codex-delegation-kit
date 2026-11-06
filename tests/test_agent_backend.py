@@ -42,6 +42,7 @@ for line in sys.stdin:
             continue
         p = message["params"]
         thread_cwd = p["cwd"]
+        (root / "thread-params").write_text(json.dumps(p))
         assert p["allowProviderModelFallback"] is False
         assert p["config"]['mcp_servers.example.enabled'] is False
         sandbox = {"type": "readOnly", "networkAccess": False}
@@ -139,6 +140,35 @@ class AgentBackendTests(unittest.TestCase):
         spec = self.prepare()
         result = subprocess.run(spec["argv"], cwd=spec["cwd"], capture_output=True, text=True, timeout=10)
         return result, backend.collect(self.directory, {"state": "completed", "released": True, "returncode": result.returncode})
+
+    def test_common_guidance_delivered_with_profile_boundaries_and_run_settings(self):
+        # Synthetic app-server captures the actual thread/start payload, not model behavior.
+        for role in (None, "scout", "worker", "reviewer", "owner"):
+            with self.subTest(role=role):
+                if role is not None:
+                    self.engineering(role)
+                self.directory = self.root / (role or "reasoning")
+                process, result = self.run_fake()
+                self.assertEqual(process.returncode, 0, process.stderr)
+                self.assertEqual(result["status"], "completed")
+                params = json.loads((self.root / "thread-params").read_text())
+                prompt = params["developerInstructions"]
+                self.assertEqual(prompt.count(backend.COMMON_INSTRUCTIONS), 1)
+                self.assertEqual((params["model"], params["config"]["model_reasoning_effort"],
+                                  params["serviceTier"]), ("test-model", "medium", "default"))
+                self.assertFalse(params["config"]["agents.enabled"])
+                self.assertNotIn("astra", prompt.lower())
+                if role is None:
+                    self.assertIn("Do not call tools, spawn agents", prompt)
+                    self.assertIn("execute commands, access services, or alter files", prompt)
+                    self.assertEqual(params["sandbox"], "read-only")
+                else:
+                    self.assertIn(f"You are the {role}", prompt)
+                    self.assertIn("do not maintain duplicate records or spawn agents", prompt)
+                    self.assertIn("Original repository (read-only)", prompt)
+                    self.assertEqual(params["sandbox"], "read-only" if role in {"scout", "reviewer"} else "workspace-write")
+                    if role == "reviewer":
+                        self.assertIn("Do not modify the patch or source", prompt)
 
     def test_prepare_is_structured_idempotent_and_preserves_config(self):
         first = self.prepare()

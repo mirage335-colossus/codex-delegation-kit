@@ -1,5 +1,7 @@
 # Reproducing the verification studies
 
+For general guidance on reviewing task evidence and bounded stopping decisions, see the clone-only [completion review guide](COMPLETION-REVIEWS.md). It is semantic guidance, not a runtime workflow or a substitute for the study-specific reproduction steps below.
+
 This bundle supports offline inspection and a fresh, manual-input replay of the decision-routing planning exercise. It also lets you stage the source inputs for the separate research-prompt study. It does not reproduce the historical conversations, native provider calls, hidden tool traces, or study outcomes. A fresh run may differ.
 
 Use a complete copy of this published verification bundle, including the current publication manifest, the six repository helper/test recipes listed below, and the replay/publisher scripts. The public kit commit `947ed25d4058e405ecf45d6956671f6fecb12026` is the source baseline; by itself it does not contain this publication update. Obtain the complete published bundle or a later revision that includes these files. The bundle can be verified after download with:

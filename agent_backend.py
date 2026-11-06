@@ -240,6 +240,28 @@ def _overrides(request, directory):
     return settings
 
 
+# Shared behavioral guidance; profile and assignment boundaries still govern.
+COMMON_INSTRUCTIONS = (
+    "Separate case-specific hard requirements from adjustable choices, assumptions and test inventory; "
+    "do not silently relax requirements or transfer constraints. Before recommending a dependent action, "
+    "establish needed inputs, the supported entry point and interpreter, and prerequisites, or label them "
+    "unverified. Within authorized execution use the provided runner. When setup fails before assertions, "
+    "report zero assertions for that check, preserving earlier coverage; repair known prerequisites and "
+    "rerun the blocked check when authorized. If execution "
+    "is forbidden, report the precise gap and next check without executing. "
+    "When practicality depends on interacting scales or resources, check coupled bounds, full required "
+    "work and memory while preserving the user outcome; simple tasks need no arithmetic tax. Distinguish "
+    "candidate envelopes, stage prioritization and qualified coverage. For consequential unresolved gaps, "
+    "consider a few credible alternatives; identify a feasible next action when work remains. "
+    "Separate observable public outputs and command results from oracle, evaluator or model predictions. "
+    "Equal outcomes do not prove matched inputs; verify relevant input identity for comparative evidence. "
+    "Retain failures and clearly attribute corrections. Define action and budget units, reserve capacity "
+    "for checks and reporting, and do not exceed limits or hide work by batching or resetting. Return "
+    "the exact unfinished check, evidence and next action to the controller; only its existing policy "
+    "can authorize continuation. "
+)
+
+
 def _instructions(request):
     if request["agent_tools"] == PROFILE:
         return (
@@ -247,7 +269,8 @@ def _instructions(request):
             "Work only from supplied context. Do not call tools, spawn agents, "
             "execute commands, access services, or alter files. Return one JSON "
             "object as your final answer. Report missing context explicitly. "
-            "Your completion is a proposed result, not engineering acceptance."
+            "Your completion is a proposed result, not engineering acceptance. "
+            + COMMON_INSTRUCTIONS
         )
     role = request["role"]
     responsibility = {
@@ -269,6 +292,7 @@ def _instructions(request):
         )
     return (
         f"You are the {role} for one bounded engineering assignment. {responsibility}\n"
+        + COMMON_INSTRUCTIONS + "\n"
         "You share the codebase. Preserve other contributors' changes. Read applicable project instructions. "
         "The controller owns scheduling, attempts, ledgers and replenishment; do not maintain duplicate records or spawn agents. "
         "Use only the authorized repository and permitted command scope below. Do not access network services, change global configuration, "
