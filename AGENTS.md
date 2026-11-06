@@ -13,9 +13,11 @@ Before substantive task work, obtain an initial review from `astra_initial`
 available; do no preparatory investigation. Clearly trivial mechanical
 requests are exempt. Read the [policy](policy.md#initial-astra-consultation)
 before changing delegation behavior, role instructions, installation, or
-evidence handling. Before concluding substantive work, follow the separate
-[mandatory Astra completion review](policy.md#mandatory-astra-completion-review)
-and resolve its feasible authorized follow-ups. Keep the
+evidence handling. Before the main chat decides to stop advancing a substantive
+request and return control to the user, submit that proposed stopping decision to
+the [mandatory Astra completion review](policy.md#mandatory-astra-completion-review).
+Before a final response ends work, require a current applicable review and resolve
+its feasible authorized follow-ups, regardless of the response's wording. Keep the
 runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
 unless a deliberate, reviewed manifest-compatible change updates the installer
 and its checks.

@@ -38,6 +38,28 @@ PUBLISHED_OLD22_AGENTS_BLOCK = (
     "constraints remain applicable.\n"
     "# <<< CODEX GLOBAL DELEGATION KIT <<<\n"
 )
+PUBLISHED_OLD23_PREVIOUS_AGENTS_BLOCK = (
+    "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>\n"
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+    "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+    "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+    "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+    "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{{policy}}` before deciding whether to delegate.\n"
+    "Before concluding substantive work as complete, \"done for now\", a partial handoff, "
+    "or waiting for user input because useful progress appears exhausted, obtain the mandatory completion review "
+    "from `astra_expert` (`gpt-6-astra` at `ultra`) described in the policy. It must examine current evidence, "
+    "search existing solutions, brainstorm alternatives and perform relevant external research. Resolve feasible "
+    "authorized next steps before concluding. Honor explicit user stops and genuine permission/budget limits; "
+    "report unavailable review honestly. This gate is separate from the initial consultation and is not recursive "
+    "for delegated subtasks.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+    "# <<< CODEX GLOBAL DELEGATION KIT <<<\n"
+)
 PUBLISHED_OLD21_AGENTS_BLOCK = (
     "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>\n"
     "For coding, repository investigation, debugging, software design, and technical factual research, "
@@ -57,6 +79,10 @@ PUBLISHED_OLD21_AGENTS_BLOCK = (
 
 def published_legacy_agents_block(target):
     return PUBLISHED_LEGACY_AGENTS_BLOCK.replace("{{policy}}", str(target / "policy.md"))
+
+
+def published_old23_previous_agents_block(target):
+    return PUBLISHED_OLD23_PREVIOUS_AGENTS_BLOCK.replace("{{policy}}", str(target / "policy.md"))
 
 
 def published_old22_agents_block(target):
@@ -128,6 +154,21 @@ class InstallerTests(unittest.TestCase):
         """Create the current 23-file inventory with its published old gateway."""
         target = self.seed_layout(kit.FILES, kit.ROLES, active=active)
         old = published_old22_agents_block(target)
+        manifest_path = target / ".installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        inserted = manifest["activation"]["AGENTS.md"]["inserted"]
+        prefix = "\n" if inserted.startswith("\n") else ""
+        if active:
+            text = self.agents.read_text()
+            self.agents.write_text(text.replace(inserted, prefix + old, 1))
+        manifest["activation"]["AGENTS.md"]["inserted"] = prefix + old
+        manifest_path.write_text(json.dumps(manifest))
+        return target
+
+    def seed_current_with_old23_previous_gateway(self, *, active=True):
+        """Seed the prior 23-file completion gateway."""
+        target = self.seed_layout(kit.FILES, kit.ROLES, active=active)
+        old = published_old23_previous_agents_block(target)
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         inserted = manifest["activation"]["AGENTS.md"]["inserted"]
@@ -417,6 +458,47 @@ class InstallerTests(unittest.TestCase):
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual({path: kit.read_state(path) for path in before}, before)
 
+    def test_current23_previous_completion_gateway_direct_disable(self):
+        target = self.seed_current_with_old23_previous_gateway()
+        evidence = target / "state/retained/result.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b"keep\n")
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertEqual(evidence.read_bytes(), b"keep\n")
+
+    def test_current23_previous_completion_gateway_upgrade_and_disable(self):
+        target = self.seed_current_with_old23_previous_gateway()
+        evidence = target / "state/retained/result.json"
+        evidence.parent.mkdir(parents=True)
+        evidence.write_bytes(b"keep\n")
+        active_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        kit.apply(kit.plan(self.home, self.source))
+        self.assertIn(kit.blocks(target)["AGENTS.md"].encode(), self.agents.read_bytes())
+        self.assertEqual(kit.read_state(self.agents).mode, self.original[self.agents].mode)
+        self.assertEqual(kit.read_state(self.config), active_before[self.config])
+        self.assertEqual(kit.plan(self.home, self.source), [])
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertEqual(evidence.read_bytes(), b"keep\n")
+
+    def test_inactive_current23_previous_completion_gateway_reactivation(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        manifest_path = target / ".installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest["activation"]["AGENTS.md"]["inserted"] = published_old23_previous_agents_block(target)
+        manifest_path.write_text(json.dumps(manifest))
+        self.agents.write_bytes(b"prefix\nsuffix\n")
+        before_config = kit.read_state(self.config)
+        self.activate()
+        self.assertEqual(self.agents.read_bytes(),
+                         b"prefix\nsuffix\n" + kit.blocks(target)["AGENTS.md"].encode())
+        expected_config = before_config.data + b"\n" + kit.blocks(target)["config.toml"].encode()
+        self.assertEqual(kit.read_state(self.config), kit.State(expected_config, before_config.mode))
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
     def test_current23_previous_gateway_direct_disable(self):
         target = self.seed_current_with_old22_gateway()
         original_agents = self.original[self.agents]
@@ -498,7 +580,8 @@ class InstallerTests(unittest.TestCase):
         published_old22 = published_old22_agents_block(target)
         tampered_old22 = published_old22.replace("available.", "unavailable.")
         for gateway in (published_old21_agents_block(target), published_legacy_agents_block(target),
-                        kit.blocks(target)["AGENTS.md"], tampered_old22):
+                        kit.blocks(target)["AGENTS.md"],
+                        published_old23_previous_agents_block(target), tampered_old22):
             manifest = json.loads(json.dumps(original))
             manifest["activation"]["AGENTS.md"]["inserted"] = gateway
             manifest_path.write_text(json.dumps(manifest))
@@ -573,6 +656,20 @@ class InstallerTests(unittest.TestCase):
                         kit.plan(self.home, self.source, uninstall=uninstall)
                     self.assertEqual(self.snapshot_home(), before)
         manifest_path.write_text(json.dumps(original_manifest))
+
+    def test_current23_previous_completion_gateway_tampering_is_refused_without_writes(self):
+        target = self.seed_current_with_old23_previous_gateway()
+        manifest_path = target / ".installation/manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        old = manifest["activation"]["AGENTS.md"]["inserted"]
+        manifest["activation"]["AGENTS.md"]["inserted"] = old.replace(
+            "search existing solutions", "ignore existing solutions")
+        manifest_path.write_text(json.dumps(manifest))
+        before = self.snapshot_home()
+        for uninstall in (False, True):
+            with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
+                kit.plan(self.home, self.source, uninstall=uninstall)
+            self.assertEqual(self.snapshot_home(), before)
 
     def test_current_previous_gateway_manifest_is_accepted(self):
         self.activate()

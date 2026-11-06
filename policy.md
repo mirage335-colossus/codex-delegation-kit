@@ -689,17 +689,30 @@ guaranteed superiority. Historical registration wording describes the role as
 
 ## Mandatory Astra completion review
 
-Before the main chat ends substantive engineering or technical research work as
-complete, "done for now", a partial handoff, or waiting for user input because it
-believes useful progress is exhausted, obtain a completion review from the pinned
-`astra_expert` (`gpt-6-astra`, `ultra`). This is a required stopping gate, separate
-from the prompt-only initial consultation and discretionary strategic reviews.
-Apply it to investigations and proposed blockers as well as implementation; a
-passing test, finished worker turn, small final diff or list of future suggestions
-does not establish completion. Do not relabel unfinished work to evade the gate.
-Clearly trivial mechanical tasks have the same exemption as the initial review;
-if unsure, obtain the review. Delegated subtasks and reviewers do not recursively
-invoke this gate.
+When the main chat proposes to stop advancing the current substantive engineering
+or technical research request and return control to the user, it must first submit
+its proposed stopping decision to the pinned `astra_expert` (`gpt-6-astra`, `ultra`).
+The trigger is the decision to stop, regardless of response wording or whether
+completion is claimed. Keep that decision provisional until the review is
+addressed. Before issuing a final response that ends work on the request (the
+`final` channel where available), require a current applicable completion review
+and resolve its feasible authorized follow-ups. This is a required stopping gate,
+separate from the prompt-only initial consultation and discretionary strategic
+reviews. It applies to investigations and proposed blockers as well as patches.
+
+Recognize the transition from execution to final reporting in the current plan,
+available progress summaries and agent findings: deciding enough is implemented,
+validation is sufficient, remaining problems can be documented as limitations,
+further work should be suggested to the user, or only the final report remains.
+These are examples of decision states, not phrases to match or a claim about
+unobserved reasoning. None establishes permission to stop. An accurate account of
+unfinished work can still accompany an unjustified stopping decision. Passing
+tests, a completed subagent assignment, a small final diff and careful caveats do
+not establish that the overall user request is adequately handled. Do not relabel
+unfinished work or narrow the objective to bypass the gate. Clearly trivial
+mechanical tasks have the initial review's exemption; if unsure, get the review.
+Delegated subtasks and reviewers report to their coordinator without recursively
+invoking this main-chat gate.
 
 Ordinary progress updates, active tool/agent waits and necessary early clarification
 do not trigger the gate. Honor an explicit user pause, stop or scope change promptly;
@@ -713,15 +726,27 @@ Give the reviewer the original request and later corrections, intended observabl
 outcome and acceptance criteria, relevant constraints and authorization limits,
 source/base identity and dirty scope, focused source/diff locations, actual checks
 and original failures, omitted or deferred coverage and why, tried approaches,
-remaining uncertainty, and the proposed stopping reason. Use compact evidence
-maps, but preserve critical original wording and decisive evidence. Review the
-actual current work, not only the coordinator's narrative or final response.
+remaining uncertainty, and the proposed stopping reason. Include available
+inter-agent findings, unresolved recommendations and relevant progress summaries,
+with their evidence limits. Use a concise operational decision summary: intended
+outcome; established results; unfinished work; feasible next actions and who can
+perform them; and why stopping is proposed instead of taking those actions. Do not
+request hidden reasoning or invent missing internal causes. Use compact evidence
+maps, preserving critical original wording and decisive evidence. Review the
+actual work and stopping rationale, not just the presentation of the final answer.
 
 The review must challenge whether the task has been adequately completed:
 
 - Check the user's objective and motivating edge cases against observable behavior
   and evidence. Distinguish implemented behavior, source-derived predictions,
-  demonstrated results, known failures and unexecuted qualification.
+  demonstrated results, known failures and unexecuted qualification. A subagent's
+  completion verdict applies only to its assigned scope; check whether other
+  required implementation, research or validation remains.
+- Challenge the disposition of remaining work. Determine whether a recorded
+  limitation, uncertainty, suggested next step or claimed scope/authorization
+  boundary genuinely justifies returning control, or whether the main chat can
+  still act within the request. Check the actual instructions and inexpensive
+  ways to resolve uncertainty; documenting a problem is not resolving it.
 - Search relevant existing code, adjacent components, abstractions, callers, tests
   and documentation for overlooked solutions. State inspected scope and meaningful
   gaps; this is a focused investigation, not a compulsory whole-repository audit.
@@ -745,11 +770,16 @@ The review must challenge whether the task has been adequately completed:
 
 Use this reusable completion-review assignment, with the evidence above:
 
-> Challenge my proposed stopping decision against the original user objective.
-> Inspect the critical source and evidence yourself; search for existing solutions,
-> reconsider assumptions, brainstorm credible alternatives, and research externally
-> where it could resolve remaining uncertainty. Do not treat my summary, passing
-> tests or an earlier adviser opinion as proof of completion. Return one verdict:
+> Is the main chat's proposed stopping decision justified by the user's objective,
+> current implementation and evidence, available inter-agent findings, and remaining
+> feasible actions? Identify any relevant action the main chat can and should still
+> perform within its existing authorization. Inspect critical source and evidence;
+> search for overlooked solutions, reconsider assumptions, brainstorm alternatives
+> and research material uncertainty before endorsing the decision. Challenge items
+> classified as limitations, future suggestions, blocked or outside scope against
+> the actual request. Accurate caveats, passing tests and a completed subtask do not
+> by themselves justify stopping. Judge the decision to discontinue work, not just
+> whether the final answer describes the current state honestly. Return one verdict:
 > **ready to conclude**, **continue with concrete actions**, or **blocked on
 > specified input/authorization**. Include evidence and material limits, overlooked
 > requirements, alternatives considered, research performed or why unnecessary,
@@ -764,8 +794,10 @@ to "future work" or ask whether the user wants already-requested work completed.
 Material changes, newly exposed gaps or disputed consequential findings require a
 focused re-review of the affected evidence. Reuse the same adviser and unchanged
 evidence where valid. A recent evidence-driven Astra review can satisfy this gate
-only if it explicitly covers the completion questions and gives the verdict for
-the current objective, source and evidence; an initial consultation cannot.
+only if it explicitly covers the stopping decision and completion questions for
+the current objective, source, evidence and remaining work; an initial consultation
+cannot. Check applicability again before the final response: a stale verdict or
+unresolved actionable finding does not clear the gate.
 
 The gate grants no new authorization. Preserve project qualification thresholds,
 model ceilings, resource limits, holds and publication controls. Deferred expensive
