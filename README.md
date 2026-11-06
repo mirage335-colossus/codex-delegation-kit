@@ -24,7 +24,14 @@ Preserve task scope and normal service permissions.
 
 For substantive tasks, obtain the policy's initial `astra_initial`
 (`gpt-6-astra`, `ultra`) consultation before investigation or planning; clearly
-trivial mechanical requests are exempt.
+trivial mechanical requests are exempt. Before ending substantive work as complete,
+"done for now" or unable to progress without the user, obtain the separate
+[mandatory completion review](policy.md#mandatory-astra-completion-review) from
+`astra_expert` (`gpt-6-astra`, `ultra`). It checks actual evidence, searches existing
+solutions, considers alternatives and performs relevant external research. Resolve
+feasible authorized actions before concluding; preserve explicit stops, real
+blockers and project qualification limits. This is an instruction-level gate,
+not a runtime interceptor or a guarantee of compliance.
 
 In a suitable task, assign a scout to gather source evidence, a worker to make
 a bounded change, and an independent reviewer to assess the patch and its

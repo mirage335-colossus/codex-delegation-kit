@@ -635,9 +635,10 @@ to exhaust attempts first:
   reaches diminishing returns. Review even if each step passes tests; do not wait
   for days of off-track work.
 
-Later Astra selection gates use judgment; the architectural minimum above remains
-required. The mandatory initial consultation is separate from these event-driven
-reviews. Use cheap decisive experiments when clear. If differential diagnosis
+Event-driven Astra selection gates use judgment; the architectural minimum above
+and the mandatory completion review below remain required. The mandatory initial
+consultation is separate from both later review purposes. Use cheap decisive
+experiments when clear. If differential diagnosis
 was neglected, restore distinct hypotheses, matched comparisons and predicted
 outcomes; neglect alone does not prove model insufficiency. Astra may help design
 those experiments when that design is the blocker. For later reviews, routine
@@ -684,7 +685,105 @@ escalation. Do not move restricted work to another run to bypass that boundary.
 Separately authorized advice must fit shared allocation and cannot mutate or
 silently resume the run. Choose for task fit, not presumed parameter count or
 guaranteed superiority. Historical registration wording describes the role as
-"Sparse strategic review"; selection follows these current bounded event gates.
+"Sparse strategic review"; it does not waive the mandatory completion gate below.
+
+## Mandatory Astra completion review
+
+Before the main chat ends substantive engineering or technical research work as
+complete, "done for now", a partial handoff, or waiting for user input because it
+believes useful progress is exhausted, obtain a completion review from the pinned
+`astra_expert` (`gpt-6-astra`, `ultra`). This is a required stopping gate, separate
+from the prompt-only initial consultation and discretionary strategic reviews.
+Apply it to investigations and proposed blockers as well as implementation; a
+passing test, finished worker turn, small final diff or list of future suggestions
+does not establish completion. Do not relabel unfinished work to evade the gate.
+Clearly trivial mechanical tasks have the same exemption as the initial review;
+if unsure, obtain the review. Delegated subtasks and reviewers do not recursively
+invoke this gate.
+
+Ordinary progress updates, active tool/agent waits and necessary early clarification
+do not trigger the gate. Honor an explicit user pause, stop or scope change promptly;
+do not keep working merely to obtain a review. Hard execution/budget limits and
+genuine access failures also take precedence: report an incomplete or blocked
+handoff and any missing review honestly. Do not manufacture a need for user input
+when a feasible authorized next step remains. Continue independent useful work
+while a real prerequisite is pending.
+
+Give the reviewer the original request and later corrections, intended observable
+outcome and acceptance criteria, relevant constraints and authorization limits,
+source/base identity and dirty scope, focused source/diff locations, actual checks
+and original failures, omitted or deferred coverage and why, tried approaches,
+remaining uncertainty, and the proposed stopping reason. Use compact evidence
+maps, but preserve critical original wording and decisive evidence. Review the
+actual current work, not only the coordinator's narrative or final response.
+
+The review must challenge whether the task has been adequately completed:
+
+- Check the user's objective and motivating edge cases against observable behavior
+  and evidence. Distinguish implemented behavior, source-derived predictions,
+  demonstrated results, known failures and unexecuted qualification.
+- Search relevant existing code, adjacent components, abstractions, callers, tests
+  and documentation for overlooked solutions. State inspected scope and meaningful
+  gaps; this is a focused investigation, not a compulsory whole-repository audit.
+- Contemplate the underlying assumptions and brainstorm materially different,
+  simpler approaches to unmet requirements. Compare their applicability and costs;
+  do not stop at the first plausible explanation or add speculative work merely
+  because alternatives can be imagined.
+- Perform bounded external research when unresolved technical uncertainty,
+  repeated failure, a niche mechanism or a claimed lack of alternatives could
+  change the stopping decision. Search and inspect primary documentation and
+  relevant peer-reviewed articles where useful; verify versions, assumptions,
+  publication/access limits and applicability. Cite decisive sources and preserve
+  contrary evidence. Existing matching research may be reused. If fresh research
+  is unnecessary or unavailable, state why and its effect on confidence; lack of
+  access is not proof that no solution exists.
+- Identify obvious, plausible and feasible next steps: existing code to reuse,
+  missing implementation, a discriminating experiment, a targeted check, or a
+  research question that can resolve a consequential gap. Rank required actions
+  separately from optional improvements. Ask what specifically prevents useful
+  authorized progress now.
+
+Use this reusable completion-review assignment, with the evidence above:
+
+> Challenge my proposed stopping decision against the original user objective.
+> Inspect the critical source and evidence yourself; search for existing solutions,
+> reconsider assumptions, brainstorm credible alternatives, and research externally
+> where it could resolve remaining uncertainty. Do not treat my summary, passing
+> tests or an earlier adviser opinion as proof of completion. Return one verdict:
+> **ready to conclude**, **continue with concrete actions**, or **blocked on
+> specified input/authorization**. Include evidence and material limits, overlooked
+> requirements, alternatives considered, research performed or why unnecessary,
+> and the next feasible action with expected evidence. For a blocked verdict,
+> identify the exact prerequisite and whether independent work remains. Be concise
+> but substantive; a generic approval or optional-ideas list is insufficient.
+
+The coordinator resolves feasible, relevant, authorized actions addressing unmet
+objectives before concluding. Execute them or give an evidence-backed reason they
+are inapplicable, already satisfied or genuinely blocked; do not simply move them
+to "future work" or ask whether the user wants already-requested work completed.
+Material changes, newly exposed gaps or disputed consequential findings require a
+focused re-review of the affected evidence. Reuse the same adviser and unchanged
+evidence where valid. A recent evidence-driven Astra review can satisfy this gate
+only if it explicitly covers the completion questions and gives the verdict for
+the current objective, source and evidence; an initial consultation cannot.
+
+The gate grants no new authorization. Preserve project qualification thresholds,
+model ceilings, resource limits, holds and publication controls. Deferred expensive
+qualification can coexist with completed implementation only when the project's
+contract permits it and the handoff states the exact remaining coverage and next
+command or request. An optional improvement does not make a satisfied task endless.
+If required Astra access is unavailable, forbidden or known unsupported, disclose
+the exact missing review/conflict, continue independent permitted work, and report
+a blocked or incomplete handoff rather than claiming clearance or silently
+substituting another model. A later explicit ceiling still governs; controller
+runs retain their uniform model boundary and must not be rerouted to evade it.
+
+Keep the verdict, material findings, action dispositions and remaining limits in
+existing native task history or the selected workflow's existing evidence; add no
+registry or mandatory report file. The final response briefly reports the review
+outcome and material unresolved work. This is a mandatory instruction-level gate,
+not runtime interception of final responses or proof of model compliance. It does
+not replace independent patch acceptance or the engineering owner's responsibility.
 
 ## Keep useful work moving after scouting
 
@@ -1308,8 +1407,9 @@ investigation or run unchanged checks. Recheck when changed inputs, failed or
 missing/mismatched evidence, unresolved risk, or project requirements justify it.
 Coordinate strong reviews at meaningful integration boundaries. No mandatory
 new test, negative control, mutation check, independent test-writing agent or
-extra review round is added for ordinary patches. Add focused regression coverage
-when existing coverage is inadequate and the benefit warrants it; delegate it
+extra per-patch review round is added for ordinary patches. The main-chat
+completion gate remains required for substantive tasks. Add focused regression
+coverage when existing coverage is inadequate and the benefit warrants it; delegate it
 when independent. Preserve all required project checks and acceptance criteria.
 Report accepted patches and checks, required engineering rework, and unresolved
 decisions; do not report

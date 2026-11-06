@@ -78,6 +78,19 @@ OLD21_ROLES = {
     "astra_expert": "Sparse strategic review of difficult engineering decisions.",
 }
 OLD22_FILES = OLD21_FILES + ("agents/astra_initial.toml",)
+OLD22_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+    "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+    "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+    "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+    "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
 ROLES = {
     **OLD21_ROLES,
     "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
@@ -171,6 +184,13 @@ def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
             "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
             "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
             f"and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
+            "Before concluding substantive work as complete, \"done for now\", a partial handoff, "
+            "or waiting for user input because useful progress appears exhausted, obtain the mandatory completion review "
+            "from `astra_expert` (`gpt-6-astra` at `ultra`) described in the policy. It must examine current evidence, "
+            "search existing solutions, brainstorm alternatives and perform relevant external research. Resolve feasible "
+            "authorized next steps before concluding. Honor explicit user stops and genuine permission/budget limits; "
+            "report unavailable review honestly. This gate is separate from the initial consultation and is not recursive "
+            "for delegated subtasks.\n"
             "Preserve the user's selected primary model. Project contracts and authorization "
             "constraints remain applicable.\n"
         )
@@ -244,6 +264,9 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             known_blocks = blocks(home / "delegation-kit", OLD21_ROLES)
         elif inventory == set(OLD22_FILES):
             known_blocks = blocks(home / "delegation-kit", ROLES)
+            target = home / "delegation-kit"
+            old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
+            known_blocks["AGENTS.md"] = f"{BEGIN}\n{old_gateway}{END}\n"
         elif inventory == set(FILES):
             known_blocks = expected
         else:
@@ -256,6 +279,11 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             if inventory == set(OLD21_FILES) and name == "AGENTS.md":
                 legacy = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)[name]
                 allowed += (legacy, "\n" + legacy)
+            if inventory == set(FILES) and name == "AGENTS.md":
+                target = home / "delegation-kit"
+                old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
+                old_block = f"{BEGIN}\n{old_gateway}{END}\n"
+                allowed += (old_block, "\n" + old_block)
             if record["inserted"] not in allowed:
                 raise ValueError("unexpected managed block")
             if type(record["original_exists"]) is not bool:
