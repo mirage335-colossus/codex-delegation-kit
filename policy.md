@@ -52,9 +52,9 @@ conversation references for assignment state and engineering evidence. Do not
 invoke `controller.py` or `supervisor.py`, or create engineering assignment
 registries, ledgers, or reports. Preserve the same assignment identities,
 original failures, repair allowances, deadlines, holds, and acceptance
-conditions in native history. Required private financial or resource-control
-state for authorized cloud operations is distinct from assignment bookkeeping;
-maintain it outside development repositories as described in [the cloud
+conditions in native history. Any financial or resource-control state kept for
+authorized cloud operations is distinct from assignment bookkeeping; keep it
+outside development repositories as described in [the cloud
 experiment guide](CLOUD.md). This changes the coordination mechanism, not the
 assignment contract or engineering ownership.
 
@@ -1536,9 +1536,9 @@ In native-only coordination mode, use native tools, messages, and conversation
 references to preserve the same assignment and engineering evidence; do not
 create helper registrations or engineering assignment registries, ledgers, or
 report files.
-Required private financial or resource-control records for authorized cloud
-operations remain separate, live outside development repositories, and do not
-become helper or assignment records; see [the cloud experiment guide](CLOUD.md).
+Any financial or resource-control records kept for authorized cloud operations
+remain separate, live outside development repositories, and do not become helper
+or assignment records; see [the cloud experiment guide](CLOUD.md).
 
 In the selected helper/project workflow, keep an existing project's
 `.agent-work` authoritative. Honor its established task/result format and

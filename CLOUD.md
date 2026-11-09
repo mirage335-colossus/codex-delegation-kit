@@ -76,29 +76,42 @@ Before launch or extension, reconcile existing usage, active resources, and
 delayed or unsettled costs. Bound maximum additional cost through cleanup,
 including rounding, billing delay, taxes, and a margin. Allocate that bound
 across Chicago calendar-day boundaries, including daylight-saving changes;
-midnight does not erase commitments already running. Atomic private shared
-reservations must cover every actor and host. A host-local lock does not
-coordinate other hosts. Keep reservations until resources are deleted and
-costs reconciled. Unknown or unbounded exposure blocks new spending, while
-independent investigation can continue. This guide is not implemented billing
-enforcement, a controller, or a provider spend cap.
+midnight does not erase commitments already running. Cross-host budget
+reservations are usually unnecessary. When concurrent activity presents a
+concrete risk of exceeding a shared limit, make a proportionate best effort
+to coordinate, using an existing shared mechanism if readily available. A
+host-local lock does not coordinate other hosts. Do not make a shared
+reservation service a prerequisite or ask the user to supply one merely
+because it is unavailable. Account for known commitments through deletion
+and cost reconciliation. Lack of a shared reservation service or complete
+cross-host visibility alone does not establish unknown or unbounded exposure.
+Unknown or unbounded exposure blocks new spending, while independent
+investigation can continue. This guide is not implemented billing enforcement,
+a controller, or a provider spend cap.
 
 For Linode, keep aggregate spend strictly below USD 10 per hour and set a
 concrete deadline of a few hours or less before launch. Promptly delete
 experimental instances and leftovers. For RunPod, target aggregate spend below
 USD 10 per hour; a higher rate is acceptable only for a bounded run that fits
 the remaining daily limits and margin. Release idle compute promptly. Keep
-network cache volumes only for a justified time gain. In private operational
-state, record their ongoing cost and a concrete review or expiry date; retain
-an owner through that review or expiry.
+network cache volumes only for a justified time gain. Account for their ongoing
+cost, set a concrete review or expiry date, and retain an owner through that
+review or expiry. Use lightweight notes where useful; a separate bookkeeping
+system is not required.
 
-Arrange cleanup independently of the chat where possible, using an authorized
-provider termination or external control plane. Do not rely on VM self-shutdown
-or credit exhaustion. Verify deletion in the provider control plane, including
-persistent volumes, backups, IPs, and other billable resources; stopping
-compute does not prove charges ended. If cleanup fails, retain the owner,
-liability, and budget reservation and report the failure. Do not extend
-implicitly. Do not enable AutoPay, raise account limits, or purchase credits.
+Use an available authenticated provider browser console for launch, monitoring,
+and cleanup when that is the practical route. If readily available and useful,
+make a best effort to arrange independent cleanup through an authorized provider
+termination or external control plane. Do not make separate API credentials,
+an independently authenticated mechanism, automation, or a bookkeeping system
+a prerequisite; do not ask the user for a credential or its location solely to
+set one up. Use the browser directly when that is what is available. Do not rely
+on VM self-shutdown or credit exhaustion. Verify deletion in the provider
+control plane, including persistent volumes, backups, IPs, and other billable
+resources; stopping compute does not prove charges ended. If cleanup fails,
+retain the owner, account for continuing liability including any reservation
+in use, and report the failure. Do not extend implicitly. Do not enable AutoPay,
+raise account limits, or purchase credits.
 
 Provider documentation describes why cleanup must cover related resources:
 [RunPod Pod pricing](https://docs.runpod.io/pods/pricing) and [network volume
@@ -130,8 +143,8 @@ recorded without provider account metadata.
 In native-only coordination, preserve assignment identity, engineering
 bookkeeping, failures, ownership, decisions, and acceptance evidence in native
 history; do not create engineering assignment registries, ledgers, or reports.
-Required private financial and resource-control state described above is
-separate and must still be maintained outside the repository. Repository
+Any financial and resource-control state kept for cloud operations is separate
+and must be maintained outside the repository. Repository
 helpers or controller receipt stores must not capture cloud account operations
 data. Use a permitted private operational route without bypassing task
 authorization or the selected controller boundary.
