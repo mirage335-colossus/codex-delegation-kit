@@ -1,0 +1,44 @@
+{
+  "changes": [
+    "Updated source/cli.py to call build_monthly_report for the documented CLI, replacing the legacy compact export on that path.",
+    "Added tests/test_cli_integration.py, exercising the actual `python -m source.cli` entry point on a temporary multi-team CSV with approved, rejected, out-of-month, and malformed rows."
+  ],
+  "actual_commands_outcomes": [
+    {
+      "command": "git status --short && sed -n '1,180p' source/cli.py && sed -n '1,160p' source/report.py",
+      "outcome": "Failed at git status: this workspace is not a Git repository, so the chained source reads did not run. No assertions were made."
+    },
+    {
+      "command": "sed -n '1,180p' source/cli.py; sed -n '1,160p' source/report.py",
+      "outcome": "Confirmed CLI imported and called legacy.compact_export; report.build_monthly_report provides the requested filtered report mapping."
+    },
+    {
+      "command": "python3 -B -m unittest tests.test_cli_integration",
+      "outcome": "Passed: 1 integration test."
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests",
+      "outcome": "Passed: all 6 tests."
+    },
+    {
+      "command": "python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10",
+      "outcome": "Exited successfully and emitted grand_total 1281.00; North count 2/total 1241.00; South count 1/total 40.00."
+    }
+  ],
+  "course_correction_evidence": [
+    "The first stage 2 invocation could not inspect Git state because the workspace has no .git repository; I continued with direct source inspection and did not infer a clean/dirty state.",
+    "The stage 1 CLI run exposed the legacy output shape and included the rejected October row in its count and total. Inspection showed the existing monthly report builder already implements the required selection and team aggregation, so the minimal correction was to route the documented CLI through it.",
+    "The new integration check observed separate team totals, exact cent totals, omission of rejected and out-of-month rows, and a malformed-row warning on stderr."
+  ],
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "No external spreadsheet was available, so finance's spreadsheet was not independently compared; output correctness was checked against the stated contract and the controlled CSV rows.",
+    "No plugin or direct legacy.compact_export caller compatibility check was available. The legacy function itself was left unchanged.",
+    "Only the supplied fixture and the new controlled multi-team case were executed; this does not establish behavior for every possible CSV or Decimal input."
+  ],
+  "shell_invocations_by_stage": {
+    "stage1": 4,
+    "stage2": 2,
+    "stage3": 4
+  }
+}

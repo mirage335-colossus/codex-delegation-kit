@@ -1,0 +1,41 @@
+Only in /tmp/delegation-recovery-runs/q783/workspace: __pycache__
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B1/participant/exporter.py /tmp/delegation-recovery-runs/q783/workspace/exporter.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B1/participant/exporter.py	2026-11-09 13:16:42.162663276 -0600
++++ /tmp/delegation-recovery-runs/q783/workspace/exporter.py	2026-11-09 13:24:24.385440648 -0600
+@@ -4,21 +4,21 @@
+ 
+ 
+ def export_page(events, cursor, limit, state, inspect=None):
+-    """Return a page of the accepted event batch.
++    """Return a page in accepted order and advance caller-owned project state.
+ 
+-    `state` is retained by the caller and advanced for rows returned on this
+-    page. `inspect` is an optional deterministic counter for rows examined.
++    Only rows returned on this page are examined and assigned sequence values.
+     """
+-    # The export originally used the shared global reservation path: it built
+-    # a globally ordered sequence for the full batch before slicing a page.
+-    ordered = sorted(enumerate(events), key=lambda pair: (pair[1].accepted_at, pair[1].event_id))
+-    for _position, event in ordered:
++    start, end = page_bounds(len(events), cursor, limit)
++    rows = []
++    for event in events[start:end]:
+         if inspect is not None:
+             inspect(event)
+-    start, end = page_bounds(len(ordered), cursor, limit)
+-    selected = ordered[start:end]
+-    rows = tuple(
+-        ExportRow(event.event_id, event.project_id, position + 1, event.payload)
+-        for position, event in selected
+-    )
+-    return ExportPage(rows=rows, next_cursor=end, has_more=end < len(ordered))
++        rows.append(
++            ExportRow(
++                event.event_id,
++                event.project_id,
++                state.next_for(event.project_id),
++                event.payload,
++            )
++        )
++    return ExportPage(rows=tuple(rows), next_cursor=end, has_more=end < len(events))
+Only in /tmp/delegation-recovery-runs/q783/workspace: regression_tests.py

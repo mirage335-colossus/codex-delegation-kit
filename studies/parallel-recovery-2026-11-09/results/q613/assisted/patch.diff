@@ -1,0 +1,25 @@
+Only in /tmp/delegation-recovery-runs/q613/workspace: __pycache__
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/pagination.py /tmp/delegation-recovery-runs/q613/workspace/pagination.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/pagination.py	2026-11-09 13:12:17.888182401 -0600
++++ /tmp/delegation-recovery-runs/q613/workspace/pagination.py	2026-11-09 13:24:26.842038547 -0600
+@@ -4,6 +4,6 @@
+ 
+ def paginate(items, offset=0, limit=None):
+     """Return a page; omitted limit uses DEFAULT_PAGE_SIZE."""
+-    actual_limit = limit or DEFAULT_PAGE_SIZE
++    actual_limit = DEFAULT_PAGE_SIZE if limit is None else limit
+     start = max(0, offset)
+     return list(items[start:start + actual_limit])
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/public_tests.py /tmp/delegation-recovery-runs/q613/workspace/public_tests.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/public_tests.py	2026-11-09 13:13:40.114371256 -0600
++++ /tmp/delegation-recovery-runs/q613/workspace/public_tests.py	2026-11-09 13:24:26.842132924 -0600
+@@ -6,6 +6,9 @@
+         values = list(range(30))
+         self.assertEqual(len(paginate(values)), 20)
+ 
++    def test_explicit_zero_limit_returns_empty_list(self):
++        self.assertEqual(paginate(["a", "b", "c"], limit=0), [])
++
+     def test_positive_limit_and_offset(self):
+         self.assertEqual(paginate(["a", "b", "c", "d"], offset=1, limit=2), ["b", "c"])
+ 

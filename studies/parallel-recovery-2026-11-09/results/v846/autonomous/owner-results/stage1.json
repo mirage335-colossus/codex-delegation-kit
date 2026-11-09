@@ -1,0 +1,36 @@
+{
+  "current_hypothesis": "For the constructed workload (64 samples, 64 Hz, required band [0,0] Hz, no excluded bands), BlockProjection.numpy currently calculates the full length-64 FFT and then retains only the selected DC coordinate. A low-cardinality direct projection over selected coordinates may avoid unnecessary work while retaining the public output contract, but the cost benefit and correctness remain unmeasured.",
+  "evidence": {
+    "actual_commands": [
+      {
+        "command": "cat /tmp/delegation-recovery-runs/v846/assignment.md",
+        "result": "Read stage instructions: four exec_command calls total including assignment and result writing; read-only diagnostics; no source edit in stage1; use supplied Python runtime; write stage1.json."
+      },
+      {
+        "command": "cat /tmp/delegation-recovery-runs/v846/workspace/task.md /tmp/delegation-recovery-runs/v846/workspace/workload.md",
+        "result": "task.md states preserve values, shape, dtype, accepted inputs, callers; public fixture is constructed contract data, not historical capture or throughput trace; receiver boundary test and private NumPy DFT acceptance runner are specified. workload.md does not exist (cat reported failure)."
+      },
+      {
+        "command": "rg --files /tmp/delegation-recovery-runs/v846/workspace | sort",
+        "result": "Workspace includes fixturedata/projection-workload.json, tools/triad_dynamic_joint.py, receiver modules and test_triad_incremental_receiver.py; no workload.md is present."
+      },
+      {
+        "command": "rg -n -C 30 'BlockProjection|project|projection' /tmp/delegation-recovery-runs/v846/workspace/tools/triad_dynamic_joint.py /tmp/delegation-recovery-runs/v846/workspace/tools/triad_incremental_receiver.py /tmp/delegation-recovery-runs/v846/workspace/tests/test_triad_incremental_receiver.py && cat /tmp/delegation-recovery-runs/v846/workspace/fixturedata/projection-workload.json",
+        "result": "Source shows BlockProjection.numpy checks last-axis sample length, returns indexed raw values in valid-rows mode, otherwise computes np.fft.fft(values, axis=-1, norm='ortho')[..., indices]. make() selects DFT bins from bands and stores read-only indices. Receiver test exercises batch/stream equivalence. Fixture confirms n=64, fs=64, required DC-only band, no excluded bands. Output was truncated after source/test excerpts; no execution or measurement was performed."
+      }
+    ],
+    "supported_findings": [
+      "Current DFT path computes the complete FFT irrespective of selected coordinate count.",
+      "The provided workload selects a low-cardinality coordinate set (DC only) for n=64.",
+      "Current evidence establishes the workload geometry and code path, not a historical workload, runtime gain, or end-to-end improvement."
+    ],
+    "unverified": [
+      "Whether any candidate projection preserves numerical results, dtype, accepted inputs, and errors across caller contracts.",
+      "Whether direct projection is faster in the workload or in actual receiver execution; no benchmark or test was run.",
+      "Actual caller cadence and whether projections repeat across alternative dimensions or are amortized by caches."
+    ]
+  },
+  "independent_action": "In the authorized implementation/validation stage, inspect all BlockProjection callers and accepted input behaviors in the source; consider a low-cardinality DFT-coordinate calculation only if NumPy-compatible shape/dtype/error behavior can be preserved. Use the supplied Python runtime and authorized runner for the smallest real-path check: first compare projection output to the existing NumPy DFT selection on the actual fixture, including dtype/shape and boundary/error cases, then run the specified receiver integration test. Measure the workload path with setup versus repeated calls identified; reject the performance hypothesis if measured projection time does not improve, any output/error contract differs, or receiver integration changes results. Do not infer end-to-end gain from this constructed fixture. Exact backend costs, repetitions/cadence, and observed timings are unavailable at stage1.",
+  "shell_invocations": 4,
+  "limits": "Stage1 read-only only; no assertions or runtime execution; no edits to source. One requested workload.md was absent. No other runs or study/oracle/evaluator/witness material inspected."
+}

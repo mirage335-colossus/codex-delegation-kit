@@ -56,6 +56,30 @@ definition](policy.md#weekly-usage-cost).
 If an older installed policy lists Luna as unknown, the current user estimate
 above supersedes that value.
 
+## Parallel challenges when work stalls
+
+An optional assignment pattern for the policy's [diagnostic
+reassessment](policy.md#general-diagnostic-work) is to obtain independent
+challenges to the current approach:
+
+- Give each helper the original user objective, observed failures and relevant
+  source access. Assign different questions: whether the actual outcome is being
+  exercised, which assumption or existing mechanism changes the approach, or
+  which small experiment separates plausible causes.
+- Ask for a source-grounded finding and an executed, authorized discriminator
+  where feasible. A useful challenge can reject the current framing; agreement
+  and additional suggestions alone do not establish progress.
+- Keep the owner advancing independent work while helpers investigate. Apply
+  supported findings to the next experiment or implementation, or explain why
+  they do not apply. Wait only where a decision depends on missing evidence.
+
+Select parallel branches when they can add information; a settled fix needs no
+extra challenge round. Existing routing, ownership, budgets and acceptance apply.
+This remains an experimental recipe, not an automatic trigger, fixed agent count
+or demonstrated reliability improvement. Exercises must distinguish successful
+recovery, useful helper contributions and spontaneous activation; supplied
+parallel support does not establish the last of these.
+
 ## Choose a mode
 
 | Mode | Use it when | Where state lives |

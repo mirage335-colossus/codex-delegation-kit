@@ -1,0 +1,31 @@
+{
+  "changes": [
+    "Updated workspace/exporter.py to use page_bounds and traverse only the requested input slice, preserving accepted input order.",
+    "Each returned row now obtains its sequence from caller-owned ProjectSequenceState.next_for(project_id), preserving project-local progression across calls.",
+    "Added workspace/regression_tests.py for accepted order, independent project sequences across pages, and inspect bounded to returned rows."
+  ],
+  "commands_outcomes": [
+    {
+      "command": "timeout 60s python3 -m unittest -v public_tests regression_tests (cwd workspace)",
+      "outcome": "All 6 tests passed: 3 supplied public tests and 3 added regression tests."
+    },
+    {
+      "command": "timeout 60s python3 inline edge assertions (cwd workspace)",
+      "outcome": "Default page limit, retained state snapshot with zero-size page, and cursor beyond end all passed."
+    }
+  ],
+  "course_correction_evidence": "Stage 1 diagnostic showed the old exporter sorted by timestamp/event_id, inspected all batch rows, used original global positions as sequences, and left state empty. The implementation now walks only events[start:end], calls inspect for those selected rows, and uses state.next_for per project. The regression tests reproduce the accepted-order and cross-project/cross-page contract; the public suite and edge assertions pass.",
+  "helper_findings_used": [],
+  "limits": [
+    "No supplied task, public test, or fixture file was edited; only exporter.py and a new regression_tests.py were changed.",
+    "No external access, installation, global configuration, commits, publication, or nested agents were used.",
+    "Validation is limited to the supplied public unit tests, the added regressions, and the listed local edge assertions; no private evaluator was available or consulted."
+  ],
+  "actual_invocation_counts": {
+    "stage1": 4,
+    "stage2": 1,
+    "stage3": 3,
+    "total": 8,
+    "maximum_authorized_total": 10
+  }
+}

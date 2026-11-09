@@ -1,0 +1,60 @@
+{
+  "changes": [
+    "In workspace/tools/triad_dynamic_joint.py, added a narrowly guarded DC-only path in BlockProjection.numpy for DFT projections whose only retained index is 0 and whose inputs have floating or complex dtype. It computes a normalized sum over the last axis, retains the one-mode output dimension, and uses NumPy's FFT result precision (complex64 for single precision, complex128 for double precision). Other DFT selections and valid-rows inputs retain their existing paths."
+  ],
+  "actual_commands_results": [
+    {
+      "command": "cat /tmp/delegation-recovery-runs/v846/results/helper1.md /tmp/delegation-recovery-runs/v846/results/helper2.md && sed -n '54,110p' /tmp/delegation-recovery-runs/v846/workspace/tools/triad_dynamic_joint.py",
+      "result": "Read both helper reports and the projection method. Helper1's DC-only coordinate analysis and the narrow direct-reduction hypothesis informed the specialization. Helper2's warning about low-bit differences and dtype/error contracts informed testing and the narrow guard."
+    },
+    {
+      "command": "sed -n '165,305p' /tmp/delegation-recovery-runs/v846/workspace/tools/triad_dynamic_joint.py && sed -n '180,300p' /tmp/delegation-recovery-runs/v846/workspace/tools/triad_incremental_receiver.py",
+      "result": "Confirmed batch preparation and incremental receiver basis/observation use BlockProjection.numpy. Batch ProjectedJointReceiver.correlations separately performs torch.fft.fft for observed data, so this change does not optimize that FFT path."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B -m unittest test_triad_incremental_receiver.IncrementalReceiverTests.test_batch_equivalence_dft_static_and_ou (cwd=workspace/tests)",
+      "result": "Passed: 1 test, 0 failures."
+    },
+    {
+      "command": "Supplied Python runtime custom comparison over float32, float64, complex64, complex128 batches, wrong length, scalar input, and non-DC fallback.",
+      "result": "Before dtype correction, observed that the supplied runtime's NumPy FFT preserves complex64 for float32/complex64, unlike helper2's reported external runtime behavior. The direct path was corrected. Wrong-length and scalar errors matched. Non-DC fallback matched."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B -m unittest test_triad_incremental_receiver.IncrementalReceiverTests.test_batch_equivalence_dft_static_and_ou && supplied-runtime dtype comparison (cwd=workspace/tests)",
+      "result": "Passed: 1 test, 0 failures. Output dtype and shape matched NumPy FFT for all four dtypes. Values were allclose at rtol=1e-6, atol=1e-7; max absolute differences were 5.96e-8 (float32), 0 (float64), 8.94e-8 (complex64), and 2.22e-16 (complex128)."
+    },
+    {
+      "command": "Supplied-runtime repeated-call microbenchmark, 5 runs x 5000 calls on complex128 input shape (3,2,2,64); DC-only projection versus full NumPy FFT then index selection.",
+      "result": "Median 5000-call time was 0.02799 s for DC sum and 0.05396 s for full FFT then select; outputs passed allclose at rtol=1e-12, atol=1e-12. This is a local microbenchmark with setup excluded, not an end-to-end receiver result or captured workload trace."
+    },
+    {
+      "command": "Supplied-runtime contract check for four numeric dtypes, shape/dtype, wrong length, scalar input, valid-rows, and non-DC fallback.",
+      "result": "Passed. Wrong length retained ValueError('projection input length changed'); scalar retained IndexError('tuple index out of range'); valid-rows and non-DC outputs matched their old paths."
+    }
+  ],
+  "limitations": [
+    "Direct reduction and NumPy FFT are not bitwise identical: low-bit differences were observed for float32, complex64, and complex128. The checks establish floating-point agreement at the stated tolerances, not exact bitwise equality. If the acceptance contract requires bitwise equality, this optimization must be rejected or replaced.",
+    "The constructed fixture identifies one retained coordinate but is not historical throughput evidence. The microbenchmark measures repeated numpy projection only; setup, receiver end-to-end time, production repetition cadence, cache effects, and the torch observation FFT remain unmeasured.",
+    "The private projection acceptance runner was not present among the inspected workspace files and was not run. The specified public receiver integration test and explicit API checks did run."
+  ],
+  "helper_findings_used": [
+    {
+      "helper": "helper1",
+      "finding": "The fixture selects only DC and normalized sum is the corresponding mathematical coefficient; valid-rows is not an equivalent substitute; exact geometry guard is necessary.",
+      "already_known_at_stage1": "Partly. Stage1 identified full FFT plus one selected DC output and hypothesized direct projection, but did not independently verify the normalized-sum identity or inspect receiver caller asymmetry."
+    },
+    {
+      "helper": "helper2",
+      "finding": "Preserve output shape/dtype, length/scalar errors, and non-DC behavior; direct reduction can differ numerically from FFT; batch observed-data path separately uses Torch FFT.",
+      "already_known_at_stage1": "Partly. Stage1 recorded the length check and basis/receiver caller, but not dtype behavior, low-bit discriminator results, scalar behavior, or the separate torch observation path. Its reported complex64-to-complex128 behavior contradicted the supplied runtime; the implementation follows the supplied runtime and tested its actual output dtype."
+    }
+  ],
+  "invocation_counts": {
+    "stage1_exec_command_invocations": 4,
+    "implementation_stage_exec_command_invocations": 8,
+    "implementation_stage_source_inspection_commands": 2,
+    "implementation_stage_check_commands": 6,
+    "source_edit_calls": 2,
+    "result_file_writes": 1
+  }
+}

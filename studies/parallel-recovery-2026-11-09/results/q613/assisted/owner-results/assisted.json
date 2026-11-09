@@ -1,0 +1,19 @@
+{
+  "commands": [
+    "From workspace, ran a Python contract matrix importing paginate: omitted limit over 30 items produced length 20; explicit limit=0 produced []; offset=3, limit=2 produced [3, 4]. All assertions passed."
+  ],
+  "changes": [],
+  "limits": [
+    "No additional code change was needed: the existing conditional default selection keeps None distinct from 0.",
+    "This check exercises the supplied in-memory pagination helper. The inspected workspace provides no separate deployed HTTP/server endpoint to test."
+  ],
+  "invocation_count": 1,
+  "observed": {
+    "omitted_limit_count": 20,
+    "explicit_zero_result": [],
+    "positive_limit_offset_result": [
+      3,
+      4
+    ]
+  }
+}

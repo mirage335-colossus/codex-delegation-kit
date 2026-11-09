@@ -1,0 +1,81 @@
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/baseline && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/baseline && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/baseline/evaluator.py", line 60, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/baseline/evaluator.py", line 56, in main
+    raise AssertionError("; ".join(failures[:3]))
+AssertionError: accepted order/project sequence mismatch at cursor 0; independent input-read bound exceeded at cursor 0: 2400 reads for 40 outputs; callback work bound exceeded at cursor 0: 2400 inspections
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/ablate && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/ablate/evaluator.py", line 4, in <module>
+    from service import get_export_page, response_body
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/ablate/service.py", line 2, in <module>
+    from exporter import export_page
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/ablate/exporter.py", line 16
+    start, end = page_bounds(len(ordered), cursor, limit)
+    ^^^^^
+IndentationError: expected an indented block after 'for' statement on line 15
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/witness && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/witness && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=0
+PASS: 2400 accepted rows across pages; 2400 independently counted reads; state and response match
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/B2-baseline && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/B2-baseline && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/B2-baseline/evaluator.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/recovery-fixtures-b/runs/B2-baseline/evaluator.py", line 7, in main
+    assert paginate(rows, limit=0) == [], "explicit zero must produce an empty page"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: explicit zero must produce an empty page
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/B2-witness && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/B2-witness && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=0
+PASS: explicit zero, default, positive limit, and offset boundaries
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK

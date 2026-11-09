@@ -1,0 +1,29 @@
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py /tmp/delegation-recovery-runs/v698/workspace/tools/triad_dynamic_joint.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py	2026-11-09 01:06:48.000000000 -0600
++++ /tmp/delegation-recovery-runs/v698/workspace/tools/triad_dynamic_joint.py	2026-11-09 13:45:36.487359406 -0600
+@@ -99,6 +99,25 @@
+             raise ValueError("projection input length changed")
+         if self.kind == "valid-rows":
+             return values[..., self.indices]
++        # A DC-only projection needs just one reduction, rather than every
++        # output of the FFT. Accumulate in the precision to which NumPy's FFT
++        # converts the input, then retain its public complex output dtype.
++        if (self.indices.shape == (1,) and self.indices[0] == 0 and
++                values.dtype in (np.dtype(np.bool_), np.dtype(np.int8),
++                    np.dtype(np.uint8), np.dtype(np.int16), np.dtype(np.uint16),
++                    np.dtype(np.int32), np.dtype(np.uint32), np.dtype(np.int64),
++                    np.dtype(np.uint64), np.dtype(np.float16),
++                    np.dtype(np.float32), np.dtype(np.float64),
++                    np.dtype(np.complex64), np.dtype(np.complex128))):
++            complex_input = values.dtype.kind == "c"
++            fft_dtype = (np.dtype(np.complex64) if values.dtype in
++                         (np.dtype(np.float16), np.dtype(np.float32),
++                          np.dtype(np.complex64)) else
++                         np.dtype(np.complex128))
++            accumulator_dtype = np.complex128 if complex_input else np.float64
++            total = values.astype(accumulator_dtype, copy=False).sum(
++                axis=-1, keepdims=True)
++            return (total / math.sqrt(self.samples)).astype(fft_dtype, copy=False)
+         return np.fft.fft(values, axis=-1, norm="ortho")[..., self.indices]
+ 
+ 

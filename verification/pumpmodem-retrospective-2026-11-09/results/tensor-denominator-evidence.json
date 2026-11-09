@@ -1,0 +1,146 @@
+{
+  "schema": "triad-scaled-fp16-lag-disposition-v1",
+  "disposition": "Preflight passed the predeclared weighted timing gate. One matched receiver pair passed the unchanged numerical/work gates. No material gain in common measured stages; the modified acquisition work took longer. Experimental source removed.",
+  "scope": "Isolated diagnostic on current frozen production leaves, scoped to manual row 3. The preflight uses seeded synthetic matrix values with the public row-3 dimensions and CFO grids.",
+  "process_seconds": {
+    "zoomfft": 62.778,
+    "scaled-fp16": 64.5
+  },
+  "driver_seconds": {
+    "zoomfft": 59.98128619301133,
+    "scaled-fp16": 61.764197929005604
+  },
+  "measured_components": {
+    "zoomfft": {
+      "common_components": {
+        "simulation_seconds": 15.37559151899768,
+        "initial_bank_seconds": 2.915664083964657,
+        "acquisition_seconds": 3.5425868109450676,
+        "fine_seconds": 1.8008713109593373,
+        "recurring_banks_seconds": 4.679722072003642
+      },
+      "common_sum_seconds": 28.314435796870384,
+      "acquisition_parts_seconds": {
+        "data_acquisition": 0.9986398489854764,
+        "noise_acquisition": 1.2099152529845014,
+        "recurring_acquisition": 1.3340317089750897
+      },
+      "validation_only_cpu_reference_and_check_seconds": 30.42721052194247
+    },
+    "scaled-fp16": {
+      "common_components": {
+        "simulation_seconds": 15.541090546990745,
+        "initial_bank_seconds": 2.7631527690100484,
+        "acquisition_seconds": 4.103459614008898,
+        "fine_seconds": 1.4824775040324312,
+        "recurring_banks_seconds": 4.357680657005403
+      },
+      "common_sum_seconds": 28.247861091047525,
+      "acquisition_parts_seconds": {
+        "data_acquisition": 1.3865852500020992,
+        "noise_acquisition": 1.44591816799948,
+        "recurring_acquisition": 1.2709561960073188
+      },
+      "validation_only_cpu_reference_and_check_seconds": 32.32983868996962
+    }
+  },
+  "component_scope": "Common timed stages summed from paired receipts, excluding validation-only CPU reference and bank comparison. This sum is not elapsed time from a separate unpaired trace.",
+  "setup_failures": [
+    {
+      "source_sha256": "c9ecbecfc7a8b40ebe16d4d0b3bfe0f87aa6998055bc52139184da84bf6e9fdf",
+      "failure": "NVRTC expected a parenthesis/expression in CuPy CUB POST_MAP; local declaration rejected. Zero assertions.",
+      "repair": "Use a single call to a typed device helper."
+    },
+    {
+      "source_sha256": "5fdcbaec6261fd81ef193d8a07a1eee3e6696a916f10ebb5eea0dff44967d070",
+      "failure": "CuPy CUB rewrote helper name substring from shift to out0, leaving an undefined identifier. Zero assertions.",
+      "repair": "Rename the helper without the output parameter substring."
+    }
+  ],
+  "source_identities": {
+    "sources": {
+      "triad_gpu_workload.py": "15bbbd7b09f615af40cfa9404d12909841f34c5de4399e4258404c2fc366d4a0",
+      "triad_gpu_fine.py": "83d1495ba3602e5e31faadbf0910a2db6c1b0798d5515b35d57c82b88ec68609",
+      "triad_gpu_bank.py": "ba4729f8b5c99bb80ebfa226cc4b129d233b1da82b6740d96ad118ea308d4246"
+    },
+    "shared_sources": {
+      "include/datapump/triad_helper_burst.hpp": "f41b30d9ea1ea1d2fa9ba800b33ac5823383e9d586a43de49e3ff9771b2d2fee",
+      "include/datapump/triad_modem_v3.hpp": "34591b96d30596128c9780eb5dfab349f9981de1f8525b02572969560763de4f",
+      "include/datapump/triad_pulse.hpp": "d4447da2634a677b10ad26c9deacc636cdbdc3de0968c4ab8b034b8b7b5c8b6e",
+      "include/datapump/triad_shaping.hpp": "16d34e1791454a1b309337c9682a3631e4e5e20f3dfd57858479f41b4d118f28",
+      "include/datapump/triad_simulation.hpp": "768fb014b8dc38c7e9a49f97fa47857a4f7d574d172c7f60fe2cf149a1702a4e",
+      "include/datapump/triad_transmission_keys.hpp": "bd8a136eb4e8eb200c89ed5b0de261233079b5d5414acf83f171ffe4f1c4fef5",
+      "src/compression_short.cpp": "7f7db673c90999c628a7df96874219a8070beda91a76f30879e7e2e8f922a111",
+      "src/helper_carrier.cpp": "439fb98e29477c638ae9b61e45dfaa66f0c2463805383f8bb2128e1780b3fbb2",
+      "src/triad_basis.cpp": "d212ad0a218d41313874e3cb7f2bb64cb212e412af4d7568ce93952997e5f9e6",
+      "src/triad_gaussian_fading.hpp": "97f26b082d7d68123952bde7ccb9f97148c5977cf741cf6c15c76e77fcc20944",
+      "src/triad_mapped_kernel.cpp": "f79589e554fa57d11ef1ed1bfe09775bbfa4e85d8a303178c11599f92d482602",
+      "src/triad_modem_v3.cpp": "8fc25e14c12bf344948b98330532301c1587b13d1c045986e82f2d5dab00455b",
+      "src/triad_random_process.hpp": "3ea0ab1fcc2a64f58b53751d69d707d278b5fa531b3c126baa443fa8701e7741",
+      "src/triad_shaping.cpp": "3065f37b986f2b5f7098e007ca8e3f19f0dd53ccc862cdd6726c494314ccf0a2",
+      "src/triad_simulation_stream.cpp": "eaff633c9ca09628f2f614bce569d965e462b40bbafcbbb0d04fae62c18c5195",
+      "src/tuning_presets.cpp": "31e1ac552bea10b24036f959485241532066e6aa343931c04a46a65e8734b293",
+      "tools/build_capacity.py": "a22a7e47c96995048a03bf7394a05ae8284d9318691c1e51fd2d300507478c4e",
+      "tools/triad-audio-stream.cpp": "b08755db606386bed827ebd17712535b742f9cb8b76dcf81d188d2fddfbc4ddd",
+      "tools/triad-helper-export.cpp": "61a75e8c7124490f8e48e0be94befe8904513102aabb2746e38f5803e136f339",
+      "tools/triad_abbreviated.py": "9ce55098493ce30b65573cd6c2bdfd6c9eaabdccfc257b6da208e71cda4fd66d",
+      "tools/triad_acquisition.py": "59e5e09f7b34dd7d2f533cd48e0f7b3310299e3c8d570196abb80e06b6cc0855",
+      "tools/triad_audio_mapping.py": "795e79020207fd9270f44c5c88b9fa2a033a4352940b975782ee6757f157ea58",
+      "tools/triad_backend.py": "dc31e44731f19e2bcb3c2a869b4942323ae2c16ba48813f6863ec450dbac1980",
+      "tools/triad_case_capacity.py": "0af0ea7ac6b67fc31a493fb77b8e3ad39753cca0e5ea962d254cbabe3e24051f",
+      "tools/triad_case_metrics.py": "93662a2c1b730754e6713880b94a06a9c12f8fac0b51ebe7511439a53e4a1e4a",
+      "tools/triad_case_noise.py": "f3e842d18aea39d1d7afabcb55af24b166d26317b952afc913438bc6764cdb49",
+      "tools/triad_case_receiver.py": "097bc67f10cdac288a29b07fc1f6bb220ba3dbeea1d679089c1e0b6f5fa65674",
+      "tools/triad_case_replay.py": "63b298adf72d9de747d9da559017fd167c037fb8cbc96b17a3767cf1ad208169",
+      "tools/triad_case_suite.py": "5c91ec20fea5869772eafe7a678ea985577353a11c9bf4b21d6b861947d102d0",
+      "tools/triad_cases.py": "d0a8fadd5d762f0486f0607483ae52de8d65f2f457b8db1336a0e66611c337ac",
+      "tools/triad_continuous.py": "ae468b27b592af488367f4d3eb255c56f24994625551074f6c20f1ab9a392621",
+      "tools/triad_cpu.py": "7e9f1b312e86c3e78f988fce8a201211b09da2cf957c2380cc71627ac3f01fd4",
+      "tools/triad_duration_model.py": "75925b273e1ae928274d6a9328bf7f578fec911c3438ba959b82d6e4333371c1",
+      "tools/triad_dynamic_frequency.py": "088ecbe48c8ca6fc6f508af8774b64f893a93f158ee9f3a05eb902aa653b4700",
+      "tools/triad_dynamic_joint.py": "dd696c42574a436bb7be3c95d96ff48b5ba39e958ac4e7e0cfc2fbb4d2fe47c1",
+      "tools/triad_dynamic_scan.py": "c3ac148e3cebbf3c47df82625a2e429ec29579203fdc8382def4e035d1abf235",
+      "tools/triad_dynamic_variants.py": "70659814a6c09c6d27d10be634c97a0e5f711ff81fef90d98aae1f2ea74dd0f9",
+      "tools/triad_fixture_key.hpp": "61142c917106fdb22add233b0cc5fc5be436ab6365bde43874f7da233a72e5e7",
+      "tools/triad_gaussian_prepared.py": "66b1797e47aba8f97223765d1bdfa7cb62971918b34b7d70e27dd537828b2415",
+      "tools/triad_gaussian_state.py": "7d13799a4f7838bed4797fea13626c041f40cdf405c597fcf3ad4bae720c7a6c",
+      "tools/triad_incremental_receiver.py": "a70aad03e6fb81eb9450178f2826884deacde659968770b8b46fd10a947a1bcc",
+      "tools/triad_manual_cases.py": "367feccc9940ffec354439fb78397b1d55d2720ed76cbe6fc17a63c9085416dc",
+      "tools/triad_message_gate.py": "0da8bd547757dcc18d95889c5f0663af81caf0800634e1e64914ab4be59c389c",
+      "tools/triad_message_receiver.py": "a18f7ff5edc16e8c3b705a9380571517df15e63f681053d07d57d17ba50c5d34",
+      "tools/triad_operational_admission.py": "9cc99ce26c445c4c87d72600fc621b60ff9d0b61da9bed3e4f3174272904d0ea",
+      "tools/triad_orchestration_cost.py": "75f39d0a4dbb9cdab19431097f02dcb92412878534f65687a2987e4ed43d969e",
+      "tools/triad_quiet_diagnostic.py": "38a92caddb87ff80520eb4d1214e9fec0371f7f19e4f4f492843a74deb3b3594",
+      "tools/triad_realtime_fft.py": "6db1b3dce8d6d62efe3f72771a2a91b8e769f9bd235045b1348d0d9d93118a30",
+      "tools/triad_receiver.py": "55034cfa720a3c5f82d4c48dd28588283b7e80960cb0f933f0de93dfbd6557ff",
+      "tools/triad_regression_receiver.py": "c2d31ee305d5d872c598484bb7958520ae830b6328b00cad56e88704fda9948f",
+      "tools/triad_segmented_fft.py": "275c1a2146690476a4a1bd4fc3265029a81ed00b38f7ca4641abc50636b851a6",
+      "tools/triad_stream_frontend.py": "2ce6a976f147a7f12848a74ad7b6dae08bcbb146b9cd4ddd50e51782b1f88a0e",
+      "tools/triad_stream_receiver.py": "4747f2e100f8ec57892e50b2cc64b98859790deb946fafaed7a4f6e6b0811d84",
+      "tools/triad_stream_scheduler.py": "8deb836681c4b644139952a54d9edd27873f52439966a2c21cd5702e120957cb",
+      "tools/triad_template_bank.py": "e6c603f506642cf5271108e6816bec73e28c6082c0118602ddee87b6b2ba7f1b",
+      "tools/triad_timing_forward.py": "4ac00ca7be76695f0033fe54a17fdc0c1bd0427bf7925453323b1563e1d55556",
+      "tools/triad_tracking_basis.py": "a9c275e9cc7ca1ab4598c02026d869b810c6423492421b564d55658675de0775",
+      "tools/triad_tracking_budget.py": "49cee345571087bb65ee14ad6b865e30f11331ae5958b3fecf174729ac7e2d8e",
+      "tools/triad_tracking_receiver.py": "c75eaf61e392e54efdcad8bf2e7657161e474c3df24db4557e84e0799f5e16b1",
+      "tools/triad_weak_helper.py": "6fbe2e226378215c36809d3e9990203a02a19a27562694b35f34f1e2cebf4278",
+      "tools/triad_weak_receiver.py": "7a2773e5908577f3c99a55bc0d7c8337ef5b40547664e74fcf6e19e7b57f0f3a"
+    },
+    "native_binary_sha256": "d2aec53248e174d1cceb3695ba70dec197bf048ca57d485d17b31d5e95fe3016",
+    "mapped_kernel_sha256": "54fe88aa99b49f017e509296c00c913b95756bd0ab22b37b0d23eef512c80ba0",
+    "input": {
+      "source_sha256": "b04820861e1ffe4f8b22e2c1f7c0dfc77035cf43126f25f7f4a828fa0f5fdc6b",
+      "current_list_entries": 8,
+      "selected_indices": [
+        3
+      ],
+      "full_list": false
+    }
+  },
+  "source_file": "/home/user/___quick/p/_cur/dataPump/pumpModem/local-evidence/current-tensor/fp16/disposition.json",
+  "source_sha256": "bff1beef583a2e6c0f5bd8116c382c0b0508d55ae5bee067c82cb6f82211c0f8",
+  "derived_fractions": {
+    "fine_over_paired_driver": 0.02400221412632046,
+    "fine_over_common_sum": 0.05248105331777727
+  }
+}

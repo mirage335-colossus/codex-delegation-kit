@@ -1,0 +1,70 @@
+$ (cd /tmp/recovery-fixtures-b/runs/B1-baseline && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B1-baseline && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/B1-baseline/evaluator.py", line 23, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/recovery-fixtures-b/runs/B1-baseline/evaluator.py", line 18, in main
+    assert inspected[0] <= 3 * n, f"work exceeded linear allowance: {inspected[0]} inspections for {n} rows"
+           ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: work exceeded linear allowance: 71994000 inspections for 12000 rows
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B1-witness && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B1-witness && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=0
+PASS: output matches; 12000 inspected rows for 12000 input rows
+
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B2-baseline && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B2-baseline && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/B2-baseline/evaluator.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/recovery-fixtures-b/runs/B2-baseline/evaluator.py", line 7, in main
+    assert paginate(rows, limit=0) == [], "explicit zero must produce an empty page"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: explicit zero must produce an empty page
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B2-witness && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+$ (cd /tmp/recovery-fixtures-b/runs/B2-witness && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=0
+PASS: explicit zero, default, positive limit, and offset boundaries
+
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK

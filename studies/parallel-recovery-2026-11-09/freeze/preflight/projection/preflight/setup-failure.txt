@@ -1,0 +1,1 @@
+Preflight evaluator setup failure (no acceptance assertions completed): initial strided fixture construction attempted arange(2*n).reshape(2,2*n), which raises ValueError because 128 elements cannot reshape to (2,128). Fixed before running the acceptance assertions by using arange(4*n); then baseline checks reached the independent FFT counter.

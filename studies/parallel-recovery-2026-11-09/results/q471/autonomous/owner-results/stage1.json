@@ -1,0 +1,20 @@
+{
+  "current_hypothesis": "The reported mismatch is in CLI integration, not money conversion: source.report.build_monthly_report appears to implement the requested approved-only team report, but source.cli.main still calls the compatibility function source.legacy.compact_export, which includes rejected October rows and emits the legacy count/total schema.",
+  "evidence": [
+    "Read workspace/task.md: user contract requires month, grand_total, per-team count/total; select approved rows in month; exact cents; malformed-row warnings on stderr. It reports current unit tests pass but says the documented command has not been checked against multi-team input.",
+    "Read source/cli.py: main reads rows then calls compact_export(rows, args.month), and JSON-serializes its result.",
+    "Read source/legacy.py: compact_export filters by month only, with no status filter, and returns month/count/total rather than requested report schema.",
+    "Read source/report.py and source/rules.py: build_monthly_report selects approved rows for the month and returns month/grand_total/teams; team totals use Decimal aggregation and money_text formatting.",
+    "Read fixturedata/expenses.csv: October has approved North amounts 1240.125 and 0.87, approved South 40.00, and rejected North 900.00; September row is outside month. Expected approved October report has North count 2 total 1240.?? (parse_money rounds 1240.125 half-up to 1240.13, sum 1241.00), South count 1 total 40.00, grand_total 1281.00.",
+    "Executed documented command with python3 -B: exit 0, stdout was {\"count\": 4, \"month\": \"2026-10\", \"total\": \"2181.00\"}; no stderr warning. It includes the rejected 900 and wrong output shape. No assertions were run in this stage."
+  ],
+  "requests": [],
+  "independent_action": "In the next authorized stage, update only the CLI integration to call build_monthly_report and add a real-path regression check for approved filtering and multi-team output; then verify with the documented command and the existing public unittest suite. Keep parser/read_expenses handling in place so malformed-row warnings remain on stderr.",
+  "shell_invocations": 3,
+  "limits": [
+    "Read only the q471 assignment and workspace; no source or test files edited.",
+    "The arithmetic in evidence is derived from the inspected fixture and parse_money's ROUND_HALF_UP rule; the corrected report output has not yet been executed.",
+    "Malformed-row behavior on the full CLI path was not exercised; no malformed fixture was supplied.",
+    "No helper was requested; no other run or study files were inspected."
+  ]
+}

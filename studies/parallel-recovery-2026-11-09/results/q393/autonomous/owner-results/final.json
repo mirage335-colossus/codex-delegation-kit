@@ -1,0 +1,35 @@
+{
+  "changes": [
+    "Updated source/cli.py to call build_monthly_report, matching the documented report schema and approved/month selection behavior.",
+    "Added tests/test_cli_report.py with a multi-team CLI regression case covering approved and rejected rows, month boundaries, exact cents, JSON stdout, and malformed-row stderr warning."
+  ],
+  "actualcommands_outcomes": [
+    {
+      "stage": "stage1",
+      "command": "python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10",
+      "outcome": "Before the change, emitted {\"count\": 4, \"month\": \"2026-10\", \"total\": \"2181.00\"}."
+    },
+    {
+      "stage": "stage3",
+      "command": "python3 -B -m unittest discover -s tests",
+      "outcome": "Passed: 6 tests."
+    },
+    {
+      "stage": "stage3",
+      "command": "python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10",
+      "outcome": "Emitted grand_total 1281.00 with North count 2 / total 1241.00 and South count 1 / total 40.00."
+    }
+  ],
+  "course_correction_evidence": "Stage1 source inspection showed that the CLI invoked legacy.compact_export, which only matched the month and included rejected rows. The pre-change documented command returned 2181.00; after routing to the existing build_monthly_report, it returned the requested team breakdown and 1281.00. The new regression case confirms the CLI behavior with an independent multi-team input and checks that malformed rows warn on stderr.",
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "The supplied task, fixtures, and existing tests were preserved; the only added test file is tests/test_cli_report.py.",
+    "The provided fixture command and one purpose-built multi-team CLI regression case were checked. No external finance spreadsheet was available for comparison."
+  ],
+  "shell_invocations": {
+    "stage1": 4,
+    "stage2_implementation": 0,
+    "stage3_integration_checks": 2,
+    "final_result_write": 0
+  }
+}

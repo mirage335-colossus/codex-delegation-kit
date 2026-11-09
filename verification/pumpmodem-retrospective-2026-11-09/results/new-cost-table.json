@@ -1,0 +1,443 @@
+{
+  "schema": "pumpmodem-whole-work-cost-review-v1",
+  "evidence": {
+    "cpu_receipt": "captured-evidence/calibration-current-all8.json",
+    "cpu_schema": "triad-manual-complete-capacity-v3",
+    "cpu_status": "measured_with_unresolved_margins",
+    "gpu_receipt": "captured-evidence/gpu-current-full.json",
+    "gpu_schema": "triad-gpu-workload-v2",
+    "gpu_status": "bounded_mixed_precision_cost_regime_observed",
+    "source_revision_from_cpu_provenance": "15b17f7d3886f1baadf3c22b8990083eda6f85cd",
+    "source_dirty_paths_from_cpu_provenance": [
+      " M tests/test_triad_incremental_receiver.py",
+      " M tools/triad_gpu_bank.py",
+      " M tools/triad_gpu_fine.py",
+      " M tools/triad_gpu_workload.py",
+      " M tools/triad_incremental_receiver.py",
+      " M tools/triad_receiver.py",
+      " M tools/triad_tracking_receiver.py"
+    ],
+    "snapshot_git_metadata": "unavailable in supplied snapshot; revision and dirty list are receipt provenance",
+    "cpu_gpu_input_sha256_equal": true,
+    "shared_source_hashes_equal": true,
+    "shared_source_count": 61,
+    "gpu_runtime_leaf_hashes_match_snapshot": true,
+    "gpu_runtime_leaf_hashes_observed": {
+      "triad_gpu_workload.py": "15bbbd7b09f615af40cfa9404d12909841f34c5de4399e4258404c2fc366d4a0",
+      "triad_gpu_fine.py": "83d1495ba3602e5e31faadbf0910a2db6c1b0798d5515b35d57c82b88ec68609",
+      "triad_gpu_bank.py": "ba4729f8b5c99bb80ebfa226cc4b129d233b1da82b6740d96ad118ea308d4246"
+    },
+    "cpu_machine": "AMD Ryzen 5 PRO 5650U with Radeon Graphics",
+    "cpu_logical_cpu_count": 12,
+    "cpu_physical_core_count": 6,
+    "gpu_machine": "AMD EPYC 9554 64-Core Processor",
+    "gpu_workers": 12,
+    "case_count": 8,
+    "every_case_inference_workers_12": true,
+    "per_case_stream_not_concurrent_streams": true,
+    "nominal_denominator": "processing seconds per unique baseband second at the shortest exact successor interval of the fixed local 24-slot profile; eight individual scenario streams, not search-window-seconds added as unique input",
+    "complete_capacity_interpretation": "sum of fixed work plus max covered acquisition group and max covered fine stratum; interval/status govern qualification; unresolved rows are not throughput claims",
+    "gpu_trace_observed_elapsed_seconds": 426.22082898698864,
+    "gpu_local_cpu_service_established": false,
+    "gpu_complete_receiver_qualification": false,
+    "paired_gpu_reference_case_indices": [
+      1,
+      2,
+      6
+    ],
+    "gpu_speedup_convention": "paired CPU elapsed / CUDA elapsed for bounded same-host work; >1 means CUDA faster. Not target-Ryzen speedup."
+  },
+  "cases": [
+    {
+      "case": 1,
+      "name": "Sub-9kHz, No Encryption",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.1661602575746434,
+      "nominal_service_interval_s_per_s": [
+        0.14660722112338084,
+        0.18840410966733462
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 6.018286289372022,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        5.307739845832988,
+        6.820946419538407
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.0005114584515346717,
+        "recurring_bank_preparation": 0.002179572204888919,
+        "acquisition": 0.0005760007950126618,
+        "nominal_complete_fine_search": 0.16289322612320714
+      },
+      "phase_fraction": {
+        "fixed_control": 0.0030781033864545598,
+        "recurring_bank_preparation": 0.01311728951737933,
+        "acquisition": 0.0034665376872920874,
+        "nominal_complete_fine_search": 0.980338069408874
+      },
+      "fine_only_zero_cost_speedup_ceiling": 50.85970552918798,
+      "bank_only_zero_cost_speedup_ceiling": 1.0132916398048604,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.003478596372717,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 0.8037075233999078,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.5863327228360622,
+        1.093536283073264
+      ],
+      "complete_capacity_realtime_status": "unresolved",
+      "workspace_margin_fraction": 0.07799616952737172,
+      "gpu_paired_bank_speedup_cpu_over_cuda": 0.7650769861914808,
+      "gpu_paired_fine_speedups_cpu_over_cuda": {
+        "nominal_continuation": 1.223463740269521,
+        "maximum_state_transition": 1.615444850115238,
+        "terminal": 1.3138190921763935,
+        "interior_erasure": 1.067291748250365,
+        "noise_only": 1.91869928119564
+      },
+      "gpu_paired_continuation_speedup_cpu_over_cuda": 1.7561717257674334,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": {
+        "data_acquisition": 0.3220287998555371,
+        "noise_acquisition": 4.490981144356494
+      }
+    },
+    {
+      "case": 2,
+      "name": "Groundwave 500kHz Encrypted, GPS DO",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.1630437662605106,
+      "nominal_service_interval_s_per_s": [
+        0.13991999688583984,
+        0.19186194934219053
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 6.133322499445974,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        5.212080891643998,
+        7.146941268272726
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.0002715228181087216,
+        "recurring_bank_preparation": 0.0070750177869595594,
+        "acquisition": 0.0007055411101439809,
+        "nominal_complete_fine_search": 0.15499168454529832
+      },
+      "phase_fraction": {
+        "fixed_control": 0.001665337009419199,
+        "recurring_bank_preparation": 0.04339336577673953,
+        "acquisition": 0.004327311165130169,
+        "nominal_complete_fine_search": 0.9506139860487111
+      },
+      "fine_only_zero_cost_speedup_ceiling": 20.248647744406604,
+      "bank_only_zero_cost_speedup_ceiling": 1.0453617654575162,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.0043461181708158,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 0.7702069708178475,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.5917958305644286,
+        0.997991986514017
+      ],
+      "complete_capacity_realtime_status": "pass",
+      "workspace_margin_fraction": 0.880345444712374,
+      "gpu_paired_bank_speedup_cpu_over_cuda": 1.3470506625156924,
+      "gpu_paired_fine_speedups_cpu_over_cuda": {
+        "nominal_continuation": 1.8168674271449228,
+        "maximum_state_transition": 2.0205692160046507,
+        "terminal": 1.411915062538743,
+        "interior_erasure": 1.6719564332238874,
+        "noise_only": 1.350517111603693
+      },
+      "gpu_paired_continuation_speedup_cpu_over_cuda": 1.958546725810793,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": {
+        "data_acquisition": 1.317821026031949,
+        "noise_acquisition": 3.7038776021270605
+      }
+    },
+    {
+      "case": 3,
+      "name": "Groundwave 500kHz Encrypted, Helper Carrier",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.2560453855462137,
+      "nominal_service_interval_s_per_s": [
+        0.19291747206580778,
+        0.3323883699930256
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 3.9055575942785725,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        3.008528848410017,
+        5.183563672547405
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.0009216779582933988,
+        "recurring_bank_preparation": 0.00676261804166845,
+        "acquisition": 0.010208738884259423,
+        "nominal_complete_fine_search": 0.23815235066199242
+      },
+      "phase_fraction": {
+        "fixed_control": 0.0035996663494919532,
+        "recurring_bank_preparation": 0.026411794249843502,
+        "acquisition": 0.039870817677426354,
+        "nominal_complete_fine_search": 0.9301177217232381
+      },
+      "fine_only_zero_cost_speedup_ceiling": 14.309779598764637,
+      "bank_only_zero_cost_speedup_ceiling": 1.0271283013638124,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.0415265137353475,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 0.8212229513006143,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.4227646070524556,
+        1.4553722209056446
+      ],
+      "complete_capacity_realtime_status": "unresolved",
+      "workspace_margin_fraction": 0.8245727848261595,
+      "gpu_paired_bank_speedup_cpu_over_cuda": null,
+      "gpu_paired_fine_speedups_cpu_over_cuda": null,
+      "gpu_paired_continuation_speedup_cpu_over_cuda": null,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": null
+    },
+    {
+      "case": 4,
+      "name": "HF Encrypted, Helper Carrier",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.39284451600119813,
+      "nominal_service_interval_s_per_s": [
+        0.31617065814383477,
+        0.5007053122323523
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 2.545536361762398,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        1.9971827251873655,
+        3.1628488420486898
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.00026220356304077624,
+        "recurring_bank_preparation": 0.08453738191112481,
+        "acquisition": 0.04373632017779056,
+        "nominal_complete_fine_search": 0.26430861034924197
+      },
+      "phase_fraction": {
+        "fixed_control": 0.0006674487039039552,
+        "recurring_bank_preparation": 0.215192979582963,
+        "acquisition": 0.11133239334224834,
+        "nominal_complete_fine_search": 0.6728071783708847
+      },
+      "fine_only_zero_cost_speedup_ceiling": 3.0563017703778828,
+      "bank_only_zero_cost_speedup_ceiling": 1.274198591481269,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.1252801300600632,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 7.4885759085431545,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.8010715582516522,
+        18551.237744373087
+      ],
+      "complete_capacity_realtime_status": "unresolved",
+      "workspace_margin_fraction": 0.7958251846333345,
+      "gpu_paired_bank_speedup_cpu_over_cuda": null,
+      "gpu_paired_fine_speedups_cpu_over_cuda": null,
+      "gpu_paired_continuation_speedup_cpu_over_cuda": null,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": null
+    },
+    {
+      "case": 5,
+      "name": "HF Encrypted, GPS DO",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.23193996879965353,
+      "nominal_service_interval_s_per_s": [
+        0.20374596147758064,
+        0.30070188969783734
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 4.311460440282226,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        3.3255527625877503,
+        4.908072742880039
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.0003345801239312136,
+        "recurring_bank_preparation": 0.12094584523335167,
+        "acquisition": 0.0018298751610927866,
+        "nominal_complete_fine_search": 0.10882966828127785
+      },
+      "phase_fraction": {
+        "fixed_control": 0.001442528968434152,
+        "recurring_bank_preparation": 0.5214532271400923,
+        "acquisition": 0.007889434367706614,
+        "nominal_complete_fine_search": 0.4692148095237668
+      },
+      "fine_only_zero_cost_speedup_ceiling": 1.8840013209539175,
+      "bank_only_zero_cost_speedup_ceiling": 2.089659896824224,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.0079521725108114,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 0.7262896635478513,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.5894189757421125,
+        0.9577681301052726
+      ],
+      "complete_capacity_realtime_status": "pass",
+      "workspace_margin_fraction": 0.8766606648763021,
+      "gpu_paired_bank_speedup_cpu_over_cuda": null,
+      "gpu_paired_fine_speedups_cpu_over_cuda": null,
+      "gpu_paired_continuation_speedup_cpu_over_cuda": null,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": null
+    },
+    {
+      "case": 6,
+      "name": "HF Encrypted, GPS DO, FHSS",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.27061241050525214,
+      "nominal_service_interval_s_per_s": [
+        0.20405398070196998,
+        0.3572244899129715
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 3.6953220221235625,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        2.799360145335008,
+        4.900664013315893
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.001129629519015177,
+        "recurring_bank_preparation": 0.06175587673332538,
+        "acquisition": 0.05483857915308891,
+        "nominal_complete_fine_search": 0.15288832509982267
+      },
+      "phase_fraction": {
+        "fixed_control": 0.004174344838457631,
+        "recurring_bank_preparation": 0.22820785128820542,
+        "acquisition": 0.20264620920637555,
+        "nominal_complete_fine_search": 0.5649715946669613
+      },
+      "fine_only_zero_cost_speedup_ceiling": 2.2987004704542082,
+      "bank_only_zero_cost_speedup_ceiling": 1.2956856346221055,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.2541484238817968,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 1.0900056121188713,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.8733233686761597,
+        1.40521942082787
+      ],
+      "complete_capacity_realtime_status": "unresolved",
+      "workspace_margin_fraction": 0.327671823816167,
+      "gpu_paired_bank_speedup_cpu_over_cuda": 1.258872544952324,
+      "gpu_paired_fine_speedups_cpu_over_cuda": {
+        "nominal_continuation": 2.386935527100597,
+        "maximum_state_transition": 1.7901815553799514,
+        "terminal": 1.7395539637197723,
+        "interior_erasure": 1.363657226025406,
+        "noise_only": 1.5952828618988035
+      },
+      "gpu_paired_continuation_speedup_cpu_over_cuda": 2.4398411055722486,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": {
+        "data_acquisition": 13.867667703808733,
+        "noise_acquisition": 15.329244582512729
+      }
+    },
+    {
+      "case": 7,
+      "name": "HF, No Encryption, GPS DO",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.2211626433844127,
+      "nominal_service_interval_s_per_s": [
+        0.19551487111340257,
+        0.2885019288892326
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 4.52155926831574,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        3.4661813314390004,
+        5.114700453757197
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.0003473142238106768,
+        "recurring_bank_preparation": 0.1170752987166755,
+        "acquisition": 0.0019949051333444205,
+        "nominal_complete_fine_search": 0.10174512531058208
+      },
+      "phase_fraction": {
+        "fixed_control": 0.001570401847689053,
+        "recurring_bank_preparation": 0.529362902003218,
+        "acquisition": 0.009020081795084112,
+        "nominal_complete_fine_search": 0.4600466143540088
+      },
+      "fine_only_zero_cost_speedup_ceiling": 1.852011722833475,
+      "bank_only_zero_cost_speedup_ceiling": 2.1247793772662553,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.009102184241456,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 0.7528233911384543,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        0.6754663685329467,
+        0.8936257593351888
+      ],
+      "complete_capacity_realtime_status": "pass",
+      "workspace_margin_fraction": 0.9036592793547444,
+      "gpu_paired_bank_speedup_cpu_over_cuda": null,
+      "gpu_paired_fine_speedups_cpu_over_cuda": null,
+      "gpu_paired_continuation_speedup_cpu_over_cuda": null,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": null
+    },
+    {
+      "case": 8,
+      "name": "EME, Encrypted",
+      "workers": 12,
+      "selected_workers": 12,
+      "nominal_service_ratio_processing_s_per_baseband_s": 0.381753499782731,
+      "nominal_service_interval_s_per_s": [
+        0.2982155794578791,
+        0.52012053061378
+      ],
+      "nominal_realtime_status": "pass",
+      "nominal_equivalent_baseband_s_per_cpu_s": 2.619491374850877,
+      "nominal_equivalent_interval_baseband_s_per_cpu_s": [
+        1.9226312770617366,
+        3.3532788656376793
+      ],
+      "phase_cost_s_per_s": {
+        "fixed_control": 0.000665038270810042,
+        "recurring_bank_preparation": 0.1590557188444816,
+        "acquisition": 0.047075961311107944,
+        "nominal_complete_fine_search": 0.1749567813563314
+      },
+      "phase_fraction": {
+        "fixed_control": 0.0017420620143326468,
+        "recurring_bank_preparation": 0.4166450836338257,
+        "acquisition": 0.12331507461726085,
+        "nominal_complete_fine_search": 0.4582977797345808
+      },
+      "fine_only_zero_cost_speedup_ceiling": 1.8460326773444413,
+      "bank_only_zero_cost_speedup_ceiling": 1.7142222889440701,
+      "acquisition_only_zero_cost_speedup_ceiling": 1.1406606536132973,
+      "complete_capacity_ceiling_ratio_processing_s_per_baseband_s": 1.359897199937612,
+      "complete_capacity_ceiling_interval_s_per_s": [
+        1.0771784422678898,
+        2.6052983725957026
+      ],
+      "complete_capacity_realtime_status": "unresolved",
+      "workspace_margin_fraction": 0.8246222601996528,
+      "gpu_paired_bank_speedup_cpu_over_cuda": null,
+      "gpu_paired_fine_speedups_cpu_over_cuda": null,
+      "gpu_paired_continuation_speedup_cpu_over_cuda": null,
+      "gpu_paired_acquisition_speedups_cpu_over_cuda": null
+    }
+  ],
+  "architecture_bounds": {
+    "method": "Amdahl-style arithmetic from nominal phase costs, setting one entire measured phase to zero and holding every other phase fixed; mathematical upper bound, not an achievable prediction.",
+    "interpretation": "Phase-specific ceilings in each row bound the gain from changing only that phase. Combining phases requires recomputing against their sum; ceilings cannot be multiplied.",
+    "nominal_service_range_s_per_s": [
+      0.1630437662605106,
+      0.39284451600119813
+    ],
+    "nominal_equivalent_throughput_range_baseband_s_per_cpu_s": [
+      2.545536361762398,
+      6.133322499445974
+    ],
+    "nominal_status_counts": {
+      "pass": 8
+    },
+    "complete_capacity_status_counts": {
+      "pass": 3,
+      "unresolved": 5
+    },
+    "gpu_paired_case_count": 3
+  }
+}

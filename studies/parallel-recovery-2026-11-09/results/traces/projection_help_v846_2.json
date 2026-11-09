@@ -1,0 +1,87 @@
+{
+  "agent": "projection_help_v846_2",
+  "calls": [
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 15,
+      "call_id": "call_118786276cac436a8cc939a53f972018",
+      "timestamp": "2026-11-09T19:41:37.248Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 22,
+      "call_id": "call_98f9aa48d2e142539b7523b30721a5fc",
+      "timestamp": "2026-11-09T19:41:41.019Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 29,
+      "call_id": "call_4d731e20e8154ee8a1c94b3c8b249ad4",
+      "timestamp": "2026-11-09T19:41:45.201Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 38,
+      "call_id": "call_a7a64a5e57d6497f9ce2e3c68130db54",
+      "timestamp": "2026-11-09T19:42:18.167Z"
+    }
+  ],
+  "exec_tool_trace": [
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_118786276cac436a8cc939a53f972018",
+      "timestamp": "2026-11-09T19:41:37.248Z",
+      "source": "const r = await tools.exec_command({cmd:\"pwd && rg --files -g '!*.pyc'\",\"workdir\":\"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_118786276cac436a8cc939a53f972018",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_98f9aa48d2e142539b7523b30721a5fc",
+      "timestamp": "2026-11-09T19:41:41.019Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat task.md && rg -n -i \\\"projection|project|recover|caller|invariant|operator|matmul|shape\\\" tools tests fixturedata/projection-workload.json\",\"workdir\":\"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant\",\"yield_time_ms\":10000,\"max_output_tokens\":6500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_98f9aa48d2e142539b7523b30721a5fc",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_4d731e20e8154ee8a1c94b3c8b249ad4",
+      "timestamp": "2026-11-09T19:41:45.201Z",
+      "source": "const r = await tools.exec_command({cmd:\"sed -n '1,105p' tools/triad_dynamic_joint.py && cat fixturedata/projection-workload.json && sed -n '175,240p' tools/triad_dynamic_joint.py && sed -n '184,292p' tools/triad_incremental_receiver.py\",\"workdir\":\"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant\",\"yield_time_ms\":10000,\"max_output_tokens\":6500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_4d731e20e8154ee8a1c94b3c8b249ad4",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_a7a64a5e57d6497f9ce2e3c68130db54",
+      "timestamp": "2026-11-09T19:42:18.167Z",
+      "source": "const r = await tools.exec_command({cmd:\"mkdir -p /tmp/delegation-recovery-helpers/h_v846_2 && PYTHONPATH=tools /tmp/pumpmodem-cleanup-venv/bin/python -B - <<'PY'\\nimport json, numpy as np\\nfrom triad_dynamic_joint import BlockProjection\\nwith open('fixturedata/projection-workload.json') as f:\\n    w = json.load(f)\\np = BlockProjection.make(w['samples'], w['sample_rate_hz'], w['required_bands_hz'], w['excluded_bands_hz'])\\ndef candidate(x):\\n    # Workload-specific proposal: DC-only orthonormal projection via reduction.\\n    return (np.sum(x, axis=-1) / np.sqrt(p.samples))[..., None]\\nrng = np.random.default_rng(20261109)\\nbase = [np.ones(64), rng.normal(size=(3, 64)),\\n        (rng.normal(size=(2,3,64)) + 1j*rng.normal(size=(2,3,64))).astype(np.complex64),\\n        rng.normal(size=(2,128))[:, ::2]]\\nfor x in base:\\n    ref, alt = p.numpy(x), candidate(x)\\n    delta = np.max(np.abs(ref-alt)) if ref.size else 0\\n    print(f'in={x.shape}/{x.dtype} out={ref.shape}/{ref.dtype} alt={alt.shape}/{alt.dtype} max_abs={delta:.17g} exact={np.array_equal(ref,alt)}')\\n# Probe a shape/type error contract boundary.\\nfor x in (np.array(1.0), np.empty((2, 63))):\\n    for label, fn in (('source', p.numpy), ('candidate', candidate)):\\n        try: fn(x)\\n        except Exception as e: print(f'{label} error on {x.shape}: {type(e).__name__}: {e}')\\n        else: print(f'{label} accepted {x.shape}')\\nPY\\ncat > /tmp/delegation-recovery-helpers/h_v846_2/report.md <<'EOF'\\n# Projection alternative evidence\\n\\nSource: `studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant`; read-only. Task is the local `task.md`. Workload states a constructed deterministic public API slice, not capture or throughput evidence.\\n\\n- `tools/triad_dynamic_joint.py:54-102`: `BlockProjection.make` requires positive Python `int`, finite positive sample rate, ordered bands strictly inside Nyquist, at least one required band, and no required/excluded overlap. It expands each band by half a DFT bin, rejects a required selection touching excluded bins, freezes `flatnonzero(keep)` indices, and `numpy` accepts arbitrary leading dimensions so long as the trailing dimension equals `samples`; it returns the orthonormal FFT along the last axis, then retained indices. DFT result shape is `input.shape[:-1] + (len(indices),)`. Preserve NumPy dtype promotion, numerical behavior, shape, and its current input/error behavior.\\n- The supplied workload is N=64, fs=64, required band `[0,0]`, no exclusions. Half-bin expansion selects only FFT index 0, so a workload-specific DC alternative is `sum(values, axis=-1)/sqrt(64)`, reshaped with trailing singleton.\\n- Caller constraints: batch `ProjectedJointReceiver` builds a projection per block size and projects both source bases and observations (`triad_dynamic_joint.py:175-240`, `:275-288`); incremental receiver prebuilds the common block projection, reconstructs merged-tail projections by actual row count, and uses identical projected coordinates for basis, observation, energy/mode accounting and Gram/correlation (`tools/triad_incremental_receiver.py:184-200`, `:241-289`). DFT partial erasures are rejected; entirely erased blocks and zero bases avoid projection work but retain physical time/state (`triad_dynamic_joint.py:182-190`, `:214-230`; incremental `:244-255`, `:270-288`). Any optimized path must remain valid for arbitrary selected DFT indices/bands and variable tail lengths, or guard its specialization precisely; it must not alter indices/mode counts or apply to `valid-rows`.\\n- Executed discriminator: workload projection compared source `BlockProjection.numpy` against DC reduction on deterministic ones, random real batches, random complex64 batches and strided real input. Command used `/tmp/pumpmodem-cleanup-venv/bin/python -B` with `PYTHONPATH=tools`. Results are in the immediately preceding command output; assess exactness/dtype before accepting. Scalar and wrong-trailing-length checks were also attempted; note the candidate helper as written has no `samples` validation, so its error behavior is not a valid drop-in.\\n- Limits: this is a tiny numerical/contract discriminator, not a benchmark or end-to-end receiver check. No test suite or private acceptance runner was available/invoked. No source edits.\\nEOF\\n\",\"workdir\":\"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant\",\"yield_time_ms\":10000,\"max_output_tokens\":2000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_a7a64a5e57d6497f9ce2e3c68130db54",
+      "output": ""
+    }
+  ]
+}

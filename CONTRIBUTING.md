@@ -87,6 +87,13 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [parallel recovery exercises](studies/parallel-recovery-2026-11-09/README.md)
+compare the uninstalled performance proposal with a general recovery cue on
+executable tasks. They retain frozen inputs, actual patches, protected-file
+violations, failed setup and null results, plus a separately labeled historical
+capability replay. They do not establish that additional agents or new wording
+will autonomously prevent a development task from getting stuck.
+
 The [completion-review scenarios](verification/COMPLETION-REVIEWS.md) summarize
 generic lessons, runnable-next-step criteria and prospective comparison design.
 They are semantic review examples, not proof of prompt effectiveness. Changes to

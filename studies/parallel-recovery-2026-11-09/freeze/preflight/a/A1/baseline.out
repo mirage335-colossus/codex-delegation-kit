@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-a/A1/evaluator.py", line 70, in <module>
+    run()
+    ~~~^^
+  File "/tmp/recovery-fixtures-a/A1/evaluator.py", line 66, in run
+    assert not failures, "\n".join(failures)
+           ^^^^^^^^^^^^
+AssertionError: fixture: wrong documented-command output: {'count': 4, 'month': '2026-10', 'total': '2181.00'}
+generated input: generated multi-month/status/cents output was wrong: {'count': 4, 'month': '2026-11', 'total': '10.45'}
+exit=1

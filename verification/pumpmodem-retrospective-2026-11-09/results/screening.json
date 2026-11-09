@@ -1,0 +1,120 @@
+{
+  "scope": "18 source-only frozen-packet reviews with no reviewer runtime checks; mechanism screening, not performance or cost experiment. Expanded-source follow-ups separately include bounded checks.",
+  "historical_evidence": {
+    "serial_preparation": "original transcript physical line 175",
+    "gram_issue": "original transcript physical line 1344",
+    "test_mismatch": "original transcript physical line 1391; baseline tests/test_triad_gpu_workload.py:20-27 explicitly expects independent booleans",
+    "tensor_negative": "original transcript physical line 5778",
+    "C6": "original transcript physical lines 6606, 6627, 6711 and 6730: full wrapper, failure, archived tuple/list diagnosis, repaired run"
+  },
+  "cases": {
+    "C1": {
+      "general": [
+        "specific: pre-submit shared preparation timing",
+        "conditional: repeated lane preprocessing",
+        "gate: erasure compatibility"
+      ],
+      "architecture": [
+        "partial: stateful block boundary and worker timing",
+        "unverified: lane concurrency",
+        "unverified: projection cache"
+      ],
+      "falsifier": [
+        "specific: basis projection and Gram timing before runtime updates",
+        "gate: lane concurrency and worker scaling"
+      ],
+      "union_marginal": "No distinct supported historical mechanism beyond general; neither identifies later single-bin FFT redundancy."
+    },
+    "C2": {
+      "general": [
+        "gate: full receiver scope",
+        "gate: same-stream utilization and timing repeatability"
+      ],
+      "architecture": [
+        "specific: host NumPy projection/Gram and device boundary",
+        "duplicate: full receiver scope"
+      ],
+      "falsifier": [
+        "specific: host preparation/Gram and transfer, with narrower synchronized block timing",
+        "duplicate: full receiver scope"
+      ],
+      "union_marginal": "Host-heavy CPU/GPU boundary, independently identified by architecture and falsifier."
+    },
+    "C3": {
+      "general": [
+        "negative control: separate work and score values, conjunctive acceptance",
+        "unverified: empty case, timing misuse, positional identity"
+      ],
+      "architecture": [
+        "negative control: separate values",
+        "unverified: broadcast mismatch and empty cases; normal record shape and case-count guards constrain reachability"
+      ],
+      "falsifier": [
+        "unverified: empty-case predicate, constrained by omitted normal-path guard"
+      ],
+      "union_marginal": "No supported historical defect detected; later conflicting test expectation was unavailable, so no fair miss of it."
+    },
+    "C4": {
+      "general": [
+        "gate: selected-bin prototype, complete-work comparison and FP64 Gram"
+      ],
+      "architecture": [
+        "gate: actual shapes/setup/memory, decision outputs and complete work"
+      ],
+      "falsifier": [
+        "gate: tensor GEMM changes transform algorithm, actual-shape/setup benchmark",
+        "duplicate: decision and FP64 guard checks"
+      ],
+      "union_marginal": "Algorithm-replacement and setup-aware discriminator; no prediction of exact tensor loss. Reasonable negative experiment."
+    },
+    "C5": {
+      "general": [
+        "specific: FP32 Gram near-dependence and PSD/decision risk"
+      ],
+      "architecture": [
+        "specific: FP32 Gram/strict PSD concern",
+        "unverified: prepared-consumer applicability and projection cancellation"
+      ],
+      "falsifier": [
+        "specific: FP32 features and Gram near small-eigenvalue directions",
+        "additional discriminator: weak component and posterior/likelihood effects"
+      ],
+      "union_marginal": "Weak-direction downstream test and conditional consumer-boundary check; exact historical failure needs separate validation."
+    },
+    "C6": {
+      "general": [
+        "gate: matched measured work via _check_fine; does not identify tuple/list representation",
+        "unverified: unresolved erasure sealing semantics",
+        "excerpt-limited false lead: operating-condition gate exists after omitted excerpt"
+      ],
+      "architecture": [
+        "gates: unresolved model and sealed-versus-accepted lifecycle",
+        "unverified: local fixture provenance"
+      ],
+      "falsifier": [
+        "excerpt-limited false lead: sources is bound in omitted prelude",
+        "excerpt-limited false lead: final conditions gate exists",
+        "gate: public work-coordinate check"
+      ],
+      "union_marginal": "No explicit tuple/list representation detection; generic work matching is not exact mechanism credit."
+    }
+  },
+  "false_alarms": "No unconditional contradicted defect assertion in original 15; C6 has excerpt-limited false leads about source binding and missing conditions gate, both stated conditionally.",
+  "limits": [
+    "Prompt lenses and extra work confound any parallelism comparison.",
+    "Historical applicability and numeric outcomes require independent checks.",
+    "C3 normal empty-case path is guarded; ordinary score shapes validated upstream.",
+    "No speed, cost, or statistical reliability conclusion."
+  ],
+  "cohort_counts": {
+    "cases": 6,
+    "frozen_responses": 18,
+    "generalist_cases_with_supported_historical_mechanism_lead": 2,
+    "union_cases_with_supported_historical_mechanism_lead": 3,
+    "interpretation": "Descriptive case counts; no inference of model reliability or parallelism effect."
+  },
+  "expanded_followups": {
+    "algorithm": "Shared observation projection and H0 elimination are hypotheses; small H0 helper check, no full receiver speedup or DC-only shortcut detection.",
+    "integration": "Initial WeakReceiver path was wrong for workload. After direction to actual entrypoint, constructor guard confirmed by minimal preflight; assisted finding, not unprompted detection."
+  }
+}

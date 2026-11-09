@@ -1,0 +1,19 @@
+{
+  "current_hypothesis": "The documented CLI is wired to the legacy compact_export path, so it cannot satisfy the requested report schema and it sums all rows in the month without filtering approved status. The observed total 2181.00 includes the rejected 900.00 row and is consistent with the selected-month-only legacy logic.",
+  "evidence": [
+    "Read workspace/task.md: requested JSON fields are month, grand_total, and teams with per-team count/total; include approved rows in selected month; exact cents; malformed-row warnings to stderr. Documented command has not been checked on multi-team input since the continuation.",
+    "Inspected source/cli.py: main calls compact_export(rows, args.month), despite source/report.py exposing build_monthly_report(rows, month).",
+    "Inspected source/legacy.py: compact_export sums every row whose date month matches, without status filtering or team breakdown, and returns only month/count/total.",
+    "Inspected source/csvio.py and fixturedata/expenses.csv: fixture includes a rejected October row for 900.00, two teams, and a malformed-row warning path; source/rules.py selects approved rows within calendar bounds.",
+    "Inspected tests: current tests cover helper month selection, aggregation, and money formatting but do not exercise the CLI/report output contract.",
+    "Ran `python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10`; stdout was `{'count': 4, 'month': '2026-10', 'total': '2181.00'}` as JSON. This is incompatible with the requested schema and includes the rejected row's amount."
+  ],
+  "requests": [],
+  "independent_action": "In the next authorized stage, inspect available CLI/report interfaces and add a focused regression check using a multi-team CSV (or equivalent temporary input), then correct the CLI entry point to return the monthly report while preserving stderr warnings. Verify the documented command and existing unit tests within the next stage's call budget.",
+  "shell_invocations": 4,
+  "limits": [
+    "No source, test, task, or fixture files were edited.",
+    "Only the supplied fixture and documented command were exercised; no separate multi-team CLI input has yet been run.",
+    "No independent helper was requested because source inspection and the observed CLI output identify a direct, testable mismatch."
+  ]
+}

@@ -1,0 +1,19 @@
+import sys, time
+sys.path.insert(0, '/tmp/pump-review-baseline28/tools')
+import torch
+from triad_gaussian_state import GaussianPrior, GaussianStateFilter
+began = time.process_time()
+torch.set_num_threads(1)
+prior = GaussianPrior((.5,.5), .5)
+state = GaussianStateFilter(prior, dtype=torch.complex128, check_inputs=True)
+r = torch.zeros((3, 4, 2), dtype=torch.complex128)
+g = torch.zeros((3, 4, 2, 2), dtype=torch.complex128)
+for dt in (.25, .25, .5):
+    inc = state.update(r, g, dt)
+    assert torch.equal(inc, torch.zeros_like(inc))
+    assert torch.equal(state.mean, torch.zeros_like(state.mean))
+    expected = torch.diag(torch.tensor((.5,.5), dtype=torch.complex128)).expand(3,4,2,2)
+    assert torch.allclose(state.covariance, expected, rtol=0, atol=1e-15)
+print({'check':'zero-H0 Gaussian update invariance', 'blocks':3, 'models':1, 'candidate_rows':4,
+       'max_cpu_seconds':round(time.process_time()-began,6), 'score_zero':True,
+       'posterior_stationary_prior':True})

@@ -1,0 +1,31 @@
+{
+  "id": "v517",
+  "case": "P1",
+  "stage": "autonomous",
+  "accepted": true,
+  "protected_changes": [],
+  "checks": [
+    {
+      "command": [
+        "/tmp/pumpmodem-cleanup-venv/bin/python",
+        "-B",
+        "evaluator.py"
+      ],
+      "returncode": 0,
+      "stdout": "projection acceptance: PASS; exact contracts and zero DC FFT calls\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/pumpmodem-cleanup-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "test_triad_incremental_receiver.IncrementalReceiverTests.test_batch_equivalence_dft_static_and_ou"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.284s\n\nOK\n"
+    }
+  ]
+}

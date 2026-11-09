@@ -1,0 +1,33 @@
+{
+  "id": "q399",
+  "case": "A2",
+  "stage": "autonomous",
+  "accepted": true,
+  "protected_changes": [],
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "evaluator.py"
+      ],
+      "returncode": 0,
+      "stdout": "A2 acceptance: PASS (fixture and generated input)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+    }
+  ]
+}

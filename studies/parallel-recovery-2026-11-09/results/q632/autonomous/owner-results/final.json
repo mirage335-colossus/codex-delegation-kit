@@ -1,0 +1,30 @@
+{
+  "changes": [
+    "Changed SnapshotLoader cache identity from captured_at to the resolved snapshot path, preventing distinct service files in the same capture batch from aliasing.",
+    "Added tests/test_loader.py regression test loading two distinct service snapshots with the same captured_at and asserting each service remains distinct."
+  ],
+  "actual_commands_outcomes": [
+    {
+      "command": "cd /tmp/delegation-recovery-runs/q632/workspace && python3 -B -m source.dashboard --input fixturedata/deployments.json",
+      "outcome": "exit 0; JSON output includes api/api-13 and worker/worker-8, each with finished_at 2026-11-09T09:20:00Z; worker state is succeeded."
+    },
+    {
+      "command": "cd /tmp/delegation-recovery-runs/q632/workspace && python3 -B -m unittest tests.test_loader",
+      "outcome": "exit 0; 1 regression test passed."
+    },
+    {
+      "command": "cd /tmp/delegation-recovery-runs/q632/workspace && python3 -B -m unittest discover -s tests",
+      "outcome": "exit 0; 5 tests passed."
+    }
+  ],
+  "course_correction_evidence": "The stage 1 command produced only api despite two fixture files having identical captured_at values. Source inspection showed the loader keyed its cache only on that timestamp and returned the first payload. Changed the cache key to resolved path; the documented command now exposes both services. No helper findings were requested or used.",
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "Verified the public documented CLI command and all repository tests. Did not test cache behavior if a file is modified in place during a loader lifetime; that behavior is outside the stated multi-service requirement."
+  ],
+  "shell_invocations_by_stage": {
+    "stage1": 4,
+    "stage2": 1,
+    "stage3": 4
+  }
+}

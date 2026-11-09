@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-a/A2/evaluator.py", line 66, in <module>
+    run()
+    ~~~^^
+  File "/tmp/recovery-fixtures-a/A2/evaluator.py", line 62, in run
+    assert not failures, "\n".join(failures)
+           ^^^^^^^^^^^^
+AssertionError: fixture: wrong documented-command output: {'services': {'api': {'finished_at': '2026-11-09T09:20:00Z', 'id': 'api-13', 'state': 'running'}}}
+generated input: generated same/different capture-time output was wrong: {'services': {'api': {'finished_at': '2026-11-09T09:20:00Z', 'id': 'api-z', 'state': 'succeeded'}, 'ui': {'finished_at': '2026-11-09T09:25:00Z', 'id': 'ui-4', 'state': 'running'}}}
+exit=1

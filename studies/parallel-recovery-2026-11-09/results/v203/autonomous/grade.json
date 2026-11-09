@@ -1,0 +1,31 @@
+{
+  "id": "v203",
+  "case": "P1",
+  "stage": "autonomous",
+  "accepted": false,
+  "protected_changes": [],
+  "checks": [
+    {
+      "command": [
+        "/tmp/pumpmodem-cleanup-venv/bin/python",
+        "-B",
+        "evaluator.py"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/results/v203/autonomous/evaluation/evaluator.py\", line 88, in <module>\n    run()\n    ~~~^^\n  File \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/results/v203/autonomous/evaluation/evaluator.py\", line 82, in run\n    assert counted_fft.call_count == 0, (\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: DC singleton made 3 np.fft.fft call(s); expected zero\n"
+    },
+    {
+      "command": [
+        "/tmp/pumpmodem-cleanup-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "test_triad_incremental_receiver.IncrementalReceiverTests.test_batch_equivalence_dft_static_and_ou"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.281s\n\nOK\n"
+    }
+  ]
+}

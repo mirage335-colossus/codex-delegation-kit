@@ -1,0 +1,25 @@
+{
+  "changes": [
+    "Updated workspace/exporter.py to page directly over the accepted input order, invoke inspect only for selected rows, and advance caller-owned sequence state with next_for(event.project_id). Response rows retain accepted order and project-local sequences.",
+    "Added workspace/regression_tests.py with mixed-project multi-page ordering/sequence/inspection coverage and zero-limit/past-end behavior coverage. Supplied task and public test files were preserved."
+  ],
+  "commands/outcomes": [
+    {
+      "command": "python3 -m unittest -v public_tests regression_tests",
+      "outcome": "All 5 tests passed: 3 existing public tests and 2 new regression tests."
+    }
+  ],
+  "course_correction/evidence": "The original public tests passed despite the defect. The stage-1 mixed-project reproduction showed timestamp sorting, global sequence values, and whole-batch inspection for a two-row page. Based on that evidence, the exporter was changed to select using page bounds in input order and to assign sequences only as selected events are emitted. Regression tests confirm accepted order and project-local sequences across three retained-state pages, exactly one inspect call per returned event, and no inspect/state advance for empty selections.",
+  "helper_findings_used": [],
+  "limits": [
+    "Validation is limited to the supplied public tests and the added local regression tests; no private evaluator was accessed.",
+    "The stage-1 result file was preserved as directed. Its shell_invocations value says 3, but four stage-1 command invocations actually occurred because writing the result file was a separately counted invocation."
+  ],
+  "actualinvocationcounts": {
+    "stage1_actual": 4,
+    "stage2_implementation": 1,
+    "stage3_checks_and_report": 2,
+    "stages2_and3_total": 3,
+    "assignment_read_before_stage1": 1
+  }
+}

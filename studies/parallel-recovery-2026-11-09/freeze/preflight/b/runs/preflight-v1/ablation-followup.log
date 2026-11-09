@@ -1,0 +1,11 @@
+Earlier ablation setup failures are retained in validation.log. Corrected callback-removal ablation:
+$ (cd /tmp/recovery-fixtures-b/runs/preflight-v1/ablate && PYTHONDONTWRITEBYTECODE=1 python3 evaluator.py)
+exit=1
+Traceback (most recent call last):
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/ablate/evaluator.py", line 60, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/recovery-fixtures-b/runs/preflight-v1/ablate/evaluator.py", line 56, in main
+    raise AssertionError("; ".join(failures[:3]))
+AssertionError: accepted order/project sequence mismatch at cursor 0; independent input-read bound exceeded at cursor 0: 2400 reads for 40 outputs; accepted order/project sequence mismatch at cursor 40
+EXPECTED_EXIT=1 OBSERVED=1 RESULT=OK

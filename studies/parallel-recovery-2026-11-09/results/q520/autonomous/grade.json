@@ -1,0 +1,29 @@
+{
+  "id": "q520",
+  "case": "B2",
+  "stage": "autonomous",
+  "accepted": true,
+  "protected_changes": [],
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "evaluator.py"
+      ],
+      "returncode": 0,
+      "stdout": "PASS: explicit zero, default, positive limit, and offset boundaries\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "public_tests.py"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+    }
+  ]
+}

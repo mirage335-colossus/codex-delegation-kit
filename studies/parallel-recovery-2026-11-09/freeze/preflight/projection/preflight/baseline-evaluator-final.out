@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/recovery-projection-transfer/validation/baseline/evaluator.py", line 88, in <module>
+    run()
+    ~~~^^
+  File "/tmp/recovery-projection-transfer/validation/baseline/evaluator.py", line 82, in run
+    assert counted_fft.call_count == 0, (
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: DC singleton made 8 np.fft.fft call(s); expected zero
+exit=1

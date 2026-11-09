@@ -1,0 +1,43 @@
+{
+  "changes": [
+    {
+      "file": "/tmp/delegation-recovery-runs/v517/workspace/tools/triad_dynamic_joint.py",
+      "description": "Added a fast path in BlockProjection.numpy for a DFT projection whose sole selected index is DC. It computes the unitary DC sum directly, keeps the singleton final dimension, and chooses NumPy FFT-compatible complex precision for built-in numeric dtypes. Other projections and unsupported dtype kinds retain the prior FFT/gather implementation."
+    }
+  ],
+  "commands_results": [
+    {
+      "command": "sed -n '52,115p' /tmp/delegation-recovery-runs/v517/workspace/tools/triad_dynamic_joint.py; /tmp/pumpmodem-cleanup-venv/bin/python -B -c '<NumPy version and FFT dtype probe>'",
+      "result": "Confirmed the existing DC-selection structure and NumPy 2.5.4 dtype behavior: float32/complex64 FFTs return complex64; float64/int16 return complex128."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B -c '<direct-sum dtype probe>' (first attempt)",
+      "result": "Probe setup failed before assertions because it read .kind from a dtype class rather than a numpy.dtype object. Zero assertions. Corrected the probe and reran."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B -c '<corrected direct-sum dtype probe>'",
+      "result": "Observed float32/complex64 summation promotion when dividing by a float64 scalar and confirmed use of a complex-typed scale preserves intended output precision."
+    },
+    {
+      "command": "cd /tmp/delegation-recovery-runs/v517/workspace/tests && /tmp/pumpmodem-cleanup-venv/bin/python -B -m unittest test_triad_incremental_receiver.IncrementalReceiverTests.test_batch_equivalence_dft_static_and_ou",
+      "result": "PASS: 1 test, including DFT static/OU batch and incremental score equivalence."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B - <<'PY' (direct NumPy comparison)",
+      "result": "PASS: singleton-DC output matched full NumPy FFT using rtol=2e-6, atol=2e-6 across float16/32/64/longdouble, complex64/128/clongdouble, signed and unsigned integer types, and bool. Confirmed shape and dtype, empty leading batch, and legacy shape/non-numeric failure paths."
+    },
+    {
+      "command": "/tmp/pumpmodem-cleanup-venv/bin/python -B - <<'PY' (other projection comparisons)",
+      "result": "PASS: non-DC multi-bin DFT and valid-rows outputs retained their existing results."
+    }
+  ],
+  "numerical_behavior_limits": "The direct sum uses a different floating-point operation order from NumPy pocketfft; validation establishes numerical equivalence at the stated tolerance, not bitwise identity. The supplied workload is a constructed contract slice and does not establish end-to-end runtime gains. The private acceptance runner was unavailable; the public caller test and direct comparisons passed.",
+  "course_correction": "The initial hypothesis focused on avoiding the full FFT when only DC is selected. A dtype probe showed NumPy FFT's output precision varies by input dtype, so the implementation uses an explicit compatible accumulator/scale dtype and leaves unsupported dtype kinds on the original FFT path. The first standalone dtype probe itself failed before assertions due to a probe coding mistake; the corrected probe and downstream checks passed.",
+  "helper_findings_used": [],
+  "invocation_counts": {
+    "stage1_exec_command": 4,
+    "stage2_exec_command": 6,
+    "stage2_implementation_edits": 1,
+    "assertions_or_tests": "The initial faulty probe ran zero assertions; corrected direct checks and the one public unittest passed."
+  }
+}

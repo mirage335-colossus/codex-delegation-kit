@@ -1,0 +1,54 @@
+Historical source identity and index convention
+Root transcript: /home/user/.codex/sessions/2026/11/09/rollout-2026-11-09T01-27-53-01a1bf34-d662-7713-a2c4-da8c9e459da6.jsonl (ordinals zero-based, physical line = ordinal + 1).
+GPU implementation child transcript: /home/user/.codex/sessions/2026/11/09/rollout-2026-11-09T01-55-00-01a1bf4d-a88f-7900-a045-726bd51aa0e0.jsonl (same zero-based convention). This child is `/root/gpu_acceleration`.
+No pumpModem source files were edited/read in this follow-up; reproductions are historical transcript outputs only.
+
+CASE 1 — exact integrated GPU constructor rejection
+Start of full RTX suite: child ord1089 / line1090 / 08:18:07.123Z / custom tool id `ctc_0fbd8c228a24c516016af181b8dc2c87d1a6d4ded00bf666a2`, call_id `call_2a3d44f2c583422a9f4ce034d2d260fd`. It ran on RTX via SSH:
+`python tools/triad_gpu_workload.py --device cuda --workers 12 --coarse-cuda --reference-case 3 --reference-case 4 --reference-case 6 --exporter build/dev/triad_helper_export --output local-evidence/gpu-rtx-full-work.json`
+under a 900s timeout. Command returned session_id 82091 (child ord1091/line1092). Poll output at child ord1120/line1121 logged `probing manual row 1 with 12 workers`.
+Direct failure: child ord1164/line1165, 08:20:22.233Z, call_id `call_35c795dd0c64444a8b50010b8d60f5bd`, exit_code 1. Exact traceback: `triad_gpu_workload.py:304 receiver` called `CompleteBitReceiver(...)`; `tools/triad_receiver.py`, line 531, raised `TypeError: complete bit backend currently requires the canonical whole FFTScreen`.
+Actual pre-fix guard printed from remote source at child ord1173/line1174 (call_id `call_c58ad48cbda343dd852edbd0b3d24640`):
+```
+class CompleteBitReceiver(FineReceiverContext):
+  ...
+  def __init__(...):
+      began = time.perf_counter()
+      if type(screen) is not FFTScreen:
+          raise TypeError('complete bit backend currently requires the canonical whole FFTScreen')
+```
+The GPU implementation class is `GpuFFTScreen(FFTScreen)` (`triad_gpu_bank.py:74` per child ord1294/line1295, call_id `call_20a5644fa4444a0cb7293e7319ea1358`). Thus exact-type validation rejected the intended subclass. This is an integration compatibility bug, not compile error.
+Patch: child ord1346/line1347, 08:25:24.761Z, apply_patch call_id `call_e853b5d75dc34c29adb981b7a06fc06b`, changes condition from `type(screen) is not FFTScreen` to `not isinstance(screen, FFTScreen)`.
+Small integrated preflight script created in `/tmp` (not pumpModem) at child ord1252/line1253, call_id `call_de57f59237784279b7de07cdfce98ec9`; remote execution command at child ord1358/line1359, call_id `call_4009ce473e7b4c45b9936baebd6bb15b`, invokes `gpu_receiver_preflight.py` under 40 sec; direct pass output child ord1384/line1385, call_id `call_ff78dd4fea7344fdadc5a06c3fb36f4c`: `complete GPU receiver preflight passed` (warning only: cupyx rawkernel experimental). The full GPU workload is restarted shortly after (child ord1515/line1516 output shows `probing manual row 1 with 12 workers` and later measurement rows). Root timeline's 08:25:06 update (root ord1563 / physical line1564) correctly said final integration check caught the guard; it was after the GPU suite had actually started, not merely planned.
+
+Pre-outcome blind prompt for reviewer (withhold evidence above):
+"You have a GPU coarse-screen subclass of FFTScreen that is intended to enter CompleteBitReceiver. The planned workload will run several complete manual receiver rows. The receiver base currently documents an invariant that its screen needs to be whole-window; what exact compatibility/preflight check would you run before starting the full workload? Explain whether subclasses should be accepted based on API contract or refused based on type identity, and define the smallest integrated equivalence check."
+
+CASE 2 — row-7 maximum-state refresh wrapper tuple/list failure
+Wrapper was generated at root ord6605 / physical line6606, 13:18:15.388Z, tool id `ctc_0ee6599a02c2937c016af1c7faeee887d1b1f4171ed4aea2d1`, call_id `call_6e37ea3ccb1141a18018c2ea0116cc9f`. Script `local-evidence/current-parallel/refresh-cap.py` loaded CPU calibration and GPU workload JSON, calibrated only row 7 `maximum_state_transition`, reused unchanged 4608 MiB and 12-worker contracts, and intended one sealed 3/5/9-look fit before one fresh holdout. Existing report showed row7 maximum-state phase cost drift, while nominal timing passed (root assistant status at ord6665/line6666 said first row2 refresh had passed; Row7 failure result itself not yet announced before the first wrapper run).
+
+The exact wrapper’s decision block, from the same tool input at root ord6605:
+```
+fit = measure_fine_stratum(...)
+...
+updated = copy.deepcopy(local)
+updated['measurement']['fine_public_state_ceiling'] = fit
+...
+prediction = forecast._forecast_row(updated, remote, allow_approximation=True)
+assert not prediction['missing_or_mismatched']
+```
+The first execution started through root tool call at ord6607/line6608, call_id `call_6e37ea3ccb1141a18018c2ea0116cc9f`; poll output at ord6626/line6627, call_id `call_c41054c79a994d92934360d679fba676`, exit_code 1: traceback `refresh-cap.py`, line 52, `assert not prediction['missing_or_mismatched']`, `AssertionError`. It failed before sealing the prediction or running the fresh holdout; the fit/holdout acceptance assertions were never reached. The direct assertion output did not include the mismatch dictionary.
+
+Causal diagnostic was then run offline against archived inputs only: root ord6701/line6702 command call_id `call_96c5ce0d2b5e4d93a4b4a33f6efb5e60`; output at ord6710/line6711, call_id `call_addaaf3b886549e3bf202b39df81717a`, exit_code 0:
+`tuple_shaped_training_mismatch: {'maximum_state_transition': 'fine short endpoint or quiet projection differs'}` and `json_normalization_restores_exact_original_forecast: True`.
+The diagnosis deliberately changed fresh fit `coordinates` from lists to tuple-of-tuples; `_forecast_row` rejected the structural mismatch against JSON-loaded GPU data. Roundtrip JSON normalization restored exact original forecast. Thus wrapper/data-shape compatibility failure; no receiver code or thresholds changed.
+
+Bounded fix/rerun: root ord6712/line6713, call_id `call_9d4decca415d4b3f9281187fd19301af`, writes `/tmp`-adjacent temporary wrapper `refresh-cap-repaired.py` and normalizes `fit=json.loads(json.dumps(fit,allow_nan=False))` before compatibility check; it also saves fit/compatibility receipts and adds explicit mismatch to assertion. Root ord6714/line6715, call_id `call_9d4decca415d4b3f9281187fd19301af`, starts the same one bounded run with 120-second timeout. Root ord6729/line6730, call_id `call_f1c2fd6d17484c7d905e434aede9e8f9`, output `status conditional_estimates`, `phase_status phase_timing_supported`, `elapsed 33.0566s`; trace nominal error +9.85%, complete-capacity error +4.98%, both accepted. Assistant summary root ord6741/line6742, 13:24:52Z reports row-7 pass, all nominal+conservative timing checks pass, capacity still unresolved rows 4,6,8.
+
+Pre-outcome blind prompt for reviewer (withhold evidence above):
+"An offline forecast refresh replaces only row 7’s maximum-state CPU training observations, preserving its GPU record and all other phase data. The stored CPU and GPU artifacts were both JSON-loaded; the newly measured phase is an in-memory Python object. Before spending the single permitted fresh receiver holdout, what compatibility checks should the wrapper run, and how should it validate that artifact normalization does not change the model or numerical results?"
+
+Coverage limits
+- The constructor failure and fix are directly tied to actual CUDA-run stderr, source snippet, patch, remote preflight command, and pass output. No compilation failure: Python TypeError at receiver construction.
+- The wrapper failure’s direct log is only traceback/AssertionError; the tuple/list cause is an explicit offline archived-data differential reproduced in tool output. The disposable source refresh wrapper and its reports were later removed; no current file reproduction was made. No child transcript was needed for row7 beyond root record; GPU constructor evidence is present in `/root/gpu_acceleration` child record.
+- Exact GPU host identity/credentials intentionally omitted; no credential or cloud operation was replayed.

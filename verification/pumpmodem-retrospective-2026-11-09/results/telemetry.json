@@ -1,0 +1,793 @@
+{
+  "captured_at_utc": "2026-11-09T18:54:43.218060+00:00",
+  "method": "Latest cumulative token_count per session; cached input is a subset of input. Main chat and active continuations are partial at capture. Local runtime metadata, not provider billing or subscription allowance.",
+  "totals_by_observed_model": {
+    "gpt-6-astra": {
+      "sessions": 3,
+      "input_tokens": 31411211,
+      "cached_input_tokens": 31021952,
+      "output_tokens": 74553
+    },
+    "gpt-6-luna": {
+      "sessions": 28,
+      "input_tokens": 24897430,
+      "cached_input_tokens": 23687424,
+      "output_tokens": 196321
+    },
+    "gpt-6.1-terra": {
+      "sessions": 1,
+      "input_tokens": 1089041,
+      "cached_input_tokens": 1032320,
+      "output_tokens": 7057
+    }
+  },
+  "sessions": [
+    {
+      "agent": "/root",
+      "thread_id": "01a1c18b-2d0e-7510-8b29-f1afa3b47c78",
+      "role": null,
+      "first_timestamp": "2026-11-09T18:21:28.989Z",
+      "is_root": true,
+      "models": [
+        "gpt-6-astra"
+      ],
+      "efforts": [
+        "ultra"
+      ],
+      "completed_turns": 0,
+      "usage": {
+        "input_tokens": 24369128,
+        "cached_input_tokens": 24130688,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 52976,
+        "reasoning_output_tokens": 17736,
+        "total_tokens": 24422104
+      },
+      "usage_timestamp": "2026-11-09T18:54:32.882Z"
+    },
+    {
+      "agent": "/root/initial_review",
+      "thread_id": "01a1c18b-5573-7e20-b884-413121cdae9d",
+      "role": "astra_initial",
+      "first_timestamp": "2026-11-09T18:21:36.517Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-astra"
+      ],
+      "efforts": [
+        "ultra"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 23002,
+        "cached_input_tokens": 21632,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1229,
+        "reasoning_output_tokens": 516,
+        "total_tokens": 24231
+      },
+      "usage_timestamp": "2026-11-09T18:22:27.847Z",
+      "last_completed_timestamp": "2026-11-09T18:22:28.051Z"
+    },
+    {
+      "agent": "/root/history_map",
+      "thread_id": "01a1c18c-df2a-71a3-8d4e-c5c42ae2dae0",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:23:17.332Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 3,
+      "usage": {
+        "input_tokens": 11878316,
+        "cached_input_tokens": 11590272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 53413,
+        "reasoning_output_tokens": 25242,
+        "total_tokens": 11931729
+      },
+      "usage_timestamp": "2026-11-09T18:49:56.276Z",
+      "last_completed_timestamp": "2026-11-09T18:49:56.293Z"
+    },
+    {
+      "agent": "/root/repository_map",
+      "thread_id": "01a1c18d-00a0-78b0-828c-ea906ab88472",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:23:25.890Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 1610227,
+        "cached_input_tokens": 1543040,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 11329,
+        "reasoning_output_tokens": 3812,
+        "total_tokens": 1621556
+      },
+      "usage_timestamp": "2026-11-09T18:27:18.920Z",
+      "last_completed_timestamp": "2026-11-09T18:27:19.126Z"
+    },
+    {
+      "agent": "/root/primary_research",
+      "thread_id": "01a1c18d-a834-7dd2-810f-e2ef8c52fdac",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:24:08.811Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 246030,
+        "cached_input_tokens": 204288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3455,
+        "reasoning_output_tokens": 677,
+        "total_tokens": 249485
+      },
+      "usage_timestamp": "2026-11-09T18:27:02.147Z",
+      "last_completed_timestamp": "2026-11-09T18:27:02.180Z"
+    },
+    {
+      "agent": "/root/c1_general",
+      "thread_id": "01a1c192-4291-7652-a521-35ef0b365cd3",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:10.482Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 96676,
+        "cached_input_tokens": 87296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1972,
+        "reasoning_output_tokens": 891,
+        "total_tokens": 98648
+      },
+      "usage_timestamp": "2026-11-09T18:29:50.893Z",
+      "last_completed_timestamp": "2026-11-09T18:29:51.113Z"
+    },
+    {
+      "agent": "/root/c1_architecture",
+      "thread_id": "01a1c192-5755-7fb0-99d3-66afe115510e",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:15.762Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 128495,
+        "cached_input_tokens": 116224,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 5002,
+        "reasoning_output_tokens": 2133,
+        "total_tokens": 133497
+      },
+      "usage_timestamp": "2026-11-09T18:30:52.769Z",
+      "last_completed_timestamp": "2026-11-09T18:30:53.019Z"
+    },
+    {
+      "agent": "/root/c1_falsifier",
+      "thread_id": "01a1c192-6cc1-78f2-95a0-f6c87f12c95e",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:21.246Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 129668,
+        "cached_input_tokens": 117504,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2325,
+        "reasoning_output_tokens": 1254,
+        "total_tokens": 131993
+      },
+      "usage_timestamp": "2026-11-09T18:30:10.111Z",
+      "last_completed_timestamp": "2026-11-09T18:30:10.323Z"
+    },
+    {
+      "agent": "/root/c2_general",
+      "thread_id": "01a1c192-8369-7911-9fde-fd8ecb28802d",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:27.041Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 127620,
+        "cached_input_tokens": 113024,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4111,
+        "reasoning_output_tokens": 2190,
+        "total_tokens": 131731
+      },
+      "usage_timestamp": "2026-11-09T18:30:46.867Z",
+      "last_completed_timestamp": "2026-11-09T18:30:47.095Z"
+    },
+    {
+      "agent": "/root/c2_architecture",
+      "thread_id": "01a1c192-9710-7b90-b369-decea233e0ed",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:32.091Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 95037,
+        "cached_input_tokens": 85504,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1758,
+        "reasoning_output_tokens": 801,
+        "total_tokens": 96795
+      },
+      "usage_timestamp": "2026-11-09T18:30:10.606Z",
+      "last_completed_timestamp": "2026-11-09T18:30:10.812Z"
+    },
+    {
+      "agent": "/root/c2_falsifier",
+      "thread_id": "01a1c192-ac4f-79e2-82c2-b2e0c885288f",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:37.512Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 70414,
+        "cached_input_tokens": 61824,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2221,
+        "reasoning_output_tokens": 1364,
+        "total_tokens": 72635
+      },
+      "usage_timestamp": "2026-11-09T18:30:22.204Z",
+      "last_completed_timestamp": "2026-11-09T18:30:22.408Z"
+    },
+    {
+      "agent": "/root/c3_general",
+      "thread_id": "01a1c192-be55-7ad0-95f7-2fe0c5c45540",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:42.127Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 67921,
+        "cached_input_tokens": 61824,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2624,
+        "reasoning_output_tokens": 1883,
+        "total_tokens": 70545
+      },
+      "usage_timestamp": "2026-11-09T18:30:34.486Z",
+      "last_completed_timestamp": "2026-11-09T18:30:34.697Z"
+    },
+    {
+      "agent": "/root/c3_architecture",
+      "thread_id": "01a1c192-d156-7873-88ca-8737f3380902",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:46.995Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 116929,
+        "cached_input_tokens": 106880,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2529,
+        "reasoning_output_tokens": 1470,
+        "total_tokens": 119458
+      },
+      "usage_timestamp": "2026-11-09T18:30:43.584Z",
+      "last_completed_timestamp": "2026-11-09T18:30:43.855Z"
+    },
+    {
+      "agent": "/root/c3_falsifier",
+      "thread_id": "01a1c192-f78f-7801-b913-875fe2d87014",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:29:56.791Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 116001,
+        "cached_input_tokens": 103040,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2342,
+        "reasoning_output_tokens": 1322,
+        "total_tokens": 118343
+      },
+      "usage_timestamp": "2026-11-09T18:30:45.812Z",
+      "last_completed_timestamp": "2026-11-09T18:30:46.046Z"
+    },
+    {
+      "agent": "/root/c4_general",
+      "thread_id": "01a1c193-0da1-7390-88d6-fc064412897c",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:02.427Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 69134,
+        "cached_input_tokens": 61952,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2414,
+        "reasoning_output_tokens": 1633,
+        "total_tokens": 71548
+      },
+      "usage_timestamp": "2026-11-09T18:30:51.102Z",
+      "last_completed_timestamp": "2026-11-09T18:30:51.334Z"
+    },
+    {
+      "agent": "/root/c4_architecture",
+      "thread_id": "01a1c193-1fda-7273-9e3b-bcb2b7260cc9",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:07.094Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 68327,
+        "cached_input_tokens": 41216,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1810,
+        "reasoning_output_tokens": 992,
+        "total_tokens": 70137
+      },
+      "usage_timestamp": "2026-11-09T18:30:45.388Z",
+      "last_completed_timestamp": "2026-11-09T18:30:45.601Z"
+    },
+    {
+      "agent": "/root/c4_falsifier",
+      "thread_id": "01a1c193-33f2-7232-a5c8-eb422c66d92d",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:12.241Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 138614,
+        "cached_input_tokens": 127104,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2919,
+        "reasoning_output_tokens": 1756,
+        "total_tokens": 141533
+      },
+      "usage_timestamp": "2026-11-09T18:31:22.546Z",
+      "last_completed_timestamp": "2026-11-09T18:31:22.557Z"
+    },
+    {
+      "agent": "/root/c5_general",
+      "thread_id": "01a1c193-4748-7733-923b-99a12cb2fa85",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:17.185Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 68343,
+        "cached_input_tokens": 64128,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1745,
+        "reasoning_output_tokens": 858,
+        "total_tokens": 70088
+      },
+      "usage_timestamp": "2026-11-09T18:30:52.866Z",
+      "last_completed_timestamp": "2026-11-09T18:30:53.121Z"
+    },
+    {
+      "agent": "/root/c5_architecture",
+      "thread_id": "01a1c193-5a23-7cb2-bf9c-45e6574bcd1d",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:22.014Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 139552,
+        "cached_input_tokens": 132224,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3495,
+        "reasoning_output_tokens": 2073,
+        "total_tokens": 143047
+      },
+      "usage_timestamp": "2026-11-09T18:31:38.077Z",
+      "last_completed_timestamp": "2026-11-09T18:31:38.095Z"
+    },
+    {
+      "agent": "/root/c5_falsifier",
+      "thread_id": "01a1c193-ae83-77f3-a044-74746deef20f",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:30:43.718Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 68028,
+        "cached_input_tokens": 61952,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1438,
+        "reasoning_output_tokens": 604,
+        "total_tokens": 69466
+      },
+      "usage_timestamp": "2026-11-09T18:31:14.046Z",
+      "last_completed_timestamp": "2026-11-09T18:31:14.252Z"
+    },
+    {
+      "agent": "/root/expanded_algorithm",
+      "thread_id": "01a1c194-8fda-7a83-a795-6534320980dc",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:31:41.323Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 3148816,
+        "cached_input_tokens": 2988160,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 18711,
+        "reasoning_output_tokens": 11108,
+        "total_tokens": 3167527
+      },
+      "usage_timestamp": "2026-11-09T18:38:33.421Z",
+      "last_completed_timestamp": "2026-11-09T18:38:33.438Z"
+    },
+    {
+      "agent": "/root/expanded_integration",
+      "thread_id": "01a1c194-ad94-73a3-be82-3de898fad94d",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:31:48.913Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 3,
+      "usage": {
+        "input_tokens": 2359420,
+        "cached_input_tokens": 2225536,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 19005,
+        "reasoning_output_tokens": 9839,
+        "total_tokens": 2378425
+      },
+      "usage_timestamp": "2026-11-09T18:44:20.164Z",
+      "last_completed_timestamp": "2026-11-09T18:44:20.185Z"
+    },
+    {
+      "agent": "/root/numeric_reproduction",
+      "thread_id": "01a1c194-d35c-7253-9830-1f6c3be774f3",
+      "role": "luna_swarm",
+      "first_timestamp": "2026-11-09T18:31:58.583Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "medium"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 368116,
+        "cached_input_tokens": 327424,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3739,
+        "reasoning_output_tokens": 517,
+        "total_tokens": 371855
+      },
+      "usage_timestamp": "2026-11-09T18:34:16.651Z",
+      "last_completed_timestamp": "2026-11-09T18:34:16.667Z"
+    },
+    {
+      "agent": "/root/parity_reproduction",
+      "thread_id": "01a1c194-f8a0-7fd1-900b-c4c2afd169cd",
+      "role": "luna_swarm",
+      "first_timestamp": "2026-11-09T18:32:08.121Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "medium"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 363049,
+        "cached_input_tokens": 320768,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4761,
+        "reasoning_output_tokens": 534,
+        "total_tokens": 367810
+      },
+      "usage_timestamp": "2026-11-09T18:34:36.548Z",
+      "last_completed_timestamp": "2026-11-09T18:34:36.558Z"
+    },
+    {
+      "agent": "/root/screen_exercises",
+      "thread_id": "01a1c195-60cf-7c10-a5e7-38675bbde47d",
+      "role": "default",
+      "first_timestamp": "2026-11-09T18:32:34.800Z",
+      "is_root": false,
+      "models": [
+        "gpt-6.1-terra"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 3,
+      "usage": {
+        "input_tokens": 1089041,
+        "cached_input_tokens": 1032320,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 7057,
+        "reasoning_output_tokens": 327,
+        "total_tokens": 1096098
+      },
+      "usage_timestamp": "2026-11-09T18:39:02.191Z",
+      "last_completed_timestamp": "2026-11-09T18:39:02.205Z"
+    },
+    {
+      "agent": "/root/astra_arbitration",
+      "thread_id": "01a1c197-73f9-7a83-aa93-59d3f7774b7f",
+      "role": "astra_expert",
+      "first_timestamp": "2026-11-09T18:34:50.785Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-astra"
+      ],
+      "efforts": [
+        "ultra"
+      ],
+      "completed_turns": 2,
+      "usage": {
+        "input_tokens": 7019081,
+        "cached_input_tokens": 6869632,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 20348,
+        "reasoning_output_tokens": 4678,
+        "total_tokens": 7039429
+      },
+      "usage_timestamp": "2026-11-09T18:52:54.934Z",
+      "last_completed_timestamp": "2026-11-09T18:52:54.952Z"
+    },
+    {
+      "agent": "/root/c6_general",
+      "thread_id": "01a1c198-f4f5-7913-87ed-42b486d00fbb",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:36:29.345Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 69228,
+        "cached_input_tokens": 64384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2223,
+        "reasoning_output_tokens": 1511,
+        "total_tokens": 71451
+      },
+      "usage_timestamp": "2026-11-09T18:37:13.523Z",
+      "last_completed_timestamp": "2026-11-09T18:37:13.751Z"
+    },
+    {
+      "agent": "/root/c6_architecture",
+      "thread_id": "01a1c199-1458-7841-9f0a-a86c5a18ad73",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:36:37.369Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 94802,
+        "cached_input_tokens": 89216,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2808,
+        "reasoning_output_tokens": 1450,
+        "total_tokens": 97610
+      },
+      "usage_timestamp": "2026-11-09T18:37:32.678Z",
+      "last_completed_timestamp": "2026-11-09T18:37:32.903Z"
+    },
+    {
+      "agent": "/root/c6_falsifier",
+      "thread_id": "01a1c199-31c4-7f90-b70f-a49135f7a8b4",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:36:44.891Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 94776,
+        "cached_input_tokens": 84736,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2518,
+        "reasoning_output_tokens": 1702,
+        "total_tokens": 97294
+      },
+      "usage_timestamp": "2026-11-09T18:37:35.600Z",
+      "last_completed_timestamp": "2026-11-09T18:37:35.817Z"
+    },
+    {
+      "agent": "/root/new_bank_blind",
+      "thread_id": "01a1c19c-9151-7f00-bc81-d0296b296268",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:40:25.989Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 1632068,
+        "cached_input_tokens": 1529856,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 15025,
+        "reasoning_output_tokens": 10036,
+        "total_tokens": 1647093
+      },
+      "usage_timestamp": "2026-11-09T18:45:25.647Z",
+      "last_completed_timestamp": "2026-11-09T18:45:25.876Z"
+    },
+    {
+      "agent": "/root/new_cost_blind",
+      "thread_id": "01a1c19c-b66f-7f60-8621-2bc86e38b5ae",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:40:35.468Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 743960,
+        "cached_input_tokens": 665856,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 14130,
+        "reasoning_output_tokens": 6749,
+        "total_tokens": 758090
+      },
+      "usage_timestamp": "2026-11-09T18:45:08.650Z",
+      "last_completed_timestamp": "2026-11-09T18:45:08.979Z"
+    },
+    {
+      "agent": "/root/new_dependencies_blind",
+      "thread_id": "01a1c19c-d5cf-7630-99d3-e951dd55a357",
+      "role": "luna_scout",
+      "first_timestamp": "2026-11-09T18:40:43.500Z",
+      "is_root": false,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "efforts": [
+        "high"
+      ],
+      "completed_turns": 1,
+      "usage": {
+        "input_tokens": 787863,
+        "cached_input_tokens": 712192,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6499,
+        "reasoning_output_tokens": 2298,
+        "total_tokens": 794362
+      },
+      "usage_timestamp": "2026-11-09T18:42:56.171Z",
+      "last_completed_timestamp": "2026-11-09T18:42:56.643Z"
+    }
+  ]
+}

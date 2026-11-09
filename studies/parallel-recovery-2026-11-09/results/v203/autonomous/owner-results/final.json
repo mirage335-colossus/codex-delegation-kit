@@ -1,0 +1,28 @@
+{
+  "changes": {
+    "file": "workspace/tools/triad_dynamic_joint.py",
+    "summary": "Added a single-DC-bin fast path in BlockProjection.numpy for integer, float64, and complex128 inputs. It computes only the requested DC projection with a complex128 sum and preserves the full FFT fallback for other selected-bin layouts and dtypes.",
+    "caller_and_consumption": "ProjectedJointReceiver.__init__ constructs one BlockProjection per block (line 186) and applies it once to each non-erased block basis (line 228); the projected basis is consumed by the Gram einsum immediately afterward (line 229). No cache was found in this path. This is ordered per-block preparation, not a global join.",
+    "scope": "Only the authorized source file was edited; tests and workload data were not changed."
+  },
+  "commands_and_results": [
+    "Read task, source, workload and receiver test. Fixture is a constructed contract slice: 64 samples at 64 Hz, required band [0,0], no exclusions; selection is index [0].",
+    "Ran the named incremental receiver integration check before and after the dtype correction. Both runs passed: 1 test, OK.",
+    "Initial dtype comparison exposed a float32 mismatch because this NumPy runtime returns complex64 FFT output for float32 inputs. Probed NumPy FFT output dtypes and narrowed the fast path accordingly.",
+    "Post-correction manual behavior check covered int16, float32, float64, complex64, complex128, shape and dtype; all matched NumPy FFT within rtol=2e-14, atol=2e-14. Maximum observed difference was 2.22e-16 for float64/complex128; the others were exact. Multi-bin fallback was array-equal to NumPy FFT, and the input-length ValueError message was preserved.",
+    "Isolated 30,000-call timing on the fixture's 64-sample complex128 DC projection: original full FFT 7.331 microseconds/call; fast path 3.302 microseconds/call. Setup and caller work were excluded. The measured per-call difference was 4.029 microseconds, with the original full-FFT call time as denominator; this is not an end-to-end gain estimate.",
+    "The private acceptance runner was unavailable in the authorized workspace and was not run."
+  ],
+  "numerical_and_behavior_limits": "Fast-path reduction order can differ slightly from pocketfft; the maximum observed absolute difference in the tested float64/complex128 inputs was 2.22e-16. The manual sample is limited and does not establish all-input equivalence. Float16/float32, extended precision, unsupported types, valid-rows projections, and non-singleton/non-DC selections continue through the original code path. No end-to-end receiver timing or production cadence was available; the supplied fixture is explicitly not a throughput trace.",
+  "course_correction": "The first fast-path draft converted all numeric inputs to complex128. A manual check showed that this changed float32 output dtype and value relative to this runtime's NumPy FFT. The fast path was restricted to integer, float64, and complex128 inputs; other dtypes use the original FFT. The integration test passed both before and after the correction, but only the post-correction run reflects the final change.",
+  "unfinished_check_and_next_action": "Run the task's private acceptance runner for the full projection contract and comparison against NumPy DFT behavior when the controller provides an authorized accessible runner. No runner path or invocation was supplied here.",
+  "helper_findings_used": [],
+  "invocation_counts": {
+    "stage1_exec_command_invocations": 4,
+    "stage2_exec_command_invocations": 10,
+    "implementation_changes": 1,
+    "stage2_source_inspection_exec_command_invocations": 2,
+    "stage2_validation_or_measurement_exec_command_invocations": 7,
+    "stage2_final_write_exec_command_invocations": 1
+  }
+}

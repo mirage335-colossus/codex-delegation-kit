@@ -1,0 +1,38 @@
+{
+  "changes": [
+    "Changed SnapshotLoader cache keys from capture timestamps to resolved source paths, keeping snapshots from different services separate when captured together.",
+    "Added tests/test_loader.py with a regression case that loads two distinct service files sharing one captured_at timestamp and checks both snapshots survive independently."
+  ],
+  "actual_commands_outcomes": [
+    {
+      "command": "timeout 30s python3 -B -m unittest discover -s tests",
+      "outcome": "exit 0; 5 tests ran; OK"
+    },
+    {
+      "command": "timeout 10s python3 -m source.dashboard --input fixturedata/deployments.json",
+      "outcome": "exit 0; JSON contained both api (api-13, running) and worker (worker-8, succeeded), each at 2026-11-09T09:20:00Z"
+    },
+    {
+      "command": "git diff -- source/loader.py tests/test_loader.py",
+      "outcome": "This workspace has no Git metadata. The command was interpreted as a no-index comparison between the two files, so its apparent rename-style diff was not repository change evidence."
+    },
+    {
+      "command": "git status --short && git diff --stat && git ls-files source/loader.py tests/test_loader.py && ls -l source/loader.py tests/test_loader.py && sed -n '1,100p' source/loader.py",
+      "outcome": "Stopped at the initial git status command with 'fatal: not a git repository'; no repository status or diff was established."
+    }
+  ],
+  "course_correction_evidence": "The first attempted diff was misleading because the workspace is not a Git repository and Git compared the two supplied file paths in no-index mode. The follow-up confirmed the missing repository metadata. The fix is supported by the passing regression test and the documented command output, not by a Git diff.",
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "The supplied tests, task, and fixtures were preserved; only source/loader.py and a new regression test were changed.",
+    "The regression test directly checks same-time snapshots from separate files; the documented CLI check verifies the supplied two-service fixture end to end.",
+    "Cache invalidation if an already-loaded file is modified during the same loader lifetime was not part of the stated contract and was not checked.",
+    "No private evaluator or oracle was available or used."
+  ],
+  "shell_invocations": {
+    "stage1": 6,
+    "stage2": 1,
+    "stage3": 4,
+    "total": 11
+  }
+}

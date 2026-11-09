@@ -1,0 +1,22 @@
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py /tmp/delegation-recovery-runs/v846/workspace/tools/triad_dynamic_joint.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py	2026-11-09 01:06:48.000000000 -0600
++++ /tmp/delegation-recovery-runs/v846/workspace/tools/triad_dynamic_joint.py	2026-11-09 13:45:05.422140055 -0600
+@@ -99,6 +99,18 @@
+             raise ValueError("projection input length changed")
+         if self.kind == "valid-rows":
+             return values[..., self.indices]
++        # A DC-only projection needs just the normalized sum. Keep this
++        # narrowly guarded: all other DFT selections still use NumPy's FFT.
++        # Promote before reducing to match NumPy FFT's supported numeric
++        # precision, then retain the singleton projected-mode axis.
++        if (self.indices.shape == (1,) and self.indices[0] == 0 and
++                values.dtype.kind in "fc"):
++            output_dtype = np.result_type(values.dtype, np.complex64)
++            # Accumulate in the promoted FFT dtype, as pocketfft does, so
++            # single-precision inputs retain their complex64 result contract.
++            work = values.astype(output_dtype, copy=False)
++            dc = np.sum(work, axis=-1, dtype=output_dtype) / math.sqrt(self.samples)
++            return np.asarray(dc, dtype=output_dtype)[..., None]
+         return np.fft.fft(values, axis=-1, norm="ortho")[..., self.indices]
+ 
+ 

@@ -1,0 +1,17 @@
+{
+  "current_hypothesis": "SnapshotLoader caches by captured_at alone. The api and worker snapshots share that timestamp, so loading worker returns the cached api snapshot; the dashboard then contains api only. The sort order is unrelated to the missing service.",
+  "evidence": [
+    "Read workspace/task.md: objective requires latest deployment per service; it records both fixture snapshots share captured_at and says the documented command had not been run together.",
+    "Inspected source/loader.py: load() uses parse_time(normalized[\"captured_at\"]) as the sole cache key and returns the first normalized payload for that key.",
+    "Inspected both fixture files: api.json and worker.json have the same captured_at (2026-11-09T09:30:00Z) and distinct service names and deployment IDs.",
+    "Ran `python3 -B -m source.dashboard --input fixturedata/deployments.json`; observed output contains only services.api with api-13, while worker is absent.",
+    "Ran `python3 -B -m unittest discover -s tests`; 4 tests passed, and they do not exercise SnapshotLoader on two services sharing a captured_at."
+  ],
+  "requests": [],
+  "independent_action": "In the next authorized stage, repair the cache identity so snapshots for distinct services cannot collide (likely key by resolved input path or service plus capture time), then run the documented multi-service command and the existing test suite; add a regression test if allowed.",
+  "shell_invocations": 4,
+  "limits": [
+    "Stage 1 was read-only except writing this result; no source, tests, task, or fixture data were edited.",
+    "Did not inspect other run or study files and did not use network, install tools, or launch helpers."
+  ]
+}

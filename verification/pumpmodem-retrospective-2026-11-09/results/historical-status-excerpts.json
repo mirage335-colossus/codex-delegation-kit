@@ -1,0 +1,122 @@
+[
+  {
+    "line": 175,
+    "timestamp": "2026-11-09T07:34:12.766Z",
+    "text": "This machine has six physical cores and 12 hardware threads. The earlier profile attributed roughly three quarters of fine-processing time to serial template generation; the existing worker pool was largely waiting for it.\n\nThat is now the first optimization target. The old workflow also spent about 49 minutes on the suite and another 34 minutes on replay checks. I\u2019m checking how to remove that duplication while preserving complete-work accounting and independent timing validation."
+  },
+  {
+    "line": 508,
+    "timestamp": "2026-11-09T07:42:53.304Z",
+    "text": "The A100 test pod is ready at $1.80/hour. I\u2019ll use a small source bundle and a bounded CPU-versus-CUDA comparison after the receiver changes are settled.\n\nThe source review also shows why lower precision alone is unlikely to solve the current problem: much of the existing \u201cGPU\u201d path still runs on the CPU, and its GPU operations are small. The comparison will measure whether CUDA provides a useful speedup after the serial bottlenecks are fixed."
+  },
+  {
+    "line": 821,
+    "timestamp": "2026-11-09T07:52:30.406Z",
+    "text": "You\u2019re right: the GPU direction needed correcting. The CPU changes have produced real gains, but benchmarking the old host-heavy GPU path on an A100 would not deliver the testing speedup you asked for.\n\nI\u2019ll switch the GPU work to an RTX PRO 6000 and target batched search work in lower precision, with bounded decision-agreement checks and local CPU calibration by workload component. GPU time alone won\u2019t determine the CPU estimate.\n\nSSH is already working. JupyterLab was used only to verify the SSH host fingerprint; transfers, builds and runs will use SSH. I found no rule prohibiting it."
+  },
+  {
+    "line": 1492,
+    "timestamp": "2026-11-09T08:19:20.190Z",
+    "text": "The corrected `triad` gate passed all 21 checks. I\u2019m starting the full eight-case CPU measurement now, with fresh inference at 12 threads and matched six-core controls. It retains the bounded sampling plan, complete-work accounting and separate nominal and worst-state estimates.\n\nThe full RTX run is also underway. The paired fine test was 1.8\u00d7 faster on the GPU, with matching operational decisions. FP32 changed a small number of diagnostic tracking states; those differences are being charged explicitly in the CPU forecast and checked against local timing holdouts."
+  },
+  {
+    "line": 1564,
+    "timestamp": "2026-11-09T08:25:06.401Z",
+    "text": "The disposable A100 pod has been deleted. Work is now on the RTX PRO 6000 over SSH.\n\nThe final integration check caught a constructor guard rejecting the GPU receiver subclass before measurement. I\u2019m fixing that guard and adding a small integrated preflight. The CPU run also found that the long Sub\u20119kHz case exceeds the 4 GiB workspace cap once simultaneous receiver buffers are counted; I\u2019ll retain that result and measure it separately with sufficient workspace.\n"
+  },
+  {
+    "line": 1717,
+    "timestamp": "2026-11-09T08:28:33.421Z",
+    "text": "The integrated GPU receiver check now passes, and all 21 triad checks pass. The full CPU run has restarted with a 4.5 GiB workspace cap.\n\nSo far, the measured CPU gains are 3.7\u00d7 for fine reception and 5.1\u00d7 for template-bank construction. Those are useful gains, but the fine receiver still averages fewer than two busy cores. The matched 6- and 12-thread measurements will show whether SMT adds throughput rather than merely increasing the thread count.\n"
+  },
+  {
+    "line": 1941,
+    "timestamp": "2026-11-09T08:37:38.560Z",
+    "text": "The GPU run finished in 6 minutes 26 seconds. Seven cases completed; FHSS exposed a cuFFT cache limit smaller than one required FFT plan. The fix will keep plan memory inside the existing bounded GPU pool. I\u2019ll verify the failing FHSS geometry before rerunning the suite.\n\nThe local CPU run has reached case 3. Groundwave GPSDO measured 0.245 s/s nominal service; its worst-state bound remains above real time.\n"
+  },
+  {
+    "line": 2068,
+    "timestamp": "2026-11-09T08:46:52.809Z",
+    "text": "The FHSS repair passed on its full geometry within the GPU memory cap. The final eight-case GPU run is nearly finished.\n\nLocal nominal estimates now include 0.366 s/s for Groundwave Helper and 0.456 s/s for HF Helper. GPU-to-laptop prediction still has a narrower qualification boundary: some cases have cross-host state or score differences that the estimator correctly rejects. I\u2019ll report those separately from measured GPU speedups.\n"
+  },
+  {
+    "line": 2452,
+    "timestamp": "2026-11-09T09:05:32.739Z",
+    "text": "All eight CPU cases now have complete-work estimates. Nominal service ranges from 0.235 to 0.456 s/s, giving 54\u201377% point headroom. The separate worst-state capacity verdicts remain unresolved.\n\nThe GPU-assisted cross-case prediction passed its independent nominal check at 9.3% error. I\u2019m finishing one small batching comparison identified in review: the receiver still carries a 128-row limit from its old pipe transport. This scratch-only check will show whether removing that limit offers a worthwhile remaining gain.\n"
+  },
+  {
+    "line": 2578,
+    "timestamp": "2026-11-09T09:10:32.984Z",
+    "text": "The batching check was slower, so it has been discarded. The final 21-check test group passes, and the measured source and binary hashes still match.\n\nThe remaining limits are clear: sustained fine search uses about 1.7\u20132.0 busy cores; two GPU forecasts require direct CPU evidence; and the full cross-case forecast failed one timing gate despite passing its nominal prediction. I\u2019m finishing the results documentation with those distinctions intact.\n"
+  },
+  {
+    "line": 3263,
+    "timestamp": "2026-11-09T10:07:02.865Z",
+    "text": "The reverse-order check confirmed a 9\u201311% benefit from using all 12 threads for sustained compute. The receiver also showed a concrete improvement: replacing a full FFT with an equivalent single-bin sum sped up two affected manual cases by roughly 32\u201347%, with matching receiver decisions. I\u2019m integrating that change before taking the definitive suite measurements."
+  },
+  {
+    "line": 4125,
+    "timestamp": "2026-11-09T10:49:04.307Z",
+    "text": "The independent checks accepted seven of eight conservative timing forecasts, but only two nominal forecasts met the predeclared accuracy limits. The mismatch is mainly continued fine-processing time; input bytes, receiver decisions, and work counts match. I\u2019m testing the two timing paths on the same fixture to distinguish measurement overhead from changing CPU performance, without relaxing the accuracy limits."
+  },
+  {
+    "line": 4326,
+    "timestamp": "2026-11-09T11:00:21.974Z",
+    "text": "The matched timing-path test found only a 1.6% difference, in the opposite direction to the earlier drift, and negligible garbage-collection time. It did not reproduce a measurement-path bug. The earlier accuracy failures remain recorded.\n\nThe cached same-case workflow is demonstrated: row 7 took about 48 seconds including its GPU trace, independent CPU verification, and forecast command, with nominal timing within 0.66%. Cross-case reuse still fails its checks and is not presented as qualified."
+  },
+  {
+    "line": 4416,
+    "timestamp": "2026-11-09T11:08:21.425Z",
+    "text": "The targeted refresh passed on its first attempt. It took 26 seconds for case 2, and the forecast fixed before the fresh check differed from that check by just 0.015%. I\u2019m applying the same bounded procedure once to the other affected cases, while keeping the original failed forecasts intact."
+  },
+  {
+    "line": 4459,
+    "timestamp": "2026-11-09T11:12:17.380Z",
+    "text": "The refresh has also passed the slowest case: its predicted nominal cost was 0.139130 seconds per input second, versus 0.139192 in the fresh check. Preparation still took about two minutes for that long waveform. The important improvement is that updating the affected CPU cost preserves the existing GPU evidence and the measurements of other receiver stages."
+  },
+  {
+    "line": 4699,
+    "timestamp": "2026-11-09T11:31:34.986Z",
+    "text": "All eight manual tests now have complete CPU forecasts that pass the declared timing-accuracy checks under the measured conditions.\n\n| Test | Nominal CPU s/s | Conservative CPU s/s |\n|---|---:|---:|\n| 1 Sub-9kHz | 0.139 | 0.777 |\n| 2 Groundwave GPSDO | 0.142 | 0.793 |\n| 3 Groundwave Helper | 0.224 | 0.741 |\n| 4 HF Helper | 0.381 | **6.762** |\n| 5 HF encrypted GPSDO | 0.224 | 0.908 |\n| 6 FHSS | 0.247 | **1.042** |\n| 7 HF unencrypted GPSDO | 0.207 | 0.751 |\n| 8 EME | 0.346 | **1.288** |\n\nLower is better; **1 s/s is the real-time limit**. All nominal forecast intervals remain below it. Conservative capacity remains unresolved, with point failures on tests **4, 6 and 8**.\n\nThe sustained hardware tests demonstrated productive use of all 12 threads: **11.45 busy threads**, **2.49\u00d7** two-thread throughput, and **9\u201311%** more than six threads. Firmware telemetry confirmed sustained power limiting without sampled thermal-throttling flags.\n\nReceiver changes improved affected fine-processing tests by **32\u201335%**, plus **5\u20139%** from reduced copying and setup. Measurement commands now default to all available hardware threads. **Whole-receiver saturation is still unproven:** continued fine processing averaged 1.91\u20132.44 busy cores.\n\nThe RTX PRO 6000 completed the eight-case GPU trace in **7m 16s**. Bulk work uses FP32, with narrow precision exceptions. Cached case-7 forecasting plus independent CPU verification took about **48 seconds**. The new targeted CPU-refresh command passed a real run in **24.45 seconds**, avoiding a full calibration rerun.\n\nValidation passed **21 native checks and 71 focused tests**. Removed **2.45 GB** of obsolete material and deleted the RunPod instance.\n\n[Detailed results](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/validation.md:17) \u00b7 [Reusable forecasting commands](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/triad-performance.md:46)"
+  },
+  {
+    "line": 5399,
+    "timestamp": "2026-11-09T12:16:49.306Z",
+    "text": "A fresh profile confirms useful work is still serialized: about a quarter of row 7\u2019s fine-processing time is in controller-side Fourier projection. I\u2019m testing bounded parallel projection while preserving the tracking sequence. For tensors, the promising target is the larger coarse-search Fourier workload; the fine-state matrices are too small to be a good first target."
+  },
+  {
+    "line": 5698,
+    "timestamp": "2026-11-09T12:28:57.946Z",
+    "text": "The CPU change passed the named `triad` checks and showed roughly 8\u201310% lower continued fine-processing time in two representative cases. I\u2019ve frozen it and started fresh full-suite CPU calibration. The tensor path has executed real tensor instructions and passed row 3\u2019s paired receiver checks, but its first kernel timing was slower; one cheaper arithmetic variant is being tested before deciding what to retain."
+  },
+  {
+    "line": 5778,
+    "timestamp": "2026-11-09T12:35:33.235Z",
+    "text": "Both tensor variants passed the existing receiver accuracy and work checks, and the generated code contains tensor-core instructions. They did not improve total testing time: the faster arithmetic variant was about 2% slower end to end than ZoomFFT. I\u2019m removing those experimental paths and recording the result. Final checks will use the accepted CPU optimization with the existing GPU backend."
+  },
+  {
+    "line": 5901,
+    "timestamp": "2026-11-09T12:45:09.389Z",
+    "text": "Review identified one worthwhile final comparison: scaled FP16 has a different throughput ceiling from TF32 on this GPU. I\u2019ll test it with FP32 accumulation, including scaling and conversion costs, against the same receiver checks. The TF32 results remain valid; this adds one bounded alternative without changing the frozen CPU measurements."
+  },
+  {
+    "line": 6666,
+    "timestamp": "2026-11-09T13:21:11.971Z",
+    "text": "The row-2 refresh passed in 25 seconds. The final forecast now passes nominal timing checks for all eight rows and conservative timing checks for seven. The single row-7 refresh attempt stopped at a compatibility check before producing a qualified replacement, so its conservative timing result remains unresolved.\n"
+  },
+  {
+    "line": 6701,
+    "timestamp": "2026-11-09T13:23:10.905Z",
+    "text": "Review traced the row-7 refusal to a tuple/list bookkeeping mismatch in the temporary refresh wrapper. I\u2019m checking that diagnosis offline, then allowing one bounded run with that format fix. The receiver code, sampling budget and accuracy limits remain unchanged.\n"
+  },
+  {
+    "line": 6742,
+    "timestamp": "2026-11-09T13:24:52.417Z",
+    "text": "The repaired row-7 check passed in 33 seconds. All eight forecasts now pass both nominal and conservative timing-accuracy checks. Conservative capacity is still unresolved, and rows 4, 6 and 8 still have conservative point estimates above real time; accurate forecasting does not erase those limits.\n"
+  },
+  {
+    "line": 6847,
+    "timestamp": "2026-11-09T13:29:54.591Z",
+    "text": "Implemented the CPU improvement and completed the tensor investigation.\n\n- **CPU:** Matched fine processing improved **8.3\u201310.1%** at 12 workers. Full-suite continued fine utilization rose to **2.31\u20133.25 busy cores**. The full 12-thread default remains; saturation is still unproven.\n- **Forecasts:** All eight cases pass both independent timing-accuracy checks. Nominal guarded estimates are below real time. Conservative capacity remains unresolved, with point failures on rows **4, 6 and 8**.\n- **Tensor cores:** Tested TF32x3, rounded TF32 and scaled FP16 on RTX PRO 6000. FP16 accelerated isolated transforms **1.33\u20131.88\u00d7**, but provided no useful integrated gain. Experimental implementations were removed.\n- **Verification:** 43 focused tests and 21 native tests passed. Documentation is updated, and the disposable pod was deleted.\n\n[Results and limitations](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/validation.md) \u00b7 [Precision guidance](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/gpu-precision-controls.md)"
+  }
+]

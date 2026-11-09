@@ -1,0 +1,24 @@
+{
+  "changes": [
+    "Updated source/cli.py to call build_monthly_report instead of legacy compact_export, so CLI output follows the requested approved-month and per-team report contract.",
+    "Added tests/test_cli.py covering multi-team aggregation, exclusion of rejected and out-of-month rows, JSON output, and malformed-row warning on stderr."
+  ],
+  "actualcommands_outcomes": [
+    "python3 -B -m unittest discover -s tests -p 'test_cli.py' -> 1 test passed.",
+    "python3 -B -m unittest discover -s tests -> 6 tests passed.",
+    "python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10 -> stdout: {\"grand_total\": \"1281.00\", \"month\": \"2026-10\", \"teams\": {\"North\": {\"count\": 2, \"total\": \"1241.00\"}, \"South\": {\"count\": 1, \"total\": \"40.00\"}}}.",
+    "Direct parse_money diagnostic -> Decimal('1240.13'); direct read_expenses/build_monthly_report diagnostic confirmed North total 1241.00 and grand total 1281.00."
+  ],
+  "course_correction_evidence": "Stage1 incorrectly stated the fixture's approved October total was 1280.99. That was an arithmetic error: 1240.13 + 0.87 = 1241.00, then + 40.00 = 1281.00. The direct row dump and report output verify the corrected totals. The money helper remains unchanged.",
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "Public checks and visible fixture were used; no private evaluator or oracle was accessed.",
+    "The regression test checks a malformed date warning and valid-row report behavior; it does not cover every malformed CSV shape or invalid month case.",
+    "Stage1's shell invocation overrun remains recorded in stage1.json: five invocations were made against its four-call cap, counting the required assignment read."
+  ],
+  "shell_invocations_by_stage": {
+    "stage1": 5,
+    "stage2": 0,
+    "stage3": 5
+  }
+}

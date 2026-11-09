@@ -1,0 +1,17 @@
+$ (cd /tmp/recovery-fixtures-b/runs/B2-baseline && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK
+
+$ (cd /tmp/recovery-fixtures-b/runs/B2-witness && PYTHONDONTWRITEBYTECODE=1 python3 public_tests.py)
+exit=0
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+EXPECTED_EXIT=0 OBSERVED=0 RESULT=OK

@@ -1,0 +1,31 @@
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py /tmp/delegation-recovery-runs/v517/workspace/tools/triad_dynamic_joint.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py	2026-11-09 01:06:48.000000000 -0600
++++ /tmp/delegation-recovery-runs/v517/workspace/tools/triad_dynamic_joint.py	2026-11-09 13:43:42.314601602 -0600
+@@ -99,6 +99,27 @@
+             raise ValueError("projection input length changed")
+         if self.kind == "valid-rows":
+             return values[..., self.indices]
++        if self.indices.shape == (1,) and self.indices[0] == 0:
++            # The DC row of a unitary DFT is a scaled sum. Avoid constructing
++            # every other frequency when the public band selects only DC.
++            # Match NumPy FFT's output precision for the built-in numeric
++            # dtypes; keep other dtypes on the established FFT path so their
++            # conversion and error behavior remains unchanged.
++            kind, size = values.dtype.kind, values.dtype.itemsize
++            if kind in "biu":
++                output_dtype = np.dtype(np.complex128)
++            elif kind == "f":
++                output_dtype = np.dtype(np.complex64 if size <= 4 else
++                                        np.clongdouble if size > 8 else np.complex128)
++            elif kind == "c":
++                output_dtype = np.dtype(np.complex64 if size <= 8 else
++                                        np.clongdouble if size > 16 else np.complex128)
++            else:
++                output_dtype = None
++            if output_dtype is not None:
++                scale = output_dtype.type(1 / math.sqrt(self.samples))
++                return np.sum(values, axis=-1, keepdims=True,
++                              dtype=output_dtype) * scale
+         return np.fft.fft(values, axis=-1, norm="ortho")[..., self.indices]
+ 
+ 

@@ -1,0 +1,44 @@
+{
+  "changes": [
+    "Updated workspace/exporter.py to compute page bounds before accessing events, retain accepted input order, and construct rows only for the selected page.",
+    "Sequences now advance through caller-owned ProjectSequenceState.next_for(project_id), so each project starts at 1 and continues across page calls. The inspect callback runs once per returned row.",
+    "Added workspace/regression_tests.py covering out-of-timestamp accepted order, interleaved per-project numbering across pages, caller state snapshot restoration, and a 4096-event multi-project batch served in 128-row pages. Supplied tests/task/fixtures were not edited."
+  ],
+  "commands_outcomes": [
+    {
+      "command": "python -m unittest -v public_tests (stage1)",
+      "outcome": "Failed before assertions: `python` executable was unavailable; zero assertions ran for this invocation."
+    },
+    {
+      "command": "python3 --version && python3 -m unittest -v public_tests",
+      "outcome": "Python 3.13.5 confirmed; all 3 supplied public tests passed."
+    },
+    {
+      "command": "python3 -m unittest -v public_tests regression_tests",
+      "outcome": "Before adding the large-batch case, all 5 then-existing tests passed. After adding it, all 6 tests passed in 0.117s."
+    },
+    {
+      "command": "sed -n '1,200p' exporter.py; sed -n '1,220p' regression_tests.py",
+      "outcome": "Reviewed final exporter implementation and all added regression cases; implementation slices by page bounds and calls state.next_for only on selected events."
+    }
+  ],
+  "course_correction_evidence": "The stage1 runner attempt used `python`, which does not exist in this environment and therefore produced no test assertions. Confirmed Python 3.13.5 with `python3` and reran the public suite successfully. Initial source diagnosis was confirmed: prior exporter globally sorted, assigned global positions, called inspect for the whole batch, and did not use caller state.",
+  "performance_evidence": {
+    "workload_and_caller": "The actual code path is service.get_export_page(events, cursor, limit, project_state, inspect) calling exporter.export_page; callers provide the accepted batch and retain cursor and ProjectSequenceState between pages.",
+    "measured_case": "Regression check with 4096 interleaved events across 16 projects, three consecutive requests of 128 rows each. For each request the public inspect callback observed exactly the 128 rows in the requested accepted-order slice; row order and project-local sequence values matched expected values.",
+    "cadence_and_scope": "The callback count is per page request. This is deterministic row-examination evidence, not elapsed-time profiling. `len(events)` is constant-time for the supported list input; slicing and row construction scale with returned page rows. No repeated batch preparation, global join, or cache path exists in the inspected implementation. Per-project state updates remain ordered within each returned page.",
+    "smallest_rejecting_check": "The regression uses the public service entry point. It would reject the hypothesis if any page's rows differ from the corresponding accepted-order slice, sequence numbering is not project-local and continuous, or inspect observes more than the requested rows."
+  },
+  "helper_findings_used": [],
+  "limits": [
+    "No production dataset, request cadence, latency target, or hardware profile was provided, and no wall-time benchmark was run. The synthetic batch establishes bounded inspect counts but not production throughput.",
+    "The contract assumes the caller's retained ProjectSequenceState corresponds to the cursor history; behavior for a cursor/state mismatch is not separately specified or changed.",
+    "No git metadata is present at the workspace root, so a git diff/status could not be obtained."
+  ],
+  "actual_invocation_counts": {
+    "stage1_shell_invocations": 4,
+    "stages2_and3_shell_invocations": 4,
+    "total_shell_invocations": 8,
+    "stages2_and3_limit": 10
+  }
+}

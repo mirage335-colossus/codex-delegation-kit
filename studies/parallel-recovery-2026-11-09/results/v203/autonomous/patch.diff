@@ -1,0 +1,20 @@
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py /tmp/delegation-recovery-runs/v203/workspace/tools/triad_dynamic_joint.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/P1/participant/tools/triad_dynamic_joint.py	2026-11-09 01:06:48.000000000 -0600
++++ /tmp/delegation-recovery-runs/v203/workspace/tools/triad_dynamic_joint.py	2026-11-09 13:45:38.531437813 -0600
+@@ -99,6 +99,16 @@
+             raise ValueError("projection input length changed")
+         if self.kind == "valid-rows":
+             return values[..., self.indices]
++        # The common low-cardinality projection is the single DC row. The
++        # full FFT computes every other frequency only to discard it.
++        # Integer, float64, and complex128 inputs produce complex128 FFT
++        # output; reduce those directly while retaining dtype and shape.
++        if (self.indices.shape == (1,) and self.indices[0] == 0 and
++                (values.dtype.kind in "biu" or values.dtype in
++                 (np.dtype(np.float64), np.dtype(np.complex128)))):
++            dc = np.sum(np.asarray(values, dtype=np.complex128), axis=-1,
++                        dtype=np.complex128) / math.sqrt(self.samples)
++            return dc[..., np.newaxis]
+         return np.fft.fft(values, axis=-1, norm="ortho")[..., self.indices]
+ 
+ 

@@ -1,0 +1,55 @@
+{
+  "changes": [
+    "Changed source/cli.py to call build_monthly_report(rows, args.month), preserving CSV parsing, stderr warnings, JSON output, and error handling.",
+    "Added tests/test_cli.py with real subprocess coverage for the documented multi-team fixture output and malformed-row warning/skip behavior."
+  ],
+  "actualcommands_outcomes": [
+    {
+      "stage": 2,
+      "command": "python3 script updating source/cli.py and creating tests/test_cli.py",
+      "outcome": "exit 0; implementation and initial real-command regression added"
+    },
+    {
+      "stage": 3,
+      "command": "python3 script extending tests/test_cli.py with malformed-row CLI coverage",
+      "outcome": "exit 0"
+    },
+    {
+      "stage": 3,
+      "command": "python3 -B -m unittest tests.test_cli",
+      "outcome": "exit 0; 2 tests passed"
+    },
+    {
+      "stage": 3,
+      "command": "python3 -B -m source.cli --input fixturedata/expenses.csv --month 2026-10",
+      "outcome": "exit 0; stdout JSON has grand_total 1281.00, North count 2 total 1241.00, South count 1 total 40.00; stderr empty"
+    },
+    {
+      "stage": 3,
+      "command": "python3 -B -m unittest discover -s tests",
+      "outcome": "exit 0; 7 tests passed"
+    },
+    {
+      "stage": 3,
+      "command": "git status --short && git diff -- source/cli.py tests/test_cli.py",
+      "outcome": "exit 128 before diff: this workspace is not a Git repository"
+    }
+  ],
+  "course_correction_evidence": [
+    "Stage 1 identified the CLI's legacy compact_export call as the cause: it did not filter status and emitted a legacy count/total schema.",
+    "Correction to stage1.json's invocation count: stage 1 used four shell invocations, including the invocation that wrote and JSON-validated stage1.json; its recorded shell_invocations value of 3 undercounts by one. The assignment limit was four, so the stage remained within budget.",
+    "The failed Git inspection is retained as a limitation; no diff/status evidence was obtained."
+  ],
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "The documented fixture command and seven-test public suite passed, including actual subprocess checks for malformed-row warning and skip behavior.",
+    "No supplied task, fixtures, or supplied tests were modified; the added regression file is new.",
+    "No private evaluator was available or consulted. No other run or study files were inspected.",
+    "No performance benchmark was run; this task is a small functional CLI integration, and the source path has no demonstrated performance issue requiring workload/cadence analysis."
+  ],
+  "shell_invocations_by_stage": {
+    "stage1": 4,
+    "stage2": 1,
+    "stage3": 6
+  }
+}

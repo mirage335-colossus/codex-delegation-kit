@@ -1,0 +1,24 @@
+{
+  "current_hypothesis": "For the supplied workload, BlockProjection.make(64, 64.0, [[0.0, 0.0]], []) selects only the DC DFT coordinate, while BlockProjection.numpy currently computes the full 64 point FFT and then gathers that one coordinate. A specialized singleton-DC calculation may avoid unnecessary projection work, but implementation must preserve output shape/dtype, accepted input behavior, and NumPy DFT-compatible values within the acceptance contract. This is a candidate, not yet validated.",
+  "evidence": [
+    {
+      "command": "cat /tmp/delegation-recovery-runs/v517/assignment.md",
+      "result": "Stage 1 allows at most 4 exec_command invocations, read-only diagnostics, use of /tmp/pumpmodem-cleanup-venv/bin/python, no source edits, and requires stage1.json."
+    },
+    {
+      "command": "pwd; rg --files /tmp/delegation-recovery-runs/v517",
+      "result": "Listed only this run's task, constructed workload, receiver test, and tools; workspace target is tools/triad_dynamic_joint.py."
+    },
+    {
+      "command": "cat /tmp/delegation-recovery-runs/v517/workspace/task.md /tmp/delegation-recovery-runs/v517/workspace/fixturedata/projection-workload.json",
+      "result": "Task requires preserving values, shape, dtype, accepted-input behavior, and receiver callers; workload is explicitly a constructed deterministic contract slice, not historical capture or throughput trace. Parameters are 64 samples at 64 Hz, required band [0,0], no excluded bands."
+    },
+    {
+      "command": "sed -n '1,260p' /tmp/delegation-recovery-runs/v517/workspace/tools/triad_dynamic_joint.py; sed -n '1,260p' /tmp/delegation-recovery-runs/v517/workspace/tests/test_triad_incremental_receiver.py",
+      "result": "BlockProjection.make forms fftfreq coordinates, uses half_bin=sample_rate/(2*samples), and selects bins intersecting each required band; BlockProjection.numpy checks the final input dimension, returns indexed values for valid-rows, otherwise computes np.fft.fft(values, axis=-1, norm='ortho') and gathers indices. The receiver test imports BlockProjection caller path through ProjectedJointReceiver and checks batch/incremental score equivalence; output truncation prevented inspection of later source lines."
+    }
+  ],
+  "independent_action": "The existing bin-selection formula applied to workload geometry gives half_bin=0.5 Hz and fftfreq spacing 1 Hz. For the [0,0] required band with no excluded band, only coordinate 0 is selected. Inspect the complete method and acceptance runner when authorized in the implementation stage; compare the candidate against the NumPy DFT contract and preserve observable dtype and shape. No command or implementation change has been made to the target code.",
+  "shell_invocations": 4,
+  "limits": "Stage 1 invocation allowance is exhausted. No assertion or runtime check was run; no source edits were made."
+}

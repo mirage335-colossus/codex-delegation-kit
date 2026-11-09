@@ -1,0 +1,25 @@
+{
+  "changes": [
+    "Changed SnapshotLoader's cache key from captured_at to the resolved source path, preventing separate service snapshots from colliding when they share a capture time.",
+    "Added tests/test_dashboard.py regression coverage loading two distinct services with the same captured_at and asserting both service deployment IDs survive dashboard construction."
+  ],
+  "actual_commands_outcomes": [
+    "python3 -B -m unittest tests.test_dashboard -v \u2014 passed (1 regression test).",
+    "python3 -m source.dashboard --input fixturedata/deployments.json \u2014 returned both api/api-13 and worker/worker-8 under services; both have the shared finish time and expected states.",
+    "python3 -B -m unittest discover -s tests \u2014 passed (5 tests).",
+    "Attempted git status/diff from workspace; it failed because this workspace is not a Git repository. Inspected source/loader.py and tests/test_dashboard.py directly with sed, confirming the intended edits."
+  ],
+  "course_correction_evidence": "The continuation note suggested adjusting sort order, but read-only stage 1 showed that deployment_rank already uses parsed finished_at followed by ID as required. The combined documented command instead showed the worker missing; source inspection found the cache keyed only by parsed captured_at. The two fixture files share that timestamp, matching the observed collision. After changing the key to resolved path, the documented command emitted both services. No supplied task, fixture, or test file was edited.",
+  "helper_findings_used": [],
+  "acceptance_limits": [
+    "Verified the specified fixture command and all discovered unit tests; this does not establish behavior for every possible file layout or malformed input.",
+    "Resolved path keys cache each source path separately within a loader instance. File freshness changes during one loader instance's lifetime were not tested; the CLI creates a loader for one invocation.",
+    "No performance or resource claims were assessed because the defect is functional and the required task is small.",
+    "A Git diff could not be obtained because the supplied workspace has no Git metadata; source and regression files were directly inspected instead."
+  ],
+  "shell_invocations": {
+    "stage1": 4,
+    "stage2": 2,
+    "stage3": 5
+  }
+}

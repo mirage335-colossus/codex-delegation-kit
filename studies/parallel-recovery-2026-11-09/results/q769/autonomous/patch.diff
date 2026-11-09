@@ -1,0 +1,13 @@
+Only in /tmp/delegation-recovery-runs/q769/workspace: __pycache__
+diff -ru /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/pagination.py /tmp/delegation-recovery-runs/q769/workspace/pagination.py
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/parallel-recovery-2026-11-09/freeze/cases/B2/participant/pagination.py	2026-11-09 13:12:17.888182401 -0600
++++ /tmp/delegation-recovery-runs/q769/workspace/pagination.py	2026-11-09 13:24:45.613387501 -0600
+@@ -4,6 +4,6 @@
+ 
+ def paginate(items, offset=0, limit=None):
+     """Return a page; omitted limit uses DEFAULT_PAGE_SIZE."""
+-    actual_limit = limit or DEFAULT_PAGE_SIZE
++    actual_limit = DEFAULT_PAGE_SIZE if limit is None else limit
+     start = max(0, offset)
+     return list(items[start:start + actual_limit])
+Only in /tmp/delegation-recovery-runs/q769/workspace: regression_tests.py

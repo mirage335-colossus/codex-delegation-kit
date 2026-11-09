@@ -1,0 +1,14 @@
+{
+  "current_hypothesis": "BlockProjection.make rebuilds the length-N frequency grid and masks on each construction, while numpy applies a full length-N orthonormal FFT before selecting rows. The constructed workload has only 64 samples and selects the single DC row, so caching frequencies or special-casing DC may reduce local projection work but end-to-end benefit is unproven; preserve public validation, errors, shapes, dtype, and callers.",
+  "evidence": {
+    "actual_commands": [
+      "Read workspace/task.md and tools/triad_dynamic_joint.py; fixturedata/projection-workload.json; inspected caller/test references and ran 2000 API iterations with /tmp/pumpmodem-cleanup-venv/bin/python -B.",
+      "Constructed fixture says sample_rate=64 Hz, samples=64, required=[(0,0)], excluded=(); BlockProjection.make selected index [0].",
+      "Observed local timings: {\"make_seconds_per_call\": 1.758617900122772e-05, \"numpy_seconds_per_call\": 7.490162999602035e-06}; make includes construction/validation, numpy reuses an already-created projection and input.",
+      "Caller/test grep matches are in command stdout: source call sites and incremental receiver test references."
+    ]
+  },
+  "independent_action": "No source edit in stage1. For stage2, consider a bounded optimization that reuses immutable frequency coordinates or exploits the one-selected-bin case only if exact NumPy output, validation/error behavior, and all receiver callers remain unchanged; compare supplied contract runner, then run the named incremental receiver test. Report measured case and denominator/cadence explicitly; fixture is constructed, not production throughput evidence.",
+  "shell_invocations": 4,
+  "limits": "Stage1 read-only; no source edits, tests, acceptance runner, external research, network, other runs, or oracle/evaluator access. Stage limit 4 exec_command invocations used. Findings are local observations, not measured end-to-end gains."
+}

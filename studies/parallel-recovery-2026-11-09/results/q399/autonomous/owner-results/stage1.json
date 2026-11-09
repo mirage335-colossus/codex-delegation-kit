@@ -1,0 +1,20 @@
+{
+  "current_hypothesis": "SnapshotLoader.load caches the normalized snapshot by parsed captured_at alone. Because both fixture files share that timestamp, the second service receives the first service's normalized payload, causing service cross-contamination. The selection timestamp and ID ordering appear consistent with the stated requirements and are unlikely to explain the observed missing service.",
+  "evidence": [
+    "Read workspace/task.md: it says two services share captured_at and the documented combined command has not been run.",
+    "Inspected source/loader.py: cache_key is parse_time(normalized['captured_at']); on a cache hit it returns the prior normalized object.",
+    "Inspected source/dashboard.py: it loads all sorted *.json paths into snapshots and passes them to build_dashboard.",
+    "Ran python3 -m source.dashboard --input fixturedata/deployments.json; observed only {'services': {'api': ...}}, with the worker service missing.",
+    "Read both fixture payloads: api and worker are distinct services with the same captured_at value.",
+    "Inspected source/select.py: deployment_rank orders by parsed finished_at then ID, and build_dashboard keys entries by service.",
+    "Ran python3 -B -m unittest discover -s tests; it passed, but current tests cover helpers and do not exercise the combined loader/dashboard path."
+  ],
+  "requests": [],
+  "independent_action": "In the next authorized stage, fix the cache identity so separately named service snapshots cannot share a cached normalized payload, then add a regression test for the documented multi-service command/path and rerun focused and public checks.",
+  "shell_invocations": 4,
+  "limits": [
+    "Stage 1 was read-only with respect to source, tests, task, and fixtures; only stage1.json was written.",
+    "No performance claim or external facts were needed for this small functional defect.",
+    "The unit test result establishes only that the existing discovered tests pass; it does not validate multi-service behavior."
+  ]
+}
