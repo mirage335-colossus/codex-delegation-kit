@@ -11,6 +11,13 @@ of task size or available parallelism.
 Preserve existing role settings, concurrency limits, and inference service tier;
 improve scheduling rather than enabling faster inference.
 
+For remote development and compute, prefer direct command-line access over SSH
+and related tools such as SCP, SFTP, and rsync for transfers, builds, and
+execution. These interfaces are generally more efficient for agent workflows
+than browser-based development environments. Use the browser for provider
+management; use browser terminals when direct command-line access is not
+practical. Follow applicable security, access, and authorization constraints.
+
 ## Applicability and operating modes
 
 Engineering allocation and coordination mechanism are independent choices:
