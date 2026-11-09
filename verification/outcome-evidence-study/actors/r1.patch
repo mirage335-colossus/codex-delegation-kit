@@ -1,0 +1,329 @@
+--- a/README.md
++++ b/README.md
+@@ -1,22 +1,63 @@
+ # Beacon receiver laboratory
+ 
+-This small Python laboratory explores a weak, two-tone signal. A transmitter
+-emits symbols as real sampled audio; the receiver's job is to recover the bits
+-from a stream when the arrival time and carrier frequency are not known exactly.
+-The intended receive pipeline comprises acquisition, timing/frequency refinement,
+-and symbol decisions. It operates after any reusable preparation and may be run
+-with independent candidate work in parallel. The laboratory uses only the Python
+-standard library.
++This standard-library-only Python laboratory simulates a weak, two-tone signal.
++`receiver.py` generates a noisy capture and provides both the original aligned
++symbol discriminator and a bounded-search receiver for a complete capture.
++`cases.json` is maintained by hand: the checks and benchmark read the current
++file each time, rather than maintaining a separate case list.
+ 
+-`receiver.py` provides waveform generation and an aligned-symbol discriminator.
+-The current fast check gives the discriminator the generator's symbol boundaries;
+-it is useful when comparing changes to the discriminator. The generated data can
+-also be supplied to a receiver operating on a continuous stream. Synthetic
+-scenarios live in `cases.json`, which is maintained by hand and may change.
+-The transmitted bit count and sample rate in a case describe the observation;
+-noise and frequency offset are applied by the generator.
++Run the quick checks and a brief benchmark with:
+ 
+-Run the existing checks with `python3 -m unittest -v`. A basic timing reference is
+-available with `python3 receiver.py`. These are deliberately inexpensive and run
+-on the local computer. The waveform is illustrative; it is not a production
+-modem, and the program makes no claims about hardware capacity.
++```sh
++python3 -m unittest -v
++python3 benchmark.py
++# Optional: longer minimum timing interval per case:
++python3 benchmark.py --seconds 1
++```
++
++The benchmark synthesizes each observation and prepares reusable quadrature
++references before timing. It then repeatedly runs the complete `receive` path,
++including acquisition, offset selection, and bit decisions. It reports wall and
++process CPU seconds per second of received input, their inverse as the observed
++real-time wall margin and estimated single-core CPU ceiling, and bit errors,
++estimated arrival and frequency offset against the case truth. The input length
++includes the leading and trailing noise. Timing is a short sequential run over
++one fixed capture; it measures this Python implementation and machine, not a
++production capacity guarantee. The theoretical single-core ceiling assumes
++perfect packing, no other workload, and no preparation or input/output costs;
++wall margin includes scheduling during the timed loop. It is not a measurement
++of parallel scaling or a guarantee that that many streams can run concurrently.
++
++Memory instrumentation runs separately from timing: `tracemalloc` reports
++retained Python allocations for the generated input plus prepared references,
++and the additional peak allocation during one receive. References may be shared
++for identical capture geometry; the benchmark conservatively counts them per
++capture. If Linux exposes `MemAvailable`, the benchmark also compares that host
++snapshot with the combined traced input, plan and peak workspace. This rough
++ratio is **not** a capacity limit: it ignores the interpreter baseline, native
++allocations, other workloads, memory sharing, container/cgroup limits, and
++future changes in available memory. It is not a process RSS measurement.
++
++## Receiver scope
++
++`prepare_receiver` takes only the sample rate, capture length, symbol size and
++symbol count; it does not receive the true bits, arrival time, or frequency
++shift. `receive` examines every integer sample start that accommodates the
++assumed symbol count and a common frequency offset on a fixed grid, by default
++-8 to +8 Hz in 1 Hz steps. Prefix quadrature sums avoid rescanning each symbol
++for each candidate start. The highest sum of per-symbol winning-tone energies
++selects start and offset, and the stronger tone at each symbol supplies its bit.
++This provides acquisition and frequency refinement within that bounded grid,
++not a general continuous streaming receiver or a signal-presence detector.
++Geometry and count must be known, and a full capture is required; fractions of a
++sample and off-grid frequencies are not refined. The receiver always returns a
++candidate, even for pure noise. Search work and memory grow with capture length,
++number of symbols, and grid size. For other capture geometry, build a new plan.
++
++The tests require every current case to recover its bits, arrival within one
++sixteenth of a symbol, and offset within 1 Hz. Failures for newly added cases
++may expose the bounded search or noise limits; investigate rather than silently
++removing cases. The nominal-frequency aligned check remains a discriminator
++regression, but supplies the true start and should not be used as a full
++receiver or throughput benchmark. Fixed seeds and one capture per case do not
++establish recovery probability or false-alarm rate.
+--- /dev/null
++++ b/benchmark.py
+@@ -0,0 +1,81 @@
++"""Brief, local post-preparation receive throughput and allocation benchmark."""
++import argparse
++import os
++import time
++import tracemalloc
++from receiver import load_cases, prepare_receiver, receive, synthesize
++
++
++def available_memory():
++    """Return Linux host available bytes if exposed, not a process allocation limit."""
++    try:
++        with open('/proc/meminfo', encoding='ascii') as f:
++            for line in f:
++                if line.startswith('MemAvailable:'):
++                    return int(line.split()[1]) * 1024
++    except OSError:
++        pass
++    return None
++
++
++def run(case, duration):
++    tracemalloc.start()
++    samples = synthesize(case)
++    plan = prepare_receiver(case['sample_rate'], len(samples),
++                            case['symbol_samples'], len(case['bits']))
++    retained, _ = tracemalloc.get_traced_memory()
++    tracemalloc.reset_peak()
++    receive(samples, plan)
++    _, peak = tracemalloc.get_traced_memory()
++    workspace = max(0, peak - retained)
++    tracemalloc.stop()  # Instrumentation must not distort timing.
++
++    iterations = 0
++    wall_start, cpu_start = time.perf_counter(), time.process_time()
++    while True:
++        result = receive(samples, plan)
++        iterations += 1
++        wall = time.perf_counter() - wall_start
++        if wall >= duration:
++            break
++    cpu = time.process_time() - cpu_start
++    input_seconds = iterations * len(samples) / case['sample_rate']
++    start, offset, bits = result
++    bit_errors = sum(a != b for a, b in zip(bits, case['bits'])) + abs(len(bits) - len(case['bits']))
++    print(f"{case['name']}: bits={bits}/{case['bits']} errors={bit_errors} "
++          f"start={start}/{case['leading_samples']} offset={offset}/{case['offset_hz']} Hz")
++    print(f'  {iterations} receives, {input_seconds:.3f} input s, '
++          f'{wall:.3f} wall s, {cpu:.3f} CPU s')
++    print(f'  wall processing/input={wall/input_seconds:.6f} s/s; '
++          f'real-time wall margin={input_seconds/wall:.1f}x')
++    print(f'  CPU processing/input={cpu/input_seconds:.6f} s/s; '
++          f'single-core CPU ceiling={input_seconds/cpu:.1f}x real time')
++    print(f'  traced retained input+plan={retained:,} B; '
++          f'additional peak receive workspace={workspace:,} B')
++    return retained, workspace
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--seconds', type=float, default=0.4,
++                        help='minimum wall seconds per case (default: 0.4)')
++    args = parser.parse_args()
++    if args.seconds <= 0:
++        parser.error('--seconds must be positive')
++    print(f'logical CPUs visible: {os.cpu_count()}; '
++          'one receive at a time; each observation includes leading/trailing noise')
++    available = available_memory()
++    if available is not None:
++        print(f'host MemAvailable snapshot: {available:,} B (not a process/container limit)')
++    cases = load_cases()
++    if not cases:
++        raise ValueError('case list is empty')
++    for case in cases:
++        retained, workspace = run(case, args.seconds)
++        if available is not None:
++            print(f'  host-available / traced input+plan+workspace: '
++                  f'{available / (retained + workspace):.0f}x (rough shared-memory comparison)')
++
++
++if __name__ == '__main__':
++    main()
+--- a/receiver.py
++++ b/receiver.py
+@@ -1,8 +1,10 @@
+-"""Simple simulated two-tone signal and aligned discriminator."""
++"""Simulated two-tone signal and a small bounded-search receiver."""
+ import json
+ import math
+ import random
+ import time
++from array import array
++from dataclasses import dataclass
+ from pathlib import Path
+ 
+ CASE_PATH = Path(__file__).with_name('cases.json')
+@@ -51,9 +53,93 @@
+                    for k in range(len(case['bits'])))
+ 
+ 
++@dataclass(frozen=True)
++class ReceiverPlan:
++    sample_count: int
++    symbol_samples: int
++    symbol_count: int
++    # Reusable, absolute-index quadrature references for each frequency pair.
++    references: tuple
++
++
++def prepare_receiver(sample_rate, sample_count, symbol_samples, symbol_count,
++                     offsets=range(-8, 9)):
++    """Prepare a bounded search; no signal, start time or bit values are used.
++
++    The defaults search integer-Hz common offsets from -8 through +8. The symbol
++    size/count and observation length are assumed known. Reuse only on streams
++    with identical geometry.
++    """
++    if sample_rate <= 0 or symbol_samples <= 0 or symbol_count <= 0:
++        raise ValueError('sample rate and symbol dimensions must be positive')
++    if sample_count < symbol_samples * symbol_count:
++        raise ValueError('observation is shorter than the message')
++    references = []
++    for offset in offsets:
++        pair = []
++        for tone in TONES:
++            if not 0 < tone + offset < sample_rate / 2:
++                raise ValueError('search frequencies must lie below Nyquist')
++            angles = (2 * math.pi * (tone + offset) * i / sample_rate
++                      for i in range(sample_count))
++            cosines, sines = array('d'), array('d')
++            for angle in angles:
++                cosines.append(math.cos(angle))
++                sines.append(math.sin(angle))
++            pair.append((cosines, sines))
++        references.append((offset, tuple(pair)))
++    if not references:
++        raise ValueError('at least one frequency offset is required')
++    return ReceiverPlan(sample_count, symbol_samples, symbol_count, tuple(references))
++
++
++def receive(samples, plan):
++    """Search all feasible integer starts and prepared offsets, then decide bits.
++
++    Maximize summed per-symbol tone energy. Results are an estimate, not a
++    confidence score or proof that a signal is present.
++    """
++    if len(samples) != plan.sample_count:
++        raise ValueError('stream length differs from the prepared geometry')
++    n, count = plan.symbol_samples, plan.symbol_count
++    best_score, best = -1.0, None
++    for offset, pair in plan.references:
++        prefixes = []
++        for cosines, sines in pair:
++            real, imag = array('d', [0.0]), array('d', [0.0])
++            r = i = 0.0
++            for x, c, s in zip(samples, cosines, sines):
++                r += x * c
++                i += x * s
++                real.append(r)
++                imag.append(i)
++            prefixes.append((real, imag))
++        for start in range(len(samples) - n * count + 1):
++            score = 0.0
++            decisions = []
++            for k in range(count):
++                begin = start + k * n
++                end = begin + n
++                energies = []
++                for real, imag in prefixes:
++                    re = real[end] - real[begin]
++                    im = imag[end] - imag[begin]
++                    energies.append(re * re + im * im)
++                decisions.append(int(energies[1] > energies[0]))
++                score += max(energies)
++            if score > best_score:
++                best_score = score
++                best = (start, offset, ''.join(map(str, decisions)))
++    return best
++
++
+ if __name__ == '__main__':
+-    case = load_cases()[0]
+-    start = time.perf_counter()
+-    decision = aligned_check(case)
+-    print('aligned check:', decision, 'expected:', case['bits'])
+-    print('elapsed seconds:', round(time.perf_counter() - start, 6))
++    for case in load_cases():
++        samples = synthesize(case)
++        plan = prepare_receiver(case['sample_rate'], len(samples),
++                                case['symbol_samples'], len(case['bits']))
++        start = time.perf_counter()
++        found = receive(samples, plan)
++        print(case['name'], 'start/offset/bits:', found,
++              'expected:', (case['leading_samples'], case['offset_hz'], case['bits']),
++              'processing seconds:', round(time.perf_counter() - start, 6))
+--- a/test_receiver.py
++++ b/test_receiver.py
+@@ -1,15 +1,40 @@
+ import unittest
+-from receiver import aligned_check, load_cases, synthesize
++from receiver import aligned_check, load_cases, prepare_receiver, receive, synthesize
+ 
+ 
+ class ReceiverTests(unittest.TestCase):
+     def test_reproducible_samples(self):
+-        case = load_cases()[0]
+-        self.assertEqual(synthesize(case), synthesize(case))
++        cases = load_cases()
++        self.assertTrue(cases)
++        for case in cases:
++            with self.subTest(case=case['name']):
++                self.assertEqual(synthesize(case), synthesize(case))
++
++    def test_acquire_and_recover_all_current_cases(self):
++        cases = load_cases()
++        self.assertTrue(cases)
++        for case in cases:
++            with self.subTest(case=case['name']):
++                samples = synthesize(case)
++                # Only observation geometry is given to the receiver, not truth.
++                plan = prepare_receiver(case['sample_rate'], len(samples),
++                                        case['symbol_samples'], len(case['bits']))
++                start, offset, bits = receive(samples, plan)
++                self.assertEqual(bits, case['bits'])
++                self.assertLessEqual(abs(start - case['leading_samples']),
++                                     case['symbol_samples'] // 16)
++                self.assertLessEqual(abs(offset - case['offset_hz']), 1.0)
+ 
+     def test_aligned_discriminator_at_nominal_frequency(self):
+-        case = load_cases()[0]
+-        self.assertEqual(aligned_check(case), case['bits'])
++        for case in load_cases():
++            if case['offset_hz'] == 0:
++                with self.subTest(case=case['name']):
++                    self.assertEqual(aligned_check(case), case['bits'])
++
++    def test_plan_rejects_incompatible_stream(self):
++        plan = prepare_receiver(1024, 256, 256, 1)
++        with self.assertRaises(ValueError):
++            receive([0.0] * 255, plan)
+ 
+ 
+ if __name__ == '__main__':

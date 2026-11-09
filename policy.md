@@ -534,6 +534,29 @@ Clearly trivial mechanical requests are exempt, such as an authorized
 configuration edit, Git pull or basic recompilation. When uncertain whether a
 task qualifies, obtain the initial review.
 
+## Match evidence to the requested outcome
+
+For substantive work, start with the outcome the user will rely on. Check what
+must actually run or be observed under the intended conditions. Distinguish
+claims that need different evidence even when they share a method. Compare the
+needed coverage with the actual implementation and available checks, and identify
+omitted behavior, conditions or work that could change the conclusion. Prioritize
+gaps by how much they could change the requested result. Reserve time and start
+early on the most consequential gap you can advance within your assignment.
+Choose a bounded action whose result directly exercises missing behavior or
+materially reduces uncertainty about it. When the full path is too large,
+implement and check a representative slice or the nearest feasible prerequisite
+that unlocks it. State the expected observation and use the result to choose the
+next step. If direct progress is blocked, substantiate the missing prerequisite,
+route it to its owner where applicable, and continue independent work in scope.
+State its assumptions, coverage and unresolved limits. Treat a partial result or
+bound as intermediate unless it answers the user's question at the required
+fidelity. Continue feasible authorized work and required checks to meet the
+objective; avoid expansion beyond what the objective and evidence require. If a
+consequential gap is outside a delegated assignment, give the engineering owner
+the evidence, consequence and next feasible step, and continue independent work
+in scope.
+
 ## Strategic brainstorming and human input
 
 At the start of a feature request involving substantial computation, signal
@@ -989,6 +1012,9 @@ work affected by a cybersecurity notice.
 
 Carry the actual application objective, intended observable behavior, and
 relevant ownership/authorization facts into every packet, including scouting.
+For substantive delegated work, carry the relevant outcome-to-evidence check
+and its scope into the packet; the assignee should act within its authority and
+report consequential gaps outside it to the owner.
 For malformed-input tests, failure injection, WebAssembly, browser fixtures or
 similar mechanisms, state which project component is exercised, what inputs
 and boundaries are involved, and what correctness property the test establishes.

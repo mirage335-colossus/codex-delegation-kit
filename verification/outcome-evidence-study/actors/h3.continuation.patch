@@ -1,0 +1,171 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -559,7 +559,7 @@
+       set_tests_properties(triad_audio_stream PROPERTIES LABELS "triad" TIMEOUT 30)
+     endif()
+     add_test(NAME triad_python COMMAND ${Python3_EXECUTABLE} -m unittest
+-      test_triad_audio_mapping test_triad_continuous test_triad_cpu test_triad_duration_model
++      test_triad_audio_mapping test_triad_configuration_inventory test_triad_continuous test_triad_cpu test_triad_duration_model
+       test_triad_dynamic_frequency test_triad_dynamic_joint test_triad_dynamic_scan
+       test_triad_dynamic_sparse test_triad_gaussian_prepared test_triad_gaussian_state
+       test_triad_incremental_receiver test_triad_operational_admission
+--- a/docs/triad-performance.md
++++ b/docs/triad-performance.md
+@@ -84,6 +84,14 @@
+ correct message success. Measure preparation separately and distinguish
+ simulation estimates from physical qualification. Do not report a >90% success
+ target, message duration, or realtime margin from kernel costs alone. The weak
+-receiver currently requires Helper acquisition and its staged tracking is not an
+-integrated end-to-end message receiver; Helper-free cases and message success
+-therefore require receiver work before these claims can be made.
++receiver can search the full public DATA prior with Helper disabled, but this
++path has only a small clean synthetic check; the duration planner still requires
++Helper and staged tracking is not an integrated end-to-end message receiver.
++Helper-free configurations and message success therefore require further
++receiver and planner work before these claims can be made.
++
++For the unfinished configuration investigation, the local
++`local-evidence/probe-hf.py` can reproduce a single shortened native-waveform
++FFT-screen timing. Its temporary purpose is to inform the next complete-path
++measurement; remove it once the configuration runner replaces it or the
++investigation closes. Its narrow timing is not an end-to-end realtime result.
+--- /dev/null
++++ b/local-evidence/probe-hf.py
+@@ -0,0 +1,54 @@
++import hashlib, math, os, platform, time
++from pathlib import Path
++import numpy as np
++from threadpoolctl import threadpool_limits
++from triad_continuous import NativeStream
++from triad_realtime_fft import FFTScreen
++from triad_abbreviated import analyze
++from triad_configuration_inventory import inventory
++inventory_result=inventory()
++cases=inventory_result['cases']
++print('list_sha256',inventory_result['list_sha256'],flush=True)
++print('machine',platform.platform(), 'cpu_count',os.cpu_count(), 'affinity',sorted(os.sched_getaffinity(0)),flush=True)
++for name in ('tools/triad_realtime_fft.py','tools/triad_abbreviated.py','local-evidence/probe-hf.py','build/triad_helper_export'):
++ print('sha256',name,hashlib.sha256(Path(name).read_bytes()).hexdigest(),flush=True)
++c=next(x for x in cases if x['name']=='HF Encrypted, Helper Carrier')
++s=c['settings']
++expected={'Encryption':'Yes','Helper Carrier Transmit Power':'40 W','Transmit Power':'4 W','Path loss':'180 dB','Clock sync / Region / Offset / Audio error':'Default several seconds receiver search space','Base Oscillator':'Free-running crystal','Shift Oscillator':'IC-7100 +/-0.5 ppm/radio','Doppler/delay spread':'HF worst 30Hz 7ms','Additional frequency selective amplitude modulation':'Each - 65%','Margin':'3x','DSSS':'Interleave','Spreading':'10x','FHSS':'Off','Symbol_burst':'Off','Rate':'36 Hz','Shift':'30 MHz'}
++if s!=expected: raise ValueError('fixture does not match current configuration; adapt experiment')
++args=['--case','hf','--base-oscillator','crystal','--shift-oscillator','ic-7100','--rf-hz','30000000','--rate','36','--added-symbols','10','--fhss','off','--spread-preset','hf-worst','--margin','3','--selective-perturbation','each-65','--data-power-w','4','--helper-power-w','40','--timing-policy','broad','--seconds','1','--epoch','1793850000','--key-seed','1','--seed','7']
++with threadpool_limits(limits=1):
++ source=NativeStream('build/triad_helper_export',args,kind='emitted')
++ try:
++  data=source.basis(0,9000,[(0,0,0.,0.,0.,0.,0.),(1,0,0.,0.,0.,0.,0.)]).copy()
++  p=source.plan; d=source.descriptor
++ finally: source.close()
++ fs=18000
++ manifest={'sample_rate_hz':fs,'calendar':{'capture_samples':54000,'capture_lead_seconds':1.,'data_sample_offset':18000,'arrival_prior_seconds':[-.1,.1]},'channel':{'spread_delay_ms':21.,'spread_doppler_hz':90.},'format':{'occupied_bandwidth_hz':225.,'fine_chip_rate_hz':60.},'power':{'complex_noise_variance':18000/10**(p['physics']['data_cn0_db_hz']/10)}}
++ rng=np.random.default_rng(20261108)
++ y=(rng.standard_normal(54000)+1j*rng.standard_normal(54000))*math.sqrt(manifest['power']['complex_noise_variance']/2)
++ start=36000
++ y[start:start+9000]+=data[0]
++ delay=round(.021*fs); x=np.arange(9000)/fs
++ y[start+delay:start+delay+9000]+=.5*data[0]*np.exp(2j*np.pi*90*x)
++ t=time.process_time(); w=time.perf_counter()
++ screen=FFTScreen(manifest,data[None,:,:],(0,),clock_ppm=(-300.015,0,300.015),workers=1)
++ print('preparation_cpu_wall',time.process_time()-t,time.perf_counter()-w,flush=True)
++ lo=-p['physics']['deterministic_cfo_bound_hz']*3;hi=-lo
++ result=screen.score(y,frequency_intervals=[[lo,hi]],top_per_bit=1)
++ print('first',result['status'],result['reason'],result.get('work'),flush=True)
++ if result['status']!='proposed': raise SystemExit(2)
++ rows=[]
++ for look in (3,5,9):
++  while len(rows)<look:
++   row=[None]*3
++   for i in ((len(rows)+j)%3 for j in range(3)):
++    t=time.process_time()
++    for _ in range((1,2,4)[i]):
++     r=screen.score(y,frequency_intervals=[[lo,hi]],top_per_bit=1)
++     if r['status']!='proposed':raise RuntimeError(r['reason'])
++    row[i]=time.process_time()-t
++   rows.append(row)
++  outcome=analyze(rows,4)
++  print('look',look,'measured_units',outcome['measured_kernel_units'],'point_cpu_seconds',outcome['unit_geometric_mean_seconds'],'interval',outcome['unit_geometric_mean_interval_seconds'],'holdout',outcome['holdout_ratio_interval'],'model',outcome['model_status'],'stop',outcome['stop_reason'],flush=True)
++  if outcome['stop']:break
+--- a/tests/test_triad_weak_receiver.py
++++ b/tests/test_triad_weak_receiver.py
+@@ -3,6 +3,8 @@
+ import sys,unittest
+ from unittest import mock
+ import numpy as np
++import torch
++from threadpoolctl import threadpool_limits
+ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+ from test_triad_dynamic_joint import fixture
+ from triad_weak_receiver import WeakReceiver
+@@ -109,6 +111,44 @@
+             r=WeakReceiver(m,t,[0]).score(np.zeros(m['calendar']['capture_samples'],complex))
+         self.assertEqual(r['reason'],'helper_acquisition_unresolved');screen.score.assert_not_called()
+ 
++    def test_real_helper_off_path_scores_both_clean_bits(self):
++        # Controlled static one-ray fixture; this is not physical sensitivity.
++        m,t=self.inputs();m['helper_enabled']=False
++        m['channel'].update(deterministic_cfo_bound_hz=0.,sample_clock_pair_ppm=0.,
++                            spread_delay_ms=0.,spread_doppler_hz=0.)
++        original_threads=torch.get_num_threads()
++        try:
++            torch.set_num_threads(1)
++            with threadpool_limits(limits=1):
++                rx=WeakReceiver(m,t,[0],fft_workers=1)
++                offset=round(m['calendar']['capture_lead_seconds']*m['sample_rate_hz'])+m['calendar']['data_sample_offset']
++                for bit in (0,1):
++                    y=np.zeros(m['calendar']['capture_samples'],complex)
++                    y[offset:offset+t.shape[-1]]=t[0,bit]
++                    result=rx.score(y)
++                    self.assertEqual(result['status'],'scored')
++                    self.assertEqual(result['bit'],bit)
++                    self.assertEqual(result['frequency_search_source'],'original_prior_helper_disabled')
++                    self.assertFalse(result['operational']['physical_null_qualified'])
++        finally:
++            torch.set_num_threads(original_threads)
++
++    def test_explicit_helper_off_searches_original_prior_and_keeps_guards(self):
++        m,t,screen,dynamic,helper=self.pipeline()
++        m['helper_enabled']=False
++        helper=dict(reason='helper_disabled',frequency=None)
++        with mock.patch('triad_weak_receiver.FFTScreen',return_value=screen),mock.patch('triad_weak_receiver.ScanJointReceiver',return_value=dynamic),mock.patch('triad_weak_receiver.estimate_weak_helper',return_value=helper):
++            rx=WeakReceiver(m,t,[0]);r=rx.score(np.zeros(m['calendar']['capture_samples'],complex))
++        self.assertEqual(screen.score.call_args.kwargs['frequency_intervals'],[[-5.,5.]])
++        self.assertEqual(r['frequency_search_source'],'original_prior_helper_disabled')
++        self.assertEqual(r['operational']['full_grid_candidates'],rx.grid.candidate_count)
++        self.assertFalse(r['operational']['physical_null_qualified'])
++        screen.score.return_value=dict(candidates=[],reason='frequency_work_limit')
++        with mock.patch('triad_weak_receiver.FFTScreen',return_value=screen),mock.patch('triad_weak_receiver.ScanJointReceiver',return_value=dynamic),mock.patch('triad_weak_receiver.estimate_weak_helper',return_value=helper):
++            result=WeakReceiver(m,t,[0]).score(np.zeros(m['calendar']['capture_samples'],complex))
++        self.assertEqual(result['reason'],'coarse_acquisition_unresolved')
++        self.assertEqual(result['coarse']['reason'],'frequency_work_limit')
++
+     def test_non_narrowing_helper_uses_original_interval_without_prior_discount(self):
+         m,t,screen,dynamic,helper=self.pipeline()
+         helper['frequency']=dict(status='fallback',expanded_intervals_hz=[])
+--- a/tools/triad_duration_model.py
++++ b/tools/triad_duration_model.py
+@@ -381,7 +381,7 @@
+     placement_available = bool(native.get('helper_placement', {}).get('feasible_at_requested_if', True))
+     if not helper_available:
+         status = 'receiver_unavailable'
+-        unmodeled.append('Current weak receiver requires usable Helper and has no DATA-only acquisition fallback.')
++        unmodeled.append('The duration planner has not qualified Helper-free DATA acquisition or its cost; Helper remains required for this plan.')
+     if not native['geometry_feasible'] or not placement_available:
+         status = 'geometry_unavailable'
+     result = dict(schema='triad-weak-duration-plan-v1', status=status,
+--- a/tools/triad_weak_receiver.py
++++ b/tools/triad_weak_receiver.py
+@@ -110,7 +110,12 @@
+         helper,t=_timed(lambda:estimate_weak_helper(raw,self.manifest,self.frequencies,valid=valid))
+         r['helper'],r['timing']['helper']=helper,t
+         frequency=helper.get('frequency') or {}
+-        if frequency.get('status')=='narrowed':
++        if self.manifest.get('helper_enabled', True) is False:
++            # With no Helper, search the complete public DATA prior. Keep the
++            # original admission grid and all usual work/memory guards.
++            intervals=[[-self.cfo_bound,self.cfo_bound]]
++            r['frequency_search_source']='original_prior_helper_disabled'
++        elif frequency.get('status')=='narrowed':
+             intervals=frequency['expanded_intervals_hz']
+             r['frequency_search_source']='helper_narrowed'
+         elif frequency.get('status')=='fallback':

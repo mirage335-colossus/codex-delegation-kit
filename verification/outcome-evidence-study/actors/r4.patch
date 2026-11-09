@@ -1,0 +1,286 @@
+--- a/README.md
++++ b/README.md
+@@ -3,20 +3,49 @@
+ This small Python laboratory explores a weak, two-tone signal. A transmitter
+ emits symbols as real sampled audio; the receiver's job is to recover the bits
+ from a stream when the arrival time and carrier frequency are not known exactly.
+-The intended receive pipeline comprises acquisition, timing/frequency refinement,
+-and symbol decisions. It operates after any reusable preparation and may be run
+-with independent candidate work in parallel. The laboratory uses only the Python
+-standard library.
++The laboratory uses only the Python standard library.
+ 
+-`receiver.py` provides waveform generation and an aligned-symbol discriminator.
+-The current fast check gives the discriminator the generator's symbol boundaries;
+-it is useful when comparing changes to the discriminator. The generated data can
+-also be supplied to a receiver operating on a continuous stream. Synthetic
+-scenarios live in `cases.json`, which is maintained by hand and may change.
+-The transmitted bit count and sample rate in a case describe the observation;
+-noise and frequency offset are applied by the generator.
++`receiver.py` provides waveform generation, an aligned-symbol discriminator and
++an abbreviated stream receiver. The stream receiver searches every feasible
++sample start and integer frequency offset from -10 to +10 Hz, then chooses the
++start, shared offset and bit sequence with the greatest summed quadrature tone
++energy. It knows sample rate, symbol length and number of symbols, but receives
++neither the transmitted bits nor their start and offset. It is an offline,
++fixed-length search: it does not detect an unknown message length, search
++arbitrary offsets, estimate fractional-Hz offsets, use streaming buffers, or
++handle clock drift. Timing and frequency accuracy are distinct from bit recovery.
++`aligned_check` is a narrower diagnostic which knows the symbol boundaries and
++uses nominal frequencies.
+ 
+-Run the existing checks with `python3 -m unittest -v`. A basic timing reference is
+-available with `python3 receiver.py`. These are deliberately inexpensive and run
+-on the local computer. The waveform is illustrative; it is not a production
+-modem, and the program makes no claims about hardware capacity.
++Synthetic scenarios live in `cases.json`, maintained by hand. The bit count and
++sample rate describe the observation; the generator applies the stated noise,
++delay and frequency offset. Every quick stream test and benchmark reads the
++current list. Tests require exact bit recovery on each listed case, reporting
++failed cases separately; adding a more difficult case can legitimately expose a
++receiver limitation. A seeded case is reproducible but does not establish a
++statistical error rate. The integer offset grid, fixed tone set and known message
++geometry are assumptions, not general receiver guarantees.
++
++Run `python3 -m unittest -v` for the quick checks and `python3 benchmark.py` (or
++`python3 receiver.py`) for all-case measurements. `python3 benchmark.py --seconds 2`
++increases the minimum measured wall duration per case. The benchmark first
++synthesizes data and prepares reusable oscillator tables, warms up, then repeats
++the full stream search on the same samples. Generation and preparation are not
++included in the processing rate; processing includes correlating the input,
++acquisition, timing/frequency grid search and decisions. Input duration includes
++leading and trailing samples. Wall seconds per input second gives the reciprocal
++real-time margin; CPU seconds per input second gives a single-core throughput
++estimate. The machine-wide ceiling multiplies that by the process affinity and,
++on cgroup v2, CPU quota upper bound. It assumes perfect parallel scaling of
++independent streams and is not a measured concurrent capacity. Scheduling,
++contention and preparation amortization can change actual margins.
++
++The benchmark also reports Python allocations traced for reusable tables and
++peak incremental processing workspace. This excludes the samples, interpreter,
++allocator overhead, and other memory. Approximate shared available memory comes
++from Linux `MemAvailable` and, when present, cgroup v2 remaining memory; it is
++not reserved. The allocation-only workspace count and percentage at the CPU
++ceiling assume separate tables per stream, ignore excluded memory and sharing,
++and are rough comparisons rather than safe capacity limits. These estimates and
++the single deterministic noise realization should not be used as production
++capacity or reliability claims.
+--- /dev/null
++++ b/benchmark.py
+@@ -0,0 +1,96 @@
++"""Repeat the complete post-preparation stream search for every current case."""
++import argparse
++import os
++from pathlib import Path
++import time
++import tracemalloc
++
++from receiver import load_cases, prepare, receive, synthesize
++
++
++def effective_cpus():
++    """An upper bound, not a measurement of parallel receiver scaling."""
++    cpus = float(len(os.sched_getaffinity(0))) if hasattr(os, 'sched_getaffinity') else float(os.cpu_count() or 1)
++    try:
++        quota, period = Path('/sys/fs/cgroup/cpu.max').read_text().split()
++        if quota != 'max':
++            cpus = min(cpus, int(quota) / int(period))
++    except (OSError, ValueError):
++        pass
++    return cpus
++
++
++def memory_headroom():
++    """Approximate currently available shared memory; not a reservation."""
++    bounds = []
++    try:
++        lines = Path('/proc/meminfo').read_text().splitlines()
++        bounds.append(next(int(line.split()[1]) * 1024 for line in lines if line.startswith('MemAvailable:')))
++    except (OSError, StopIteration, ValueError):
++        pass
++    try:
++        maximum = Path('/sys/fs/cgroup/memory.max').read_text().strip()
++        current = int(Path('/sys/fs/cgroup/memory.current').read_text().strip())
++        if maximum != 'max':
++            bounds.append(max(0, int(maximum) - current))
++    except (OSError, ValueError):
++        pass
++    return min(bounds) if bounds else None
++
++
++def run_case(case, seconds, cpus, available):
++    # Generation and data-independent oscillator tables are outside timing.
++    samples = synthesize(case)
++    tracemalloc.start()
++    tables = prepare(case['sample_rate'], len(samples))
++    prepared, _ = tracemalloc.get_traced_memory()
++    tracemalloc.reset_peak()
++    result = receive(samples, case['sample_rate'], case['symbol_samples'], len(case['bits']), tables)
++    _, peak = tracemalloc.get_traced_memory()
++    tracemalloc.stop()
++    # Warm-up above also confirms actual processing before the measurement.
++    wall_start = time.perf_counter()
++    cpu_start = time.process_time()
++    count = 0
++    while True:
++        result = receive(samples, case['sample_rate'], case['symbol_samples'], len(case['bits']), tables)
++        count += 1
++        if time.perf_counter() - wall_start >= seconds:
++            break
++    wall = time.perf_counter() - wall_start
++    cpu = time.process_time() - cpu_start
++    input_seconds = count * len(samples) / case['sample_rate']
++    wall_ratio = wall / input_seconds
++    cpu_ratio = cpu / input_seconds
++    bits, start, offset = result
++    correct = sum(a == b for a, b in zip(bits, case['bits']))
++    print(f"{case['name']}: recovered {bits} / {case['bits']} ({correct}/{len(case['bits'])} bits); "
++          f"start {start} / {case['leading_samples']}; offset {offset:+g} / {case['offset_hz']:+g} Hz")
++    print(f"  {count} streams, {input_seconds:.3f} input s; wall {wall_ratio:.5f} s/input s, "
++          f"real-time margin {1 / wall_ratio:.1f}x; CPU {cpu_ratio:.5f} s/input s")
++    print(f"  estimated CPU-only ceiling {1 / cpu_ratio:.1f} streams/core, "
++          f"{cpus / cpu_ratio:.1f} streams at {cpus:g} available CPU(s), assuming linear scaling")
++    print(f"  traced Python allocation: prepared {prepared / 1048576:.2f} MiB, "
++          f"processing peak +{(peak - prepared) / 1048576:.2f} MiB (excludes samples/interpreter)")
++    if available is not None and peak:
++        print(f"  allocation-only headroom: {available / peak:.0f} independent workspaces; "
++              f"at CPU-only ceiling allocations use {100 * (cpus / cpu_ratio) * peak / available:.1f}% of headroom")
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--seconds', type=float, default=0.75,
++                        help='minimum measured wall seconds per case (default: 0.75)')
++    args = parser.parse_args()
++    if args.seconds <= 0:
++        parser.error('--seconds must be positive')
++    cpus = effective_cpus()
++    available = memory_headroom()
++    print(f'Effective CPU upper bound: {cpus:g}; approximate shared memory headroom: ' +
++          (f'{available / 1048576:.0f} MiB' if available is not None else 'unknown'))
++    for case in load_cases():
++        run_case(case, args.seconds, cpus, available)
++
++
++if __name__ == '__main__':
++    main()
+--- a/receiver.py
++++ b/receiver.py
+@@ -1,4 +1,4 @@
+-"""Simple simulated two-tone signal and aligned discriminator."""
++"""Small two-tone stream receiver and aligned discriminator."""
+ import json
+ import math
+ import random
+@@ -51,9 +51,65 @@
+                    for k in range(len(case['bits'])))
+ 
+ 
++def prepare(sample_rate, length, offsets=range(-10, 11)):
++    """Reusable oscillators; independent of received data and case truth."""
++    tables = []
++    for offset in offsets:
++        tones = []
++        for tone in TONES:
++            step = 2 * math.pi * (tone + offset) / sample_rate
++            tones.append([(math.cos(step * i), math.sin(step * i)) for i in range(length)])
++        tables.append((offset, tones))
++    return tables
++
++
++def receive(samples, sample_rate, symbol_samples, bit_count, tables):
++    """Search all feasible starts and prepared offsets, maximizing tone energy.
++
++    The duration and number of symbols are supplied, not their start, bits, or
++    offset. Prefix sums avoid recomputing a correlation for every candidate.
++    """
++    n = symbol_samples
++    last = len(samples) - n * bit_count
++    if last < 0 or not bit_count:
++        raise ValueError('stream is too short or has no symbols')
++    best_score = float('-inf')
++    best = None
++    for offset, tones in tables:
++        powers = []
++        for oscillator in tones:
++            if len(oscillator) < len(samples):
++                raise ValueError('prepared oscillator is too short')
++            re = [0.0]
++            im = [0.0]
++            r = q = 0.0
++            for x, (cosine, sine) in zip(samples, oscillator):
++                r += x * cosine
++                q += x * sine
++                re.append(r)
++                im.append(q)
++            powers.append((re, im))
++        for start in range(last + 1):
++            score = 0.0
++            decisions = []
++            for k in range(bit_count):
++                a = start + k * n
++                b = a + n
++                energies = []
++                for re, im in powers:
++                    dr, di = re[b] - re[a], im[b] - im[a]
++                    energies.append(dr * dr + di * di)
++                bit = int(energies[1] > energies[0])
++                decisions.append(str(bit))
++                score += energies[bit]
++            if score > best_score:
++                best_score = score
++                best = (''.join(decisions), start, offset)
++    if best is None:
++        raise ValueError('no frequency candidates')
++    return best
++
++
+ if __name__ == '__main__':
+-    case = load_cases()[0]
+-    start = time.perf_counter()
+-    decision = aligned_check(case)
+-    print('aligned check:', decision, 'expected:', case['bits'])
+-    print('elapsed seconds:', round(time.perf_counter() - start, 6))
++    from benchmark import main
++    main()
+--- a/test_receiver.py
++++ b/test_receiver.py
+@@ -1,15 +1,33 @@
+ import unittest
+-from receiver import aligned_check, load_cases, synthesize
++from receiver import aligned_check, load_cases, prepare, receive, synthesize
+ 
+ 
+ class ReceiverTests(unittest.TestCase):
+     def test_reproducible_samples(self):
+-        case = load_cases()[0]
+-        self.assertEqual(synthesize(case), synthesize(case))
++        for case in load_cases():
++            with self.subTest(case=case['name']):
++                self.assertEqual(synthesize(case), synthesize(case))
++
++    def test_stream_recovery(self):
++        # Use the live scenario list. No start, offset, or bits are passed to the
++        # receiver; bit count and symbol duration are known observation metadata.
++        cases = load_cases()
++        self.assertTrue(cases, 'cases.json must contain at least one case')
++        for case in cases:
++            with self.subTest(case=case['name']):
++                samples = synthesize(case)
++                tables = prepare(case['sample_rate'], len(samples))
++                bits, start, offset = receive(samples, case['sample_rate'],
++                                              case['symbol_samples'], len(case['bits']), tables)
++                self.assertEqual(bits, case['bits'],
++                                 f'start={start}, offset={offset} Hz')
+ 
+     def test_aligned_discriminator_at_nominal_frequency(self):
+-        case = load_cases()[0]
+-        self.assertEqual(aligned_check(case), case['bits'])
++        # This narrower comparison intentionally remains an aligned check.
++        for case in load_cases():
++            if case['offset_hz'] == 0:
++                with self.subTest(case=case['name']):
++                    self.assertEqual(aligned_check(case), case['bits'])
+ 
+ 
+ if __name__ == '__main__':

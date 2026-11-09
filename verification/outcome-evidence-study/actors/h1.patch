@@ -1,0 +1,262 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -31,6 +31,14 @@
+ Apply the same lifecycle to local and remote storage. See the
+ [development contract](docs/development.md#material-lifecycle) and
+ [local output guidance](docs/building.md#local-output-retention).
++
++## Robust configuration list
++
++The manually edited [`_tests-RobustModem.md`](_tests-RobustModem.md) is the
++current configuration list for the abbreviated suite. Every run must read the
++updated list; do not substitute a cached or hand-copied list. The current suite
++records these cases as unsupported, not tested: see
++[case-level requirements and limits](docs/triad-performance.md#manually-maintained-configuration-list).
+ 
+ ## Robust architecture and intensive checks
+ 
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -573,6 +573,9 @@
+     add_test(NAME triad_abbreviated COMMAND ${Python3_EXECUTABLE}
+       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_triad_abbreviated.py)
+     set_tests_properties(triad_abbreviated PROPERTIES LABELS "triad" TIMEOUT 30)
++    add_test(NAME triad_configuration_matrix COMMAND ${Python3_EXECUTABLE}
++      ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_triad_configuration_matrix.py)
++    set_tests_properties(triad_configuration_matrix PROPERTIES LABELS "triad" TIMEOUT 30)
+     add_test(NAME background_noise_cli COMMAND ${Python3_EXECUTABLE}
+       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_background_noise_cli.py $<TARGET_FILE:background_noise>)
+     add_custom_target(test_background_noise_cli DEPENDS background_noise)
+--- a/docs/triad-performance.md
++++ b/docs/triad-performance.md
+@@ -61,3 +61,33 @@
+ Historical anchors apply only when source, configuration, inputs and measured
+ computational regime match; they do not qualify changed code. Never describe an
+ extrapolated estimate as a direct end-to-end or physical measurement.
++
++## Manually maintained configuration list
++
++The abbreviated harness reads [`_tests-RobustModem.md`](../_tests-RobustModem.md)
++on every invocation, preserving order and duplicate entries and recording its
++SHA-256. A malformed, incomplete, or mid-run changed list fails the run. The
++output includes one `unsupported` record for each current entry; these records
++are **not simulations of those configurations**. The existing four-kernel
++fixture has no validated adapter for the list, and the acquisition and tracking
++stages are not an integrated receiver. Null values are unresolved, not zero or
++a pass. Changes to the list need a validated adapter that honors every selected
++impairment and rejects unsupported values rather than silently substituting a
++fixture.
++
++A future case-level implementation must predeclare its small simulation strata,
++seeds, confidence/stop rule and workspace budget. Measure receiver process CPU
++seconds after preparation per second of received baseband, including all
++receiver threads; separately record wall time and actual thread limits. A value
++of 1 CPU-second/second uses one fully occupied CPU thread, and 0.1 uses a tenth
++of one; available multi-thread ceiling and scheduling/headroom depend on the
++host. This differs from wall-time real-time margin when more than one thread is
++used. Report DSP workspace estimate and budget separately from process RSS,
++preparation cost, actual Helper and total three-carrier DATA C/N0 (dB/1 Hz), an
++uncertainty-supported target for greater than 90% message success, and the
++single-bit and literal `fox` transmission calendars. Account for noise density,
++framing, encryption, impairments and failure cases; do not infer these from
++power, isolated kernels, or an unqualified model alone. Report preparation as
++unresolved if the actual path is unavailable. Any extrapolation requires the
++same stated geometry and applicable holdout; an isolated-kernel result does not
++supply end-to-end CPU or physical-success estimates.
+--- /dev/null
++++ b/tests/test_triad_configuration_matrix.py
+@@ -0,0 +1,70 @@
++"""Fail-closed coverage of the manually edited configuration list."""
++from pathlib import Path
++import tempfile
++import sys
++import unittest
++from unittest.mock import patch
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
++from triad_configuration_matrix import FIELDS, read_configurations
++import triad_abbreviated
++
++
++def case(name='one'):
++    return '- ' + name + '\n' + ''.join('example\t' + field + '\n' for field in sorted(FIELDS))
++
++
++class ConfigurationMatrixTests(unittest.TestCase):
++    def test_reads_edits_and_keeps_duplicate_cases(self):
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'cases.md'
++            path.write_text(case())
++            first = read_configurations(path)
++            path.write_text(case() + '\n' + case())
++            second = read_configurations(path)
++            self.assertNotEqual(first['sha256'], second['sha256'])
++            self.assertEqual([c['name'] for c in second['cases']], ['one', 'one'])
++            self.assertEqual(second['cases'][0]['fields'], second['cases'][1]['fields'])
++
++    def test_suite_reads_current_list_each_run(self):
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'cases.md'
++            path.write_text(case())
++            with patch.object(triad_abbreviated, 'read_configurations', side_effect=lambda: read_configurations(path)), \
++                 patch.object(triad_abbreviated, 'source_identity', return_value={}), \
++                 patch.object(triad_abbreviated, 'kernels', return_value=({}, {})), \
++                 patch.object(triad_abbreviated, '_measure', side_effect=lambda *args: args[-1]):
++                first = triad_abbreviated.run()
++                path.write_text(case() + case('two'))
++                second = triad_abbreviated.run()
++            self.assertEqual(len(first['cases']), 1)
++            self.assertEqual(len(second['cases']), 2)
++            self.assertNotEqual(first['sha256'], second['sha256'])
++
++    def test_changed_list_during_measurement_is_rejected(self):
++        original = {'sha256': 'before', 'cases': []}
++        calls = {name: lambda: None for name in triad_abbreviated.KERNELS}
++        with patch.object(triad_abbreviated, 'read_configurations', return_value={'sha256': 'after', 'cases': []}), \
++             patch.object(triad_abbreviated, 'source_identity', return_value={}), \
++             patch.object(triad_abbreviated, 'environment', return_value={}), \
++             patch.object(triad_abbreviated, 'analyze', return_value={'stop': True, 'comparison': 'uncompared'}):
++            with self.assertRaisesRegex(RuntimeError, 'configuration list changed'):
++                triad_abbreviated._measure(calls, {}, {}, 0, 1000, 'cpu', None, original)
++
++    def test_rejects_missing_unknown_and_duplicate_fields(self):
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'cases.md'
++            for text in ('', case().replace('example\tRate\n', ''),
++                         case() + 'example\tunknown\n', case() + 'example\tRate\n'):
++                with self.subTest(text=text), self.assertRaises(ValueError):
++                    path.write_text(text)
++                    read_configurations(path)
++
++    def test_current_list_is_valid(self):
++        result = read_configurations()
++        self.assertTrue(result['cases'])
++        self.assertEqual(len(result['sha256']), 64)
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/tools/triad_abbreviated.py
++++ b/tools/triad_abbreviated.py
+@@ -17,6 +17,8 @@
+ import statistics
+ import sys
+ import time
++
++from triad_configuration_matrix import read_configurations
+ 
+ LOOKS = (3, 5, 9)
+ BATCHES = (1, 2, 4)  # Two training sizes followed by an independent holdout.
+@@ -234,6 +236,7 @@
+ 
+ 
+ def run(*, target_units=1000, device="cpu", baseline=None):
++    configurations = read_configurations()
+     sources = source_identity()
+     started = time.perf_counter()
+     calls, geometry = kernels(device)
+@@ -242,10 +245,10 @@
+     # Restoring the caller's pool limits prevents this module altering a host.
+     from threadpoolctl import threadpool_limits
+     with threadpool_limits(limits=1):
+-        return _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline)
+-
+-
+-def _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline):
++        return _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations)
++
++
++def _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations):
+     host = environment(device)
+     if baseline is not None:
+         validate_baseline(baseline, geometry, host)
+@@ -282,7 +285,22 @@
+               "inconclusive" if baseline else "abbreviated_evidence_only")
+     if sources != source_identity():
+         raise RuntimeError("canonical source changed during timing; discard this measurement")
++    if configurations != read_configurations():
++        raise RuntimeError("configuration list changed during timing; discard this measurement")
++    # The existing fixture is not a simulation of these cases. Preserve each
++    # literal case and explicitly mark all requested case-level claims unknown.
++    case_results = [{**case, "status": "unsupported", "reason": (
++        "No validated configuration-to-native-simulator adapter or integrated "
++        "end-to-end receiver; isolated kernel timings do not estimate this case."),
++        "cpu_seconds_per_received_second": None, "dsp_workspace_margin": None,
++        "helper_cn0_db_hz": None, "triple_data_cn0_db_hz": None,
++        "target_cn0_for_over_90_percent_db_hz": None,
++        "single_bit_transmit_seconds": None, "fox_transmit_seconds": None,
++        "long_preparation_unavoidable": None} for case in configurations["cases"]]
+     return {"schema": SCHEMA, "geometry": geometry, "environment": host,
++        "configuration_list_sha256": configurations["sha256"],
++        "configuration_coverage": "unsupported",
++        "configuration_results": case_results,
+         "sources": sources, "baseline_sources": baseline.get("sources") if baseline else None,
+         "excluded_import_and_fixture_setup_seconds": setup_seconds,
+         "policy": policy(), "kernels": results, "status": status}
+@@ -303,6 +321,8 @@
+     args.output.parent.mkdir(parents=True, exist_ok=True)
+     args.output.write_text(json.dumps(result, indent=2, allow_nan=False)+"\n")
+     print(json.dumps({"status": result["status"], "output": str(args.output),
++        "configuration_cases": len(result["configuration_results"]),
++        "configuration_status": "unsupported",
+         "kernels": {k: {n: v[n] for n in ("outer_trials", "model_status", "comparison", "measured_seconds")}
+                     for k, v in result["kernels"].items()}}, indent=2))
+     return 1 if result["status"] == "material_slowdown" else 2 if result["status"] == "inconclusive" else 0
+--- /dev/null
++++ b/tools/triad_configuration_matrix.py
+@@ -0,0 +1,55 @@
++"""Read the manually maintained Robust exercise list without caching it.
++
++The values remain literal until a validated adapter can map every field to the
++native simulator and receiver. In particular, unknown labels must never vanish.
++"""
++from __future__ import annotations
++
++import hashlib
++from pathlib import Path
++
++LIST_PATH = Path(__file__).resolve().parents[1] / '_tests-RobustModem.md'
++FIELDS = frozenset({
++    'Encryption', 'Helper Carrier Transmit Power', 'Transmit Power', 'Path loss',
++    'Clock sync / Region / Offset / Audio error', 'Base Oscillator',
++    'Shift Oscillator', 'Doppler/delay spread',
++    'Additional frequency selective amplitude modulation', 'Margin', 'DSSS',
++    'Spreading', 'FHSS', 'Symbol_burst', 'Rate', 'Shift',
++})
++
++
++def read_configurations(path=LIST_PATH):
++    """Return all rows in order, including duplicates; reject incomplete edits."""
++    raw = Path(path).read_bytes()
++    text = raw.decode('utf-8')
++    cases = []
++    current = None
++    for number, line in enumerate(text.splitlines(), 1):
++        line = line.strip()
++        if not line:
++            continue
++        if line.startswith('- '):
++            if current is not None:
++                _finish(current, number)
++            name = line[2:].strip()
++            if not name:
++                raise ValueError(f'line {number}: empty configuration name')
++            current = {'name': name, 'fields': {}}
++            cases.append(current)
++            continue
++        if current is None or '\t' not in line:
++            raise ValueError(f'line {number}: expected case heading or tab-separated value and label')
++        value, label = (part.strip() for part in line.split('\t', 1))
++        if not value or label not in FIELDS or label in current['fields']:
++            raise ValueError(f'line {number}: empty value, unknown or duplicate field {label!r}')
++        current['fields'][label] = value
++    if current is None:
++        raise ValueError('configuration list is empty')
++    _finish(current, number + 1)
++    return {'sha256': hashlib.sha256(raw).hexdigest(), 'cases': cases}
++
++
++def _finish(case, number):
++    missing = FIELDS - case['fields'].keys()
++    if missing:
++        raise ValueError(f'line {number}: {case["name"]!r} missing fields: {sorted(missing)}')

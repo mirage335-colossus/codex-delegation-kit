@@ -1,0 +1,217 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -33,6 +33,11 @@
+ [local output guidance](docs/building.md#local-output-retention).
+ 
+ ## Robust architecture and intensive checks
++
++For configuration studies, read the current manually edited
++[`_tests-RobustModem.md`](_tests-RobustModem.md) on every run; see the
++[configuration evidence prerequisite](docs/triad-performance.md#manually-selected-configurations-evidence-prerequisite).
++The inventory is not yet a configuration simulation or a receiver result.
+ 
+ The canonical Robust transmitter/channel/Helper path is the native
+ `IndependentApskV2` stack. Python WeakReceiver acquisition and
+--- a/docs/triad-performance.md
++++ b/docs/triad-performance.md
+@@ -61,3 +61,29 @@
+ Historical anchors apply only when source, configuration, inputs and measured
+ computational regime match; they do not qualify changed code. Never describe an
+ extrapolated estimate as a direct end-to-end or physical measurement.
++
++## Manually selected configurations: evidence prerequisite
++
++Development agents: read the current [`_tests-RobustModem.md`](../_tests-RobustModem.md)
++for every configuration study. Do not freeze or silently deduplicate that
++manually edited list. `python3 tools/triad_configuration_inventory.py` reads it
++at invocation, records its SHA-256 and preserves its order and duplicates; it
++rejects unknown or missing fields. Its nominal total DATA and requested Helper
++C/N0 use the exporter's -164 dBm/Hz assumed noise density. The Helper number is
++requested power before production limiting or gating. These are arithmetic
++references, not simulated sensitivity or measured reception.
++
++**This inventory is not the requested configuration test suite.** It labels
++CPU time, CPU and DSP workspace margins, success target, bit and `fox` calendar,
++and preparation as unavailable. The current timing harness's fixed synthetic
++kernels do not establish those results. A future implementation must bind every
++list setting to the native source/channel and a complete receiver, use a brief
++predeclared hierarchical simulation with holdouts, measure post-preparation CPU
++thread-time and wall time against represented baseband seconds, account for
++concurrency and available CPU and DSP workspace, and independently estimate
++correct message success. Measure preparation separately and distinguish
++simulation estimates from physical qualification. Do not report a >90% success
++target, message duration, or realtime margin from kernel costs alone. The weak
++receiver currently requires Helper acquisition and its staged tracking is not an
++integrated end-to-end message receiver; Helper-free cases and message success
++therefore require receiver work before these claims can be made.
+--- /dev/null
++++ b/tests/test_triad_configuration_inventory.py
+@@ -0,0 +1,62 @@
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
++from triad_configuration_inventory import LIST, inventory, parse
++
++FIXTURE = '''- example
++No\tEncryption
++0 W\tHelper Carrier Transmit Power
++1 mW\tTransmit Power
++200 dB\tPath loss
++broad\tClock sync / Region / Offset / Audio error
++base\tBase Oscillator
++shift\tShift Oscillator
++spread\tDoppler/delay spread
++Off\tAdditional frequency selective amplitude modulation
++1x\tMargin
++Off\tDSSS
++0x\tSpreading
++Off\tFHSS
++Off\tSymbol_burst
++0.1 Hz\tRate
++0 Hz\tShift
++'''
++
++
++class InventoryTest(unittest.TestCase):
++    def test_reads_current_list_in_order_including_duplicates(self):
++        report = inventory()
++        parsed = parse(LIST.read_text())
++        self.assertEqual([(c['name'], c['settings']) for c in report['cases']],
++                         [(c['name'], c['settings']) for c in parsed])
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'list.md'
++            path.write_text(FIXTURE + '\n' + FIXTURE)
++            cases = inventory(path)['cases']
++            self.assertEqual(len(cases), 2)
++            self.assertEqual(cases[0]['settings'], cases[1]['settings'])
++            self.assertAlmostEqual(cases[0]['nominal_total_data_cn0_db_hz'], -36)
++            self.assertIsNone(cases[0]['requested_helper_cn0_db_hz'])
++            self.assertIn('cpu_seconds_per_baseband_second', cases[0]['unavailable'])
++
++    def test_edits_are_used_and_invalid_edits_fail(self):
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'list.md'
++            path.write_text(FIXTURE)
++            old = inventory(path)
++            path.write_text(FIXTURE.replace('1 mW\tTransmit Power', '2 mW\tTransmit Power'))
++            new = inventory(path)
++            self.assertNotEqual(old['list_sha256'], new['list_sha256'])
++            self.assertAlmostEqual(new['cases'][0]['nominal_total_data_cn0_db_hz'] - old['cases'][0]['nominal_total_data_cn0_db_hz'], 3.01029995664)
++            path.write_text(FIXTURE.replace('0.1 Hz\tRate', '0.1 Hz\tUnknown field'))
++            with self.assertRaises(ValueError):
++                inventory(path)
++            with self.assertRaises(ValueError):
++                parse(FIXTURE.replace('0.1 Hz\tRate\n', ''))
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- /dev/null
++++ b/tools/triad_configuration_inventory.py
+@@ -0,0 +1,103 @@
++#!/usr/bin/env python3
++"""Read the current manual Robust list and report its unresolved evidence needs.
++
++This inventory is a prerequisite for configuration-bound experiments, not a
++receiver simulation or a substitute for the abbreviated timing harness.
++"""
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import math
++from pathlib import Path
++import re
++
++ROOT = Path(__file__).resolve().parents[1]
++LIST = ROOT / '_tests-RobustModem.md'
++FIELDS = frozenset(('Encryption', 'Helper Carrier Transmit Power', 'Transmit Power',
++    'Path loss', 'Clock sync / Region / Offset / Audio error', 'Base Oscillator',
++    'Shift Oscillator', 'Doppler/delay spread',
++    'Additional frequency selective amplitude modulation', 'Margin', 'DSSS',
++    'Spreading', 'FHSS', 'Symbol_burst', 'Rate', 'Shift'))
++
++
++def parse(text):
++    cases = []
++    current = None
++    for number, line in enumerate(text.splitlines(), 1):
++        if not line.strip():
++            continue
++        if line.startswith('- '):
++            if current is not None:
++                _finish(current)
++            current = {'name': line[2:].strip(), 'line': number, 'settings': {}}
++            if not current['name']:
++                raise ValueError(f'line {number}: empty case name')
++            cases.append(current)
++        else:
++            if current is None or '\t' not in line:
++                raise ValueError(f'line {number}: expected case or tab-separated setting')
++            value, key = (part.strip() for part in line.split('\t', 1))
++            if not value or key not in FIELDS or key in current['settings']:
++                raise ValueError(f'line {number}: empty, unknown or duplicate setting {key!r}')
++            current['settings'][key] = value
++    if current is None:
++        raise ValueError('empty configuration list')
++    _finish(current)
++    return cases
++
++
++def _finish(case):
++    missing = FIELDS - case['settings'].keys()
++    if missing:
++        raise ValueError(f"line {case['line']}: missing fields: {', '.join(sorted(missing))}")
++
++
++def _quantity(value, units):
++    m = re.fullmatch(r'([0-9]+(?:\.[0-9]+)?)\s*(' + '|'.join(units) + r')', value)
++    if not m:
++        raise ValueError(f'unsupported quantity: {value!r}')
++    return float(m[1]) * units[m[2]]
++
++
++def inventory(path=LIST):
++    data = path.read_bytes()
++    cases = parse(data.decode('utf-8'))
++    for case in cases:
++        s = case['settings']
++        data_w = _quantity(s['Transmit Power'], {'mW': .001, 'W': 1., 'kW': 1000.})
++        helper_w = _quantity(s['Helper Carrier Transmit Power'], {'mW': .001, 'W': 1., 'kW': 1000.})
++        loss_db = _quantity(s['Path loss'], {'dB': 1.})
++        if data_w <= 0:
++            raise ValueError(f"line {case['line']}: DATA power must be positive")
++        # Matches the exporter's nominal thermal reference, not field noise.
++        case['nominal_total_data_cn0_db_hz'] = 10*math.log10(data_w*1000)-loss_db+164
++        # Nominal requested Helper only: the production power limiter and gating
++        # must be resolved by the native exporter before asserting effective C/N0.
++        case['requested_helper_cn0_db_hz'] = (10*math.log10(helper_w*1000)-loss_db+164
++                                             if helper_w else None)
++        case['requested_helper_scope'] = 'requested power; excludes production power limiting and gating' if helper_w else 'off'
++        case['unavailable'] = {
++            'target_cn0_for_over_90_percent_success_db_hz': 'requires end-to-end correct-reception simulations',
++            'single_bit_transmit_seconds': 'requires source-bound duration selection and native calendar',
++            'fox_transmit_seconds': 'requires actual message framing and native calendar',
++            'receiver_preparation': 'requires selected receiver and preparation measurement',
++            'cpu_seconds_per_baseband_second': 'requires measured complete post-preparation receiver processing',
++            'cpu_ceiling_and_dsp_workspace_margin': 'requires selected complete receiver and explicit available budgets',
++        }
++    return {'schema': 'triad-configuration-inventory-v1',
++            'list_path': str(path), 'list_sha256': hashlib.sha256(data).hexdigest(),
++            'scope': 'Inventory and nominal power/noise-density arithmetic only; not a simulation or a test result. -164 dBm/Hz is the native exporter noise assumption.',
++            'cases': cases}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--list', type=Path, default=LIST)
++    args = parser.parse_args()
++    print(json.dumps(inventory(args.list), indent=2, allow_nan=False))
++
++
++if __name__ == '__main__':
++    main()

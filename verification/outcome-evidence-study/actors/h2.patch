@@ -1,0 +1,279 @@
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -31,6 +31,16 @@
+ Apply the same lifecycle to local and remote storage. See the
+ [development contract](docs/development.md#material-lifecycle) and
+ [local output guidance](docs/building.md#local-output-retention).
++
++## Selected Robust configuration reports
++
++The manually edited [`_tests-RobustModem.md`](_tests-RobustModem.md) is the
++current case inventory; re-read it on each abbreviated run, preserving duplicate
++entries. The harness currently reports nominal link budgets for these entries,
++**not configuration simulations**. It cannot yet report their CPU or workspace
++margins, reception probability, message durations, or preparation requirements.
++Follow [the configuration coverage and evidence limits](docs/triad-performance.md#selected-configuration-coverage)
++before drawing conclusions or extending the receiver and harness.
+ 
+ ## Robust architecture and intensive checks
+ 
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -572,6 +572,9 @@
+       ENVIRONMENT "OPENBLAS_NUM_THREADS=1;OMP_NUM_THREADS=1;MKL_NUM_THREADS=1")
+     add_test(NAME triad_abbreviated COMMAND ${Python3_EXECUTABLE}
+       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_triad_abbreviated.py)
++    add_test(NAME triad_configurations COMMAND ${Python3_EXECUTABLE}
++      ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_triad_configurations.py)
++    set_tests_properties(triad_configurations PROPERTIES LABELS "triad;contract" TIMEOUT 30)
+     set_tests_properties(triad_abbreviated PROPERTIES LABELS "triad" TIMEOUT 30)
+     add_test(NAME background_noise_cli COMMAND ${Python3_EXECUTABLE}
+       ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_background_noise_cli.py $<TARGET_FILE:background_noise>)
+--- a/docs/triad-performance.md
++++ b/docs/triad-performance.md
+@@ -61,3 +61,43 @@
+ Historical anchors apply only when source, configuration, inputs and measured
+ computational regime match; they do not qualify changed code. Never describe an
+ extrapolated estimate as a direct end-to-end or physical measurement.
++
++## Selected configuration coverage
++
++Every harness invocation re-reads [`_tests-RobustModem.md`](../_tests-RobustModem.md),
++records its SHA-256 and preserves repeated rows. Malformed or incomplete rows
++fail rather than silently omitting a case. Its `configuration_inventory` provides
++nominal total DATA and Helper power/noise density for each row using the native
++exporter's -164 dBm/Hz assumption, with the native default 90 dB Helper/DATA
++power ratio ceiling. This is arithmetic, not a sampled channel or reception
++measurement. A zero Helper is reported as absent. Changing the noise density or
++physical model changes the numbers; they are not a target for success.
++
++**None of the listed cases is yet simulated by this harness.** Each inventory
++row explicitly marks all requested case-level outcomes unimplemented. The kernel
++measurements above use a separate synthetic fixture and cannot establish case
++CPU seconds per received second, DSP workspace margin, success probability or
++SNR target, single-bit or `fox` transmission time, or preparation requirements.
++The Python acquisition and tracking stages are not integrated; the weak receiver
++requires usable Helper, so Helper-off cases need additional acquisition work.
++The native exporter accepts bounded single-bit streams; whole-message reception
++and a faithful mapping from every listed setting remain to be implemented.
++Do not interpret a successful kernel run as completing this configuration suite.
++
++To extend it, first establish a faithful source/channel/receiver path for each
++selected stratum, including the no-Helper cases, specified impairments and
++message framing. Predeclare small statistical samples and stopping rules for
++success separately from timing. Measure post-preparation CPU and elapsed time
++for representative steady processing, including all receiver stages, and compare
++the actual allocation and workspace with the computer's ceiling; account for
++all threads and do not substitute a single kernel projection. Record noise,
++source/configuration hashes, seeds, message and preparation calendar, and the
++uncertainty and applicability of any extrapolation. Report unresolved cases
++instead of substituting an unrelated fixture or ideal detector forecast.
++
++For the current unfinished configuration-coverage investigation, the local
++`local-evidence/triad-abbreviated.json` and `local-evidence/score-only-cpu.json`
++record the abbreviated fixture observations, and `local-evidence/cpu_fixture.py`
++reproduces the separate process-CPU check. Remove these when the question is
++resolved or replaced by current configuration-specific evidence. The local
++build tree supports the same investigation; retire it when no longer used.
+--- /dev/null
++++ b/tests/test_triad_configurations.py
+@@ -0,0 +1,72 @@
++"""Deterministic inventory and nominal link-budget checks, not simulation."""
++import math
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
++from triad_configurations import DEFAULT_LIST, inventory, parse_list
++
++CASE = '''- Case
++No\tEncryption
++40 W\tHelper Carrier Transmit Power
++4 W\tTransmit Power
++180 dB\tPath loss
++Several seconds\tClock sync / Region / Offset / Audio error
++Oscillator\tBase Oscillator
++Oscillator\tShift Oscillator
++Spread\tDoppler/delay spread
++Off\tAdditional frequency selective amplitude modulation
++1x\tMargin
++Off\tDSSS
++0x\tSpreading
++Off\tFHSS
++Off\tSymbol_burst
++1 Hz\tRate
++500 kHz\tShift
++'''
++
++
++class ConfigurationInventoryTests(unittest.TestCase):
++    def test_inventory_preserves_duplicates_and_nominal_budgets(self):
++        with tempfile.TemporaryDirectory() as d:
++            path = Path(d) / 'cases.md'; path.write_text(CASE + '\n' + CASE)
++            result = inventory(path)
++        self.assertEqual(result['case_count'], 2)
++        self.assertEqual(result['cases'][0]['fields'], result['cases'][1]['fields'])
++        budget = result['cases'][0]['nominal_link_budget']
++        self.assertAlmostEqual(budget['triple_data_total_cn0_db_hz'], 10 * math.log10(4000) - 16)
++        self.assertAlmostEqual(budget['helper_total_cn0_db_hz'], 10 * math.log10(40000) - 16)
++        self.assertEqual(result['cases'][0]['configuration_simulation']['status'], 'not_implemented')
++
++    def test_reads_current_contents_every_time(self):
++        with tempfile.TemporaryDirectory() as d:
++            path = Path(d) / 'cases.md'; path.write_text(CASE)
++            first = inventory(path)
++            path.write_text(CASE + '\n' + CASE.replace('40 W\tHelper', '0 W\tHelper'))
++            second = inventory(path)
++            self.assertEqual(second['case_count'], first['case_count'] + 1)
++            self.assertNotEqual(second['sha256'], first['sha256'])
++            self.assertIsNone(second['cases'][1]['nominal_link_budget']['helper_total_cn0_db_hz'])
++
++    def test_current_list_is_readable_without_freezing_its_contents(self):
++        expected = parse_list(DEFAULT_LIST.read_text())
++        current = inventory()
++        self.assertEqual(current['case_count'], len(expected))
++        self.assertEqual([case['fields'] for case in current['cases']],
++                         [case['fields'] for case in expected])
++
++    def test_missing_duplicate_unknown_or_unparseable_fields_fail_closed(self):
++        for bad in (CASE.replace('No\tEncryption', 'No\tUnknown', 1),
++                    CASE.replace('No\tEncryption', 'No\tEncryption\nNo\tEncryption', 1),
++                    CASE.replace('No\tEncryption\n', '', 1),
++                    CASE.replace('4 W\tTransmit Power', 'unsupported\tTransmit Power', 1)):
++            with self.subTest(bad=bad[:80]), self.assertRaises(ValueError):
++                with tempfile.TemporaryDirectory() as d:
++                    path = Path(d) / 'cases.md'; path.write_text(bad)
++                    inventory(path)
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/tools/triad_abbreviated.py
++++ b/tools/triad_abbreviated.py
+@@ -234,6 +234,8 @@
+ 
+ 
+ def run(*, target_units=1000, device="cpu", baseline=None):
++    from triad_configurations import inventory
++    configurations = inventory()
+     sources = source_identity()
+     started = time.perf_counter()
+     calls, geometry = kernels(device)
+@@ -242,7 +244,11 @@
+     # Restoring the caller's pool limits prevents this module altering a host.
+     from threadpoolctl import threadpool_limits
+     with threadpool_limits(limits=1):
+-        return _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline)
++        result = _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline)
++    if inventory()["sha256"] != configurations["sha256"]:
++        raise RuntimeError("configuration list changed during timing; discard this measurement")
++    result["configuration_inventory"] = configurations
++    return result
+ 
+ 
+ def _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline):
+@@ -303,6 +309,8 @@
+     args.output.parent.mkdir(parents=True, exist_ok=True)
+     args.output.write_text(json.dumps(result, indent=2, allow_nan=False)+"\n")
+     print(json.dumps({"status": result["status"], "output": str(args.output),
++        "configuration_count": result["configuration_inventory"]["case_count"],
++        "configuration_simulation": "not_implemented",
+         "kernels": {k: {n: v[n] for n in ("outer_trials", "model_status", "comparison", "measured_seconds")}
+                     for k, v in result["kernels"].items()}}, indent=2))
+     return 1 if result["status"] == "material_slowdown" else 2 if result["status"] == "inconclusive" else 0
+--- /dev/null
++++ b/tools/triad_configurations.py
+@@ -0,0 +1,91 @@
++"""Read the current manually maintained Robust case list for abbreviated reports.
++
++The inventory and link-budget arithmetic are not simulations or receiver tests.
++"""
++from __future__ import annotations
++
++import hashlib
++import math
++from pathlib import Path
++import re
++
++DEFAULT_LIST = Path(__file__).resolve().parents[1] / '_tests-RobustModem.md'
++FIELDS = frozenset(('Encryption', 'Helper Carrier Transmit Power', 'Transmit Power',
++    'Path loss', 'Clock sync / Region / Offset / Audio error', 'Base Oscillator',
++    'Shift Oscillator', 'Doppler/delay spread',
++    'Additional frequency selective amplitude modulation', 'Margin', 'DSSS',
++    'Spreading', 'FHSS', 'Symbol_burst', 'Rate', 'Shift'))
++
++
++def parse_list(data):
++    cases = []
++    case = None
++    for line_number, line in enumerate(data.splitlines(), 1):
++        line = line.strip()
++        if not line:
++            continue
++        if line.startswith('- '):
++            if case is not None:
++                cases.append(case)
++            case = {'name': line[2:].strip(), 'fields': {}}
++            if not case['name']:
++                raise ValueError(f'line {line_number}: empty case name')
++            continue
++        if case is None or '\t' not in line:
++            raise ValueError(f'line {line_number}: expected a case heading or tab-separated field')
++        value, field = (part.strip() for part in line.split('\t', 1))
++        if not value or field not in FIELDS or field in case['fields']:
++            raise ValueError(f'line {line_number}: empty value, unknown or duplicate field: {field}')
++        case['fields'][field] = value
++    if case is not None:
++        cases.append(case)
++    if not cases:
++        raise ValueError('empty configuration list')
++    for case in cases:
++        missing = FIELDS - case['fields'].keys()
++        if missing:
++            raise ValueError(f"{case['name']}: missing fields: {', '.join(sorted(missing))}")
++    return cases
++
++
++def _quantity(text, units):
++    match = re.fullmatch(r'([0-9]+(?:\.[0-9]+)?)\s*(' + '|'.join(units) + r')', text)
++    if not match:
++        raise ValueError(f'unsupported quantity: {text}')
++    value = float(match.group(1)) * units[match.group(2)]
++    if not math.isfinite(value):
++        raise ValueError(f'quantity outside finite range: {text}')
++    return value
++
++
++def inventory(path=DEFAULT_LIST, *, noise_dbm_hz=-164.):
++    """Re-read bytes each call, retain duplicate rows and refuse malformed inputs."""
++    if not math.isfinite(noise_dbm_hz):
++        raise ValueError('finite noise density required')
++    raw = Path(path).read_bytes()
++    cases = parse_list(raw.decode('utf-8'))
++    for index, case in enumerate(cases, 1):
++        fields = case['fields']
++        data_w = _quantity(fields['Transmit Power'], {'mW': .001, 'W': 1., 'kW': 1000.})
++        helper_w = _quantity(fields['Helper Carrier Transmit Power'], {'mW': .001, 'W': 1., 'kW': 1000.})
++        loss = _quantity(fields['Path loss'], {'dB': 1.})
++        if data_w <= 0:
++            raise ValueError('DATA power must be positive')
++        # Native helper::Options default permits at most 90 dB helper/data.
++        effective_helper = min(helper_w, data_w * 1e9)
++        def cn0(watts):
++            return 10 * math.log10(watts * 1000) - loss - noise_dbm_hz
++        case.update(index=index, nominal_link_budget={
++            'noise_density_dbm_hz': noise_dbm_hz,
++            'triple_data_total_cn0_db_hz': cn0(data_w),
++            'helper_total_cn0_db_hz': cn0(effective_helper) if effective_helper else None,
++            'effective_helper_w': effective_helper,
++            'scope': 'Nominal total active power after listed path loss; no fading, filtering, or decoding success.'},
++            configuration_simulation={'status': 'not_implemented',
++                'cpu_seconds_per_received_second': None, 'dsp_workspace_margin': None,
++                'target_cn0_for_over_90_percent_success_db_hz': None,
++                'one_bit_transmit_seconds': None, 'fox_transmit_seconds': None,
++                'more_than_short_preparation_unavoidable': None})
++    return {'path': str(Path(path)), 'sha256': hashlib.sha256(raw).hexdigest(),
++            'case_count': len(cases), 'cases': cases,
++            'coverage': 'Inventory and nominal link budgets only; no listed configuration is simulated.'}

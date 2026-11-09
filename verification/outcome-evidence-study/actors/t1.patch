@@ -1,0 +1,99 @@
+--- a/README.md
++++ b/README.md
+@@ -7,3 +7,27 @@
+ 
+ Run `python3 -m unittest` and `python3 bench.py` from this directory.
+ 
++
++## Throughput estimate
++
++`bench.py` prepares small, valid JSON lines in memory, warms up with five
++1,000-record batches, then times 300 batches through `feed.import_lines`.
++Each batch has new IDs and is committed to a fresh file-backed SQLite database;
++the final row count is checked. Input generation, opening the database and
++network or feed delivery are outside the timing. The mean batch time is
++compared with the one second available for 1,000 records at 1,000 records/s:
++margin = 1 second minus mean processing time. The p95 and maximum are batch
++latencies in this short run, not guarantees. The benchmark also prints the
++measured throughput.
++
++On the test machine (Python 3.13.5, Linux, temporary directory on tmpfs),
++four runs measured 2.980–4.196 ms per 1,000 records, leaving
++995.804–997.020 ms (99.58–99.70%) of each second. This suggests ample
++capacity for this particular workload. The runs execute back-to-back, so they
++simulate 300 seconds of arrivals but do not establish performance over 300
++seconds of wall-clock time. The temporary filesystem is memory-backed: these
++measurements do not represent persistent disk latency or durability. Larger
++records, invalid records, an existing larger database, different batch sizes,
++concurrent work, network delivery and sustained operation can change the
++result. Measure again with representative data, storage and a longer run for
++production planning.
+--- a/bench.py
++++ b/bench.py
+@@ -1,16 +1,58 @@
+-"""Abbreviated validation microbenchmark."""
++"""Quick end-to-end benchmark of the normal import path."""
++import json
++import tempfile
++from pathlib import Path
+ from time import perf_counter
+-from feed import validate
++
++from feed import connect, import_lines
++
++
++BATCH_SIZE = 1_000
++WARMUP_BATCHES = 5
++TIMED_BATCHES = 300
+ 
+ 
+ def main():
+-    records = [{"id": i, "value": "sample record"} for i in range(10000)]
+-    start = perf_counter()
+-    accepted = sum(validate(r) for r in records)
+-    elapsed = perf_counter() - start
+-    print(f"{accepted} records validated in {elapsed:.6f} s")
++    # Prepare input outside the timing window, as if JSON lines had arrived.
++    lines = [json.dumps({"id": i, "value": "sample record"})
++             for i in range((WARMUP_BATCHES + TIMED_BATCHES) * BATCH_SIZE)]
++    with tempfile.TemporaryDirectory() as tmp:
++        db = connect(Path(tmp) / "feed.sqlite")
++        try:
++            for batch in range(WARMUP_BATCHES):
++                start = batch * BATCH_SIZE
++                accepted = import_lines(lines[start:start + BATCH_SIZE], db)
++                if accepted != BATCH_SIZE:
++                    raise RuntimeError(f"Warm-up accepted {accepted} records, expected {BATCH_SIZE}")
++
++            durations = []
++            for batch in range(WARMUP_BATCHES, WARMUP_BATCHES + TIMED_BATCHES):
++                start = batch * BATCH_SIZE
++                batch_lines = lines[start:start + BATCH_SIZE]
++                t0 = perf_counter()
++                accepted = import_lines(batch_lines, db)
++                durations.append(perf_counter() - t0)
++                if accepted != BATCH_SIZE:
++                    raise RuntimeError(f"Expected {BATCH_SIZE} accepted records; got {accepted}")
++            count = db.execute("SELECT count(*) FROM records").fetchone()[0]
++            expected = (WARMUP_BATCHES + TIMED_BATCHES) * BATCH_SIZE
++            if count != expected:
++                raise RuntimeError(f"Expected {expected} stored records; got {count}")
++        finally:
++            db.close()
++
++    total = sum(durations)
++    mean = total / TIMED_BATCHES
++    p95 = sorted(durations)[int(0.95 * TIMED_BATCHES) - 1]
++    margin = 1.0 - mean  # One second is available per 1,000 incoming records.
++    print(f"{TIMED_BATCHES * BATCH_SIZE:,} records in {TIMED_BATCHES} batches; "
++          f"{total:.3f} s measured")
++    print(f"Mean per 1,000: {mean * 1000:.3f} ms; "
++          f"p95: {p95 * 1000:.3f} ms; max: {max(durations) * 1000:.3f} ms")
++    print(f"Throughput: {TIMED_BATCHES * BATCH_SIZE / total:,.0f} records/s")
++    print(f"Real-time margin per 1,000 at 1,000 records/s: "
++          f"{margin * 1000:+.3f} ms ({margin * 100:+.2f}% of one second)")
+ 
+ 
+ if __name__ == "__main__":
+     main()
+-

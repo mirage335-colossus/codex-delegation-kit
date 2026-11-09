@@ -1,0 +1,88 @@
+--- a/README.md
++++ b/README.md
+@@ -7,3 +7,21 @@
+ 
+ Run `python3 -m unittest` and `python3 bench.py` from this directory.
+ 
++
++The benchmark times `import_lines` end to end: JSON parsing, validation,
++SQLite inserts and one commit per 1,000 incoming records. It prepares 32,000
++valid short JSON lines in memory before timing, warms up with 2,000, and times
++30 batches with unique IDs in a temporary SQLite database on the current
++directory's filesystem. It checks the accepted and stored counts. The reported
++margin is one second minus the mean batch processing time: positive means the
++measured average is faster than a 1,000-record/s feed. The batch range shows
++observed variation, not a latency guarantee.
++
++This is a quick estimate on the machine and filesystem where it runs, not a
++long-duration or production-load guarantee. It excludes input generation,
++network transport and waiting for arrivals, and assumes batches of 1,000,
++short valid records, an initially small database, default SQLite settings and
++no competing workload. Different record sizes, invalid data, database size,
++storage, commit cadence or contention can change the result. Benchmark on the
++actual target storage and workload and run a longer sustained test if those
++conditions matter.
+--- a/bench.py
++++ b/bench.py
+@@ -1,16 +1,53 @@
+-"""Abbreviated validation microbenchmark."""
++"""Quick end-to-end benchmark for the normal feed import path."""
++import json
++import statistics
++import tempfile
++from pathlib import Path
+ from time import perf_counter
+-from feed import validate
++
++from feed import connect, import_lines
++
++
++BATCH_SIZE = 1000
++WARMUP_BATCHES = 2
++TIMED_BATCHES = 30
+ 
+ 
+ def main():
+-    records = [{"id": i, "value": "sample record"} for i in range(10000)]
+-    start = perf_counter()
+-    accepted = sum(validate(r) for r in records)
+-    elapsed = perf_counter() - start
+-    print(f"{accepted} records validated in {elapsed:.6f} s")
++    # Prepare input outside the timer: production input arrives already encoded.
++    # Unique IDs exercise inserts and database growth, rather than replacements.
++    batches = [[json.dumps({"id": batch * BATCH_SIZE + i, "value": "sample record"})
++                for i in range(BATCH_SIZE)]
++               for batch in range(WARMUP_BATCHES + TIMED_BATCHES)]
++    # Use the current directory's filesystem, with SQLite's normal settings.
++    with tempfile.TemporaryDirectory(prefix="feed-bench-", dir=".") as tmp:
++        db = connect(Path(tmp) / "feed.sqlite")
++        try:
++            for batch in batches[:WARMUP_BATCHES]:
++                if import_lines(batch, db) != BATCH_SIZE:
++                    raise RuntimeError("Warmup batch was not fully accepted")
++            durations = []
++            for batch in batches[WARMUP_BATCHES:]:
++                start = perf_counter()
++                accepted = import_lines(batch, db)
++                durations.append(perf_counter() - start)
++                if accepted != BATCH_SIZE:
++                    raise RuntimeError(f"Only {accepted} of {BATCH_SIZE} records accepted")
++            count = db.execute("SELECT count(*) FROM records").fetchone()[0]
++            if count != (WARMUP_BATCHES + TIMED_BATCHES) * BATCH_SIZE:
++                raise RuntimeError(f"Unexpected stored record count: {count}")
++        finally:
++            db.close()
++
++    mean = statistics.mean(durations)
++    print(f"{TIMED_BATCHES} batches of {BATCH_SIZE} incoming records, "
++          f"after {WARMUP_BATCHES} warmup batches")
++    print(f"Mean processing time per 1,000: {mean:.6f} s")
++    print(f"Batch range: {min(durations):.6f}–{max(durations):.6f} s")
++    print(f"Real-time margin per 1,000: {1 - mean:+.6f} s "
++          f"({(1 - mean) * 100:+.2f}% of 1 s)")
++    print(f"Mean processing capacity: {BATCH_SIZE / mean:,.0f} records/s")
+ 
+ 
+ if __name__ == "__main__":
+     main()
+-

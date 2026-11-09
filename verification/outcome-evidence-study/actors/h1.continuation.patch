@@ -1,0 +1,210 @@
+--- a/docs/triad-performance.md
++++ b/docs/triad-performance.md
+@@ -67,8 +67,15 @@
+ The abbreviated harness reads [`_tests-RobustModem.md`](../_tests-RobustModem.md)
+ on every invocation, preserving order and duplicate entries and recording its
+ SHA-256. A malformed, incomplete, or mid-run changed list fails the run. The
+-output includes one `unsupported` record for each current entry; these records
+-are **not simulations of those configurations**. The existing four-kernel
++output includes one `unsupported` reception record for each current entry; these
++records are **not simulations of those configurations**. Each also reports an
++analytic nominal active total three-carrier DATA and composite Helper C/N0
++budget using the list's transmit powers and path loss. The list does not specify
++noise density: the default −164 dBm/Hz matches the native exporter and GUI
++planner, and `--noise-density-dbm-hz` changes that stated assumption. The
++Helper uses the native 90 dB Helper-to-DATA cap; off is null, and composite
++Helper power is not the power of its high pilot alone. These figures do not
++include fades, measured noise, receiver response, or sensitivity. The existing four-kernel
+ fixture has no validated adapter for the list, and the acquisition and tracking
+ stages are not an integrated receiver. Null values are unresolved, not zero or
+ a pass. Changes to the list need a validated adapter that honors every selected
+--- a/tests/test_triad_configuration_matrix.py
++++ b/tests/test_triad_configuration_matrix.py
+@@ -6,7 +6,7 @@
+ from unittest.mock import patch
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+-from triad_configuration_matrix import FIELDS, read_configurations
++from triad_configuration_matrix import FIELDS, read_configurations, nominal_link_budget
+ import triad_abbreviated
+ 
+ 
+@@ -33,7 +33,7 @@
+             with patch.object(triad_abbreviated, 'read_configurations', side_effect=lambda: read_configurations(path)), \
+                  patch.object(triad_abbreviated, 'source_identity', return_value={}), \
+                  patch.object(triad_abbreviated, 'kernels', return_value=({}, {})), \
+-                 patch.object(triad_abbreviated, '_measure', side_effect=lambda *args: args[-1]):
++                 patch.object(triad_abbreviated, '_measure', side_effect=lambda *args: args[-2]):
+                 first = triad_abbreviated.run()
+                 path.write_text(case() + case('two'))
+                 second = triad_abbreviated.run()
+@@ -49,7 +49,7 @@
+              patch.object(triad_abbreviated, 'environment', return_value={}), \
+              patch.object(triad_abbreviated, 'analyze', return_value={'stop': True, 'comparison': 'uncompared'}):
+             with self.assertRaisesRegex(RuntimeError, 'configuration list changed'):
+-                triad_abbreviated._measure(calls, {}, {}, 0, 1000, 'cpu', None, original)
++                triad_abbreviated._measure(calls, {}, {}, 0, 1000, 'cpu', None, original, -164.)
+ 
+     def test_rejects_missing_unknown_and_duplicate_fields(self):
+         with tempfile.TemporaryDirectory() as directory:
+@@ -60,6 +60,27 @@
+                     path.write_text(text)
+                     read_configurations(path)
+ 
++    def test_nominal_link_budget_and_noise_assumption(self):
++        fields = {'Transmit Power': '4 W', 'Helper Carrier Transmit Power': '40 W', 'Path loss': '180 dB'}
++        budget = nominal_link_budget(fields)
++        self.assertAlmostEqual(budget['triple_data_cn0_db_hz'], 20.020599913)
++        self.assertAlmostEqual(budget['helper_composite_cn0_db_hz'], 30.020599913)
++        self.assertAlmostEqual(nominal_link_budget(fields, noise_density_dbm_hz=-154)['triple_data_cn0_db_hz'],
++                               budget['triple_data_cn0_db_hz']-10)
++        fields['Helper Carrier Transmit Power'] = '0 W'
++        self.assertIsNone(nominal_link_budget(fields)['helper_composite_cn0_db_hz'])
++        fields['Helper Carrier Transmit Power'] = '50 kW'
++        fields['Transmit Power'] = '1 mW'
++        fields['Path loss'] = '200 dB'
++        self.assertAlmostEqual(nominal_link_budget(fields)['triple_data_cn0_db_hz'], -36.)
++        fields['Helper Carrier Transmit Power'] = '999999999999 kW'
++        self.assertEqual(nominal_link_budget(fields)['effective_helper_power_w'], 1e6)
++        with self.assertRaises(ValueError):
++            nominal_link_budget(fields, noise_density_dbm_hz=float('nan'))
++        fields['Transmit Power'] = 'unknown'
++        with self.assertRaises(ValueError):
++            nominal_link_budget(fields)
++
+     def test_current_list_is_valid(self):
+         result = read_configurations()
+         self.assertTrue(result['cases'])
+--- a/tools/triad_abbreviated.py
++++ b/tools/triad_abbreviated.py
+@@ -18,7 +18,7 @@
+ import sys
+ import time
+ 
+-from triad_configuration_matrix import read_configurations
++from triad_configuration_matrix import read_configurations, nominal_link_budget
+ 
+ LOOKS = (3, 5, 9)
+ BATCHES = (1, 2, 4)  # Two training sizes followed by an independent holdout.
+@@ -235,8 +235,10 @@
+         "excluded_cost": "interpreter/import/device startup; preparation is measured separately"}
+ 
+ 
+-def run(*, target_units=1000, device="cpu", baseline=None):
++def run(*, target_units=1000, device="cpu", baseline=None, noise_density_dbm_hz=-164.):
+     configurations = read_configurations()
++    if not math.isfinite(noise_density_dbm_hz):
++        raise ValueError("noise density must be finite")
+     sources = source_identity()
+     started = time.perf_counter()
+     calls, geometry = kernels(device)
+@@ -245,10 +247,10 @@
+     # Restoring the caller's pool limits prevents this module altering a host.
+     from threadpoolctl import threadpool_limits
+     with threadpool_limits(limits=1):
+-        return _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations)
+-
+-
+-def _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations):
++        return _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations, noise_density_dbm_hz)
++
++
++def _measure(calls, geometry, sources, setup_seconds, target_units, device, baseline, configurations, noise_density_dbm_hz):
+     host = environment(device)
+     if baseline is not None:
+         validate_baseline(baseline, geometry, host)
+@@ -289,11 +291,15 @@
+         raise RuntimeError("configuration list changed during timing; discard this measurement")
+     # The existing fixture is not a simulation of these cases. Preserve each
+     # literal case and explicitly mark all requested case-level claims unknown.
+-    case_results = [{**case, "status": "unsupported", "reason": (
++    def link(case):
++        try:
++            return nominal_link_budget(case["fields"], noise_density_dbm_hz=noise_density_dbm_hz)
++        except ValueError as error:
++            return {"status": "unsupported", "reason": str(error)}
++    case_results = [{**case, "nominal_link_budget": link(case), "status": "unsupported", "reason": (
+         "No validated configuration-to-native-simulator adapter or integrated "
+         "end-to-end receiver; isolated kernel timings do not estimate this case."),
+         "cpu_seconds_per_received_second": None, "dsp_workspace_margin": None,
+-        "helper_cn0_db_hz": None, "triple_data_cn0_db_hz": None,
+         "target_cn0_for_over_90_percent_db_hz": None,
+         "single_bit_transmit_seconds": None, "fox_transmit_seconds": None,
+         "long_preparation_unavoidable": None} for case in configurations["cases"]]
+@@ -313,11 +319,16 @@
+     parser.add_argument("--device", choices=("cpu", "cuda"), default="cpu")
+     parser.add_argument("--target-units", type=int, default=1000,
+                         help="project repeated identical units; never execute this many")
++    parser.add_argument("--noise-density-dbm-hz", type=float, default=-164.,
++                        help="assumed flat receiver noise density for nominal link budgets (default -164 dBm/Hz)")
+     args = parser.parse_args(argv)
+     if not 4 <= args.target_units <= 10**9:
+         parser.error("target units must be in [4,1000000000]")
++    if not math.isfinite(args.noise_density_dbm_hz):
++        parser.error("noise density must be finite")
+     baseline = json.loads(args.baseline.read_text()) if args.baseline else None
+-    result = run(target_units=args.target_units, device=args.device, baseline=baseline)
++    result = run(target_units=args.target_units, device=args.device, baseline=baseline,
++                 noise_density_dbm_hz=args.noise_density_dbm_hz)
+     args.output.parent.mkdir(parents=True, exist_ok=True)
+     args.output.write_text(json.dumps(result, indent=2, allow_nan=False)+"\n")
+     print(json.dumps({"status": result["status"], "output": str(args.output),
+--- a/tools/triad_configuration_matrix.py
++++ b/tools/triad_configuration_matrix.py
+@@ -6,6 +6,8 @@
+ from __future__ import annotations
+ 
+ import hashlib
++import math
++import re
+ from pathlib import Path
+ 
+ LIST_PATH = Path(__file__).resolve().parents[1] / '_tests-RobustModem.md'
+@@ -53,3 +55,47 @@
+     missing = FIELDS - case['fields'].keys()
+     if missing:
+         raise ValueError(f'line {number}: {case["name"]!r} missing fields: {sorted(missing)}')
++
++
++_POWER = re.compile(r"([0-9]+(?:\.[0-9]+)?)\s*(mW|W|kW)")
++_LOSS = re.compile(r"([0-9]+(?:\.[0-9]+)?)\s*dB")
++
++
++def nominal_link_budget(fields, *, noise_density_dbm_hz=-164.):
++    """Nominal active composite C/N0, not a simulation or sensitivity result.
++
++    The default matches triad-helper-export and GUI planning. The noise density
++    is absent from the case list, so retain it as an explicit assumption.
++    """
++    if not math.isfinite(noise_density_dbm_hz):
++        raise ValueError('noise density must be finite')
++    def watts(label):
++        match = _POWER.fullmatch(fields[label])
++        if match is None:
++            raise ValueError(f'unsupported {label}: {fields[label]!r}')
++        value = float(match.group(1))*{'mW': 1e-3, 'W': 1., 'kW': 1e3}[match.group(2)]
++        if not math.isfinite(value):
++            raise ValueError(f'nonfinite {label}')
++        return value
++    data = watts('Transmit Power')
++    helper = watts('Helper Carrier Transmit Power')
++    match = _LOSS.fullmatch(fields['Path loss'])
++    if data <= 0 or match is None:
++        raise ValueError('positive DATA power and a nonnegative dB path loss required')
++    loss = float(match.group(1))
++    if not math.isfinite(loss):
++        raise ValueError('path loss must be finite')
++    # Matches helper::Options default ratio_limit_db and the exporter's
++    # helper_options_for; Helper is a composite, not just its high pilot.
++    effective_helper = min(helper, data * 1e9)
++    def cn0(power):
++        return 10*math.log10(power)+30-loss-noise_density_dbm_hz
++    return {'assumed_noise_density_dbm_hz': noise_density_dbm_hz,
++            'data_power_w': data, 'requested_helper_power_w': helper,
++            'effective_helper_power_w': effective_helper, 'path_loss_db': loss,
++            'triple_data_cn0_db_hz': cn0(data),
++            'helper_composite_cn0_db_hz': cn0(effective_helper) if effective_helper > 0 else None,
++            'helper_status': 'present' if effective_helper > 0 else 'off',
++            'scope': ('Nominal active total three-carrier DATA and composite Helper powers; '
++                      'assumed flat noise, common path loss and 90 dB Helper/DATA cap. '
++                      'Not a measured post-fade value or a single Helper pilot.')}
