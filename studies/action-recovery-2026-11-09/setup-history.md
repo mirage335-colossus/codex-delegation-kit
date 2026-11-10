@@ -197,3 +197,15 @@ functional/control checks; it does not reproduce actor inference or the
 original owner-handoff reporting step. Earlier per-run replay records remain
 marked preliminary because their arguments pointed into an original grader
 workspace.
+
+## Authorized installation follow-up — November 10, 2026
+
+The user explicitly authorized installing the latest kit after the earlier
+automatic approval rejection. The installer applied the reviewed bundle from
+source commit `822f37b029af9dc955cfbcaca59ca0288b89ba48`. All 23 installed
+files and manifest digests match source; the runtime hashes are identical to
+the previously reviewed bundle. Configuration and gateway bytes, selected
+settings, role pins and concurrency were preserved. The repeat preview reports
+`No changes needed.` See [the installation receipt](results/installation-2026-11-10.json).
+The earlier blocked status is historical and has been resolved. No commit or
+push was performed in this installation turn.

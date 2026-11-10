@@ -1,10 +1,12 @@
 # Action recovery study — validation report
 
-**Status: SOURCE, EXERCISES AND FINAL REVIEW COMPLETE; GLOBAL INSTALLATION
-AWAITS EXPLICIT USER AUTHORIZATION.** Astra accepted the source, behavioral
-exercises, report and archive validation in the [completion review](completion-review.md).
-The global installation attempt was blocked before process start by automatic
-approval review; it has not been applied.
+**Status: INSTALLED AND VERIFIED.** After explicit user authorization, the
+reviewed 23-file bundle was installed into `/home/user/.codex` on November 10,
+2026. Installed files and manifest match source commit
+`822f37b029af9dc955cfbcaca59ca0288b89ba48`; model settings, role pins,
+concurrency, configuration and activation gateway were preserved. A repeat
+installer preview reports no changes. See the
+[installation receipt](results/installation-2026-11-10.json).
 See the machine-readable
 [summary](summary.json) for run-level source hashes, timing, token counts, and
 evidence paths.
@@ -291,20 +293,26 @@ parallel reviews `r001` and `r002` are complete. The `g` batch is complete; the
 `h/f` run plan for the same four fresh cases (16 planned runs) is prepared but
 has not been launched. No `h/f` outcome is reported here. Strong-ownership repairs
 `x001` and `x002` both passed full semantic acceptance. The source is validated
-and reviewed; global installation awaits explicit user authorization.
+and reviewed; the subsequently authorized global installation is complete.
 
 ## Installation and review status
 
-The concrete install preview is available at
-[install-preview.txt](results/install-preview.txt). The apply attempt was
-rejected by automatic approval review before the process started because
-global persistent installation requires explicit user authorization; repository
-instructions alone do not provide it. The recorded block is
-[install-approval-block.json](results/install-approval-block.json). The Codex
-configuration and gateway remain unchanged, and no alternate installation path
-was attempted. The source checkout remains dirty and uncommitted; no push was
-made. The [Astra completion review](completion-review.md) accepted the source,
-exercises and report; only global installation requires user authorization.
+The [Astra completion review](completion-review.md) accepted the source,
+exercises and report. The initial apply attempt was rejected before process
+start because explicit authorization was missing; that
+[approval block](results/install-approval-block.json) remains as historical evidence.
+
+The user subsequently authorized installation. The
+[authorized apply](results/install-authorized-apply.txt) succeeded, and the
+[installation verification](results/installation-2026-11-10.json) confirms all
+23 source/installed hashes and manifest digests match. Configuration and gateway
+bytes, selected settings, role pins and concurrency were unchanged. The
+[repeat preview](results/install-repeat-preview.txt) reports `No changes needed.`
+The [installation completion review](installation-completion-review.md)
+independently verified deployment and found no remaining required work.
+The source was clean at commit `822f37b029af9dc955cfbcaca59ca0288b89ba48`
+before installation; this turn only adds deployment receipts and report updates.
+No commit or push was performed by this installation turn.
 
 ## Limits and evidence links
 

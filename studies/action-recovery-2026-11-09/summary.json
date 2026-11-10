@@ -1,6 +1,6 @@
 {
-  "status": "VALIDATED_AWAITING_GLOBAL_INSTALL_AUTHORIZATION",
-  "report_kind": "auditable completed source and exercise validation report; Astra accepted; global installation awaits explicit user authorization",
+  "status": "INSTALLED_AND_VERIFIED",
+  "report_kind": "Completed source, exercise and archive validation report; subsequently authorized global installation verified.",
   "last_updated_utc": "2026-11-10",
   "objective": {
     "request_summary": "The user asked for extensive real exercises to determine whether more parallel Luna processing could expose and correct poor autonomous-agent decisions, followed by a comprehensive report for Astra to arbitrate. The work also includes improving the delegation kit and testing the changes diligently.",
@@ -72,7 +72,8 @@
       "scope_note": "Later full repository run after controller fix; quiet output transcribed, not raw stdout."
     },
     "completion_review": "completion-review.md",
-    "archive_replay_review": "archive-replay-review.md"
+    "archive_replay_review": "archive-replay-review.md",
+    "installation_completion_review": "installation-completion-review.md; ready to conclude"
   },
   "setup_history": {
     "invalid_command_scope_runs": {
@@ -396,7 +397,7 @@
     "private_oracle": "Frozen private case2 oracle includes raw-vendor-receive requirement stronger than visible TASK.md. Keep that score separate; apply the same user-visible contract boundary to initial and repair runs.",
     "legacy_cli": "Legacy CLI coverage fixture correction completed; it did not alter actor patches.",
     "controller_review": "Independent focused controller review found no blockers; queued dispatch remains limited.",
-    "workflow_freeze": "The v4 full 23-file workflow/source freeze, repair checks and final Astra completion review are complete. Global deployment remains unapplied pending explicit user authorization.",
+    "workflow_freeze": "The v4 full 23-file workflow/source freeze, repair checks and Astra completion review are complete. The runtime-identical source was subsequently installed and verified after explicit user authorization.",
     "score_scope": "The 8/8 primary recovery and 5/8 full assignment acceptance scores apply only to the initial corrected two-case batch; later repair stages have separate results."
   },
   "current_orchestration_note": {
@@ -535,7 +536,7 @@
       "policy_workflow_addition": "applied in the v4 full 23-file freeze"
     },
     "pending": {
-      "status": "Source, exercises, report, archive validation and Astra review complete; only explicit global-install authorization remains pending.",
+      "status": "Source, exercises, report, archive validation, Astra review and authorized global installation complete.",
       "fresh_cases": {
         "case_families": 4,
         "planned_runs": 16,
@@ -543,7 +544,7 @@
         "status": "prepared only; not launched"
       },
       "legacy_cli_coverage_fixture": "completed; did not alter actor patches",
-      "final_review": "completion-review.md; accepted source/exercises/report; blocked on specified installation authorization",
+      "final_review": "completion-review.md; source/exercises/report accepted. Subsequent installation authorization and verification: results/installation-2026-11-10.json.",
       "policy_workflow_addition": "applied in the v4 full 23-file freeze"
     },
     "x_stage": {
@@ -758,14 +759,23 @@
     "note": "Cached input is a subset of input. No dollar costs or system reasoning-token counts are reported."
   },
   "installation_and_release": {
-    "status": "Source, report and review complete; global installation awaits explicit user authorization; no process started.",
-    "preview": "results/install-preview.txt",
-    "attempt_record": "results/install-approval-block.json",
-    "automatic_review": "blocked before process start; requires explicit authorization for global persistent installation",
-    "process_started": false,
+    "status": "Installed and verified after explicit user authorization; earlier rejection retained as history.",
+    "preview": "results/install-authorized-preview.txt",
+    "attempt_record": "results/installation-2026-11-10.json",
+    "automatic_review": "Initial attempt rejected before execution; subsequent explicitly authorized apply executed successfully.",
+    "process_started": true,
     "configuration_unchanged": true,
     "gateway_unchanged": true,
     "workaround_attempted": false,
-    "git_status": "dirty source checkout; not committed or pushed"
+    "git_status": "Clean source commit822f37b029af9dc955cfbcaca59ca0288b89ba48 installed; deployment receipts and report updates now uncommitted. No commit or push performed by this installation turn.",
+    "installation_receipt": "results/installation-2026-11-10.json",
+    "installed_source_head": "822f37b029af9dc955cfbcaca59ca0288b89ba48",
+    "installed": true,
+    "previous_blocked_attempt": {
+      "record": "results/install-approval-block.json",
+      "process_started": false,
+      "reason": "Explicit global-install authorization was missing; later supplied by user."
+    },
+    "completion_review": "installation-completion-review.md"
   }
 }
