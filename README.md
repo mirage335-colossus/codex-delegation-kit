@@ -22,6 +22,13 @@ For repeated or hardware-constrained experiments, the optional
 the standing compute authorization and private cost and cleanup controls.
 Preserve task scope and normal service permissions.
 
+**GPU selection defaults to RTX PRO 6000 Blackwell for suitable tensor and
+highly parallel FP32 development, hardware-utilization demonstrations, and faster
+testing.** Agents must explain a choice of A100, RTX A5000 or another older GPU.
+See the [selection criteria and exceptions](policy.md#gpu-selection-and-performance-evidence)
+for precision (especially FP64), exact variants, software compatibility and
+measured speedups.
+
 For substantive tasks, obtain the policy's initial `astra_initial`
 (`gpt-6-astra`, `ultra`) consultation before investigation or planning; clearly
 trivial mechanical requests are exempt. When the main chat proposes to stop

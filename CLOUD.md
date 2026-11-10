@@ -15,6 +15,15 @@ service permissions. Current provider terms, capabilities, and prices can
 change; check official provider documentation and the selected account's
 current controls before launch.
 
+**GPU default: evaluate and prefer RTX PRO 6000 Blackwell for suitable tensor
+and highly parallel FP32 numerical work, compatibility/utilization demonstrations,
+and accelerated testing.** Do not default to A100, RTX A5000 or another older
+GPU without a concrete reason. Before selecting a device, apply the policy's
+[GPU selection and performance evidence](policy.md#gpu-selection-and-performance-evidence)
+criteria for exact variant (including unverified "WX" labels), FP64 and other
+workload exceptions, software support, and measured end-to-end gains. Existing
+budget and launch controls below still apply.
+
 ## Cloud workload integrity and security
 
 After a suspected incident, use a fresh, trusted image and clean storage. Send

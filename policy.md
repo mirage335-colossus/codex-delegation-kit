@@ -18,6 +18,14 @@ than browser-based development environments. Use the browser for provider
 management; use browser terminals when direct command-line access is not
 practical. Follow applicable security, access, and authorization constraints.
 
+**GPU selection: prefer NVIDIA RTX PRO 6000 Blackwell for suitable accelerated
+numerical development and performance testing.** Evaluate it first for tensor
+and highly parallel FP32 workloads, accelerator-compatibility demonstrations,
+and faster testing. Do not default to A100, RTX A5000, or another older GPU
+without a concrete workload, availability, or total-turnaround reason. Apply the
+[GPU selection and performance evidence](#gpu-selection-and-performance-evidence)
+criteria, including precision, exact variant, and measured utilization.
+
 ## Applicability and operating modes
 
 Engineering allocation and coordination mechanism are independent choices:
@@ -1299,6 +1307,67 @@ limits/overrides govern; these heuristics do not revive superseded procedures
 or allowances. This method is instruction guidance, not a runtime
 monitor or enforced information-gain measurement.
 
+## GPU selection and performance evidence
+
+For accelerated numerical development, compatibility demonstrations and test
+speed, **evaluate NVIDIA RTX PRO 6000 Blackwell first and prefer it when the
+workload fits**. The user's priority is to exercise modern, highly parallel
+hardware and specialized tensor/matrix execution, demonstrate that the software
+uses it effectively, and substantially shorten testing. Treat this as a hardware
+selection preference, not a claim that every computation runs faster on it.
+Do not choose A100, RTX A5000 or another older GPU merely from habit, a familiar
+template or its hourly price. Record a concrete reason when choosing otherwise.
+
+Resolve the exact device before comparing or provisioning: NVIDIA distinguishes
+RTX PRO 6000 Blackwell Workstation Edition, Max-Q Workstation Edition and Server
+Edition. Power limits and other specifications differ. A label such as the user's
+"RTX PRO 6000 WX" must be verified against the provider's exact SKU; it is not
+an established NVIDIA variant name in the sources below. Do not silently equate
+it with a particular edition, RTX 6000 Ada, or an older Quadro RTX 6000.
+
+NVIDIA's specifications show substantially greater peak FP32 throughput for
+RTX PRO 6000 Blackwell than A100 or RTX A5000, alongside newer Tensor Cores.
+This supports the preference for suitable parallel FP32 and tensor work;
+peak specifications are not measured application or test-suite speedups.
+A100 and RTX A5000 also have Tensor Cores. Tensor acceleration requires supported
+operations, data types, shapes and an enabled software path; arbitrary scalar
+code does not automatically use it. Compare like precision and dense/sparse
+conditions, not an FP4 AI TOPS headline against FP32 or FP64 FLOPS.
+
+Before selecting hardware, identify required numerical precision and error
+tolerance, actual accelerated operations, working-set memory, bandwidth and
+interconnect needs, driver/toolchain/library support, and expected total test
+turnaround. **FP64-heavy HPC is a material exception:** A100 provides FP64 Tensor
+Core acceleration and can be more appropriate; NVIDIA positions RTX PRO servers
+for FP32-and-below HPC. Memory-bound or multi-GPU workloads, required deployment
+hardware, software compatibility, availability, existing capacity, budget and
+measured end-to-end time can also justify another choice. Keep required target
+hardware coverage. This preference does not authorize spending beyond the
+existing [cloud controls](CLOUD.md#advice-and-launch-authority).
+
+Use representative inputs and unchanged correctness requirements to demonstrate
+both compatibility and useful hardware utilization. Check that the intended GPU
+kernel/library path actually runs; when claiming Tensor Core use, verify that
+path with suitable profiling evidence. Report useful throughput, relevant
+compute/memory bottlenecks, and end-to-end test time against a named baseline
+with matched work and precision. A high generic GPU-utilization percentage alone
+does not establish efficient use of compute or Tensor Cores. Preserve numerical
+accuracy when considering lower precision; do not weaken assertions or workload
+coverage to manufacture speedup. Small, CPU-bound or transfer-bound tests may
+gain little. Where appropriate, batch independent cases to expose parallelism
+within existing resource limits. Hardware capability is a reason to test, not
+proof of high utilization or a promised speedup; record unmeasured gains as
+expectations and include setup/transfer costs in cloud turnaround estimates.
+
+Primary references checked November 10, 2026: NVIDIA's
+[RTX PRO 6000 Blackwell Workstation Edition specifications](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/),
+[Max-Q Workstation Edition](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000-max-q/),
+[Server Edition](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/),
+[A100 specifications and FP64 support](https://www.nvidia.com/en-us/data-center/a100/),
+[RTX A5000 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/products/workstations/nvidia-rtx-a5000-datasheet.pdf),
+and [RTX PRO server target workloads](https://docs.nvidia.com/enterprise-reference-architectures/rtx-pro-ai-factory/latest/components.html).
+Verify current SKU specifications and software support when choosing hardware.
+
 ## Computationally intensive tests and hosted CI
 
 When planning or observing repeated experiments, builds, independent case
@@ -1313,6 +1382,8 @@ routine expert call, provider inventory, or account query is required. Follow
 the [cloud experiment guide](CLOUD.md) for a minimal faithful slice, the
 standing compute authorization, and its cost controls. Advice does not extend
 authorization beyond its scope or override normal service permissions.
+For GPU work, apply the [RTX PRO 6000 Blackwell preference and workload
+exceptions](#gpu-selection-and-performance-evidence) before selecting a device.
 
 Both approximate time suggestions below concern the compute-constrained
 hosted-CI case, including GitHub Actions: diagnostic reassessment and optional

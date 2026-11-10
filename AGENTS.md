@@ -1,5 +1,10 @@
 # Repository guidance
 
+For GPU numerical development and performance testing, evaluate and prefer
+RTX PRO 6000 Blackwell for suitable tensor and highly parallel FP32 work. Explain
+choices of A100, RTX A5000 or other older GPUs using the policy's
+[GPU selection criteria and exceptions](policy.md#gpu-selection-and-performance-evidence).
+
 For model-cost documentation, use the unitless [weekly usage cost index](policy.md#weekly-usage-cost):
 user-provided Luna = 0.1, Terra = 1, Sol approximately 10, Astra approximately 20.
 Keep included subscription allowance separate from API dollars and paid credits.
