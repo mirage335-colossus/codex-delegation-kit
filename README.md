@@ -21,8 +21,10 @@ authorize a model, account, or backend fallback.
 applications, prefer C++ or a similarly integrated native approach.** Improve
 the existing pipeline before introducing a split Python/process architecture;
 account for thread scheduling, overlapping batches, shared buffers, cross-chain
-pruning, and reproducible GPU/cloud testing. See the
-[native numerical processing policy](policy.md#native-numerical-processing)
+pruning, and reproducible GPU/cloud testing of the same production implementation.
+Separate native test processes are compatible with this preference; stricter
+project contracts can prohibit a second DSP implementation even for benchmarks.
+See the [native numerical processing policy](policy.md#native-numerical-processing)
 for the reported engineering lessons, evidence required for exceptions, and
 appropriate uses of Python.
 

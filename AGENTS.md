@@ -3,8 +3,10 @@
 For modem, signal-processing, and other compute-intensive paths in native
 applications, **prefer C++ or a similarly integrated native implementation**.
 Optimize the existing pipeline before splitting its hot path into Python
-processes. Evaluate scheduling, shared buffers, cross-chain pruning, GPU/cloud
-deployment, and end-to-end performance under the policy's
+processes. Reuse the production implementation in tests and benchmarks; preserve
+stricter project rules requiring one native DSP/state implementation. Evaluate
+scheduling, shared buffers, cross-chain pruning, GPU/cloud deployment, and
+end-to-end performance under the policy's
 [native numerical processing guidance](policy.md#native-numerical-processing).
 
 For GPU numerical development and performance testing, evaluate and prefer

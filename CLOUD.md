@@ -30,6 +30,11 @@ Prefer a reproducible native executable or benchmark target exercising the
 actual application code for RunPod and other GPU tests. Account for dependencies,
 setup, transfers and end-to-end execution before introducing separate Python
 processing scripts; Python orchestration can still launch the native target.
+Build the minimal native source closure and extend production CPU/GPU interfaces
+instead of creating a second DSP implementation for easier deployment. Fresh
+native test processes are valid isolation, not a split operating chain. Keep
+source/workload identities attached to measurements; GPU speed alone does not
+qualify a CPU forecast or sustained receiver capacity.
 
 ## Cloud workload integrity and security
 

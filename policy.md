@@ -17,7 +17,9 @@ native applications.** First improve the existing pipeline, scheduling and data
 flow. Do not divert a native hot path into separate Python processes merely for
 implementation convenience. Apply the
 [native numerical processing criteria](#native-numerical-processing) before
-introducing a language or process boundary into the processing chain.
+introducing a language or process boundary into the processing chain. Reuse the
+production implementation in tests and benchmarks, and preserve stricter project
+contracts requiring one native DSP and persistent-state implementation.
 
 For remote development and compute, prefer direct command-line access over SSH
 and related tools such as SCP, SFTP, and rsync for transfers, builds, and
@@ -1327,6 +1329,14 @@ introduce that architectural split. This is an application-integration preferenc
 not a requirement to rewrite successful Python applications or the kit's Python
 orchestration tools.
 
+Honor stricter project contracts. Where the project requires one canonical
+compiled DSP and persistent receiver-state implementation, generic allowances
+for Python experiments or libraries do not authorize a second implementation
+or a Python-owned operating stage. Extend the native interfaces and probes;
+Python can launch them and analyze results. A separate C++ operating process
+still introduces a process boundary. Conversely, fresh native probe processes
+for test isolation do not split the application's operating signal chain.
+
 The user's November 10, 2026 engineering retrospective reported that diverting
 part of a C++ signal-processing chain into Python caused considerable agent
 distraction and integration difficulty. In that experience:
@@ -1341,10 +1351,17 @@ distraction and integration difficulty. In that experience:
 - Integrating a second signal-processing chain that narrowed the first chain's
   work became harder across inter-process communication boundaries.
 
-These are reported project lessons, not independently measured language
-benchmarks or proof that Python cannot achieve the same behavior. Preserve the
-underlying lesson: optimize the complete processing chain and its integration,
-not just the easiest kernel to reimplement.
+These are reported project lessons, not controlled language benchmarks. The
+pumpModem activity and validation record reviewed on November 10 (revision
+`89945e8`) qualify the account: a later native scheduler improved first-message
+latency but worsened first-slot latency and slightly
+increased total replay time versus an earlier native baseline; it did not
+establish a general throughput or utilization gain. Native GPU optimizations
+improved scoped stages, while the small FP16 experiment was slower with packing
+costs and useful Tensor Core acceleration remained unproven. Preserve these
+distinctions: easier integration exposes optimization opportunities, but a
+language change, more concurrency or a fast kernel does not prove a faster
+complete receiver.
 
 Before proposing a split, inspect the existing native pipeline and evaluate:
 
@@ -1352,21 +1369,41 @@ Before proposing a split, inspect the existing native pipeline and evaluate:
    work and dependencies. Consider reusable thread pools, pipelining or double
    buffering to overlap preparation and computation, bounded queues and
    backpressure, and CPU/GPU overlap where useful. Check nested library threads
-   and oversubscription; processes do not automatically improve utilization.
+   and oversubscription. Coordinate stages within one explicit worker budget;
+   smaller ready batches need not shrink the global allocation. Preserve ordered
+   state/commit dependencies, cancellation and full memory reservations for
+   overlapping work; retain ownership until cancelled work actually stops.
+   Measure first-result latency, complete-message latency and sustained backlog
+   service separately; extra concurrency or high utilization
+   alone does not prove useful throughput. Project-specific worker multipliers
+   and memory limits are not universal defaults.
 2. **Data flow and chain coupling.** Keep compatible ownership and buffer
    lifetimes, minimize copies and synchronization, and let one chain's detections
-   or candidate pruning reduce the other's work promptly. Account for latency,
-   serialization, transfers, duplicated state and failure handling at each
+   or candidate pruning reduce the other's work promptly. Transfer measurements
+   with their uncertainty and validity bounds; retain a correct fallback when
+   assistance is absent or invalid. Qualify each kind of assistance separately:
+   pumpModem's reviewed Helper path supplies frequency intervals, not validated
+   phase/timing transfer. Reducing the search work can matter more than making
+   each operation faster. Account for latency, serialization, transfers,
+   duplicated state and failure handling at each
    proposed process boundary. For example, Python's
    [multiprocessing queues serialize objects](https://docs.python.org/3.12/library/multiprocessing.html#exchanging-objects-between-processes).
    Shared memory may reduce copies but still needs
    ownership and synchronization; an in-process binding differs from script IPC.
-3. **GPU execution and reproducibility.** Investigate suitable native CPU/GPU
-   libraries and kernels within the application. Provide a reproducible build
-   and a small executable or benchmark target exercising the actual processing
-   code, including required libraries, drivers, inputs and launch instructions
-   for local and cloud tests such as RunPod. Include setup and deployment effort
-   when comparing approaches; a native binary still has dependencies.
+3. **GPU execution and reproducibility.** Design native CPU/GPU interfaces for
+   useful batches, suitable contiguous layouts, explicit shapes/strides and
+   reusable owned workspace. Qualify precision by stage: lower-precision bulk
+   arithmetic can coexist with sensitive coordinates, accumulation or decisions
+   needing higher precision. Arithmetic agreement alone does not qualify receiver
+   acquisition or sensitivity; report fallback paths explicitly. Inspect launch,
+   packing, transfer and synchronization costs before assuming tensor arithmetic
+   addresses the bottleneck. Extend
+   native probes around the production code instead of duplicating DSP in a
+   convenient benchmark script that needs another port. Keep local, CI, manual
+   and cloud tests such as RunPod on that same implementation, using a minimal
+   native source closure, reproducible build, required libraries/drivers, inputs
+   and launch instructions. Include setup and deployment effort when comparing
+   approaches; a native binary still has dependencies.
 4. **Evidence for an exception.** Compare a proposed alternative with a credible
    integrated native baseline on representative end-to-end work. Preserve
    numerical correctness and precision; measure latency, throughput, CPU/GPU
@@ -1376,9 +1413,18 @@ Before proposing a split, inspect the existing native pipeline and evaluate:
    not establish a faster application. Label unmeasured benefits as hypotheses
    and use a bounded experiment before committing to a large rewrite.
 
+When migrating an existing implementation, trace indirect test, CI, manual-case
+and forecasting entry points as well as the application. A runner called
+"native" may still measure retired code. Keep historical timings labeled with
+their implementation and source identity; establish new baselines rather than
+silently reusing old calibration. GPU-observed work or speed alone does not
+establish CPU capacity: use source- and workload-matched local CPU calibration
+and independent holdouts, retaining unresolved complete-receiver coverage.
+
 Python remains useful for experiments, offline analysis, test harnesses,
-orchestration, and bindings to optimized native libraries. A Python component
-can be appropriate when existing architecture, necessary libraries, isolation
+orchestration, and bindings to optimized native libraries within the project's
+contract. A Python component can be appropriate when existing architecture,
+necessary libraries, isolation
 requirements or measured end-to-end benefits justify it. Explain that reason
 and the integration costs; prefer keeping tightly coupled production work
 in-process when practical. This guidance does not authorize a language rewrite
