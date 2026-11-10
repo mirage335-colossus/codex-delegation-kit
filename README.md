@@ -17,6 +17,15 @@ coordination, review, evidence, safety boundaries, and interruptions.
 Denied or unavailable capabilities remain permission holds; they do not
 authorize a model, account, or backend fallback.
 
+**For modem, signal-processing, and other compute-intensive code in native
+applications, prefer C++ or a similarly integrated native approach.** Improve
+the existing pipeline before introducing a split Python/process architecture;
+account for thread scheduling, overlapping batches, shared buffers, cross-chain
+pruning, and reproducible GPU/cloud testing. See the
+[native numerical processing policy](policy.md#native-numerical-processing)
+for the reported engineering lessons, evidence required for exceptions, and
+appropriate uses of Python.
+
 For repeated or hardware-constrained experiments, the optional
 [cloud experiment guide](CLOUD.md) explains when cloud may save total time and
 the standing compute authorization and private cost and cleanup controls.

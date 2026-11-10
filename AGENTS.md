@@ -1,5 +1,12 @@
 # Repository guidance
 
+For modem, signal-processing, and other compute-intensive paths in native
+applications, **prefer C++ or a similarly integrated native implementation**.
+Optimize the existing pipeline before splitting its hot path into Python
+processes. Evaluate scheduling, shared buffers, cross-chain pruning, GPU/cloud
+deployment, and end-to-end performance under the policy's
+[native numerical processing guidance](policy.md#native-numerical-processing).
+
 For GPU numerical development and performance testing, evaluate and prefer
 RTX PRO 6000 Blackwell for suitable tensor and highly parallel FP32 work. Explain
 choices of A100, RTX A5000 or other older GPUs using the policy's

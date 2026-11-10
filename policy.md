@@ -11,6 +11,14 @@ of task size or available parallelism.
 Preserve existing role settings, concurrency limits, and inference service tier;
 improve scheduling rather than enabling faster inference.
 
+**Native numerical processing: prefer C++ or a similarly integrated native
+approach for modem, signal-processing, and other compute-intensive paths in
+native applications.** First improve the existing pipeline, scheduling and data
+flow. Do not divert a native hot path into separate Python processes merely for
+implementation convenience. Apply the
+[native numerical processing criteria](#native-numerical-processing) before
+introducing a language or process boundary into the processing chain.
+
 For remote development and compute, prefer direct command-line access over SSH
 and related tools such as SCP, SFTP, and rsync for transfers, builds, and
 execution. These interfaces are generally more efficient for agent workflows
@@ -1306,6 +1314,85 @@ settings are no longer permitted. Latest applicable user and project
 limits/overrides govern; these heuristics do not revive superseded procedures
 or allowances. This method is instruction guidance, not a runtime
 monitor or enforced information-gain measurement.
+
+## Native numerical processing
+
+For modems, DSP, and other intensive numerical processing inside an existing
+native application, **default to C++ or a similarly integrated native approach**.
+Prefer improving the current implementation, using appropriate native libraries,
+or adding a compatible in-process native component before moving part of the
+production hot path into Python scripts or separate processes. Familiarity with
+Python, shorter code, or a quick isolated prototype is not sufficient reason to
+introduce that architectural split. This is an application-integration preference,
+not a requirement to rewrite successful Python applications or the kit's Python
+orchestration tools.
+
+The user's November 10, 2026 engineering retrospective reported that diverting
+part of a C++ signal-processing chain into Python caused considerable agent
+distraction and integration difficulty. In that experience:
+
+- Returning to C++ made it easier to restructure multithreading and overlap
+  parallel processing of one batch with less parallel preparation of the next.
+- Managing separate processes instead of internal threads appeared to reduce
+  utilization and complicate coordination.
+- Separate Python scripts made GPU testing on cloud RunPod instances harder
+  than the native binary workflow; suitable tensor-core paths may also have
+  received less investigation.
+- Integrating a second signal-processing chain that narrowed the first chain's
+  work became harder across inter-process communication boundaries.
+
+These are reported project lessons, not independently measured language
+benchmarks or proof that Python cannot achieve the same behavior. Preserve the
+underlying lesson: optimize the complete processing chain and its integration,
+not just the easiest kernel to reimplement.
+
+Before proposing a split, inspect the existing native pipeline and evaluate:
+
+1. **Scheduling and utilization.** Identify serial preparation, parallel batch
+   work and dependencies. Consider reusable thread pools, pipelining or double
+   buffering to overlap preparation and computation, bounded queues and
+   backpressure, and CPU/GPU overlap where useful. Check nested library threads
+   and oversubscription; processes do not automatically improve utilization.
+2. **Data flow and chain coupling.** Keep compatible ownership and buffer
+   lifetimes, minimize copies and synchronization, and let one chain's detections
+   or candidate pruning reduce the other's work promptly. Account for latency,
+   serialization, transfers, duplicated state and failure handling at each
+   proposed process boundary. For example, Python's
+   [multiprocessing queues serialize objects](https://docs.python.org/3.12/library/multiprocessing.html#exchanging-objects-between-processes).
+   Shared memory may reduce copies but still needs
+   ownership and synchronization; an in-process binding differs from script IPC.
+3. **GPU execution and reproducibility.** Investigate suitable native CPU/GPU
+   libraries and kernels within the application. Provide a reproducible build
+   and a small executable or benchmark target exercising the actual processing
+   code, including required libraries, drivers, inputs and launch instructions
+   for local and cloud tests such as RunPod. Include setup and deployment effort
+   when comparing approaches; a native binary still has dependencies.
+4. **Evidence for an exception.** Compare a proposed alternative with a credible
+   integrated native baseline on representative end-to-end work. Preserve
+   numerical correctness and precision; measure latency, throughput, CPU/GPU
+   utilization, memory and transfer/copy costs, and account for build/deployment
+   reproducibility and maintenance effort. Include preparation, communication,
+   synchronization and cross-chain work reduction. An isolated fast kernel does
+   not establish a faster application. Label unmeasured benefits as hypotheses
+   and use a bounded experiment before committing to a large rewrite.
+
+Python remains useful for experiments, offline analysis, test harnesses,
+orchestration, and bindings to optimized native libraries. A Python component
+can be appropriate when existing architecture, necessary libraries, isolation
+requirements or measured end-to-end benefits justify it. Explain that reason
+and the integration costs; prefer keeping tightly coupled production work
+in-process when practical. This guidance does not authorize a language rewrite
+or new deployment outside the user's task.
+
+Do not assume Python prevents parallel native execution or tensor-core use, or
+that C++ automatically enables either. Python numerical libraries can
+[release the GIL for native work](https://numpy.org/doc/stable/reference/thread_safety.html)
+and [use tensor-core-backed GPU operations](https://docs.pytorch.org/docs/2.15/notes/numerical_accuracy.html#tensorfloat-32-tf32-on-nvidia-ampere-and-later-devices).
+Tensor acceleration depends on supported
+operations, precision, shapes and the actual kernel/library path, with profiling
+and numerical validation required for a performance claim. Apply the
+[GPU selection and performance evidence](#gpu-selection-and-performance-evidence)
+criteria in either language.
 
 ## GPU selection and performance evidence
 

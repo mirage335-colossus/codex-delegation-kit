@@ -24,6 +24,13 @@ criteria for exact variant (including unverified "WX" labels), FP64 and other
 workload exceptions, software support, and measured end-to-end gains. Existing
 budget and launch controls below still apply.
 
+For compute-intensive paths in native applications, follow the policy's
+[native numerical processing preference](policy.md#native-numerical-processing).
+Prefer a reproducible native executable or benchmark target exercising the
+actual application code for RunPod and other GPU tests. Account for dependencies,
+setup, transfers and end-to-end execution before introducing separate Python
+processing scripts; Python orchestration can still launch the native target.
+
 ## Cloud workload integrity and security
 
 After a suspected incident, use a fresh, trusted image and clean storage. Send
