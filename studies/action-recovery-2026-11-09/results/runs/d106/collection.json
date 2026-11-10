@@ -1,0 +1,113 @@
+{
+  "actual_changes": [],
+  "actual_patch": "",
+  "actual_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "backend_result_sha256": "17c1cb27784211925312152c69654b9ab98e29ec01d7d5e837c1bc19df2bead4",
+  "collection_called": true,
+  "commands": [],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "detail": "execution did not finish normally: app-server response deadline expired",
+  "developer_instructions_sha256": "daca5cfea2bf0ef8d1c5e0b13e7e031b8de891bd67b58949311cbc2eca1b4a96",
+  "effective": {},
+  "file_changes": [],
+  "observation": {
+    "command": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 354615,
+      "pid": 354615,
+      "ppid": 354613,
+      "session": 354615,
+      "start_ticks": 7977668,
+      "state": "R"
+    },
+    "descendants": [],
+    "detail": "command and descendants exited",
+    "finished_at": 1794287987.5231333,
+    "observed_at": 1794287987.5230274,
+    "operation_id": "d106",
+    "prepared_at": 1794287956.31805,
+    "released": true,
+    "returncode": 1,
+    "runner": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 354613,
+      "pid": 354613,
+      "ppid": 354609,
+      "session": 354613,
+      "start_ticks": 7977642,
+      "state": "R"
+    },
+    "spec_sha256": "1c5885eb4abb2a63b0a5b0b93ab0e2948817f8f3630acd9459132eb2b6c69906",
+    "started_at": 1794287956.5839634,
+    "state": "completed",
+    "version": 1
+  },
+  "observed_settings": {},
+  "protected_file_hashes_after": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_file_hashes_before": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_files_changed": [],
+  "protected_files_unchanged": true,
+  "request_sha256": "1613836c56fbddec5d3bf84e5d4309c8e9a7fc32785d9391a020b4f674d76e86",
+  "result": null,
+  "settings_verified": false,
+  "source_backend_sha256": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+  "source_repository": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+  "source_template_sha256_by_path": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "source_tree_sha256_by_path": {
+    "README.md": "047e7c496cc3b0d1041b95d5a8b80715f6451ecec105b1f8d4771e7366a34ff7",
+    "agent_backend.py": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+    "agents/astra_expert.toml": "3db324be3407d07c1359e1c9d85475498cb7eb6103eee3f84684ceaddadbdde2",
+    "agents/inherited_reviewer.toml": "ad24870ed68b25677832fbce202d2d08c17f81c1dac9206159b40c7e46729542",
+    "agents/inherited_worker.toml": "f68f4e2586fa169f2c5436d27422345eb9a38cd0c2c2394f438415e112944daa",
+    "agents/luna_worker.toml": "df7cd750f02bb6d96d56783e60ceeb6aba8c2c36d984fcb5b5b297f8f14bd0ad",
+    "agents/sol_expert.toml": "d2407348b71ebe2fd603381ef88e17e6d7ec1fd27ec65884d993de1874985abf",
+    "controller.py": "98c858eec8185fcfd8dd8447f899a073736acc9e4189a92132e14aab3da08da1",
+    "policy.md": "41e020052476b940c5aef6ec8ab0bc1263b3faf781e929eaff3fe39a96c8a932",
+    "supervisor.py": "f191c3a71cc77d2f23f824ab48374be5120ccf6cd25b70140bb79101cb77d129"
+  },
+  "status": "hold",
+  "termination_kind": "error",
+  "usage": null,
+  "workspace_after_hashes": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "workspace_before_hashes": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "write_scope": [
+    "src",
+    "scratch"
+  ]
+}

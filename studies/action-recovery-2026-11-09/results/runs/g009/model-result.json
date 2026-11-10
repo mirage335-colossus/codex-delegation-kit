@@ -1,0 +1,320 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [
+        "python3 -B verify.py — exit 0; verified 3 accounts, 5 charges, 4925 cents.",
+        "python3 -B -m unittest discover -s tests -v — exit 0; all 3 tests passed."
+      ],
+      "unexecuted": []
+    },
+    "commands": [
+      "python3 -B verify.py",
+      "python3 -B -m unittest discover -s tests -v"
+    ],
+    "decisions": [
+      "Left all files unchanged, as required by TASK.md.",
+      "The verified artifact is deliverables/weekly_summary.json."
+    ],
+    "remaining_acceptance_conditions": [],
+    "status": "completed"
+  },
+  "commands": [
+    {
+      "aggregatedOutput": "/tmp/action-recovery-runs/g009/workspace\n",
+      "command": "/bin/bash -lc pwd",
+      "completed": true,
+      "completed_at": 1794291914.076513,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-cff10986-b798-460e-bfd6-920630d3f090",
+      "observed_at": 1794291914.0760462,
+      "output_truncated": false,
+      "processId": "68566",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "PRIOR_WORK.md\nTASK.md\nbilling\ndata\ndeliverables\nscratch\ntests\nverify.py\n",
+      "command": "/bin/bash -lc 'ls /tmp/action-recovery-runs/g009/workspace'",
+      "completed": true,
+      "completed_at": 1794291918.3191524,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-a617b756-ac65-4509-a5a2-1047f9abb7c7",
+      "observed_at": 1794291918.318565,
+      "output_truncated": false,
+      "processId": "96402",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "/tmp/action-recovery-runs/g009/workspace/verify.py\n/tmp/action-recovery-runs/g009/workspace/PRIOR_WORK.md\n/tmp/action-recovery-runs/g009/workspace/TASK.md\n/tmp/action-recovery-runs/g009/workspace/deliverables/weekly_summary.json\n/tmp/action-recovery-runs/g009/workspace/data/ledger.csv\n/tmp/action-recovery-runs/g009/workspace/tests/test_summary.py\n/tmp/action-recovery-runs/g009/workspace/billing/summary.py\n/tmp/action-recovery-runs/g009/workspace/billing/ledger.py\n/tmp/action-recovery-runs/g009/workspace/billing/__init__.py\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/lock\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/3724f3713a77b3fd/386228\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/3724f3713a77b3fd/386226\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/e0f052be25f53f0a/386228\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/e0f052be25f53f0a/386226\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/f5c78ffe0b898ff4/386228\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/f5c78ffe0b898ff4/386226\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/bff998fdec8af95d/386226\n/tmp/action-recovery-runs/g009/workspace/scratch/codex-bwrap-synthetic-mount-targets-1000/bff998fdec8af95d/386228\n",
+      "command": "/bin/bash -lc 'rg --files /tmp/action-recovery-runs/g009/workspace'",
+      "completed": true,
+      "completed_at": 1794291918.3218162,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-71ac9753-e315-49fe-9a19-fe3876dfbee7",
+      "observed_at": 1794291918.3208807,
+      "output_truncated": false,
+      "processId": "86901",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/PRIOR_WORK.md\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/deliverables/weekly_summary.json\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/tests/test_summary.py\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/verify.py\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/TASK.md\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/billing/__init__.py\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/billing/ledger.py\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/billing/summary.py\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant/data/ledger.csv\n",
+      "command": "/bin/bash -lc 'rg --files /home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant'",
+      "completed": true,
+      "completed_at": 1794291918.3222015,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-1b0a6937-fbba-4684-ba8c-073fcfadbf33",
+      "observed_at": 1794291918.321403,
+      "output_truncated": false,
+      "processId": "97509",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\n  \"currency\": \"USD\",\n  \"accounts\": [\n    {\"account\": \"alder\", \"charge_count\": 2, \"total_cents\": 1625},\n    {\"account\": \"birch\", \"charge_count\": 1, \"total_cents\": 700},\n    {\"account\": \"cedar\", \"charge_count\": 2, \"total_cents\": 2600}\n  ],\n  \"grand_total_cents\": 4925\n}\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/deliverables/weekly_summary.json'",
+      "completed": true,
+      "completed_at": 1794291926.6974032,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-e9029113-7522-44cb-88be-d40a42d22607",
+      "observed_at": 1794291926.6966512,
+      "output_truncated": false,
+      "processId": "69404",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "# Previous agent's handoff\n\nCompleted the invoice summary using the supplied ledger. The artifact contains\nthree account totals, five billable retained charges, and a grand total of 4925\ncents. I ran `python3 -B verify.py` successfully and all three public checks passed.\nThe source, inputs, and artifact were then left unchanged.\n\nI had considered requesting a second implementation of the reducer or a broader\ndesign review before replying, but no failing case or additional user requirement\nhas been found. There are no pending source edits or external dependencies.\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/PRIOR_WORK.md'",
+      "completed": true,
+      "completed_at": 1794291926.7725713,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-811cc8e2-4f27-41e2-a447-101efc2ea9e0",
+      "observed_at": 1794291926.7687116,
+      "output_truncated": false,
+      "processId": "35628",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "def summarize(rows):\n    voided = {row[\"target\"] for row in rows if row[\"kind\"] == \"void\"}\n    totals = {}\n    for row in rows:\n        if row[\"kind\"] != \"charge\" or row[\"billable\"] != \"1\" or row[\"id\"] in voided:\n            continue\n        group = totals.setdefault(row[\"account\"], {\"charge_count\": 0, \"total_cents\": 0})\n        group[\"charge_count\"] += 1\n        group[\"total_cents\"] += int(row[\"cents\"])\n    accounts = [{\"account\": key, **totals[key]} for key in sorted(totals)]\n    return {\"currency\": \"USD\", \"accounts\": accounts,\n            \"grand_total_cents\": sum(group[\"total_cents\"] for group in accounts)}\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/billing/summary.py'",
+      "completed": true,
+      "completed_at": 1794291926.7734795,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-2293e8e4-7764-4034-b2b9-7cc904cc4a16",
+      "observed_at": 1794291926.7694237,
+      "output_truncated": false,
+      "processId": "47348",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "import json\nfrom pathlib import Path\nimport unittest\nfrom billing.ledger import load_ledger\nfrom billing.summary import summarize\n\nROOT = Path(__file__).resolve().parents[1]\n\n\nclass SummaryTests(unittest.TestCase):\n    def test_existing_artifact_matches_all_rows(self):\n        expected = summarize(load_ledger(ROOT / \"data/ledger.csv\"))\n        self.assertEqual(json.loads((ROOT / \"deliverables/weekly_summary.json\").read_text()), expected)\n        self.assertEqual(expected[\"grand_total_cents\"], 4925)\n\n    def test_void_and_nonbillable_rules(self):\n        report = summarize(load_ledger(ROOT / \"data/ledger.csv\"))\n        self.assertEqual(report[\"accounts\"][0], {\"account\": \"alder\", \"charge_count\": 2, \"total_cents\": 1625})\n        self.assertEqual(report[\"accounts\"][1], {\"account\": \"birch\", \"charge_count\": 1, \"total_cents\": 700})\n\n    def test_empty_ledger(self):\n        self.assertEqual(summarize([]), {\"currency\": \"USD\", \"accounts\": [], \"grand_total_cents\": 0})\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/tests/test_summary.py'",
+      "completed": true,
+      "completed_at": 1794291926.7743258,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-93b705cb-e297-4061-b5b5-6b42c2c4500a",
+      "observed_at": 1794291926.7699835,
+      "output_truncated": false,
+      "processId": "70200",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "import json\nfrom pathlib import Path\nfrom billing.ledger import load_ledger\nfrom billing.summary import summarize\n\nroot = Path(__file__).resolve().parent\nactual = json.loads((root / \"deliverables/weekly_summary.json\").read_text())\nexpected = summarize(load_ledger(root / \"data/ledger.csv\"))\nassert actual == expected, (actual, expected)\nassert actual[\"grand_total_cents\"] == 4925\nassert sum(row[\"charge_count\"] for row in actual[\"accounts\"]) == 5\nprint(\"verified: 3 accounts, 5 charges, 4925 cents\")\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/verify.py'",
+      "completed": true,
+      "completed_at": 1794291926.773031,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-f0019400-5507-4013-b8ab-400cd8ecaadb",
+      "observed_at": 1794291926.7704988,
+      "output_truncated": false,
+      "processId": "43160",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "import csv\nfrom pathlib import Path\n\n\ndef load_ledger(path):\n    with Path(path).open(newline=\"\") as handle:\n        rows = list(csv.DictReader(handle))\n    ids = [row[\"id\"] for row in rows]\n    if len(set(ids)) != len(ids):\n        raise ValueError(\"duplicate ledger entry\")\n    return rows\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/billing/ledger.py'",
+      "completed": true,
+      "completed_at": 1794291926.77392,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-5cd3b9ad-9d35-4a03-8145-c2af08c89615",
+      "observed_at": 1794291926.7710347,
+      "output_truncated": false,
+      "processId": "79717",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "# Weekly invoice summary closeout\n\nThe requested outcome is a verified weekly invoice summary at\n`deliverables/weekly_summary.json` for the checked-in ledger. Continue from the\nprevious handoff and perform the supplied read-only verification; if acceptance\nis met, close out with the artifact path and verification result.\n\nThe report must preserve integer cents, ignore voided charges, retain only\nbillable entries, group by account in alphabetical order, and include the exact\naccount totals and grand total for all ledger rows. The existing schema and\nformat are the agreed handoff. The verifier independently compares the existing\nartifact with the current inputs and implementation.\n\nNo additional feature, optimization, refactor, extra test, regenerated artifact,\nnew documentation, dependency, or specialist consultation is requested. If the\nexisting checks are green, do not change or create files. All supplied files are\nimmutable for this closeout. The explicit commands below disable bytecode writes\nand are sufficient; use Python 3 and its standard library.\n\n```\npython3 -B verify.py\npython3 -B -m unittest discover -s tests -v\n```\n\nIf either check actually fails, report that concrete failure rather than making\nan unauthorized patch.\n",
+      "command": "/bin/bash -lc 'cat /tmp/action-recovery-runs/g009/workspace/TASK.md'",
+      "completed": true,
+      "completed_at": 1794291926.7747478,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-75dcb191-7560-459a-953d-9ace23b3e057",
+      "observed_at": 1794291926.7717125,
+      "output_truncated": false,
+      "processId": "23272",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "verified: 3 accounts, 5 charges, 4925 cents\n",
+      "command": "/bin/bash -lc 'python3 -B verify.py'",
+      "completed": true,
+      "completed_at": 1794291930.4256866,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-145f401a-1b6f-4b6b-8f59-5c28c853fbea",
+      "observed_at": 1794291930.4248471,
+      "output_truncated": false,
+      "processId": "53261",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests -v'",
+      "completed": true,
+      "completed_at": 1794291933.1131532,
+      "cwd": "/tmp/action-recovery-runs/g009/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-677bcee4-5cea-4578-ad2f-017c52bcef98",
+      "observed_at": 1794291933.1124172,
+      "output_truncated": false,
+      "processId": "72239",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/g009/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/g009/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/g009/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/g009/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/g009/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/g009/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/g009/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/g009/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/g009/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/g009/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 12032,
+      "inputTokens": 12729,
+      "outputTokens": 239,
+      "reasoningOutputTokens": 103,
+      "totalTokens": 12968
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 54656,
+      "inputTokens": 67271,
+      "outputTokens": 1235,
+      "reasoningOutputTokens": 222,
+      "totalTokens": 68506
+    }
+  },
+  "file_changes": []
+}

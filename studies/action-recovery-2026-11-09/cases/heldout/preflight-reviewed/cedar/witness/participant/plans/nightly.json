@@ -1,0 +1,6 @@
+{"jobs":[
+  {"id":"settlements","kind":"settlements","inputs":["data/vendor_settlements.csv"],"deps":[]},
+  {"id":"quotes","kind":"quotes","inputs":["data/orders.csv"],"deps":["prices"]},
+  {"id":"prices","kind":"prices","inputs":["data/catalog.csv"],"deps":["stock"]},
+  {"id":"stock","kind":"stock","inputs":["data/stock.csv"],"deps":[]}
+]}

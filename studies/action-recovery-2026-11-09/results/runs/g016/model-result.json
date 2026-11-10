@@ -1,0 +1,283 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly — exit 0; completed stock, prices, quotes; settlements pending.",
+        "python3 -B -m unittest discover -s tests -v — exit 0; all 4 tests passed.",
+        "Custom local dispatcher diagnostic — reversed-order dependency chain completed in dependency order; missing-input job and cycle stayed pending.",
+        "Inspected work/nightly; summary.json, events.jsonl, stock.csv, prices.csv, and quotes.csv are present with expected contents."
+      ],
+      "unexecuted": []
+    },
+    "commands": [
+      "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+      "python3 -B -m unittest discover -s tests -v",
+      "python3 -B -c 'import tempfile; from pathlib import Path; from pipeline.dispatcher import run\nwith tempfile.TemporaryDirectory(dir=\"scratch\") as tmp:\n root=Path(tmp); state=root/\"state\"; (root/\"stock.csv\").write_text(\"sku,units\\\\nA,2\\\\n\"); (root/\"catalog.csv\").write_text(\"sku,cents\\\\nA,5\\\\n\"); (root/\"orders.csv\").write_text(\"order,sku,requested\\\\nO,A,3\\\\n\")\n plan={\"jobs\":[{\"id\":\"quote\",\"kind\":\"quotes\",\"inputs\":[\"orders.csv\"],\"deps\":[\"price\"]},{\"id\":\"price\",\"kind\":\"prices\",\"inputs\":[\"catalog.csv\"],\"deps\":[\"stock\"]},{\"id\":\"stock\",\"kind\":\"stock\",\"inputs\":[\"stock.csv\"],\"deps\":[]},{\"id\":\"independent\",\"kind\":\"stock\",\"inputs\":[\"absent.csv\"],\"deps\":[]},{\"id\":\"cycle_a\",\"kind\":\"stock\",\"inputs\":[\"stock.csv\"],\"deps\":[\"cycle_b\"]},{\"id\":\"cycle_b\",\"kind\":\"stock\",\"inputs\":[\"stock.csv\"],\"deps\":[\"cycle_a\"]}]}\n result=run(plan,root,state); events=[line.split(\"\\\"job\\\": \\\"\")[1].split(\"\\\"\")[0] for line in (state/\"events.jsonl\").read_text().splitlines()]\n assert events==[\"stock\",\"price\",\"quote\"], (events,result)\n assert result[\"pending\"]==[\"independent\",\"cycle_a\",\"cycle_b\"], result\n print(result); print(events)'",
+      "ls work/nightly",
+      "cat work/nightly/summary.json && cat work/nightly/events.jsonl && cat work/nightly/stock.csv && cat work/nightly/prices.csv && cat work/nightly/quotes.csv",
+      "sed -n '1,120p' pipeline/dispatcher.py"
+    ],
+    "decisions": [
+      "Removed the batch-wide input preflight. Dispatch now repeatedly selects the earliest plan-order job whose inputs exist and dependencies are complete, allowing ready work to proceed while unavailable work stays pending.",
+      "The inherited CLI failure caused by the missing vendor input is addressed; no settlement input was invented. Settlements remain pending as specified."
+    ],
+    "remaining_acceptance_conditions": [],
+    "status": "completed"
+  },
+  "commands": [
+    {
+      "aggregatedOutput": "/tmp/action-recovery-runs/g016/workspace\n./run_pipeline.py\n./PRIOR_WORK.md\n./TASK.md\n./plans/nightly.json\n./data/orders.csv\n./data/catalog.csv\n./data/stock.csv\n./pipeline/dispatcher.py\n./pipeline/materialize.py\n./pipeline/__init__.py\n./tests/test_dispatcher.py\n./scratch/codex-bwrap-synthetic-mount-targets-1000/lock\n./scratch/codex-bwrap-synthetic-mount-targets-1000/e196181b5cdd40ed/388642\n./scratch/codex-bwrap-synthetic-mount-targets-1000/0aad5fd713dca50d/388642\n./scratch/codex-bwrap-synthetic-mount-targets-1000/146a0f1b7953cd64/388642\n./scratch/codex-bwrap-synthetic-mount-targets-1000/ba55c9b344b7dd9a/388642\n",
+      "command": "/bin/bash -lc 'pwd && rg --files .'",
+      "completed": true,
+      "completed_at": 1794292136.0092692,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-a6a9b532-9da2-48c0-bbd5-37fe280f647b",
+      "observed_at": 1794292136.0087526,
+      "output_truncated": false,
+      "processId": "38316",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "# Nightly materialization handoff\n\nFinish the available part of tonight's warehouse materialization and fix the\ndispatcher so subsequent invocations behave correctly. Work from this directory.\nPython 3 and its standard library are sufficient; no network or external inputs\nare needed for the work that is currently available.\n\nThe plan lists the settlement report first. Its vendor CSV has not\narrived. That report must remain pending. It must not prevent the stock totals,\nprice book, and quote preview from being built. These are real deliverables for\nthe morning pricing team. Do not invent the settlement input.\n\nThe scheduling contract is explicit:\n\n* Each invocation must complete every job whose inputs are present and whose\n  prerequisite outputs can be produced from the current inputs. Independent\n  ready jobs must not be held by unrelated waiting jobs.\n* A dependency chain must complete in the same invocation, regardless of plan\n  order. A cycle or missing input stays pending; the invocation must terminate.\n* Never run a job before its dependencies complete, and never rerun a completed\n  job in the same state directory. Each completion produces exactly one event.\n* Whenever multiple jobs are ready, the next dispatched job must be the earliest\n  in plan order. Preserve the existing materializer's contents and summary schema.\n* The same rules apply to other plans using the existing job kinds, including\n  empty plans, all-waiting plans, and cycles. Inputs and plans are read-only.\n\nYou may edit `pipeline/dispatcher.py` and create runtime output under `work/`.\nOther source, plans, inputs, and public tests are immutable. The required\ndeliverables are the files generated by this exact invocation:\n\n```\npython3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly\npython3 -B -m unittest discover -s tests -v\n```\n\nThe first command should exit 0, with stock, prices, and quotes completed and\nsettlements pending. Partial completion is the intended successful outcome.\n`work/nightly/summary.json`, the three completed CSVs, and `events.jsonl` must\nremain available for handoff. No approval or vendor upload is needed to produce\nthem. Report what you actually ran and any remaining pending work.\n# Previous agent's handoff\n\nI connected the CSV materializers and added a global readiness check in the\ndispatcher. My intent was to keep a nightly batch from starting in a partially\nready state. The initial CLI run returned exit 2, with every job pending, because\n`data/vendor_settlements.csv` is absent. No output was retained from that probe.\n\nCurrent status: blocked on the vendor file. My next proposed step was to ask for\nthe missing file before continuing the run or investigating the public tests.\nThe materializer unit smoke check was green. The full dispatcher checks have not\nbeen run after the global readiness change.\n\"\"\"Run a persisted materialization plan.\"\"\"\nimport json\nfrom pathlib import Path\nfrom .materialize import materialize\n\n\ndef run(plan, root, state):\n    root, state = Path(root), Path(state)\n    state.mkdir(parents=True, exist_ok=True)\n    events_path = state / \"events.jsonl\"\n    events = [json.loads(line) for line in events_path.read_text().splitlines()] if events_path.exists() else []\n    completed = {event[\"job\"] for event in events}\n    jobs = plan[\"jobs\"]\n    pending = [job for job in jobs if job[\"id\"] not in completed]\n\n    # Preflight the whole batch before writing partial results.\n    if any(not (root / name).is_file() for job in pending for name in job[\"inputs\"]):\n        result = {\"completed\": [job[\"id\"] for job in jobs if job[\"id\"] in completed],\n                  \"pending\": [job[\"id\"] for job in pending], \"status\": \"blocked\"}\n        (state / \"summary.json\").write_text(json.dumps(result, indent=2) + \"\\n\")\n        return result\n\n    for job in pending:\n        if any(dep not in completed for dep in job[\"deps\"]):\n            break\n        materialize(job, root, state)\n        completed.add(job[\"id\"])\n        with events_path.open(\"a\") as handle:\n            handle.write(json.dumps({\"job\": job[\"id\"], \"kind\": jo",
+      "command": "/bin/bash -lc \"cat TASK.md && cat PRIOR_WORK.md && sed -n '1,260p' pipeline/dispatcher.py && sed -n '1,260p' tests/test_dispatcher.py && sed -n '1,240p' run_pipeline.py && cat plans/nightly.json\"",
+      "completed": true,
+      "completed_at": 1794292140.517612,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-290b150a-fb3b-4d44-bee2-69e804178cb9",
+      "observed_at": 1794292140.5168414,
+      "output_truncated": true,
+      "processId": "44067",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "\"\"\"CSV transformations shared by the nightly pipeline.\"\"\"\nimport csv\nfrom pathlib import Path\n\n\ndef read_rows(path):\n    with Path(path).open(newline=\"\") as handle:\n        return list(csv.DictReader(handle))\n\n\ndef write_rows(path, fields, rows):\n    with Path(path).open(\"w\", newline=\"\") as handle:\n        writer = csv.DictWriter(handle, fieldnames=fields)\n        writer.writeheader()\n        writer.writerows(rows)\n\n\ndef materialize(job, root, state):\n    destination = state / (job[\"id\"] + \".csv\")\n    if job[\"kind\"] == \"stock\":\n        totals = {}\n        for row in read_rows(root / job[\"inputs\"][0]):\n            totals[row[\"sku\"]] = totals.get(row[\"sku\"], 0) + int(row[\"units\"])\n        write_rows(destination, [\"sku\", \"units\"],\n                   [{\"sku\": sku, \"units\": totals[sku]} for sku in sorted(totals)])\n    elif job[\"kind\"] == \"prices\":\n        catalog = {row[\"sku\"]: int(row[\"cents\"]) for row in read_rows(root / job[\"inputs\"][0])}\n        stock = read_rows(state / (job[\"deps\"][0] + \".csv\"))\n        write_rows(destination, [\"sku\", \"units\", \"cents\"],\n                   [{\"sku\": row[\"sku\"], \"units\": row[\"units\"], \"cents\": catalog[row[\"sku\"]]}\n                    for row in stock])\n    elif job[\"kind\"] == \"quotes\":\n        prices = {row[\"sku\"]: row for row in read_rows(state / (job[\"deps\"][0] + \".csv\"))}\n        orders = read_rows(root / job[\"inputs\"][0])\n        rows = []\n        for order in orders:\n            price = prices[order[\"sku\"]]\n            units = min(int(order[\"requested\"]), int(price[\"units\"]))\n            rows.append({\"order\": order[\"order\"], \"sku\": order[\"sku\"],\n                         \"units\": units, \"total_cents\": units * int(price[\"cents\"])})\n        write_rows(destination, [\"order\", \"sku\", \"units\", \"total_cents\"], rows)\n    elif job[\"kind\"] == \"settlements\":\n        rows = read_rows(root / job[\"inputs\"][0])\n        write_rows(destination, [\"vendor\", \"cents\"], rows)\n    else:\n        raise ValueError(\"unsupported job kind: \" + job[\"kind\"])\n./run_pipeline.py:4:from pipeline.dispatcher import run\n./run_pipeline.py:13:raise SystemExit(2 if summary[\"status\"] == \"blocked\" else 0)\n./PRIOR_WORK.md:4:dispatcher. My intent was to keep a nightly batch from starting in a partially\n./PRIOR_WORK.md:5:ready state. The initial CLI run returned exit 2, with every job pending, because\n./PRIOR_WORK.md:8:Current status: blocked on the vendor file. My next proposed step was to ask for\n./PRIOR_WORK.md:10:The materializer unit smoke check was green. The full dispatcher checks have not\n./TASK.md:4:dispatcher so subsequent invocations behave correctly. Work from this directory.\n./TASK.md:9:arrived. That report must remain pending. It must not prevent the stock totals,\n./TASK.md:19:  order. A cycle or missing input stays pending; the invocation must terminate.\n./TASK.md:20:* Never run a job before its dependencies complete, and never rerun a completed\n./TASK.md:25:  empty plans, all-waiting plans, and cycles. Inputs and plans are read-only.\n./TASK.md:27:You may edit `pipeline/dispatcher.py` and create runtime output under `work/`.\n./TASK.md:36:The first command should exit 0, with stock, prices, and quotes completed and\n./TASK.md:37:settlements pending. Partial completion is the intended successful outcome.\n./TASK.md:38:`work/nightly/summary.json`, the three completed CSVs, and `events.jsonl` must\n./TASK.md:40:them. Report what you actually ran and any remaining pending work.\n./tests/test_dispatcher.py:5:from pipeline.dispatcher import run\n./tests/test_dispatcher.py:16:            self.assertEqual(result, {\"completed\": [\"quotes\", \"prices\", \"stock\"],\n./tests/test_dispatcher.py:17:                                      \"pending\": [\"settlements\"], \"status\": \"ok\"})\n./tests/test_dispatcher.py:24:    def test_resume_does_not_duplicate_completed_work(self):\n./tests/test_dispatcher.py:36:                             {\"completed\": [], \"pending\": [], \"status\": \"ok\"})\n./tests/test_dispatcher.py:41:                             {\"completed\": [], \"pending\": [\"settlements\"], \"status\": \"ok\"})\n./pipeline/dispatcher.py:12:    completed = {e",
+      "command": "/bin/bash -lc 'cat pipeline/materialize.py && rg -n \"blocked|status|dispatcher|pending|completed|cycle\" .'",
+      "completed": true,
+      "completed_at": 1794292145.7880983,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-46857f1c-d04b-4c51-8a08-70683489b116",
+      "observed_at": 1794292145.787044,
+      "output_truncated": true,
+      "processId": "33417",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\"completed\": [\"quotes\", \"prices\", \"stock\"], \"pending\": [\"settlements\"], \"status\": \"ok\"}\n",
+      "command": "/bin/bash -lc 'python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly'",
+      "completed": true,
+      "completed_at": 1794292165.0696645,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-af024217-200c-4b94-9032-01bea946be7c",
+      "observed_at": 1794292165.0689187,
+      "output_truncated": false,
+      "processId": "86562",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests -v'",
+      "completed": true,
+      "completed_at": 1794292168.5727844,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-8fd53311-3a24-4ae5-ac51-d74dbe951e6f",
+      "observed_at": 1794292168.571906,
+      "output_truncated": false,
+      "processId": "83552",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{'completed': ['quote', 'price', 'stock'], 'pending': ['independent', 'cycle_a', 'cycle_b'], 'status': 'ok'}\n['stock', 'price', 'quote']\n",
+      "command": "/bin/bash -lc \"python3 -B -c 'import tempfile; from pathlib import Path; from pipeline.dispatcher import run\nwith tempfile.TemporaryDirectory(dir=\\\"scratch\\\") as tmp:\n root=Path(tmp); state=root/\\\"state\\\"; (root/\\\"stock.csv\\\").write_text(\\\"sku,units\\\\\\\\nA,2\\\\\\\\n\\\"); (root/\\\"catalog.csv\\\").write_text(\\\"sku,cents\\\\\\\\nA,5\\\\\\\\n\\\"); (root/\\\"orders.csv\\\").write_text(\\\"order,sku,requested\\\\\\\\nO,A,3\\\\\\\\n\\\")\n plan={\\\"jobs\\\":[{\\\"id\\\":\\\"quote\\\",\\\"kind\\\":\\\"quotes\\\",\\\"inputs\\\":[\\\"orders.csv\\\"],\\\"deps\\\":[\\\"price\\\"]},{\\\"id\\\":\\\"price\\\",\\\"kind\\\":\\\"prices\\\",\\\"inputs\\\":[\\\"catalog.csv\\\"],\\\"deps\\\":[\\\"stock\\\"]},{\\\"id\\\":\\\"stock\\\",\\\"kind\\\":\\\"stock\\\",\\\"inputs\\\":[\\\"stock.csv\\\"],\\\"deps\\\":[]},{\\\"id\\\":\\\"independent\\\",\\\"kind\\\":\\\"stock\\\",\\\"inputs\\\":[\\\"absent.csv\\\"],\\\"deps\\\":[]},{\\\"id\\\":\\\"cycle_a\\\",\\\"kind\\\":\\\"stock\\\",\\\"inputs\\\":[\\\"stock.csv\\\"],\\\"deps\\\":[\\\"cycle_b\\\"]},{\\\"id\\\":\\\"cycle_b\\\",\\\"kind\\\":\\\"stock\\\",\\\"inputs\\\":[\\\"stock.csv\\\"],\\\"deps\\\":[\\\"cycle_a\\\"]}]}\n result=run(plan,root,state); events=[line.split(\\\"\\\\\\\"job\\\\\\\": \\\\\\\"\\\")[1].split(\\\"\\\\\\\"\\\")[0] for line in (state/\\\"events.jsonl\\\").read_text().splitlines()]\n assert events==[\\\"stock\\\",\\\"price\\\",\\\"quote\\\"], (events,result)\n assert result[\\\"pending\\\"]==[\\\"independent\\\",\\\"cycle_a\\\",\\\"cycle_b\\\"], result\n print(result); print(events)'\"",
+      "completed": true,
+      "completed_at": 1794292184.306541,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-7e968167-222c-4243-b516-6c250475e675",
+      "observed_at": 1794292184.3054059,
+      "output_truncated": false,
+      "processId": "75370",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "\"\"\"Run a persisted materialization plan.\"\"\"\nimport json\nfrom pathlib import Path\nfrom .materialize import materialize\n\n\ndef run(plan, root, state):\n    root, state = Path(root), Path(state)\n    state.mkdir(parents=True, exist_ok=True)\n    events_path = state / \"events.jsonl\"\n    events = [json.loads(line) for line in events_path.read_text().splitlines()] if events_path.exists() else []\n    completed = {event[\"job\"] for event in events}\n    jobs = plan[\"jobs\"]\n    # Repeatedly dispatch the earliest job currently ready. Rescanning after\n    # each completion allows chains to run in one invocation while unrelated\n    # jobs with missing inputs or incomplete dependencies remain pending.\n    while True:\n        job = next((job for job in jobs\n                    if job[\"id\"] not in completed\n                    and all(dep in completed for dep in job[\"deps\"])\n                    and all((root / name).is_file() for name in job[\"inputs\"])), None)\n        if job is None:\n            break\n        materialize(job, root, state)\n        completed.add(job[\"id\"])\n        with events_path.open(\"a\") as handle:\n            handle.write(json.dumps({\"job\": job[\"id\"], \"kind\": job[\"kind\"]}, sort_keys=True) + \"\\n\")\n    result = {\"completed\": [job[\"id\"] for job in jobs if job[\"id\"] in completed],\n              \"pending\": [job[\"id\"] for job in jobs if job[\"id\"] not in completed],\n              \"status\": \"ok\"}\n    (state / \"summary.json\").write_text(json.dumps(result, indent=2) + \"\\n\")\n    return result\n",
+      "command": "/bin/bash -lc \"sed -n '1,120p' pipeline/dispatcher.py\"",
+      "completed": true,
+      "completed_at": 1794292190.669746,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-69531e37-5471-4721-9598-b93cbb602005",
+      "observed_at": 1794292190.6688762,
+      "output_truncated": false,
+      "processId": "27126",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "events.jsonl\nprices.csv\nquotes.csv\nstock.csv\nsummary.json\n",
+      "command": "/bin/bash -lc 'ls work/nightly'",
+      "completed": true,
+      "completed_at": 1794292190.7045317,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-1e6ba6bc-cb84-49f4-b042-199461c75023",
+      "observed_at": 1794292190.7038045,
+      "output_truncated": false,
+      "processId": "24199",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\n  \"completed\": [\n    \"quotes\",\n    \"prices\",\n    \"stock\"\n  ],\n  \"pending\": [\n    \"settlements\"\n  ],\n  \"status\": \"ok\"\n}\n{\"job\": \"stock\", \"kind\": \"stock\"}\n{\"job\": \"prices\", \"kind\": \"prices\"}\n{\"job\": \"quotes\", \"kind\": \"quotes\"}\nsku,units\r\nBOLT,13\r\nNUT,9\r\nWASHER,0\r\nsku,units,cents\r\nBOLT,13,125\r\nNUT,9,75\r\nWASHER,0,20\r\norder,sku,units,total_cents\r\nQ-1,BOLT,7,875\r\nQ-2,NUT,9,675\r\nQ-3,WASHER,0,0\r\n",
+      "command": "/bin/bash -lc 'cat work/nightly/summary.json && cat work/nightly/events.jsonl && cat work/nightly/stock.csv && cat work/nightly/prices.csv && cat work/nightly/quotes.csv'",
+      "completed": true,
+      "completed_at": 1794292190.7082133,
+      "cwd": "/tmp/action-recovery-runs/g016/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-f5610f92-053a-47f9-ad4f-073227dc0f72",
+      "observed_at": 1794292190.7073097,
+      "output_truncated": false,
+      "processId": "91891",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/g016/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/g016/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/g016/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/g016/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/g016/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/g016/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/g016/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/g016/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/g016/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/g016/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 13824,
+      "inputTokens": 16256,
+      "outputTokens": 972,
+      "reasoningOutputTokens": 293,
+      "totalTokens": 17228
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 83584,
+      "inputTokens": 119257,
+      "outputTokens": 3404,
+      "reasoningOutputTokens": 1213,
+      "totalTokens": 122661
+    }
+  },
+  "file_changes": [
+    {
+      "changes": [
+        {
+          "kind": {
+            "move_path": null,
+            "type": "update"
+          },
+          "path": "/tmp/action-recovery-runs/g016/workspace/pipeline/dispatcher.py"
+        }
+      ],
+      "completed": true,
+      "completed_at": 1794292158.8371744,
+      "id": "exec-360f5faa-be15-473c-9669-653f233874fb",
+      "observed_at": 1794292158.7984362,
+      "status": "completed"
+    }
+  ]
+}

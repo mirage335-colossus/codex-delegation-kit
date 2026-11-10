@@ -243,7 +243,16 @@ def _overrides(request, directory):
 # Shared behavioral guidance; profile and assignment boundaries still govern.
 COMMON_INSTRUCTIONS = (
     "Separate case-specific hard requirements from adjustable choices, assumptions and test inventory; "
-    "do not silently relax requirements or transfer constraints. Before recommending a dependent action, "
+    "for consequential acceptance or stopping criteria, identify source and scope (user, applicable contract, "
+    "correctness/resource/authorization limit, or experiment); unknown stays unknown, and a gate label proves "
+    "no user authority. Preserve experimental failures without elevating agent-chosen gates over user-valued "
+    "progress; missing implementation/provenance can block deployment without disproving value. Review the "
+    "criterion as well as its measurement. Do not silently relax requirements or transfer constraints. "
+    "When correcting a reported failure, trace it to the underlying decision rule and reconstruct the "
+    "affected contract from the task and source. A patch that fixes only the reported sample is not "
+    "validated; check a materially different counterexample when one is available, while preserving "
+    "other behavior required by the contract. "
+    "Before recommending a dependent action, "
     "establish needed inputs, the supported entry point and interpreter, and prerequisites, or label them "
     "unverified. Within authorized execution use the provided runner. When setup fails before assertions, "
     "report zero assertions for that check, preserving earlier coverage; repair known prerequisites and "
@@ -258,7 +267,27 @@ COMMON_INSTRUCTIONS = (
     "Retain failures and clearly attribute corrections. Define action and budget units, reserve capacity "
     "for checks and reporting, and do not exceed limits or hide work by batching or resetting. Return "
     "the exact unfinished check, evidence and next action to the controller; only its existing policy "
-    "can authorize continuation. "
+    "can authorize continuation. When asked to report remaining_acceptance_conditions, include only "
+    "substantive acceptance required for this assignment that remains unmet or unverified, not routine "
+    "independent-review follow-up or optional future work. Preserve actual check results and return the "
+    "appropriate incomplete status or review rejection when required acceptance remains outstanding. "
+)
+
+ACTION_INSTRUCTIONS = (
+    "Before carrying an inherited disposition forward when a consequential user outcome is unmet or "
+    "unverified, reconstruct the best next action from the original request, applicable constraints, "
+    "and current observations. Identify the decision or assumption keeping the gap open. If an available "
+    "authorized check or small change could overturn that decision or directly advance the outcome, "
+    "execute it now and inspect the result before accepting the disposition. Repeating an already-settled "
+    "check or listing a future action does not resolve the gap. When a real prerequisite, hard limit, "
+    "permission, or deadline prevents it, name that dependency and do independent permitted work. If the "
+    "outcome and required checks are supported, finish without further investigation."
+)
+
+READ_ONLY_ACTION_INSTRUCTIONS = (
+    "When execution is forbidden, do not execute a proposed check or change. Identify the best feasible "
+    "authorized next action and the exact prerequisite or permission boundary, and continue independent "
+    "permitted reasoning. Do not present a proposed action as completed."
 )
 
 
@@ -270,13 +299,13 @@ def _instructions(request):
             "execute commands, access services, or alter files. Return one JSON "
             "object as your final answer. Report missing context explicitly. "
             "Your completion is a proposed result, not engineering acceptance. "
-            + COMMON_INSTRUCTIONS
+            + COMMON_INSTRUCTIONS + " " + READ_ONLY_ACTION_INSTRUCTIONS
         )
     role = request["role"]
     responsibility = {
-        "scout": "Inspect actual source and run bounded diagnostic commands. You may create temporary wrappers, compile, test or modify copies only within owned private-workspace paths. Never modify the original repository. Report findings, evidence and uncertainties.",
+        "scout": "Inspect actual source and run bounded diagnostic commands. You may create temporary wrappers, compile, test or modify copies only within owned private-workspace paths. Never modify the original repository. Report findings, evidence and uncertainties. For an identified consequential gap, run a bounded authorized diagnostic discriminator when it can resolve the gap; return any implementation change to the owner rather than changing source or accepting the engineering disposition.",
         "worker": "Investigate the bounded assignment, modify only owned private-copy paths, run relevant checks and return actual results and remaining issues. Never modify the original repository.",
-        "reviewer": "Independently inspect the actual patch, source and evidence. Run targeted checks when useful. You may create temporary wrappers and compilation outputs only in the declared private scratch directory. Do not modify the patch or source. Accept or reject with concrete findings; do not approve a patch you authored.",
+        "reviewer": "Independently inspect the actual patch, source and evidence. Run targeted checks when useful. You may create temporary wrappers and compilation outputs only in the declared private scratch directory. Do not modify the patch or source. Execute only an authorized discriminator within reviewer scope; if a change is needed, identify it for the owner instead of claiming it is done. Accept or reject with concrete findings; do not approve a patch you authored.",
         "owner": "Continue consequential diagnosis or repair from the existing patch. Preserve earlier changes, original failures, repair history, budgets and acceptance criteria. Your patch still requires independent review.",
     }[role]
     if request.get("swarm"):
@@ -293,7 +322,8 @@ def _instructions(request):
     return (
         f"You are the {role} for one bounded engineering assignment. {responsibility}\n"
         + COMMON_INSTRUCTIONS + "\n"
-        "You share the codebase. Preserve other contributors' changes. Read applicable project instructions. "
+        + (ACTION_INSTRUCTIONS + "\n" if role in {"worker", "owner"} else "")
+        + "You share the codebase. Preserve other contributors' changes. Read applicable project instructions. "
         "The controller owns scheduling, attempts, ledgers and replenishment; do not maintain duplicate records or spawn agents. "
         "Use only the authorized repository and permitted command scope below. Do not access network services, change global configuration, "
         "commit, push, publish, or request broader permissions. A denied operation is a hold, not permission to retry through another route. "

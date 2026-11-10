@@ -1,0 +1,11 @@
+COMMAND: /usr/bin/python3 ../private/evaluate.py
+CWD: /tmp/action-recovery-development/case2/participant
+EXIT: 1
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "/tmp/action-recovery-development/case2/participant/../private/evaluate.py", line 12, in <module>
+    assert result['available'].get('R-14') == 21, result
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'available': {'CLIP-2': 0, 'R-14': 3}, 'received_units': 0}

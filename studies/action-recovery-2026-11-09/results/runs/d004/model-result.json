@@ -1,0 +1,125 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [],
+      "unexecuted": [
+        "Read TASK.md, workspace notes, and source: no permitted command was available for inspecting files; the listed command scope only authorizes the unittest discovery command and inventory app entry point.",
+        "Independent initial review: unavailable; no astra_initial or reviewer tool is exposed in this session."
+      ]
+    },
+    "commands": [],
+    "decisions": [
+      "No changes or checks were made because the task objective and existing patch could not be inspected within the supplied permitted command scope.",
+      "The task requires an initial pinned review, but that reviewer is unavailable. The user also prohibited spawning agents."
+    ],
+    "remaining_acceptance_conditions": [
+      "Controller: provide an authorized way to inspect TASK.md, notes, and source within the permitted command scope, or expand the permitted read-only command scope.",
+      "Controller: resolve the unavailable required initial review, or apply existing policy for when that review cannot be obtained.",
+      "After those inputs are available, continue the repair, preserve diagnostic history, and run authorized acceptance commands."
+    ],
+    "status": "blocked"
+  },
+  "commands": [],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d004/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d004/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d004/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d004/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d004/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d004/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d004/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d004/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d004/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d004/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9088,
+      "inputTokens": 10598,
+      "outputTokens": 1019,
+      "reasoningOutputTokens": 802,
+      "totalTokens": 11617
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 18048,
+      "inputTokens": 28897,
+      "outputTokens": 1152,
+      "reasoningOutputTokens": 840,
+      "totalTokens": 30049
+    }
+  },
+  "file_changes": []
+}

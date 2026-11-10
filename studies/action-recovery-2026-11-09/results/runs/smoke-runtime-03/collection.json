@@ -1,0 +1,267 @@
+{
+  "actual_changes": [
+    {
+      "after_sha256": "aecc013c518523ca22b7e3780f87002f5cae13fabc369f2f59a1faf7058f8c76",
+      "before_sha256": "bb90d2b315ed538549cd708303971dd03d30dd733928b845504fab3a42eeb914",
+      "path": "answer.py"
+    },
+    {
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "before_sha256": null,
+      "path": "scratch/codex-bwrap-synthetic-mount-targets-1000/lock"
+    }
+  ],
+  "actual_patch": "--- a/answer.py\n+++ b/answer.py\n@@ -1,2 +1,2 @@\n def answer():\n-    return 41\n+    return 42\n",
+  "actual_patch_sha256": "6c9fe47d561d51daf87d1c76f0a0de1175328c5ed468429cb854d17ca964090f",
+  "backend_result_sha256": "caa211fea1560f7f368498307dfc897a822b1d6537c374265d0f7039d6f40dd8",
+  "collection_called": true,
+  "commands": [
+    {
+      "aggregatedOutput": "test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42) ... FAIL\n\n======================================================================\nFAIL: test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/action-recovery-runs/smoke-runtime-03/workspace/test_answer.py\", line 8, in test_answer_is_42\n    self.assertEqual(answer.answer(), 42)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 41 != 42\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest -v test_answer.py'",
+      "completed": true,
+      "completed_at": 1794287100.2431102,
+      "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+      "durationMs": 0,
+      "exitCode": 1,
+      "id": "exec-621227b9-8708-4bdf-be81-5d2fdd1d27ea",
+      "observed_at": 1794287100.2424688,
+      "output_truncated": false,
+      "processId": "45381",
+      "source": "unifiedExecStartup",
+      "status": "failed"
+    },
+    {
+      "aggregatedOutput": "test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest -v test_answer.py'",
+      "completed": true,
+      "completed_at": 1794287106.49564,
+      "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-bafa0771-a777-44ab-9349-f47b2c56ebbf",
+      "observed_at": 1794287106.4951231,
+      "output_truncated": false,
+      "processId": "19490",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "detail": "model turn completed; acceptance requires controller validation",
+  "developer_instructions_sha256": "5d9d47fafb0bd92835a6001cfec397fa4c72e53428f22735046541d9075845df",
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "file_changes": [
+    {
+      "changes": [
+        {
+          "kind": {
+            "move_path": null,
+            "type": "update"
+          },
+          "path": "/tmp/action-recovery-runs/smoke-runtime-03/workspace/answer.py"
+        }
+      ],
+      "completed": true,
+      "completed_at": 1794287104.2465258,
+      "id": "exec-a8a0f33d-a957-425d-82f1-591afa581b05",
+      "observed_at": 1794287104.2078948,
+      "status": "completed"
+    }
+  ],
+  "observation": {
+    "command": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 347301,
+      "pid": 347301,
+      "ppid": 347300,
+      "session": 347301,
+      "start_ticks": 7889827,
+      "state": "R"
+    },
+    "descendants": [],
+    "detail": "command and descendants exited",
+    "finished_at": 1794287113.219821,
+    "observed_at": 1794287113.2197635,
+    "operation_id": "smoke-runtime-03",
+    "prepared_at": 1794287078.1408246,
+    "released": true,
+    "returncode": 0,
+    "runner": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 347300,
+      "pid": 347300,
+      "ppid": 347299,
+      "session": 347300,
+      "start_ticks": 7889824,
+      "state": "R"
+    },
+    "spec_sha256": "42d08f1dba97911f40edf6a235c6a965d7da1c8b17a85222e9fb18e54ad3a957",
+    "started_at": 1794287078.1712956,
+    "state": "completed",
+    "version": 1
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "protected_file_hashes_after": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f",
+    "test_answer.py": "1260b8b27ab48c486401b230bc78b96f7a9f50243ef8b59e4f11fb9affe8681b"
+  },
+  "protected_file_hashes_before": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f",
+    "test_answer.py": "1260b8b27ab48c486401b230bc78b96f7a9f50243ef8b59e4f11fb9affe8681b"
+  },
+  "protected_files_changed": [],
+  "protected_files_unchanged": true,
+  "request_sha256": "5c75774c1310590d0454a6a18355a2fb8461e82c12eda54dcf1c445091f767c2",
+  "result": {
+    "checks": {
+      "failed": [
+        "Initial `python3 -B -m unittest -v test_answer.py`: failed; `answer.answer()` returned 41 instead of 42."
+      ],
+      "passed": [
+        "After changing `answer.py` to return 42, `python3 -B -m unittest -v test_answer.py` passed (1 test)."
+      ],
+      "unexecuted": [
+        "Independent review of the patch."
+      ]
+    },
+    "commands": [
+      "python3 -B -m unittest -v test_answer.py",
+      "python3 -B -m unittest -v test_answer.py"
+    ],
+    "decisions": [
+      "Changed only `answer.py`. Preserved the initial test failure as diagnostic evidence."
+    ],
+    "remaining_acceptance_conditions": [
+      "Independent review remains pending; controller to authorize or schedule it."
+    ],
+    "status": "completed"
+  },
+  "settings_verified": true,
+  "source_backend_sha256": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+  "source_repository": "/tmp/action-recovery-runs/smoke-runtime-03/source-fixture",
+  "source_template_sha256_by_path": {},
+  "source_tree_sha256_by_path": {
+    "README.md": "047e7c496cc3b0d1041b95d5a8b80715f6451ecec105b1f8d4771e7366a34ff7",
+    "agent_backend.py": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+    "agents/astra_expert.toml": "3db324be3407d07c1359e1c9d85475498cb7eb6103eee3f84684ceaddadbdde2",
+    "agents/inherited_reviewer.toml": "ad24870ed68b25677832fbce202d2d08c17f81c1dac9206159b40c7e46729542",
+    "agents/inherited_worker.toml": "f68f4e2586fa169f2c5436d27422345eb9a38cd0c2c2394f438415e112944daa",
+    "agents/luna_worker.toml": "df7cd750f02bb6d96d56783e60ceeb6aba8c2c36d984fcb5b5b297f8f14bd0ad",
+    "agents/sol_expert.toml": "d2407348b71ebe2fd603381ef88e17e6d7ec1fd27ec65884d993de1874985abf",
+    "controller.py": "98c858eec8185fcfd8dd8447f899a073736acc9e4189a92132e14aab3da08da1",
+    "policy.md": "41e020052476b940c5aef6ec8ab0bc1263b3faf781e929eaff3fe39a96c8a932",
+    "supervisor.py": "f191c3a71cc77d2f23f824ab48374be5120ccf6cd25b70140bb79101cb77d129"
+  },
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9472,
+      "inputTokens": 9836,
+      "outputTokens": 328,
+      "reasoningOutputTokens": 164,
+      "totalTokens": 10164
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 27776,
+      "inputTokens": 38093,
+      "outputTokens": 813,
+      "reasoningOutputTokens": 382,
+      "totalTokens": 38906
+    }
+  },
+  "workspace_after_hashes": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f",
+    "answer.py": "aecc013c518523ca22b7e3780f87002f5cae13fabc369f2f59a1faf7058f8c76",
+    "scratch/codex-bwrap-synthetic-mount-targets-1000/lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_answer.py": "1260b8b27ab48c486401b230bc78b96f7a9f50243ef8b59e4f11fb9affe8681b"
+  },
+  "workspace_before_hashes": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f",
+    "answer.py": "bb90d2b315ed538549cd708303971dd03d30dd733928b845504fab3a42eeb914",
+    "test_answer.py": "1260b8b27ab48c486401b230bc78b96f7a9f50243ef8b59e4f11fb9affe8681b"
+  },
+  "write_scope": [
+    "answer.py",
+    "scratch"
+  ]
+}

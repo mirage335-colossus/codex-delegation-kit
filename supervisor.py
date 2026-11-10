@@ -21,6 +21,11 @@ Worker, review, and strong result JSON fields:
 Review results additionally require verdict: accept | substantive_reject.
 Check lists must partition the original acceptance_checks exactly. A completed
 worker result can report failed acceptance checks; it cannot approve integration.
+remaining_acceptance_conditions describes unresolved substantive acceptance
+work, not optional future work or ordinary pending independent review. Ingress
+validation treats any nonempty validated entry as substantive and does not
+interpret its wording; whitespace-only entries remain invalid under the normal
+string-list rules.
 
 Validation result JSON fields (--kind validation):
   outcome: blocked | ready | unresolved
@@ -210,6 +215,25 @@ def validate_result(result, packet, kind):
         if result["verdict"] == "accept":
             require(result["status"] == "completed" and not checks["failed"]
                     and not checks["unexecuted"], "accept requires all original checks passed")
+
+
+def completion_conflict(result, kind):
+    """Describe a contradiction in a report that has passed normal validation."""
+    if not result.get("remaining_acceptance_conditions"):
+        return None
+    if kind in {"worker", "strong"} and result.get("status") == "completed":
+        checks = result["checks"]
+        if not checks["failed"] and not checks["unexecuted"]:
+            return "completed result with all original checks passed cannot report remaining acceptance conditions"
+    elif kind == "review" and result.get("verdict") == "accept":
+        return "accept review cannot report remaining acceptance conditions"
+    return None
+
+
+def validate_new_ingress(result, kind):
+    """Reject contradictory submissions while keeping historical replay intact."""
+    conflict = completion_conflict(result, kind)
+    require(conflict is None, conflict)
 
 
 def decode_json(raw):
@@ -516,7 +540,9 @@ def record_result(store, assignment, kind, actor, raw_result, *, now=None):
         events = load_events(directory)
         require(now >= events[-1]["recorded_at"], "clock went backwards; stop and resolve before recording")
         packet, _ = derive(events, now)
-        validate_result(decode_json(raw_result), packet, kind)
+        result = decode_json(raw_result)
+        validate_result(result, packet, kind)
+        validate_new_ingress(result, kind)
         # Validate the complete transition before atomically appending anything.
         prospective = {"kind": kind, "actor": actor, "payload_text": raw_result, "recorded_at": now}
         derive(events + [prospective], now)

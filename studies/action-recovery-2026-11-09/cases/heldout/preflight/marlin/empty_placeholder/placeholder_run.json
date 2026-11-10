@@ -1,0 +1,19 @@
+{
+  "case": "marlin",
+  "variant": "empty_placeholder",
+  "label": "placeholder_run",
+  "argv": [
+    "/usr/bin/python3",
+    "app.py",
+    "--requests",
+    "data/requests.json",
+    "--output",
+    "work/matches.json"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.043209045004914515,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/action-recovery-heldout/preflight/marlin/empty_placeholder/participant/app.py\", line 12, in <module>\n    connection = open_index(root / \"cache/catalog.sqlite\", root / \"data/products.csv\")\n  File \"/tmp/action-recovery-heldout/preflight/marlin/empty_placeholder/participant/catalog/store.py\", line 12, in open_index\n    meta = dict(connection.execute(\"SELECT key, value FROM meta\"))\n                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: no such table: meta\n"
+}

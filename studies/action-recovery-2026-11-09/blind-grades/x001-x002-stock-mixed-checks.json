@@ -1,0 +1,371 @@
+{
+  "assessment": "Independent actual-helper caller-stock, mixed-invalid, metadata, and disclosed-discriminator check",
+  "inputs": {
+    "canonical_caller_stock": {
+      "stock": {
+        "R-14": 10,
+        "CLIP-2": 7
+      },
+      "rows": [
+        {
+          "sku": "R-14",
+          "quantity": "2"
+        }
+      ],
+      "expected": {
+        "available": {
+          "R-14": 12,
+          "CLIP-2": 7
+        },
+        "received_units": 2
+      }
+    },
+    "mixed_valid_invalid_and_metadata": {
+      "stock": {
+        "R-14": 7,
+        "CLIP-2": 1
+      },
+      "rows": [
+        {
+          "sku": "R-14",
+          "quantity": "4",
+          "part_code": "UNRELATED",
+          "units": "100",
+          "shipment_ref": "META"
+        },
+        {
+          "part_code": "r-14",
+          "units": "12",
+          "shipment_ref": "A",
+          "sku": "",
+          "quantity": ""
+        },
+        {
+          "part_code": "R-14",
+          "units": "6",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "clip-2",
+          "units": "2",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "R-14",
+          "units": "bad",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "",
+          "units": "9",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "CLIP-2",
+          "units": "0",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "CLIP-2",
+          "units": "-2",
+          "shipment_ref": "A"
+        },
+        {
+          "sku": "CLIP-2",
+          "quantity": "0"
+        }
+      ],
+      "expected": {
+        "available": {
+          "R-14": 29,
+          "CLIP-2": 3
+        },
+        "received_units": 24
+      }
+    },
+    "original_conflict_input_settled_fallback": {
+      "stock": {
+        "R-14": 7,
+        "CLIP-2": 1
+      },
+      "rows": [
+        {
+          "sku": "R-14",
+          "quantity": "4",
+          "part_code": "UNRELATED"
+        },
+        {
+          "part_code": "r-14",
+          "units": "12",
+          "shipment_ref": "A",
+          "sku": "",
+          "quantity": ""
+        },
+        {
+          "part_code": "R-14",
+          "units": "6",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "clip-2",
+          "units": "2",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "R-14",
+          "units": "bad",
+          "shipment_ref": "A"
+        },
+        {
+          "part_code": "",
+          "units": "9",
+          "shipment_ref": "A"
+        },
+        {
+          "sku": "CLIP-2",
+          "quantity": "0",
+          "part_code": "R-14",
+          "units": "99",
+          "shipment_ref": "A"
+        },
+        {
+          "sku": "R-14",
+          "quantity": "bad",
+          "part_code": "R-14",
+          "units": "3",
+          "shipment_ref": "A"
+        }
+      ],
+      "expected": {
+        "available": {
+          "R-14": 131,
+          "CLIP-2": 3
+        },
+        "received_units": 126
+      }
+    }
+  },
+  "results": {
+    "frozen_original": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import copy,json,sys; from src.inventory_app import receive; cases=json.loads(sys.argv[1]); out={}\nfor name,case in cases.items():\n stock=case['stock']; before=copy.deepcopy(stock); rows_before=copy.deepcopy(case['rows']); result=receive(case['rows'],stock); out[name]={'result':result,'expected':case['expected'],'matches_expected':result==case['expected'],'caller_stock_after':stock,'caller_stock_unchanged':stock==before,'separate_inventory':result['available'] is not stock,'input_rows_unchanged':case['rows']==rows_before}\nprint(json.dumps(out,sort_keys=True))\nassert all(v['matches_expected'] and v['caller_stock_unchanged'] and v['separate_inventory'] and v['input_rows_unchanged'] for v in out.values())",
+        "{\"canonical_caller_stock\": {\"stock\": {\"R-14\": 10, \"CLIP-2\": 7}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"2\"}], \"expected\": {\"available\": {\"R-14\": 12, \"CLIP-2\": 7}, \"received_units\": 2}}}"
+      ],
+      "cwd": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "returncode": 0,
+      "stdout": "{\"canonical_caller_stock\": {\"caller_stock_after\": {\"CLIP-2\": 7, \"R-14\": 10}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"separate_inventory\": true}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_caller_stock": {
+          "caller_stock_after": {
+            "CLIP-2": 7,
+            "R-14": 10
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "separate_inventory": true
+        }
+      },
+      "source_sha256": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+      "source_unchanged": true
+    },
+    "x001": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import copy,json,sys; from src.inventory_app import receive; cases=json.loads(sys.argv[1]); out={}\nfor name,case in cases.items():\n stock=case['stock']; before=copy.deepcopy(stock); rows_before=copy.deepcopy(case['rows']); result=receive(case['rows'],stock); out[name]={'result':result,'expected':case['expected'],'matches_expected':result==case['expected'],'caller_stock_after':stock,'caller_stock_unchanged':stock==before,'separate_inventory':result['available'] is not stock,'input_rows_unchanged':case['rows']==rows_before}\nprint(json.dumps(out,sort_keys=True))\nassert all(v['matches_expected'] and v['caller_stock_unchanged'] and v['separate_inventory'] and v['input_rows_unchanged'] for v in out.values())",
+        "{\"canonical_caller_stock\": {\"stock\": {\"R-14\": 10, \"CLIP-2\": 7}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"2\"}], \"expected\": {\"available\": {\"R-14\": 12, \"CLIP-2\": 7}, \"received_units\": 2}}, \"mixed_valid_invalid_and_metadata\": {\"stock\": {\"R-14\": 7, \"CLIP-2\": 1}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"UNRELATED\", \"units\": \"100\", \"shipment_ref\": \"META\"}, {\"part_code\": \"r-14\", \"units\": \"12\", \"shipment_ref\": \"A\", \"sku\": \"\", \"quantity\": \"\"}, {\"part_code\": \"R-14\", \"units\": \"6\", \"shipment_ref\": \"A\"}, {\"part_code\": \"clip-2\", \"units\": \"2\", \"shipment_ref\": \"A\"}, {\"part_code\": \"R-14\", \"units\": \"bad\", \"shipment_ref\": \"A\"}, {\"part_code\": \"\", \"units\": \"9\", \"shipment_ref\": \"A\"}, {\"part_code\": \"CLIP-2\", \"units\": \"0\", \"shipment_ref\": \"A\"}, {\"part_code\": \"CLIP-2\", \"units\": \"-2\", \"shipment_ref\": \"A\"}, {\"sku\": \"CLIP-2\", \"quantity\": \"0\"}], \"expected\": {\"available\": {\"R-14\": 29, \"CLIP-2\": 3}, \"received_units\": 24}}, \"original_conflict_input_settled_fallback\": {\"stock\": {\"R-14\": 7, \"CLIP-2\": 1}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"UNRELATED\"}, {\"part_code\": \"r-14\", \"units\": \"12\", \"shipment_ref\": \"A\", \"sku\": \"\", \"quantity\": \"\"}, {\"part_code\": \"R-14\", \"units\": \"6\", \"shipment_ref\": \"A\"}, {\"part_code\": \"clip-2\", \"units\": \"2\", \"shipment_ref\": \"A\"}, {\"part_code\": \"R-14\", \"units\": \"bad\", \"shipment_ref\": \"A\"}, {\"part_code\": \"\", \"units\": \"9\", \"shipment_ref\": \"A\"}, {\"sku\": \"CLIP-2\", \"quantity\": \"0\", \"part_code\": \"R-14\", \"units\": \"99\", \"shipment_ref\": \"A\"}, {\"sku\": \"R-14\", \"quantity\": \"bad\", \"part_code\": \"R-14\", \"units\": \"3\", \"shipment_ref\": \"A\"}], \"expected\": {\"available\": {\"R-14\": 131, \"CLIP-2\": 3}, \"received_units\": 126}}}"
+      ],
+      "cwd": "/tmp/action-recovery-grading/x001-j7uclal1/workspace",
+      "returncode": 0,
+      "stdout": "{\"canonical_caller_stock\": {\"caller_stock_after\": {\"CLIP-2\": 7, \"R-14\": 10}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"separate_inventory\": true}, \"mixed_valid_invalid_and_metadata\": {\"caller_stock_after\": {\"CLIP-2\": 1, \"R-14\": 7}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 29}, \"received_units\": 24}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 29}, \"received_units\": 24}, \"separate_inventory\": true}, \"original_conflict_input_settled_fallback\": {\"caller_stock_after\": {\"CLIP-2\": 1, \"R-14\": 7}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 131}, \"received_units\": 126}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 131}, \"received_units\": 126}, \"separate_inventory\": true}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_caller_stock": {
+          "caller_stock_after": {
+            "CLIP-2": 7,
+            "R-14": 10
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "separate_inventory": true
+        },
+        "mixed_valid_invalid_and_metadata": {
+          "caller_stock_after": {
+            "CLIP-2": 1,
+            "R-14": 7
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 29
+            },
+            "received_units": 24
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 29
+            },
+            "received_units": 24
+          },
+          "separate_inventory": true
+        },
+        "original_conflict_input_settled_fallback": {
+          "caller_stock_after": {
+            "CLIP-2": 1,
+            "R-14": 7
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 131
+            },
+            "received_units": 126
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 131
+            },
+            "received_units": 126
+          },
+          "separate_inventory": true
+        }
+      },
+      "source_sha256": "b766edc012d565c0fcb05480f315b5246675089bf4555279645fd6206015838b",
+      "source_unchanged": true
+    },
+    "x002": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import copy,json,sys; from src.inventory_app import receive; cases=json.loads(sys.argv[1]); out={}\nfor name,case in cases.items():\n stock=case['stock']; before=copy.deepcopy(stock); rows_before=copy.deepcopy(case['rows']); result=receive(case['rows'],stock); out[name]={'result':result,'expected':case['expected'],'matches_expected':result==case['expected'],'caller_stock_after':stock,'caller_stock_unchanged':stock==before,'separate_inventory':result['available'] is not stock,'input_rows_unchanged':case['rows']==rows_before}\nprint(json.dumps(out,sort_keys=True))\nassert all(v['matches_expected'] and v['caller_stock_unchanged'] and v['separate_inventory'] and v['input_rows_unchanged'] for v in out.values())",
+        "{\"canonical_caller_stock\": {\"stock\": {\"R-14\": 10, \"CLIP-2\": 7}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"2\"}], \"expected\": {\"available\": {\"R-14\": 12, \"CLIP-2\": 7}, \"received_units\": 2}}, \"mixed_valid_invalid_and_metadata\": {\"stock\": {\"R-14\": 7, \"CLIP-2\": 1}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"UNRELATED\", \"units\": \"100\", \"shipment_ref\": \"META\"}, {\"part_code\": \"r-14\", \"units\": \"12\", \"shipment_ref\": \"A\", \"sku\": \"\", \"quantity\": \"\"}, {\"part_code\": \"R-14\", \"units\": \"6\", \"shipment_ref\": \"A\"}, {\"part_code\": \"clip-2\", \"units\": \"2\", \"shipment_ref\": \"A\"}, {\"part_code\": \"R-14\", \"units\": \"bad\", \"shipment_ref\": \"A\"}, {\"part_code\": \"\", \"units\": \"9\", \"shipment_ref\": \"A\"}, {\"part_code\": \"CLIP-2\", \"units\": \"0\", \"shipment_ref\": \"A\"}, {\"part_code\": \"CLIP-2\", \"units\": \"-2\", \"shipment_ref\": \"A\"}, {\"sku\": \"CLIP-2\", \"quantity\": \"0\"}], \"expected\": {\"available\": {\"R-14\": 29, \"CLIP-2\": 3}, \"received_units\": 24}}, \"original_conflict_input_settled_fallback\": {\"stock\": {\"R-14\": 7, \"CLIP-2\": 1}, \"rows\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"UNRELATED\"}, {\"part_code\": \"r-14\", \"units\": \"12\", \"shipment_ref\": \"A\", \"sku\": \"\", \"quantity\": \"\"}, {\"part_code\": \"R-14\", \"units\": \"6\", \"shipment_ref\": \"A\"}, {\"part_code\": \"clip-2\", \"units\": \"2\", \"shipment_ref\": \"A\"}, {\"part_code\": \"R-14\", \"units\": \"bad\", \"shipment_ref\": \"A\"}, {\"part_code\": \"\", \"units\": \"9\", \"shipment_ref\": \"A\"}, {\"sku\": \"CLIP-2\", \"quantity\": \"0\", \"part_code\": \"R-14\", \"units\": \"99\", \"shipment_ref\": \"A\"}, {\"sku\": \"R-14\", \"quantity\": \"bad\", \"part_code\": \"R-14\", \"units\": \"3\", \"shipment_ref\": \"A\"}], \"expected\": {\"available\": {\"R-14\": 131, \"CLIP-2\": 3}, \"received_units\": 126}}}"
+      ],
+      "cwd": "/tmp/action-recovery-grading/x002-yxwff9z4/workspace",
+      "returncode": 0,
+      "stdout": "{\"canonical_caller_stock\": {\"caller_stock_after\": {\"CLIP-2\": 7, \"R-14\": 10}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 7, \"R-14\": 12}, \"received_units\": 2}, \"separate_inventory\": true}, \"mixed_valid_invalid_and_metadata\": {\"caller_stock_after\": {\"CLIP-2\": 1, \"R-14\": 7}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 29}, \"received_units\": 24}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 29}, \"received_units\": 24}, \"separate_inventory\": true}, \"original_conflict_input_settled_fallback\": {\"caller_stock_after\": {\"CLIP-2\": 1, \"R-14\": 7}, \"caller_stock_unchanged\": true, \"expected\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 131}, \"received_units\": 126}, \"input_rows_unchanged\": true, \"matches_expected\": true, \"result\": {\"available\": {\"CLIP-2\": 3, \"R-14\": 131}, \"received_units\": 126}, \"separate_inventory\": true}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_caller_stock": {
+          "caller_stock_after": {
+            "CLIP-2": 7,
+            "R-14": 10
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 7,
+              "R-14": 12
+            },
+            "received_units": 2
+          },
+          "separate_inventory": true
+        },
+        "mixed_valid_invalid_and_metadata": {
+          "caller_stock_after": {
+            "CLIP-2": 1,
+            "R-14": 7
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 29
+            },
+            "received_units": 24
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 29
+            },
+            "received_units": 24
+          },
+          "separate_inventory": true
+        },
+        "original_conflict_input_settled_fallback": {
+          "caller_stock_after": {
+            "CLIP-2": 1,
+            "R-14": 7
+          },
+          "caller_stock_unchanged": true,
+          "expected": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 131
+            },
+            "received_units": 126
+          },
+          "input_rows_unchanged": true,
+          "matches_expected": true,
+          "result": {
+            "available": {
+              "CLIP-2": 3,
+              "R-14": 131
+            },
+            "received_units": 126
+          },
+          "separate_inventory": true
+        }
+      },
+      "source_sha256": "1026c8e1b4b99ae6a513866813d93157ab88d2c395f2d51d031d8e20be97d536",
+      "source_unchanged": true
+    }
+  },
+  "oracle_basis": "Canonical caller-stock case matched to frozen original. Mixed/dual-format expected values fixed from user quantities and explicit settled canonical-validator-first/vendor-fallback rule, not from participant declarations. Original conflicting mixed input from x002 is retained and independently validated at 126 received units.",
+  "scope": "Bounded supplemental acceptance; no source changes or actor feedback."
+}

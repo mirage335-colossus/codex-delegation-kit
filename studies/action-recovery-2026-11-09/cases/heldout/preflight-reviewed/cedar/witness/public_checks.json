@@ -1,0 +1,20 @@
+{
+  "case": "cedar",
+  "variant": "witness",
+  "label": "public_checks",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.04535687899624463,
+  "stdout": "",
+  "stderr": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n"
+}

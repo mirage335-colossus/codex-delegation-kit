@@ -1,0 +1,19 @@
+{
+  "case": "cedar",
+  "variant": "baseline",
+  "label": "original_run",
+  "argv": [
+    "/usr/bin/python3",
+    "run_pipeline.py",
+    "--plan",
+    "plans/nightly.json",
+    "--state",
+    "work/nightly"
+  ],
+  "returncode": 2,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.026388944999780506,
+  "stdout": "{\"completed\": [], \"pending\": [\"settlements\", \"quotes\", \"prices\", \"stock\"], \"status\": \"blocked\"}\n",
+  "stderr": ""
+}

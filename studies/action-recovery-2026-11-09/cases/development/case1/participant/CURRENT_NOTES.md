@@ -1,0 +1,1 @@
+Prior agent report: aggregate utilization forecast +14%, compared with a 20% continuation threshold; proposed disposition was revert/stop. Runner: Python 3 standard library, `python3 -m unittest discover -s tests` and `python3 -c 'from src.scheduler import run; print(run())'`.

@@ -1,0 +1,343 @@
+{
+  "agent": "objective_u132",
+  "calls": [
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 17,
+      "call_id": "call_2e4c9b10e818419987330f5e8c27deb7",
+      "timestamp": "2026-11-10T04:06:48.216Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 24,
+      "call_id": "call_cd0f93a1eb7740f8a26deb2a14de0e45",
+      "timestamp": "2026-11-10T04:06:50.742Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 31,
+      "call_id": "call_f47011897276456a8331a64040a909f2",
+      "timestamp": "2026-11-10T04:06:53.654Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 38,
+      "call_id": "call_2da4587c014a4f6b999cdfcaf45c3be2",
+      "timestamp": "2026-11-10T04:06:56.984Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 45,
+      "call_id": "call_f5e51f57a0274f10aec6dadecdaaaa37",
+      "timestamp": "2026-11-10T04:07:04.018Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 52,
+      "call_id": "call_9fdcd85bb58d4960b78c2dfb89fdece5",
+      "timestamp": "2026-11-10T04:07:09.881Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 59,
+      "call_id": "call_b0f34aeca5a94dcc9810eecfb86f6e37",
+      "timestamp": "2026-11-10T04:07:14.026Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 66,
+      "call_id": "call_00dff6e5b2a54336b3721c6db19803bf",
+      "timestamp": "2026-11-10T04:07:20.946Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 73,
+      "call_id": "call_f4dd1b227fc74668afbb02bf7ed833bd",
+      "timestamp": "2026-11-10T04:07:29.489Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 82,
+      "call_id": "call_5fe6ab5e48f44e25a06afecce48374f3",
+      "timestamp": "2026-11-10T04:07:38.990Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 89,
+      "call_id": "call_2935d2c6fa8b45508833369a10715fb7",
+      "timestamp": "2026-11-10T04:07:59.579Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 96,
+      "call_id": "call_d4ebaab285e1418fbb54483ba07f456c",
+      "timestamp": "2026-11-10T04:08:04.685Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 103,
+      "call_id": "call_9c18cac723034f98917d152ec7a830e3",
+      "timestamp": "2026-11-10T04:08:42.009Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 112,
+      "call_id": "call_35acbdb4a1d342a99a1538b59f22d7bc",
+      "timestamp": "2026-11-10T04:08:45.808Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 119,
+      "call_id": "call_118579bcbbe146429cfc87e9ee1b0b44",
+      "timestamp": "2026-11-10T04:09:04.929Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 126,
+      "call_id": "call_d85224944638481ca6ff30c87778741c",
+      "timestamp": "2026-11-10T04:09:07.855Z"
+    }
+  ],
+  "exec_tool_trace": [
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_2e4c9b10e818419987330f5e8c27deb7",
+      "timestamp": "2026-11-10T04:06:48.216Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u132/task.txt && cat /tmp/objective-recovery-runs/u132/instructions.txt\",\"yield_time_ms\":10000,\"max_output_tokens\":5000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_2e4c9b10e818419987330f5e8c27deb7",
+      "timestamp": "2026-11-10T04:06:48.334Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_cd0f93a1eb7740f8a26deb2a14de0e45",
+      "timestamp": "2026-11-10T04:06:50.742Z",
+      "source": "const r = await tools.exec_command({cmd:\"find /tmp/objective-recovery-runs/u132/packet -maxdepth 3 -type f -printf '%p\\\\n' | sort; mkdir -p /tmp/objective-recovery-runs/u132/scratch\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_cd0f93a1eb7740f8a26deb2a14de0e45",
+      "timestamp": "2026-11-10T04:06:50.836Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_f47011897276456a8331a64040a909f2",
+      "timestamp": "2026-11-10T04:06:53.654Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u132/packet/provenance.md; python - <<'PY'\\nimport json\\np='/tmp/objective-recovery-runs/u132/packet/conversation.json'\\nx=json.load(open(p)); print(json.dumps(x,indent=2)[:22000])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":8000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_f47011897276456a8331a64040a909f2",
+      "timestamp": "2026-11-10T04:06:53.747Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_2da4587c014a4f6b999cdfcaf45c3be2",
+      "timestamp": "2026-11-10T04:06:56.984Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json, pathlib\\nroot=pathlib.Path('/tmp/objective-recovery-runs/u132/packet')\\nfor p in sorted(root.rglob('*.json')):\\n print('\\\\n###',p.relative_to(root))\\n x=json.load(open(p)); print(json.dumps(x,indent=2)[:14000])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":12000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_2da4587c014a4f6b999cdfcaf45c3be2",
+      "timestamp": "2026-11-10T04:06:57.113Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_f5e51f57a0274f10aec6dadecdaaaa37",
+      "timestamp": "2026-11-10T04:07:04.018Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,pathlib\\nbase=pathlib.Path('/tmp/objective-recovery-runs/u132/packet')\\nfor n in ['screen.json','qualify.json']:\\n x=json.load(open(base/'abba-oversubscription'/n)); print(n, x.keys(),x.get('status'),x.get('elapsed_seconds'))\\n for l in x.get('looks',[]):\\n  r=l.get('route'); row=l.get('row',{}); print(r, l.get('status'), 'service',row.get('ratio_processing_seconds_per_baseband_second'), 'busy',l.get('busy_cores'), 'workers',row.get('software_worker_allocation'), 'owner',row.get('slot_pipeline',{}).get('maximum_processes'))\\n  print(' fields',l.keys())\\nfor n in ['timing-trace.json','predeclared.json']:\\n x=json.load(open(base/'c54-trace'/n)); print('\\\\n',n,json.dumps(x,indent=2)[:12000])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":8000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_f5e51f57a0274f10aec6dadecdaaaa37",
+      "timestamp": "2026-11-10T04:07:04.147Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_9fdcd85bb58d4960b78c2dfb89fdece5",
+      "timestamp": "2026-11-10T04:07:09.881Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,pathlib\\np=pathlib.Path('/tmp/objective-recovery-runs/u132/packet/c54-trace/timing-trace.json'); x=json.load(open(p))\\nfor l in x['looks']:\\n print('\\\\nLOOK',l['mode'])\\n for k,v in l.items():\\n  if k not in ['row','events','lanes','jobs','timeline','intervals']:\\n   print(k, str(v)[:700])\\n print('event keys',[(e.keys()) for e in l.get('events',[])[:2]])\\n for e in l.get('events',[]): print(e)\\nPY\\nrg -n 'ThreadPool|Executor|submit\\\\(|max_workers|ProcessPool|worker_allocation|dispatch|slot_pipeline' /tmp/objective-recovery-runs/u132/packet/source/tools/*.py\",\"yield_time_ms\":10000,\"max_output_tokens\":8000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_9fdcd85bb58d4960b78c2dfb89fdece5",
+      "timestamp": "2026-11-10T04:07:10.001Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_b0f34aeca5a94dcc9810eecfb86f6e37",
+      "timestamp": "2026-11-10T04:07:14.026Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nx=json.load(open('/tmp/objective-recovery-runs/u132/packet/c54-trace/timing-trace.json'))\\nprint(x.keys())\\nfor l in x['looks']: print(l['mode'],l.keys())\\nPY\\ncat /tmp/objective-recovery-runs/u132/packet/c54-trace/trace-run.log | tail -40\\ncat /tmp/objective-recovery-runs/u132/packet/abba-oversubscription/qualify.log | tail -25\",\"yield_time_ms\":10000,\"max_output_tokens\":4000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_b0f34aeca5a94dcc9810eecfb86f6e37",
+      "timestamp": "2026-11-10T04:07:14.136Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_00dff6e5b2a54336b3721c6db19803bf",
+      "timestamp": "2026-11-10T04:07:20.946Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,collections\\nx=json.load(open('/tmp/objective-recovery-runs/u132/packet/c54-trace/timing-trace.json'))\\nfor k in ('selected_fine_cycle','events','jobs'):\\n v=x[k];print('\\\\n',k,type(v),len(v) if hasattr(v,'__len__') else '')\\n if k=='selected_fine_cycle': print(json.dumps(v,indent=2)[:10000])\\n elif k=='events':\\n  print('keys',v[0].keys()); print(collections.Counter(e.get('event') or e.get('kind') or e.get('type') for e in v)); print(json.dumps(v[:12],indent=2)[:5000])\\n else: print('keys',v[0].keys()); print(json.dumps(v[:5],indent=2)[:8000])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":7000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_00dff6e5b2a54336b3721c6db19803bf",
+      "timestamp": "2026-11-10T04:07:21.061Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_f4dd1b227fc74668afbb02bf7ed833bd",
+      "timestamp": "2026-11-10T04:07:29.489Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,collections\\nx=json.load(open('/tmp/objective-recovery-runs/u132/packet/c54-trace/timing-trace.json'))\\nev=x['events']; by=collections.defaultdict(lambda:[0,0,0])\\nfor e in ev:\\n d=by[(e['kind'],e['phase'])]; d[0]+=e['end_ns']-e['start_ns'];d[1]+=e['thread_cpu_ns'];d[2]+=1\\nfor (k,p),v in sorted(by.items(),key=lambda kv:kv[1][0],reverse=True):print(k,p,round(v[0]/1e9,3),round(v[1]/1e9,3),v[2])\\nprint('observer',x['observer_overhead_fraction'],'same hashes',x['input_iq_sha256']==x['final_input_iq_sha256'],x['input_valid_sha256']==x['final_input_valid_sha256'],'source',x['source_verified_unchanged'],'driver',x['driver_verified_unchanged'])\\n# overlap by kind + thread cpu ratios\\nprint('trace outer/control', x['looks'][1]['outer_seconds']/x['looks'][0]['outer_seconds'])\\nPY\\nsed -n '400,520p' /tmp/objective-recovery-runs/u132/packet/source/tools/triad_slot_executor.py\\nsed -n '440,510p' /tmp/objective-recovery-runs/u132/packet/source/tools/triad_stream_receiver.py\",\"yield_time_ms\":10000,\"max_output_tokens\":5000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_f4dd1b227fc74668afbb02bf7ed833bd",
+      "timestamp": "2026-11-10T04:07:29.605Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_5fe6ab5e48f44e25a06afecce48374f3",
+      "timestamp": "2026-11-10T04:07:38.990Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,collections\\nx=json.load(open('/tmp/objective-recovery-runs/u132/packet/c54-trace/timing-trace.json'))\\nby=collections.defaultdict(lambda:[0,0,0])\\nfor e in x['events']:\\n d=by[(e['kind'],e['phase'])]; d[0]+=e['end_ns']-e['start_ns']; d[2]+=1\\n if e['thread_cpu_ns'] is not None:d[1]+=e['thread_cpu_ns']\\nfor (k,p),v in sorted(by.items(),key=lambda kv:kv[1][0],reverse=True):print(k,p,round(v[0]/1e9,3),round(v[1]/1e9,3),v[2])\\nprint('observer',x['observer_overhead_fraction'],'equal input',x['input_iq_sha256']==x['final_input_iq_sha256'],x['input_valid_sha256']==x['final_input_valid_sha256'],'source/driver',x['source_verified_unchanged'],x['driver_verified_unchanged'],'trace/control',x['looks'][1]['outer_seconds']/x['looks'][0]['outer_seconds'])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_5fe6ab5e48f44e25a06afecce48374f3",
+      "timestamp": "2026-11-10T04:07:39.118Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_2935d2c6fa8b45508833369a10715fb7",
+      "timestamp": "2026-11-10T04:07:59.579Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat > /tmp/objective-recovery-runs/u132/scratch/check_receipts.py <<'PY'\\n#!/usr/bin/env python3\\n\\\"\\\"\\\"Read-only discriminator for the frozen u132 performance and trace receipts.\\\"\\\"\\\"\\nimport json\\nfrom pathlib import Path\\n\\nROOT = Path('/tmp/objective-recovery-runs/u132/packet')\\n\\ndef load(path):\\n    return json.loads(path.read_text())\\n\\nscreen = load(ROOT/'abba-oversubscription/screen.json')\\nqual = load(ROOT/'abba-oversubscription/qualify.json')\\naudit = load(ROOT/'abba-oversubscription/independent-audit.json')\\ntrace = load(ROOT/'c54-trace/timing-trace.json')\\nassert audit['status'] == 'verified_performance_gate_rejected'\\nassert qual['status'] == 'performance_gate_rejected'\\ns = qual['summary']\\nassert s['resident_reduction'] < .15\\nassert max(s['paired_resident_ratios']) >= 1\\nassert s['cold_reduction'] < .15 # actual predeclared allowance was max 5% regression\\nassert screen['selected_route'] == 'p3w18'\\nassert trace['status'] == 'passed'\\nassert trace['source_verified_unchanged'] and trace['driver_verified_unchanged']\\nassert trace['input_iq_sha256'] == trace['final_input_iq_sha256']\\nassert trace['input_valid_sha256'] == trace['final_input_valid_sha256']\\nphases = {}\\nfor e in trace['events']:\\n    d = phases.setdefault((e['kind'], e['phase']), [0, 0, 0])\\n    d[0] += e['end_ns'] - e['start_ns']\\n    d[1] += e.get('thread_cpu_ns') or 0\\n    d[2] += 1\\nprint('ABBA:', qual['status'], 'selected_route=', screen['selected_route'])\\nprint('resident median reduction=', round(s['resident_reduction']*100, 2), '%; required 15%')\\nprint('paired resident ratios=', ', '.join(f'{v:.4f}' for v in s['paired_resident_ratios']), '; each must be <1')\\nprint('cold reduction=', round(s['cold_reduction']*100, 2), '%; predeclared maximum cold regression 5%')\\nprint('busy cores baseline/candidate=', round(s['busy_baseline'], 2), '/', round(s['busy_candidate'], 2))\\nprint('trace status=', trace['status'], 'observer overhead=', round(trace['observer_overhead_fraction']*100, 3), '%')\\nprint('same input/source/driver=', trace['input_iq_sha256']==trace['final_input_iq_sha256'] and trace['input_valid_sha256']==trace['final_input_valid_sha256'], trace['source_verified_unchanged'], trace['driver_verified_unchanged'])\\nfor key in [('phase','fine_tracking'), ('phase','bank_preparation'), ('phase','parent_drain'), ('phase','parent_ingress'), ('phase','fine_cycle'), ('worker','fine_basis_job')]:\\n    v=phases.get(key,[0,0,0]); print(f'trace {key[1]}: wall-span sum={v[0]/1e9:.3f}s cpu={v[1]/1e9:.3f}s events={v[2]}')\\nprint('Trace intervals overlap; phase wall sums are diagnostic and must not be added as total service.')\\nPY\\nchmod +x /tmp/objective-recovery-runs/u132/scratch/check_receipts.py\\n/tmp/objective-recovery-runs/u132/scratch/check_receipts.py\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_2935d2c6fa8b45508833369a10715fb7",
+      "timestamp": "2026-11-10T04:07:59.722Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_d4ebaab285e1418fbb54483ba07f456c",
+      "timestamp": "2026-11-10T04:08:04.685Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\np='/tmp/objective-recovery-runs/u132/scratch/check_receipts.py'\\ns=open(p).read().replace(\\\"assert max(s['paired_resident_ratios']) >= 1\\\\n\\\", \\\"assert max(s['paired_resident_ratios']) < 1\\\\n\\\").replace(\\\"assert s['cold_reduction'] < .15 # actual predeclared allowance was max 5% regression\\\\n\\\", \\\"assert s['cold_reduction'] >= -.05 # actual predeclared allowance was max 5% regression\\\\n\\\")\\nopen(p,'w').write(s)\\nPY\\n/tmp/objective-recovery-runs/u132/scratch/check_receipts.py\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_d4ebaab285e1418fbb54483ba07f456c",
+      "timestamp": "2026-11-10T04:08:04.815Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_9c18cac723034f98917d152ec7a830e3",
+      "timestamp": "2026-11-10T04:08:42.009Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat > /tmp/objective-recovery-runs/u132/scratch/result.md <<'MD'\\n# u132 historical continuation findings\\n\\n## Decision\\n\\nThe archived disposition stands for the measured experiment: do not retain the three-owner/18-worker expansion as the default, and keep the earlier two-owner route. The ABBA did not qualify the wider route against the predeclared performance gates. This is a rejection of that candidate on that fixture, not proof that more owners never help. The audit explicitly says the retained two-owner source is not timing-qualified by these experiments.\\n\\nDo not describe the overall user objective as complete. Neither receipt is a full manually specified CPU suite forecast, a sustained multi-minute CPU scaling study, nor evidence for a GPU-assisted forecast. The history's request to produce these remains outstanding. The study's later assistant statement that a measured descriptor improvement was kept is historical context; the packet lacks the exact later source/candidate, so its identity and incorporation are not independently checked here.\\n\\n## What I checked\\n\\n- Read the historical user requests in `packet/conversation.json`, provenance, both ABBA measurements, their independent receipt audit, and the earlier c54 timing trace and six-file source extract.\\n- ABBA audit independently verified 9 looks, 87 jobs with five ordered spans, recomputed unions/envelopes/gaps, work/message parity, memory checks, and CPU usage. It says the tested expanded scheduler was retired and retained two-owner source is unqualified by these experiments. The exact dirty candidate, runner, and native fixture are not reconstructable here.\\n- Screen picked p3w18 on a seven-window prefix because its point gain was 10.05%; selection was explicitly not inference. In the subsequent 13-window ABBA, resident service reduction was only 3.89% against a 15% gate. Both paired resident ratios were under 1 (0.9455, 0.9772), but that does not rescue the median-gain failure. Cold lifecycle improved 6.69%, so the maximum 5% regression criterion passed. Busy cores increased from 4.12 to 5.78. The qualification status is `performance_gate_rejected`; no route was selected for adoption.\\n- The earlier c54 trace passed with an observer overhead of -0.146%, exact IQ/valid input hashes unchanged, and unchanged source and private driver. Trace/control outer service ratio was 0.99854. Its five-window job list used two owners (12 workers for window 0, then 6 each across windows 1–4). This supports scheduling analysis for c54 only, not the later ABBA candidate.\\n- In c54's traced intervals, fine tracking dominates reported stage work (24.322 s summed wall spans, 14.897 s thread CPU); recurring bank preparation is 3.076 s wall, 0.889 s thread CPU; parent drain is 13.026 s wall but only 0.019 s parent thread CPU. Ingress is 5.835 s wall / 0.077 s CPU. The two captured fine basis jobs total 0.073 s wall / 0.060 s CPU and Gaussian jobs total about 0.002 s. These spans overlap and must not be summed as end-to-end time. The trace does not establish that the 13-second drain is wasted CPU opportunity: it is mostly waiting while child service proceeds. It does show that optimizing the short basis/Gaussian subjobs is not a plausible main throughput win for this case.\\n- The source extract's `triad_stream_receiver.py` has a bounded two-job dispatcher and partitions aggregate workers when two windows are ready. `triad_slot_executor.py` enforces shared worker and owner limits. The scheduling design is therefore coupled: more owners alone still divides the same CPU budget, and admission is also constrained by backlog, input reservations, and workspace. The ABBA memory checks passed at its frozen 5 GiB cap, but this does not establish feasibility for another workload.\\n\\n## Supported next action and prerequisites\\n\\nKeep the wider-owner route retired. The next useful performance action is a source-bound, bounded diagnostic on the *current retained source* that separates `fine_tracking` useful CPU work from parent/child wait and tracks actual per-thread/OS CPU while the full required manually specified suite runs. Use those results to target tracking-task granularity/load balance if there is demonstrable idle CPU during tracking; do not spend effort on the tiny captured fine basis/Gaussian tasks or repeat a width sweep without a changed hypothesis. Then generate forecasts per suite test from complete receiver work and preserve each workload's exact input/work identity.\\n\\nBefore that action can be executed, obtain (1) the exact retained/current source closure and native artifact identities, (2) the actual suite manifest and matching captures/valid arrays, (3) the reviewed local runner/adapter and interpreter/dependencies, and (4) a predeclared execution/memory cap and acceptance definition for CPU forecasts. Those are not included in this frozen packet; the actual ABBA runner/input were retired and no local receiver execution is authorized here. Thus I did not execute the receiver, build, or benchmark. The packet supports the diagnosis and route decision, not the requested future forecast. GPU forecasting is a separate optional path requiring a defined fidelity/error acceptance criterion and reproducible GPU environment; no evidence here demonstrates one.\\n\\n## Requirements, choices, and limitations\\n\\n- **Case-specific hard outcomes from the historical request:** complete CPU forecasting of the manually specified suite, meaningful measurement on the computer's 12 hardware threads, credible CPU margin evidence, and a fast GPU-assisted forecasting method. They are not satisfied by the isolated ABBA/trace.\\n- **Predeclared experiment gates (hard for that experiment):** 15% median resident service gain, both matched resident ratios below 1, no more than 5% cold lifecycle regression, plus parity, provenance, memory, and runtime gates. Resident gain failed; cold and paired ratio conditions passed. Preserve `performance_gate_rejected`.\\n- **Adjustable design choices:** default owner count, worker split, GPU precision/method, and which bounded stage to optimize. The evidence supports retaining two owners for this measured case and examining tracking only if current-source profiling demonstrates a schedulable imbalance. It does not establish an unconditional need to change the default worker count.\\n- **Limits:** c54 is an earlier checkpoint than the ABBA source revision; no evidence equates their source identities. The trace is a five-window configured-calendar row-7 stream and an early fine segment, not a broad sensitivity qualification. ABBA is one configured-calendar row-7 stream with a short screen and one qualification; it is not suite coverage or sustained CPU stress. Worker interval spans, thread CPU, process CPU and OS utilization are distinct measures. Equal outputs alone would not prove matched inputs; here the receipt audit verifies the declared input hashes for ABBA, and the trace hashes match before/after within c54.\\n\\n## Executable check\\n\\nRun `./scratch/check_receipts.py` from the assigned run directory or invoke it by absolute path. It reads only frozen receipts, asserts the key gate statuses and trace identity checks, and prints discriminating metrics. It performs no receiver execution.\\nMD\\nls -l /tmp/objective-recovery-runs/u132/scratch\",\"yield_time_ms\":10000,\"max_output_tokens\":2000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_9c18cac723034f98917d152ec7a830e3",
+      "timestamp": "2026-11-10T04:08:42.122Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_35acbdb4a1d342a99a1538b59f22d7bc",
+      "timestamp": "2026-11-10T04:08:45.808Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u132/received/values.md; cat /tmp/objective-recovery-runs/u132/received/dependencies.md\",\"yield_time_ms\":10000,\"max_output_tokens\":7000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_35acbdb4a1d342a99a1538b59f22d7bc",
+      "timestamp": "2026-11-10T04:08:45.954Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_118579bcbbe146429cfc87e9ee1b0b44",
+      "timestamp": "2026-11-10T04:09:04.929Z",
+      "source": "const r = await tools.exec_command({cmd:\"python3 - <<'PY'\\np='/tmp/objective-recovery-runs/u132/scratch/result.md'\\ns=open(p).read()\\ns=s.replace(\\\"The source extract's `triad_stream_receiver.py` has a bounded two-job dispatcher and partitions aggregate workers when two windows are ready. `triad_slot_executor.py` enforces shared worker and owner limits. The scheduling design is therefore coupled: more owners alone still divides the same CPU budget, and admission is also constrained by backlog, input reservations, and workspace. The ABBA memory checks passed at its frozen 5 GiB cap, but this does not establish feasibility for another workload.\\\", \\\"The source extract's `triad_stream_receiver.py` has a bounded two-job dispatcher and partitions aggregate workers when two windows are ready. `triad_slot_executor.py` enforces shared worker and owner limits. The scheduling design is therefore coupled: more owners alone still divides the same CPU budget, and admission is also constrained by backlog, input reservations, and workspace. The c54 predeclared cap is 3.75 GiB; its control combined estimate is 4,018,893,741 B, about 99.81% of cap (modeled workspace, not an OS hard cap). The ABBA memory checks passed at a different frozen 5 GiB cap, but neither result establishes feasibility for another workload.\\\\n- The source dependency chain is public planning/bank preparation -> owner/native ingress and coarse candidates -> persistent tracking across segments -> ordered parent decision/message completion. `triad_tracking_basis.py` submits row ranges to an executor and joins the futures before releasing tile/output storage. This bounds tracking parallelism and its memory lifetime. The traced c54 DATA/QUIET slots attribute roughly 83–90% of slot service to tracking, with 136–167 million basis rows per segment; coarse FFT/score work is much smaller. That makes tracking/basis the strongest next profiling target, but the evidence does not show whether those executor workers were CPU-running or idle. Must collect worker/OS CPU telemetry before diagnosing task supply or claiming utilization.\\\")\\ns=s.replace(\\\"The next useful performance action is a source-bound, bounded diagnostic on the *current retained source* that separates `fine_tracking` useful CPU work from parent/child wait and tracks actual per-thread/OS CPU while the full required manually specified suite runs. Use those results to target tracking-task granularity/load balance if there is demonstrable idle CPU during tracking; do not spend effort on the tiny captured fine basis/Gaussian subjobs or repeat a width sweep without a changed hypothesis. Then generate forecasts per suite test from complete receiver work and preserve each workload's exact input/work identity.\\\", \\\"The next useful performance action is a source-bound, bounded diagnostic on the *current retained source* that separates tracking/basis worker CPU from parent/child wait, and tracks actual per-thread/OS CPU while covering the required suite. Tracking task width/load balance is the candidate to investigate because it dominates c54 service and is row-parallel with joined futures; change it only if telemetry finds schedulable idle CPU and memory admission remains safe. Do not spend effort on the tiny captured basis/Gaussian fine-cycle jobs or repeat a width sweep without a changed hypothesis. Then generate forecasts per suite test from complete receiver work and preserve each workload's exact input/work identity.\\\")\\nopen(p,'w').write(s)\\nPY\\n/tmp/objective-recovery-runs/u132/scratch/check_receipts.py >/tmp/objective-recovery-runs/u132/scratch/check_output.txt\\ncat /tmp/objective-recovery-runs/u132/scratch/check_output.txt\",\"yield_time_ms\":10000,\"max_output_tokens\":2000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_118579bcbbe146429cfc87e9ee1b0b44",
+      "timestamp": "2026-11-10T04:09:05.066Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_d85224944638481ca6ff30c87778741c",
+      "timestamp": "2026-11-10T04:09:07.855Z",
+      "source": "const r = await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u132/scratch/result.md | tail -20; sha256sum /tmp/objective-recovery-runs/u132/scratch/result.md /tmp/objective-recovery-runs/u132/scratch/check_receipts.py\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_d85224944638481ca6ff30c87778741c",
+      "timestamp": "2026-11-10T04:09:07.963Z",
+      "output": ""
+    }
+  ]
+}

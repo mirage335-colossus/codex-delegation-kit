@@ -1,0 +1,20 @@
+{
+  "case": "marlin",
+  "variant": "incomplete_index",
+  "label": "public_checks",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.05719412300095428,
+  "stdout": "",
+  "stderr": "test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n"
+}

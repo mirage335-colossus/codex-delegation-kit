@@ -1,0 +1,176 @@
+{
+  "result": {
+    "checks": {
+      "failed": [
+        "Initial `python3 -B -m unittest -v test_answer.py`: failed; `answer.answer()` returned 41 instead of 42."
+      ],
+      "passed": [
+        "After changing `answer.py` to return 42, `python3 -B -m unittest -v test_answer.py` passed (1 test)."
+      ],
+      "unexecuted": [
+        "Independent review of the patch."
+      ]
+    },
+    "commands": [
+      "python3 -B -m unittest -v test_answer.py",
+      "python3 -B -m unittest -v test_answer.py"
+    ],
+    "decisions": [
+      "Changed only `answer.py`. Preserved the initial test failure as diagnostic evidence."
+    ],
+    "remaining_acceptance_conditions": [
+      "Independent review remains pending; controller to authorize or schedule it."
+    ],
+    "status": "completed"
+  },
+  "commands": [
+    {
+      "aggregatedOutput": "test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42) ... FAIL\n\n======================================================================\nFAIL: test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/action-recovery-runs/smoke-runtime-03/workspace/test_answer.py\", line 8, in test_answer_is_42\n    self.assertEqual(answer.answer(), 42)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 41 != 42\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest -v test_answer.py'",
+      "completed": true,
+      "completed_at": 1794287100.2431102,
+      "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+      "durationMs": 0,
+      "exitCode": 1,
+      "id": "exec-621227b9-8708-4bdf-be81-5d2fdd1d27ea",
+      "observed_at": 1794287100.2424688,
+      "output_truncated": false,
+      "processId": "45381",
+      "source": "unifiedExecStartup",
+      "status": "failed"
+    },
+    {
+      "aggregatedOutput": "test_answer_is_42 (test_answer.AnswerTest.test_answer_is_42) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest -v test_answer.py'",
+      "completed": true,
+      "completed_at": 1794287106.49564,
+      "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-bafa0771-a777-44ab-9349-f47b2c56ebbf",
+      "observed_at": 1794287106.4951231,
+      "output_truncated": false,
+      "processId": "19490",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/smoke-runtime-03/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9472,
+      "inputTokens": 9836,
+      "outputTokens": 328,
+      "reasoningOutputTokens": 164,
+      "totalTokens": 10164
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 27776,
+      "inputTokens": 38093,
+      "outputTokens": 813,
+      "reasoningOutputTokens": 382,
+      "totalTokens": 38906
+    }
+  },
+  "file_changes": [
+    {
+      "changes": [
+        {
+          "kind": {
+            "move_path": null,
+            "type": "update"
+          },
+          "path": "/tmp/action-recovery-runs/smoke-runtime-03/workspace/answer.py"
+        }
+      ],
+      "completed": true,
+      "completed_at": 1794287104.2465258,
+      "id": "exec-a8a0f33d-a957-425d-82f1-591afa581b05",
+      "observed_at": 1794287104.2078948,
+      "status": "completed"
+    }
+  ]
+}

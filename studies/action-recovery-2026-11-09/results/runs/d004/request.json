@@ -1,0 +1,26 @@
+{
+  "prompt": "Read TASK.md, any notes in the workspace, and the source. Continue the objective as stated there. Follow the supplied write scope and permitted acceptance commands. Preserve inputs and artifacts that the task marks read-only or protected. Do not access the network, leave background work, or spawn agents. Report commands and checks accurately; distinguish passed, failed, and unexecuted checks. Return one JSON object matching the required schema.",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "service_tier": "default",
+  "role": "owner",
+  "approval": "never",
+  "sandbox": "workspace-write",
+  "network": false,
+  "execution_environment": "local",
+  "allowed_commands": [
+    "python3 -B -m unittest discover -s tests",
+    "python3 -B -m src.inventory_app data/vendor_feed.csv"
+  ],
+  "write_scope": [
+    "src",
+    "scratch"
+  ],
+  "resources": {
+    "cpu": 1,
+    "memory_mb": 256
+  },
+  "timeout_seconds": 215.0,
+  "task_id": "d004",
+  "operation_id": "d004"
+}

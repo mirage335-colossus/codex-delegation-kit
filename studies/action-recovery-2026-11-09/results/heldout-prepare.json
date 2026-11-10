@@ -1,0 +1,290 @@
+[
+  {
+    "run": {
+      "case": "orchid",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h001"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h001/operation\", \"request_sha256\": \"59a51958f1aae577242a4bf98138a855fccfb8914f742ce9dc46381d722f1f22\", \"run_directory\": \"/tmp/action-recovery-runs/h001\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h001/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "orchid",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h002"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h002/operation\", \"request_sha256\": \"fd0e478e0c9182bcbf059026f9cfbec5a4ec1843adae8b6037feb6cc53c5b08a\", \"run_directory\": \"/tmp/action-recovery-runs/h002\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h002/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "harbor",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h003"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h003/operation\", \"request_sha256\": \"624a0d0c4accad2c7e8d60418ef656fdc25d5702ec19d4d64fd41d2db8f8ce94\", \"run_directory\": \"/tmp/action-recovery-runs/h003\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h003/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "harbor",
+      "version": "v2",
+      "replicate": 1,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h004"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h004/operation\", \"request_sha256\": \"a6c70e8ab6344c3ca4a52ce448409847488a68f28469ea601aa583382017998d\", \"run_directory\": \"/tmp/action-recovery-runs/h004\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h004/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "marlin",
+      "version": "v2",
+      "replicate": 2,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h005"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h005/operation\", \"request_sha256\": \"dc206a35552a17becd197de6ac6d38c1944bf4e7d4a2ad2ce81e8e53faa4b805\", \"run_directory\": \"/tmp/action-recovery-runs/h005\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h005/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "marlin",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h006"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h006/operation\", \"request_sha256\": \"232b77d4f45687a57d81514272161bc56529092b6d109356c09fef53b33252c0\", \"run_directory\": \"/tmp/action-recovery-runs/h006\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h006/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "marlin",
+      "version": "v2",
+      "replicate": 1,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h007"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h007/operation\", \"request_sha256\": \"379b0b116a7f5f9902f287f62a991aa707fb0b7410c6f7d39a23953a43dafe19\", \"run_directory\": \"/tmp/action-recovery-runs/h007\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h007/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "cedar",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h008"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h008/operation\", \"request_sha256\": \"0de845a650b4df2cae6333d3511ce5c04eed9743e1c543e3526c486b75bb79aa\", \"run_directory\": \"/tmp/action-recovery-runs/h008\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h008/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "harbor",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h009"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h009/operation\", \"request_sha256\": \"c9f1842046880f665845a0d4ec1100a71cb60fb87b8111abf97412e0e19b8201\", \"run_directory\": \"/tmp/action-recovery-runs/h009\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h009/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "cedar",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h010"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h010/operation\", \"request_sha256\": \"eadb49bcbf725570206890dc9ab7d642534b6605892b4b1fa7bd5635600e7a91\", \"run_directory\": \"/tmp/action-recovery-runs/h010\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h010/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "orchid",
+      "version": "v2",
+      "replicate": 1,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h011"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h011/operation\", \"request_sha256\": \"93bcb6e892a175cdd825060c9a49c51f003879474ab7d462bb04d696905e9780\", \"run_directory\": \"/tmp/action-recovery-runs/h011\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h011/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "cedar",
+      "version": "v2",
+      "replicate": 2,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h012"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h012/operation\", \"request_sha256\": \"78801cdf370b4167ff59f70874004035ca389029eaf485ef2f255c1fde17b194\", \"run_directory\": \"/tmp/action-recovery-runs/h012\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h012/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "marlin",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h013"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h013/operation\", \"request_sha256\": \"f078cf6b493186ac049189fc2244fd3a500ffb5b71cf4842727f8532181d48b6\", \"run_directory\": \"/tmp/action-recovery-runs/h013\", \"source_sha256\": \"aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h013/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "orchid",
+      "version": "v2",
+      "replicate": 2,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h014"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h014/operation\", \"request_sha256\": \"eb89f32101c54fba8d36e8bf47b0e9c182b4dfcb7e784e6145904efffb6b34eb\", \"run_directory\": \"/tmp/action-recovery-runs/h014\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h014/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "harbor",
+      "version": "v2",
+      "replicate": 2,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h015"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h015/operation\", \"request_sha256\": \"9d256d87509d04f155f44453a4a6cd3837ac23fce9429c938fe61fc38a6ec990\", \"run_directory\": \"/tmp/action-recovery-runs/h015\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h015/workspace\"}\n",
+    "stderr": ""
+  },
+  {
+    "run": {
+      "case": "cedar",
+      "version": "v2",
+      "replicate": 1,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "h016"
+    },
+    "returncode": 0,
+    "stdout": "{\"model_run_started\": false, \"operation_directory\": \"/tmp/action-recovery-runs/h016/operation\", \"request_sha256\": \"30dcb1a26211a287d1bbebbdee8df0814bed0f5384506d8918f5603ebcc6f2aa\", \"run_directory\": \"/tmp/action-recovery-runs/h016\", \"source_sha256\": \"71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187\", \"status\": \"prepared\", \"workspace\": \"/tmp/action-recovery-runs/h016/workspace\"}\n",
+    "stderr": ""
+  }
+]

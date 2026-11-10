@@ -1,0 +1,20 @@
+{
+  "case": "harbor",
+  "variant": "baseline",
+  "label": "public_checks",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.055439420000766404,
+  "stdout": "",
+  "stderr": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+}

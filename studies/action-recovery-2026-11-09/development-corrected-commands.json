@@ -1,0 +1,234 @@
+[
+  {
+    "run": {
+      "case": "case2",
+      "replicate": 1,
+      "version": "v2",
+      "run_id": "d101",
+      "replaces_invalid_setup_run": "d001"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d101",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/v2",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -m src.inventory_app data/vendor_feed.csv",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case1",
+      "replicate": 2,
+      "version": "v2",
+      "run_id": "d102",
+      "replaces_invalid_setup_run": "d002"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d102",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/v2",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case1/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -c 'from src.scheduler import run; print(run())'",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case2",
+      "replicate": 2,
+      "version": "v2",
+      "run_id": "d103",
+      "replaces_invalid_setup_run": "d003"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d103",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/v2",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -m src.inventory_app data/vendor_feed.csv",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case2",
+      "replicate": 1,
+      "version": "baseline",
+      "run_id": "d104",
+      "replaces_invalid_setup_run": "d004"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d104",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/baseline",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -m src.inventory_app data/vendor_feed.csv",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case1",
+      "replicate": 1,
+      "version": "v2",
+      "run_id": "d105",
+      "replaces_invalid_setup_run": "d005"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d105",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/v2",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case1/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -c 'from src.scheduler import run; print(run())'",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case2",
+      "replicate": 2,
+      "version": "baseline",
+      "run_id": "d106",
+      "replaces_invalid_setup_run": "d006"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d106",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/baseline",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -m src.inventory_app data/vendor_feed.csv",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case1",
+      "replicate": 1,
+      "version": "baseline",
+      "run_id": "d107",
+      "replaces_invalid_setup_run": "d007"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d107",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/baseline",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case1/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -c 'from src.scheduler import run; print(run())'",
+      "--role",
+      "owner"
+    ]
+  },
+  {
+    "run": {
+      "case": "case1",
+      "replicate": 2,
+      "version": "baseline",
+      "run_id": "d108",
+      "replaces_invalid_setup_run": "d008"
+    },
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/harness.py",
+      "prepare",
+      "--run-id",
+      "d108",
+      "--source-version",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/baseline",
+      "--workspace-template",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case1/participant",
+      "--write-scope",
+      "src/",
+      "--acceptance-command",
+      "python3 -B -m unittest discover -s tests",
+      "--acceptance-command",
+      "python3 -B -c 'from src.scheduler import run; print(run())'",
+      "--role",
+      "owner"
+    ]
+  }
+]

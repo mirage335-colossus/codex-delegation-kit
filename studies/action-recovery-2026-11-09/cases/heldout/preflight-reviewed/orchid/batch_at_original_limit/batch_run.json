@@ -1,0 +1,19 @@
+{
+  "case": "orchid",
+  "variant": "batch_at_original_limit",
+  "label": "batch_run",
+  "argv": [
+    "/usr/bin/python3",
+    "report.py",
+    "--input",
+    "data/readings.csv",
+    "--output",
+    "work/daily_report.json"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.038985659994068556,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/action-recovery-heldout/preflight-reviewed/orchid/batch_at_original_limit/participant/report.py\", line 12, in <module>\n    report = summarize(root / args.input, config[\"max_live_rows\"])\n  File \"/tmp/action-recovery-heldout/preflight-reviewed/orchid/batch_at_original_limit/participant/telemetry/reduce.py\", line 7, in summarize\n    for lease in list(leased_rows(path, meter)):\n                 ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/action-recovery-heldout/preflight-reviewed/orchid/batch_at_original_limit/participant/telemetry/feed.py\", line 43, in leased_rows\n    yield meter.lease(row)\n          ~~~~~~~~~~~^^^^^\n  File \"/tmp/action-recovery-heldout/preflight-reviewed/orchid/batch_at_original_limit/participant/telemetry/feed.py\", line 15, in lease\n    raise RowBudgetExceeded(\"raw row limit exceeded: \" + str(self.limit))\ntelemetry.feed.RowBudgetExceeded: raw row limit exceeded: 4\n"
+}

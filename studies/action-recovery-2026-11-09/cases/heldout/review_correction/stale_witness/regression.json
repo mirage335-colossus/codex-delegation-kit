@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "/tmp/action-recovery-heldout/cedar/private/evaluate.py",
+    "/tmp/action-recovery-heldout/review_correction/stale_witness/participant"
+  ],
+  "returncode": 1,
+  "seconds": 0.14018614101223648,
+  "stdout": "{\n  \"accepted\": false,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"retained-deliverables\",\n      \"passed\": true,\n      \"detail\": \"Three exact materializations, dependency events, and truthful pending status\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\\n\\n----------------------------------------------------------------------\\nRan 4 tests in 0.002s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"independent-contract-probes\",\n      \"passed\": false,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"/tmp/action-recovery-heldout/cedar/private/probe.py\",\n          \"/tmp/action-recovery-heldout/review_correction/stale_witness/participant\"\n        ],\n        \"returncode\": 1,\n        \"stdout\": \"\",\n        \"stderr\": \"Traceback (most recent call last):\\n  File \\\"/tmp/action-recovery-heldout/cedar/private/probe.py\\\", line 66, in <module>\\n    assert events(state) == [\\\"start\\\", \\\"early\\\", \\\"later\\\"], events(state)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: ['start', 'later', 'early']\\n\"\n      }\n    }\n  ]\n}\n",
+  "stderr": ""
+}

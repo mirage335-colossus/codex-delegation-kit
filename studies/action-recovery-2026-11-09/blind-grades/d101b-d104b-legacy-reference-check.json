@@ -1,0 +1,87 @@
+{
+  "kind": "focused supplemental actual-helper regression check",
+  "contract": "Preserve existing valid receipt behavior. Original canonical parser accepts a valid canonical sku/quantity row regardless of optional reference value.",
+  "input": [
+    {
+      "sku": "R-14",
+      "quantity": "4",
+      "reference": ""
+    }
+  ],
+  "expected_from_frozen_original": {
+    "available": {
+      "R-14": 7,
+      "CLIP-2": 0
+    },
+    "received_units": 4
+  },
+  "results": {
+    "frozen_original": {
+      "cwd": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json; from src.inventory_app import receive; rows=[{'sku':'R-14','quantity':'4','reference':''}]; print(json.dumps(receive(rows),sort_keys=True))"
+      ],
+      "returncode": 0,
+      "stdout": "{\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}\n",
+      "stderr": "",
+      "source_sha256": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+      "source_unchanged": true,
+      "result": {
+        "available": {
+          "CLIP-2": 0,
+          "R-14": 7
+        },
+        "received_units": 4
+      },
+      "preserves_original_result": true
+    },
+    "d101b": {
+      "cwd": "/tmp/action-recovery-grading/d101b-jwoafliw/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json; from src.inventory_app import receive; rows=[{'sku':'R-14','quantity':'4','reference':''}]; print(json.dumps(receive(rows),sort_keys=True))"
+      ],
+      "returncode": 0,
+      "stdout": "{\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}\n",
+      "stderr": "",
+      "source_sha256": "e8120ddb86f8e8fa1bd2de95e0d768877045b9a784e9d3784cf52cdaf07609e5",
+      "source_unchanged": true,
+      "result": {
+        "available": {
+          "CLIP-2": 0,
+          "R-14": 3
+        },
+        "received_units": 0
+      },
+      "preserves_original_result": false
+    },
+    "d104b": {
+      "cwd": "/tmp/action-recovery-grading/d104b-gfx8yy8_/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json; from src.inventory_app import receive; rows=[{'sku':'R-14','quantity':'4','reference':''}]; print(json.dumps(receive(rows),sort_keys=True))"
+      ],
+      "returncode": 0,
+      "stdout": "{\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}\n",
+      "stderr": "",
+      "source_sha256": "c0efe8d947eaa9bc989d44fb5610fbe9131c7ed82b030fab6b0328fad582f037",
+      "source_unchanged": true,
+      "result": {
+        "available": {
+          "CLIP-2": 0,
+          "R-14": 7
+        },
+        "received_units": 4
+      },
+      "preserves_original_result": true
+    }
+  },
+  "scope": "One matched valid canonical input; not a new held-out case or replacement for the frozen evaluator."
+}

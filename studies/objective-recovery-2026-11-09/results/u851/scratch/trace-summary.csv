@@ -1,0 +1,75 @@
+phase,count,aggregate_event_wall_s,thread_cpu_s,scope_note
+slot_score,5,27.855563,15.974613,overlapping event intervals; thread CPU is not OS-running time
+complete_receive,5,24.741973,15.054766,overlapping event intervals; thread CPU is not OS-running time
+fine_tracking,5,24.322391,14.896751,overlapping event intervals; thread CPU is not OS-running time
+bank_preparation,5,3.075873,0.888846,overlapping event intervals; thread CPU is not OS-running time
+acquisition,5,0.387900,0.125311,overlapping event intervals; thread CPU is not OS-running time
+coarse,5,0.372478,0.109915,overlapping event intervals; thread CPU is not OS-running time
+parent_ingress,101,5.835207,0.077290,overlapping event intervals; thread CPU is not OS-running time
+fine_basis_job,12,0.072636,0.060212,overlapping event intervals; thread CPU is not OS-running time
+fine_cycle,2,0.067349,0.052073,overlapping event intervals; thread CPU is not OS-running time
+fine_basis_statistics,2,0.041892,0.027563,overlapping event intervals; thread CPU is not OS-running time
+parent_drain,1,13.026370,0.019069,overlapping event intervals; thread CPU is not OS-running time
+input_transport,5,0.029435,0.016035,overlapping event intervals; thread CPU is not OS-running time
+fine_preparation,5,0.013339,0.013306,overlapping event intervals; thread CPU is not OS-running time
+fine_predict,2,0.010577,0.010582,overlapping event intervals; thread CPU is not OS-running time
+input_assembly,5,0.008111,0.007965,overlapping event intervals; thread CPU is not OS-running time
+fine_merge,2,0.004651,0.004647,overlapping event intervals; thread CPU is not OS-running time
+fine_prepare,2,0.003352,0.003355,overlapping event intervals; thread CPU is not OS-running time
+decision,5,0.003186,0.003182,overlapping event intervals; thread CPU is not OS-running time
+owner_startup,1,1.210113,0.002655,overlapping event intervals; thread CPU is not OS-running time
+ordered_commit,5,0.006194,0.002262,overlapping event intervals; thread CPU is not OS-running time
+fine_gaussian,2,0.002391,0.001468,overlapping event intervals; thread CPU is not OS-running time
+fine_gaussian_job,12,0.002027,0.001071,overlapping event intervals; thread CPU is not OS-running time
+fine_basis_dispatch,2,0.014840,0.000526,overlapping event intervals; thread CPU is not OS-running time
+
+Selected job 3 fine cycle events:
+phase  input_assembly         pid=4 tid=4 wall=    1.637ms cpu=   1.638ms parent=4-220
+phase  input_transport        pid=4 tid=4 wall=    9.266ms cpu=   4.676ms parent=4-220
+phase  slot_score             pid=103 tid=103 wall= 5800.066ms cpu=3412.928ms parent=None
+phase  bank_preparation       pid=103 tid=103 wall=  664.783ms cpu= 172.744ms parent=103-32
+phase  complete_receive       pid=103 tid=103 wall= 5131.346ms cpu=3237.297ms parent=103-32
+phase  acquisition            pid=103 tid=103 wall=   74.419ms cpu=  29.831ms parent=103-35
+phase  coarse                 pid=103 tid=103 wall=   69.844ms cpu=  25.264ms parent=103-36
+phase  fine_preparation       pid=103 tid=103 wall=    3.518ms cpu=   3.496ms parent=103-35
+phase  fine_tracking          pid=103 tid=103 wall= 5050.174ms cpu=3200.514ms parent=103-35
+phase  fine_cycle             pid=103 tid=103 wall=   27.490ms cpu=  21.148ms parent=103-42
+phase  fine_predict           pid=103 tid=103 wall=    0.514ms cpu=   0.514ms parent=103-43
+phase  fine_prepare           pid=103 tid=103 wall=    1.410ms cpu=   1.411ms parent=103-43
+phase  fine_basis_statistics  pid=103 tid=103 wall=   21.524ms cpu=  15.645ms parent=103-43
+phase  fine_basis_dispatch    pid=103 tid=103 wall=    6.176ms cpu=   0.295ms parent=103-48
+worker fine_basis_job         pid=103 tid=163 wall=    4.153ms cpu=   3.861ms parent=103-49
+worker fine_basis_job         pid=103 tid=168 wall=    4.500ms cpu=   3.486ms parent=103-49
+worker fine_basis_job         pid=103 tid=165 wall=    5.006ms cpu=   3.846ms parent=103-49
+worker fine_basis_job         pid=103 tid=164 wall=    4.844ms cpu=   3.624ms parent=103-49
+worker fine_basis_job         pid=103 tid=167 wall=    5.759ms cpu=   3.402ms parent=103-49
+worker fine_basis_job         pid=103 tid=166 wall=    4.246ms cpu=   3.200ms parent=103-49
+phase  fine_gaussian          pid=103 tid=103 wall=    1.095ms cpu=   0.646ms parent=103-43
+worker fine_gaussian_job      pid=103 tid=163 wall=    0.096ms cpu=   0.095ms parent=103-58
+worker fine_gaussian_job      pid=103 tid=168 wall=    0.214ms cpu=   0.081ms parent=103-58
+worker fine_gaussian_job      pid=103 tid=167 wall=    0.198ms cpu=   0.080ms parent=103-58
+worker fine_gaussian_job      pid=103 tid=166 wall=    0.195ms cpu=   0.076ms parent=103-58
+worker fine_gaussian_job      pid=103 tid=164 wall=    0.085ms cpu=   0.084ms parent=103-58
+worker fine_gaussian_job      pid=103 tid=165 wall=    0.069ms cpu=   0.069ms parent=103-58
+phase  fine_merge             pid=103 tid=103 wall=    1.077ms cpu=   1.066ms parent=103-43
+phase  fine_cycle             pid=103 tid=103 wall=   39.859ms cpu=  30.924ms parent=103-42
+phase  fine_predict           pid=103 tid=103 wall=   10.063ms cpu=  10.068ms parent=103-69
+phase  fine_prepare           pid=103 tid=103 wall=    1.942ms cpu=   1.943ms parent=103-69
+phase  fine_basis_statistics  pid=103 tid=103 wall=   20.368ms cpu=  11.918ms parent=103-69
+phase  fine_basis_dispatch    pid=103 tid=103 wall=    8.664ms cpu=   0.231ms parent=103-74
+worker fine_basis_job         pid=103 tid=167 wall=    7.909ms cpu=   7.861ms parent=103-75
+worker fine_basis_job         pid=103 tid=165 wall=    8.093ms cpu=   6.119ms parent=103-75
+worker fine_basis_job         pid=103 tid=166 wall=    7.067ms cpu=   6.076ms parent=103-75
+worker fine_basis_job         pid=103 tid=164 wall=    6.534ms cpu=   6.053ms parent=103-75
+worker fine_basis_job         pid=103 tid=163 wall=    7.389ms cpu=   6.594ms parent=103-75
+worker fine_basis_job         pid=103 tid=168 wall=    7.138ms cpu=   6.091ms parent=103-75
+phase  fine_gaussian          pid=103 tid=103 wall=    1.296ms cpu=   0.822ms parent=103-69
+worker fine_gaussian_job      pid=103 tid=164 wall=    0.124ms cpu=   0.123ms parent=103-84
+worker fine_gaussian_job      pid=103 tid=166 wall=    0.257ms cpu=   0.094ms parent=103-84
+worker fine_gaussian_job      pid=103 tid=167 wall=    0.295ms cpu=   0.083ms parent=103-84
+worker fine_gaussian_job      pid=103 tid=165 wall=    0.204ms cpu=   0.101ms parent=103-84
+worker fine_gaussian_job      pid=103 tid=168 wall=    0.116ms cpu=   0.110ms parent=103-84
+worker fine_gaussian_job      pid=103 tid=163 wall=    0.173ms cpu=   0.076ms parent=103-84
+phase  fine_merge             pid=103 tid=103 wall=    3.575ms cpu=   3.582ms parent=103-69
+phase  decision               pid=103 tid=103 wall=    0.639ms cpu=   0.640ms parent=103-35
+phase  ordered_commit         pid=4 tid=4 wall=    0.357ms cpu=   0.356ms parent=4-220

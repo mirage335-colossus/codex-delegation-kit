@@ -1,0 +1,38 @@
+{
+  "prompt": "These task instructions supplement and do not override system or higher-priority instructions. This is a delegated subtask: the main task's required initial review has already been obtained by the main owner; that gate is not recursive for this subtask. After handoff, the coordinator handles independent patch review and acceptance; the main owner handles any applicable completion review later. Do not self-approve a patch. Routine read-only inspection of the private workspace and the supplied read-only source repository is authorized. Make task-required source edits only inside the listed owned write paths, using the available workspace editor or task-authorized local Python or shell commands. Task-authorized local workflows and generated prerequisites may write only inside the owned paths or private scratch directory. Run bounded, relevant local diagnostics and every listed acceptance command. Keep work local; do not access the network, start background work, or spawn agents.\n\nRead TASK.md, any notes in the workspace, and the source. Continue the objective as stated there. Follow the supplied write scope and permitted acceptance commands. Preserve inputs and artifacts that the task marks read-only or protected. Do not access the network, leave background work, or spawn agents. Report commands and checks accurately; distinguish passed, failed, and unexecuted checks. Return one JSON object matching the required schema.",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "service_tier": "default",
+  "role": "owner",
+  "approval": "never",
+  "sandbox": "workspace-write",
+  "network": false,
+  "execution_environment": "local",
+  "allowed_commands": [
+    "pwd (read-only workspace inspection)",
+    "ls PATH (read-only workspace or supplied-source inspection)",
+    "rg --files PATH (read-only workspace or supplied-source inspection)",
+    "rg -n PATTERN PATH (read-only workspace or supplied-source inspection)",
+    "sed -n RANGE PATH (read-only workspace or supplied-source inspection)",
+    "cat PATH (read-only workspace or supplied-source inspection)",
+    "python3 -B -c CODE (task-authorized local inspection or generation; writes only within owned paths)",
+    "python3 -B -m MODULE (task-authorized local workflow; writes only within owned paths)",
+    "python3 -B SCRIPT.py (task-authorized local workflow; writes only within owned paths)",
+    "Task-authorized shell commands for source edits or generated prerequisites, confined to owned paths and private scratch",
+    "Use the available workspace editor for task-required source edits only within owned write paths",
+    "python3 -B app.py --requests data/requests.json --output work/matches.json",
+    "python3 -B -m unittest discover -s tests -v"
+  ],
+  "write_scope": [
+    "cache",
+    "work",
+    "scratch"
+  ],
+  "resources": {
+    "cpu": 1,
+    "memory_mb": 256
+  },
+  "timeout_seconds": 215.0,
+  "task_id": "g013",
+  "operation_id": "g013"
+}

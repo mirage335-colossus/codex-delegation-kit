@@ -13,6 +13,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import types
 import time
 import unittest
 from unittest import mock
@@ -182,6 +183,140 @@ class EngineeringControllerTests(unittest.TestCase):
         self.assertEqual(validated["commands"], [
             f"synthetic-check: exit=0; {self.run / 'operations' / aid / 'backend-events.jsonl'}"])
         self.assertEqual(state["tasks"]["fix.review.1"]["role"], "reviewer")
+        self.assertNotIn("success", parent["evidence"])
+
+    def test_observed_worker_contradiction_routes_owner_without_publishing_acceptance(self):
+        self.initialize([self.worker()])
+        aid = self.begin("fix")
+        raw = self.proposed()
+        raw["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        with self.assertRaisesRegex(supervisor.LedgerError, "cannot report remaining acceptance"):
+            controller.record(self.run, "fix", "worker", "manual-author", raw)
+        self.assertEqual([event["kind"] for event in self.state()["tasks"]["fix"]["helper_events"]], ["open"])
+
+        state = self.finish(aid, raw)
+        parent = state["tasks"]["fix"]
+        self.assertEqual(parent["status"], "awaiting_acceptance")
+        self.assertEqual(parent["reason"], "engineering_takeover")
+        self.assertEqual([event["kind"] for event in parent["helper_events"]], ["open", "worker"])
+        effective = json.loads(parent["helper_events"][-1]["payload_text"])
+        self.assertEqual(effective["status"], "needs_decision")
+        self.assertEqual(effective["checks"], raw["checks"])
+        self.assertEqual(effective["remaining_acceptance_conditions"], raw["remaining_acceptance_conditions"])
+        self.assertNotIn("success", parent["evidence"])
+        self.assertEqual(parent["continuation_counts"], {"strong": 1})
+        owner = state["tasks"]["fix.strong.1"]
+        self.assertEqual(owner["cwd"], parent["cwd"])
+        self.assertIn("controller_disposition", owner["prompt"])
+        self.assertIn("resolve the acceptance gap", owner["prompt"])
+        receipt = controller.task_result(self.run, "fix")
+        self.assertEqual(receipt["proposed_result"], raw)
+        self.assertEqual(receipt["helper_disposition"]["reported_status"], "completed")
+        self.assertEqual(receipt["helper_disposition"]["effective_status"], "needs_decision")
+
+    def test_contradictory_review_routes_existing_owner_path(self):
+        self.initialize([self.worker()])
+        self.finish(self.begin("fix"), self.proposed())
+        aid = self.begin("fix.review.1")
+        raw = dict(self.proposed(review=True), remaining_acceptance_conditions=["integration is unverified"])
+        state = self.finish(aid, raw)
+        parent = state["tasks"]["fix"]
+        review = json.loads(parent["helper_events"][-1]["payload_text"])
+        self.assertEqual(review["status"], "needs_decision")
+        self.assertEqual(review["verdict"], "substantive_reject")
+        self.assertEqual(review["checks"], raw["checks"])
+        self.assertEqual(parent["continuation_counts"], {"review": 1, "strong": 1})
+        self.assertNotIn("success", parent["evidence"])
+        self.assertIn("controller_disposition", state["tasks"]["fix.strong.1"]["prompt"])
+        receipt = controller.task_result(self.run, "fix.review.1")
+        self.assertEqual(receipt["proposed_result"], raw)
+        self.assertEqual(receipt["helper_disposition"]["reported_verdict"], "accept")
+        self.assertEqual(receipt["helper_disposition"]["effective_verdict"], "substantive_reject")
+
+    def test_contradictory_owner_keeps_audited_patch_and_existing_stage_budget(self):
+        self.initialize([self.worker()])
+        first = dict(self.proposed(), status="needs_decision", remaining_acceptance_conditions=["diagnose original gap"])
+        self.finish(self.begin("fix"), first)
+        aid = self.begin("fix.strong.1")
+        revised = "def total(values):\n    return sum(values)\n"
+        (self.task_repo("fix.strong.1") / "calc.py").write_text(revised)
+        raw = dict(self.proposed(), remaining_acceptance_conditions=["still verify the caller"])
+        state = self.finish(aid, raw)
+        parent = state["tasks"]["fix"]
+        self.assertEqual(parent["status"], "awaiting_acceptance")
+        self.assertIn("strong continuation exhausted", parent["reason"])
+        self.assertEqual(parent["continuation_counts"], {"strong": 1})
+        self.assertNotIn("fix.strong.2", state["tasks"])
+        self.assertNotIn("success", parent["evidence"])
+        self.assertEqual(parent["current_workspace_digest"], state["attempts"][aid]["engineering_result"]["after_digest"])
+        self.assertEqual(controller.task_result(self.run, "fix")["proposed_result"], raw)
+        history = parent["helper_events"]
+        _, before = supervisor.derive(history, time.time(), require_strong_review=True)
+        controller.continue_engineering(self.run, "fix", "Verify the caller on the same retained patch.")
+        state = self.state()
+        parent = state["tasks"]["fix"]
+        followup = state["tasks"]["fix.strong.2"]
+        self.assertEqual(followup["expected_workspace"], parent["current_workspace_digest"])
+        self.assertEqual((self.task_repo("fix.strong.2") / "calc.py").read_text(), revised)
+        self.assertEqual(parent["helper_events"], history)
+        _, after = supervisor.derive(parent["helper_events"], time.time(), require_strong_review=True)
+        self.assertEqual(after["deadline"], before["deadline"])
+        self.assertEqual(after["worker_results"], before["worker_results"])
+        self.assertEqual(after["repair_used"], before["repair_used"])
+        self.assertIn("controller_disposition", followup["prompt"])
+
+    def test_contradiction_does_not_route_held_expired_or_malformed_reports(self):
+        names = ("held", "expired", "malformed", "stopped", "service-exhausted", "blocked")
+        for name in names:
+            with self.subTest(name=name):
+                self.run = self.root / name
+                self.initialize([self.worker()])
+                aid = self.begin("fix")
+                store = Store(self.run)
+                try:
+                    with store.transaction() as (state, _):
+                        if name == "held":
+                            state["holds"]["fix"] = {"category": "permission", "operation": aid}
+                        elif name == "expired":
+                            state["deadline"] = time.time() - 1
+                        elif name == "stopped":
+                            state["mode"] = "stopped"
+                        elif name == "service-exhausted":
+                            state["active_service_seconds"] = state["policy"]["max_active_seconds"]
+                finally:
+                    store.close()
+                raw = dict(self.proposed(), remaining_acceptance_conditions=["resolve the acceptance gap"])
+                if name == "malformed":
+                    raw["checks"]["passed"] = []
+                elif name == "blocked":
+                    raw["status"] = "blocked"
+                state = self.finish(aid, raw)
+                self.assertEqual(set(state["tasks"]), {"fix"})
+                self.assertEqual([event["kind"] for event in state["tasks"]["fix"]["helper_events"]], ["open"])
+                self.assertNotIn("helper_disposition", state["attempts"][aid])
+                self.assertNotIn("success", state["tasks"]["fix"]["evidence"])
+                self.assertEqual(state["attempts"][aid]["agent_result"]["result"], raw)
+                if name in {"held", "blocked"}:
+                    self.assertIn("fix", state["holds"])
+
+    def test_controller_accepts_valid_incomplete_handoff_with_remaining_conditions(self):
+        self.initialize([self.worker()])
+        aid = self.begin("fix")
+        raw = self.proposed()
+        raw["status"] = "needs_decision"
+        raw["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        backend_module = types.ModuleType("agent_backend")
+        backend_module.collect = None
+        with mock.patch.dict(sys.modules, {"agent_backend": backend_module}):
+            state = self.finish(aid, raw)
+        parent = state["tasks"]["fix"]
+        self.assertEqual(parent["status"], "awaiting_acceptance")
+        self.assertEqual(parent["reason"], "engineering_takeover")
+        self.assertIn("only for substantive acceptance work", parent["prompt"])
+        self.assertIn("ordinary independent review", parent["prompt"])
+        self.assertEqual(parent["helper_events"][-1]["kind"], "worker")
+        self.assertEqual(json.loads(parent["helper_events"][-1]["payload_text"])
+                         ["remaining_acceptance_conditions"], ["resolve the acceptance gap"])
         self.assertNotIn("success", parent["evidence"])
 
     def test_retained_invalid_report_revalidates_without_execution_or_artifact_rewrite(self):
@@ -711,6 +846,8 @@ class EngineeringControllerTests(unittest.TestCase):
                 self.assertEqual(followup["budget_owner"], "fix")
                 self.assertEqual(followup["cwd"], parent["cwd"])
                 self.assertEqual(followup["role"], "owner")
+                self.assertIn("only for substantive acceptance work", followup["prompt"])
+                self.assertIn("optional future work", followup["prompt"])
                 _, derived = supervisor.derive(history, time.time(), require_strong_review=True)
                 self.assertTrue(derived["repair_used"])
                 self.assertEqual(derived["worker_results"], 2)

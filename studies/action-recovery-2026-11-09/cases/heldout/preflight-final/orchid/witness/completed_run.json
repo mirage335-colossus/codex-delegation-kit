@@ -1,0 +1,19 @@
+{
+  "case": "orchid",
+  "variant": "witness",
+  "label": "completed_run",
+  "argv": [
+    "/usr/bin/python3",
+    "report.py",
+    "--input",
+    "data/readings.csv",
+    "--output",
+    "work/daily_report.json"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.03355597300105728,
+  "stdout": "{\"max_live_rows\": 4, \"peak_live_rows\": 1, \"rows_seen\": 24}\n",
+  "stderr": ""
+}

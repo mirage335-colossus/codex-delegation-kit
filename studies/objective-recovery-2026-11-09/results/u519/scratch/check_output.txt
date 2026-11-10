@@ -1,0 +1,9 @@
+screen selected=p3w18 threshold=10% point gain only
+ABBA resident medians baseline=18.613s candidate=17.889s gain=3.89% required=15.0%
+paired candidate/baseline ratios=0.9455,0.9772 (both must be <1)
+cold lifecycle median reduction=6.69% maximum regression=5.0%
+busy cores baseline=4.12 candidate=5.78
+independent audit: verified_performance_gate_rejected; 87 selected span unions; 9 looks; no fallback/retry
+decision: retain rejection of p3w18 adoption; speed gate fails despite higher busy-core measure
+older trace source=c54e24698c69c79805b5aad86205abdd36d2ca7c later ABBA source=488c26aae4abc05b5d25f88844562d88cf1ab06c (distinct checkpoints)
+scope: archived receipt arithmetic and metadata only; no source candidate rebuild/reproduction

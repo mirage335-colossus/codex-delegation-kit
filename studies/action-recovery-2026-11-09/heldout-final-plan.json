@@ -1,0 +1,233 @@
+{
+  "frozen_utc": "2026-11-10T06:21:07.070940+00:00",
+  "protocol": "final-workflow-protocol.md",
+  "protocol_sha256": "2e75cfa4fa9f119fb3724ddb32d5e64954be7f702eb8f34645ce0652c618177f",
+  "candidate_manifest": "versions/v4/manifest.json",
+  "note": "All 16 initial requests frozen before any fresh outcome. h/f plans prepared only; no inference. Original randomized order retained. Both arms ordinary authorized review/repair; additional candidate contract-first branch per final protocol. No cross-repetition hints.",
+  "runs": [
+    {
+      "case": "orchid",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g001",
+      "prepared_only_predecessor": "f001"
+    },
+    {
+      "case": "orchid",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g002",
+      "prepared_only_predecessor": "f002"
+    },
+    {
+      "case": "harbor",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g003",
+      "prepared_only_predecessor": "f003"
+    },
+    {
+      "case": "harbor",
+      "version": "v4",
+      "replicate": 1,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g004",
+      "prepared_only_predecessor": "f004"
+    },
+    {
+      "case": "marlin",
+      "version": "v4",
+      "replicate": 2,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g005",
+      "prepared_only_predecessor": "f005"
+    },
+    {
+      "case": "marlin",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g006",
+      "prepared_only_predecessor": "f006"
+    },
+    {
+      "case": "marlin",
+      "version": "v4",
+      "replicate": 1,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g007",
+      "prepared_only_predecessor": "f007"
+    },
+    {
+      "case": "cedar",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g008",
+      "prepared_only_predecessor": "f008"
+    },
+    {
+      "case": "harbor",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g009",
+      "prepared_only_predecessor": "f009"
+    },
+    {
+      "case": "cedar",
+      "version": "baseline",
+      "replicate": 1,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g010",
+      "prepared_only_predecessor": "f010"
+    },
+    {
+      "case": "orchid",
+      "version": "v4",
+      "replicate": 1,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g011",
+      "prepared_only_predecessor": "f011"
+    },
+    {
+      "case": "cedar",
+      "version": "v4",
+      "replicate": 2,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g012",
+      "prepared_only_predecessor": "f012"
+    },
+    {
+      "case": "marlin",
+      "version": "baseline",
+      "replicate": 2,
+      "write_scope": [
+        "cache",
+        "work"
+      ],
+      "commands": [
+        "python3 -B app.py --requests data/requests.json --output work/matches.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g013",
+      "prepared_only_predecessor": "f013"
+    },
+    {
+      "case": "orchid",
+      "version": "v4",
+      "replicate": 2,
+      "write_scope": [
+        "work"
+      ],
+      "commands": [
+        "python3 -B report.py --input data/readings.csv --output work/daily_report.json",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g014",
+      "prepared_only_predecessor": "f014"
+    },
+    {
+      "case": "harbor",
+      "version": "v4",
+      "replicate": 2,
+      "write_scope": [],
+      "commands": [
+        "python3 -B verify.py",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g015",
+      "prepared_only_predecessor": "f015"
+    },
+    {
+      "case": "cedar",
+      "version": "v4",
+      "replicate": 1,
+      "write_scope": [
+        "pipeline/dispatcher.py",
+        "work"
+      ],
+      "commands": [
+        "python3 -B run_pipeline.py --plan plans/nightly.json --state work/nightly",
+        "python3 -B -m unittest discover -s tests -v"
+      ],
+      "run_id": "g016",
+      "prepared_only_predecessor": "f016"
+    }
+  ]
+}

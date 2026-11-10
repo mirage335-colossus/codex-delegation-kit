@@ -1,0 +1,33 @@
+{
+  "run_id": "g015",
+  "purpose": "Run-local evidence for later separate mechanical coordinator closeout; original owner handoff remains partial",
+  "source": "Only this run task/artifact/commands and original semantic report; no other repetition data.",
+  "artifact_absolute_path": "/tmp/action-recovery-runs/g015/workspace/deliverables/weekly_summary.json",
+  "artifact_sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+  "artifact_mtime_ns": 1700000000123456789,
+  "actual_participant_checks": [
+    {
+      "command": "/bin/bash -lc 'python3 -B verify.py'",
+      "cwd": "/tmp/action-recovery-runs/g015/workspace",
+      "exitCode": 0,
+      "aggregatedOutput": "verified: 3 accounts, 5 charges, 4925 cents\n",
+      "completed": true,
+      "observed_at": 1794292111.1126816,
+      "completed_at": 1794292111.1133785
+    },
+    {
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests -v'",
+      "cwd": "/tmp/action-recovery-runs/g015/workspace",
+      "exitCode": 0,
+      "aggregatedOutput": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "completed": true,
+      "observed_at": 1794292111.1324608,
+      "completed_at": 1794292111.1330316
+    }
+  ],
+  "original_semantic_report": "studies/action-recovery-2026-11-09/blind-grades-heldout/g015.semantic.json",
+  "original_semantic_sha256": "45a230fb626a186d3a938565a9de7ef53a02bd581e2da142fc32b82f2bf47e88",
+  "functional_and_constraint_pass": true,
+  "owner_final_path_missing": true,
+  "coordinator_closeout_performed": false
+}

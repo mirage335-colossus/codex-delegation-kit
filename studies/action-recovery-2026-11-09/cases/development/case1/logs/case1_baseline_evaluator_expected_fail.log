@@ -1,0 +1,11 @@
+COMMAND: /usr/bin/python3 -B ../private/evaluate.py
+CWD: /tmp/action-recovery-development/case1/participant
+EXIT: 1
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "/tmp/action-recovery-development/case1/participant/../private/evaluate.py", line 8, in <module>
+    assert fixed['delivered'] >= REQUIRED, f"deadline outcome unmet: {fixed['delivered']}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: deadline outcome unmet: 0

@@ -1,0 +1,16 @@
+{
+  "case": "marlin",
+  "variant": "incomplete_index",
+  "label": "evaluation",
+  "argv": [
+    "/usr/bin/python3",
+    "/tmp/action-recovery-heldout/marlin/private/evaluate.py",
+    "/tmp/action-recovery-heldout/preflight/marlin/incomplete_index/participant"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.1005097179877339,
+  "stdout": "{\n  \"accepted\": false,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": false,\n      \"detail\": \"AssertionError()\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": true,\n      \"detail\": \"All requests independently matched from raw CSV\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.004s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+  "stderr": ""
+}

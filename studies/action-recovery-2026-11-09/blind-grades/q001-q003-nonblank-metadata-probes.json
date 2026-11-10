@@ -1,0 +1,281 @@
+{
+  "assessment": "Separate post-review nonblank canonical-metadata and repeated-receipt checks",
+  "contract_basis": "TASK.md explicitly requires preservation of existing valid receipt behavior. Frozen _legacy_rows checks canonical sku and quantity, ignores unrelated keys, and receive applies every valid row without deduplication. These are valid canonical sku/quantity inputs whose extra fields were previously ignored.",
+  "applicability_limit": "Nonblank alternate columns introduce mixed-schema data; these observations apply to the explicit broad legacy-preservation requirement and do not establish a new format-precedence rule beyond the original parser.",
+  "inputs": {
+    "canonical_nonblank_part_code": [
+      {
+        "sku": "R-14",
+        "quantity": "4",
+        "part_code": "EXTRA-METADATA"
+      }
+    ],
+    "canonical_nonblank_units": [
+      {
+        "sku": "R-14",
+        "quantity": "4",
+        "units": "99"
+      }
+    ],
+    "canonical_nonblank_shipment_ref": [
+      {
+        "sku": "R-14",
+        "quantity": "4",
+        "shipment_ref": "META-1"
+      }
+    ],
+    "repeated_canonical_with_reference": [
+      {
+        "sku": "R-14",
+        "quantity": "4",
+        "reference": "REF-1"
+      },
+      {
+        "sku": "R-14",
+        "quantity": "4",
+        "reference": "REF-1"
+      }
+    ]
+  },
+  "expected_from_frozen_original": {
+    "canonical_nonblank_part_code": {
+      "available": {
+        "CLIP-2": 0,
+        "R-14": 7
+      },
+      "received_units": 4
+    },
+    "canonical_nonblank_shipment_ref": {
+      "available": {
+        "CLIP-2": 0,
+        "R-14": 7
+      },
+      "received_units": 4
+    },
+    "canonical_nonblank_units": {
+      "available": {
+        "CLIP-2": 0,
+        "R-14": 7
+      },
+      "received_units": 4
+    },
+    "repeated_canonical_with_reference": {
+      "available": {
+        "CLIP-2": 0,
+        "R-14": 11
+      },
+      "received_units": 8
+    }
+  },
+  "not_frozen_evaluation": true,
+  "not_initial_legacy_matrix": true,
+  "actors_received_probe": false,
+  "probe_setup_valid": true,
+  "results": {
+    "frozen_original": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive(rows) for name,rows in inputs.items()},sort_keys=True))",
+        "{\"canonical_nonblank_part_code\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"EXTRA-METADATA\"}], \"canonical_nonblank_units\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"99\"}], \"canonical_nonblank_shipment_ref\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"META-1\"}], \"repeated_canonical_with_reference\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}, {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}]}"
+      ],
+      "cwd": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "returncode": 0,
+      "stdout": "{\"canonical_nonblank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"repeated_canonical_with_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 11}, \"received_units\": 8}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_nonblank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "repeated_canonical_with_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 11
+          },
+          "received_units": 8
+        }
+      },
+      "source_sha256": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+      "source_unchanged": true,
+      "preserves_original_by_input": {
+        "canonical_nonblank_part_code": true,
+        "canonical_nonblank_shipment_ref": true,
+        "canonical_nonblank_units": true,
+        "repeated_canonical_with_reference": true
+      }
+    },
+    "q001": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive(rows) for name,rows in inputs.items()},sort_keys=True))",
+        "{\"canonical_nonblank_part_code\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"EXTRA-METADATA\"}], \"canonical_nonblank_units\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"99\"}], \"canonical_nonblank_shipment_ref\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"META-1\"}], \"repeated_canonical_with_reference\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}, {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}]}"
+      ],
+      "cwd": "/tmp/action-recovery-grading/q001-lsljdhra/workspace",
+      "returncode": 0,
+      "stdout": "{\"canonical_nonblank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"repeated_canonical_with_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 11}, \"received_units\": 8}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_nonblank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "repeated_canonical_with_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 11
+          },
+          "received_units": 8
+        }
+      },
+      "source_sha256": "ce08b82803224d9870a7cad2bd1cf14b409a72e2b7d563ad0eece96bfddea8d2",
+      "source_unchanged": true,
+      "preserves_original_by_input": {
+        "canonical_nonblank_part_code": true,
+        "canonical_nonblank_shipment_ref": true,
+        "canonical_nonblank_units": true,
+        "repeated_canonical_with_reference": true
+      }
+    },
+    "q002": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive(rows) for name,rows in inputs.items()},sort_keys=True))",
+        "{\"canonical_nonblank_part_code\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"EXTRA-METADATA\"}], \"canonical_nonblank_units\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"99\"}], \"canonical_nonblank_shipment_ref\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"META-1\"}], \"repeated_canonical_with_reference\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}, {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}]}"
+      ],
+      "cwd": "/tmp/action-recovery-grading/q002-53954x4c/workspace",
+      "returncode": 0,
+      "stdout": "{\"canonical_nonblank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"canonical_nonblank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"repeated_canonical_with_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 11}, \"received_units\": 8}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_nonblank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "canonical_nonblank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "repeated_canonical_with_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 11
+          },
+          "received_units": 8
+        }
+      },
+      "source_sha256": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+      "source_unchanged": true,
+      "preserves_original_by_input": {
+        "canonical_nonblank_part_code": false,
+        "canonical_nonblank_shipment_ref": true,
+        "canonical_nonblank_units": false,
+        "repeated_canonical_with_reference": true
+      }
+    },
+    "q003": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive(rows) for name,rows in inputs.items()},sort_keys=True))",
+        "{\"canonical_nonblank_part_code\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"EXTRA-METADATA\"}], \"canonical_nonblank_units\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"99\"}], \"canonical_nonblank_shipment_ref\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"META-1\"}], \"repeated_canonical_with_reference\": [{\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}, {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"REF-1\"}]}"
+      ],
+      "cwd": "/tmp/action-recovery-grading/q003-qhq5mmgf/workspace",
+      "returncode": 0,
+      "stdout": "{\"canonical_nonblank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"canonical_nonblank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_nonblank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"repeated_canonical_with_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 11}, \"received_units\": 8}}\n",
+      "stderr": "",
+      "outputs": {
+        "canonical_nonblank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "canonical_nonblank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_nonblank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "repeated_canonical_with_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 11
+          },
+          "received_units": 8
+        }
+      },
+      "source_sha256": "01ee6702eb4af4641f42bb32b5f9e5edd0cfb2a3e9a4c5e9f8467b538ff81a85",
+      "source_unchanged": true,
+      "preserves_original_by_input": {
+        "canonical_nonblank_part_code": false,
+        "canonical_nonblank_shipment_ref": true,
+        "canonical_nonblank_units": false,
+        "repeated_canonical_with_reference": true
+      }
+    }
+  },
+  "same_input_suite_as": "p001-p003-nonblank-metadata-probes-v2.json"
+}

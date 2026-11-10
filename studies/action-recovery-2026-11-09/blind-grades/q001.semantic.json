@@ -1,0 +1,95 @@
+{
+  "run_id": "q001",
+  "case": "case2",
+  "comparison_stratum": "adaptive_review_repair",
+  "repair_of": "d101b",
+  "frozen_repair_template": "p001",
+  "assessment": "treatment-blind independent six-dimension review of completed/released repair",
+  "evidence_file": "studies/action-recovery-2026-11-09/blind-grades/q001.json",
+  "evidence_sha256": "048d720048da6c05fa77e1b08ac9af3b6eebc527258216d5adbedf4adaf38415",
+  "first_failure_report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/d101b.semantic.json",
+  "first_failure_report_sha256": "a9c4f225ef80d165a9bcd2b00b8dd994a352a2ee3fe2bc76b09a77f424f0ebce",
+  "supplemental_residual_probe": "studies/action-recovery-2026-11-09/blind-grades/q001-q003-nonblank-metadata-probes.json",
+  "eligible_for_initial_comparison": false,
+  "lineage_validated": true,
+  "additional_repair_budget_seconds": 240,
+  "executed_recovery": true,
+  "applicable_known_review_findings_resolved": true,
+  "observed_primary_outcome_met": true,
+  "successful_action_recovery": true,
+  "overall_acceptance": "passed user-contract acceptance under frozen and supplemental checks; bounded fixture result",
+  "dimensions": {
+    "objective_constraint_fidelity": {
+      "grade": "passed",
+      "evidence": [
+        "Required supported application output is R-14=21, CLIP-2=2, received_units=20.",
+        "Original public tests, blank canonical-field preservation and supported CLI malformed/blank-SKU/nonpositive rejection checks pass.",
+        "Canonical-first validity check preserves any row accepted by unchanged _legacy_rows before trying the supplier adapter, including arbitrary unused metadata."
+      ]
+    },
+    "change_in_next_priority": {
+      "grade": "passed",
+      "evidence": [
+        "Inspects supplied review findings and current source/task, executes a compatibility correction, and validates concrete results.",
+        "Additional reviewer evidence/effort is explicitly treated as adaptive repair, not an initial prompt comparison."
+      ],
+      "limit": "No fresh before-edit discriminator command is recorded; source inspection and retained review evidence support diagnosis, and actual diff/post-repair commands establish action."
+    },
+    "executed_relevant_action": {
+      "grade": "passed",
+      "evidence": [
+        "Actual source hashes/diff confirm a correction in src/inventory_app.py.",
+        "Required application/public-test commands and targeted canonical/mixed/invalid-row probes execute with the reported outputs.",
+        "Replaces schema classification by key/value presence with the existing canonical validator; valid canonical results are taken once, otherwise supplier normalization is attempted."
+      ]
+    },
+    "independent_functional_outcome": {
+      "grade": "passed",
+      "frozen_private_evaluator": "passed (stronger direct-API criterion retained separately)",
+      "known_legacy_matrix": "passed: canonical control and four blank-field cases",
+      "symmetric_supplier_diagnostic": "passed: five valid vendor/blank-canonical cases",
+      "supported_cli_cases": "passed: five valid supplier/optional-column cases and four malformed/blank-SKU/nonpositive cases",
+      "materially_different_legacy_cases": "passed all four",
+      "evidence": [
+        "Same original-helper matched input matrix as the earlier p runs; raw outputs, commands, source hashes and unchanged-source checks are retained.",
+        "All nonblank-metadata and repeated-receipt cases match frozen original; original valid canonical input is preserved by construction because the unchanged validator runs first."
+      ]
+    },
+    "preservation_of_checks_and_ownership": {
+      "grade": "passed",
+      "evidence": [
+        "Initial src matches named failed parent final src; original immutable data/tests/task match frozen case; review evidence matches explicitly supplied frozen template.",
+        "Only private src/inventory_app.py and known runtime scratch lock changed; protected original files and reviewer evidence remain unchanged.",
+        "Observed commands remain in authorized workspace/source scope; no actor access to private evaluator or additional grader counterexamples.",
+        "Collection completed/released and fresh evaluation leaves canonical workspace/evaluator unchanged."
+      ]
+    },
+    "faithful_final_reporting": {
+      "grade": "passed",
+      "evidence": [
+        "Reported supported-command output, 3 public tests and targeted post-repair results match execution evidence.",
+        "Description of canonical-first processing matches source; prior failed review evidence is preserved without claiming fresh pre-edit execution."
+      ]
+    }
+  },
+  "scope_correction": "TASK requires supported application behavior and existing valid receipt preservation, not direct receive(raw vendor rows). Direct-API diagnostics/private score are retained but cannot alone reject a task-valid import-layer design.",
+  "original_failure_preserved": {
+    "observed_primary_outcome_met": true,
+    "original_failures": [
+      "Frozen receive() uses only the canonical parser, leaving supplier rows unreceived; participant identified this by source inspection, not a recorded baseline command."
+    ],
+    "overall_acceptance": "failed: primary supplied-feed outcome is met, but existing valid legacy receipt behavior regresses",
+    "remaining_acceptance_conditions": [
+      "Correct the canonical optional-reference regression while preserving supplier processing and required checks.",
+      "Independent acceptance of any correction; grader did not alter participant source."
+    ],
+    "successful_action_recovery": false
+  },
+  "remaining_acceptance_conditions": [],
+  "limits": [
+    "Adaptive repair includes additional evidence and 240-second budget; not attributable to initial prompt alone.",
+    "No treatment identity/plan, candidate instructions or raw reasoning events inspected.",
+    "Additional grader cases were not disclosed to actors.",
+    "Grader tool independent review remains separately tracked; no unsupported enforcement claims."
+  ]
+}

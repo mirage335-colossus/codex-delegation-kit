@@ -185,6 +185,58 @@ class SupervisorTests(unittest.TestCase):
                 with self.assertRaisesRegex(ledger.LedgerError, field):
                     ledger.validate_result(malformed, self.packet, "worker")
 
+    def test_new_success_with_remaining_acceptance_is_rejected_at_ingress(self):
+        self.open()
+        contradictory = json.loads(self.result())
+        contradictory["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        with self.assertRaisesRegex(ledger.LedgerError, "cannot report remaining acceptance"):
+            self.record(json.dumps(contradictory))
+        self.assertEqual(len(list((self.store / "case").glob("*.json"))), 1)
+
+        # A completed report with an actual failed original check still follows
+        # the existing failure/takeover transition.
+        failed = json.loads(self.result(failed=["unit"]))
+        failed["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        result = self.record(json.dumps(failed), now=102)
+        self.assertEqual(result["reason"], "no_new_evidence_for_repair")
+
+        self.open("strong-case")
+        ledger.record_result(self.store, "strong-case", "worker", "luna-1",
+                             self.result(status="blocked"), now=101)
+        strong = json.loads(self.result())
+        strong["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        with self.assertRaisesRegex(ledger.LedgerError, "cannot report remaining acceptance"):
+            ledger.record_result(self.store, "strong-case", "strong", "supervisor",
+                                 json.dumps(strong), now=102)
+        self.assertEqual(len(list((self.store / "strong-case").glob("*.json"))), 2)
+
+        self.open("review-case")
+        ledger.record_result(self.store, "review-case", "worker", "luna-1",
+                             self.result(), now=101)
+        review = json.loads(self.result(verdict="accept"))
+        review["remaining_acceptance_conditions"] = ["resolve the acceptance gap"]
+        with self.assertRaisesRegex(ledger.LedgerError, "accept review cannot report"):
+            ledger.record_result(self.store, "review-case", "review", "sol-review",
+                                 json.dumps(review), now=102)
+        self.assertEqual(len(list((self.store / "review-case").glob("*.json"))), 2)
+
+    def test_legacy_completed_with_remaining_history_still_replays(self):
+        open_event = {"kind": "open", "actor": "supervisor",
+                      "payload_text": json.dumps(self.packet), "recorded_at": 100}
+        blocked = json.loads(self.result(status="blocked"))
+        blocked["remaining_acceptance_conditions"] = ["legacy unresolved acceptance"]
+        strong = json.loads(self.result())
+        strong["remaining_acceptance_conditions"] = ["legacy unresolved acceptance"]
+        review = json.loads(self.result(verdict="accept"))
+        events = [open_event]
+        for kind, actor, result, at in (("worker", "luna-1", blocked, 101),
+                                        ("strong", "supervisor", strong, 102),
+                                        ("review", "sol-review", review, 103)):
+            events.append({"kind": kind, "actor": actor,
+                           "payload_text": json.dumps(result), "recorded_at": at})
+        _, state = ledger.derive(events, 103, require_strong_review=True)
+        self.assertEqual(state["state"], "done")
+
     def test_invalid_or_unbounded_budgets_are_rejected(self):
         for value in [0, -1, True, 1.5, float("inf"), float("nan"), 86401]:
             with self.subTest(seconds=value):

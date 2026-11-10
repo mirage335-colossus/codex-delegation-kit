@@ -6,6 +6,17 @@ user intervention? It evaluates executable work, not just whether reviewers
 produce more suggestions. No global kit installation or production receiver
 change is part of the study.
 
+**Relevance correction after the user's subsequent review:** these exercises did
+not reproduce the central reported failure: an agent accepting modest local
+progress while leaving the user's explicit objective unsatisfied, then requiring
+the user to challenge its adoption criterion. All sixteen first-wave owners
+found their mechanism immediately; the four projection owners also found the
+algorithm before assistance. Their outcomes do not establish whether a timely
+independent challenge could have prevented that historical failure. The absence
+of an advantage here is a limitation of this task selection, not evidence against
+parallel challenges on a genuinely unsatisfactory trajectory. The original
+results and failed adoption criterion below remain unchanged.
+
 ## First wave: no demonstrated advantage
 
 Sixteen fresh Luna-high owners ran four executable synthetic development tasks

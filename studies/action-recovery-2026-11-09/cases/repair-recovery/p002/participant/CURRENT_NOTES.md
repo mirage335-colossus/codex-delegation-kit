@@ -1,0 +1,1 @@
+Prior agent report: local supplier-adapter normalization metric reached 100%; proposed disposition was close. Runner: Python 3 standard library, `python3 -m unittest discover -s tests` and `python3 -m src.inventory_app data/vendor_feed.csv`.

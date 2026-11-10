@@ -417,6 +417,19 @@ The controller derives helper `changed_paths` from the patch audit and helper
 references. It preserves the model's raw packet separately; formatting that
 bookkeeping is not a worker responsibility or proof of execution.
 
+A new success declaration cannot also report substantive acceptance work left
+unfinished. Manual submissions reject that contradiction. For a completed,
+released, otherwise valid observed report,
+the controller retains the raw `proposed_result` and records a separate
+`helper_disposition`: a worker or owner becomes `needs_decision`, and an
+accepting reviewer becomes `substantive_reject`. The effective disposition uses
+the existing bounded takeover, repair, or review path and the same audited patch.
+It does not add attempts, clear a hold, extend a deadline, or infer requirements
+the report omitted. A continuation can be queued while a run is paused or its
+assignment budget is exhausted; dispatch still enforces those limits.
+`result --task ID` exposes both the report and disposition;
+historical helper events retain their original replay behavior.
+
 `resolve --task ID --operation ATTEMPT resolution.json` requires references in
 `{"evidence":["supported resolution of the same operation"]}` and verified
 execution release. It retains the hold in history and never changes model,

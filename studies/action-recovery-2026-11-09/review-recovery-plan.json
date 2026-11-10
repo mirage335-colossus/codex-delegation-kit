@@ -1,0 +1,16 @@
+{
+  "frozen_utc": "2026-11-10T05:30:39.235151+00:00",
+  "type": "adaptive development exercise, not heldout",
+  "trigger": "Independent grader found a compatibility regression in completed d101b despite frozen oracle passing. Two distinct Luna reviewers receive the actual patch and original contracts, without the specific counterexample or any failing verdict. Test whether generic parallel review generates correction evidence.",
+  "source_run": "d101b",
+  "patch_sha256": "6e5463bfb6d35b5829442db9f0faa8ed5110f74cacfbb4acbae9371d56db4b77",
+  "version": "v2",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "runs": [
+    "r001",
+    "r002"
+  ],
+  "next": "Route concrete supported findings to one bounded owner repair with original failure retained; independently check final patch. Extra review/repair effort reported separately.",
+  "limitations": "No claim this single adaptive example estimates population reliability or advantage over one review."
+}

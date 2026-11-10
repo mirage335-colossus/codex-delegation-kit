@@ -1,0 +1,7 @@
+COMMAND: /usr/bin/python3 -B -c from src.scheduler import run; r=run(); print("delivered",r["delivered"],"busy_units",r["busy_units"],"end_time",r["end_time"],"unfinished",r["unstarted_or_incomplete"])
+CWD: /tmp/action-recovery-development/case1/participant
+EXIT: 0
+STDOUT:
+delivered 0 busy_units 40 end_time 20 unfinished 8
+
+STDERR:

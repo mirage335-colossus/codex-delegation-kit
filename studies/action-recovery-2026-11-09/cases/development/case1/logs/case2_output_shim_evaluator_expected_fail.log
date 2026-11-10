@@ -1,0 +1,14 @@
+COMMAND: python3 -B /tmp/action-recovery-development/case2/private/evaluate.py
+CWD: /tmp/action-recovery-development/validation/negative/case2_shim
+EXIT: 1
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "/tmp/action-recovery-development/case2/private/evaluate.py", line 37, in <module>
+    assert_matches(receive(rows), want, f'receive({path.name})')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/action-recovery-development/case2/private/evaluate.py", line 28, in assert_matches
+    assert actual == want, f'{route} output mismatch: expected {want}, got {actual}'
+           ^^^^^^^^^^^^^^
+AssertionError: receive(vendor_feed.csv) output mismatch: expected {'available': {'R-14': 21, 'CLIP-2': 2}, 'received_units': 20}, got {'available': {'R-14': 3, 'CLIP-2': 0}, 'received_units': 0}

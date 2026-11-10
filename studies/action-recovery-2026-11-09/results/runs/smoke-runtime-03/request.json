@@ -1,0 +1,25 @@
+{
+  "prompt": "In the private workspace, make the single authorized change needed so the\nexisting test passes. Edit only answer.py. Run exactly the permitted unittest\ncommand. Do not edit the test, add files, use other tools or commands, access\nthe network, or spawn agents. Report the actual command and result. Return one\nJSON object matching the required schema; preserve a hold if settings or a\npermission are unavailable.\n",
+  "model": "gpt-6-luna",
+  "effort": "high",
+  "service_tier": "default",
+  "role": "owner",
+  "approval": "never",
+  "sandbox": "workspace-write",
+  "network": false,
+  "execution_environment": "local",
+  "allowed_commands": [
+    "python3 -B -m unittest -v test_answer.py"
+  ],
+  "write_scope": [
+    "answer.py",
+    "scratch"
+  ],
+  "resources": {
+    "cpu": 1,
+    "memory_mb": 256
+  },
+  "timeout_seconds": 215.0,
+  "task_id": "smoke-runtime-03",
+  "operation_id": "smoke-runtime-03"
+}

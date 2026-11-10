@@ -1,0 +1,11 @@
+COMMAND: /usr/bin/python3 -B /tmp/action-recovery-development/case1/private/witness.py
+CWD: /tmp/action-recovery-development/validation/negative/case1_durations
+EXIT: 1
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "/tmp/action-recovery-development/case1/private/witness.py", line 16, in <module>
+    assert end - starts[key] == EXPECTED[key[1]], f'contract duration mismatch: {key}'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: contract duration mismatch: (0, 'decode')

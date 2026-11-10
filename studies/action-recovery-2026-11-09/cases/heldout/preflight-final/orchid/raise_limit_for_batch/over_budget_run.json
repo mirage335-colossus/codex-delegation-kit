@@ -1,0 +1,19 @@
+{
+  "case": "orchid",
+  "variant": "raise_limit_for_batch",
+  "label": "over_budget_run",
+  "argv": [
+    "/usr/bin/python3",
+    "report.py",
+    "--input",
+    "data/readings.csv",
+    "--output",
+    "work/daily_report.json"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.032027253007981926,
+  "stdout": "{\"max_live_rows\": 64, \"peak_live_rows\": 24, \"rows_seen\": 24}\n",
+  "stderr": ""
+}

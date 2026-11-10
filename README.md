@@ -62,10 +62,20 @@ An optional assignment pattern for the policy's [diagnostic
 reassessment](policy.md#general-diagnostic-work) is to obtain independent
 challenges to the current approach:
 
-- Give each helper the original user objective, observed failures and relevant
-  source access. Assign different questions: whether the actual outcome is being
-  exercised, which assumption or existing mechanism changes the approach, or
-  which small experiment separates plausible causes.
+- Give each helper the original user objective, stable source/revision and input
+  provenance, constraints, observed failures and raw observations, plus relevant
+  authorization/scope facts and source access, without the current recommendation.
+  Use a fresh/context-limited branch so the candidate is not already in its
+  history. Ask it to retain a proposed contract, checks and feasible next action
+  before sharing the current recommendation; then reconcile contrary evidence
+  and run an authorized discriminator for a consequential discrepancy. Assign
+  different questions about requested behavior and the existing contract: what must change,
+  what behavior must remain true, or which materially different counterexample
+  separates plausible causes. Use helpers when unresolved uncertainty warrants an
+  independent view; skip the round when the next action is clear. Ask helpers to
+  challenge the source and scope of consequential
+  acceptance/stopping criteria as well as the implementation; independent
+  agreement is not validation.
 - Ask for a source-grounded finding and an executed, authorized discriminator
   where feasible. A useful challenge can reject the current framing; agreement
   and additional suggestions alone do not establish progress.
@@ -73,12 +83,15 @@ challenges to the current approach:
   supported findings to the next experiment or implementation, or explain why
   they do not apply. Wait only where a decision depends on missing evidence.
 
-Select parallel branches when they can add information; a settled fix needs no
-extra challenge round. Existing routing, ownership, budgets and acceptance apply.
-This remains an experimental recipe, not an automatic trigger, fixed agent count
-or demonstrated reliability improvement. Exercises must distinguish successful
-recovery, useful helper contributions and spontaneous activation; supplied
-parallel support does not establish the last of these.
+Select parallel branches only when they can add distinct information; a settled
+fix needs no extra challenge round. Existing routing, ownership, budgets and
+acceptance apply. An end-to-end exercise in this development demonstrated
+fresh-context independent contract reasoning, reconciliation against a candidate
+repair, an executed counterexample, owner correction and independent acceptance.
+This evidence describes that exercised pipeline only; it does not establish general
+reliability or that adding reviewers alone improves outcomes. Record whether the
+branch actually began without candidate context and what authorized check/result
+followed; do not infer success from helper availability or agreement.
 
 ## Choose a mode
 

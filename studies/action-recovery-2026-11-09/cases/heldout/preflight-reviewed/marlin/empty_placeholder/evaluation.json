@@ -1,0 +1,16 @@
+{
+  "case": "marlin",
+  "variant": "empty_placeholder",
+  "label": "evaluation",
+  "argv": [
+    "/usr/bin/python3",
+    "/tmp/action-recovery-heldout/marlin/private/evaluate.py",
+    "/tmp/action-recovery-heldout/preflight-reviewed/marlin/empty_placeholder/participant"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.114769530002377,
+  "stdout": "{\n  \"accepted\": false,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": false,\n      \"detail\": \"OperationalError('no such table: meta')\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": false,\n      \"detail\": \"FileNotFoundError(2, 'No such file or directory')\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": false,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 5,\n        \"stdout\": \"\",\n        \"stderr\": \"setUpClass (test_catalog.CatalogTests) ... ERROR\\n\\n======================================================================\\nERROR: setUpClass (test_catalog.CatalogTests)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/action-recovery-heldout/preflight-reviewed/marlin/empty_placeholder/participant/tests/test_catalog.py\\\", line 13, in setUpClass\\n    cls.connection = open_index(ROOT / \\\"cache/catalog.sqlite\\\", ROOT / \\\"data/products.csv\\\")\\n                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/tmp/action-recovery-heldout/preflight-reviewed/marlin/empty_placeholder/participant/catalog/store.py\\\", line 12, in open_index\\n    meta = dict(connection.execute(\\\"SELECT key, value FROM meta\\\"))\\n                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nsqlite3.OperationalError: no such table: meta\\n\\n----------------------------------------------------------------------\\nRan 0 tests in 0.004s\\n\\nFAILED (errors=1)\\n\"\n      }\n    }\n  ]\n}\n",
+  "stderr": ""
+}

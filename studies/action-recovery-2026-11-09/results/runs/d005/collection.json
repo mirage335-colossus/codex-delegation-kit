@@ -1,0 +1,255 @@
+{
+  "actual_changes": [
+    {
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "before_sha256": null,
+      "path": "scratch/codex-bwrap-synthetic-mount-targets-1000/lock"
+    }
+  ],
+  "actual_patch": "",
+  "actual_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "backend_result_sha256": "d00b4834728fdf80eebeb11141a26cc142efe3eda4d6c77adedf537bc3e54ddd",
+  "collection_called": true,
+  "commands": [
+    {
+      "aggregatedOutput": "{'records': 8, 'workers': 2, 'deadline': 20, 'busy_units': 40, 'finished': {(0, 'fetch'): 2, (1, 'fetch'): 2, (2, 'fetch'): 4, (3, 'fetch'): 4, (4, 'fetch'): 6, (5, 'fetch'): 6, (6, 'fetch'): 8, (7, 'fetch'): 8, (0, 'decode'): 11, (1, 'decode'): 11, (2, 'decode'): 14, (3, 'decode'): 14, (4, 'decode'): 17, (5, 'decode'): 17, (6, 'decode'): 20, (7, 'decode'): 20}, 'events': [{'event': 'start', 'record': 0, 'stage': 'fetch', 'time': 0}, {'event': 'start', 'record': 1, 'stage': 'fetch', 'time': 0}, {'event': 'finish', 'record': 0, 'stage': 'fetch', 'time': 2}, {'event': 'finish', 'record': 1, 'stage': 'fetch', 'time': 2}, {'event': 'start', 'record': 2, 'stage': 'fetch', 'time': 2}, {'event': 'start', 'record': 3, 'stage': 'fetch', 'time': 2}, {'event': 'finish', 'record': 2, 'stage': 'fetch', 'time': 4}, {'event': 'finish', 'record': 3, 'stage': 'fetch', 'time': 4}, {'event': 'start', 'record': 4, 'stage': 'fetch', 'time': 4}, {'event': 'start', 'record': 5, 'stage': 'fetch', 'time': 4}, {'event': 'finish', 'record': 4, 'stage': 'fetch', 'time': 6}, {'event': 'finish', 'record': 5, 'stage': 'fetch', 'time': 6}, {'event': 'start', 'record': 6, 'stage': 'fetch', 'time': 6}, {'event': 'start', 'record': 7, 'stage': 'fetch', 'time': 6}, {'event': 'finish', 'record': 6, 'stage': 'fetch', 'time': 8}, {'event': 'finish', 'record': 7, 'stage': 'fetch', 'time': 8}, {'event': 'start', 'record': 0, 'stage': 'decode', 'time': 8}, {'event': 'start', 'record': 1, 'stage': 'decode', 'time': 8}, {'event': 'finish', 'record': 0, 'stage': 'decode', 'time': 11}, {'event': 'finish', 'record': 1, 'stage': 'decode', 'time': 11}, {'event': 'start', 'record': 2, 'stage': 'decode', 'time': 11}, {'event': 'start', 'record': 3, 'stage': 'decode', 'time': 11}, {'event': 'finish', 'record': 2, 'stage': 'decode', 'time': 14}, {'event': 'finish', 'record': 3, 'stage': 'decode', 'time': 14}, {'event': 'start', 'record': 4, 'stage': 'decode', 'time': 14}, {'event': 'start', 'record': 5, 'stage': 'decode', 'time': 14}, {'event': 'finish', 'record': 4, 'stage': 'decode', 'time': 17}, {'event': 'finish', 'record': 5, 'stage': 'decode', 'time': 17}, {'event': 'start', 'record': 6, 'stage': 'decode', 'time': 17}, {'event': 'start', 'record': 7, 'stage': 'decode', 'time': 17}, {'event': 'finish', 'record': 6, 'stage': 'decode', 'time': 20}, {'event': 'finish', 'record': 7, 'stage': 'decode', 'time': 20}], 'delivered': 0, 'end_time': 20, 'unstarted_or_incomplete': 8}\n",
+      "command": "/bin/bash -lc \"python3 -B -c 'from src.scheduler import run; print(run())'\"",
+      "completed": true,
+      "completed_at": 1794287484.1466553,
+      "cwd": "/tmp/action-recovery-runs/d005/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-16bb52e8-a477-40d7-9220-142b15dd5904",
+      "observed_at": 1794287484.1384044,
+      "output_truncated": false,
+      "processId": "55003",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests'",
+      "completed": true,
+      "completed_at": 1794287484.1626883,
+      "cwd": "/tmp/action-recovery-runs/d005/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-cc5f1816-5104-4971-80a8-a4a364efbf58",
+      "observed_at": 1794287484.1617963,
+      "output_truncated": false,
+      "processId": "74858",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "detail": "model turn completed; acceptance requires controller validation",
+  "developer_instructions_sha256": "3309c47b63c54cb47d5ee4f3420b66f2f9c717a6e46c29a1eb096aa71aa0e54d",
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d005/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d005/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d005/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d005/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d005/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d005/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "file_changes": [],
+  "observation": {
+    "command": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 349408,
+      "pid": 349408,
+      "ppid": 349407,
+      "session": 349408,
+      "start_ticks": 7925179,
+      "state": "R"
+    },
+    "descendants": [],
+    "detail": "command and descendants exited",
+    "finished_at": 1794287493.2990315,
+    "observed_at": 1794287493.2977617,
+    "operation_id": "d005",
+    "prepared_at": 1794287431.6474373,
+    "released": true,
+    "returncode": 0,
+    "runner": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 349407,
+      "pid": 349407,
+      "ppid": 349405,
+      "session": 349407,
+      "start_ticks": 7925175,
+      "state": "R"
+    },
+    "spec_sha256": "823798962257b59c9e36ad26110c454cd6f3ee2099df4811e887c1fb97961242",
+    "started_at": 1794287431.6918075,
+    "state": "completed",
+    "version": 1
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d005/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d005/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d005/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d005/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "protected_file_hashes_after": {
+    "CURRENT_NOTES.md": "d814a01e5c8d8b23d36156e49bb9781451c2c43a83b3056983e30be99b1e7edb",
+    "TASK.md": "458af9ac46107cdb3b2defd8aac3780793cd3a82c9b0e97a331c93565c902e0e",
+    "tests/test_original.py": "21da2d87d1e1880a37f2568e6454ddb305b48f2c163648c9b7902a12ba02e190"
+  },
+  "protected_file_hashes_before": {
+    "CURRENT_NOTES.md": "d814a01e5c8d8b23d36156e49bb9781451c2c43a83b3056983e30be99b1e7edb",
+    "TASK.md": "458af9ac46107cdb3b2defd8aac3780793cd3a82c9b0e97a331c93565c902e0e",
+    "tests/test_original.py": "21da2d87d1e1880a37f2568e6454ddb305b48f2c163648c9b7902a12ba02e190"
+  },
+  "protected_files_changed": [],
+  "protected_files_unchanged": true,
+  "request_sha256": "f46843f42c27e45a5a513093d6a9ccdacbf278bff38b0137138d384c357b6d18",
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [
+        "python3 -B -m unittest discover -s tests — 3 tests ran; all passed.",
+        "python3 -B -c 'from src.scheduler import run; print(run())' — completed; output reported delivered=0 and unstarted_or_incomplete=8 at end_time=20."
+      ],
+      "unexecuted": [
+        "Read TASK.md, workspace notes, and source to recover the objective and acceptance criteria; the permitted command scope provides no file-reading command."
+      ]
+    },
+    "commands": [
+      "python3 -B -m unittest discover -s tests",
+      "python3 -B -c 'from src.scheduler import run; print(run())'"
+    ],
+    "decisions": [
+      "Did not modify files because the task objective and existing patch could not be inspected within the supplied command scope.",
+      "The scheduler output is an observed command result; without TASK.md, its acceptance significance is unknown."
+    ],
+    "remaining_acceptance_conditions": [
+      "Read TASK.md, workspace notes, and source to determine the required outcome, inspect the existing patch, and establish whether acceptance is met."
+    ],
+    "status": "blocked"
+  },
+  "settings_verified": true,
+  "source_backend_sha256": "71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187",
+  "source_repository": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case1/participant",
+  "source_template_sha256_by_path": {
+    "CURRENT_NOTES.md": "d814a01e5c8d8b23d36156e49bb9781451c2c43a83b3056983e30be99b1e7edb",
+    "TASK.md": "458af9ac46107cdb3b2defd8aac3780793cd3a82c9b0e97a331c93565c902e0e",
+    "src/scheduler.py": "ede0955bb7197088fc473cd7d7da0d27689a24a1a0ae79120f10e2c85c554382",
+    "tests/test_original.py": "21da2d87d1e1880a37f2568e6454ddb305b48f2c163648c9b7902a12ba02e190"
+  },
+  "source_tree_sha256_by_path": {
+    "README.md": "044e83508f2073ac480bf18332e00b219f5e7cdaf106c7fd5b2f48da642ab86e",
+    "agent_backend.py": "71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187",
+    "agents/astra_expert.toml": "fe671ded150b3e058f64c8a3d044ef7592952e8e29504decd38fd1410cf40aa9",
+    "agents/inherited_reviewer.toml": "71a76f117a94bd6e1a62177ef9d1ab9db74d765be326cd5551fe5700196e1169",
+    "agents/inherited_worker.toml": "13202b2f8272ac3e9e79a26342bf569d6ad3799fc6b091a5c629c7fc3f08a0d8",
+    "agents/luna_worker.toml": "5cb5701880a1dde213e44115028533134911ff649ffb55429751e18c6b3131ab",
+    "agents/sol_expert.toml": "b6e1e20f35d3dabf5172cb97640e76890631d1ef811c39580ce264839b467f5f",
+    "controller.py": "d8129601c89c1aabb1d7bc2b0c6810be28444af3438b9d10d3288d3c8664dbf3",
+    "manifest.json": "796f3e1bc5222e3d9c56717701a044594afd12b245929785675de731b50694e4",
+    "policy.md": "543234c9a7ee7868dd84163a4f9d8b504587f1a08ebc6b4623f9500aa8f0c03a",
+    "supervisor.py": "7fc141ec1e3fc60eece116b5ac587526438eeb67ceff893efd6e82aec753ed7d"
+  },
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9088,
+      "inputTokens": 11654,
+      "outputTokens": 467,
+      "reasoningOutputTokens": 240,
+      "totalTokens": 12121
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9088,
+      "inputTokens": 20942,
+      "outputTokens": 1725,
+      "reasoningOutputTokens": 1263,
+      "totalTokens": 22667
+    }
+  },
+  "workspace_after_hashes": {
+    "CURRENT_NOTES.md": "d814a01e5c8d8b23d36156e49bb9781451c2c43a83b3056983e30be99b1e7edb",
+    "TASK.md": "458af9ac46107cdb3b2defd8aac3780793cd3a82c9b0e97a331c93565c902e0e",
+    "scratch/codex-bwrap-synthetic-mount-targets-1000/lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/scheduler.py": "ede0955bb7197088fc473cd7d7da0d27689a24a1a0ae79120f10e2c85c554382",
+    "tests/test_original.py": "21da2d87d1e1880a37f2568e6454ddb305b48f2c163648c9b7902a12ba02e190"
+  },
+  "workspace_before_hashes": {
+    "CURRENT_NOTES.md": "d814a01e5c8d8b23d36156e49bb9781451c2c43a83b3056983e30be99b1e7edb",
+    "TASK.md": "458af9ac46107cdb3b2defd8aac3780793cd3a82c9b0e97a331c93565c902e0e",
+    "src/scheduler.py": "ede0955bb7197088fc473cd7d7da0d27689a24a1a0ae79120f10e2c85c554382",
+    "tests/test_original.py": "21da2d87d1e1880a37f2568e6454ddb305b48f2c163648c9b7902a12ba02e190"
+  },
+  "write_scope": [
+    "src",
+    "scratch"
+  ]
+}

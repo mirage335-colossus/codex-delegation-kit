@@ -1,0 +1,9 @@
+{
+  "recorded_utc": "2026-11-10T06:23:20.115374+00:00",
+  "before_first_fresh_result_inspection": true,
+  "file": "policy.md",
+  "reason": "Clarify bookkeeping wording, not prohibit ordinary evidence/history. No new trigger, model, limit, or backend instruction change. Frozen v4 retained.",
+  "before_sha256": "8def618c8cbb169a0470e98f520a28da087bd2760e28598a81bdc511687a3fea",
+  "after_sha256": "f94937b30c82923f7aeecf67973cf3e275016946b51da2eb2f18532c0c8f8323",
+  "diff": "--- v4/policy.md\n+++ source/policy.md\n@@ -1277,7 +1277,8 @@\n responsibility, and rechecks the original failure plus affected requested\n behavior. Use distinct branches only when they add information; retain the\n existing assignment, ownership, repair, budget, deadline, permission and model\n-limits. Create no new records or controller automation.\n+limits. This workflow requires no separate bookkeeping registry or new\n+controller feature.\n \n If repeated waves remain uninformative, change method: use a faithful\n reproducer, first-divergence capture, accounting reconciliation, a more\n"
+}

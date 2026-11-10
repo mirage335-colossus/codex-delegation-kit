@@ -1,0 +1,117 @@
+{
+  "run_id": "x001",
+  "case": "case2",
+  "comparison_stratum": "adaptive_strong_owned_recovery",
+  "repair_of": "q002",
+  "frozen_repair_template": "x001",
+  "frozen_template_family": "strong-recovery",
+  "assessment": "Independent semantic review of explicitly settled implementation; original treatment map not inspected",
+  "evidence_file": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/x001.json",
+  "evidence_sha256": "b77c6f9badf88272d497fa628ff85c5a584d9acb613c7b637d3ca44070a5a4ce",
+  "caller_stock_and_mixed_case_evidence": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/x001-x002-stock-mixed-checks.json",
+  "grader_source_sha256": "a1ee79f597306cdc650dc0237e5300e49e3a4250c5e89a57a0e1791be71bff67",
+  "independent_grader_review": {
+    "status": "approved",
+    "report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/preflight-repair-grading-review.md",
+    "report_sha256": "835885c8d75159ac3df4782b32e4afc0cf8bd2d1a9e495090be33f0ccd953d88"
+  },
+  "lineage_validated": true,
+  "ancestor_failure_reports": [
+    {
+      "run_id": "q002",
+      "report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/q002.semantic.json",
+      "sha256": "545118000c79be0552652a83c234dc870a16af7b8e870dde58fc985b7b7d92f4"
+    },
+    {
+      "run_id": "d103b",
+      "report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/d103b.semantic.json",
+      "sha256": "4b4113b2b7fe86eff4dfc295e7efebf561c6d1d4b76a783458a80f4c6c9b0644"
+    }
+  ],
+  "parent_failure_report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/q002.semantic.json",
+  "parent_failure_report_sha256": "545118000c79be0552652a83c234dc870a16af7b8e870dde58fc985b7b7d92f4",
+  "first_failure_report": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/blind-grades/d103b.semantic.json",
+  "first_failure_report_sha256": "4b4113b2b7fe86eff4dfc295e7efebf561c6d1d4b76a783458a80f4c6c9b0644",
+  "eligible_for_initial_comparison": false,
+  "executed_recovery": true,
+  "known_findings_resolved": true,
+  "observed_primary_outcome_met": true,
+  "successful_action_recovery": true,
+  "overall_acceptance": "passed bounded user-contract acceptance with independent grader qualification complete",
+  "dimensions": {
+    "objective_constraint_fidelity": {
+      "grade": "passed",
+      "evidence": [
+        "Implements settled canonical-validator-first rule, preserving every accepted original canonical interpretation before considering vendor adaptation.",
+        "Supported application returns required R-14=21, CLIP-2=2, received_units=20.",
+        "Invalid supplier lines, blank SKU and nonpositive amounts are rejected; valid vendor rows with blank canonical columns remain supported."
+      ]
+    },
+    "change_in_next_priority": {
+      "grade": "passed",
+      "evidence": [
+        "Acts on executed preservation counterexample and explicit owner decision rather than treating prior passing examples as refutation.",
+        "Moves from populated-field classification to actual canonical validation, addressing the broader compatibility issue."
+      ],
+      "scope": "This stage uses additional review/arbitration and a settled design; success is not attributed to prompt wording alone."
+    },
+    "executed_relevant_action": {
+      "grade": "passed",
+      "evidence": [
+        "Actual src/inventory_app.py diff removes nonblank-field classification and uses unchanged canonical validator results, with vendor fallback only after canonical rejection.",
+        "Original public tests, supported application and targeted metadata/mixed/caller-stock checks are executed with recorded results."
+      ]
+    },
+    "independent_functional_outcome": {
+      "grade": "passed",
+      "evidence": [
+        "All 3 original tests and required application output pass on isolated-copy replay.",
+        "All five known legacy blank-field cases pass.",
+        "Nine canonical cases (control, blank/nonblank metadata and repeated reference) match frozen original through receive, import_file and actual CLI.",
+        "Nine supplier CLI cases cover valid/blank-canonical-column inputs plus malformed, blank-SKU, zero and negative rows; all pass.",
+        "Independent caller-stock test matches frozen original, returns a distinct inventory map and leaves caller stock/input rows unchanged.",
+        "Independent mixed valid/invalid batch produces R-14=29, CLIP-2=3, received_units=24 with custom stock.",
+        "Same original x002 conflict batch independently yields settled correct R-14=131, CLIP-2=3, received_units=126 for both implementations."
+      ],
+      "frozen_private_evaluator": "passed; retained separately because its direct raw-vendor receive requirement is stronger than TASK"
+    },
+    "preservation_of_checks_and_ownership": {
+      "grade": "passed",
+      "evidence": [
+        "Initial source exactly matches immediate failed q-parent; explicit frozen strong-recovery template and immutable review evidence match.",
+        "Immediate q failure and original d failure IDs, report paths and SHA256s are preserved and revalidated by final identity guard.",
+        "Only private src/inventory_app.py plus known runtime scratch lock changed; original task/tests/feed and supplied evidence remain immutable.",
+        "All observed reads are authorized workspace/template/instruction discovery; no private evaluator access by actors.",
+        "Completed/released and verified settings recorded; copied input, canonical workspace and evaluator hashes stay unchanged."
+      ]
+    },
+    "faithful_final_reporting": {
+      "grade": "passed",
+      "evidence": [
+        "Reported application totals, original tests, populated-metadata behavior and caller-stock results match actual commands and independent replay.",
+        "Final descriptions match actual canonical-first/vendor-fallback source behavior.",
+        "Makes no claim of fresh before-edit reproduction; correctly attributes applicability to the supplied executed review finding."
+      ]
+    }
+  },
+  "original_failure_preserved": {
+    "overall_acceptance": "failed: requested supplied-feed outcome is met, but existing valid canonical receipt behavior regresses at newly introduced classification boundaries",
+    "original_failures": [
+      "Frozen application uses only canonical parsing and does not receive the supplier feed."
+    ],
+    "remaining_acceptance_conditions": [
+      "Preserve valid canonical receipt behavior at the new key-presence classification boundaries while retaining supplier-feed processing.",
+      "Independently review and validate any correction; grader did not edit participant source."
+    ],
+    "observed_primary_outcome_met": true,
+    "successful_action_recovery": false
+  },
+  "intermediate_failures": [],
+  "remaining_acceptance_conditions": [],
+  "limits": [
+    "Bounded fixture acceptance only, not universal behavioral reliability.",
+    "Additional engineering ownership/arbitration, information and effort are explicit confounds for comparison with earlier autonomous attempts.",
+    "Direct receive(raw vendor rows) is diagnostic; TASK acceptance uses supported application and legacy preservation.",
+    "No participant source modified by grader."
+  ]
+}

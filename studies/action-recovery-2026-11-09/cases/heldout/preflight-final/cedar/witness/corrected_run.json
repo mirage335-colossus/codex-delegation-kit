@@ -1,0 +1,19 @@
+{
+  "case": "cedar",
+  "variant": "witness",
+  "label": "corrected_run",
+  "argv": [
+    "/usr/bin/python3",
+    "run_pipeline.py",
+    "--plan",
+    "plans/nightly.json",
+    "--state",
+    "work/nightly"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.028898878998006694,
+  "stdout": "{\"completed\": [\"quotes\", \"prices\", \"stock\"], \"pending\": [\"settlements\"], \"status\": \"ok\"}\n",
+  "stderr": ""
+}

@@ -1,0 +1,20 @@
+Historical utilization packet (no trial or replay constructed)
+
+Source checkout: /home/user/___quick/p/_cur/dataPump/pumpModem
+Checkpoint source: c54e24698c69c79805b5aad86205abdd36d2ca7c
+Current original checkout at collection: HEAD 488c26aae4abc05b5d25f88844562d88cf1ab06c, dirty; it was read only.
+
+c54-trace/
+  Copies local-evidence/current-timing/timing-trace.json, predeclared.json, trace-run.log.
+  Trace receipt binds source_before/source_after to c54e24698c69c79805b5aad86205abdd36d2ca7c and reports unchanged source, driver, and input. Fixture: one row-7 native continuous five-window capture, 1,649,627 samples. Trace contains actual recorded intervals and selected fine cycle. This is a timing/chronology observation, not a trial for the later ABBA scheduler change.
+
+source/tools/
+  Exact git-show files from c54e24698c69c79805b5aad86205abdd36d2ca7c: triad_continuous.py, triad_realtime_fft.py, triad_slot_executor.py, triad_stream_receiver.py, triad_tracking_basis.py, triad_tracking_receiver.py. These are immutable checkpoint source files, not the later ABBA candidate implementation.
+
+abba-oversubscription/
+  Copies the predeclare, one-look five-route screen, ABBA qualification receipt/log, and independent audit from local-evidence/receiver-oversubscription/.
+  This is the relevant predecision evidence discussed in the root chat around 2026-11-10 01:33:24Z: 2 owners x 12 software workers versus 3 owners x 18 workers; 4-look ABBA order baseline/candidate/candidate/baseline. Preselected resident tail windows 7-12 after settling; whole cold lifecycle includes 13 windows. Per receipt/audit: resident 18.613436 s vs 17.889080 s (-3.8916%); cold lifecycle 41.162959 s vs 38.409454 s (-6.6893%); mean monitored busy cores 4.115938 vs 5.777795; paired resident ratios 0.945455 and 0.977182. Numerical/work/resource/provenance checks passed; fixed resident reduction gate was >=15%, so performance gate rejected. Do not report adoption/pass.
+  ABBA source_before/source_after identify revision 488c26aae4abc05b5d25f88844562d88cf1ab06c with 66 source hashes and dirty paths including AGENTS/docs/tests plus tools/triad_slot_executor.py, tools/triad_stream_receiver.py, tools/triad_tracking_basis.py. The recorded full source hashes are retained in qualify.json. Current working files for those three dirty modules do NOT match the recorded hashes, so exact ABBA source is not reconstructed in this packet. Do not substitute c54 source files for that ABBA's source.
+  The predeclare binds the private driver SHA-256 b51f875df84589e56aedbd422a53e7e47302a76e8c8ab27cac67cf0dd1aa1bca; the receipt reports driver and input verified unchanged. The public row-7 fixture arguments and plans are in qualify.json.
+
+No participant exercise, replay, benchmark, build, or solution-coded fixture is included. SHA256SUMS.txt contains packet file hashes; original-file-times.txt preserves original artifact mtimes.

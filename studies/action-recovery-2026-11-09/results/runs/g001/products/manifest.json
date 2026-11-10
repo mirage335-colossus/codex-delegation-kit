@@ -1,0 +1,32 @@
+{
+  "run_id": "g001",
+  "case_label": "orchid",
+  "source_condition": "baseline",
+  "participant_snapshot_reference_hashes": {
+    "PRIOR_WORK.md": "783c86257c93ebe6cd4a6931c3cfce413d843883bf3b8f24adca3a619228c214",
+    "TASK.md": "8518a58ee7e69b9431f148dea625e7d93029b83c1a5f662ce047ea79429028a0",
+    "config.json": "2056712ffd148f5b3f7d9c69159f63d28f80af3a399843d530f918421e702829",
+    "data/readings.csv": "4f459f84ec592d259e25f97fbb5e38b8d5513f62ef6b38e61291416cb52c4d01",
+    "report.py": "b3f215aa4def6502279590a0586bfb0261f196b2571d966f86596ff03e2fb7b7",
+    "telemetry/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "telemetry/feed.py": "428985dc73d2c55f27ccb3535d0a4aba5eee6e7ac02b47a94c339059a5a2cec2",
+    "telemetry/reduce.py": "b5e58fadf4385db84333daddb5ab67099bfbc607c4baee53691f2094e4b05c34",
+    "tests/test_report.py": "21ab9eb3c99f90c196e27d2851410429242036cf6f71ce130f136b176cf36ee5"
+  },
+  "participant_snapshot_source": "operation/workspace-before; verified against run-metadata.workspace_before_hashes; fixture bytes are referenced by hash, not copied into products",
+  "allowed_product_paths": [
+    "work/"
+  ],
+  "products": [
+    {
+      "path": "products/work/daily_report.json",
+      "origin_path": "/tmp/action-recovery-runs/g001/workspace/work/daily_report.json",
+      "kind": "task_product",
+      "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+      "bytes": 454,
+      "mtime_ns": 1794291711393220867
+    }
+  ],
+  "excluded": "runtime-state databases, app-server event logs, arbitrary scratch files and the empty runtime scratch lock",
+  "previous_packaging_attempt": "g001-only failed packaging attempt at results/runs/g001/packaging-attempts/01; zero evaluator assertions; excluded from canonical products and replay."
+}

@@ -1,0 +1,14 @@
+CHECK: frozen-receipt arithmetic and source-bound trace summary
+ABBA verified status=verified_performance_gate_rejected; looks=9; complete jobs=87; no fallbacks/retries=True.
+Same-phase parity and modeled/sampled memory checks=True/True.
+Qualification resident: baseline=18.613s candidate=17.889s reduction=3.89%; paired ratios=[0.9454547822379967, 0.9771815301752439].
+Qualification cold lifecycle: baseline=41.163s candidate=38.409s reduction=6.69%; required <=5% regression, observed 6.69% reduction.
+Busy-core equivalents 4.12 -> 5.78 (+40.4%); hardware denominator=12; selected route=p3w18.
+Source-bound trace: status=passed; exact numeric difference=0.0; same source/input verified=True/True; observer overhead=-0.0015.
+job0: workers=12; slot_score wall/cpu-delta=4.096/2.039s; fine_tracking=3.444/1.857s; bank_preparation=0.563/0.158s.
+job1: workers=6; slot_score wall/cpu-delta=5.836/3.535s; fine_tracking=5.277/3.375s; bank_preparation=0.485/0.131s.
+job2: workers=6; slot_score wall/cpu-delta=6.651/3.837s; fine_tracking=5.809/3.534s; bank_preparation=0.727/0.245s.
+job3: workers=6; slot_score wall/cpu-delta=5.800/3.413s; fine_tracking=5.050/3.201s; bank_preparation=0.665/0.173s.
+job4: workers=6; slot_score wall/cpu-delta=5.472/3.150s; fine_tracking=4.743/2.930s; bank_preparation=0.637/0.182s.
+job3 captured fine task rows: fine_basis_job n=12 wall-sum=0.0726s thread-cpu-delta-sum=0.0602s; fine_gaussian_job n=12 wall-sum=0.0020s thread-cpu-delta-sum=0.0011s.
+Caveat: callable intervals overlap and thread CPU deltas are not OS running intervals; do not add them as process service or infer achieved utilization from worker count.

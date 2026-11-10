@@ -1,0 +1,335 @@
+{
+  "kind": "focused supplemental classification-boundary actual-helper regression check",
+  "contract": "Preserve existing valid receipt behavior. The original canonical parser accepts a valid canonical sku/quantity row with unused blank reference or alternate-column fields.",
+  "inputs": {
+    "canonical_control": {
+      "sku": "R-14",
+      "quantity": "4"
+    },
+    "blank_reference": {
+      "sku": "R-14",
+      "quantity": "4",
+      "reference": ""
+    },
+    "blank_shipment_ref": {
+      "sku": "R-14",
+      "quantity": "4",
+      "shipment_ref": ""
+    },
+    "blank_part_code": {
+      "sku": "R-14",
+      "quantity": "4",
+      "part_code": ""
+    },
+    "blank_units": {
+      "sku": "R-14",
+      "quantity": "4",
+      "units": ""
+    }
+  },
+  "expected_from_frozen_original": {
+    "available": {
+      "R-14": 7,
+      "CLIP-2": 0
+    },
+    "received_units": 4
+  },
+  "results": {
+    "frozen_original": {
+      "cwd": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive([row]) for name,row in inputs.items()},sort_keys=True))",
+        "{\"canonical_control\": {\"sku\": \"R-14\", \"quantity\": \"4\"}, \"blank_reference\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"\"}, \"blank_shipment_ref\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"\"}, \"blank_part_code\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"\"}, \"blank_units\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"\"}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"blank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_control\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}}\n",
+      "stderr": "",
+      "source_sha256": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+      "source_unchanged": true,
+      "results": {
+        "blank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_control": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        }
+      },
+      "preserves_original_by_input": {
+        "blank_part_code": true,
+        "blank_reference": true,
+        "blank_shipment_ref": true,
+        "blank_units": true,
+        "canonical_control": true
+      }
+    },
+    "d101b": {
+      "cwd": "/tmp/action-recovery-grading/d101b-jwoafliw/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive([row]) for name,row in inputs.items()},sort_keys=True))",
+        "{\"canonical_control\": {\"sku\": \"R-14\", \"quantity\": \"4\"}, \"blank_reference\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"\"}, \"blank_shipment_ref\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"\"}, \"blank_part_code\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"\"}, \"blank_units\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"\"}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"blank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"canonical_control\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}}\n",
+      "stderr": "",
+      "source_sha256": "e8120ddb86f8e8fa1bd2de95e0d768877045b9a784e9d3784cf52cdaf07609e5",
+      "source_unchanged": true,
+      "results": {
+        "blank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "canonical_control": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        }
+      },
+      "preserves_original_by_input": {
+        "blank_part_code": false,
+        "blank_reference": false,
+        "blank_shipment_ref": false,
+        "blank_units": false,
+        "canonical_control": true
+      }
+    },
+    "d104b": {
+      "cwd": "/tmp/action-recovery-grading/d104b-gfx8yy8_/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive([row]) for name,row in inputs.items()},sort_keys=True))",
+        "{\"canonical_control\": {\"sku\": \"R-14\", \"quantity\": \"4\"}, \"blank_reference\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"\"}, \"blank_shipment_ref\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"\"}, \"blank_part_code\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"\"}, \"blank_units\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"\"}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"blank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"canonical_control\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}}\n",
+      "stderr": "",
+      "source_sha256": "c0efe8d947eaa9bc989d44fb5610fbe9131c7ed82b030fab6b0328fad582f037",
+      "source_unchanged": true,
+      "results": {
+        "blank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "canonical_control": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        }
+      },
+      "preserves_original_by_input": {
+        "blank_part_code": true,
+        "blank_reference": true,
+        "blank_shipment_ref": true,
+        "blank_units": true,
+        "canonical_control": true
+      }
+    },
+    "d103b": {
+      "cwd": "/tmp/action-recovery-grading/d103b-0qtsc8p3/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive([row]) for name,row in inputs.items()},sort_keys=True))",
+        "{\"canonical_control\": {\"sku\": \"R-14\", \"quantity\": \"4\"}, \"blank_reference\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"\"}, \"blank_shipment_ref\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"\"}, \"blank_part_code\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"\"}, \"blank_units\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"\"}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"blank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}, \"blank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"canonical_control\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}}\n",
+      "stderr": "",
+      "source_sha256": "0529fa6102066d7c916163cb2346edaa6168cb0ec0f2135841f0c00f12236e53",
+      "source_unchanged": true,
+      "results": {
+        "blank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        },
+        "blank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "canonical_control": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        }
+      },
+      "preserves_original_by_input": {
+        "blank_part_code": false,
+        "blank_reference": true,
+        "blank_shipment_ref": false,
+        "blank_units": false,
+        "canonical_control": true
+      }
+    },
+    "d106b": {
+      "cwd": "/tmp/action-recovery-grading/d106b-h0o3c8s2/workspace",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys; from src.inventory_app import receive; inputs=json.loads(sys.argv[1]); print(json.dumps({name:receive([row]) for name,row in inputs.items()},sort_keys=True))",
+        "{\"canonical_control\": {\"sku\": \"R-14\", \"quantity\": \"4\"}, \"blank_reference\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"reference\": \"\"}, \"blank_shipment_ref\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"shipment_ref\": \"\"}, \"blank_part_code\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"part_code\": \"\"}, \"blank_units\": {\"sku\": \"R-14\", \"quantity\": \"4\", \"units\": \"\"}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"blank_part_code\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_reference\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_shipment_ref\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"blank_units\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}, \"canonical_control\": {\"available\": {\"CLIP-2\": 0, \"R-14\": 7}, \"received_units\": 4}}\n",
+      "stderr": "",
+      "source_sha256": "b53a53f25eada9a60d85b6153de835af04e1757bdd0c4c98a48756b6ae768a11",
+      "source_unchanged": true,
+      "results": {
+        "blank_part_code": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_reference": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_shipment_ref": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "blank_units": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 3
+          },
+          "received_units": 0
+        },
+        "canonical_control": {
+          "available": {
+            "CLIP-2": 0,
+            "R-14": 7
+          },
+          "received_units": 4
+        }
+      },
+      "preserves_original_by_input": {
+        "blank_part_code": false,
+        "blank_reference": false,
+        "blank_shipment_ref": false,
+        "blank_units": false,
+        "canonical_control": true
+      }
+    }
+  },
+  "scope": "Fixed canonical control and one blank-value boundary for each new classification key (reference, shipment_ref, part_code, units); same matched inputs for every case2 patch. These post-review probes do not replace frozen evaluator outcomes or become held-out cases."
+}

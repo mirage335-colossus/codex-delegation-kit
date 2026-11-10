@@ -1,0 +1,1 @@
+Historical proposal: optimization rejected against a 20% aggregate-utilization gain threshold (static estimate 14%); disposition was revert/stop. This is unvalidated at the deadline and does not establish the user's committed-output requirement. Runner: Python 3 stdlib, `python3 -m unittest discover -s tests`.

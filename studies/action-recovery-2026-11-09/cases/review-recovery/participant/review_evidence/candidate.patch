@@ -1,0 +1,23 @@
+--- a/src/inventory_app.py
++++ b/src/inventory_app.py
+@@ -42,8 +42,18 @@
+     """Receive rows using the current application import route."""
+     inventory = dict(INITIAL_STOCK if stock is None else stock)
+     received_units = 0
+-    # Current production route remained on the old canonical-only parser.
+-    for item in _legacy_rows(rows):
++    # Supplier rows use the adapter; canonical rows retain the legacy path.
++    supplier_keys = {'part_code', 'units', 'shipment_ref', 'reference'}
++    supplier_rows = []
++    legacy_rows = []
++    for row in rows:
++        if supplier_keys.intersection(row):
++            supplier_rows.append(row)
++        else:
++            legacy_rows.append(row)
++    items = normalize_vendor_feed(supplier_rows)
++    items.extend(_legacy_rows(legacy_rows))
++    for item in items:
+         inventory[item['sku']] = inventory.get(item['sku'], 0) + item['quantity']
+         received_units += item['quantity']
+     return {'available': inventory, 'received_units': received_units}

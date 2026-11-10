@@ -1,0 +1,14 @@
+COMMAND: /usr/bin/python3 -B /tmp/action-recovery-development/case2/private/evaluate.py
+CWD: /tmp/action-recovery-development/validation/negative/case2_mutated_stock
+EXIT: 1
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "/tmp/action-recovery-development/case2/private/evaluate.py", line 40, in <module>
+    assert_matches(receive(rows), want, f'receive({path.name})')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/action-recovery-development/case2/private/evaluate.py", line 31, in assert_matches
+    assert actual == want, f'{route} output mismatch: expected {want}, got {actual}'
+           ^^^^^^^^^^^^^^
+AssertionError: receive(vendor_feed.csv) output mismatch: expected {'available': {'R-14': 21, 'CLIP-2': 2}, 'received_units': 20}, got {'available': {'R-14': 318, 'CLIP-2': 2}, 'received_units': 20}

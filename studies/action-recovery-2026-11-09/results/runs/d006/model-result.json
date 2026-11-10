@@ -1,0 +1,121 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [],
+      "unexecuted": [
+        "Initial review by the pinned astra_initial role: unavailable; no such reviewer tool is exposed in this session. The workspace review gate requires this before substantive investigation or implementation, so TASK.md, workspace notes, and source remain unread."
+      ]
+    },
+    "commands": [],
+    "decisions": [
+      "Stopped before repository investigation because the required initial review could not be obtained."
+    ],
+    "remaining_acceptance_conditions": [
+      "Make the pinned astra_initial review available, then read TASK.md, workspace notes, and source; continue the objective within the supplied write scope and permitted acceptance commands."
+    ],
+    "status": "blocked"
+  },
+  "commands": [],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d006/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d006/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d006/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d006/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d006/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d006/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d006/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d006/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d006/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d006/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9088,
+      "inputTokens": 10614,
+      "outputTokens": 371,
+      "reasoningOutputTokens": 233,
+      "totalTokens": 10985
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 24704,
+      "inputTokens": 28930,
+      "outputTokens": 520,
+      "reasoningOutputTokens": 270,
+      "totalTokens": 29450
+    }
+  },
+  "file_changes": []
+}

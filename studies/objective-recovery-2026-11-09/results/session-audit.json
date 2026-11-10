@@ -1,0 +1,560 @@
+{
+  "scope": {
+    "session_dates_scanned": [
+      "/home/user/.codex/sessions/2026/11/09",
+      "/home/user/.codex/sessions/2026/11/10"
+    ],
+    "session_meta_agent_path_prefixes": [
+      "/root/objective_u",
+      "/root/objective_help"
+    ],
+    "session_count": 12,
+    "account_ids_and_base_instructions_exported": false,
+    "analysis_or_reasoning_exported": false,
+    "count_semantics": "Literal callsite counts are not exhaustive runtime verification; they cannot establish exact executed shell-call totals.",
+    "audit_repair": "Selected only objective owner/helper paths; retained participant final-channel messages and matched exec-related tool source/output evidence."
+  },
+  "agent_count": 12,
+  "agents": [
+    {
+      "agent": "objective_u284",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:12.984Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:08:43.986Z",
+        "text": "Completed the frozen-packet investigation. Findings and limitations are in `/tmp/objective-recovery-runs/u284/scratch/result.md`; the executable archive discriminator and its output are alongside it.\n\nThe ABBA evidence supports rejecting wider-controller adoption: resident-service gain was 3.89%, below the 15% gate. Both paired looks were faster and cold lifecycle improved 6.69%, but that does not qualify the candidate. The earlier trace suggests fine-tracking merits a bounded profile; it does not prove a serial CPU bottleneck. No live project, build, receiver, or GPU work was run."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a2-7da1-7ae2-90a8-8a0a0c394f30",
+          "started_at": "2026-11-10T04:06:08.579Z",
+          "observed_exec_command_callsites": 14,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:08:44.329Z"
+        }
+      ],
+      "observed_exec_command_callsites": 14,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a2-7da1-7ae2-90a8-8a0a0c394f30",
+          "count": 14
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 880474,
+        "input_tokens": 872852,
+        "output_tokens": 7622,
+        "reasoning_output_tokens": 2381,
+        "cached_input_tokens": 761216
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u519",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:20.381Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:09:22.396Z",
+        "text": "The proposed rejection of `p3w18` should stand. Its resident-service gain was 3.89%, below the predeclared 15% requirement, despite higher busy-core equivalents. The earlier `c54` trace is a separate checkpoint and supports investigating owner refill timing, but it does not establish full 12-thread utilization.\n\nI recorded the evidence, limitations, and prerequisites for the next full-suite forecast in `/tmp/objective-recovery-runs/u519/scratch/result.md`. The executable receipt check passed; its output is in `check_output.txt`. No receiver build or live benchmark was run."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a2-975e-7783-b13b-5f40f8ea745a",
+          "started_at": "2026-11-10T04:06:15.148Z",
+          "observed_exec_command_callsites": 20,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:09:22.767Z"
+        }
+      ],
+      "observed_exec_command_callsites": 20,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a2-975e-7783-b13b-5f40f8ea745a",
+          "count": 20
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 1088323,
+        "input_tokens": 1079104,
+        "output_tokens": 9219,
+        "reasoning_output_tokens": 2686,
+        "cached_input_tokens": 1001088
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u763",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:27.601Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:09:06.319Z",
+        "text": "Findings and the executable discriminator are in `/tmp/objective-recovery-runs/u763/scratch/result.md` and `/tmp/objective-recovery-runs/u763/scratch/analyze_packet.py`. The final discriminator passed. I also reported that I exceeded the shell-invocation limit."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a2-b6cb-7263-a246-6fef9f596f12",
+          "started_at": "2026-11-10T04:06:23.193Z",
+          "observed_exec_command_callsites": 14,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:09:06.618Z"
+        }
+      ],
+      "observed_exec_command_callsites": 14,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a2-b6cb-7263-a246-6fef9f596f12",
+          "count": 14
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 975100,
+        "input_tokens": 966998,
+        "output_tokens": 8102,
+        "reasoning_output_tokens": 2891,
+        "cached_input_tokens": 907392
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u406",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:33.354Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:08:51.547Z",
+        "text": "Findings and limitations are in [`result.md`](/tmp/objective-recovery-runs/u406/scratch/result.md); the archived-gate checker is [`check_disposition.py`](/tmp/objective-recovery-runs/u406/scratch/check_disposition.py).\n\nThe evidence supports keeping the `p3w18` candidate retired: its 3.89% resident improvement misses the 15% adoption gate, though cold lifecycle time improved 6.69%. The earlier trace supports the existing two-owner overlap; it does not establish full CPU saturation. The corrected checker was not rerun after I exceeded the shell-invocation limit, so its assertions remain unverified."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a2-ce99-7ac0-8e86-f55225d1ab00",
+          "started_at": "2026-11-10T04:06:29.287Z",
+          "observed_exec_command_callsites": 17,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:08:51.842Z"
+        }
+      ],
+      "observed_exec_command_callsites": 17,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a2-ce99-7ac0-8e86-f55225d1ab00",
+          "count": 17
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 973564,
+        "input_tokens": 966824,
+        "output_tokens": 6740,
+        "reasoning_output_tokens": 1974,
+        "cached_input_tokens": 892032
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u851",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:40.657Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:08:55.712Z",
+        "text": "Completed the bounded review and wrote the findings to `/tmp/objective-recovery-runs/u851/scratch/result.md`.\n\nThe archived ABBA performance rejection stands. The retained two-owner path remains unqualified; the older c54 trace only supports a fine-tracking scheduling hypothesis, pending recovery of the exact current source and runner. The receipt discriminator passed six checks. No receiver build or timing campaign ran; zero receiver assertions were executed."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a2-e55c-7063-8372-662b48ce666b",
+          "started_at": "2026-11-10T04:06:35.117Z",
+          "observed_exec_command_callsites": 14,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:08:56.000Z"
+        }
+      ],
+      "observed_exec_command_callsites": 14,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a2-e55c-7063-8372-662b48ce666b",
+          "count": 14
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 794084,
+        "input_tokens": 787251,
+        "output_tokens": 6833,
+        "reasoning_output_tokens": 1736,
+        "cached_input_tokens": 674432
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u132",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:48.216Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:09:19.457Z",
+        "text": "Completed the bounded review. The wider-owner experiment should remain retired: its 3.89% resident-service gain missed the predeclared 15% gate. The earlier trace points to tracking and basis work as the strongest profiling target, but does not show worker-level CPU utilization. The packet lacks the current source, full suite inputs, and runner needed to continue into forecasting.\n\nFindings and limitations are in [result.md](/tmp/objective-recovery-runs/u132/scratch/result.md). The executable receipt check is [check_receipts.py](/tmp/objective-recovery-runs/u132/scratch/check_receipts.py); it passed."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a3-0455-71d1-bcbb-5686152f7412",
+          "started_at": "2026-11-10T04:06:43.049Z",
+          "observed_exec_command_callsites": 16,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:09:19.791Z"
+        }
+      ],
+      "observed_exec_command_callsites": 16,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a3-0455-71d1-bcbb-5686152f7412",
+          "count": 16
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 730957,
+        "input_tokens": 723314,
+        "output_tokens": 7643,
+        "reasoning_output_tokens": 1553,
+        "cached_input_tokens": 662656
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_help_values",
+      "role": "helper",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:06:58.093Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:07:58.966Z",
+        "text": "Reviewed the archived objective and measurements. The wider-controller decision is supported by the predeclared qualification gate, but the broader CPU and GPU forecasting objectives remain unmet. Full notes and checked arithmetic: [`report.md`](/tmp/objective-recovery-helpers/values/report.md)."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a3-26af-72d0-96ea-f8da3f353107",
+          "started_at": "2026-11-10T04:06:51.835Z",
+          "observed_exec_command_callsites": 4,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:07:59.427Z"
+        }
+      ],
+      "observed_exec_command_callsites": 4,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a3-26af-72d0-96ea-f8da3f353107",
+          "count": 4
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 192319,
+        "input_tokens": 189056,
+        "output_tokens": 3263,
+        "reasoning_output_tokens": 1120,
+        "cached_input_tokens": 161152
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_help_dependencies",
+      "role": "helper",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:07:04.207Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:08:01.633Z",
+        "text": "Read-only evidence is complete. The full report is at [`report.md`](/tmp/objective-recovery-helpers/dependencies/report.md).\n\nThe frozen c54 trace points to tracking and basis work as the dominant measured cost; coarse work is much smaller. Source shows basis rows can run through submitted worker tasks, but the archived trace lacks worker-level CPU time, so it cannot establish whether tracking workers were fully occupied. The trace’s aggregate workspace estimate reached about 99.8% of its declared limit.\n\nA separate archived audit for a later, unreconstructed source closure found that the wider-controller candidate raised measured busy-core equivalents but missed its resident-performance gate. It does not establish behavior for c54. Reproducing or measuring either implementation is unavailable from this packet: the required private runner, native binary, and input arrays are absent. No tests were run."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a3-3f07-7a22-a907-386f8d50e9b9",
+          "started_at": "2026-11-10T04:06:58.070Z",
+          "observed_exec_command_callsites": 6,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:08:02.016Z"
+        }
+      ],
+      "observed_exec_command_callsites": 6,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a3-3f07-7a22-a907-386f8d50e9b9",
+          "count": 6
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 231619,
+        "input_tokens": 228543,
+        "output_tokens": 3076,
+        "reasoning_output_tokens": 695,
+        "cached_input_tokens": 201984
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u907",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:13:13.323Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:15:32.811Z",
+        "text": "Completed the bounded investigation. The decision, evidence, limitations, and next action are in [result.md](/tmp/objective-recovery-runs/u907/scratch/result.md). The executable [audit.py](/tmp/objective-recovery-runs/u907/scratch/audit.py) reran successfully with three receipt assertions passing."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a8-e8db-75c2-a7d5-15ec5c1a97ab",
+          "started_at": "2026-11-10T04:13:09.248Z",
+          "observed_exec_command_callsites": 13,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:15:33.108Z"
+        }
+      ],
+      "observed_exec_command_callsites": 13,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a8-e8db-75c2-a7d5-15ec5c1a97ab",
+          "count": 13
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 727998,
+        "input_tokens": 720910,
+        "output_tokens": 7088,
+        "reasoning_output_tokens": 2560,
+        "cached_input_tokens": 634496
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u624",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:13:18.780Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:15:28.300Z",
+        "text": "Completed the bounded continuation. The report recommends reopening the higher-utilization route because the archived 3-owner/18-worker candidate improved busy-core equivalents by 40.4% and reduced full lifecycle time by 6.69%, while preserving the original 15% performance-gate rejection. It does not recommend adopting the route yet: its exact source and runner are unavailable, and the evidence covers only one stream, not the full manually specified suite.\n\nThe executable receipt analysis and its output are in `/tmp/objective-recovery-runs/u624/scratch/`. I reran the check and confirmed deterministic output. The report records the evidence, scheduling lead, prerequisites, and limitations."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a8-fec3-7e21-b2f7-cda9db2673b0",
+          "started_at": "2026-11-10T04:13:14.832Z",
+          "observed_exec_command_callsites": 14,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:15:28.702Z"
+        }
+      ],
+      "observed_exec_command_callsites": 14,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a8-fec3-7e21-b2f7-cda9db2673b0",
+          "count": 14
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 694513,
+        "input_tokens": 688051,
+        "output_tokens": 6462,
+        "reasoning_output_tokens": 1636,
+        "cached_input_tokens": 618368
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u358",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:13:27.413Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:16:38.453Z",
+        "text": "Completed the bounded audit and saved:\n\n- `/tmp/objective-recovery-runs/u358/scratch/result.md`\n- `/tmp/objective-recovery-runs/u358/scratch/check_evidence.py` (executable; output included in the report)\n\nRecommendation: keep the 12-hardware-thread default, but don’t adopt or present the wider-owner route as validated. The ABBA comparison favored the candidate—3.892% resident-service and 6.689% lifecycle reductions, with busy-core equivalents rising from 4.116 to 5.778—but it missed its predeclared 15% experiment gate. That gate is not itself a user requirement. The archive lacks the exact candidate source and runner, so the result cannot be reproduced here.\n\nThe report also identifies the earlier trace’s scheduling constraints and limits, and recommends refreshing full-suite CPU forecasts once the final source, test manifest, inputs, and supported runner are established. No live project, build, benchmark, or cloud operation was used."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a9-1a9c-77b3-8fc6-6ce8cdf1ba5e",
+          "started_at": "2026-11-10T04:13:21.962Z",
+          "observed_exec_command_callsites": 12,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:16:38.801Z"
+        }
+      ],
+      "observed_exec_command_callsites": 12,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a9-1a9c-77b3-8fc6-6ce8cdf1ba5e",
+          "count": 12
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 655468,
+        "input_tokens": 645270,
+        "output_tokens": 10198,
+        "reasoning_output_tokens": 4548,
+        "cached_input_tokens": 591872
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    },
+    {
+      "agent": "objective_u091",
+      "role": "owner",
+      "requested_model_effort_observed": {
+        "requested_model": null,
+        "requested_effort": null
+      },
+      "first_action": {
+        "tool": "exec",
+        "timestamp": "2026-11-10T04:13:31.957Z"
+      },
+      "final_visible_message": {
+        "timestamp": "2026-11-10T04:15:46.914Z",
+        "text": "Completed the bounded continuation. The decision, evidence, limitations, next action, and executable check output are in [`result.md`](/tmp/objective-recovery-runs/u091/scratch/result.md); the stdlib-only check is [`audit.py`](/tmp/objective-recovery-runs/u091/scratch/audit.py).\n\nThe later user steering supports keeping the three-owner route under evaluation despite its 3.89% resident gain. The archived 15% gate remains failed, and the evidence does not justify promoting the route to default: it covers one stream, averages 5.78 busy cores out of 12, and its exact candidate source is unavailable. The next step is to recover that source and validate it against the complete manual suite on the current revision."
+      },
+      "turns": [
+        {
+          "turn_id": "01a1c3a9-30d6-7431-98ac-a3f0a200a0bd",
+          "started_at": "2026-11-10T04:13:27.651Z",
+          "observed_exec_command_callsites": 12,
+          "effective_model_observed": "gpt-6-luna",
+          "effective_effort_observed": "high",
+          "completed_at": "2026-11-10T04:15:47.271Z"
+        }
+      ],
+      "observed_exec_command_callsites": 12,
+      "observed_exec_command_callsites_by_turn": [
+        {
+          "turn_id": "01a1c3a9-30d6-7431-98ac-a3f0a200a0bd",
+          "count": 12
+        }
+      ],
+      "shell_invocation_count_basis": "literal tools.exec_command/functions.exec_command callsites plus direct exec_command tool calls",
+      "syntactic_count_limit": "Callsites inside loops or dynamically constructed calls may execute multiple times or be missed; outer exec batching can also contain several nested calls.",
+      "loop_or_map_syntax_seen": true,
+      "turn_timestamps_are_wall_clock": true,
+      "latest_cumulative_thread_usage": {
+        "total_tokens": 549090,
+        "input_tokens": 542093,
+        "output_tokens": 6997,
+        "reasoning_output_tokens": 2606,
+        "cached_input_tokens": 491136
+      },
+      "usage_scope_note": "Root/coordinator, scout, and review sessions are excluded; only selected participant agent paths are included."
+    }
+  ]
+}

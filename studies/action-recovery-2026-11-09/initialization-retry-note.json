@@ -1,0 +1,14 @@
+{
+  "failed_runs": [
+    "d101",
+    "d104"
+  ],
+  "reason": "app-server handshake response deadline expired before settings verification or inference; both owned process trees released",
+  "replacement_runs": [
+    "d101b",
+    "d104b"
+  ],
+  "settings_changes": null,
+  "execution_change": "Use at most two concurrently rather than four for subsequent batches; resource/sandbox/model/deadline unchanged",
+  "do_not_count_as_actor_outcomes": true
+}

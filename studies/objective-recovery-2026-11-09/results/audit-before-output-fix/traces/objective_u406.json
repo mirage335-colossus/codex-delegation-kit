@@ -1,0 +1,364 @@
+{
+  "agent": "objective_u406",
+  "calls": [
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 15,
+      "call_id": "call_7f403b2da7144b619da157512d4053ba",
+      "timestamp": "2026-11-10T04:06:33.354Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 22,
+      "call_id": "call_de540fe5c15f410d96f40e0d7e2bacda",
+      "timestamp": "2026-11-10T04:06:35.980Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 29,
+      "call_id": "call_01a1776c0e9c4ea4bfe15eb46a7da523",
+      "timestamp": "2026-11-10T04:06:40.577Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 36,
+      "call_id": "call_6e0c45f661d1423c86eefb510d587d93",
+      "timestamp": "2026-11-10T04:06:43.970Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 43,
+      "call_id": "call_1359adfe082042c39e287a6372bb9336",
+      "timestamp": "2026-11-10T04:06:47.230Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 50,
+      "call_id": "call_817d52ecc5ea48099175b81c40b35e89",
+      "timestamp": "2026-11-10T04:06:51.360Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 57,
+      "call_id": "call_eadc9cee505442469094061904314f0b",
+      "timestamp": "2026-11-10T04:06:56.752Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 64,
+      "call_id": "call_005d5028de7a411db5fd065be05eaeaf",
+      "timestamp": "2026-11-10T04:07:03.945Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 71,
+      "call_id": "call_994b5034c0544b5d9dc040a73712a372",
+      "timestamp": "2026-11-10T04:07:07.958Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 78,
+      "call_id": "call_356d1d27002748278a44c32d441b8cc9",
+      "timestamp": "2026-11-10T04:07:15.472Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 85,
+      "call_id": "call_13048713184c4bc08aec3dcc8ab816b1",
+      "timestamp": "2026-11-10T04:07:22.376Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 92,
+      "call_id": "call_1de93059624b4982b587e110cda8b00f",
+      "timestamp": "2026-11-10T04:07:29.781Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 101,
+      "call_id": "call_48199a2508de4b30b2895541f368ef36",
+      "timestamp": "2026-11-10T04:07:41.492Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 108,
+      "call_id": "call_58d2e5feb06340dcb535302e3ca1dd82",
+      "timestamp": "2026-11-10T04:07:56.379Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 115,
+      "call_id": "call_6f02b9a70788497e8c6547b678b6f80f",
+      "timestamp": "2026-11-10T04:07:58.429Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 122,
+      "call_id": "call_5b7a0e95ffb849a2ade03a711f500460",
+      "timestamp": "2026-11-10T04:08:01.495Z"
+    },
+    {
+      "outer_tool": "exec",
+      "line": 1,
+      "callsite": "tools.exec_command(",
+      "ordinal": 129,
+      "call_id": "call_8829275208ad450ca17622134db5688e",
+      "timestamp": "2026-11-10T04:08:04.302Z"
+    }
+  ],
+  "exec_tool_trace": [
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_7f403b2da7144b619da157512d4053ba",
+      "timestamp": "2026-11-10T04:06:33.354Z",
+      "source": "const r=await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u406/task.txt /tmp/objective-recovery-runs/u406/instructions.txt\",\"yield_time_ms\":10000,\"max_output_tokens\":4000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_7f403b2da7144b619da157512d4053ba",
+      "timestamp": "2026-11-10T04:06:33.457Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_de540fe5c15f410d96f40e0d7e2bacda",
+      "timestamp": "2026-11-10T04:06:35.980Z",
+      "source": "const r=await tools.exec_command({cmd:\"find /tmp/objective-recovery-runs/u406/packet -maxdepth 3 -type f -print\",\"yield_time_ms\":10000,\"max_output_tokens\":2000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_de540fe5c15f410d96f40e0d7e2bacda",
+      "timestamp": "2026-11-10T04:06:36.090Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_01a1776c0e9c4ea4bfe15eb46a7da523",
+      "timestamp": "2026-11-10T04:06:40.577Z",
+      "source": "const r=await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u406/packet/provenance.md /tmp/objective-recovery-runs/u406/packet/abba-oversubscription/predeclared.json /tmp/objective-recovery-runs/u406/packet/abba-oversubscription/screen.json /tmp/objective-recovery-runs/u406/packet/abba-oversubscription/qualify.json /tmp/objective-recovery-runs/u406/packet/abba-oversubscription/independent-audit.json\",\"yield_time_ms\":10000,\"max_output_tokens\":6000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_01a1776c0e9c4ea4bfe15eb46a7da523",
+      "timestamp": "2026-11-10T04:06:40.728Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_6e0c45f661d1423c86eefb510d587d93",
+      "timestamp": "2026-11-10T04:06:43.970Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\np='/tmp/objective-recovery-runs/u406/packet/conversation.json'\\nx=json.load(open(p))\\nprint(type(x).__name__)\\nprint(json.dumps(x,indent=2)[:16000])\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":5500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_6e0c45f661d1423c86eefb510d587d93",
+      "timestamp": "2026-11-10T04:06:44.080Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_1359adfe082042c39e287a6372bb9336",
+      "timestamp": "2026-11-10T04:06:47.230Z",
+      "source": "const r=await tools.exec_command({cmd:\"cat /tmp/objective-recovery-runs/u406/packet/c54-trace/predeclared.json /tmp/objective-recovery-runs/u406/packet/c54-trace/timing-trace.json\",\"yield_time_ms\":10000,\"max_output_tokens\":5000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_1359adfe082042c39e287a6372bb9336",
+      "timestamp": "2026-11-10T04:06:47.331Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_817d52ecc5ea48099175b81c40b35e89",
+      "timestamp": "2026-11-10T04:06:51.360Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\np='/tmp/objective-recovery-runs/u406/packet/c54-trace/timing-trace.json'; x=json.load(open(p)); print(x.keys());\\nfor k,v in x.items():\\n if isinstance(v,list): print(k,len(v), list(v[0])[:12] if v else '')\\n else: print(k,type(v).__name__)\\nPY\\nsed -n '1,240p' /tmp/objective-recovery-runs/u406/packet/source/tools/triad_slot_executor.py\"}\n); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_817d52ecc5ea48099175b81c40b35e89",
+      "timestamp": "2026-11-10T04:06:51.479Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_eadc9cee505442469094061904314f0b",
+      "timestamp": "2026-11-10T04:06:56.752Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json,collections\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/c54-trace/timing-trace.json'))\\nfor e in x['events']:\\n print(e['kind'],e['phase'],e['parent_id'],round((e['end_ns']-e['start_ns'])/1e9,4), round((e.get('thread_cpu_ns') or 0)/1e9,4),e.get('job_id'),e.get('stage'),e.get('label'))\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":4500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_eadc9cee505442469094061904314f0b",
+      "timestamp": "2026-11-10T04:06:56.866Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_005d5028de7a411db5fd065be05eaeaf",
+      "timestamp": "2026-11-10T04:07:03.945Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/abba-oversubscription/qualify.json'))\\nprint(x.keys()); print('status',x.get('status'), 'looks',len(x.get('looks',[])))\\nfor l in x.get('looks',[]):\\n print('look',l.keys())\\n print(l.get('route'),l.get('mode'),l.get('phase'),l.get('outer_seconds'),l.get('busy_cores'),l.get('canonical_service_seconds'))\\nprint('phase',x.get('phase'))\\nPY\"}\n); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_005d5028de7a411db5fd065be05eaeaf",
+      "timestamp": "2026-11-10T04:07:04.061Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_994b5034c0544b5d9dc040a73712a372",
+      "timestamp": "2026-11-10T04:07:07.958Z",
+      "source": "const r=await tools.exec_command({cmd:\"rg -n 'ProcessPool|submit|pending|maximum_processes|split_budget|dispatch|fine_tracking|fine_basis|fine_gaussian|worker|retire|close|input_assembly|ordered_commit' /tmp/objective-recovery-runs/u406/packet/source/tools/triad_slot_executor.py /tmp/objective-recovery-runs/u406/packet/source/tools/triad_tracking_basis.py /tmp/objective-recovery-runs/u406/packet/source/tools/triad_tracking_receiver.py\"}\n); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_994b5034c0544b5d9dc040a73712a372",
+      "timestamp": "2026-11-10T04:07:08.067Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_356d1d27002748278a44c32d441b8cc9",
+      "timestamp": "2026-11-10T04:07:15.472Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nq=json.load(open('/tmp/objective-recovery-runs/u406/packet/abba-oversubscription/qualify.json'))\\nprint(json.dumps(q['summary'],indent=2))\\nfor l in q['looks']:\\n print(l['route'], 'resident',round(l['selected_resident_service'],4),'cold',round(l['complete_lifecycle_seconds'],4),'busy',round(l['average_busy_cores'],4),'cpu',round(l['aggregate_cpu_seconds'],4),'own',l['owners'],'workers',l['software_workers'])\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/c54-trace/timing-trace.json'))\\nprint('trace observer',x['observer_overhead_fraction'],x['absolute_timing_qualification'])\\nfor e in x['events']:\\n if e['kind'] in ('phase','service') and e.get('phase') in ('fine_basis_statistics','fine_basis_dispatch','fine_gaussian','fine_merge','fine_cycle','fine_tracking','parent_drain','input_assembly','input_transport','ordered_commit'):\\n  print(e['kind'],e.get('phase'),e.get('job_id'),round((e['end_ns']-e['start_ns'])/1e9,6))\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":3500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_356d1d27002748278a44c32d441b8cc9",
+      "timestamp": "2026-11-10T04:07:15.596Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_13048713184c4bc08aec3dcc8ab816b1",
+      "timestamp": "2026-11-10T04:07:22.376Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nq=json.load(open('/tmp/objective-recovery-runs/u406/packet/abba-oversubscription/qualify.json'))\\nfor l in q['looks']:\\n print(l['route'], 'resident',l['selected_resident_service'],'cold',l['complete_lifecycle_seconds'],'busy',l['average_busy_cores'],'cpu',l['aggregate_cpu_seconds'],'own',l['owners'],'workers',l['software_workers'])\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/c54-trace/timing-trace.json'))\\nprint('trace observer',x['observer_overhead_fraction'],x['absolute_timing_qualification'])\\nfor e in x['events']:\\n if e['kind'] in ('phase','service') and e.get('phase') in ('fine_basis_statistics','fine_basis_dispatch','fine_gaussian','fine_merge','fine_cycle','fine_tracking','parent_drain','input_assembly','input_transport','ordered_commit'):\\n  print(e['kind'],e.get('phase'),e.get('job_id'),round((e['end_ns']-e['start_ns'])/1e9,6))\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":3000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_13048713184c4bc08aec3dcc8ab816b1",
+      "timestamp": "2026-11-10T04:07:22.492Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_1de93059624b4982b587e110cda8b00f",
+      "timestamp": "2026-11-10T04:07:29.781Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/conversation.json'))\\nfor m in x[-50:]:\\n print('\\\\n',m.get('physical_line'),m.get('role'),m.get('phase'),m.get('timestamp_utc'))\\n print((m.get('text') or '')[:1200].replace('\\\\n',' '))\\nPY\",\"yield_time_ms\":10000,\"max_output_tokens\":4000}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_1de93059624b4982b587e110cda8b00f",
+      "timestamp": "2026-11-10T04:07:29.890Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_48199a2508de4b30b2895541f368ef36",
+      "timestamp": "2026-11-10T04:07:41.492Z",
+      "source": "const r=await tools.exec_command({cmd:\"mkdir -p /tmp/objective-recovery-runs/u406/scratch\"}\n); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_48199a2508de4b30b2895541f368ef36",
+      "timestamp": "2026-11-10T04:07:41.584Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_58d2e5feb06340dcb535302e3ca1dd82",
+      "timestamp": "2026-11-10T04:07:56.379Z",
+      "source": "const r=await tools.exec_command({cmd:\"cat > /tmp/objective-recovery-runs/u406/scratch/check_disposition.py <<'PY'\\n#!/usr/bin/env python3\\n\\\"\\\"\\\"Recompute archived ABBA decision gates; no receiver execution.\\\"\\\"\\\"\\nimport json\\nfrom pathlib import Path\\n\\nroot = Path(__file__).resolve().parents[1] / 'packet' / 'abba-oversubscription'\\nq = json.loads((root / 'qualify.json').read_text())\\na = json.loads((root / 'independent-audit.json').read_text())\\ns = json.loads((root / 'screen.json').read_text())\\nsummary = q['summary']\\nlooks = q['looks']\\nbaseline = [l['selected_resident_service']['seconds'] for l in (looks[0], looks[3])]\\ncandidate = [l['selected_resident_service']['seconds'] for l in (looks[1], looks[2])]\\nratios = [candidate[0]/baseline[0], candidate[1]/baseline[1]]\\nresident_reduction = 1 - sum(candidate)/sum(baseline)\\ncold_reduction = 1 - summary['cold_candidate_seconds']/summary['cold_baseline_seconds']\\nbusy_base, busy_cand = summary['busy_baseline'], summary['busy_candidate']\\nchecks = {\\n    'screen selected candidate is p3w18 at >=10% screen gain':\\n        s['summary']['selected_route'] == 'p3w18' and s['summary']['selected_point_gain'] >= .10,\\n    'both paired resident ratios favor candidate': all(r < 1 for r in ratios),\\n    'resident median reduction meets >=15% adoption gate': resident_reduction >= .15,\\n    'cold lifecycle avoids >5% regression': cold_reduction >= -.05,\\n    'parity/resource/provenance audit accepted':\\n        a['status'] == 'verified_performance_gate_rejected'\\n        and a['verified_checks']['exact_exposed_work_scores_and_message_parity_within_each_phase']\\n        and a['verified_checks']['all_modeled_and_sampled_memory_checks_passed']\\n        and a['source_and_input']['exact_driver_hash_matches_predeclaration_and_both_phases'],\\n}\\nprint(f\\\"ABBA resident ratios: {ratios[0]:.6f}, {ratios[1]:.6f}\\\")\\nprint(f\\\"Resident reduction: {resident_reduction:.3%} (required >=15%)\\\")\\nprint(f\\\"Cold lifecycle reduction: {cold_reduction:.3%} (allowed no worse than -5%)\\\")\\nprint(f\\\"Average busy cores: {busy_base:.3f} -> {busy_cand:.3f} of 12\\\")\\nprint(f\\\"Candidate screen gain: {s['summary']['selected_point_gain']:.3%}; route {s['summary']['selected_route']}\\\")\\nfor name, result in checks.items():\\n    print(('PASS' if result else 'FAIL') + ': ' + name)\\nassert all(checks.values()) is False  # archived rejection is expected\\nassert checks['both paired resident ratios favor candidate']\\nassert not checks['resident median reduction meets >=15% adoption gate']\\nassert checks['cold lifecycle avoids >5% regression']\\nassert checks['parity/resource/provenance audit accepted']\\nPY\\nchmod +x /tmp/objective-recovery-runs/u406/scratch/check_disposition.py\"}\n); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_58d2e5feb06340dcb535302e3ca1dd82",
+      "timestamp": "2026-11-10T04:07:56.474Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_6f02b9a70788497e8c6547b678b6f80f",
+      "timestamp": "2026-11-10T04:07:58.429Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 /tmp/objective-recovery-runs/u406/scratch/check_disposition.py\",\"yield_time_ms\":10000,\"max_output_tokens\":1500}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_6f02b9a70788497e8c6547b678b6f80f",
+      "timestamp": "2026-11-10T04:07:58.766Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_5b7a0e95ffb849a2ade03a711f500460",
+      "timestamp": "2026-11-10T04:08:01.495Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/abba-oversubscription/screen.json'));print(x.keys());print(x.get('selected_route'));print(x.get('selected_point_gain'))\\nPY\"}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_5b7a0e95ffb849a2ade03a711f500460",
+      "timestamp": "2026-11-10T04:08:01.631Z",
+      "output": ""
+    },
+    {
+      "kind": "tool_input",
+      "tool": "exec",
+      "call_id": "call_8829275208ad450ca17622134db5688e",
+      "timestamp": "2026-11-10T04:08:04.302Z",
+      "source": "const r=await tools.exec_command({cmd:\"python3 - <<'PY'\\nimport json\\nx=json.load(open('/tmp/objective-recovery-runs/u406/packet/abba-oversubscription/screen.json'));print(json.dumps(x['selection_scope'],indent=2));print(x['looks'][0].keys())\\nPY\"}); text(r.output)\n"
+    },
+    {
+      "kind": "tool_output",
+      "call_id": "call_8829275208ad450ca17622134db5688e",
+      "timestamp": "2026-11-10T04:08:04.415Z",
+      "output": ""
+    }
+  ]
+}

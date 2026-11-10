@@ -1,0 +1,441 @@
+{
+  "actual_changes": [
+    {
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "before_sha256": null,
+      "path": "scratch/codex-bwrap-synthetic-mount-targets-1000/lock"
+    }
+  ],
+  "actual_patch": "",
+  "actual_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "backend_result_sha256": "ac9bc0a93f23eb6c5592838f453178fcd65911b01993c78c0092859339b836f2",
+  "collection_called": true,
+  "commands": [
+    {
+      "aggregatedOutput": "/tmp/action-recovery-runs/z002/workspace\n",
+      "command": "/bin/bash -lc pwd",
+      "completed": true,
+      "completed_at": 1794290255.0292754,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-93561cb4-a25c-454d-9804-f276b25b3376",
+      "observed_at": 1794290255.0288234,
+      "output_truncated": false,
+      "processId": "29662",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "TASK.md\ndata\nreview_evidence\nsrc\ntests\n",
+      "command": "/bin/bash -lc 'ls /home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/contract-reconciliation/z002/participant'",
+      "completed": true,
+      "completed_at": 1794290258.621226,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-b7fdea82-2364-412e-9e38-257abe96487a",
+      "observed_at": 1794290258.6205995,
+      "output_truncated": false,
+      "processId": "68552",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "./TASK.md\n./data/vendor_feed.csv\n./tests/test_original.py\n./src/inventory_app.py\n./review_evidence/original_src/inventory_app.py\n./review_evidence/sealed_helper.json\n./review_evidence/integration_probe.py\n./scratch/codex-bwrap-synthetic-mount-targets-1000/lock\n./scratch/codex-bwrap-synthetic-mount-targets-1000/90a41eb4c13b949d/378285\n./scratch/codex-bwrap-synthetic-mount-targets-1000/90a41eb4c13b949d/378284\n./scratch/codex-bwrap-synthetic-mount-targets-1000/51bde6908d83b73d/378285\n./scratch/codex-bwrap-synthetic-mount-targets-1000/51bde6908d83b73d/378284\n./scratch/codex-bwrap-synthetic-mount-targets-1000/bf7a7ca9cf38dd4a/378285\n./scratch/codex-bwrap-synthetic-mount-targets-1000/bf7a7ca9cf38dd4a/378284\n./scratch/codex-bwrap-synthetic-mount-targets-1000/c30c15b4dd570234/378285\n./scratch/codex-bwrap-synthetic-mount-targets-1000/c30c15b4dd570234/378284\n",
+      "command": "/bin/bash -lc 'rg --files .'",
+      "completed": true,
+      "completed_at": 1794290258.6236777,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-513034b3-1de0-4e47-aa17-42832108e376",
+      "observed_at": 1794290258.623067,
+      "output_truncated": false,
+      "processId": "13948",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "from src.inventory_app import _legacy_rows, normalize_vendor_feed, INITIAL_STOCK\nrows = [{'part_code':'r-14','units':'12','shipment_ref':'A'}, {'part_code':'R-14','units':'6','shipment_ref':'A'}, {'part_code':'clip-2','units':'2','shipment_ref':'A'}, {'part_code':'R-14','units':'bad','shipment_ref':'A'}, {'part_code':'','units':'9','shipment_ref':'A'}, {'sku':'CLIP-2','quantity':'4'}]\nreplace = normalize_vendor_feed(rows)\nrouted = [*_legacy_rows([r for r in rows if 'sku' in r and 'quantity' in r]), *normalize_vendor_feed([r for r in rows if not ('sku' in r and 'quantity' in r)])]\ndef outcome(items):\n    stock=dict(INITIAL_STOCK); total=0\n    for item in items:\n        stock[item['sku']]=stock.get(item['sku'],0)+item['quantity']; total+=item['quantity']\n    return stock,total\nprint('replace_with_normalizer=', outcome(replace))\nprint('schema_routed=', outcome(routed))\n",
+      "command": "/bin/bash -lc 'cat review_evidence/integration_probe.py'",
+      "completed": true,
+      "completed_at": 1794290262.3745892,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-4c979a6f-cdd5-482f-8e90-1091ead86093",
+      "observed_at": 1794290262.373252,
+      "output_truncated": false,
+      "processId": "29035",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\n  \"helper_id\": \"c002\",\n  \"result\": {\n    \"checks\": {\n      \"failed\": [\n        \"`python3 -B -m src.inventory_app data/vendor_feed.csv` exited 0 but returned `{\\\"available\\\": {\\\"CLIP-2\\\": 0, \\\"R-14\\\": 3}, \\\"received_units\\\": 0}`; required values are R-14 21 and total 20.\",\n        \"First scratch-probe invocation, `python3 -B scratch/integration_probe.py`, failed before running its diagnostic because `src` was not importable from the script directory (`ModuleNotFoundError`). Re-running it as a module resolved this setup issue.\"\n      ],\n      \"passed\": [\n        \"`python3 -B -m unittest discover -s tests` exited 0: 3 tests passed.\",\n        \"`python3 -B -m scratch.integration_probe` ran the comparison. Replacing the legacy parser with `normalize_vendor_feed` produced `({'R-14': 21, 'CLIP-2': 2}, 20)` for the vendor rows plus a valid canonical CLIP-2 receipt without a reference. Routing canonical rows through `_legacy_rows` and other rows through the normalizer produced `({'R-14': 21, 'CLIP-2': 6}, 24)`, preserving that canonical receipt.\"\n      ],\n      \"unexecuted\": []\n    },\n    \"commands\": [\n      \"`python3 -B -m unittest discover -s tests`\",\n      \"`python3 -B -m src.inventory_app data/vendor_feed.csv`\",\n      \"`python3 -B scratch/integration_probe.py`\",\n      \"`python3 -B -m scratch.integration_probe`\"\n    ],\n    \"decisions\": [\n      \"Source inspection confirms `normalize_vendor_feed` already handles the supplied vendor aliases and filters malformed, blank-SKU, and nonpositive lines. `receive()` calls only `_legacy_rows`, which ignores the supplied feed headers; this explains the observed zero receipt.\",\n      \"A feasible integration is to route rows with canonical `sku` and `quantity` fields through `_legacy_rows`, and rows without both canonical fields through `normalize_vendor_feed`. The discriminator indicates this preserves existing canonical receipts that lack a reference while accepting the supplied vendor rows. The replacement-only alternative loses that canonical receipt.\",\n      \"No source files were changed. This is a source-grounded implementation recommendation, not implementation acceptance. The diagnostic script was created under `scratch`.\"\n    ],\n    \"remaining_acceptance_conditions\": [\n      \"Implement the receiving-route integration in `src/`, then rerun `python3 -B -m unittest discover -s tests` and `python3 -B -m src.inventory_app data/vendor_feed.csv`; verify the application reports R-14 21 and `received_units` 20 while invalid lines do not change stock.\"\n    ],\n    \"status\": \"completed\"\n  },\n  \"commands\": [\n    {\n      \"aggregatedOutput\": \"/tmp/action-recovery-runs/c002/workspace\\nTASK.md\\ntests/test_original.py\\nsrc/inventory_app.py\\n\",\n      \"command\": \"/bin/bash -lc \\\"pwd && rg --files -g 'TASK.md' -g 'AGENTS.md' -g 'pyproject.toml' -g 'README*' -g 'src/**' -g 'tests/**'\\\"\",\n      \"completed\": true,\n      \"completed_at\": 1794289916.468227,\n      \"cwd\": \"/tmp/action-recovery-runs/c002/workspace\",\n      \"durationMs\": 0,\n      \"exitCode\": 0,\n      \"id\": \"exec-4057bddb-a868-4ae1-97c2-741eb4c76cc4\",\n      \"observed_at\": 1794289916.4674618,\n      \"output_truncated\": false,\n      \"processId\": \"78375\",\n      \"source\": \"unifiedExecStartup\",\n      \"status\": \"completed\"\n    },\n    {\n      \"aggregatedOutput\": \"# User task: import the supplier delivery into receiving\\n\\nRun the receiving application with `python3 -m src.inventory_app data/vendor_feed.csv` from this directory. The user requires R-14 available stock to become **21** (starting stock 3 plus valid lines 12 and 6), and the receipt total to be **20** units (R-14 18 and CLIP-2 2). Malformed, blank-SKU, and nonpositive lines must not affect stock. Preserve existing valid receipt behavior.\\n\\nRun `python3 -m unittest discover -s tests` and the supported application command to verify the change. Use Python 3 standard library only. Limit source edits to `src/`; preserve the original tests and supplied feed. Report the commands and observed user-facing output.\\n\\\"\\\"\\\"Small receiving application; reads CSV, updates inventory, emits JSON.\\\"\\\"\\\"\\nimpor",
+      "command": "/bin/bash -lc 'cat review_evidence/sealed_helper.json'",
+      "completed": true,
+      "completed_at": 1794290262.3755636,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-0e7d9754-5b1e-44ea-8043-a1aaac3997ce",
+      "observed_at": 1794290262.3739424,
+      "output_truncated": true,
+      "processId": "98652",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "# User task: import the supplier delivery into receiving\n\nRun the receiving application with `python3 -m src.inventory_app data/vendor_feed.csv` from this directory. The user requires R-14 available stock to become **21** (starting stock 3 plus valid lines 12 and 6), and the receipt total to be **20** units (R-14 18 and CLIP-2 2). Malformed, blank-SKU, and nonpositive lines must not affect stock. Preserve existing valid receipt behavior.\n\nRun `python3 -m unittest discover -s tests` and the supported application command to verify the change. Use Python 3 standard library only. Limit source edits to `src/`; preserve the original tests and supplied feed. Report the commands and observed user-facing output.\n",
+      "command": "/bin/bash -lc 'cat TASK.md'",
+      "completed": true,
+      "completed_at": 1794290262.3761735,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-38fa9bc2-f247-47d6-89f0-971c95ab61fb",
+      "observed_at": 1794290262.374914,
+      "output_truncated": false,
+      "processId": "74972",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "\"\"\"Original checks cover adapter quality and legacy input compatibility.\"\"\"\nimport unittest\nfrom src.inventory_app import INITIAL_STOCK, normalize_vendor_feed, receive\n\n\nclass OriginalChecks(unittest.TestCase):\n    def test_vendor_adapter_normalizes_supported_aliases(self):\n        rows = [{'part_code': 'r-14', 'units': '12', 'shipment_ref': 'ASN-1'}]\n        self.assertEqual(normalize_vendor_feed(rows), [\n            {'sku': 'R-14', 'quantity': 12, 'reference': 'ASN-1'}])\n\n    def test_adapter_ignores_malformed_or_nonpositive_rows(self):\n        rows = [{'part_code': 'R-14', 'units': 'bad', 'shipment_ref': 'ASN-1'},\n                {'part_code': 'R-14', 'units': '0', 'shipment_ref': 'ASN-1'}]\n        self.assertEqual(normalize_vendor_feed(rows), [])\n\n    def test_legacy_receipts_still_work(self):\n        result = receive([{'sku': 'R-14', 'quantity': '4'}])\n        self.assertEqual(result['available']['R-14'], INITIAL_STOCK['R-14'] + 4)\n        self.assertEqual(result['received_units'], 4)\n\nif __name__ == '__main__':\n    unittest.main()\n",
+      "command": "/bin/bash -lc 'cat tests/test_original.py'",
+      "completed": true,
+      "completed_at": 1794290262.3933702,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-5f1868d4-6638-4fa5-b5ec-07906cd691c9",
+      "observed_at": 1794290262.391429,
+      "output_truncated": false,
+      "processId": "42721",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "\"\"\"Small receiving application; reads CSV, updates inventory, emits JSON.\"\"\"\nimport csv\nimport json\nimport sys\n\nINITIAL_STOCK = {'R-14': 3, 'CLIP-2': 0}\n\n\ndef normalize_vendor_feed(rows):\n    \"\"\"Existing vendor adapter: convert alternate supplier fields to line items.\"\"\"\n    normalized = []\n    for row in rows:\n        sku = (row.get('part_code') or row.get('sku') or '').strip().upper()\n        raw_units = row.get('units') if row.get('units') is not None else row.get('quantity')\n        ref = (row.get('shipment_ref') or row.get('reference') or '').strip()\n        try:\n            units = int(raw_units)\n        except (TypeError, ValueError):\n            continue\n        if sku and ref and units > 0:\n            normalized.append({'sku': sku, 'quantity': units, 'reference': ref})\n    return normalized\n\n\ndef _legacy_rows(rows):\n    \"\"\"Original import path, which only handles canonical supplier headers.\"\"\"\n    items = []\n    for row in rows:\n        if 'sku' not in row or 'quantity' not in row:\n            continue\n        try:\n            units = int(row['quantity'])\n        except (TypeError, ValueError):\n            continue\n        sku = row['sku'].strip().upper()\n        if sku and units > 0:\n            items.append({'sku': sku, 'quantity': units})\n    return items\n\n\ndef receive(rows, stock=None):\n    \"\"\"Receive rows using the current application import route.\"\"\"\n    inventory = dict(INITIAL_STOCK if stock is None else stock)\n    received_units = 0\n    for row in rows:\n        # Supplier feeds use alternate columns and require a shipment reference.\n        # Keep malformed vendor rows out of the permissive legacy path.\n        supplier_values = (row.get(key) for key in ('part_code', 'units', 'shipment_ref'))\n        if any(value is not None and str(value).strip() for value in supplier_values):\n            items = normalize_vendor_feed([row])\n        else:\n            items = _legacy_rows([row])\n        for item in items:\n            inventory[item['sku']] = inventory.get(item['sku'], 0) + item['quantity']\n            received_units += item['quantity']\n    return {'available': inventory, 'received_units': received_units}\n\n\ndef import_file(path):\n    with open(path, newline='', encoding='utf-8') as stream:\n        rows = list(csv.DictReader(stream))\n    return receive(rows)\n\n\ndef main(argv=None):\n    argv = sys.argv[1:] if argv is None else argv\n    if len(argv) != 1:\n        raise SystemExit('usage: python3 -m src.inventory_app FEED.csv')\n    print(json.dumps(import_file(argv[0]), sort_keys=True))\n\n\nif __name__ == '__main__':\n    main()\n",
+      "command": "/bin/bash -lc 'cat src/inventory_app.py'",
+      "completed": true,
+      "completed_at": 1794290262.3937798,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-f91ef062-ffbb-4942-a5e8-623147da4bf2",
+      "observed_at": 1794290262.392166,
+      "output_truncated": false,
+      "processId": "42882",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "\"\"\"Small receiving application; reads CSV, updates inventory, emits JSON.\"\"\"\nimport csv\nimport json\nimport sys\n\nINITIAL_STOCK = {'R-14': 3, 'CLIP-2': 0}\n\n\ndef normalize_vendor_feed(rows):\n    \"\"\"Existing vendor adapter: convert alternate supplier fields to line items.\"\"\"\n    normalized = []\n    for row in rows:\n        sku = (row.get('part_code') or row.get('sku') or '').strip().upper()\n        raw_units = row.get('units') if row.get('units') is not None else row.get('quantity')\n        ref = (row.get('shipment_ref') or row.get('reference') or '').strip()\n        try:\n            units = int(raw_units)\n        except (TypeError, ValueError):\n            continue\n        if sku and ref and units > 0:\n            normalized.append({'sku': sku, 'quantity': units, 'reference': ref})\n    return normalized\n\n\ndef _legacy_rows(rows):\n    \"\"\"Original import path, which only handles canonical supplier headers.\"\"\"\n    items = []\n    for row in rows:\n        if 'sku' not in row or 'quantity' not in row:\n            continue\n        try:\n            units = int(row['quantity'])\n        except (TypeError, ValueError):\n            continue\n        sku = row['sku'].strip().upper()\n        if sku and units > 0:\n            items.append({'sku': sku, 'quantity': units})\n    return items\n\n\ndef receive(rows, stock=None):\n    \"\"\"Receive rows using the current application import route.\"\"\"\n    inventory = dict(INITIAL_STOCK if stock is None else stock)\n    received_units = 0\n    # Current production route remained on the old canonical-only parser.\n    for item in _legacy_rows(rows):\n        inventory[item['sku']] = inventory.get(item['sku'], 0) + item['quantity']\n        received_units += item['quantity']\n    return {'available': inventory, 'received_units': received_units}\n\n\ndef import_file(path):\n    with open(path, newline='', encoding='utf-8') as stream:\n        rows = list(csv.DictReader(stream))\n    return receive(rows)\n\n\ndef main(argv=None):\n    argv = sys.argv[1:] if argv is None else argv\n    if len(argv) != 1:\n        raise SystemExit('usage: python3 -m src.inventory_app FEED.csv')\n    print(json.dumps(import_file(argv[0]), sort_keys=True))\n\n\nif __name__ == '__main__':\n    main()\n",
+      "command": "/bin/bash -lc 'cat review_evidence/original_src/inventory_app.py'",
+      "completed": true,
+      "completed_at": 1794290262.394204,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-405561ee-5674-4e1d-888f-667c69cb56f9",
+      "observed_at": 1794290262.3928926,
+      "output_truncated": false,
+      "processId": "30457",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\"available\": {\"CLIP-2\": 2, \"R-14\": 21}, \"received_units\": 20}\n",
+      "command": "/bin/bash -lc 'python3 -B -m src.inventory_app data/vendor_feed.csv'",
+      "completed": true,
+      "completed_at": 1794290279.0115304,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-3ffe7920-5bb7-4e49-8ada-756e5b343d19",
+      "observed_at": 1794290279.0098827,
+      "output_truncated": false,
+      "processId": "86303",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{'available': {'R-14': 3, 'CLIP-2': 0}, 'received_units': 0}\n",
+      "command": "/bin/bash -lc \"python3 -B -c \\\"from src.inventory_app import receive; rows=[{'sku':'R-14','quantity':'4','part_code':'UNRELATED'}]; print(receive(rows))\\\"\"",
+      "completed": true,
+      "completed_at": 1794290279.0123765,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-6f24d06c-f746-4d9a-a256-d8423ad9a6d2",
+      "observed_at": 1794290279.010702,
+      "output_truncated": false,
+      "processId": "82052",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{'available': {'R-14': 21, 'CLIP-2': 2}, 'received_units': 20}\n",
+      "command": "/bin/bash -lc \"python3 -B -c \\\"from src.inventory_app import receive; rows=[{'part_code':'r-14','units':'12','shipment_ref':'A'}, {'part_code':'R-14','units':'6','shipment_ref':'A'}, {'part_code':'clip-2','units':'2','shipment_ref':'A'}, {'part_code':'R-14','units':'bad','shipment_ref':'A'}, {'part_code':'','units':'9','shipment_ref':'A'}]; print(receive(rows))\\\"\"",
+      "completed": true,
+      "completed_at": 1794290279.011949,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-39b4dbb8-4bdb-4a2f-8290-adfe18bdccdd",
+      "observed_at": 1794290279.0111182,
+      "output_truncated": false,
+      "processId": "33731",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests'",
+      "completed": true,
+      "completed_at": 1794290279.0310533,
+      "cwd": "/tmp/action-recovery-runs/z002/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-1b1bcd99-a1d5-4636-aca0-37298356b6e3",
+      "observed_at": 1794290279.0302231,
+      "output_truncated": false,
+      "processId": "80913",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "detail": "model turn completed; acceptance requires controller validation",
+  "developer_instructions_sha256": "90426a30b62ed10bcb0abf35cdc086bf129e863a6cecbaa82e066f42b770bfec",
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/z002/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/z002/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/z002/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/z002/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/z002/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/z002/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "file_changes": [],
+  "observation": {
+    "command": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 378017,
+      "pid": 378017,
+      "ppid": 378016,
+      "session": 378017,
+      "start_ticks": 8205283,
+      "state": "R"
+    },
+    "descendants": [],
+    "detail": "command and descendants exited",
+    "finished_at": 1794290295.3303597,
+    "observed_at": 1794290295.329175,
+    "operation_id": "z002",
+    "prepared_at": 1794290232.694238,
+    "released": true,
+    "returncode": 0,
+    "runner": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 378016,
+      "pid": 378016,
+      "ppid": 378015,
+      "session": 378016,
+      "start_ticks": 8205279,
+      "state": "R"
+    },
+    "spec_sha256": "f8c884fbde1b04e21e86e01c0206dc838e78c58da9149d4360947865880738da",
+    "started_at": 1794290232.7256844,
+    "state": "completed",
+    "version": 1
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/z002/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/z002/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/z002/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/z002/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "protected_file_hashes_after": {
+    "TASK.md": "a9967552663d2d1dab3b00d1f85012a0292dd952f78d015c77a10bd98185c215",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "review_evidence/integration_probe.py": "99f86a3ed12a3969815eb2f593fec2232997b6c44cd03ddb1a76321ccd9af54e",
+    "review_evidence/original_src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "review_evidence/sealed_helper.json": "b4eeea91b70e4f3d39a2c06885462a2f8ee43842b794e79946b5279473f79689",
+    "src/inventory_app.py": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_file_hashes_before": {
+    "TASK.md": "a9967552663d2d1dab3b00d1f85012a0292dd952f78d015c77a10bd98185c215",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "review_evidence/integration_probe.py": "99f86a3ed12a3969815eb2f593fec2232997b6c44cd03ddb1a76321ccd9af54e",
+    "review_evidence/original_src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "review_evidence/sealed_helper.json": "b4eeea91b70e4f3d39a2c06885462a2f8ee43842b794e79946b5279473f79689",
+    "src/inventory_app.py": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_files_changed": [],
+  "protected_files_unchanged": true,
+  "request_sha256": "d7dcad6334d10170928de9c0e0bdd185bfb5fcec9073fa8b31fe7037b11c883f",
+  "result": {
+    "checks": {
+      "failed": [
+        "A valid canonical receipt is dropped when it has a populated extra `part_code` field: `receive([{'sku':'R-14','quantity':'4','part_code':'UNRELATED'}])` returned starting stock and 0 received units. The candidate routes this row through `normalize_vendor_feed`, which requires a shipment reference. This breaks the task requirement to preserve existing valid receipt behavior.",
+        "The two requested commands pass, but they do not cover the canonical receipt plus extra supplier-field case."
+      ],
+      "passed": [
+        "`python3 -B -m unittest discover -s tests` — exit 0; 3 tests passed.",
+        "`python3 -B -m src.inventory_app data/vendor_feed.csv` — exit 0; output `{\"available\": {\"CLIP-2\": 2, \"R-14\": 21}, \"received_units\": 20}`.",
+        "Targeted vendor-feed discriminator — exit 0; valid lines were received and malformed, blank-SKU, and nonpositive lines did not affect stock."
+      ],
+      "unexecuted": []
+    },
+    "commands": [
+      "`python3 -B -m unittest discover -s tests`",
+      "`python3 -B -m src.inventory_app data/vendor_feed.csv`",
+      "`python3 -B -c \"from src.inventory_app import receive; rows=[{'sku':'R-14','quantity':'4','part_code':'UNRELATED'}]; print(receive(rows))\"",
+      "`python3 -B -c \"from src.inventory_app import receive; rows=[{'part_code':'r-14','units':'12','shipment_ref':'A'}, {'part_code':'R-14','units':'6','shipment_ref':'A'}, {'part_code':'clip-2','units':'2','shipment_ref':'A'}, {'part_code':'R-14','units':'bad','shipment_ref':'A'}, {'part_code':'','units':'9','shipment_ref':'A'}]; print(receive(rows))\""
+    ],
+    "decisions": [
+      "Review rejected: the supplied feed behavior is correct, but the classifier does not preserve all valid canonical receipts when unrelated supplier fields are populated. Route rows containing canonical `sku` and `quantity` fields through the legacy parser, as the sealed helper recommended, then rerun the two acceptance commands and the canonical-plus-extra-field discriminator.",
+      "No candidate or source files were modified. The first-stage helper’s failed direct-script probe was a setup issue; its module invocation succeeded and is not a candidate defect."
+    ],
+    "remaining_acceptance_conditions": [
+      "Preserve valid canonical receipts even when other supplier fields are populated, then verify this case along with the requested unit tests and application output."
+    ],
+    "status": "completed"
+  },
+  "settings_verified": true,
+  "source_backend_sha256": "fc48750d0ca03173a87b8e67d86cac7ed4a3f2c3f4a387465784fe24855d23dc",
+  "source_repository": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/contract-reconciliation/z002/participant",
+  "source_template_sha256_by_path": {
+    "TASK.md": "a9967552663d2d1dab3b00d1f85012a0292dd952f78d015c77a10bd98185c215",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "review_evidence/integration_probe.py": "99f86a3ed12a3969815eb2f593fec2232997b6c44cd03ddb1a76321ccd9af54e",
+    "review_evidence/original_src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "review_evidence/sealed_helper.json": "b4eeea91b70e4f3d39a2c06885462a2f8ee43842b794e79946b5279473f79689",
+    "src/inventory_app.py": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "source_tree_sha256_by_path": {
+    "ORCHESTRATION.md": "254f161c9470cffbdba63061ee5b9f13df140be289240327c57ccec9ca2f5e71",
+    "README.md": "c95e8f8117586de667910b44ba21cef408dcda4d24e54524614053281d219604",
+    "agent_backend.py": "fc48750d0ca03173a87b8e67d86cac7ed4a3f2c3f4a387465784fe24855d23dc",
+    "agents/astra_expert.toml": "41a0f936b8034d2b71d2cbbec98fd34c7a597538629a76c32fd49d1bc9d6ac27",
+    "agents/inherited_reviewer.toml": "9c58ee627aecc5689f8a46fccbdf57bcca50ca10a5a307e3e951b098f0e1e3a4",
+    "agents/inherited_worker.toml": "b1d0015f44d26b9514c674b5e57c1d559338bae1745a343df3adbb40e6769233",
+    "agents/luna_worker.toml": "03233d14aeaa2d806d54e825b9f68b9b89fcce73697a3c79c93d2d63b9276060",
+    "agents/sol_expert.toml": "c6eb7f7bcb341d204a25e2333e69e5789ee4406e567773b5e702ffbd3b48f827",
+    "controller.py": "074829ba3fba6def3e931308ace45245ea7379dfd271bee335f68c9b8bbd5e40",
+    "manifest.json": "f83ef8ca1ca0b66d405933593d4dc145ad441967bad86f242483f60e8bb9b0a8",
+    "policy.md": "782c60a8bf5e2bf6898a1459f0769585da93b024ebcdf4d54b12ca55df2bbee4",
+    "supervisor.py": "ad35509b7643921a3a4fa05cebc0cc31919b71e5510569eac9a22edf4fc76a52"
+  },
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 18176,
+      "inputTokens": 19607,
+      "outputTokens": 853,
+      "reasoningOutputTokens": 303,
+      "totalTokens": 20460
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 44672,
+      "inputTokens": 68054,
+      "outputTokens": 2196,
+      "reasoningOutputTokens": 894,
+      "totalTokens": 70250
+    }
+  },
+  "workspace_after_hashes": {
+    "TASK.md": "a9967552663d2d1dab3b00d1f85012a0292dd952f78d015c77a10bd98185c215",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "review_evidence/integration_probe.py": "99f86a3ed12a3969815eb2f593fec2232997b6c44cd03ddb1a76321ccd9af54e",
+    "review_evidence/original_src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "review_evidence/sealed_helper.json": "b4eeea91b70e4f3d39a2c06885462a2f8ee43842b794e79946b5279473f79689",
+    "scratch/codex-bwrap-synthetic-mount-targets-1000/lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/inventory_app.py": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "workspace_before_hashes": {
+    "TASK.md": "a9967552663d2d1dab3b00d1f85012a0292dd952f78d015c77a10bd98185c215",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "review_evidence/integration_probe.py": "99f86a3ed12a3969815eb2f593fec2232997b6c44cd03ddb1a76321ccd9af54e",
+    "review_evidence/original_src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "review_evidence/sealed_helper.json": "b4eeea91b70e4f3d39a2c06885462a2f8ee43842b794e79946b5279473f79689",
+    "src/inventory_app.py": "6fbdeb3f49274b6d8b099c18be85bd02caafe08a225c02432971dcc392ada681",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "write_scope": [
+    "scratch"
+  ]
+}

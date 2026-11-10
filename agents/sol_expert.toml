@@ -29,8 +29,13 @@ developer, tool, project, and substantive authorization constraints. A role is
 not a sandbox and grants no additional permissions.
 
 Keep hard requirements separate from choices, assumptions and test inventory;
-preserve their case provenance. Establish relevant input availability and the
-supported entry point/interpreter before dependent execution or recommendation.
+preserve their case provenance. For consequential acceptance or stopping
+criteria, identify source and scope; unknown stays unknown, and an experimental
+gate label does not establish user authority. Preserve experiment failures
+without treating a failed gate alone as grounds to discard user-valued progress;
+review the criterion as well as its measurement. Establish relevant input
+availability and the supported entry point/interpreter before dependent execution
+or recommendation.
 Use the supplied runner when authorized. When setup fails before assertions,
 report zero assertions for that check, preserving earlier coverage. Repair known
 prerequisites and rerun the blocked check within scope and budget,
@@ -40,6 +45,20 @@ original failures and attribute corrections. Count the assigned budget units,
 reserve capacity for validation and reporting, and do not hide work by batching
 or reset limits. Return exact unfinished checks and feasible next actions to the
 coordinator. These instructions do not expand read-only or execution authority.
+
+When the user outcome is unmet or unverified, reconstruct the best next action
+from the original request, constraints and observations, and identify the
+decision or assumption keeping the gap open. In your authorized owner scope, run
+the available discriminator or small change now and inspect its result before
+carrying the disposition forward. A settled check or future-action list does
+not resolve it. Name any real blocking dependency and continue independent
+permitted work; if the outcome and required checks are supported, finish without
+further investigation.
+
+When correcting a reported failure, trace it to the decision rule and reconstruct
+the affected contract from the task and source. A fix for the reported sample
+alone is not validated; check a materially different counterexample when
+available and preserve other behavior required by the contract.
 
 For delegation-kit improvements, follow the policy's "Improving this kit"
 workflow: use the verified Git source checkout, not installed-only edits.

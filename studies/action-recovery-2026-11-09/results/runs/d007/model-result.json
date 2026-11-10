@@ -1,0 +1,161 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [
+        "`python3 -B -m unittest discover -s tests` — exit 0; 3 tests passed.",
+        "`python3 -B -c 'from src.scheduler import run; print(run())'` — exit 0; the scheduler returned 8 records, 2 workers, deadline/end time 20, delivered 0, and 8 incomplete."
+      ],
+      "unexecuted": [
+        "Read TASK.md, workspace notes, and source: the permitted command scope only authorizes the two acceptance commands, and no filesystem read tool is available. The task objective and acceptance criteria therefore remain unknown.",
+        "Independent review: no review or agent tool is available, and spawning agents is prohibited."
+      ]
+    },
+    "commands": [
+      "python3 -B -m unittest discover -s tests",
+      "python3 -B -c 'from src.scheduler import run; print(run())'"
+    ],
+    "decisions": [
+      "Preserved the workspace; made no source or scratch changes.",
+      "Could not obtain the requested initial or completion review; no review tool was available. No agent was spawned."
+    ],
+    "remaining_acceptance_conditions": [
+      "Controller: provide an authorized way to read TASK.md, workspace notes, and source (or expand the permitted command scope for those reads). Then assess and continue the objective, preserving protected inputs and existing changes.",
+      "Independent review remains outstanding if required by the applicable policy."
+    ],
+    "status": "blocked"
+  },
+  "commands": [
+    {
+      "aggregatedOutput": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests'",
+      "completed": true,
+      "completed_at": 1794287485.1119175,
+      "cwd": "/tmp/action-recovery-runs/d007/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-53716f8a-3ee4-4a85-9a75-4eb5fd506f6e",
+      "observed_at": 1794287485.1088276,
+      "output_truncated": false,
+      "processId": "72857",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{'records': 8, 'workers': 2, 'deadline': 20, 'busy_units': 40, 'finished': {(0, 'fetch'): 2, (1, 'fetch'): 2, (2, 'fetch'): 4, (3, 'fetch'): 4, (4, 'fetch'): 6, (5, 'fetch'): 6, (6, 'fetch'): 8, (7, 'fetch'): 8, (0, 'decode'): 11, (1, 'decode'): 11, (2, 'decode'): 14, (3, 'decode'): 14, (4, 'decode'): 17, (5, 'decode'): 17, (6, 'decode'): 20, (7, 'decode'): 20}, 'events': [{'event': 'start', 'record': 0, 'stage': 'fetch', 'time': 0}, {'event': 'start', 'record': 1, 'stage': 'fetch', 'time': 0}, {'event': 'finish', 'record': 0, 'stage': 'fetch', 'time': 2}, {'event': 'finish', 'record': 1, 'stage': 'fetch', 'time': 2}, {'event': 'start', 'record': 2, 'stage': 'fetch', 'time': 2}, {'event': 'start', 'record': 3, 'stage': 'fetch', 'time': 2}, {'event': 'finish', 'record': 2, 'stage': 'fetch', 'time': 4}, {'event': 'finish', 'record': 3, 'stage': 'fetch', 'time': 4}, {'event': 'start', 'record': 4, 'stage': 'fetch', 'time': 4}, {'event': 'start', 'record': 5, 'stage': 'fetch', 'time': 4}, {'event': 'finish', 'record': 4, 'stage': 'fetch', 'time': 6}, {'event': 'finish', 'record': 5, 'stage': 'fetch', 'time': 6}, {'event': 'start', 'record': 6, 'stage': 'fetch', 'time': 6}, {'event': 'start', 'record': 7, 'stage': 'fetch', 'time': 6}, {'event': 'finish', 'record': 6, 'stage': 'fetch', 'time': 8}, {'event': 'finish', 'record': 7, 'stage': 'fetch', 'time': 8}, {'event': 'start', 'record': 0, 'stage': 'decode', 'time': 8}, {'event': 'start', 'record': 1, 'stage': 'decode', 'time': 8}, {'event': 'finish', 'record': 0, 'stage': 'decode', 'time': 11}, {'event': 'finish', 'record': 1, 'stage': 'decode', 'time': 11}, {'event': 'start', 'record': 2, 'stage': 'decode', 'time': 11}, {'event': 'start', 'record': 3, 'stage': 'decode', 'time': 11}, {'event': 'finish', 'record': 2, 'stage': 'decode', 'time': 14}, {'event': 'finish', 'record': 3, 'stage': 'decode', 'time': 14}, {'event': 'start', 'record': 4, 'stage': 'decode', 'time': 14}, {'event': 'start', 'record': 5, 'stage': 'decode', 'time': 14}, {'event': 'finish', 'record': 4, 'stage': 'decode', 'time': 17}, {'event': 'finish', 'record': 5, 'stage': 'decode', 'time': 17}, {'event': 'start', 'record': 6, 'stage': 'decode', 'time': 17}, {'event': 'start', 'record': 7, 'stage': 'decode', 'time': 17}, {'event': 'finish', 'record': 6, 'stage': 'decode', 'time': 20}, {'event': 'finish', 'record': 7, 'stage': 'decode', 'time': 20}], 'delivered': 0, 'end_time': 20, 'unstarted_or_incomplete': 8}\n",
+      "command": "/bin/bash -lc \"python3 -B -c 'from src.scheduler import run; print(run())'\"",
+      "completed": true,
+      "completed_at": 1794287488.9944382,
+      "cwd": "/tmp/action-recovery-runs/d007/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-d0996b26-757b-40a7-af39-b2f7981661dc",
+      "observed_at": 1794287488.992894,
+      "output_truncated": false,
+      "processId": "49008",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d007/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d007/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d007/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d007/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d007/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d007/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d007/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d007/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d007/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d007/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9856,
+      "inputTokens": 11143,
+      "outputTokens": 629,
+      "reasoningOutputTokens": 340,
+      "totalTokens": 11772
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 28160,
+      "inputTokens": 39809,
+      "outputTokens": 1545,
+      "reasoningOutputTokens": 1025,
+      "totalTokens": 41354
+    }
+  },
+  "file_changes": []
+}

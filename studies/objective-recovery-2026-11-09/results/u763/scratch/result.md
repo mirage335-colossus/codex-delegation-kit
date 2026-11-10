@@ -1,0 +1,31 @@
+# Historical continuation result
+
+## Decision
+
+Keep the two-owner / 12-worker (`p2w12`) route as default and do not adopt the three-owner / 18-worker (`p3w18`) expansion on these measurements. Preserve the recorded gate rejection. The five-window screen selected `p3w18` with a 10.05% point gain on its resident-slot selection metric, but the predeclared independent ABBA qualification achieved only a 3.89% resident-service reduction against a 15% threshold. Both matched resident ratios favored the candidate (0.9455, 0.9772), and complete-lifecycle cold time improved 6.69%; these favorable directions do not satisfy the predeclared resident gate. Mean busy-core equivalents rose from 4.12 to 5.78 of 12. The candidate uses more CPU and is somewhat faster, but the audited evidence does not support adopting the wider scheduler under the stated acceptance rule.
+
+The screen's 10.05% selected resident-slot gain is a different metric from the whole-stream processing ratio: the latter changed from 0.06018 (`p2w12`) to 0.05619 (`p3w18`), about 6.6%. Do not conflate those values. Source/input/procedure provenance, exposed-work parity, modeled and sampled memory, and nine-look/87-job receipt audit passed; the exact private runner and capture arrays are absent, so this archive is auditable but not reproducible here.
+
+## Scheduling lead and feasible next action
+
+The separate earlier `c54` checkpoint is not the later ABBA candidate. Its matched five-window control/trace remained effectively unchanged (trace/control 0.99854), and source and input hashes were unchanged. In its sampled 3,000-row fine cycle, the initial-affine lane took 27.49 ms and the persistent-timing lane 39.86 ms. The archived source calls `nominal.push` before `adaptive.push`, synchronously, in `PracticalTrackingReceiver.push`; both lanes process the same observation. The cycle's recorded mapped-basis worker intervals accumulated 60.2 ms worker CPU, while Gaussian-update worker intervals accumulated 1.07 ms. This suggests the first next profiling target is lane-level scheduling / basis-generation work, not expanding outer slot controllers or accelerating the tiny Gaussian updates.
+
+Concrete next action for the live-project owner: first verify whether the current production revision still has this serial `PracticalTrackingReceiver.push` path and the same two-lane basis dependency. If so, prepare a minimal representative-slice experiment that runs the independent lane score work concurrently while preserving same input, fixed half/half evidence mixture, state isolation, ordered result parity, and the existing shared memory budget. Before coding that concurrency, establish whether nominal/adaptive basis providers or their native source pipes/caches can be called safely concurrently; otherwise use separately owned providers or keep shared source generation serialized. Compare complete cycle/service union and complete cold lifecycle, not summed overlapping walls. Require unchanged full observed coverage and exact outputs, then a predeclared ABBA on the same source/input before adoption. This is a candidate investigation, not a claimed speedup or proof that lane concurrency is safe.
+
+The source shows a shared executor requirement for multiworker mapped basis generation, explicit joins of all submitted mapped-basis futures, and a shared worker allocation in outer slot submission. These dependencies make uncoordinated nested parallelism unsafe as a default: any lane-parallel trial must budget the aggregate worker pool and account for possible contention with mapped-basis work. The early trace is a sparse single-cycle observation; callable intervals are not OS-running intervals. It cannot establish expected gain, all-core saturation, or transfer performance to the later candidate.
+
+## Scope and requirements
+
+Hard acceptance constraints from the archive include the frozen route/source/input identity, complete receiver work and parity, common memory cap, no fallback/retry, 15% median resident gain, both paired ratios below one, and no more than 5% median cold-lifecycle regression. These were not relaxed. Screen selection is only candidate selection. Adjustable choices include whether to investigate another scheduling design and which bounded slice to profile next; that requires a fresh predeclaration and owner authorization for live-project execution. Assumptions to recheck include that current source still matches the c54 serial-lane call path and that separate lane work can be safely isolated.
+
+The packet covers one row-7 configured-calendar stream: five seven-window screen looks and one four-look thirteen-window ABBA. It does not establish complete manually specified test-suite forecasts, whole-message sensitivity qualification, or full 12-thread sustained utilization. The earlier c54 trace and later 488c26 archive are distinct source checkpoints; their source identities and results must not be merged into one experiment.
+
+## Checks and preserved failures
+
+Ran the executable private-packet discriminator [analyze_packet.py](analyze_packet.py); its final output is [check-output.txt](check-output.txt). It recomputes the decision facts, verifies recorded source/input/procedure and parity flags, and checks the serial lane-call order against the frozen c54 source. No receiver build, benchmark, network access, live-project inspection, or full-suite forecast was run.
+
+The first script pass exposed a harness schema mismatch: `predeclared.json` stores qualification as prose rather than a nested object. The second exposed an invalid comparison: the screen's selected 10.05% gain uses resident-slot service, not the row-level whole-stream ratio. Both harness assumptions were corrected; final discriminator completed. Neither is an archived receiver gate failure. The archived `performance_gate_rejected` remains intact.
+
+## Limits
+
+No exact archived runner, native input arrays, current project tree, or final production revision is available in this permitted packet. Accordingly, the next project action is conditional on checking the current source revision and providers. The archived p3w18 result is not a substitute for full-suite forecasting; separate targeted coverage is still required for every manually specified test before claiming that outcome.

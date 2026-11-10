@@ -1,0 +1,555 @@
+#!/usr/bin/env python3
+"""Install or disable the global delegation kit; preview changes unless --apply."""
+
+from __future__ import annotations
+
+import argparse
+import dataclasses
+import difflib
+import hashlib
+import json
+import os
+from pathlib import Path
+import stat
+import sys
+import tempfile
+import tomllib
+import uuid
+
+
+LEGACY_FILES = (
+    "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
+    "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
+)
+# Preserve every published inventory so owned installations remain readable
+# during upgrade or disable.
+ADVISORY_FILES = LEGACY_FILES + (
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml",
+)
+CONTROLLER_FILES = ADVISORY_FILES + (
+    "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
+    "scheduling.py", "ORCHESTRATION.md",
+)
+ENGINEERING_FILES = CONTROLLER_FILES + ("engineering.py",)
+SWARM_FILES = ENGINEERING_FILES + (
+    "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+)
+# Published twenty-one-file bundle and role map. Keep these frozen so its
+# activation can be validated after the current bundle gains another role.
+OLD21_FILES = (
+    "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
+    "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml",
+    "controller.py", "controller_store.py", "execution.py", "agent_backend.py",
+    "scheduling.py", "ORCHESTRATION.md", "engineering.py",
+    "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+    "agents/astra_expert.toml",
+)
+LEGACY_ROLES = {
+    "luna_scout": "Focused read-only source exploration and factual investigation.",
+    "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
+    "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+}
+# These descriptions and their order are part of published activation blocks.
+PRE_SWARM_ROLES = {
+    "luna_scout": "Focused read-only source exploration and factual investigation.",
+    "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
+    "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+    "inherited_scout": "Focused read-only source exploration and factual investigation with inherited settings.",
+    "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
+    "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
+}
+PRE_ASTRA_ROLES = {
+    **PRE_SWARM_ROLES,
+    "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
+    "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
+}
+OLD21_ROLES = {
+    "luna_scout": "Focused read-only source exploration and factual investigation.",
+    "luna_worker": "Bounded implementation with settled contracts and acceptance checks.",
+    "sol_expert": "Consequential diagnosis, architecture, independent review, and takeover.",
+    "inherited_scout": "Focused read-only source exploration and factual investigation with inherited settings.",
+    "inherited_worker": "Bounded implementation with settled contracts and acceptance checks with inherited settings.",
+    "inherited_reviewer": "Consequential diagnosis, independent review, and takeover with inherited settings.",
+    "inherited_swarm": "Bounded read-only diagnostic experiments with inherited settings.",
+    "luna_swarm": "Bounded read-only diagnostic experiments with Luna at medium effort.",
+    "astra_expert": "Sparse strategic review of difficult engineering decisions.",
+}
+OLD22_FILES = OLD21_FILES + ("agents/astra_initial.toml",)
+OLD22_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+    "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+    "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+    "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+    "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+OLD23_PREVIOUS_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+    "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+    "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+    "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+    "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
+    "Before concluding substantive work as complete, \"done for now\", a partial handoff, "
+    "or waiting for user input because useful progress appears exhausted, obtain the mandatory completion review "
+    "from `astra_expert` (`gpt-6-astra` at `ultra`) described in the policy. It must examine current evidence, "
+    "search existing solutions, brainstorm alternatives and perform relevant external research. Resolve feasible "
+    "authorized next steps before concluding. Honor explicit user stops and genuine permission/budget limits; "
+    "report unavailable review honestly. This gate is separate from the initial consultation and is not recursive "
+    "for delegated subtasks.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+ROLES = {
+    **OLD21_ROLES,
+    "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
+}
+FILES = OLD22_FILES + ("CLOUD.md",)
+BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
+END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
+LEGACY_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research tasks, "
+    "read and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+OLD21_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial Astra review using only the original "
+    "prompt and context already available. Do no preparatory investigation, planning, decomposition, "
+    "or implementation, and do not dispatch any other subagent, before obtaining that review. "
+    "Ask about intent, constraints, ambiguities, approaches "
+    "and alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+
+
+class Refusal(RuntimeError):
+    """A preflight or concurrent-edit check failed."""
+
+
+@dataclasses.dataclass(frozen=True)
+class State:
+    data: bytes | None
+    mode: int = 0o600
+
+
+@dataclasses.dataclass(frozen=True)
+class Change:
+    path: Path
+    before: State
+    after: State
+
+
+def safe_path(path: Path) -> None:
+    """Do not traverse symlinks, even in an ancestor of an absent destination."""
+    for item in (path, *path.parents):
+        if item.is_symlink():
+            raise Refusal(f"Symlink is not allowed: {item}")
+
+
+def read_state(path: Path) -> State:
+    safe_path(path)
+    try:
+        info = path.stat()
+    except FileNotFoundError:
+        return State(None)
+    if not stat.S_ISREG(info.st_mode):
+        raise Refusal(f"Expected a regular file: {path}")
+    return State(path.read_bytes(), stat.S_IMODE(info.st_mode))
+
+
+def digest(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def decode(data: bytes | None, path: Path) -> str:
+    try:
+        return (data or b"").decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise Refusal(f"Expected UTF-8 text: {path}") from error
+
+
+def parse_toml(data: bytes | None, path: Path) -> dict:
+    try:
+        return tomllib.loads(decode(data, path))
+    except tomllib.TOMLDecodeError as error:
+        raise Refusal(f"Invalid TOML in {path}: {error}") from error
+
+
+def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
+    if roles == ROLES:
+        gateway = (
+            "For coding, repository investigation, debugging, software design, and technical factual research, "
+            "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+            "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+            "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+            "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+            "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+            "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+            "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+            f"and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
+            "Before the main chat decides to stop advancing a substantive user request and return control to the user, "
+            "submit its proposed stopping decision to `astra_expert` (`gpt-6-astra` at `ultra`) for the mandatory "
+            "completion review described in the policy. Before issuing a final response that ends work, require a current "
+            "applicable review and resolve feasible authorized next steps. The trigger is the decision to stop, regardless "
+            "of response wording or whether completion is claimed. The review must examine current evidence and available "
+            "agent findings, search existing solutions, brainstorm alternatives and perform relevant external research. "
+            "Preserve explicit user stops, genuine governing limits, necessary clarification and ongoing tool waits; report "
+            "unavailable review honestly. This gate is separate from the initial consultation and is not recursive for "
+            "delegated subtasks.\n"
+            "Preserve the user's selected primary model. Project contracts and authorization "
+            "constraints remain applicable.\n"
+        )
+    elif roles == OLD21_ROLES:
+        gateway = OLD21_AGENTS_GATEWAY.format(policy=target / "policy.md")
+    else:
+        gateway = LEGACY_AGENTS_GATEWAY.format(policy=target / "policy.md")
+    instructions = f"{BEGIN}\n{gateway}{END}\n"
+    config = [BEGIN]
+    for role, description in roles.items():
+        config.extend([
+            f"[agents.{role}]",
+            f"description = {json.dumps(description)}",
+            f"config_file = {json.dumps(str(target / 'agents' / (role + '.toml')))}",
+            "",
+        ])
+    config.extend([END, ""])
+    return {"AGENTS.md": instructions, "config.toml": "\n".join(config)}
+
+
+def check_personal_roles(home: Path) -> None:
+    """Standalone discovery can use the internal name rather than the filename."""
+    directory = home / "agents"
+    safe_path(directory)
+    if not directory.exists():
+        return
+    if not directory.is_dir():
+        raise Refusal(f"Expected a personal agent directory: {directory}")
+    for path in sorted(directory.rglob("*.toml")):
+        configuration = parse_toml(read_state(path).data, path)
+        name = configuration.get("name")
+        if not isinstance(name, str) or not name.strip():
+            raise Refusal(f"Cannot determine standalone agent name safely: {path}")
+        if name in ROLES or path.stem in ROLES:
+            raise Refusal(f"Personal agent discovery conflicts with a kit role: {path} (name={name!r})")
+
+
+def strip_block(text: str, inserted: str | None, path: Path) -> str:
+    if inserted is None:
+        if BEGIN in text or END in text:
+            raise Refusal(f"Unowned or incomplete managed markers in {path}")
+        return text
+    if text.count(BEGIN) != 1 or text.count(END) != 1 or text.count(inserted) != 1:
+        raise Refusal(f"Managed block was modified or is incomplete in {path}; inspect manually")
+    return text.replace(inserted, "", 1)
+
+
+def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[State, dict | None]:
+    state = read_state(path)
+    if state.data is None:
+        return state, None
+    try:
+        value = json.loads(decode(state.data, path))
+        if value["version"] != 1 or value["home"] != str(home) or type(value["active"]) is not bool:
+            raise ValueError("unexpected version, home, or active flag")
+        if "source_directory" in value:
+            source_directory = value["source_directory"]
+            if (not isinstance(source_directory, str) or not source_directory
+                    or "\0" in source_directory or not Path(source_directory).is_absolute()):
+                raise ValueError("invalid source directory")
+        inventory = set(value["bundle_digests"])
+        if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
+                             set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES),
+                             set(OLD22_FILES), set(FILES)):
+            raise ValueError("unexpected bundle file list")
+        if inventory == set(LEGACY_FILES):
+            known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
+        elif inventory == set(SWARM_FILES):
+            known_blocks = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)
+        elif inventory == set(OLD21_FILES):
+            known_blocks = blocks(home / "delegation-kit", OLD21_ROLES)
+        elif inventory == set(OLD22_FILES):
+            known_blocks = blocks(home / "delegation-kit", ROLES)
+            target = home / "delegation-kit"
+            old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
+            known_blocks["AGENTS.md"] = f"{BEGIN}\n{old_gateway}{END}\n"
+        elif inventory == set(FILES):
+            known_blocks = expected
+        else:
+            known_blocks = blocks(home / "delegation-kit", PRE_SWARM_ROLES)
+        if set(value["activation"]) != set(known_blocks):
+            raise ValueError("unexpected activation file list")
+        for name, block in known_blocks.items():
+            record = value["activation"][name]
+            allowed = (block, "\n" + block)
+            if inventory == set(OLD21_FILES) and name == "AGENTS.md":
+                legacy = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)[name]
+                allowed += (legacy, "\n" + legacy)
+            if inventory == set(FILES) and name == "AGENTS.md":
+                target = home / "delegation-kit"
+                old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
+                old_block = f"{BEGIN}\n{old_gateway}{END}\n"
+                previous_gateway = OLD23_PREVIOUS_AGENTS_GATEWAY.format(policy=target / "policy.md")
+                previous_block = f"{BEGIN}\n{previous_gateway}{END}\n"
+                allowed += (old_block, "\n" + old_block,
+                            previous_block, "\n" + previous_block)
+            if record["inserted"] not in allowed:
+                raise ValueError("unexpected managed block")
+            if type(record["original_exists"]) is not bool:
+                raise ValueError("invalid original file state")
+        return state, value
+    except (ValueError, TypeError, KeyError) as error:
+        raise Refusal(f"Invalid installation manifest {path}: {error}") from error
+
+
+def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
+    home = home.absolute()
+    source = source.absolute()
+    if any(character in str(home) for character in "\n\r`"):
+        raise Refusal("Codex home contains characters unsuitable for the instruction link")
+    target = home / "delegation-kit"
+    for directory in (home, target, source):
+        safe_path(directory)
+        if directory.exists() and not directory.is_dir():
+            raise Refusal(f"Expected a directory: {directory}")
+    expected = blocks(target)
+    manifest_path = target / ".installation" / "manifest.json"
+    manifest_state, previous = load_manifest(manifest_path, home, expected)
+    if target.exists() and previous is None and any(target.iterdir()):
+        raise Refusal(f"Existing nonempty destination has no installation manifest: {target}")
+    if uninstall and previous is None:
+        raise Refusal(f"No owned installation found at {target}")
+
+    globals_before = {name: read_state(home / name) for name in expected}
+    globals_clean = {}
+    for name, state in globals_before.items():
+        inserted = (previous["activation"].get(name, {}).get("inserted")
+                    if previous and previous["active"] else None)
+        globals_clean[name] = strip_block(decode(state.data, home / name), inserted, home / name)
+    configuration = parse_toml(globals_before["config.toml"].data, home / "config.toml")
+    clean_configuration = parse_toml(globals_clean["config.toml"].encode(), home / "config.toml")
+    for configuration_to_check in (configuration, clean_configuration):
+        if "agents" in configuration_to_check and not isinstance(configuration_to_check["agents"], dict):
+            raise Refusal("config.toml agents must be a table")
+    changes: list[Change] = []
+    activation = {}
+    if not uninstall:
+        # Disable removes only the prior owned block; new role names may belong
+        # to the user in an older installation and must remain untouched.
+        for role in ROLES:
+            if role in clean_configuration.get("agents", {}):
+                raise Refusal(f"Existing agent role conflicts with the kit: {role}")
+        check_personal_roles(home)
+        override = read_state(home / "AGENTS.override.md")
+        if override.data and override.data.strip():
+            raise Refusal(f"{home / 'AGENTS.override.md'} suppresses global AGENTS.md; resolve it first")
+        bundle_digests = {}
+        for name in FILES:
+            original = read_state(source / name)
+            if original.data is None:
+                raise Refusal(f"Required bundle file is missing: {source / name}")
+            if name.endswith(".toml"):
+                parse_toml(original.data, source / name)
+            installed = read_state(target / name)
+            bundle_digests[name] = digest(original.data)
+            if (installed.data is not None and previous is not None
+                    and name not in previous["bundle_digests"]):
+                raise Refusal(f"Existing bundle file is not owned by the prior installation: {target / name}")
+            if installed.data is not None and installed.data != original.data:
+                if previous is None or digest(installed.data) != previous["bundle_digests"].get(name):
+                    raise Refusal(f"Installed file has local edits; refusing to overwrite: {target / name}")
+            desired = State(original.data, installed.mode if installed.data is not None else original.mode)
+            if installed != desired:
+                changes.append(Change(target / name, installed, desired))
+        for name, block in expected.items():
+            before = globals_before[name]
+            text = globals_clean[name]
+            original_exists = before.data is not None
+            if previous and previous["active"] and name in previous["activation"]:
+                old = previous["activation"][name]
+                old_prefix = "\n" if old["inserted"].startswith("\n") else ""
+                inserted = old_prefix + block
+                # Replace the exact owned block at its original position, retaining
+                # user text around it for both activation files.
+                raw = decode(before.data, home / name)
+                prior_block = old["inserted"]
+                if raw.count(prior_block) != 1:
+                    raise Refusal(f"Managed block was modified or is incomplete in {home / name}; inspect manually")
+                after_text = raw.replace(prior_block, inserted, 1)
+                original_exists = old["original_exists"]
+            else:
+                inserted = ("\n" if text and not text.endswith("\n") else "") + block
+                after_text = text + inserted
+            activation[name] = {"inserted": inserted, "original_exists": original_exists}
+            after = State(after_text.encode(), before.mode if before.data is not None else (0o644 if name == "AGENTS.md" else 0o600))
+            if before != after:
+                changes.append(Change(home / name, before, after))
+        parse_toml(next((change.after.data for change in changes if change.path == home / "config.toml"), globals_before["config.toml"].data), home / "config.toml")
+    else:
+        bundle_digests = previous["bundle_digests"]
+        if previous["active"]:
+            for name, text in globals_clean.items():
+                before = globals_before[name]
+                remove = not text and not previous["activation"][name]["original_exists"]
+                after = State(None) if remove else State(text.encode(), before.mode)
+                changes.append(Change(home / name, before, after))
+        else:
+            return []
+
+    # This is a discovery hint, not proof of a Git checkout or permission to use it.
+    # Running the installed utility (including disable) must not replace the
+    # external source location with the deployment directory.
+    source_directory = previous.get("source_directory") if previous else None
+    if not uninstall and os.path.abspath(source) != os.path.abspath(target):
+        source_directory = os.path.abspath(source)
+    provenance_changed = previous is not None and previous.get("source_directory") != source_directory
+    if not changes and not provenance_changed:
+        return []
+    transaction_id = uuid.uuid4().hex
+    backup_root = target / ".installation" / "backups" / transaction_id
+    backups = []
+    for name, before in globals_before.items():
+        if before.data is not None:
+            changes.append(Change(backup_root / name, State(None), State(before.data, 0o600)))
+            backups.append(str(backup_root / name))
+    if manifest_state.data is not None:
+        changes.append(Change(backup_root / "manifest.json", State(None), State(manifest_state.data)))
+    manifest = {
+        "version": 1, "home": str(home), "active": not uninstall,
+        "activation": activation if not uninstall else previous["activation"],
+        "bundle_digests": bundle_digests,
+        "last_backups": backups,
+    }
+    if source_directory is not None:
+        manifest["source_directory"] = source_directory
+    changes.append(Change(manifest_path, manifest_state, State((json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode())))
+    return changes
+
+
+def _stage(path: Path, state: State) -> Path:
+    descriptor, filename = tempfile.mkstemp(prefix=".delegation-kit-", dir=path.parent)
+    staged = Path(filename)
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            os.fchmod(stream.fileno(), state.mode)
+            stream.write(state.data)
+            stream.flush()
+            os.fsync(stream.fileno())
+        return staged
+    except BaseException:
+        staged.unlink(missing_ok=True)
+        raise
+
+
+def apply(changes: list[Change]) -> None:
+    """Stage first, compare before each replacement, and roll back this transaction only."""
+    staged: dict[Path, Path] = {}
+    directories: list[Path] = []
+    committed: list[Change] = []
+    try:
+        for change in changes:
+            if read_state(change.path) != change.before:
+                raise Refusal(f"File changed since preflight: {change.path}")
+        for change in changes:
+            missing = []
+            current = change.path.parent
+            while not current.exists():
+                missing.append(current)
+                current = current.parent
+            for directory in reversed(missing):
+                directory.mkdir(mode=0o700)
+                directories.append(directory)
+            if change.after.data is not None:
+                staged[change.path] = _stage(change.path, change.after)
+        for change in changes:
+            if read_state(change.path) != change.before:
+                raise Refusal(f"File changed during installation: {change.path}")
+            if change.after.data is None:
+                change.path.unlink()
+            else:
+                os.replace(staged[change.path], change.path)
+                staged.pop(change.path)
+            committed.append(change)
+    except BaseException as error:
+        rollback_errors = []
+        for change in reversed(committed):
+            try:
+                if read_state(change.path) != change.after:
+                    raise Refusal(f"Concurrent edit preserved during rollback: {change.path}")
+                if change.before.data is None:
+                    change.path.unlink()
+                else:
+                    temporary = _stage(change.path, change.before)
+                    try:
+                        os.replace(temporary, change.path)
+                    finally:
+                        temporary.unlink(missing_ok=True)
+            except BaseException as rollback_error:
+                rollback_errors.append(str(rollback_error))
+        if rollback_errors:
+            raise Refusal(f"Transaction failed: {error}; rollback needs attention: {'; '.join(rollback_errors)}") from error
+        raise
+    finally:
+        for temporary in staged.values():
+            temporary.unlink(missing_ok=True)
+        for directory in reversed(directories):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+
+
+def preview(changes: list[Change]) -> None:
+    for change in changes:
+        if ".installation" in change.path.parts:
+            print(f"Save installation metadata/backup: {change.path}")
+            continue
+        before = decode(change.before.data, change.path).splitlines(keepends=True)
+        after = decode(change.after.data, change.path).splitlines(keepends=True)
+        for line in difflib.unified_diff(before, after, fromfile=str(change.path) + " (before)", tofile=str(change.path) + " (after)"):
+            sys.stdout.write(line)
+            if not line.endswith("\n"):
+                sys.stdout.write("\n\\ No newline at end of file\n")
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--home", type=Path, default=Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))), help="Codex home (default: CODEX_HOME or ~/.codex)")
+    parser.add_argument("--source", type=Path, default=Path(__file__).absolute().parent, help="source bundle directory")
+    parser.add_argument("--apply", action="store_true", help="apply the previewed installation or disable operation")
+    parser.add_argument("--uninstall", action="store_true", help="remove only owned activation blocks; retain bundle and evidence")
+    args = parser.parse_args(argv)
+    try:
+        changes = plan(args.home.expanduser(), args.source.expanduser(), args.uninstall)
+        preview(changes)
+        if not changes:
+            print("No changes needed.")
+        elif args.apply:
+            apply(changes)
+            print("Kit disabled; bundle and evidence retained." if args.uninstall else "Global delegation kit installed and activated.")
+        else:
+            print("Dry run only. Add --apply to make these changes.")
+        return 0
+    except (Refusal, OSError) as error:
+        print(f"Refused: {error}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

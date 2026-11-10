@@ -1,0 +1,20 @@
+{
+  "case": "orchid",
+  "variant": "witness",
+  "label": "public_checks",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.05232286801037844,
+  "stdout": "",
+  "stderr": "test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+}

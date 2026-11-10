@@ -1,0 +1,43 @@
+{
+  "run_id": "g007",
+  "case_label": "marlin",
+  "source_condition": "v4",
+  "participant_snapshot_reference_hashes": {
+    "OPERATIONS.md": "1cd287cf4ffb419f67f425a5b931eaf11bd7a7ad2f9cf6453465ae8d361f5540",
+    "PRIOR_WORK.md": "b321410562492bf807576e95d136dc173b0e72ec4210e0eacc1af6c8f263188a",
+    "TASK.md": "10572f01cc076fc9a72113392cbd3e081c4524d01c9763270731da0b48077b76",
+    "app.py": "e92bc606be7fc347e45bd49255904d6ce5b1b5eeeb8f11fc306d29690c77a217",
+    "catalog/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "catalog/matching.py": "45e18b5b1fde55439ef1d2df2d9d914f43ebb0603955aac52c4a0a1f0fed8f79",
+    "catalog/store.py": "30bb3c4e95ddaa068a07f2c17985f0c0d400683fa8354546027b8e1145201e8a",
+    "data/products.csv": "308fd1101e0de26e8e825372b187dfe98c6d2f582a38cc463bf1fc5c11b62919",
+    "data/requests.json": "bac0b4bb88ba682dfa5cf256904516c28470b49fd2a7cafdb95a870e724648f2",
+    "tests/test_catalog.py": "7f30bbf725ebc046d70067da8833df5aab699ebcde26c9ac9cfe079a06f247c9",
+    "tools/build_index.py": "153dd1b6fe1c88dc26d259504d4dac5e0864ad59e5c036f0801daa7ca247f926"
+  },
+  "participant_snapshot_source": "operation/workspace-before; verified against run-metadata.workspace_before_hashes; fixture bytes are referenced by hash, not copied into products",
+  "allowed_product_paths": [
+    "cache/catalog.sqlite",
+    "work/"
+  ],
+  "products": [
+    {
+      "path": "products/cache/catalog.sqlite",
+      "origin_path": "/tmp/action-recovery-runs/g007/workspace/cache/catalog.sqlite",
+      "kind": "task_product",
+      "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+      "bytes": 32768,
+      "mtime_ns": 1794291846722609018
+    },
+    {
+      "path": "products/work/matches.json",
+      "origin_path": "/tmp/action-recovery-runs/g007/workspace/work/matches.json",
+      "kind": "task_product",
+      "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+      "bytes": 329,
+      "mtime_ns": 1794291850686823076
+    }
+  ],
+  "excluded": "runtime-state databases, app-server event logs, arbitrary scratch files and the empty runtime scratch lock",
+  "previous_packaging_attempt": "g001-only failed packaging attempt at results/runs/g001/packaging-attempts/01; zero evaluator assertions; excluded from canonical products and replay."
+}

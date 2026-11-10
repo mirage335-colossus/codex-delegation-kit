@@ -1,0 +1,75 @@
+{
+  "run_id": "g008",
+  "case_label": "cedar",
+  "source_condition": "baseline",
+  "participant_snapshot_reference_hashes": {
+    "PRIOR_WORK.md": "a0d6b4970ea24e9b08b4ea984215fcb5624e52f97595344721023087a3fc0653",
+    "TASK.md": "3fef46e9e806c4e73a285ccdd8bcca1283885ecdafa75ba739ca0d8980c8e6d8",
+    "data/catalog.csv": "2a8ae859e7673c9778fd1ef190de7f7710e80da3273cbaefb6961032a1d64527",
+    "data/orders.csv": "6d6694779a146ce1570be987cc9ece365109ae36d9cc8f25915ac75db2b382c8",
+    "data/stock.csv": "cc6daef72fbeea999f4dbb06ce83fb49254ee88f9967c28d270f06b9514350cf",
+    "pipeline/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "pipeline/dispatcher.py": "e22db3945f57d7971f355953ddbd8b8a7cdf31925a131e0427d9bcf41f61c03e",
+    "pipeline/materialize.py": "7a0b2a8e73011cf93a1354ee9ecb289fb3c7319f0503b69f0b5dfb593f2253fc",
+    "plans/nightly.json": "95c725814258e3940d942587ed87696efc9d177d35d289c2760f479cafee9699",
+    "run_pipeline.py": "5dc7d77141881b2d2abac081821a760791f9c71ae9b9be90fb3699d752072a62",
+    "tests/test_dispatcher.py": "88aa97a1c6fec6b41f1d4974a2453a1ba5a33dba9a04a7cf16d80acc07df42f2"
+  },
+  "participant_snapshot_source": "operation/workspace-before; verified against run-metadata.workspace_before_hashes; fixture bytes are referenced by hash, not copied into products",
+  "allowed_product_paths": [
+    "pipeline/dispatcher.py",
+    "work/"
+  ],
+  "products": [
+    {
+      "path": "products/pipeline/dispatcher.py",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/pipeline/dispatcher.py",
+      "kind": "changed_source",
+      "sha256": "fc1301ac37c187e401d49904cdd85a29d02fd130fb642909572aa90e546892ab",
+      "bytes": 1457,
+      "mtime_ns": 1794291924144096701
+    },
+    {
+      "path": "products/work/nightly/events.jsonl",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/work/nightly/events.jsonl",
+      "kind": "task_product",
+      "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+      "bytes": 106,
+      "mtime_ns": 1794291903688991229
+    },
+    {
+      "path": "products/work/nightly/prices.csv",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/work/nightly/prices.csv",
+      "kind": "task_product",
+      "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+      "bytes": 53,
+      "mtime_ns": 1794291903688732442
+    },
+    {
+      "path": "products/work/nightly/quotes.csv",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/work/nightly/quotes.csv",
+      "kind": "task_product",
+      "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+      "bytes": 76,
+      "mtime_ns": 1794291903688991229
+    },
+    {
+      "path": "products/work/nightly/stock.csv",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/work/nightly/stock.csv",
+      "kind": "task_product",
+      "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+      "bytes": 37,
+      "mtime_ns": 1794291903688442335
+    },
+    {
+      "path": "products/work/nightly/summary.json",
+      "origin_path": "/tmp/action-recovery-runs/g008/workspace/work/nightly/summary.json",
+      "kind": "task_product",
+      "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+      "bytes": 121,
+      "mtime_ns": 1794291929893370785
+    }
+  ],
+  "excluded": "runtime-state databases, app-server event logs, arbitrary scratch files and the empty runtime scratch lock",
+  "previous_packaging_attempt": "g001-only failed packaging attempt at results/runs/g001/packaging-attempts/01; zero evaluator assertions; excluded from canonical products and replay."
+}

@@ -1,0 +1,16 @@
+{
+  "case": "orchid",
+  "variant": "witness",
+  "label": "evaluation",
+  "argv": [
+    "/usr/bin/python3",
+    "/tmp/action-recovery-heldout/orchid/private/evaluate.py",
+    "/tmp/action-recovery-heldout/preflight/orchid/witness/participant"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.08084625400078949,
+  "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"approved-source-and-hard-budget-preserved\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-report-with-enforced-budget\",\n      \"passed\": true,\n      \"detail\": \"Every row accounted for; exact independent site aggregates; peak 1 of allowed 4\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.001s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+  "stderr": ""
+}

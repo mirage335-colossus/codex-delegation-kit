@@ -1,0 +1,1 @@
+Historical disposition: close after local alias-normalization metric reached 100%; no whole-application measurement was recorded. Supported command: `python3 -m src.inventory_app data/vendor_feed.csv`. Original tests cover helper behavior and legacy receipt only.

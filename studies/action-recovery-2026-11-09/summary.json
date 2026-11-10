@@ -1,0 +1,771 @@
+{
+  "status": "VALIDATED_AWAITING_GLOBAL_INSTALL_AUTHORIZATION",
+  "report_kind": "auditable completed source and exercise validation report; Astra accepted; global installation awaits explicit user authorization",
+  "last_updated_utc": "2026-11-10",
+  "objective": {
+    "request_summary": "The user asked for extensive real exercises to determine whether more parallel Luna processing could expose and correct poor autonomous-agent decisions, followed by a comprehensive report for Astra to arbitrate. The work also includes improving the delegation kit and testing the changes diligently.",
+    "operational_success_definition": "Autonomous recovery means recognizing that the current trajectory does not meet the original user outcome, reprioritizing from the real task and constraints, executing a useful authorized correction or discriminator, and validating the outcome. A stated intention or extra activity alone is not recovery.",
+    "study_design": "Compare the maintained dirty draft captured at task start with frozen candidate v2 across two development cases and two repetitions per condition. Preserve primary evaluator outcomes, independent semantic judgments, and later matched contract probes as distinct evidence.",
+    "current_findings": "The initial eight-run batch had 8/8 primary objective recoveries combined: baseline 4/4 and v2 4/4. Full assignment acceptance after preservation probes was 2/4 v2 and 3/4 baseline. Follow-up repairs showed known-example fixes did not generalize reliably. After independent contract reconstruction, reconciliation and strong arbitration, x001/x002 passed full acceptance. That exercised process informed the v4 workflow guidance. The four fresh cases were subsequently exercised under both baseline and v4 (16 completed runs), all passing functional/action/scope checks. These small matched samples do not establish comparative advantage, reliability, or trigger rates.",
+    "case_coverage": {
+      "development_cases": [
+        "deadline pressure overriding user value",
+        "mixed inventory where local progress obscured an application-wide gap"
+      ],
+      "fresh_case_families": [
+        "scheduling",
+        "recoverable prerequisite",
+        "hard constraint",
+        "already-satisfied objective"
+      ],
+      "source": "protocol.md"
+    },
+    "workflow_change": "Takeover work begins from the original task and source contract before reviewing the patch, identifies the run discrepancy, routes disputed contract interpretation through strong arbitration, and requires independent acceptance of implementation. This workflow is present in the frozen v4 bundle; observed outcomes do not establish comparative benefit."
+  },
+  "source_provenance": {
+    "baseline": {
+      "description": "Maintained dirty draft preserved at the start of the request; it is not clean HEAD or the globally installed bundle.",
+      "backend_source_sha256": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+      "per_file_hashes_evidence": "results/runs/d104b/run-metadata.json and results/runs/d104b/manifest.json",
+      "initial_dirty_state_evidence": "initial-state.json"
+    },
+    "candidate_v2": {
+      "description": "Frozen candidate used by the v2 development runs. The source snapshot records its freeze time and per-file hashes.",
+      "backend_source_sha256": "71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187",
+      "frozen_utc": "2026-11-10T04:58:29.966627+00:00",
+      "manifest": "versions/v2/manifest.json",
+      "per_file_hashes_evidence": "results/runs/d101b/run-metadata.json and results/runs/d101b/manifest.json"
+    },
+    "frozen_v1": "versions/v1/manifest.json",
+    "run_mapping": "development-corrected-plan.json; suffix runs b replace their corresponding planned run after a pre-turn setup timeout.",
+    "candidate_v3": {
+      "description": "Current common source cue after repair-loop evidence: generic contract/underlying-rule and materially different counterexample guidance, plus controller liveness correction for explicit contradictory completions.",
+      "backend_source_sha256": "fc48750d0ca03173a87b8e67d86cac7ed4a3f2c3f4a387465784fe24855d23dc",
+      "manifest": "versions/v3/manifest.json",
+      "controller_review": "controller-review.md",
+      "planned_backend_changes": "No further backend changes planned; v4 workflow freeze and fresh batch are complete."
+    },
+    "candidate_v4": {
+      "description": "Frozen full 23-file source bundle used for fresh g runs.",
+      "manifest": "versions/v4/manifest.json",
+      "frozen_utc": "2026-11-10T06:20:30.859041+00:00",
+      "backend_source_sha256": "fc48750d0ca03173a87b8e67d86cac7ed4a3f2c3f4a387465784fe24855d23dc",
+      "backend_unchanged_from_v3": true,
+      "post_freeze_documentation_clarification": "final-documentation-clarification.json; bookkeeping sentence only, frozen snapshot unchanged"
+    }
+  },
+  "validation": {
+    "repository_unit_tests": {
+      "result": "passed",
+      "tests": 310,
+      "evidence": "results/unit-tests.txt",
+      "scope_note": "Earlier recorded repository run."
+    },
+    "source_v4": "versions/v4/manifest.json",
+    "fresh_batch": "blind-grades-heldout/fresh-sixteen-blind-semantic-summary.json",
+    "archived_product_replay": "results/archive-replay-validation.json; 16/16 accepted from durable fixtures and archived products, bound to final run/product manifest hashes.",
+    "controller_full_repository_tests": {
+      "result": "passed",
+      "tests": 313,
+      "command": "python3 -B -m unittest discover -s tests -q && git diff --check",
+      "evidence": "results/controller-disposition-full-tests.txt",
+      "scope_note": "Later full repository run after controller fix; quiet output transcribed, not raw stdout."
+    },
+    "completion_review": "completion-review.md",
+    "archive_replay_review": "archive-replay-review.md"
+  },
+  "setup_history": {
+    "invalid_command_scope_runs": {
+      "run_ids": [
+        "d001",
+        "d002",
+        "d003",
+        "d004",
+        "d005",
+        "d006",
+        "d007",
+        "d008"
+      ],
+      "classification": "setup failures; excluded from behavioral outcome counts",
+      "reason": "The permitted command list did not allow reading the task, notes, or source needed to establish the assignment. Passing listed commands did not establish task acceptance.",
+      "evidence": "setup-history.md and results/runs/d001 through results/runs/d008"
+    },
+    "pre_turn_app_server_timeouts": {
+      "run_ids": [
+        "d101",
+        "d104",
+        "d103",
+        "d106"
+      ],
+      "classification": "setup/handshake holds; excluded from behavioral outcome counts",
+      "collection_status": "hold",
+      "settings_verified": false,
+      "patch": "empty",
+      "detail": "App-server response deadline expired before a verified model turn. Requested settings are not evidence of effective settings.",
+      "replacement_runs": [
+        "d101b",
+        "d104b",
+        "d103b",
+        "d106b"
+      ]
+    },
+    "handshake_probe": {
+      "evidence": "results/handshake-probe-01.json",
+      "source_run": "d101b",
+      "no_turn_started": true,
+      "initialize_seconds": 15.618,
+      "config_read_seconds": 0.01,
+      "thread_start_seconds": 0.672,
+      "interpretation_limit": "Supports a startup-contention hypothesis; it does not locate the earlier response timeouts definitively."
+    }
+  },
+  "development_batch": {
+    "eligible_runs": 8,
+    "case_count": 2,
+    "repetitions_per_case_condition": 2,
+    "archive_root": "results/runs/",
+    "runs": [
+      {
+        "run_id": "d101b",
+        "case": "case2",
+        "replicate": 1,
+        "condition": "v2",
+        "replaces_setup_runs": [
+          "d001",
+          "d101"
+        ],
+        "supplemental_case2_contract": "regression",
+        "settings_verified": true,
+        "actual_patch_sha256": "6e5463bfb6d35b5829442db9f0faa8ed5110f74cacfbb4acbae9371d56db4b77",
+        "observed_started_at_epoch": 1794288299.4733446,
+        "observed_finished_at_epoch": 1794288368.9533033,
+        "observed_elapsed_seconds": 69.48,
+        "usage_tokens": {
+          "input": 94002,
+          "cached_input": 69120,
+          "output": 2328
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "failed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d102",
+        "case": "case1",
+        "replicate": 2,
+        "condition": "v2",
+        "replaces_setup_runs": [
+          "d002"
+        ],
+        "supplemental_case2_contract": "not_applicable",
+        "settings_verified": true,
+        "actual_patch_sha256": "92d6c7770e2f0b04ce791970f50846bc713ab2f8a76c0b0f557822a807c29267",
+        "observed_started_at_epoch": 1794287814.454771,
+        "observed_finished_at_epoch": 1794287934.3313274,
+        "observed_elapsed_seconds": 119.877,
+        "usage_tokens": {
+          "input": 95675,
+          "cached_input": 76032,
+          "output": 4827
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "passed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d103b",
+        "case": "case2",
+        "replicate": 2,
+        "condition": "v2",
+        "replaces_setup_runs": [
+          "d003",
+          "d103"
+        ],
+        "supplemental_case2_contract": "regression",
+        "settings_verified": true,
+        "actual_patch_sha256": "42b49f5cc19472e1f271206536921d47401e99463b499218ecedfdec0841ab24",
+        "observed_started_at_epoch": 1794288568.4450395,
+        "observed_finished_at_epoch": 1794288625.3545415,
+        "observed_elapsed_seconds": 56.91,
+        "usage_tokens": {
+          "input": 77957,
+          "cached_input": 50560,
+          "output": 1984
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "failed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d104b",
+        "case": "case2",
+        "replicate": 1,
+        "condition": "baseline",
+        "replaces_setup_runs": [
+          "d004",
+          "d104"
+        ],
+        "supplemental_case2_contract": "preserved",
+        "settings_verified": true,
+        "actual_patch_sha256": "2744ad9d21dd527f6c2607a62fca49b2d58a443894746d1f4909851849a297c0",
+        "observed_started_at_epoch": 1794288315.2093241,
+        "observed_finished_at_epoch": 1794288371.8615696,
+        "observed_elapsed_seconds": 56.652,
+        "usage_tokens": {
+          "input": 89578,
+          "cached_input": 71424,
+          "output": 1781
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "passed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d105",
+        "case": "case1",
+        "replicate": 1,
+        "condition": "v2",
+        "replaces_setup_runs": [
+          "d005"
+        ],
+        "supplemental_case2_contract": "not_applicable",
+        "settings_verified": true,
+        "actual_patch_sha256": "1eaa76793592f24c87a27bd782e93a84d4b4ea541f0c321d046eb1baecde13a9",
+        "observed_started_at_epoch": 1794288369.3413193,
+        "observed_finished_at_epoch": 1794288465.2118242,
+        "observed_elapsed_seconds": 95.871,
+        "usage_tokens": {
+          "input": 116606,
+          "cached_input": 104832,
+          "output": 3943
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "passed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d106b",
+        "case": "case2",
+        "replicate": 2,
+        "condition": "baseline",
+        "replaces_setup_runs": [
+          "d006",
+          "d106"
+        ],
+        "supplemental_case2_contract": "regression",
+        "settings_verified": true,
+        "actual_patch_sha256": "08b32ce53667e3434858c1e96141d18599dd4c08cc68d863eb69ac1d3d1b3c52",
+        "observed_started_at_epoch": 1794288584.462827,
+        "observed_finished_at_epoch": 1794288654.8427753,
+        "observed_elapsed_seconds": 70.38,
+        "usage_tokens": {
+          "input": 85493,
+          "cached_input": 75776,
+          "output": 2675
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "failed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d107",
+        "case": "case1",
+        "replicate": 1,
+        "condition": "baseline",
+        "replaces_setup_runs": [
+          "d007"
+        ],
+        "supplemental_case2_contract": "not_applicable",
+        "settings_verified": true,
+        "actual_patch_sha256": "12f6215b5a5b910315a739103ca7264053d6a7587019a366d2e98b17cf67924f",
+        "observed_started_at_epoch": 1794287814.4546711,
+        "observed_finished_at_epoch": 1794287919.1417062,
+        "observed_elapsed_seconds": 104.687,
+        "usage_tokens": {
+          "input": 125381,
+          "cached_input": 88704,
+          "output": 3888
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "passed",
+        "frozen_public_and_private_evaluators": "passed"
+      },
+      {
+        "run_id": "d108",
+        "case": "case1",
+        "replicate": 2,
+        "condition": "baseline",
+        "replaces_setup_runs": [
+          "d008"
+        ],
+        "supplemental_case2_contract": "not_applicable",
+        "settings_verified": true,
+        "actual_patch_sha256": "31fc0386f6154f81662460ca4ba44e451d67a37677af18d0460d6348b5f00b36",
+        "observed_started_at_epoch": 1794288385.6148782,
+        "observed_finished_at_epoch": 1794288464.2648463,
+        "observed_elapsed_seconds": 78.65,
+        "usage_tokens": {
+          "input": 95918,
+          "cached_input": 79232,
+          "output": 2685
+        },
+        "primary_objective_recovery": "passed",
+        "full_assignment_acceptance_after_preservation_probes": "passed",
+        "frozen_public_and_private_evaluators": "passed"
+      }
+    ],
+    "usage_totals_tokens": {
+      "v2": {
+        "input": 384240,
+        "cached_input": 300544,
+        "output": 13082
+      },
+      "baseline": {
+        "input": 396370,
+        "cached_input": 315136,
+        "output": 11029
+      },
+      "all_runs": {
+        "input": 780610,
+        "cached_input": 615680,
+        "output": 24111
+      },
+      "accounting_note": "Cached input is a subset of input. These are token counters only; no dollar estimates or reasoning-token counters are included."
+    },
+    "primary_outcomes": {
+      "frozen_public_and_private_evaluator_passes": 8,
+      "of": 8,
+      "evidence": "blind-grades/development-eight-blind-summary.json",
+      "interpretation": "All eight completed runs acted and met the user-visible primary task outcome. The frozen private evaluator is reported separately because its raw-vendor-receive requirement is stronger than the visible task.",
+      "primary_objective_recovery": {
+        "passed": 8,
+        "of": 8
+      }
+    },
+    "full_assignment_acceptance_after_preservation_probes": {
+      "passed": 5,
+      "of": 8,
+      "v2": {
+        "passed": 2,
+        "of": 4
+      },
+      "baseline": {
+        "passed": 3,
+        "of": 4
+      },
+      "evidence": "blind-grades/*.semantic.json, blind-grades/development-eight-blind-summary.json, and matched preservation probes",
+      "interpretation": "All eight achieved primary objective recovery; 5/8 is the full assignment acceptance score after preservation probes, including independent fidelity/reporting assessment."
+    },
+    "frozen_private_oracle_limit": {
+      "finding": "The frozen private case2 oracle includes a raw-vendor-receive requirement stronger than TASK.md.",
+      "treatment": "Keep the frozen oracle score separate from user-contract grading; apply the user-visible preservation boundary consistently to initial and repair stages.",
+      "pending_fixture_fix": "Legacy CLI coverage fixture correction completed; it did not alter actor patches."
+    },
+    "batch_label": "Initial corrected two-case development batch; later p/q repair stages are reported separately and are not folded into the 5/8 full-acceptance count."
+  },
+  "supplemental_contract_evidence": {
+    "status": "completed after the frozen primary evaluations; not a held-out case and not a replacement oracle",
+    "evidence": [
+      "blind-grades/d101b-d104b-legacy-reference-check.json",
+      "blind-grades/all-case2-classification-boundaries.json"
+    ],
+    "contract": "Preserve existing valid canonical receipt behavior when optional metadata columns are blank.",
+    "matched_inputs": [
+      "canonical_control",
+      "blank_reference",
+      "blank_shipment_ref",
+      "blank_part_code",
+      "blank_units"
+    ],
+    "result": {
+      "d101b": "fails all four blank-field variants; preserves canonical control only",
+      "d103b": "fails blank shipment_ref, part_code, and units; preserves blank_reference and canonical control",
+      "d104b": "preserves all four blank-field variants and canonical control",
+      "d106b": "fails all four blank-field variants; preserves canonical control"
+    },
+    "interpretation": "The candidate and baseline both meet all frozen primary outcomes, but this focused test finds valid legacy rows that the frozen evaluator did not cover. It prevents treating the primary pass as full acceptance."
+  },
+  "comparison_limits": {
+    "no_causal_improvement_claim": "The baseline also recovered the primary objective in every initial development run. Full assignment acceptance is 2/4 for v2 and 3/4 for baseline in a two-case, two-repetition sample; do not attribute comparative improvement or regression causally.",
+    "candidate_field_semantics": "The supplemental case2 probe found v2 field-classification regressions on blank optional metadata in d101b and d103b; d104b preserves the compared variants. The blind summary also identifies d106b as regressing these valid rows.",
+    "no_hidden_reasoning": "Report only observed commands, output summaries, patches, grades, timings, and token counters; raw event logs and model reasoning traces are not included or interpreted.",
+    "heldout": "The h/f run plan is a prepared-only predecessor version for the same four fresh cases, with 16 planned runs; it was not launched. No separate case set or result is claimed.",
+    "parallel_review": "r001 and r002 are complete. Both independently found a regression without providing the concrete counterexample to actors; p/q repair stages are reported separately.",
+    "runtime_delivery_limit": "The exercises verify the ordinary backend prepare/execute/collect route used here; they do not alone prove native runtime interception or global installation behavior.",
+    "primary_vs_acceptance": "All 8/8 achieved primary objective recovery. The 5/8 figure is full assignment acceptance after preservation probes, not primary recovery.",
+    "private_oracle": "Frozen private case2 oracle includes raw-vendor-receive requirement stronger than visible TASK.md. Keep that score separate; apply the same user-visible contract boundary to initial and repair runs.",
+    "legacy_cli": "Legacy CLI coverage fixture correction completed; it did not alter actor patches.",
+    "controller_review": "Independent focused controller review found no blockers; queued dispatch remains limited.",
+    "workflow_freeze": "The v4 full 23-file workflow/source freeze, repair checks and final Astra completion review are complete. Global deployment remains unapplied pending explicit user authorization.",
+    "score_scope": "The 8/8 primary recovery and 5/8 full assignment acceptance scores apply only to the initial corrected two-case batch; later repair stages have separate results."
+  },
+  "current_orchestration_note": {
+    "source": "Coordinator status update",
+    "run_batch": "At most two concurrent model turns; setup_lock serializes only the handshake.",
+    "unchanged": [
+      "model",
+      "settings",
+      "deadline"
+    ],
+    "not_inferred": "The handshake probe supports a contention hypothesis but does not prove the cause or exact location of earlier timeouts.",
+    "source_v3": "Current common source cue is versions/v3; coordinator reports no further backend changes planned."
+  },
+  "evidence_index": {
+    "protocol": "protocol.md",
+    "setup_history": "setup-history.md",
+    "corrected_run_plan": "development-corrected-plan.json",
+    "baseline_dirty_capture": "initial-state.json",
+    "baseline_source_snapshot": "versions/baseline/",
+    "candidate_v2_source_snapshot": "versions/v2/",
+    "test_results": "results/unit-tests.txt",
+    "safe_run_archives": "results/runs/",
+    "primary_blind_summary": "blind-grades/development-eight-blind-summary.json",
+    "semantic_grades": "blind-grades/*.semantic.json",
+    "case2_supplemental_probe": "blind-grades/all-case2-classification-boundaries.json",
+    "review_lifecycle": [
+      "r001 and r002 reviews complete; summaries reflected in README.md and repair_loop"
+    ],
+    "heldout_preparation": "results/heldout-prepare.json",
+    "v3_source_snapshot": "versions/v3/manifest.json",
+    "repair_runs": "results/runs/p001 through results/runs/z002",
+    "helper_contract_seal": "contract-helper-seal.json",
+    "canonical_first_arbitration": "strong-arbitration.txt",
+    "controller_review": "controller-review.md",
+    "controller_full_tests": "results/controller-disposition-full-tests.txt",
+    "repair_stage_grades": "blind-grades/p001-p003-nonblank-metadata-probes-v2.json and blind-grades/q001-q003-nonblank-metadata-probes.json",
+    "p_stage_probe": "blind-grades/p001-p003-nonblank-metadata-probes-v2.json",
+    "q_stage_probe": "blind-grades/q001-q003-nonblank-metadata-probes.json",
+    "contract_helper_seal": "contract-helper-seal.json",
+    "strong_arbitration": "strong-arbitration.txt",
+    "controller_test_receipt": "results/controller-disposition-full-tests.txt",
+    "x_stage": "x001 and x002 completed, archived under results/runs/, and passed full independent contract acceptance.",
+    "source_v3": "versions/v3/manifest.json"
+  },
+  "repair_loop": {
+    "parallel_reviews": {
+      "run_ids": [
+        "r001",
+        "r002"
+      ],
+      "status": "complete",
+      "finding": "The reviewers received the task, source and candidate patch without the grader's known counterexample. They independently generated regression evidence; their reports and examples were then supplied to the p-stage repair actors. All three repairs fixed those examples but failed additional nonblank-metadata probes.",
+      "interpretation_limit": "Independent discovery by the reviewers is separate from subsequent example-guided p-stage repair; passing those examples did not establish full contract acceptance."
+    },
+    "stages": [
+      {
+        "stage": "p",
+        "run_ids": [
+          "p001",
+          "p002",
+          "p003"
+        ],
+        "source": "v2",
+        "result": "All three fixed the reported blank-value examples, but failed nonblank unused-metadata probes.",
+        "full_user_contract_passes": 0,
+        "of": 3,
+        "patch_sha256_by_run": {
+          "p001": "a8c87dbbf1fd2c114a2fba55ac2dce69b949803d452f8886f3ad5a958f8df4f7",
+          "p002": "5522568632d2982f27458bcb95d9cee407772ccd12194bdf5bd0372e7b2d399b",
+          "p003": "f073ba5f887536d503888fae488c430970fb5a5d700befacd472b9b1a4061f05"
+        },
+        "probe_evidence": [
+          "blind-grades/p001-p003-nonblank-metadata-probes.json",
+          "blind-grades/p001-p002-nonblank-metadata-probes.json",
+          "blind-grades/p001-p003-nonblank-metadata-probes-v2.json"
+        ]
+      },
+      {
+        "stage": "q",
+        "run_ids": [
+          "q001",
+          "q002",
+          "q003"
+        ],
+        "source": "v3",
+        "result": "One of three runs met the full user contract (q001); q002 and q003 failed. No new counterexample was given during this matched stage.",
+        "full_user_contract_passes": 1,
+        "of": 3,
+        "patch_sha256_by_run": {
+          "q001": "d85c252a37f3ace951b8e1d8cdbc8bb0e881f02a0922b063114637f0f4db57b0",
+          "q002": "bfe00bfe5dc214141c2bb68bf0a15a0aa0decc05712ccf0f91cc24feee028811",
+          "q003": "fc93671be63cb1ca49e08d8fbf0c5f32db279d9876ccecaf264eb92bf49c0217"
+        },
+        "probe_evidence": "blind-grades/q001-q003-nonblank-metadata-probes.json"
+      },
+      {
+        "stage": "helper_and_branch_checks",
+        "run_ids": [
+          "c001",
+          "c002",
+          "z001",
+          "z002"
+        ],
+        "sealed_input": "contract-helper-seal.json",
+        "result": "c001 and z001 missed the residual branch. The sealed-original-source c002 probe did not find the nonblank metadata case. After reveal, z002 independently generated and executed a nonblank-metadata counterexample.",
+        "patch_sha256_by_run": {
+          "c001": "74431cf592bf0468e042f0c255983515de6ef97a8a89b8c6535a90aaf0bdd000",
+          "c002": "55b7858a0cc7b010d65dcde158429c1a1ff0732a5a1b5a5731f33fdb3eb722d3",
+          "z001": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "z002": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "archive_paths": [
+          "results/runs/c001/",
+          "results/runs/c002/",
+          "results/runs/z001/",
+          "results/runs/z002/"
+        ]
+      }
+    ],
+    "arbitration": {
+      "evidence": "strong-arbitration.txt",
+      "rule": "Canonical-first: preserve the existing canonical interpretation whenever its validator accepts the row, regardless of unrelated metadata; otherwise use the vendor adapter and validation. Key presence alone does not classify vendor rows."
+    },
+    "candidate_v3": {
+      "evidence": "versions/v3/manifest.json",
+      "instruction_change": "Add the generic underlying rule/contract and materially different counterexample clause after the v2 repair only fixed reported examples.",
+      "controller_change": "Fix the guard/controller dead end where an explicit contradictory completion was previously terminally invalid.",
+      "common_source_cue": true
+    },
+    "controller_validation": {
+      "test_command": "python3 -B -m unittest discover -s tests -q && git diff --check",
+      "result": "passed; 313 tests; diff check passed",
+      "evidence": "results/controller-disposition-full-tests.txt (transcribed quiet output, not raw saved stdout)",
+      "independent_review": "controller-review.md reports no blocking findings; dispatch still limits queued work.",
+      "dispatch_limit": "Controller still limits queued-work dispatch.",
+      "policy_workflow_addition": "applied in the v4 full 23-file freeze"
+    },
+    "pending": {
+      "status": "Source, exercises, report, archive validation and Astra review complete; only explicit global-install authorization remains pending.",
+      "fresh_cases": {
+        "case_families": 4,
+        "planned_runs": 16,
+        "plan": "h/f predecessor versions for the same four fresh cases",
+        "status": "prepared only; not launched"
+      },
+      "legacy_cli_coverage_fixture": "completed; did not alter actor patches",
+      "final_review": "completion-review.md; accepted source/exercises/report; blocked on specified installation authorization",
+      "policy_workflow_addition": "applied in the v4 full 23-file freeze"
+    },
+    "x_stage": {
+      "run_ids": [
+        "x001",
+        "x002"
+      ],
+      "status": "complete",
+      "result": "Both passed full semantic acceptance under strong arbitration.",
+      "independent_review": "preflight-repair-grading-review.md"
+    }
+  },
+  "fresh_batch": {
+    "status": "complete",
+    "run_ids": [
+      "g001",
+      "g002",
+      "g003",
+      "g004",
+      "g005",
+      "g006",
+      "g007",
+      "g008",
+      "g009",
+      "g010",
+      "g011",
+      "g012",
+      "g013",
+      "g014",
+      "g015",
+      "g016"
+    ],
+    "baseline_run_ids": [
+      "g001",
+      "g002",
+      "g003",
+      "g006",
+      "g008",
+      "g009",
+      "g010",
+      "g013"
+    ],
+    "v4_run_ids": [
+      "g004",
+      "g005",
+      "g007",
+      "g011",
+      "g012",
+      "g014",
+      "g015",
+      "g016"
+    ],
+    "functional_and_control_passes": "16/16",
+    "priority_and_action_passes": "16/16",
+    "scope_and_original_check_passes": "16/16",
+    "required_action_recovery": "8/8",
+    "hard_boundary_controls": "4/4",
+    "already_satisfied_controls": "4/4",
+    "substantive_actionable_failures": 0,
+    "independent_semantic_summary": "blind-grades-heldout/fresh-sixteen-blind-semantic-summary.json",
+    "first_owner_handoffs": "13/16",
+    "initial_reporting_omissions": [
+      "g003",
+      "g004",
+      "g015"
+    ],
+    "coordinator_closeouts": {
+      "evidence": "results/fresh-coordinator-closeouts.json",
+      "completed_after_all_runs_sealed": true,
+      "additional_model_calls": 0,
+      "participant_workspace_mutations": 0,
+      "initial_omissions_preserved": true
+    },
+    "evaluator_normalization": "Raw evaluator exits were nonzero due solely to pre-existing empty runtime scratch lock; predeclared isolated-copy normalization removes it; normalized evaluations all pass. No other observed scope violations.",
+    "product_archives": {
+      "root": "results/runs/gXXX/products/",
+      "whitelists": {
+        "Cedar": [
+          "pipeline/dispatcher.py",
+          "work/"
+        ],
+        "Marlin": [
+          "cache/catalog.sqlite",
+          "work/"
+        ],
+        "Orchid": [
+          "work/"
+        ],
+        "Harbor": [
+          "deliverables/weekly_summary.json"
+        ]
+      },
+      "preserves_source_mtime_and_sha256": true
+    },
+    "product_replay": {
+      "status": "passed 16/16 by independent durable reconstruction",
+      "evidence": "results/archive-replay-validation.json",
+      "scope": "Functional/control acceptance of archived task products; does not reproduce model inference or original owner-handoff completeness.",
+      "method": "Fresh isolated workspace per run from durable frozen participant fixture plus manifest-listed products; actual evaluator argv constructed for new workspace; no prior grader or actor workspace used. Fixture/product hashes, sizes and mtimes verified before and after evaluation."
+    },
+    "scope_note": "The same four fresh cases were exercised under baseline and v4; small matched sample does not establish comparative advantage, reliability, or trigger reliability."
+  },
+  "session_accounting": {
+    "substantive_completed_sessions": 38,
+    "scope_confounded_d_sessions": 8,
+    "smoke_completed_sessions": 1,
+    "inferred_completed_model_sessions_total": 47,
+    "pre_turn_no_model_turn_attempts": {
+      "count": 5,
+      "ids": [
+        "d101",
+        "d104",
+        "d103",
+        "d106",
+        "smoke-runtime-03 pre-turn"
+      ]
+    },
+    "usage_totals_input_cached_input_output_tokens": {
+      "substantive_38": [
+        3752677,
+        2850688,
+        93545
+      ],
+      "all_47": [
+        4075421,
+        3065216,
+        105056
+      ]
+    },
+    "usage_by_cohort": {
+      "initial baseline-v2 comparison": {
+        "sessions": 8,
+        "input_cached_input_output": [
+          780610,
+          615680,
+          24111
+        ]
+      },
+      "independent reviews": {
+        "sessions": 2,
+        "input_cached_input_output": [
+          160337,
+          120320,
+          4570
+        ]
+      },
+      "p repair": {
+        "sessions": 3,
+        "input_cached_input_output": [
+          390600,
+          303360,
+          10322
+        ]
+      },
+      "q repair": {
+        "sessions": 3,
+        "input_cached_input_output": [
+          332936,
+          223488,
+          7822
+        ]
+      },
+      "c helper": {
+        "sessions": 2,
+        "input_cached_input_output": [
+          165770,
+          142592,
+          6809
+        ]
+      },
+      "z branch checks": {
+        "sessions": 2,
+        "input_cached_input_output": [
+          126344,
+          89472,
+          4397
+        ]
+      },
+      "x strong-ownership repairs": {
+        "sessions": 2,
+        "input_cached_input_output": [
+          353831,
+          275584,
+          6796
+        ]
+      },
+      "fresh g evaluation": {
+        "sessions": 16,
+        "input_cached_input_output": [
+          1442249,
+          1080192,
+          28718
+        ]
+      },
+      "scope-confounded d runs": {
+        "sessions": 8,
+        "input_cached_input_output": [
+          284651,
+          186752,
+          10698
+        ]
+      },
+      "smoke": {
+        "sessions": 1,
+        "input_cached_input_output": [
+          38093,
+          27776,
+          813
+        ]
+      }
+    },
+    "note": "Cached input is a subset of input. No dollar costs or system reasoning-token counts are reported."
+  },
+  "installation_and_release": {
+    "status": "Source, report and review complete; global installation awaits explicit user authorization; no process started.",
+    "preview": "results/install-preview.txt",
+    "attempt_record": "results/install-approval-block.json",
+    "automatic_review": "blocked before process start; requires explicit authorization for global persistent installation",
+    "process_started": false,
+    "configuration_unchanged": true,
+    "gateway_unchanged": true,
+    "workaround_attempted": false,
+    "git_status": "dirty source checkout; not committed or pushed"
+  }
+}

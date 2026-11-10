@@ -1,0 +1,179 @@
+{
+  "abba": {
+    "audit_status": "verified_performance_gate_rejected",
+    "busy_cores": {
+      "baseline": [
+        4.080602568121174,
+        4.151272765839631
+      ],
+      "candidate": [
+        5.773185455104259,
+        5.78240431032442
+      ]
+    },
+    "cold_complete_lifecycle_seconds": {
+      "baseline": [
+        41.33571728300012,
+        40.99019977499847
+      ],
+      "candidate": [
+        38.4367235719983,
+        38.38218521900126
+      ]
+    },
+    "cold_reduction_recomputed": 0.0668927655323821,
+    "hardware_threads": 12,
+    "matched_pair_ratios": [
+      0.9454547822379967,
+      0.9771815301752439
+    ],
+    "memory_bytes": 5368709120,
+    "qualification_resident_seconds": {
+      "baseline": [
+        18.887908185002743,
+        18.338964233975275
+      ],
+      "candidate": [
+        17.857663119983044,
+        17.92049713198503
+      ]
+    },
+    "qualification_status": "performance_gate_rejected",
+    "resident_reduction_recomputed": 0.03891576361035909,
+    "screen_service_seconds": {
+      "p2w12": 18.31569861799653,
+      "p2w18": 18.739833940009703,
+      "p2w24": 19.6127083300089,
+      "p3w18": 16.47539220600447,
+      "p6w24": 16.58444114100712
+    },
+    "screen_winner": "p3w18"
+  },
+  "c54_trace": {
+    "checkpoint": "c54e24698c69c79805b5aad86205abdd36d2ca7c",
+    "clock_interpretation": "SameLinuxhost commonmonotonicperf_counter acrossprocesses; threadCPUvalues are withinthread deltas, not scheduledCPUtraces.",
+    "input_samples": 1649627,
+    "max_numeric_difference": 0.0,
+    "phase_inclusive_elapsed_and_thread_cpu_seconds": {
+      "acquisition": {
+        "elapsed_sum_seconds": 0.3879,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.1253
+      },
+      "bank_preparation": {
+        "elapsed_sum_seconds": 3.0759,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.8888
+      },
+      "coarse": {
+        "elapsed_sum_seconds": 0.3725,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.1099
+      },
+      "complete_receive": {
+        "elapsed_sum_seconds": 24.742,
+        "events": 5,
+        "thread_cpu_sum_seconds": 15.0548
+      },
+      "decision": {
+        "elapsed_sum_seconds": 0.0032,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.0032
+      },
+      "fine_basis_dispatch": {
+        "elapsed_sum_seconds": 0.0148,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0005
+      },
+      "fine_basis_statistics": {
+        "elapsed_sum_seconds": 0.0419,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0276
+      },
+      "fine_cycle": {
+        "elapsed_sum_seconds": 0.0673,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0521
+      },
+      "fine_gaussian": {
+        "elapsed_sum_seconds": 0.0024,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0015
+      },
+      "fine_merge": {
+        "elapsed_sum_seconds": 0.0047,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0046
+      },
+      "fine_predict": {
+        "elapsed_sum_seconds": 0.0106,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0106
+      },
+      "fine_preparation": {
+        "elapsed_sum_seconds": 0.0133,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.0133
+      },
+      "fine_prepare": {
+        "elapsed_sum_seconds": 0.0034,
+        "events": 2,
+        "thread_cpu_sum_seconds": 0.0034
+      },
+      "fine_tracking": {
+        "elapsed_sum_seconds": 24.3224,
+        "events": 5,
+        "thread_cpu_sum_seconds": 14.8968
+      },
+      "input_assembly": {
+        "elapsed_sum_seconds": 0.0081,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.008
+      },
+      "input_transport": {
+        "elapsed_sum_seconds": 0.0294,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.016
+      },
+      "ordered_commit": {
+        "elapsed_sum_seconds": 0.0062,
+        "events": 5,
+        "thread_cpu_sum_seconds": 0.0023
+      },
+      "owner_startup": {
+        "elapsed_sum_seconds": 1.2101,
+        "events": 1,
+        "thread_cpu_sum_seconds": 0.0027
+      },
+      "parent_drain": {
+        "elapsed_sum_seconds": 13.0264,
+        "events": 1,
+        "thread_cpu_sum_seconds": 0.0191
+      },
+      "parent_ingress": {
+        "elapsed_sum_seconds": 5.8352,
+        "events": 101,
+        "thread_cpu_sum_seconds": 0.0773
+      },
+      "slot_score": {
+        "elapsed_sum_seconds": 27.8556,
+        "events": 5,
+        "thread_cpu_sum_seconds": 15.9746
+      }
+    },
+    "worker_allocations_by_job": [
+      12,
+      6,
+      6,
+      6,
+      6
+    ]
+  },
+  "gate": {
+    "both_matched_pairs_faster": true,
+    "cold_regression_within_5pct": true,
+    "disposition": "REJECT wider-controller adoption; retain two-owner default pending complete forecasts",
+    "resident_minimum": 0.15,
+    "resident_pass": false
+  }
+}

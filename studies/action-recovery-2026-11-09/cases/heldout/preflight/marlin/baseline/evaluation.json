@@ -1,0 +1,16 @@
+{
+  "case": "marlin",
+  "variant": "baseline",
+  "label": "evaluation",
+  "argv": [
+    "/usr/bin/python3",
+    "/tmp/action-recovery-heldout/marlin/private/evaluate.py",
+    "/tmp/action-recovery-heldout/preflight/marlin/baseline/participant"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.0968280480010435,
+  "stdout": "{\n  \"accepted\": false,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": false,\n      \"detail\": \"OperationalError('unable to open database file')\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": false,\n      \"detail\": \"FileNotFoundError(2, 'No such file or directory')\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": false,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 5,\n        \"stdout\": \"\",\n        \"stderr\": \"setUpClass (test_catalog.CatalogTests) ... ERROR\\n\\n======================================================================\\nERROR: setUpClass (test_catalog.CatalogTests)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \\\"/tmp/action-recovery-heldout/preflight/marlin/baseline/participant/tests/test_catalog.py\\\", line 13, in setUpClass\\n    cls.connection = open_index(ROOT / \\\"cache/catalog.sqlite\\\", ROOT / \\\"data/products.csv\\\")\\n                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/tmp/action-recovery-heldout/preflight/marlin/baseline/participant/catalog/store.py\\\", line 9, in open_index\\n    raise FileNotFoundError(\\\"catalog index is missing; see OPERATIONS.md\\\")\\nFileNotFoundError: catalog index is missing; see OPERATIONS.md\\n\\n----------------------------------------------------------------------\\nRan 0 tests in 0.001s\\n\\nFAILED (errors=1)\\n\"\n      }\n    }\n  ]\n}\n",
+  "stderr": ""
+}

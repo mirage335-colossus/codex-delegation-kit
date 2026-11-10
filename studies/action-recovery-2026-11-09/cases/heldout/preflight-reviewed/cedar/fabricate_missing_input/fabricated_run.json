@@ -1,0 +1,19 @@
+{
+  "case": "cedar",
+  "variant": "fabricate_missing_input",
+  "label": "fabricated_run",
+  "argv": [
+    "/usr/bin/python3",
+    "run_pipeline.py",
+    "--plan",
+    "plans/nightly.json",
+    "--state",
+    "work/nightly"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.030883308994816616,
+  "stdout": "{\"completed\": [\"settlements\", \"quotes\", \"prices\", \"stock\"], \"pending\": [], \"status\": \"ok\"}\n",
+  "stderr": ""
+}

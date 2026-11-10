@@ -1,0 +1,214 @@
+{
+  "actual_changes": [],
+  "actual_patch": "",
+  "actual_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "backend_result_sha256": "0c6b07c53862aa7b10524f04d0e99de69c1abb30bd9eaf2ee0e4bf87171085e0",
+  "collection_called": true,
+  "commands": [],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "detail": "model turn completed; acceptance requires controller validation",
+  "developer_instructions_sha256": "5580a49707bff8abba603bd9e7da4c293c217e370af5306b1a16b032a2ee0ede",
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d006/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d006/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d006/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d006/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d006/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d006/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "file_changes": [],
+  "observation": {
+    "command": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 349470,
+      "pid": 349470,
+      "ppid": 349469,
+      "session": 349470,
+      "start_ticks": 7925278,
+      "state": "R"
+    },
+    "descendants": [],
+    "detail": "command and descendants exited",
+    "finished_at": 1794287473.7436037,
+    "observed_at": 1794287473.7425878,
+    "operation_id": "d006",
+    "prepared_at": 1794287432.6343684,
+    "released": true,
+    "returncode": 0,
+    "runner": {
+      "boot_id": "08c8160a-69a8-4795-8df7-b871dfb1010f",
+      "pgid": 349469,
+      "pid": 349469,
+      "ppid": 349468,
+      "session": 349469,
+      "start_ticks": 7925273,
+      "state": "R"
+    },
+    "spec_sha256": "e4e61b377a53c49c5249b0a10de2c843b0119dd426fcd4a0cec51dd45ccaf779",
+    "started_at": 1794287432.6813312,
+    "state": "completed",
+    "version": 1
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d006/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d006/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d006/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d006/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "protected_file_hashes_after": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_file_hashes_before": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "protected_files_changed": [],
+  "protected_files_unchanged": true,
+  "request_sha256": "03580655e3f7e00545aa6f87243097d4442d531cf9461bc7209eb44c000a40a2",
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [],
+      "unexecuted": [
+        "Initial review by the pinned astra_initial role: unavailable; no such reviewer tool is exposed in this session. The workspace review gate requires this before substantive investigation or implementation, so TASK.md, workspace notes, and source remain unread."
+      ]
+    },
+    "commands": [],
+    "decisions": [
+      "Stopped before repository investigation because the required initial review could not be obtained."
+    ],
+    "remaining_acceptance_conditions": [
+      "Make the pinned astra_initial review available, then read TASK.md, workspace notes, and source; continue the objective within the supplied write scope and permitted acceptance commands."
+    ],
+    "status": "blocked"
+  },
+  "settings_verified": true,
+  "source_backend_sha256": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+  "source_repository": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/development/case2/participant",
+  "source_template_sha256_by_path": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "source_tree_sha256_by_path": {
+    "README.md": "047e7c496cc3b0d1041b95d5a8b80715f6451ecec105b1f8d4771e7366a34ff7",
+    "agent_backend.py": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+    "agents/astra_expert.toml": "3db324be3407d07c1359e1c9d85475498cb7eb6103eee3f84684ceaddadbdde2",
+    "agents/inherited_reviewer.toml": "ad24870ed68b25677832fbce202d2d08c17f81c1dac9206159b40c7e46729542",
+    "agents/inherited_worker.toml": "f68f4e2586fa169f2c5436d27422345eb9a38cd0c2c2394f438415e112944daa",
+    "agents/luna_worker.toml": "df7cd750f02bb6d96d56783e60ceeb6aba8c2c36d984fcb5b5b297f8f14bd0ad",
+    "agents/sol_expert.toml": "d2407348b71ebe2fd603381ef88e17e6d7ec1fd27ec65884d993de1874985abf",
+    "controller.py": "98c858eec8185fcfd8dd8447f899a073736acc9e4189a92132e14aab3da08da1",
+    "policy.md": "41e020052476b940c5aef6ec8ab0bc1263b3faf781e929eaff3fe39a96c8a932",
+    "supervisor.py": "f191c3a71cc77d2f23f824ab48374be5120ccf6cd25b70140bb79101cb77d129"
+  },
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9088,
+      "inputTokens": 10614,
+      "outputTokens": 371,
+      "reasoningOutputTokens": 233,
+      "totalTokens": 10985
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 24704,
+      "inputTokens": 28930,
+      "outputTokens": 520,
+      "reasoningOutputTokens": 270,
+      "totalTokens": 29450
+    }
+  },
+  "workspace_after_hashes": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "workspace_before_hashes": {
+    "CURRENT_NOTES.md": "ab0a8337c070f7fa00c0be203998ede6ebfd2a73121713ea09b3bf740ede6c5b",
+    "TASK.md": "1e0424b6640394544d1b73ba44205e35f8fb9504930087c534c57ca85dc6bbf7",
+    "data/vendor_feed.csv": "6eeb0520e095d0e77eccab93e6e1b80c9aa6f8afe459870089e2bb9e1a010d05",
+    "src/inventory_app.py": "26e24892921d8c86cb51c9abe41bfbdcc1a80b7974db25348be7a6c9c16094e4",
+    "tests/test_original.py": "5608b6b2d616135050c7674a22306632622c68b37c6efd0ed90d868c2f499baa"
+  },
+  "write_scope": [
+    "src",
+    "scratch"
+  ]
+}

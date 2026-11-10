@@ -1,0 +1,148 @@
+{
+  "backend_source_sha256": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+  "backend_timeout_seconds": 215.0,
+  "developer_instructions_sha256": "5d9d47fafb0bd92835a6001cfec397fa4c72e53428f22735046541d9075845df",
+  "launch_requested": false,
+  "operation_directory": "/tmp/action-recovery-runs/smoke-runtime-03/operation",
+  "owner_wall_limit_seconds": 240.0,
+  "policy": {
+    "agent_profile": "engineering",
+    "approval": "never",
+    "codex_binary": "/home/user/.local/bin/codex",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "nested_delegation": false,
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "prepared_execution_spec": {
+    "argv": [
+      "/usr/bin/python3",
+      "/tmp/action-recovery-runs/smoke-runtime-03/source-fixture/agent_backend.py",
+      "run",
+      "/tmp/action-recovery-runs/smoke-runtime-03/operation/backend-request.json"
+    ],
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "operation_id": "smoke-runtime-03",
+    "timeout_seconds": 225.0
+  },
+  "prompt_file": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/smoke-prompt.txt",
+  "prompt_sha256": "4bd8ab90b007b30bd4737fcda2eaf9076f34fa68d2f2763392fb48888d538a16",
+  "protected_file_hashes_before": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f"
+  },
+  "request_sha256": "5c75774c1310590d0454a6a18355a2fb8461e82c12eda54dcf1c445091f767c2",
+  "run_id": "smoke-runtime-03",
+  "source_fixture": "/tmp/action-recovery-runs/smoke-runtime-03/source-fixture",
+  "source_hashes": {
+    "README.md": "047e7c496cc3b0d1041b95d5a8b80715f6451ecec105b1f8d4771e7366a34ff7",
+    "agent_backend.py": "aa18e62d2dff4b5495bbe11369eae81b550faad87179200fce9c7f2f003cad3b",
+    "agents/astra_expert.toml": "3db324be3407d07c1359e1c9d85475498cb7eb6103eee3f84684ceaddadbdde2",
+    "agents/inherited_reviewer.toml": "ad24870ed68b25677832fbce202d2d08c17f81c1dac9206159b40c7e46729542",
+    "agents/inherited_worker.toml": "f68f4e2586fa169f2c5436d27422345eb9a38cd0c2c2394f438415e112944daa",
+    "agents/luna_worker.toml": "df7cd750f02bb6d96d56783e60ceeb6aba8c2c36d984fcb5b5b297f8f14bd0ad",
+    "agents/sol_expert.toml": "d2407348b71ebe2fd603381ef88e17e6d7ec1fd27ec65884d993de1874985abf",
+    "controller.py": "98c858eec8185fcfd8dd8447f899a073736acc9e4189a92132e14aab3da08da1",
+    "policy.md": "41e020052476b940c5aef6ec8ab0bc1263b3faf781e929eaff3fe39a96c8a932",
+    "supervisor.py": "f191c3a71cc77d2f23f824ab48374be5120ccf6cd25b70140bb79101cb77d129"
+  },
+  "source_version": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/versions/baseline",
+  "task": {
+    "allowed_commands": [
+      "python3 -B -m unittest -v test_answer.py"
+    ],
+    "cwd": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+    "id": "smoke-runtime-03",
+    "operation_id": "smoke-runtime-03",
+    "output_schema": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "additionalProperties": false,
+          "properties": {
+            "failed": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "passed": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "unexecuted": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "passed",
+            "failed",
+            "unexecuted"
+          ],
+          "type": "object"
+        },
+        "commands": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "decisions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "remaining_acceptance_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "needs_decision",
+            "blocked",
+            "budget_exhausted"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "commands",
+        "checks",
+        "decisions",
+        "remaining_acceptance_conditions"
+      ],
+      "type": "object"
+    },
+    "prompt": "In the private workspace, make the single authorized change needed so the\nexisting test passes. Edit only answer.py. Run exactly the permitted unittest\ncommand. Do not edit the test, add files, use other tools or commands, access\nthe network, or spawn agents. Report the actual command and result. Return one\nJSON object matching the required schema; preserve a hold if settings or a\npermission are unavailable.\n",
+    "resources": {
+      "cpu": 1,
+      "memory_mb": 256
+    },
+    "role": "owner",
+    "scratch_directory": "/tmp/action-recovery-runs/smoke-runtime-03/workspace/scratch",
+    "source_repository": "/tmp/action-recovery-runs/smoke-runtime-03/source-fixture",
+    "timeout_seconds": 215.0,
+    "write_scope": [
+      "answer.py",
+      "scratch"
+    ]
+  },
+  "task_file": "TASK.md",
+  "workspace": "/tmp/action-recovery-runs/smoke-runtime-03/workspace",
+  "workspace_before_hashes": {
+    "TASK.md": "9415afa938c8184370e826604e1ff740a0f049829fb3a3eebc1e2190a13aeb8f",
+    "answer.py": "bb90d2b315ed538549cd708303971dd03d30dd733928b845504fab3a42eeb914",
+    "test_answer.py": "1260b8b27ab48c486401b230bc78b96f7a9f50243ef8b59e4f11fb9affe8681b"
+  }
+}

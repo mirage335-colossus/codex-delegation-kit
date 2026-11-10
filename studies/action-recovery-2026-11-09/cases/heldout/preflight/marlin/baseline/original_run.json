@@ -1,0 +1,19 @@
+{
+  "case": "marlin",
+  "variant": "baseline",
+  "label": "original_run",
+  "argv": [
+    "/usr/bin/python3",
+    "app.py",
+    "--requests",
+    "data/requests.json",
+    "--output",
+    "work/matches.json"
+  ],
+  "returncode": 1,
+  "expected_success": false,
+  "matched_expectation": true,
+  "seconds": 0.042948395988787524,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/action-recovery-heldout/preflight/marlin/baseline/participant/app.py\", line 12, in <module>\n    connection = open_index(root / \"cache/catalog.sqlite\", root / \"data/products.csv\")\n  File \"/tmp/action-recovery-heldout/preflight/marlin/baseline/participant/catalog/store.py\", line 9, in open_index\n    raise FileNotFoundError(\"catalog index is missing; see OPERATIONS.md\")\nFileNotFoundError: catalog index is missing; see OPERATIONS.md\n"
+}

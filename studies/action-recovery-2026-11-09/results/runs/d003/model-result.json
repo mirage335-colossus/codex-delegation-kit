@@ -1,0 +1,160 @@
+{
+  "result": {
+    "checks": {
+      "failed": [],
+      "passed": [
+        "`python3 -B -m unittest discover -s tests` — 3 tests passed.",
+        "`python3 -B -m src.inventory_app data/vendor_feed.csv` — exited successfully; output: `{\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}`."
+      ],
+      "unexecuted": [
+        "Read TASK.md, workspace notes, and source: blocked because the permitted command scope contains only the two commands above, and no read-only file tool is available.",
+        "Pinned `astra_initial` review: unavailable; no matching reviewer tool is enabled."
+      ]
+    },
+    "commands": [
+      "python3 -B -m unittest discover -s tests",
+      "python3 -B -m src.inventory_app data/vendor_feed.csv"
+    ],
+    "decisions": [
+      "Did not inspect or modify files because the supplied command scope does not permit file-reading commands, and the task objective cannot be established without TASK.md.",
+      "No agent was spawned, consistent with the user's instruction."
+    ],
+    "remaining_acceptance_conditions": [
+      "The task objective and its substantive acceptance conditions remain unknown because TASK.md, workspace notes, and source could not be read under the supplied command scope."
+    ],
+    "status": "blocked"
+  },
+  "commands": [
+    {
+      "aggregatedOutput": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+      "command": "/bin/bash -lc 'python3 -B -m unittest discover -s tests'",
+      "completed": true,
+      "completed_at": 1794287423.514485,
+      "cwd": "/tmp/action-recovery-runs/d003/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-030d697c-7e17-45e4-b9b7-a16ea9e324f6",
+      "observed_at": 1794287423.5128171,
+      "output_truncated": false,
+      "processId": "72307",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    },
+    {
+      "aggregatedOutput": "{\"available\": {\"CLIP-2\": 0, \"R-14\": 3}, \"received_units\": 0}\n",
+      "command": "/bin/bash -lc 'python3 -B -m src.inventory_app data/vendor_feed.csv'",
+      "completed": true,
+      "completed_at": 1794287426.3127573,
+      "cwd": "/tmp/action-recovery-runs/d003/workspace",
+      "durationMs": 0,
+      "exitCode": 0,
+      "id": "exec-725882ab-ab05-4631-9afe-d86fa3f7e680",
+      "observed_at": 1794287426.311716,
+      "output_truncated": false,
+      "processId": "71884",
+      "source": "unifiedExecStartup",
+      "status": "completed"
+    }
+  ],
+  "configured": {
+    "agent_tools": "engineering",
+    "approval": "never",
+    "effort": "high",
+    "model": "gpt-6-luna",
+    "network": false,
+    "sandbox": "workspace-write",
+    "service_tier": "default"
+  },
+  "effective": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d003/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d003/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d003/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "requested_workspace": "/tmp/action-recovery-runs/d003/workspace",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d003/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default",
+    "settings_evidence": "app-server thread/start response; not provider-side per-token telemetry",
+    "tool_limit": "native shell/file tools use runtime sandbox; command guidance and file ownership are not OS allowlists; reads outside the workspace and per-command resource limits are not restricted by this protocol; owned descendants remain reserved until the process executor confirms release",
+    "turn_sandbox_policy": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": [
+        "/tmp/action-recovery-runs/d003/workspace"
+      ]
+    },
+    "workspace_evidence": "exact cwd confirmed; turn supplies explicit sandboxPolicy; no read isolation"
+  },
+  "observed_settings": {
+    "activePermissionProfile": null,
+    "approvalPolicy": "never",
+    "cwd": "/tmp/action-recovery-runs/d003/workspace",
+    "environments": [
+      {
+        "cwd": "/tmp/action-recovery-runs/d003/workspace",
+        "environmentId": "local",
+        "runtimeWorkspaceRoots": [
+          "/tmp/action-recovery-runs/d003/workspace"
+        ]
+      }
+    ],
+    "model": "gpt-6-luna",
+    "modelProvider": "openai",
+    "reasoningEffort": "high",
+    "runtimeWorkspaceRoots": [
+      "/tmp/action-recovery-runs/d003/workspace"
+    ],
+    "sandbox": {
+      "excludeSlashTmp": true,
+      "excludeTmpdirEnvVar": true,
+      "networkAccess": false,
+      "type": "workspaceWrite",
+      "writableRoots": []
+    },
+    "serviceTier": "default"
+  },
+  "settings_verified": true,
+  "status": "completed",
+  "termination_kind": "completed",
+  "usage": {
+    "last": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 9344,
+      "inputTokens": 11152,
+      "outputTokens": 655,
+      "reasoningOutputTokens": 398,
+      "totalTokens": 11807
+    },
+    "modelContextWindow": 258400,
+    "total": {
+      "cacheWriteInputTokens": 0,
+      "cachedInputTokens": 28928,
+      "inputTokens": 51495,
+      "outputTokens": 1499,
+      "reasoningOutputTokens": 945,
+      "totalTokens": 52994
+    }
+  },
+  "file_changes": []
+}

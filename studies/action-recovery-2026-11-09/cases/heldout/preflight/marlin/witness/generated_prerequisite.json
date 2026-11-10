@@ -1,0 +1,19 @@
+{
+  "case": "marlin",
+  "variant": "witness",
+  "label": "generated_prerequisite",
+  "argv": [
+    "/usr/bin/python3",
+    "tools/build_index.py",
+    "--source",
+    "data/products.csv",
+    "--output",
+    "cache/catalog.sqlite"
+  ],
+  "returncode": 0,
+  "expected_success": true,
+  "matched_expectation": true,
+  "seconds": 0.034121499993489124,
+  "stdout": "catalog index ready: cache/catalog.sqlite\n",
+  "stderr": ""
+}

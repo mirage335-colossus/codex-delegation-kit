@@ -1,0 +1,116 @@
+{
+  "run_id": "d103",
+  "archived_at": "2026-11-10T05:25:30.255399+00:00",
+  "source_artifacts": {
+    "run_metadata": {
+      "path": "/tmp/action-recovery-runs/d103/run.json",
+      "sha256": "bfc13676212debe072d83b78c49d8139c05e53aa4a2a0e9b11d03ab44807afe4",
+      "bytes": 8992
+    },
+    "backend_request": {
+      "path": "/tmp/action-recovery-runs/d103/operation/backend-request.json",
+      "sha256": "235bf5c97342dc16d4a8163792d4800f9b6a53e198427bf5a13c38726d8701ad",
+      "bytes": 3947
+    },
+    "backend_result": {
+      "path": "/tmp/action-recovery-runs/d103/operation/backend-result.json",
+      "sha256": "a1321e23c75d6d654611d3973156e0815e899f14fbedcbe143f3309294ccc234",
+      "bytes": 553
+    },
+    "collection": {
+      "path": "/tmp/action-recovery-runs/d103/operation/collection.json",
+      "sha256": "9e88a9891787d87b3e4fd381e4aa737a1d1d5c835251d8538b5a4e3fb194e7d5",
+      "bytes": 6570
+    },
+    "developer_instructions": {
+      "path": "/tmp/action-recovery-runs/d103/operation/developer-instructions.txt",
+      "sha256": "3ed1d25f9ad59050e3b606d5417cffdcdd0ac3d1a34a4cd1693e78670e7a0b3d",
+      "bytes": 6112
+    },
+    "release_receipt": {
+      "path": "/tmp/action-recovery-runs/d103/operation/receipt.json",
+      "sha256": "ff9f97990be94bf2f7be38f2c415e3b825385e93308ea4bfe4ba22ea1bffe8b8",
+      "bytes": 716
+    }
+  },
+  "source_version_snapshot_hashes": [
+    {
+      "path": "README.md",
+      "sha256": "044e83508f2073ac480bf18332e00b219f5e7cdaf106c7fd5b2f48da642ab86e"
+    },
+    {
+      "path": "agent_backend.py",
+      "sha256": "71a084f9dc7dfca5ed4dc3ee7abdb03c8927ee0400dbf2bfdecae6a3267a2187"
+    },
+    {
+      "path": "agents/astra_expert.toml",
+      "sha256": "fe671ded150b3e058f64c8a3d044ef7592952e8e29504decd38fd1410cf40aa9"
+    },
+    {
+      "path": "agents/inherited_reviewer.toml",
+      "sha256": "71a76f117a94bd6e1a62177ef9d1ab9db74d765be326cd5551fe5700196e1169"
+    },
+    {
+      "path": "agents/inherited_worker.toml",
+      "sha256": "13202b2f8272ac3e9e79a26342bf569d6ad3799fc6b091a5c629c7fc3f08a0d8"
+    },
+    {
+      "path": "agents/luna_worker.toml",
+      "sha256": "5cb5701880a1dde213e44115028533134911ff649ffb55429751e18c6b3131ab"
+    },
+    {
+      "path": "agents/sol_expert.toml",
+      "sha256": "b6e1e20f35d3dabf5172cb97640e76890631d1ef811c39580ce264839b467f5f"
+    },
+    {
+      "path": "controller.py",
+      "sha256": "d8129601c89c1aabb1d7bc2b0c6810be28444af3438b9d10d3288d3c8664dbf3"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "796f3e1bc5222e3d9c56717701a044594afd12b245929785675de731b50694e4"
+    },
+    {
+      "path": "policy.md",
+      "sha256": "543234c9a7ee7868dd84163a4f9d8b504587f1a08ebc6b4623f9500aa8f0c03a"
+    },
+    {
+      "path": "supervisor.py",
+      "sha256": "7fc141ec1e3fc60eece116b5ac587526438eeb67ceff893efd6e82aec753ed7d"
+    }
+  ],
+  "archived_files": {
+    "run-metadata.json": {
+      "sha256": "66635eaf17778ddc4a44e46d3efe18a794d4ca71170fcdc0f54da0be2a6bf249",
+      "bytes": 8867
+    },
+    "request.json": {
+      "sha256": "28cbd9b7c1b6077743520793617225d6f9cb1f020a21fcf6ad54b984b23880e9",
+      "bytes": 2914
+    },
+    "developer-instructions.txt": {
+      "sha256": "3ed1d25f9ad59050e3b606d5417cffdcdd0ac3d1a34a4cd1693e78670e7a0b3d",
+      "bytes": 6112
+    },
+    "model-result.json": {
+      "sha256": "91fc7df5de658f575349dc411abd3ca5619095f111a2a0ce91359ac9dfad5444",
+      "bytes": 422
+    },
+    "collection.json": {
+      "sha256": "1c4a3e9c5445d98959a9355f5467b56b11dc2cc4a686d0b0859fe1b8ac7493fd",
+      "bytes": 5609
+    },
+    "release-receipt.json": {
+      "sha256": "fba833fd473450e3b82b5a935bb9bee71e84385370d2321665c79ce38102a2ad",
+      "bytes": 810
+    }
+  },
+  "omitted": [
+    "raw app-server event logs and embedded backend event history",
+    "runtime-state databases and sidecars",
+    "workspace/source fixtures (source version snapshots are already in the study)",
+    "raw process stdout/stderr artifacts and collection base64 stdout/stderr",
+    "environment values, binary paths, and unselected backend request fields"
+  ],
+  "secret_screen": "No high-confidence secret pattern or populated sensitive request key was found in inspected source artifacts."
+}

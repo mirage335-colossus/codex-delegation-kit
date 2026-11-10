@@ -87,6 +87,12 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [historical objective-recovery study](studies/objective-recovery-2026-11-09/README.md)
+reproduces a decision error on an actual pre-intervention checkpoint: a failed
+experimental gate was promoted into a governing user requirement. It records
+failed parallel and prompt treatments, a separately amended corrective test,
+and the limited evidence for the source/scope clarification in delivered guidance.
+
 The [parallel recovery exercises](studies/parallel-recovery-2026-11-09/README.md)
 compare the uninstalled performance proposal with a general recovery cue on
 executable tasks. They retain frozen inputs, actual patches, protected-file

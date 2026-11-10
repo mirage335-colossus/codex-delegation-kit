@@ -564,6 +564,17 @@ consequential gap is outside a delegated assignment, give the engineering owner
 the evidence, consequence and next feasible step, and continue independent work
 in scope.
 
+For consequential acceptance or stopping criteria, identify their source and
+scope: explicit user requirements, applicable project or assignment contracts,
+correctness/resource/authorization limits, or experimental choices and
+heuristics. If the source is unknown, say so; a gate's label does not establish
+user authority. Preserve a predeclared experiment's failure, but do not promote
+an agent-chosen experimental gate into a user requirement or use it alone to
+discard useful progress the user expressly values. Missing implementation or
+provenance can block deployment without proving the approach lacks value.
+Independent review must challenge the criterion's source and scope as well as
+whether its measurement passed.
+
 ## Strategic brainstorming and human input
 
 At the start of a feature request involving substantial computation, signal
@@ -634,6 +645,21 @@ to the required constraints remains; obtain the bounded strategic decision and
 continue other useful work. Required work stays outstanding if deferred. Evidence
 justifies redirection; model agreement alone does not. Preserve original failures,
 budgets, repair allowances, ownership and acceptance criteria.
+
+Before carrying an inherited disposition forward when a consequential user
+outcome is unmet or unverified, reconstruct the best next action from the original
+request, applicable constraints and current observations, and identify the
+decision or assumption keeping the gap open. If an available authorized check or
+small change could overturn that decision or directly advance the outcome, do it
+now and inspect the result before accepting the disposition. Repeating a settled
+check or listing a future action does not resolve the gap. When a real
+prerequisite, hard limit, permission or deadline prevents the action, name that
+dependency and continue independent permitted work. If the outcome and required
+checks are supported, finish without further investigation. This applies within
+each role's scope:
+reviewers may run authorized discriminators but do not edit the patch, and a
+read-only/no-execution assignment routes the action with its precise prerequisite
+without executing it.
 
 ## Astra strategic review
 
@@ -772,6 +798,7 @@ while a real prerequisite is pending.
 Give the reviewer the original request and later corrections, intended observable
 outcome and acceptance criteria, relevant constraints and authorization limits,
 case-specific hard requirements versus adjustable choices and assumptions,
+including source and scope of consequential acceptance or stopping criteria,
 source/base identity and dirty scope, focused source/diff locations, actual checks
 and original failures, omitted or deferred coverage and why, tried approaches,
 remaining uncertainty, and the proposed stopping reason. Include available
@@ -794,7 +821,9 @@ The review must challenge whether the task has been adequately completed:
   limitation, uncertainty, suggested next step or claimed scope/authorization
   boundary genuinely justifies returning control, or whether the main chat can
   still act within the request. Check the actual instructions and inexpensive
-  ways to resolve uncertainty; documenting a problem is not resolving it.
+  ways to resolve uncertainty; reconstruct and take the best feasible authorized
+  next action when it can resolve or advance the gap. Documenting or merely
+  suggesting that action is not resolving it.
 - Search relevant existing code, adjacent components, abstractions, callers, tests
   and documentation for overlooked solutions. State inspected scope and meaningful
   gaps; this is a focused investigation, not a compulsory whole-repository audit.
@@ -1003,6 +1032,12 @@ Cloud resources may run those minimal checks. Larger integration, regression,
 platform/toolchain, or performance checks remain appropriate when the task's
 validation or environment requirements justify them. A broad audit or full build
 is not a substitute for focused diagnosis.
+
+When correcting a reported failure, trace it to the underlying decision rule
+and reconstruct the affected contract from the task and source. A patch that
+fixes only the reported sample is not validated; check a materially different
+counterexample when one is available, while preserving other behavior required
+by the contract.
 
 When the user selects aggressive parallel maintenance, or the task makes that
 strategy useful, dispatch ready independent application-correctness questions
@@ -1226,6 +1261,25 @@ At reassessment, the responsible strong owner uses this method:
    Diagnostic variants do not count as qualification. Preserve required
    assertions, deadlines and correctness coverage.
 
+At an existing reassessment or strong-owner escalation, apply this workflow if a
+bounded repair still violates the affected contract or local progress leaves the
+requested outcome unaddressed. The coordinator may dispatch a fresh/context-
+limited independent branch when it could add information (for example,
+`fork_turns="none"` when available), with the original task, stable source/revision
+and input provenance, constraints, observations, and relevant initial-review,
+model-authorization and scope facts—but without the candidate fix or
+recommendation. Have the branch record the affected contract and checks in
+existing assignment history before revealing the candidate; then have it
+reconcile differences and execute an authorized discriminator for a consequential
+discrepancy. Current-implementation analysis and integration review may proceed
+concurrently. The strong owner resolves any helper/test assumptions against the
+user contract (tests do not create acceptance gates), acts under the existing
+responsibility, and rechecks the original failure plus affected requested
+behavior. Use distinct branches only when they add information; retain the
+existing assignment, ownership, repair, budget, deadline, permission and model
+limits. This workflow requires no separate bookkeeping registry or new
+controller feature.
+
 If repeated waves remain uninformative, change method: use a faithful
 reproducer, first-divergence capture, accounting reconciliation, a more
 discriminating measurement or independent review of assumptions. Explain the
@@ -1312,8 +1366,11 @@ measurement. The estimate is a hypothesis, not a required gain or rigid eligibil
 threshold. Preserve inputs, computational coverage and correctness in matched
 comparisons; hosted-runner gains do not imply identical end-user gains. Judge
 demonstrated improvement, practical margin and evidence for further gains.
-Continue supported improvements through normal review/validation; stop at
-diminishing returns, sufficient practical margin or speculative further gains.
+Continue supported improvements through normal review/validation. As optional
+branch guidance, stop this hosted-CI optimization branch at diminishing returns,
+sufficient practical margin or speculative further gains, subject to the user's
+priorities; this heuristic alone does not establish that the parent objective is
+sufficiently served.
 Count relevant work already performed; do not stack or restart windows for nearby
 ideas, helpers or configurations, or reset assignment history or repair limits.
 
@@ -1491,7 +1548,9 @@ repair only when there is new evidence. Otherwise assign strong engineering
 responsibility, keeping settings within the established boundary.
 After that repair, another acceptance failure, budget exhaustion, or substantive
 independent-review rejection requires strong engineering responsibility,
-including when worker checks passed.
+including when worker checks passed. For a repeated contract failure or local
+progress that misses the requested outcome, use the existing diagnostic
+reassessment workflow above when an independent branch can add information.
 After strong completion, in the selected helper workflow downstream guidance
 advises the coordinator to consider any genuinely separable next task for a
 permitted worker responsibility. In native-only mode, the strong owner reports

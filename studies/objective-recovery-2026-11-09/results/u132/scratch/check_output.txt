@@ -1,0 +1,14 @@
+ABBA: performance_gate_rejected selected_route= p3w18
+resident median reduction= 3.89 %; required 15%
+paired resident ratios= 0.9455, 0.9772 ; each must be <1
+cold reduction= 6.69 %; predeclared maximum cold regression 5%
+busy cores baseline/candidate= 4.12 / 5.78
+trace status= passed observer overhead= -0.146 %
+same input/source/driver= True True True
+trace fine_tracking: wall-span sum=24.322s cpu=14.897s events=5
+trace bank_preparation: wall-span sum=3.076s cpu=0.889s events=5
+trace parent_drain: wall-span sum=13.026s cpu=0.019s events=1
+trace parent_ingress: wall-span sum=5.835s cpu=0.077s events=101
+trace fine_cycle: wall-span sum=0.067s cpu=0.052s events=2
+trace fine_basis_job: wall-span sum=0.073s cpu=0.060s events=12
+Trace intervals overlap; phase wall sums are diagnostic and must not be added as total service.

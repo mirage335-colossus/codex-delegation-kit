@@ -1,0 +1,6 @@
+Session-audit execution history
+
+- Initial post-implementation audit attempt failed before writing a result: KeyError: 'requested_model' in requested_settings() because the extractor indexed optional session_meta fields without checking key presence. Corrected the optional-field lookup; the audit then ran.
+- The first completed audit wrote empty tool outputs because participant logs encode output text blocks as type `input_text`; string extraction initially omitted that block type. Added `input_text` support. No participant command assertions were run by this audit itself.
+- The corrected first-phase snapshot is preserved at first-phase-session-audit-fixed.json; the pre-output-fix snapshot is preserved under audit-before-output-fix/.
+- The final audit filters out sessions without an assistant final-answer record and includes the sealed 12 participants.

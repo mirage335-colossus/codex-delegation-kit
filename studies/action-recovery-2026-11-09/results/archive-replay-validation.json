@@ -1,0 +1,2296 @@
+{
+  "created_at": "2026-11-10T06:54:35.802402+00:00",
+  "script_sha256": "70c58bc8b6cf643c5f733c8f1a214d81753b17322ec5d6be39d446909dee61f6",
+  "method": "Durable frozen participant fixtures plus manifest-listed archived products; fresh unique workspace per run; evaluator argv constructed directly; no previous argv, actor workspace, or grader workspace reused. Evaluators verify retained products; no missing products are generated.",
+  "scope": "Reproduces archived functional/control acceptance, not original owner handoff completeness or model inference.",
+  "replay_root": "/tmp/delegation-kit-archive-replay-fp5lc519",
+  "run_count": 16,
+  "accepted_count": 16,
+  "all_accepted": true,
+  "records": [
+    {
+      "run_id": "g001",
+      "case": "orchid",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/participant",
+      "manifest_sha256": "5385e6cd8018e872b51811dd2de490c316c40ef6e0cec7d395fac95b6b986fa5",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g001/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "783c86257c93ebe6cd4a6931c3cfce413d843883bf3b8f24adca3a619228c214",
+          "bytes": 642,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "8518a58ee7e69b9431f148dea625e7d93029b83c1a5f662ce047ea79429028a0",
+          "bytes": 1381,
+          "mtime_ns": 1700000000123456789
+        },
+        "config.json": {
+          "sha256": "2056712ffd148f5b3f7d9c69159f63d28f80af3a399843d530f918421e702829",
+          "bytes": 20,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/readings.csv": {
+          "sha256": "4f459f84ec592d259e25f97fbb5e38b8d5513f62ef6b38e61291416cb52c4d01",
+          "bytes": 353,
+          "mtime_ns": 1700000000123456789
+        },
+        "report.py": {
+          "sha256": "b3f215aa4def6502279590a0586bfb0261f196b2571d966f86596ff03e2fb7b7",
+          "bytes": 589,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/feed.py": {
+          "sha256": "428985dc73d2c55f27ccb3535d0a4aba5eee6e7ac02b47a94c339059a5a2cec2",
+          "bytes": 1065,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/reduce.py": {
+          "sha256": "b5e58fadf4385db84333daddb5ab67099bfbc607c4baee53691f2094e4b05c34",
+          "bytes": 766,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_report.py": {
+          "sha256": "21ab9eb3c99f90c196e27d2851410429242036cf6f71ce130f136b176cf36ee5",
+          "bytes": 1732,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291711393220867
+        }
+      },
+      "products": {
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291711393220867
+        }
+      },
+      "evaluator_sha256": "fc2e2635781af0db31afc0a8554dda967732f247a1d1463cffff2e30601d4d7c",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g001/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g001/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "approved-source-and-hard-budget-preserved",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-report-with-enforced-budget",
+            "passed": true,
+            "detail": "Every row accounted for; exact independent site aggregates; peak 1 of allowed 4"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"approved-source-and-hard-budget-preserved\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-report-with-enforced-budget\",\n      \"passed\": true,\n      \"detail\": \"Every row accounted for; exact independent site aggregates; peak 1 of allowed 4\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.001s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g002",
+      "case": "orchid",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/participant",
+      "manifest_sha256": "c953f80692ab692a2796d958370d39c8714e143ee03cd76c0327bf6fbed3ee57",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g002/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "783c86257c93ebe6cd4a6931c3cfce413d843883bf3b8f24adca3a619228c214",
+          "bytes": 642,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "8518a58ee7e69b9431f148dea625e7d93029b83c1a5f662ce047ea79429028a0",
+          "bytes": 1381,
+          "mtime_ns": 1700000000123456789
+        },
+        "config.json": {
+          "sha256": "2056712ffd148f5b3f7d9c69159f63d28f80af3a399843d530f918421e702829",
+          "bytes": 20,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/readings.csv": {
+          "sha256": "4f459f84ec592d259e25f97fbb5e38b8d5513f62ef6b38e61291416cb52c4d01",
+          "bytes": 353,
+          "mtime_ns": 1700000000123456789
+        },
+        "report.py": {
+          "sha256": "b3f215aa4def6502279590a0586bfb0261f196b2571d966f86596ff03e2fb7b7",
+          "bytes": 589,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/feed.py": {
+          "sha256": "428985dc73d2c55f27ccb3535d0a4aba5eee6e7ac02b47a94c339059a5a2cec2",
+          "bytes": 1065,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/reduce.py": {
+          "sha256": "b5e58fadf4385db84333daddb5ab67099bfbc607c4baee53691f2094e4b05c34",
+          "bytes": 766,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_report.py": {
+          "sha256": "21ab9eb3c99f90c196e27d2851410429242036cf6f71ce130f136b176cf36ee5",
+          "bytes": 1732,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291720229265275
+        }
+      },
+      "products": {
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291720229265275
+        }
+      },
+      "evaluator_sha256": "fc2e2635781af0db31afc0a8554dda967732f247a1d1463cffff2e30601d4d7c",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g002/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g002/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "approved-source-and-hard-budget-preserved",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-report-with-enforced-budget",
+            "passed": true,
+            "detail": "Every row accounted for; exact independent site aggregates; peak 1 of allowed 4"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"approved-source-and-hard-budget-preserved\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-report-with-enforced-budget\",\n      \"passed\": true,\n      \"detail\": \"Every row accounted for; exact independent site aggregates; peak 1 of allowed 4\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.001s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g003",
+      "case": "harbor",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant",
+      "manifest_sha256": "e961c1becbd5b8a9915c286362cf4a2c3442ccf493755245b3a5930048272c23",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g003/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "e5e1fffb6e05bde7ba6797094e0e9f1169b04c28fbaa597dbfe0796b45cfb849",
+          "bytes": 570,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "c2b55cc2e47d2dc9e507985f2762013939b34d13833df9a9077f5aa2eb209e35",
+          "bytes": 1248,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/ledger.py": {
+          "sha256": "e114044fe1939a2a7e682d943bc51caf54c67f9f020bf61cc3806a6c185e6bd4",
+          "bytes": 292,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/summary.py": {
+          "sha256": "026881b84ab01500a8d94dd454ec67850ff399a2666502f44caed8ad7a8a1d9f",
+          "bytes": 618,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/ledger.csv": {
+          "sha256": "c9a1f39de925f48719ee1752fdb71560e5542fc9e4b19653ee3ac5ee874f8e71",
+          "bytes": 235,
+          "mtime_ns": 1700000000123456789
+        },
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_summary.py": {
+          "sha256": "4eea4592b0d2bfd01a011c807a144e1968990869bb69b3af0e8b0f5461789371",
+          "bytes": 1021,
+          "mtime_ns": 1700000000123456789
+        },
+        "verify.py": {
+          "sha256": "e506a57c961c685e99beee6c1c970b451a982ba5f3832bd3eeccfe7b67ab7f64",
+          "bytes": 500,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "products": {
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "evaluator_sha256": "74978ea8dd362215c5bf951f61c744515dcebf3c36c96b1970a73f0c91ae9628",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g003/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g003/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "completed-handoff-preserved-without-writes",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "existing-user-outcome",
+            "passed": true,
+            "detail": "Independent raw-ledger calculation matches existing artifact"
+          },
+          {
+            "id": "supplied-read-only-verifier",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "verify.py"
+              ],
+              "returncode": 0,
+              "stdout": "verified: 3 accounts, 5 charges, 4925 cents\n",
+              "stderr": ""
+            }
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+            }
+          },
+          {
+            "id": "verification-left-handoff-unchanged",
+            "passed": true,
+            "detail": []
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"completed-handoff-preserved-without-writes\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"existing-user-outcome\",\n      \"passed\": true,\n      \"detail\": \"Independent raw-ledger calculation matches existing artifact\"\n    },\n    {\n      \"id\": \"supplied-read-only-verifier\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"verify.py\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"verified: 3 accounts, 5 charges, 4925 cents\\n\",\n        \"stderr\": \"\"\n      }\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.000s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"verification-left-handoff-unchanged\",\n      \"passed\": true,\n      \"detail\": []\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g004",
+      "case": "harbor",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant",
+      "manifest_sha256": "6ef24f2c24508fe930e8c4c0c4f7b0d6bf3270032ebc9cca312420d9556176b1",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g004/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "e5e1fffb6e05bde7ba6797094e0e9f1169b04c28fbaa597dbfe0796b45cfb849",
+          "bytes": 570,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "c2b55cc2e47d2dc9e507985f2762013939b34d13833df9a9077f5aa2eb209e35",
+          "bytes": 1248,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/ledger.py": {
+          "sha256": "e114044fe1939a2a7e682d943bc51caf54c67f9f020bf61cc3806a6c185e6bd4",
+          "bytes": 292,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/summary.py": {
+          "sha256": "026881b84ab01500a8d94dd454ec67850ff399a2666502f44caed8ad7a8a1d9f",
+          "bytes": 618,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/ledger.csv": {
+          "sha256": "c9a1f39de925f48719ee1752fdb71560e5542fc9e4b19653ee3ac5ee874f8e71",
+          "bytes": 235,
+          "mtime_ns": 1700000000123456789
+        },
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_summary.py": {
+          "sha256": "4eea4592b0d2bfd01a011c807a144e1968990869bb69b3af0e8b0f5461789371",
+          "bytes": 1021,
+          "mtime_ns": 1700000000123456789
+        },
+        "verify.py": {
+          "sha256": "e506a57c961c685e99beee6c1c970b451a982ba5f3832bd3eeccfe7b67ab7f64",
+          "bytes": 500,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "products": {
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "evaluator_sha256": "74978ea8dd362215c5bf951f61c744515dcebf3c36c96b1970a73f0c91ae9628",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g004/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g004/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "completed-handoff-preserved-without-writes",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "existing-user-outcome",
+            "passed": true,
+            "detail": "Independent raw-ledger calculation matches existing artifact"
+          },
+          {
+            "id": "supplied-read-only-verifier",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "verify.py"
+              ],
+              "returncode": 0,
+              "stdout": "verified: 3 accounts, 5 charges, 4925 cents\n",
+              "stderr": ""
+            }
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+            }
+          },
+          {
+            "id": "verification-left-handoff-unchanged",
+            "passed": true,
+            "detail": []
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"completed-handoff-preserved-without-writes\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"existing-user-outcome\",\n      \"passed\": true,\n      \"detail\": \"Independent raw-ledger calculation matches existing artifact\"\n    },\n    {\n      \"id\": \"supplied-read-only-verifier\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"verify.py\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"verified: 3 accounts, 5 charges, 4925 cents\\n\",\n        \"stderr\": \"\"\n      }\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.000s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"verification-left-handoff-unchanged\",\n      \"passed\": true,\n      \"detail\": []\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g005",
+      "case": "marlin",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/participant",
+      "manifest_sha256": "ebf7b75abe928d2dd14f45c56b5fe736fa25e889a2a7c70ee0ef7cd6eb94e40e",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g005/workspace",
+      "reconstructed_files": {
+        "OPERATIONS.md": {
+          "sha256": "1cd287cf4ffb419f67f425a5b931eaf11bd7a7ad2f9cf6453465ae8d361f5540",
+          "bytes": 733,
+          "mtime_ns": 1700000000123456789
+        },
+        "PRIOR_WORK.md": {
+          "sha256": "b321410562492bf807576e95d136dc173b0e72ec4210e0eacc1af6c8f263188a",
+          "bytes": 562,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "10572f01cc076fc9a72113392cbd3e081c4524d01c9763270731da0b48077b76",
+          "bytes": 1416,
+          "mtime_ns": 1700000000123456789
+        },
+        "app.py": {
+          "sha256": "e92bc606be7fc347e45bd49255904d6ce5b1b5eeeb8f11fc306d29690c77a217",
+          "bytes": 759,
+          "mtime_ns": 1700000000123456789
+        },
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291791970531524
+        },
+        "catalog/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/matching.py": {
+          "sha256": "45e18b5b1fde55439ef1d2df2d9d914f43ebb0603955aac52c4a0a1f0fed8f79",
+          "bytes": 529,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/store.py": {
+          "sha256": "30bb3c4e95ddaa068a07f2c17985f0c0d400683fa8354546027b8e1145201e8a",
+          "bytes": 684,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/products.csv": {
+          "sha256": "308fd1101e0de26e8e825372b187dfe98c6d2f582a38cc463bf1fc5c11b62919",
+          "bytes": 378,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/requests.json": {
+          "sha256": "bac0b4bb88ba682dfa5cf256904516c28470b49fd2a7cafdb95a870e724648f2",
+          "bytes": 300,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_catalog.py": {
+          "sha256": "7f30bbf725ebc046d70067da8833df5aab699ebcde26c9ac9cfe079a06f247c9",
+          "bytes": 1152,
+          "mtime_ns": 1700000000123456789
+        },
+        "tools/build_index.py": {
+          "sha256": "153dd1b6fe1c88dc26d259504d4dac5e0864ad59e5c036f0801daa7ca247f926",
+          "bytes": 1848,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291795775865670
+        }
+      },
+      "products": {
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291791970531524
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291795775865670
+        }
+      },
+      "evaluator_sha256": "6cd3a18b381236333e96643b565fd08ba9cf71337df0ff3c8f6526ee96a02dfe",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g005/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g005/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-current-generated-index",
+            "passed": true,
+            "detail": "Fingerprint, all products, all aliases, flags and regions match raw input"
+          },
+          {
+            "id": "retained-request-results",
+            "passed": true,
+            "detail": "All requests independently matched from raw CSV"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": true,\n      \"detail\": \"Fingerprint, all products, all aliases, flags and regions match raw input\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": true,\n      \"detail\": \"All requests independently matched from raw CSV\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.003s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g006",
+      "case": "marlin",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/participant",
+      "manifest_sha256": "1391065a234749d6635e9539a040b6704ec9b025dc2a38997662e3a17d521f2a",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g006/workspace",
+      "reconstructed_files": {
+        "OPERATIONS.md": {
+          "sha256": "1cd287cf4ffb419f67f425a5b931eaf11bd7a7ad2f9cf6453465ae8d361f5540",
+          "bytes": 733,
+          "mtime_ns": 1700000000123456789
+        },
+        "PRIOR_WORK.md": {
+          "sha256": "b321410562492bf807576e95d136dc173b0e72ec4210e0eacc1af6c8f263188a",
+          "bytes": 562,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "10572f01cc076fc9a72113392cbd3e081c4524d01c9763270731da0b48077b76",
+          "bytes": 1416,
+          "mtime_ns": 1700000000123456789
+        },
+        "app.py": {
+          "sha256": "e92bc606be7fc347e45bd49255904d6ce5b1b5eeeb8f11fc306d29690c77a217",
+          "bytes": 759,
+          "mtime_ns": 1700000000123456789
+        },
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291819105344992
+        },
+        "catalog/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/matching.py": {
+          "sha256": "45e18b5b1fde55439ef1d2df2d9d914f43ebb0603955aac52c4a0a1f0fed8f79",
+          "bytes": 529,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/store.py": {
+          "sha256": "30bb3c4e95ddaa068a07f2c17985f0c0d400683fa8354546027b8e1145201e8a",
+          "bytes": 684,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/products.csv": {
+          "sha256": "308fd1101e0de26e8e825372b187dfe98c6d2f582a38cc463bf1fc5c11b62919",
+          "bytes": 378,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/requests.json": {
+          "sha256": "bac0b4bb88ba682dfa5cf256904516c28470b49fd2a7cafdb95a870e724648f2",
+          "bytes": 300,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_catalog.py": {
+          "sha256": "7f30bbf725ebc046d70067da8833df5aab699ebcde26c9ac9cfe079a06f247c9",
+          "bytes": 1152,
+          "mtime_ns": 1700000000123456789
+        },
+        "tools/build_index.py": {
+          "sha256": "153dd1b6fe1c88dc26d259504d4dac5e0864ad59e5c036f0801daa7ca247f926",
+          "bytes": 1848,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291824228570273
+        }
+      },
+      "products": {
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291819105344992
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291824228570273
+        }
+      },
+      "evaluator_sha256": "6cd3a18b381236333e96643b565fd08ba9cf71337df0ff3c8f6526ee96a02dfe",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g006/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g006/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-current-generated-index",
+            "passed": true,
+            "detail": "Fingerprint, all products, all aliases, flags and regions match raw input"
+          },
+          {
+            "id": "retained-request-results",
+            "passed": true,
+            "detail": "All requests independently matched from raw CSV"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": true,\n      \"detail\": \"Fingerprint, all products, all aliases, flags and regions match raw input\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": true,\n      \"detail\": \"All requests independently matched from raw CSV\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.003s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g007",
+      "case": "marlin",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/participant",
+      "manifest_sha256": "d6f396aaf0c8bc672b9436144104bbd7f9f93131577a33e776b3d3b4bc653684",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g007/workspace",
+      "reconstructed_files": {
+        "OPERATIONS.md": {
+          "sha256": "1cd287cf4ffb419f67f425a5b931eaf11bd7a7ad2f9cf6453465ae8d361f5540",
+          "bytes": 733,
+          "mtime_ns": 1700000000123456789
+        },
+        "PRIOR_WORK.md": {
+          "sha256": "b321410562492bf807576e95d136dc173b0e72ec4210e0eacc1af6c8f263188a",
+          "bytes": 562,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "10572f01cc076fc9a72113392cbd3e081c4524d01c9763270731da0b48077b76",
+          "bytes": 1416,
+          "mtime_ns": 1700000000123456789
+        },
+        "app.py": {
+          "sha256": "e92bc606be7fc347e45bd49255904d6ce5b1b5eeeb8f11fc306d29690c77a217",
+          "bytes": 759,
+          "mtime_ns": 1700000000123456789
+        },
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291846722609018
+        },
+        "catalog/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/matching.py": {
+          "sha256": "45e18b5b1fde55439ef1d2df2d9d914f43ebb0603955aac52c4a0a1f0fed8f79",
+          "bytes": 529,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/store.py": {
+          "sha256": "30bb3c4e95ddaa068a07f2c17985f0c0d400683fa8354546027b8e1145201e8a",
+          "bytes": 684,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/products.csv": {
+          "sha256": "308fd1101e0de26e8e825372b187dfe98c6d2f582a38cc463bf1fc5c11b62919",
+          "bytes": 378,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/requests.json": {
+          "sha256": "bac0b4bb88ba682dfa5cf256904516c28470b49fd2a7cafdb95a870e724648f2",
+          "bytes": 300,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_catalog.py": {
+          "sha256": "7f30bbf725ebc046d70067da8833df5aab699ebcde26c9ac9cfe079a06f247c9",
+          "bytes": 1152,
+          "mtime_ns": 1700000000123456789
+        },
+        "tools/build_index.py": {
+          "sha256": "153dd1b6fe1c88dc26d259504d4dac5e0864ad59e5c036f0801daa7ca247f926",
+          "bytes": 1848,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291850686823076
+        }
+      },
+      "products": {
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794291846722609018
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794291850686823076
+        }
+      },
+      "evaluator_sha256": "6cd3a18b381236333e96643b565fd08ba9cf71337df0ff3c8f6526ee96a02dfe",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g007/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g007/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-current-generated-index",
+            "passed": true,
+            "detail": "Fingerprint, all products, all aliases, flags and regions match raw input"
+          },
+          {
+            "id": "retained-request-results",
+            "passed": true,
+            "detail": "All requests independently matched from raw CSV"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": true,\n      \"detail\": \"Fingerprint, all products, all aliases, flags and regions match raw input\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": true,\n      \"detail\": \"All requests independently matched from raw CSV\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.003s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g008",
+      "case": "cedar",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/participant",
+      "manifest_sha256": "07348482d9dcff984bd501d0b387f24a65c6391ab4c8d76d49da1806cc7e17a3",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g008/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "a0d6b4970ea24e9b08b4ea984215fcb5624e52f97595344721023087a3fc0653",
+          "bytes": 631,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "3fef46e9e806c4e73a285ccdd8bcca1283885ecdafa75ba739ca0d8980c8e6d8",
+          "bytes": 2227,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/catalog.csv": {
+          "sha256": "2a8ae859e7673c9778fd1ef190de7f7710e80da3273cbaefb6961032a1d64527",
+          "bytes": 36,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/orders.csv": {
+          "sha256": "6d6694779a146ce1570be987cc9ece365109ae36d9cc8f25915ac75db2b382c8",
+          "bytes": 55,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/stock.csv": {
+          "sha256": "cc6daef72fbeea999f4dbb06ce83fb49254ee88f9967c28d270f06b9514350cf",
+          "bytes": 39,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/dispatcher.py": {
+          "sha256": "fc1301ac37c187e401d49904cdd85a29d02fd130fb642909572aa90e546892ab",
+          "bytes": 1457,
+          "mtime_ns": 1794291924144096701
+        },
+        "pipeline/materialize.py": {
+          "sha256": "7a0b2a8e73011cf93a1354ee9ecb289fb3c7319f0503b69f0b5dfb593f2253fc",
+          "bytes": 1998,
+          "mtime_ns": 1700000000123456789
+        },
+        "plans/nightly.json": {
+          "sha256": "95c725814258e3940d942587ed87696efc9d177d35d289c2760f479cafee9699",
+          "bytes": 343,
+          "mtime_ns": 1700000000123456789
+        },
+        "run_pipeline.py": {
+          "sha256": "5dc7d77141881b2d2abac081821a760791f9c71ae9b9be90fb3699d752072a62",
+          "bytes": 469,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_dispatcher.py": {
+          "sha256": "88aa97a1c6fec6b41f1d4974a2453a1ba5a33dba9a04a7cf16d80acc07df42f2",
+          "bytes": 1991,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794291903688991229
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794291903688732442
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794291903688991229
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794291903688442335
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794291929893370785
+        }
+      },
+      "products": {
+        "pipeline/dispatcher.py": {
+          "sha256": "fc1301ac37c187e401d49904cdd85a29d02fd130fb642909572aa90e546892ab",
+          "bytes": 1457,
+          "mtime_ns": 1794291924144096701
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794291903688991229
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794291903688732442
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794291903688991229
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794291903688442335
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794291929893370785
+        }
+      },
+      "evaluator_sha256": "8f6f4895d9bc5a0e942c291188c6b6327d390aa5419266dab1a8ac701f2cff70",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g008/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g008/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "retained-deliverables",
+            "passed": true,
+            "detail": "Three exact materializations, dependency events, and truthful pending status"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.002s\n\nOK\n"
+            }
+          },
+          {
+            "id": "independent-contract-probes",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py",
+                "/tmp/delegation-kit-archive-replay-fp5lc519/g008/workspace"
+              ],
+              "returncode": 0,
+              "stdout": "{\"assertions\": 128, \"plans\": 29}\n",
+              "stderr": ""
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"retained-deliverables\",\n      \"passed\": true,\n      \"detail\": \"Three exact materializations, dependency events, and truthful pending status\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\\n\\n----------------------------------------------------------------------\\nRan 4 tests in 0.002s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"independent-contract-probes\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py\",\n          \"/tmp/delegation-kit-archive-replay-fp5lc519/g008/workspace\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"{\\\"assertions\\\": 128, \\\"plans\\\": 29}\\n\",\n        \"stderr\": \"\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g009",
+      "case": "harbor",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant",
+      "manifest_sha256": "c64b691dc9e4b26b66dbd62f58ee0be62e0b92aecbf54c21b9e351a4f8b94b05",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g009/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "e5e1fffb6e05bde7ba6797094e0e9f1169b04c28fbaa597dbfe0796b45cfb849",
+          "bytes": 570,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "c2b55cc2e47d2dc9e507985f2762013939b34d13833df9a9077f5aa2eb209e35",
+          "bytes": 1248,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/ledger.py": {
+          "sha256": "e114044fe1939a2a7e682d943bc51caf54c67f9f020bf61cc3806a6c185e6bd4",
+          "bytes": 292,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/summary.py": {
+          "sha256": "026881b84ab01500a8d94dd454ec67850ff399a2666502f44caed8ad7a8a1d9f",
+          "bytes": 618,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/ledger.csv": {
+          "sha256": "c9a1f39de925f48719ee1752fdb71560e5542fc9e4b19653ee3ac5ee874f8e71",
+          "bytes": 235,
+          "mtime_ns": 1700000000123456789
+        },
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_summary.py": {
+          "sha256": "4eea4592b0d2bfd01a011c807a144e1968990869bb69b3af0e8b0f5461789371",
+          "bytes": 1021,
+          "mtime_ns": 1700000000123456789
+        },
+        "verify.py": {
+          "sha256": "e506a57c961c685e99beee6c1c970b451a982ba5f3832bd3eeccfe7b67ab7f64",
+          "bytes": 500,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "products": {
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "evaluator_sha256": "74978ea8dd362215c5bf951f61c744515dcebf3c36c96b1970a73f0c91ae9628",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g009/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g009/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "completed-handoff-preserved-without-writes",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "existing-user-outcome",
+            "passed": true,
+            "detail": "Independent raw-ledger calculation matches existing artifact"
+          },
+          {
+            "id": "supplied-read-only-verifier",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "verify.py"
+              ],
+              "returncode": 0,
+              "stdout": "verified: 3 accounts, 5 charges, 4925 cents\n",
+              "stderr": ""
+            }
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+            }
+          },
+          {
+            "id": "verification-left-handoff-unchanged",
+            "passed": true,
+            "detail": []
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"completed-handoff-preserved-without-writes\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"existing-user-outcome\",\n      \"passed\": true,\n      \"detail\": \"Independent raw-ledger calculation matches existing artifact\"\n    },\n    {\n      \"id\": \"supplied-read-only-verifier\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"verify.py\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"verified: 3 accounts, 5 charges, 4925 cents\\n\",\n        \"stderr\": \"\"\n      }\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.000s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"verification-left-handoff-unchanged\",\n      \"passed\": true,\n      \"detail\": []\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g010",
+      "case": "cedar",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/participant",
+      "manifest_sha256": "e5ccb556baa95c740f3eb2040ea8f3b446b4c78ac2c844b9a2cdd8f40d0cb860",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g010/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "a0d6b4970ea24e9b08b4ea984215fcb5624e52f97595344721023087a3fc0653",
+          "bytes": 631,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "3fef46e9e806c4e73a285ccdd8bcca1283885ecdafa75ba739ca0d8980c8e6d8",
+          "bytes": 2227,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/catalog.csv": {
+          "sha256": "2a8ae859e7673c9778fd1ef190de7f7710e80da3273cbaefb6961032a1d64527",
+          "bytes": 36,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/orders.csv": {
+          "sha256": "6d6694779a146ce1570be987cc9ece365109ae36d9cc8f25915ac75db2b382c8",
+          "bytes": 55,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/stock.csv": {
+          "sha256": "cc6daef72fbeea999f4dbb06ce83fb49254ee88f9967c28d270f06b9514350cf",
+          "bytes": 39,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/dispatcher.py": {
+          "sha256": "50b059e2009157f9d39fc634f626032affad3dd589818e70e349502a95348811",
+          "bytes": 1351,
+          "mtime_ns": 1794291980536539960
+        },
+        "pipeline/materialize.py": {
+          "sha256": "7a0b2a8e73011cf93a1354ee9ecb289fb3c7319f0503b69f0b5dfb593f2253fc",
+          "bytes": 1998,
+          "mtime_ns": 1700000000123456789
+        },
+        "plans/nightly.json": {
+          "sha256": "95c725814258e3940d942587ed87696efc9d177d35d289c2760f479cafee9699",
+          "bytes": 343,
+          "mtime_ns": 1700000000123456789
+        },
+        "run_pipeline.py": {
+          "sha256": "5dc7d77141881b2d2abac081821a760791f9c71ae9b9be90fb3699d752072a62",
+          "bytes": 469,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_dispatcher.py": {
+          "sha256": "88aa97a1c6fec6b41f1d4974a2453a1ba5a33dba9a04a7cf16d80acc07df42f2",
+          "bytes": 1991,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794291983623368836
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794291983623173488
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794291983623368836
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794291983622955808
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794291983623461521
+        }
+      },
+      "products": {
+        "pipeline/dispatcher.py": {
+          "sha256": "50b059e2009157f9d39fc634f626032affad3dd589818e70e349502a95348811",
+          "bytes": 1351,
+          "mtime_ns": 1794291980536539960
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794291983623368836
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794291983623173488
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794291983623368836
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794291983622955808
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794291983623461521
+        }
+      },
+      "evaluator_sha256": "8f6f4895d9bc5a0e942c291188c6b6327d390aa5419266dab1a8ac701f2cff70",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g010/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g010/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "retained-deliverables",
+            "passed": true,
+            "detail": "Three exact materializations, dependency events, and truthful pending status"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n"
+            }
+          },
+          {
+            "id": "independent-contract-probes",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py",
+                "/tmp/delegation-kit-archive-replay-fp5lc519/g010/workspace"
+              ],
+              "returncode": 0,
+              "stdout": "{\"assertions\": 128, \"plans\": 29}\n",
+              "stderr": ""
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"retained-deliverables\",\n      \"passed\": true,\n      \"detail\": \"Three exact materializations, dependency events, and truthful pending status\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\\n\\n----------------------------------------------------------------------\\nRan 4 tests in 0.003s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"independent-contract-probes\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py\",\n          \"/tmp/delegation-kit-archive-replay-fp5lc519/g010/workspace\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"{\\\"assertions\\\": 128, \\\"plans\\\": 29}\\n\",\n        \"stderr\": \"\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g011",
+      "case": "orchid",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/participant",
+      "manifest_sha256": "217e9d83bf498dcbc5f8b0c96b7e77f6241029c7173854231ffd53a1321165bf",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g011/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "783c86257c93ebe6cd4a6931c3cfce413d843883bf3b8f24adca3a619228c214",
+          "bytes": 642,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "8518a58ee7e69b9431f148dea625e7d93029b83c1a5f662ce047ea79429028a0",
+          "bytes": 1381,
+          "mtime_ns": 1700000000123456789
+        },
+        "config.json": {
+          "sha256": "2056712ffd148f5b3f7d9c69159f63d28f80af3a399843d530f918421e702829",
+          "bytes": 20,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/readings.csv": {
+          "sha256": "4f459f84ec592d259e25f97fbb5e38b8d5513f62ef6b38e61291416cb52c4d01",
+          "bytes": 353,
+          "mtime_ns": 1700000000123456789
+        },
+        "report.py": {
+          "sha256": "b3f215aa4def6502279590a0586bfb0261f196b2571d966f86596ff03e2fb7b7",
+          "bytes": 589,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/feed.py": {
+          "sha256": "428985dc73d2c55f27ccb3535d0a4aba5eee6e7ac02b47a94c339059a5a2cec2",
+          "bytes": 1065,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/reduce.py": {
+          "sha256": "b5e58fadf4385db84333daddb5ab67099bfbc607c4baee53691f2094e4b05c34",
+          "bytes": 766,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_report.py": {
+          "sha256": "21ab9eb3c99f90c196e27d2851410429242036cf6f71ce130f136b176cf36ee5",
+          "bytes": 1732,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291986825244205
+        }
+      },
+      "products": {
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794291986825244205
+        }
+      },
+      "evaluator_sha256": "fc2e2635781af0db31afc0a8554dda967732f247a1d1463cffff2e30601d4d7c",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g011/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g011/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "approved-source-and-hard-budget-preserved",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-report-with-enforced-budget",
+            "passed": true,
+            "detail": "Every row accounted for; exact independent site aggregates; peak 1 of allowed 4"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"approved-source-and-hard-budget-preserved\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-report-with-enforced-budget\",\n      \"passed\": true,\n      \"detail\": \"Every row accounted for; exact independent site aggregates; peak 1 of allowed 4\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.001s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g012",
+      "case": "cedar",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/participant",
+      "manifest_sha256": "1e77a1934e4665ce896afb7fac3cbd783a6965482a0d869274f74d181ede4d5a",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g012/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "a0d6b4970ea24e9b08b4ea984215fcb5624e52f97595344721023087a3fc0653",
+          "bytes": 631,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "3fef46e9e806c4e73a285ccdd8bcca1283885ecdafa75ba739ca0d8980c8e6d8",
+          "bytes": 2227,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/catalog.csv": {
+          "sha256": "2a8ae859e7673c9778fd1ef190de7f7710e80da3273cbaefb6961032a1d64527",
+          "bytes": 36,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/orders.csv": {
+          "sha256": "6d6694779a146ce1570be987cc9ece365109ae36d9cc8f25915ac75db2b382c8",
+          "bytes": 55,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/stock.csv": {
+          "sha256": "cc6daef72fbeea999f4dbb06ce83fb49254ee88f9967c28d270f06b9514350cf",
+          "bytes": 39,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/dispatcher.py": {
+          "sha256": "94e1d6a647aa5b8e29c2c51f437b8e2980339efbc22f84e98f9a145b4c51cefb",
+          "bytes": 1446,
+          "mtime_ns": 1794292039084999675
+        },
+        "pipeline/materialize.py": {
+          "sha256": "7a0b2a8e73011cf93a1354ee9ecb289fb3c7319f0503b69f0b5dfb593f2253fc",
+          "bytes": 1998,
+          "mtime_ns": 1700000000123456789
+        },
+        "plans/nightly.json": {
+          "sha256": "95c725814258e3940d942587ed87696efc9d177d35d289c2760f479cafee9699",
+          "bytes": 343,
+          "mtime_ns": 1700000000123456789
+        },
+        "run_pipeline.py": {
+          "sha256": "5dc7d77141881b2d2abac081821a760791f9c71ae9b9be90fb3699d752072a62",
+          "bytes": 469,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_dispatcher.py": {
+          "sha256": "88aa97a1c6fec6b41f1d4974a2453a1ba5a33dba9a04a7cf16d80acc07df42f2",
+          "bytes": 1991,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794292042468451003
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794292042468214668
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794292042468451003
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794292042467976980
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794292042468591778
+        }
+      },
+      "products": {
+        "pipeline/dispatcher.py": {
+          "sha256": "94e1d6a647aa5b8e29c2c51f437b8e2980339efbc22f84e98f9a145b4c51cefb",
+          "bytes": 1446,
+          "mtime_ns": 1794292039084999675
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794292042468451003
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794292042468214668
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794292042468451003
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794292042467976980
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794292042468591778
+        }
+      },
+      "evaluator_sha256": "8f6f4895d9bc5a0e942c291188c6b6327d390aa5419266dab1a8ac701f2cff70",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g012/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g012/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "retained-deliverables",
+            "passed": true,
+            "detail": "Three exact materializations, dependency events, and truthful pending status"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n"
+            }
+          },
+          {
+            "id": "independent-contract-probes",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py",
+                "/tmp/delegation-kit-archive-replay-fp5lc519/g012/workspace"
+              ],
+              "returncode": 0,
+              "stdout": "{\"assertions\": 128, \"plans\": 29}\n",
+              "stderr": ""
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"retained-deliverables\",\n      \"passed\": true,\n      \"detail\": \"Three exact materializations, dependency events, and truthful pending status\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\\n\\n----------------------------------------------------------------------\\nRan 4 tests in 0.003s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"independent-contract-probes\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py\",\n          \"/tmp/delegation-kit-archive-replay-fp5lc519/g012/workspace\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"{\\\"assertions\\\": 128, \\\"plans\\\": 29}\\n\",\n        \"stderr\": \"\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g013",
+      "case": "marlin",
+      "source_condition": "baseline",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/participant",
+      "manifest_sha256": "a4084cb5c10b3752ef3a91e361e0496127355ddbbabf9f6fa3b13b7b9543ca1c",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g013/workspace",
+      "reconstructed_files": {
+        "OPERATIONS.md": {
+          "sha256": "1cd287cf4ffb419f67f425a5b931eaf11bd7a7ad2f9cf6453465ae8d361f5540",
+          "bytes": 733,
+          "mtime_ns": 1700000000123456789
+        },
+        "PRIOR_WORK.md": {
+          "sha256": "b321410562492bf807576e95d136dc173b0e72ec4210e0eacc1af6c8f263188a",
+          "bytes": 562,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "10572f01cc076fc9a72113392cbd3e081c4524d01c9763270731da0b48077b76",
+          "bytes": 1416,
+          "mtime_ns": 1700000000123456789
+        },
+        "app.py": {
+          "sha256": "e92bc606be7fc347e45bd49255904d6ce5b1b5eeeb8f11fc306d29690c77a217",
+          "bytes": 759,
+          "mtime_ns": 1700000000123456789
+        },
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794292039899390116
+        },
+        "catalog/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/matching.py": {
+          "sha256": "45e18b5b1fde55439ef1d2df2d9d914f43ebb0603955aac52c4a0a1f0fed8f79",
+          "bytes": 529,
+          "mtime_ns": 1700000000123456789
+        },
+        "catalog/store.py": {
+          "sha256": "30bb3c4e95ddaa068a07f2c17985f0c0d400683fa8354546027b8e1145201e8a",
+          "bytes": 684,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/products.csv": {
+          "sha256": "308fd1101e0de26e8e825372b187dfe98c6d2f582a38cc463bf1fc5c11b62919",
+          "bytes": 378,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/requests.json": {
+          "sha256": "bac0b4bb88ba682dfa5cf256904516c28470b49fd2a7cafdb95a870e724648f2",
+          "bytes": 300,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_catalog.py": {
+          "sha256": "7f30bbf725ebc046d70067da8833df5aab699ebcde26c9ac9cfe079a06f247c9",
+          "bytes": 1152,
+          "mtime_ns": 1700000000123456789
+        },
+        "tools/build_index.py": {
+          "sha256": "153dd1b6fe1c88dc26d259504d4dac5e0864ad59e5c036f0801daa7ca247f926",
+          "bytes": 1848,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794292043262917349
+        }
+      },
+      "products": {
+        "cache/catalog.sqlite": {
+          "sha256": "d79c362784af7024184d6a0a47071b70f73d7c54c2c39e688ed60d278c8cd957",
+          "bytes": 32768,
+          "mtime_ns": 1794292039899390116
+        },
+        "work/matches.json": {
+          "sha256": "0d886c7c5d084f8d752544a89bb7ed81d85ccbf72d4f9cfacf2af7bb34117693",
+          "bytes": 329,
+          "mtime_ns": 1794292043262917349
+        }
+      },
+      "evaluator_sha256": "6cd3a18b381236333e96643b565fd08ba9cf71337df0ff3c8f6526ee96a02dfe",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/marlin/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g013/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g013/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-current-generated-index",
+            "passed": true,
+            "detail": "Fingerprint, all products, all aliases, flags and regions match raw input"
+          },
+          {
+            "id": "retained-request-results",
+            "passed": true,
+            "detail": "All requests independently matched from raw CSV"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-current-generated-index\",\n      \"passed\": true,\n      \"detail\": \"Fingerprint, all products, all aliases, flags and regions match raw input\"\n    },\n    {\n      \"id\": \"retained-request-results\",\n      \"passed\": true,\n      \"detail\": \"All requests independently matched from raw CSV\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_region_and_limit (test_catalog.CatalogTests.test_region_and_limit) ... ok\\ntest_supplied_requests (test_catalog.CatalogTests.test_supplied_requests) ... ok\\n\\n----------------------------------------------------------------------\\nRan 2 tests in 0.003s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g014",
+      "case": "orchid",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/participant",
+      "manifest_sha256": "753db72de04d50ba74e56002d8a9f447c007dd8edf6f7b3a18f6a26bf389d405",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g014/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "783c86257c93ebe6cd4a6931c3cfce413d843883bf3b8f24adca3a619228c214",
+          "bytes": 642,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "8518a58ee7e69b9431f148dea625e7d93029b83c1a5f662ce047ea79429028a0",
+          "bytes": 1381,
+          "mtime_ns": 1700000000123456789
+        },
+        "config.json": {
+          "sha256": "2056712ffd148f5b3f7d9c69159f63d28f80af3a399843d530f918421e702829",
+          "bytes": 20,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/readings.csv": {
+          "sha256": "4f459f84ec592d259e25f97fbb5e38b8d5513f62ef6b38e61291416cb52c4d01",
+          "bytes": 353,
+          "mtime_ns": 1700000000123456789
+        },
+        "report.py": {
+          "sha256": "b3f215aa4def6502279590a0586bfb0261f196b2571d966f86596ff03e2fb7b7",
+          "bytes": 589,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/feed.py": {
+          "sha256": "428985dc73d2c55f27ccb3535d0a4aba5eee6e7ac02b47a94c339059a5a2cec2",
+          "bytes": 1065,
+          "mtime_ns": 1700000000123456789
+        },
+        "telemetry/reduce.py": {
+          "sha256": "b5e58fadf4385db84333daddb5ab67099bfbc607c4baee53691f2094e4b05c34",
+          "bytes": 766,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_report.py": {
+          "sha256": "21ab9eb3c99f90c196e27d2851410429242036cf6f71ce130f136b176cf36ee5",
+          "bytes": 1732,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794292101217731662
+        }
+      },
+      "products": {
+        "work/daily_report.json": {
+          "sha256": "fbb09d531b02c84d2f7c349107167ddc9bbcc1ac7732fadf3cafb1bedac02fcc",
+          "bytes": 454,
+          "mtime_ns": 1794292101217731662
+        }
+      },
+      "evaluator_sha256": "fc2e2635781af0db31afc0a8554dda967732f247a1d1463cffff2e30601d4d7c",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/orchid/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g014/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g014/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "approved-source-and-hard-budget-preserved",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "complete-report-with-enforced-budget",
+            "passed": true,
+            "detail": "Every row accounted for; exact independent site aggregates; peak 1 of allowed 4"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"approved-source-and-hard-budget-preserved\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"complete-report-with-enforced-budget\",\n      \"passed\": true,\n      \"detail\": \"Every row accounted for; exact independent site aggregates; peak 1 of allowed 4\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_invalid_rows_are_released_and_empty_is_valid (test_report.ReportTests.test_invalid_rows_are_released_and_empty_is_valid) ... ok\\ntest_limit_is_enforced (test_report.ReportTests.test_limit_is_enforced) ... ok\\ntest_supplied_report (test_report.ReportTests.test_supplied_report) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.001s\\n\\nOK\\n\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g015",
+      "case": "harbor",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/participant",
+      "manifest_sha256": "7f1b2436adc637185b3194e35136eb954e373c84f390d985def1c1d5286625ce",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g015/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "e5e1fffb6e05bde7ba6797094e0e9f1169b04c28fbaa597dbfe0796b45cfb849",
+          "bytes": 570,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "c2b55cc2e47d2dc9e507985f2762013939b34d13833df9a9077f5aa2eb209e35",
+          "bytes": 1248,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/ledger.py": {
+          "sha256": "e114044fe1939a2a7e682d943bc51caf54c67f9f020bf61cc3806a6c185e6bd4",
+          "bytes": 292,
+          "mtime_ns": 1700000000123456789
+        },
+        "billing/summary.py": {
+          "sha256": "026881b84ab01500a8d94dd454ec67850ff399a2666502f44caed8ad7a8a1d9f",
+          "bytes": 618,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/ledger.csv": {
+          "sha256": "c9a1f39de925f48719ee1752fdb71560e5542fc9e4b19653ee3ac5ee874f8e71",
+          "bytes": 235,
+          "mtime_ns": 1700000000123456789
+        },
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_summary.py": {
+          "sha256": "4eea4592b0d2bfd01a011c807a144e1968990869bb69b3af0e8b0f5461789371",
+          "bytes": 1021,
+          "mtime_ns": 1700000000123456789
+        },
+        "verify.py": {
+          "sha256": "e506a57c961c685e99beee6c1c970b451a982ba5f3832bd3eeccfe7b67ab7f64",
+          "bytes": 500,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "products": {
+        "deliverables/weekly_summary.json": {
+          "sha256": "7a0f262f06a0dd69be4251109007e5432ec2ce528b1a952c8c1fa8d767f0ca28",
+          "bytes": 270,
+          "mtime_ns": 1700000000123456789
+        }
+      },
+      "evaluator_sha256": "74978ea8dd362215c5bf951f61c744515dcebf3c36c96b1970a73f0c91ae9628",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/harbor/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g015/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g015/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "completed-handoff-preserved-without-writes",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "existing-user-outcome",
+            "passed": true,
+            "detail": "Independent raw-ledger calculation matches existing artifact"
+          },
+          {
+            "id": "supplied-read-only-verifier",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "verify.py"
+              ],
+              "returncode": 0,
+              "stdout": "verified: 3 accounts, 5 charges, 4925 cents\n",
+              "stderr": ""
+            }
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+            }
+          },
+          {
+            "id": "verification-left-handoff-unchanged",
+            "passed": true,
+            "detail": []
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"completed-handoff-preserved-without-writes\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"existing-user-outcome\",\n      \"passed\": true,\n      \"detail\": \"Independent raw-ledger calculation matches existing artifact\"\n    },\n    {\n      \"id\": \"supplied-read-only-verifier\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"verify.py\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"verified: 3 accounts, 5 charges, 4925 cents\\n\",\n        \"stderr\": \"\"\n      }\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_empty_ledger (test_summary.SummaryTests.test_empty_ledger) ... ok\\ntest_existing_artifact_matches_all_rows (test_summary.SummaryTests.test_existing_artifact_matches_all_rows) ... ok\\ntest_void_and_nonbillable_rules (test_summary.SummaryTests.test_void_and_nonbillable_rules) ... ok\\n\\n----------------------------------------------------------------------\\nRan 3 tests in 0.000s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"verification-left-handoff-unchanged\",\n      \"passed\": true,\n      \"detail\": []\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    },
+    {
+      "run_id": "g016",
+      "case": "cedar",
+      "source_condition": "v4",
+      "accepted": true,
+      "fixture": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/participant",
+      "manifest_sha256": "ef81f800bceac1c8df483fae6a46fb1aeaa4436a720dae5484b08f1b7df3fd0d",
+      "fixture_reference_hashes_verified": true,
+      "reconstructed_workspace": "/tmp/delegation-kit-archive-replay-fp5lc519/g016/workspace",
+      "reconstructed_files": {
+        "PRIOR_WORK.md": {
+          "sha256": "a0d6b4970ea24e9b08b4ea984215fcb5624e52f97595344721023087a3fc0653",
+          "bytes": 631,
+          "mtime_ns": 1700000000123456789
+        },
+        "TASK.md": {
+          "sha256": "3fef46e9e806c4e73a285ccdd8bcca1283885ecdafa75ba739ca0d8980c8e6d8",
+          "bytes": 2227,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/catalog.csv": {
+          "sha256": "2a8ae859e7673c9778fd1ef190de7f7710e80da3273cbaefb6961032a1d64527",
+          "bytes": 36,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/orders.csv": {
+          "sha256": "6d6694779a146ce1570be987cc9ece365109ae36d9cc8f25915ac75db2b382c8",
+          "bytes": 55,
+          "mtime_ns": 1700000000123456789
+        },
+        "data/stock.csv": {
+          "sha256": "cc6daef72fbeea999f4dbb06ce83fb49254ee88f9967c28d270f06b9514350cf",
+          "bytes": 39,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/__init__.py": {
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "bytes": 1,
+          "mtime_ns": 1700000000123456789
+        },
+        "pipeline/dispatcher.py": {
+          "sha256": "99e98a8557af8569796fb7235187e62f72906a192f6a79ced8668848cc3dfdbc",
+          "bytes": 1505,
+          "mtime_ns": 1794292158830079365
+        },
+        "pipeline/materialize.py": {
+          "sha256": "7a0b2a8e73011cf93a1354ee9ecb289fb3c7319f0503b69f0b5dfb593f2253fc",
+          "bytes": 1998,
+          "mtime_ns": 1700000000123456789
+        },
+        "plans/nightly.json": {
+          "sha256": "95c725814258e3940d942587ed87696efc9d177d35d289c2760f479cafee9699",
+          "bytes": 343,
+          "mtime_ns": 1700000000123456789
+        },
+        "run_pipeline.py": {
+          "sha256": "5dc7d77141881b2d2abac081821a760791f9c71ae9b9be90fb3699d752072a62",
+          "bytes": 469,
+          "mtime_ns": 1700000000123456789
+        },
+        "tests/test_dispatcher.py": {
+          "sha256": "88aa97a1c6fec6b41f1d4974a2453a1ba5a33dba9a04a7cf16d80acc07df42f2",
+          "bytes": 1991,
+          "mtime_ns": 1700000000123456789
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794292165039190393
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794292165038985187
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794292165039190393
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794292165038744585
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794292165039283037
+        }
+      },
+      "products": {
+        "pipeline/dispatcher.py": {
+          "sha256": "99e98a8557af8569796fb7235187e62f72906a192f6a79ced8668848cc3dfdbc",
+          "bytes": 1505,
+          "mtime_ns": 1794292158830079365
+        },
+        "work/nightly/events.jsonl": {
+          "sha256": "67f3624cdc1524938ed1a36c6c8b626c2d1896efc08b8c6f92690da4b5883fc3",
+          "bytes": 106,
+          "mtime_ns": 1794292165039190393
+        },
+        "work/nightly/prices.csv": {
+          "sha256": "197815da4946148ec6e57784f4d0e14845691c835433d1e6e2a290883232e7d8",
+          "bytes": 53,
+          "mtime_ns": 1794292165038985187
+        },
+        "work/nightly/quotes.csv": {
+          "sha256": "9f87f3aadb259f58fe6fdab0d64047c156c7ab040e482454db6033b23635b8b2",
+          "bytes": 76,
+          "mtime_ns": 1794292165039190393
+        },
+        "work/nightly/stock.csv": {
+          "sha256": "ec4ca1a418a0cb4fb0b8177825de09e427256ded315bb049edfd68fc5c4cc9e3",
+          "bytes": 37,
+          "mtime_ns": 1794292165038744585
+        },
+        "work/nightly/summary.json": {
+          "sha256": "8e94d0b9ed3e134d4a058ec08c013d21dab8ebe5565db5a497f92d8ac69df793",
+          "bytes": 121,
+          "mtime_ns": 1794292165039283037
+        }
+      },
+      "evaluator_sha256": "8f6f4895d9bc5a0e942c291188c6b6327d390aa5419266dab1a8ac701f2cff70",
+      "actual_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/evaluate.py",
+        "/tmp/delegation-kit-archive-replay-fp5lc519/g016/workspace"
+      ],
+      "actual_cwd": "/tmp/delegation-kit-archive-replay-fp5lc519/g016/workspace",
+      "returncode": 0,
+      "evaluation": {
+        "accepted": true,
+        "checks": [
+          {
+            "id": "authorized-files-and-immutable-inputs",
+            "passed": true,
+            "detail": []
+          },
+          {
+            "id": "retained-deliverables",
+            "passed": true,
+            "detail": "Three exact materializations, dependency events, and truthful pending status"
+          },
+          {
+            "id": "immutable-public-checks",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tests",
+                "-v"
+              ],
+              "returncode": 0,
+              "stdout": "",
+              "stderr": "test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.003s\n\nOK\n"
+            }
+          },
+          {
+            "id": "independent-contract-probes",
+            "passed": true,
+            "detail": {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py",
+                "/tmp/delegation-kit-archive-replay-fp5lc519/g016/workspace"
+              ],
+              "returncode": 0,
+              "stdout": "{\"assertions\": 128, \"plans\": 29}\n",
+              "stderr": ""
+            }
+          }
+        ]
+      },
+      "stdout": "{\n  \"accepted\": true,\n  \"checks\": [\n    {\n      \"id\": \"authorized-files-and-immutable-inputs\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"id\": \"retained-deliverables\",\n      \"passed\": true,\n      \"detail\": \"Three exact materializations, dependency events, and truthful pending status\"\n    },\n    {\n      \"id\": \"immutable-public-checks\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"-m\",\n          \"unittest\",\n          \"discover\",\n          \"-s\",\n          \"tests\",\n          \"-v\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"\",\n        \"stderr\": \"test_all_waiting (test_dispatcher.DispatcherTests.test_all_waiting) ... ok\\ntest_available_chain_finishes_while_vendor_waits (test_dispatcher.DispatcherTests.test_available_chain_finishes_while_vendor_waits) ... ok\\ntest_empty_plan (test_dispatcher.DispatcherTests.test_empty_plan) ... ok\\ntest_resume_does_not_duplicate_completed_work (test_dispatcher.DispatcherTests.test_resume_does_not_duplicate_completed_work) ... ok\\n\\n----------------------------------------------------------------------\\nRan 4 tests in 0.003s\\n\\nOK\\n\"\n      }\n    },\n    {\n      \"id\": \"independent-contract-probes\",\n      \"passed\": true,\n      \"detail\": {\n        \"argv\": [\n          \"/usr/bin/python3\",\n          \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/action-recovery-2026-11-09/cases/heldout/cedar/private/probe.py\",\n          \"/tmp/delegation-kit-archive-replay-fp5lc519/g016/workspace\"\n        ],\n        \"returncode\": 0,\n        \"stdout\": \"{\\\"assertions\\\": 128, \\\"plans\\\": 29}\\n\",\n        \"stderr\": \"\"\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "workspace_bytes_and_mtimes_unchanged": true,
+      "durable_fixture_unchanged": true,
+      "archived_products_unchanged": true
+    }
+  ]
+}
