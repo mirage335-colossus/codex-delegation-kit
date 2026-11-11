@@ -1,0 +1,54 @@
+{
+  "evaluator_command": [
+    "python3",
+    "-B",
+    "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/evaluate.py",
+    "ABS_PARTICIPANT_DIR"
+  ],
+  "participant_contract": "Only participant/core.cpp is an implementation input; public/ and task.md are read-only.",
+  "baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/participant"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"reported storage 4195320 > 2936012\", \"checks\": \"compile/run/tracked-memory/sample/full-output-quality\"}\n",
+    "stderr": ""
+  },
+  "witness": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"checks\": [\n    \"actual tracked C++ heap peak\",\n    \"reported element storage\",\n    \"sample values\",\n    \"16-bin full-output sum and square aggregates\"\n  ],\n  \"cases\": [\n    {\n      \"ch*n\": [\n        8,\n        32768,\n        127,\n        9\n      ],\n      \"storage_bytes_reported\": 2097660,\n      \"tracked_allocation_peak_bytes\": 2105832,\n      \"max_sample_error\": 5.152000000230306e-09,\n      \"full_output_checksum_error_per_element\": 5.493164062996773e-12,\n      \"elapsed_seconds\": 0.03475953100132756,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmp722ulya7/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmp722ulya7/candidate\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp722ulya7/candidate\",\n        \"8\",\n        \"32768\",\n        \"127\",\n        \"9\"\n      ]\n    },\n    {\n      \"ch*n\": [\n        3,\n        4096,\n        63,\n        113\n      ],\n      \"storage_bytes_reported\": 98556,\n      \"tracked_allocation_peak_bytes\": 98584,\n      \"max_sample_error\": 4.099999978413038e-09,\n      \"full_output_checksum_error_per_element\": 5.794270828476481e-11,\n      \"elapsed_seconds\": 0.002492957006325014,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmp722ulya7/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmp722ulya7/candidate\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp722ulya7/candidate\",\n        \"3\",\n        \"4096\",\n        \"63\",\n        \"113\"\n      ]\n    },\n    {\n      \"ch*n\": [\n        5,\n        2048,\n        31,\n        1\n      ],\n      \"storage_bytes_reported\": 82044,\n      \"tracked_allocation_peak_bytes\": 82072,\n      \"max_sample_error\": 2.459999992598938e-08,\n      \"full_output_checksum_error_per_element\": 3.2812499828338558e-09,\n      \"elapsed_seconds\": 0.001747068003169261,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmp722ulya7/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmp722ulya7/candidate\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp722ulya7/candidate\",\n        \"5\",\n        \"2048\",\n        \"31\",\n        \"1\"\n      ]\n    }\n  ],\n  \"double_override\": {\n    \"passed\": true,\n    \"storage_bytes\": 4195320,\n    \"tracked_allocation_peak_bytes\": 4203480,\n    \"reference_checksum_max_delta_per_element\": 0.0,\n    \"reference_sample_max_error\": 0.0,\n    \"compile_command\": [\n      \"c++\",\n      \"-O2\",\n      \"-std=c++17\",\n      \"-include\",\n      \"/tmp/tmp722ulya7/tracker.hpp\",\n      \"-DVALUE=double\",\n      \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/witness/core.cpp\",\n      \"-o\",\n      \"/tmp/tmp722ulya7/candidate-double\"\n    ],\n    \"run_command\": [\n      \"/tmp/tmp722ulya7/candidate-double\",\n      \"8\",\n      \"32768\",\n      \"127\",\n      \"9\"\n    ],\n    \"storage_cap_applies\": false\n  }\n}\n",
+    "stderr": ""
+  },
+  "all_zero_mutation": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/evaluate.py",
+      "/tmp/multichannel-fir-all-zero-final.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"sample quality error 0.1302885374\", \"checks\": \"compile/run/tracked-memory/sample/full-output-quality\"}\n",
+    "stderr": ""
+  },
+  "reduced_work_mutation": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/multichannel-fir/private/evaluate.py",
+      "/tmp/multichannel-fir-reduced-work-checksum-final.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"full-output checksum quality error 0.0014656448489583334\", \"checks\": \"compile/run/tracked-memory/sample/full-output-quality\"}\n",
+    "stderr": "",
+    "rejection": "full-output checksum quality error"
+  }
+}

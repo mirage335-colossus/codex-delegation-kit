@@ -1,0 +1,58 @@
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/c/scene/participant/core.cpp	2026-11-11 03:59:14.598690334 -0600
++++ /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/runs/f23/submitted/core.cpp	2026-11-11 04:19:07.595191683 -0600
+@@ -1,3 +1,4 @@
++#include <algorithm>
+ #include <chrono>
+ #include <cmath>
+ #include <cstdlib>
+@@ -6,23 +7,28 @@
+ #include <string>
+ #include <vector>
+ 
+-template<class T> int render(int frames,int ew,int eh,int dw,int dh,int layers,const char*arith){
++template<class T> int render(int frames,int ew,int eh,int dw,int dh,int layers,const char*arith,bool compact){
+     using clock=std::chrono::steady_clock;
+-    std::vector<T> image(std::size_t(dw)*dh);
+     std::vector<double> energy(frames+1);
++    const std::size_t budget=4u*1024u*1024u;
++    const std::size_t largest=std::max(std::size_t(ew)*eh,std::size_t(dw)*dh);
++    const std::size_t budget_pixels=compact?(budget-energy.capacity()*sizeof(double))/sizeof(T):largest;
++    std::vector<T> image(std::min(largest,budget_pixels));
+     const auto start=clock::now();
+     for(int f=0;f<=frames;f++){
+         const bool detail=(f==frames); const int w=detail?dw:ew,h=detail?dh:eh;
+         double total=0;
++        std::size_t image_index=0;
+         for(int y=0;y<h;y++) for(int x=0;x<w;x++){
+-            T signal=T(((x*17+y*29+f*13)%997-498)*0.001);
+-            T pixel=0;
+-            for(int k=0;k<layers;k++){
+-                const T tint=T(((k*31+x*3+y*7)%251-125)*0.0007);
+-                pixel += (signal+tint)*T(1.0/(k+1));
+-            }
+-            image[std::size_t(y)*w+x]=pixel;
+-            total+=double(pixel);
++                T signal=T(((x*17+y*29+f*13)%997-498))*T(0.001);
++                T pixel=0;
++                for(int k=0;k<layers;k++){
++                    const T tint=T((k*31+x*3+y*7)%251-125)*T(0.0007);
++                    pixel += (signal+tint)*(T(1)/T(k+1));
++                }
++                image[image_index]=pixel;
++                total+=double(image[image_index]);
++                if(++image_index==image.size()) image_index=0;
+         }
+         energy[f]=total;
+     }
+@@ -38,8 +44,8 @@
+     int dw=argc>4?std::atoi(argv[4]):1280,dh=argc>5?std::atoi(argv[5]):720,layers=argc>6?std::atoi(argv[6]):8;
+     std::string p=argc>7?argv[7]:"auto";
+     if(frames<0||frames>40||ew<1||eh<1||dw<1||dh<1||std::size_t(dw)*dh>4000000||layers<1||layers>32)return 2;
+-    if(p=="double")return render<double>(frames,ew,eh,dw,dh,layers,"fp64");
+-    if(p=="float")return render<float>(frames,ew,eh,dw,dh,layers,"fp32-layer-products+fp64-frame-energy");
+-    if(p=="auto")return render<double>(frames,ew,eh,dw,dh,layers,"fp64");
++    if(p=="double")return render<double>(frames,ew,eh,dw,dh,layers,"fp64",false);
++    if(p=="float")return render<float>(frames,ew,eh,dw,dh,layers,"fp32-layer-products+fp64-frame-energy",true);
++    if(p=="auto")return render<float>(frames,ew,eh,dw,dh,layers,"fp32-layer-products+fp64-frame-energy",true);
+     std::cerr<<"mode must be auto, float, or double\n";return 2;
+ }

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/f/spectral-bank/private/evaluate.py",
+    "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/runs/h23/submitted"
+  ],
+  "returncode": 0,
+  "stdout": "{\"checks\": [{\"case\": \"cold first request 32x4x1024\", \"check\": \"all one-sided powers and complete bin count\", \"passed\": true}, {\"case\": \"cold first request 32x4x1024\", \"check\": \"end-to-end completion <= 0.75 seconds\", \"passed\": true}, {\"case\": \"8x2x128:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"17x3x256:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"4x2x64:direct\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"direct diagnostic override\", \"check\": \"direct path is reported for explicit direct request\", \"passed\": true}, {\"case\": \"mixed review/replay request sequence\", \"check\": \"all bins, counts, and shape resets match reference\", \"passed\": true}], \"observations\": [{\"algorithm_reported\": \"fft\", \"case\": \"cold first request 32x4x1024\", \"end_to_end_seconds\": 0.030158711000694893, \"outputs\": 65664, \"seconds_field\": \"0.0060235210000000004\"}, {\"case\": \"reused per-size analysis preparation\", \"diagnostic_libm_calls\": 264192, \"interpretation\": \"diagnostic only; the public reuse instruction and cold deadline remain acceptance criteria\", \"one_plan_witness_calls\": 264192, \"status\": \"completed\"}, {\"algorithm_reported\": \"fft\", \"case\": \"8x2x128:auto\", \"end_to_end_seconds\": 0.00262768600077834, \"outputs\": 1040, \"seconds_field\": \"0.000109016\"}, {\"algorithm_reported\": \"fft\", \"case\": \"17x3x256:auto\", \"end_to_end_seconds\": 0.004077068995684385, \"outputs\": 6579, \"seconds_field\": \"0.00060269700000000002\"}, {\"algorithm_reported\": \"direct\", \"case\": \"4x2x64:direct\", \"end_to_end_seconds\": 0.002185871999245137, \"outputs\": 264, \"seconds_field\": \"0.000333419\"}, {\"case\": \"mixed review/replay request sequence\", \"end_to_end_seconds\": 0.029136033001122996, \"requests\": 3}], \"passed\": true}\n",
+  "stderr": "",
+  "id": "h23",
+  "case": "f/spectral-bank",
+  "elapsed_s": 3.6306464672088623,
+  "protected_changes": [],
+  "core_changed": true,
+  "accepted": true
+}

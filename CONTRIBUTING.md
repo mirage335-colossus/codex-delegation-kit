@@ -87,6 +87,13 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [autonomous numerical implementation study](studies/practical-precision-generalization-2026-11-11/README.md)
+tests the delivered numerical guidance on native applications with ordinary
+product requests. It retains one-shot misses, prompt revisions, matched native
+diagnostics and prospective independent-review/owner-repair workflows. Product
+acceptance, numerical judgment and workflow compliance are reported separately;
+reviewed results are not relabeled as one-shot success.
+
 The [practical precision exercises](studies/practical-precision-2026-11-11/README.md)
 retain matched decision prompts, original answers and an executable route-selection
 transfer check. They distinguish frozen comparison results from an adaptive

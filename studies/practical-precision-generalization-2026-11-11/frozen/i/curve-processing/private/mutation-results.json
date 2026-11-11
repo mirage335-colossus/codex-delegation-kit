@@ -1,0 +1,24 @@
+{
+  "sample-preserving-omission": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/evaluate.py",
+      "/tmp/curve-processing-sample-preserving-omission.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"full-output aggregate error 2.137510457767868\", \"checks\": \"compile/run/full-output/quality/audit/deadline\"}\n",
+    "stderr": ""
+  },
+  "audit-too-narrow": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/evaluate.py",
+      "/tmp/curve-processing-audit-too-narrow.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"audit sample error 9.333999972938045e-08\", \"checks\": \"compile/run/full-output/quality/audit/deadline\"}\n",
+    "stderr": ""
+  }
+}

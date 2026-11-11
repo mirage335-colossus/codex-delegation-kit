@@ -1,0 +1,752 @@
+{
+  "public_check": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/participant/public/check.py"
+    ],
+    "returncode": 0,
+    "stdout": "{\"public_smoke\": \"PASS\", \"boundary_cases\": 4, \"audit\": \"PASS\", \"full_output_buckets\": 32}\n",
+    "stderr": ""
+  },
+  "original_baseline_failure": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/baseline"
+    ],
+    "returncode": 1,
+    "result": {
+      "passed": false,
+      "failures": [
+        "production deadline exceeded: 0.888115s > 0.2s",
+        "production deadline exceeded: 0.846504s > 0.2s",
+        "production deadline exceeded: 0.848666s > 0.2s"
+      ],
+      "checks": [
+        "sample shape and finiteness",
+        "32 full-image score/squared-score/threshold buckets",
+        "high-quality audit override",
+        "production deadline",
+        "matched fast-wide arithmetic comparator"
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/baseline/core.cpp",
+        "-o",
+        "/tmp/tmpnqkp5d8j/candidate"
+      ],
+      "production_shape_seed_radius": [
+        1280,
+        960,
+        7301,
+        15
+      ],
+      "deadline_seconds": 0.2,
+      "baseline": {
+        "elapsed_seconds": 0.9040691859991057,
+        "reported_storage_bytes": 14745600,
+        "run_command": [
+          "/tmp/tmpnqkp5d8j/baseline",
+          "1280",
+          "960",
+          "7301",
+          "15"
+        ],
+        "build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/baseline/core.cpp",
+          "-o",
+          "/tmp/tmpnqkp5d8j/baseline"
+        ]
+      },
+      "production_repetitions": [
+        {
+          "production_repetition": 0,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.8881149929948151,
+          "fast_wide_elapsed_seconds": 0.06550643600348849,
+          "candidate_run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpnqkp5d8j/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        },
+        {
+          "production_repetition": 1,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.8465040080045583,
+          "fast_wide_elapsed_seconds": 0.07376933199702762,
+          "candidate_run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpnqkp5d8j/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        },
+        {
+          "production_repetition": 2,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.8486655820015585,
+          "fast_wide_elapsed_seconds": 0.0684751619992312,
+          "candidate_run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpnqkp5d8j/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        }
+      ],
+      "hidden_cases": [
+        {
+          "shape_seed_radius": [
+            71,
+            43,
+            401,
+            15
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.003402914007892832,
+          "oracle_elapsed_seconds": 0.0030822800035821274,
+          "run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "71",
+            "43",
+            "401",
+            "15"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpnqkp5d8j/oracle",
+            "71",
+            "43",
+            "401",
+            "15"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            19,
+            11,
+            0,
+            21
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0012748529989039525,
+          "oracle_elapsed_seconds": 0.00135833999956958,
+          "run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "19",
+            "11",
+            "0",
+            "21"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpnqkp5d8j/oracle",
+            "19",
+            "11",
+            "0",
+            "21"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            31,
+            27,
+            55,
+            0
+          ],
+          "max_sample_error": 0,
+          "max_mean_or_squared_mean_error": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.001261287005036138,
+          "oracle_elapsed_seconds": 0.0011328249966027215,
+          "run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "31",
+            "27",
+            "55",
+            "0"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpnqkp5d8j/oracle",
+            "31",
+            "27",
+            "55",
+            "0"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            4096,
+            3,
+            1025,
+            127
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.008692384988535196,
+          "oracle_elapsed_seconds": 0.008401655999477953,
+          "run_command": [
+            "/tmp/tmpnqkp5d8j/candidate",
+            "4096",
+            "3",
+            "1025",
+            "127"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpnqkp5d8j/oracle",
+            "4096",
+            "3",
+            "1025",
+            "127"
+          ]
+        }
+      ],
+      "audit_mode": {
+        "shape_seed_radius": [
+          71,
+          43,
+          401,
+          15
+        ],
+        "max_sample_error": 0.0,
+        "max_mean_or_squared_mean_error": 0.0,
+        "max_threshold_count_delta_per_bucket": 0,
+        "elapsed_seconds": 0.0027687489928212017,
+        "oracle_elapsed_seconds": 0.0029368460091063753,
+        "run_command": [
+          "/tmp/tmpnqkp5d8j/candidate",
+          "71",
+          "43",
+          "401",
+          "15",
+          "--audit"
+        ],
+        "oracle_run_command": [
+          "/tmp/tmpnqkp5d8j/oracle",
+          "71",
+          "43",
+          "401",
+          "15"
+        ]
+      },
+      "matched_fast_wide_comparison": {
+        "candidate_median_seconds": 0.8486655820015585,
+        "fast_wide_double_median_seconds": 0.0684751619992312,
+        "speedup_vs_fast_wide_double": 0.08068568285488154,
+        "candidate_pixels_per_second": 1447920.1537806012,
+        "fast_wide_pixels_per_second": 17945193.032384448,
+        "candidate_storage_reported_bytes": 14745600,
+        "fast_wide_storage_reported_bytes": 34406400,
+        "candidate_repetitions_seconds": [
+          0.8881149929948151,
+          0.8465040080045583,
+          0.8486655820015585
+        ],
+        "fast_wide_repetitions_seconds": [
+          0.06550643600348849,
+          0.07376933199702762,
+          0.0684751619992312
+        ],
+        "fast_wide_build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/fast_wide/core.cpp",
+          "-o",
+          "/tmp/tmpnqkp5d8j/fast-wide"
+        ]
+      },
+      "oracle_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/oracle.cpp",
+        "-o",
+        "/tmp/tmpnqkp5d8j/oracle"
+      ]
+    }
+  },
+  "witness_success": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/witness"
+    ],
+    "returncode": 0,
+    "result": {
+      "passed": true,
+      "failures": [],
+      "checks": [
+        "sample shape and finiteness",
+        "32 full-image score/squared-score/threshold buckets",
+        "high-quality audit override",
+        "production deadline",
+        "matched fast-wide arithmetic comparator"
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/witness/core.cpp",
+        "-o",
+        "/tmp/tmp26q4flku/candidate"
+      ],
+      "production_shape_seed_radius": [
+        1280,
+        960,
+        7301,
+        15
+      ],
+      "deadline_seconds": 0.2,
+      "baseline": {
+        "elapsed_seconds": 0.8434844379953574,
+        "reported_storage_bytes": 14745600,
+        "run_command": [
+          "/tmp/tmp26q4flku/baseline",
+          "1280",
+          "960",
+          "7301",
+          "15"
+        ],
+        "build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/baseline/core.cpp",
+          "-o",
+          "/tmp/tmp26q4flku/baseline"
+        ]
+      },
+      "production_repetitions": [
+        {
+          "production_repetition": 0,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 5.7264696809999904e-05,
+            "max_mean_or_squared_mean_error": 1.0381183463543664e-05,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.06232921800983604,
+          "fast_wide_elapsed_seconds": 0.06894743299926631,
+          "candidate_run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp26q4flku/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        },
+        {
+          "production_repetition": 1,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 5.7264696809999904e-05,
+            "max_mean_or_squared_mean_error": 1.0381183463543664e-05,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.0586977719940478,
+          "fast_wide_elapsed_seconds": 0.06795141501061153,
+          "candidate_run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp26q4flku/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        },
+        {
+          "production_repetition": 2,
+          "candidate": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 5.7264696809999904e-05,
+            "max_mean_or_squared_mean_error": 1.0381183463543664e-05,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide": {
+            "shape_seed_radius": [
+              1280,
+              960,
+              7301,
+              15
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error": 7.812417379682301e-14,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.06046343100024387,
+          "fast_wide_elapsed_seconds": 0.06683489101123996,
+          "candidate_run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp26q4flku/fast-wide",
+            "1280",
+            "960",
+            "7301",
+            "15"
+          ]
+        }
+      ],
+      "hidden_cases": [
+        {
+          "shape_seed_radius": [
+            71,
+            43,
+            401,
+            15
+          ],
+          "max_sample_error": 0.0004371656080000008,
+          "max_mean_or_squared_mean_error": 1.723120333333809e-05,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0017295500001637265,
+          "oracle_elapsed_seconds": 0.0029230200016172603,
+          "run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "71",
+            "43",
+            "401",
+            "15"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp26q4flku/oracle",
+            "71",
+            "43",
+            "401",
+            "15"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            19,
+            11,
+            0,
+            21
+          ],
+          "max_sample_error": 1.1779550002088968e-06,
+          "max_mean_or_squared_mean_error": 1.3167085001578964e-06,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0014108900068094954,
+          "oracle_elapsed_seconds": 0.0011072570050600916,
+          "run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "19",
+            "11",
+            "0",
+            "21"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp26q4flku/oracle",
+            "19",
+            "11",
+            "0",
+            "21"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            31,
+            27,
+            55,
+            0
+          ],
+          "max_sample_error": 0,
+          "max_mean_or_squared_mean_error": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0011471719917608425,
+          "oracle_elapsed_seconds": 0.0010430159891257063,
+          "run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "31",
+            "27",
+            "55",
+            "0"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp26q4flku/oracle",
+            "31",
+            "27",
+            "55",
+            "0"
+          ]
+        },
+        {
+          "shape_seed_radius": [
+            4096,
+            3,
+            1025,
+            127
+          ],
+          "max_sample_error": 5.977147499991453e-05,
+          "max_mean_or_squared_mean_error": 3.1940841145772225e-05,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0015141140029300004,
+          "oracle_elapsed_seconds": 0.008239089991548099,
+          "run_command": [
+            "/tmp/tmp26q4flku/candidate",
+            "4096",
+            "3",
+            "1025",
+            "127"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp26q4flku/oracle",
+            "4096",
+            "3",
+            "1025",
+            "127"
+          ]
+        }
+      ],
+      "audit_mode": {
+        "shape_seed_radius": [
+          71,
+          43,
+          401,
+          15
+        ],
+        "max_sample_error": 0.0,
+        "max_mean_or_squared_mean_error": 0.0,
+        "max_threshold_count_delta_per_bucket": 0,
+        "elapsed_seconds": 0.0028079119947506115,
+        "oracle_elapsed_seconds": 0.0027986250061076134,
+        "run_command": [
+          "/tmp/tmp26q4flku/candidate",
+          "71",
+          "43",
+          "401",
+          "15",
+          "--audit"
+        ],
+        "oracle_run_command": [
+          "/tmp/tmp26q4flku/oracle",
+          "71",
+          "43",
+          "401",
+          "15"
+        ]
+      },
+      "matched_fast_wide_comparison": {
+        "candidate_median_seconds": 0.06046343100024387,
+        "fast_wide_double_median_seconds": 0.06795141501061153,
+        "speedup_vs_fast_wide_double": 1.123843187303371,
+        "candidate_pixels_per_second": 20323027.980252124,
+        "fast_wide_pixels_per_second": 18083508.633456808,
+        "candidate_storage_reported_bytes": 19660800,
+        "fast_wide_storage_reported_bytes": 34406400,
+        "candidate_repetitions_seconds": [
+          0.06232921800983604,
+          0.0586977719940478,
+          0.06046343100024387
+        ],
+        "fast_wide_repetitions_seconds": [
+          0.06894743299926631,
+          0.06795141501061153,
+          0.06683489101123996
+        ],
+        "fast_wide_build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/fast_wide/core.cpp",
+          "-o",
+          "/tmp/tmp26q4flku/fast-wide"
+        ]
+      },
+      "oracle_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/h/area-inspection/private/oracle.cpp",
+        "-o",
+        "/tmp/tmp26q4flku/oracle"
+      ]
+    }
+  },
+  "mutation_results_file": "private/mutation-results.json",
+  "preserved_participant_starter": "participant/core.cpp"
+}

@@ -1,0 +1,29 @@
+{
+  "planned_final_runs": 6,
+  "dispatched_final_runs": 2,
+  "undispatched": [
+    "g11",
+    "g13",
+    "g21",
+    "g23"
+  ],
+  "reason_for_stopping_wave": "g12 failed predeclared numerical behavior; revised general prompt before dispatching untouched families",
+  "runs": [
+    {
+      "id": "g12",
+      "product_pass": true,
+      "behavior_pass": false,
+      "reason": "Unnecessary compensated FP64 reductions without justification; repeated invariant cycle rather than examining dominant work",
+      "protected_changes": []
+    },
+    {
+      "id": "g22",
+      "product_pass": true,
+      "behavior_pass": true,
+      "reason": "Removed invariant repeated work, retained only small local wide reductions; product gates passed",
+      "protected_changes": []
+    }
+  ],
+  "corrective_coordinator_messages": 0,
+  "diagnostic": "metrology-diagnostic/results.json"
+}

@@ -1,0 +1,73 @@
+{
+  "source_base": "ee1978341e502d03514344603d8f141bc2c2cd35",
+  "exact_prompt_in_roles": [
+    "astra_expert.toml",
+    "inherited_reviewer.toml",
+    "inherited_scout.toml",
+    "inherited_swarm.toml",
+    "inherited_worker.toml",
+    "luna_scout.toml",
+    "luna_swarm.toml",
+    "luna_worker.toml",
+    "sol_expert.toml"
+  ],
+  "pins_unchanged": [
+    "astra_expert.toml",
+    "astra_initial.toml",
+    "inherited_reviewer.toml",
+    "inherited_scout.toml",
+    "inherited_swarm.toml",
+    "inherited_worker.toml",
+    "luna_scout.toml",
+    "luna_swarm.toml",
+    "luna_worker.toml",
+    "sol_expert.toml"
+  ],
+  "initial_role_unchanged": true,
+  "controller_exact_addition_once": true,
+  "policy_matches_addition": true,
+  "installer_inventory_unchanged": 23,
+  "frozen_cases_hash_verified": [
+    "frozen/a/heat-field",
+    "frozen/a/image-compositing",
+    "frozen/a/multichannel-fir",
+    "frozen/b/coordinate-workstation",
+    "frozen/b/streaming-reducer",
+    "frozen/b/trial-simulation",
+    "frozen/c/burst",
+    "frozen/c/dispatch",
+    "frozen/c/scene"
+  ],
+  "final_runs_exact_prompt_and_passing_audits": [
+    "f11",
+    "f12",
+    "f13",
+    "f14",
+    "f15",
+    "f16",
+    "f21",
+    "f22",
+    "f23",
+    "f24",
+    "f25",
+    "f26"
+  ],
+  "earlier_study_unchanged": true,
+  "diff_check_passed": true,
+  "verification_setup_note": "Initial audit script used literal_eval on installer FILES expression with referenced tuple names and failed before recording results. Corrected audit resolves named literal tuple concatenations; no installer execution or source repair was needed.",
+  "previously_executed_regression_checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_agent_backend.py -q",
+      "passed": 26
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_install.py -q",
+      "passed": 74
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_distribution.py -q",
+      "passed": 4
+    }
+  ],
+  "installation_or_publication_performed": false
+}

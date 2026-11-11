@@ -1,0 +1,64 @@
+{
+  "source_base": "ee1978341e502d03514344603d8f141bc2c2cd35",
+  "candidate": "prompt-v6.txt",
+  "candidate_sha256": "776f75bab5bfc20a5081d57759a63acbe008039af23c08d833fbab245e54e9a2",
+  "full_candidate_once_in_roles": [
+    "astra_expert.toml",
+    "inherited_reviewer.toml",
+    "inherited_scout.toml",
+    "inherited_swarm.toml",
+    "inherited_worker.toml",
+    "luna_scout.toml",
+    "luna_swarm.toml",
+    "luna_worker.toml",
+    "sol_expert.toml"
+  ],
+  "all_role_pins_unchanged": true,
+  "initial_role_unchanged": true,
+  "controller_each_candidate_paragraph_once": true,
+  "policy_additions_match": true,
+  "installer_inventory_unchanged": 23,
+  "earlier_study_and_AGENTS_unchanged": true,
+  "frozen_cases_hash_verified": [
+    "frozen/a/heat-field",
+    "frozen/a/image-compositing",
+    "frozen/a/multichannel-fir",
+    "frozen/b/coordinate-workstation",
+    "frozen/b/streaming-reducer",
+    "frozen/b/trial-simulation",
+    "frozen/c/burst",
+    "frozen/c/dispatch",
+    "frozen/c/scene",
+    "frozen/d/pixel-classifier",
+    "frozen/e/streaming-metrology",
+    "frozen/f/spectral-bank",
+    "frozen/g/event-workstation",
+    "frozen/h/area-inspection",
+    "frozen/i/curve-processing",
+    "frozen/j/timeline-resampler"
+  ],
+  "workflow_packet_hashes_verified": {
+    "prompt-v6.txt": "776f75bab5bfc20a5081d57759a63acbe008039af23c08d833fbab245e54e9a2",
+    "owner-packet-v1.txt": "979bde4d192a066e213cfbf6881eade8071f140e785929605fae5c4fff261911",
+    "review-packet-v1.txt": "668e41fc425398749af06dfc010b4bc8840f6e15200eb159e6a9d8cb26d72325",
+    "workflow-protocol-v1.md": "995eaccd2f1e925851422cbd36c15f3355f9439bc542d0c675f72909be05ea40"
+  },
+  "compiled_binary_artifacts": [],
+  "git_diff_check_passed": true,
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_agent_backend.py -q",
+      "tests_passed": 26
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_install.py -q",
+      "tests_passed": 74
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_distribution.py -q",
+      "tests_passed": 4
+    }
+  ],
+  "test_scope": "Source wiring and bundle preservation, not behavioral proof",
+  "installed_committed_pushed": false
+}

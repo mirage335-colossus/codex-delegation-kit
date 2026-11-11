@@ -1,0 +1,33 @@
+{
+  "candidate": "prompt-v5.txt",
+  "prompt_sha256": "846fd93b4719f89f789b6b8d198621aad2fb5776835fee6ad70a289f1de89fc6",
+  "protocol": "protocol-v5.md",
+  "protocol_sha256": "9c404038f4dca30d067a7c74c42dde73a3e129538db02bee5e1cefb560040d1e",
+  "development_regression": "d07",
+  "fresh_transfer_runs": [
+    {
+      "id": "j11",
+      "case": "h/area-inspection"
+    },
+    {
+      "id": "j12",
+      "case": "g/event-workstation"
+    },
+    {
+      "id": "j21",
+      "case": "h/area-inspection"
+    },
+    {
+      "id": "j22",
+      "case": "g/event-workstation"
+    }
+  ],
+  "dispatch_requires": "development acceptance and independently cleared fixture preflight",
+  "role_request": "luna_worker (Luna high)",
+  "effective_runtime_model_effort": "not independently observed",
+  "corrective_coordinator_messages_allowed": false,
+  "limits": {
+    "tool_invocations": 30,
+    "minutes": 15
+  }
+}

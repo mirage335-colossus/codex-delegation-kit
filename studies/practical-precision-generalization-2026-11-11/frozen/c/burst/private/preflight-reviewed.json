@@ -1,0 +1,38 @@
+[
+  {
+    "kind": "starter",
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/c/burst/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/c/burst/participant"
+    ],
+    "returncode": 1,
+    "stdout": "{\"checks\": [{\"case\": \"4x200000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"4x200000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"2x2300000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"2x2300000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"5x5000000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"5x5000000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": false}, {\"case\": \"explicit float\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit double\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit float 5x5000000\", \"check\": \"all row scores within public tolerance\", \"passed\": false}], \"observations\": [{\"case\": \"4x200000\", \"checksum\": \"1583.8500022433823\", \"external_elapsed_s\": 0.008846479002386332, \"measured_heap_peak_bytes\": 3200032, \"outputs\": \"4\", \"reference_checksum\": \"1583.8500022433823\", \"reported_buffer_bytes\": \"3200032\", \"reported_seconds\": \"0.00066867900000000004\"}, {\"case\": \"2x2300000\", \"checksum\": \"263.22360810574293\", \"external_elapsed_s\": 0.0656098430044949, \"measured_heap_peak_bytes\": 36800016, \"outputs\": \"2\", \"reference_checksum\": \"263.22360810574293\", \"reported_buffer_bytes\": \"36800016\", \"reported_seconds\": \"0.0054744989999999999\"}, {\"case\": \"5x5000000\", \"checksum\": \"1514.5761455817651\", \"external_elapsed_s\": 0.166664104006486, \"measured_heap_peak_bytes\": 80000040, \"outputs\": \"5\", \"reference_checksum\": \"1514.5761455817651\", \"reported_buffer_bytes\": \"80000040\", \"reported_seconds\": \"0.028251671999999999\"}], \"passed\": false}\n",
+    "stderr": ""
+  },
+  {
+    "kind": "witness",
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/c/burst/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/c/burst/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\"checks\": [{\"case\": \"4x200000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"4x200000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"2x2300000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"2x2300000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"5x5000000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"5x5000000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"explicit float\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit double\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit float 5x5000000\", \"check\": \"all row scores within public tolerance\", \"passed\": true}], \"observations\": [{\"case\": \"4x200000\", \"checksum\": \"1583.8499827524001\", \"external_elapsed_s\": 0.010148730987566523, \"measured_heap_peak_bytes\": 1600032, \"outputs\": \"4\", \"reference_checksum\": \"1583.8500022433823\", \"reported_buffer_bytes\": \"1600032\", \"reported_seconds\": \"0.00024761599999999998\"}, {\"case\": \"2x2300000\", \"checksum\": \"263.22359989509039\", \"external_elapsed_s\": 0.07207214301161002, \"measured_heap_peak_bytes\": 18400016, \"outputs\": \"2\", \"reference_checksum\": \"263.22360810574293\", \"reported_buffer_bytes\": \"18400016\", \"reported_seconds\": \"0.0047736089999999998\"}, {\"case\": \"5x5000000\", \"checksum\": \"1514.5761673685131\", \"external_elapsed_s\": 0.17832803900819272, \"measured_heap_peak_bytes\": 40000040, \"outputs\": \"5\", \"reference_checksum\": \"1514.5761455817651\", \"reported_buffer_bytes\": \"40000040\", \"reported_seconds\": \"0.015381125000000001\"}], \"passed\": true}\n",
+    "stderr": ""
+  },
+  {
+    "kind": "all_compact_mutation",
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/c/burst/private/evaluate.py",
+      "/tmp/tmpatbn0kki"
+    ],
+    "returncode": 1,
+    "stdout": "{\"checks\": [{\"case\": \"4x200000\", \"check\": \"all row scores and count\", \"passed\": true}, {\"case\": \"4x200000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"2x2300000\", \"check\": \"all row scores and count\", \"passed\": false}, {\"case\": \"2x2300000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"5x5000000\", \"check\": \"all row scores and count\", \"passed\": false}, {\"case\": \"5x5000000\", \"check\": \"measured live heap <= 64 MiB\", \"passed\": true}, {\"case\": \"explicit float\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit double\", \"check\": \"override complete output quality\", \"passed\": true}, {\"case\": \"explicit float 5x5000000\", \"check\": \"all row scores within public tolerance\", \"passed\": false}], \"observations\": [{\"case\": \"4x200000\", \"checksum\": \"1583.8552551269531\", \"external_elapsed_s\": 0.009115324995946139, \"measured_heap_peak_bytes\": 1600032, \"outputs\": \"4\", \"reference_checksum\": \"1583.8500022433823\", \"reported_buffer_bytes\": \"1600032\", \"reported_seconds\": \"0.00074375000000000005\"}, {\"case\": \"2x2300000\", \"checksum\": \"263.21546936035156\", \"external_elapsed_s\": 0.06339261800167151, \"measured_heap_peak_bytes\": 18400016, \"outputs\": \"2\", \"reference_checksum\": \"263.22360810574293\", \"reported_buffer_bytes\": \"18400016\", \"reported_seconds\": \"0.0043284209999999998\"}, {\"case\": \"5x5000000\", \"checksum\": \"1514.5317077636719\", \"external_elapsed_s\": 0.1516394710051827, \"measured_heap_peak_bytes\": 40000040, \"outputs\": \"5\", \"reference_checksum\": \"1514.5761455817651\", \"reported_buffer_bytes\": \"40000040\", \"reported_seconds\": \"0.022772615\"}], \"passed\": false}\n",
+    "stderr": ""
+  }
+]

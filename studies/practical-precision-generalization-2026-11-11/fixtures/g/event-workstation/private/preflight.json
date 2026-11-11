@@ -1,0 +1,85 @@
+{
+  "original_baseline": {
+    "command": "python3 -B private/evaluate.py participant",
+    "exit_code": 1,
+    "checks": {
+      "exact_counts": false,
+      "weighted_scores": true,
+      "full_archive_rss_le_40_mib": false,
+      "full_archive_handoff_deadline": true
+    },
+    "observations": {
+      "full_archive_rss_kib": 50336,
+      "rss_limit_kib": 40960,
+      "elapsed_s": 0.0521,
+      "counter_errors": "all tested classes differ from exact integer reference"
+    },
+    "public_result": {
+      "command": "python3 -B participant/public_check.py",
+      "exit_code": 1,
+      "exact_counts": false,
+      "weighted_scores": true,
+      "rss_kib": 50408,
+      "elapsed_s": 0.0482
+    }
+  },
+  "witness": {
+    "command": "python3 -B private/evaluate.py private/witness",
+    "exit_code": 0,
+    "checks": {
+      "exact_counts": true,
+      "weighted_scores": true,
+      "full_archive_rss_le_40_mib": true,
+      "full_archive_handoff_deadline": true
+    },
+    "observations": {
+      "full_archive_rss_kib": 26904,
+      "rss_limit_kib": 40960,
+      "elapsed_s": 0.0367
+    },
+    "public_result": {
+      "exit_code": 0,
+      "exact_counts": true,
+      "weighted_scores": true,
+      "rss_kib": 26844,
+      "elapsed_s": 0.0408
+    }
+  },
+  "control_mutations": [
+    {
+      "mutation": "change exact cumulative counts to float",
+      "exit_code": 1,
+      "failed_checks": [
+        "1_events_seed_7",
+        "31_events_seed_305419896",
+        "1003_events_seed_9223372036854775819",
+        "full_archive_exact_counts"
+      ],
+      "weighted_scores": "pass"
+    },
+    {
+      "mutation": "accumulate weighted scores in float",
+      "exit_code": 1,
+      "failed_check": "full_archive_weighted_scores",
+      "exact_counts": "pass"
+    },
+    {
+      "mutation": "process only half of the events",
+      "exit_code": 1,
+      "failed_checks": [
+        "all small exact counters and scores",
+        "full_archive_exact_counts",
+        "full_archive_weighted_scores"
+      ]
+    },
+    {
+      "mutation": "compute each weighted product in float but keep a double score sum",
+      "exit_code": 0,
+      "result": "all exact count, weighted score, RSS, and deadline checks pass"
+    },
+    {
+      "setup_attempt": "first float-score mutation compile used a replacement missing its trailing semicolon; compilation failed before assertions (0 assertions). Corrected mutation was then compiled and failed the full score oracle as above."
+    }
+  ],
+  "runner": "The private evaluator builds in a temporary directory. Full-run RSS is measured with a fresh Python wrapper using RUSAGE_CHILDREN for the one native child; application-reported memory is ignored. Independent references compute all eight exact count totals and weighted-score outputs."
+}

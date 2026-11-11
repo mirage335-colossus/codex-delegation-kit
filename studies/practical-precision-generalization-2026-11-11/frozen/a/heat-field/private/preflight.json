@@ -1,0 +1,37 @@
+{
+  "workload_cases": "1024x512x160;83x67x29;117x91x51",
+  "baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/participant"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"storage 8388608 > 5242880\", \"checks\": \"compile/run/resource/quality\"}\n",
+    "stderr": ""
+  },
+  "witness": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"cases\": [\n    {\n      \"shape_steps\": [\n        1024,\n        512,\n        160\n      ],\n      \"storage_bytes_reported\": 4194304,\n      \"tracked_allocation_peak_bytes\": 4202464,\n      \"max_sample_error\": 4.665991509833489e-09,\n      \"elapsed_seconds\": 0.06436594799743034,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpp3xmyfen/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpp3xmyfen/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpp3xmyfen/core\",\n        \"1024\",\n        \"512\",\n        \"160\",\n        \"31\"\n      ]\n    },\n    {\n      \"shape_steps\": [\n        83,\n        67,\n        29\n      ],\n      \"storage_bytes_reported\": 44488,\n      \"tracked_allocation_peak_bytes\": 44496,\n      \"max_sample_error\": 9.706618495086694e-10,\n      \"elapsed_seconds\": 0.00226842200208921,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpp3xmyfen/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpp3xmyfen/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpp3xmyfen/core\",\n        \"83\",\n        \"67\",\n        \"29\",\n        \"997\"\n      ]\n    },\n    {\n      \"shape_steps\": [\n        117,\n        91,\n        51\n      ],\n      \"storage_bytes_reported\": 85176,\n      \"tracked_allocation_peak_bytes\": 85200,\n      \"max_sample_error\": 5.286469817455952e-09,\n      \"elapsed_seconds\": 0.0022280350094661117,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpp3xmyfen/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpp3xmyfen/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpp3xmyfen/core\",\n        \"117\",\n        \"91\",\n        \"51\",\n        \"3\"\n      ]\n    }\n  ]\n}\n",
+    "stderr": ""
+  },
+  "all_zero_mutation": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/heat-field/private/evaluate.py",
+      "/tmp/heat-field-all-zero-core.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"quality error 0.11493830846599151\", \"checks\": \"compile/run/resource/quality\"}\n",
+    "stderr": "",
+    "source": "private/witness/core.cpp with computed outputs replaced by zero"
+  }
+}

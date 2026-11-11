@@ -1,0 +1,7 @@
+# Flag local surface defects under uneven lighting
+
+Improve the local-contrast scoring path used to flag scratches and pits in grayscale line-scan images with gradual illumination changes. Preserve the clipped-window boundary behavior and produce one finite signed contrast score for every pixel. The production image is **1280 × 960 pixels** with a **15-pixel neighborhood radius**. A normal-mode production batch must complete within **0.20 seconds** on the target CPU build. The audit invocation is diagnostic and does not use this deadline. Record the measured end-to-end time with the documented command.
+
+Against the high-accuracy reference, reported samples must be within **0.01 score units**. For each of the 32 buckets over the complete image, mean score and mean squared-score errors must be at most **0.001**, and the count of pixels with absolute score at least 2.5 may differ by at most **64**. The buckets include every output pixel. Preserve an `--audit` mode that matches the reference within **1e-12** at samples, **1e-10 per element** in both aggregates, and exactly in threshold counts. Other image sizes and radii accepted by the CLI remain supported.
+
+Build with `c++ -O3 -std=c++17 -DNDEBUG -march=native core.cpp -o ./area-inspection`. Run `./area-inspection WIDTH HEIGHT SEED RADIUS`. The audit invocation adds `--audit` after those arguments. The public smoke and boundary checks are `python3 public/check.py [path-to-core.cpp]`.

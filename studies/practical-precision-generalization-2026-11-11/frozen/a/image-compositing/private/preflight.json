@@ -1,0 +1,37 @@
+{
+  "workload_cases": "1920x1080;733x517;257x191",
+  "baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/participant"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"storage 199065600 > 115343360\", \"checks\": \"compile/run/resource/quality\"}\n",
+    "stderr": ""
+  },
+  "witness": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"cases\": [\n    {\n      \"dimensions\": [\n        1920,\n        1080\n      ],\n      \"storage_bytes_reported\": 99532800,\n      \"tracked_allocation_peak_bytes\": 99545040,\n      \"max_sample_error\": 5.417884629821401e-08,\n      \"elapsed_seconds\": 0.03750195998873096,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpqgtw8hwg/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpqgtw8hwg/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpqgtw8hwg/core\",\n        \"1920\",\n        \"1080\",\n        \"17\"\n      ]\n    },\n    {\n      \"dimensions\": [\n        733,\n        517\n      ],\n      \"storage_bytes_reported\": 18190128,\n      \"tracked_allocation_peak_bytes\": 18198480,\n      \"max_sample_error\": 5.06017004964221e-08,\n      \"elapsed_seconds\": 0.009723922004923224,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpqgtw8hwg/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpqgtw8hwg/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpqgtw8hwg/core\",\n        \"733\",\n        \"517\",\n        \"201\"\n      ]\n    },\n    {\n      \"dimensions\": [\n        257,\n        191\n      ],\n      \"storage_bytes_reported\": 2356176,\n      \"tracked_allocation_peak_bytes\": 2359248,\n      \"max_sample_error\": 2.3104429369702473e-08,\n      \"elapsed_seconds\": 0.0033123269968200475,\n      \"compile_command\": [\n        \"c++\",\n        \"-O2\",\n        \"-std=c++17\",\n        \"-include\",\n        \"/tmp/tmpqgtw8hwg/tracker.hpp\",\n        \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/witness/core.cpp\",\n        \"-o\",\n        \"/tmp/tmpqgtw8hwg/core\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpqgtw8hwg/core\",\n        \"257\",\n        \"191\",\n        \"0\"\n      ]\n    }\n  ]\n}\n",
+    "stderr": ""
+  },
+  "all_zero_mutation": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/a/image-compositing/private/evaluate.py",
+      "/tmp/image-compositing-all-zero-core.cpp"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"failure\": \"quality error 0.9490136664475777\", \"checks\": \"compile/run/resource/quality\"}\n",
+    "stderr": "",
+    "source": "private/witness/core.cpp with computed outputs replaced by zero"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "planned_final_runs": 6,
+  "dispatched_final_runs": 4,
+  "undispatched": [
+    "h12",
+    "h22"
+  ],
+  "reason_for_stopping_wave": "h23 did not qualify arithmetic inside replacement algorithm; retained small repeated E2E gain from narrowing confirmed an opportunity; general prompt refined before dispatching untouched event family",
+  "product_passes": 4,
+  "behavior_passes": 3,
+  "runs": [
+    {
+      "id": "h11",
+      "product_pass": true,
+      "behavior_pass": true,
+      "scope": "prohibited read-only git status on first inspection; self-reported"
+    },
+    {
+      "id": "h21",
+      "product_pass": true,
+      "behavior_pass": true,
+      "scope": "no deviation identified"
+    },
+    {
+      "id": "h13",
+      "product_pass": true,
+      "behavior_pass": true,
+      "scope": "no deviation identified; local output-count assertion repaired autonomously"
+    },
+    {
+      "id": "h23",
+      "product_pass": true,
+      "behavior_pass": false,
+      "scope": "no deviation identified",
+      "reason": "Kept FP64 in replacement FFT without width qualification or concrete output need; smaller qualifying width gave modest repeatable E2E advantage in coordinator diagnostic"
+    }
+  ],
+  "protected_changes": [],
+  "corrective_coordinator_messages": 0,
+  "diagnostic": [
+    "spectral-diagnostic/results.json",
+    "spectral-diagnostic/clarification.json"
+  ]
+}

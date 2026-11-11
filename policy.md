@@ -1366,6 +1366,72 @@ silently weaken it. Normalize or scale data, use wider accumulators or retain
 sensitive coordinates/state where they demonstrate a practical benefit instead
 of promoting the whole pipeline. Fewer bits alone do not guarantee faster work.
 
+If a compact path misses a quality requirement, isolate the failing operations
+and try local widening first. Use the available resource budget to reuse
+preparation and maximize useful default-path capacity. Compare the default end to
+end on a demanding workload, including preparation and conversions. Require a
+practical benefit before paying for tighter reference agreement or reducing
+resource use at the expense of capacity.
+
+Treat storage and executed arithmetic as separate choices. Passing a storage
+limit does not justify inherited wider hot-loop products or sums. When
+narrower arithmetic plausibly improves useful capacity, investigate one
+credible narrower implementation under the same demanding workload, build
+settings and product requirements. Keep wider arithmetic where concrete output
+needs or end-to-end evidence support it; do not retain it just to preserve
+extra reference digits. Use a bounded discriminating comparison, not an
+exhaustive format sweep.
+
+Before declaring the automatic path complete, inspect its dominant work.
+Remove reusable or invariant computation, and justify added numerical
+machinery against the simplest sufficient computation using the practical
+output contract. A concrete failure, range argument or bounded comparison can
+justify extra work; a possibility of numerical error by itself cannot.
+
+An algorithmic improvement does not by itself justify the arithmetic precision
+chosen inside the replacement algorithm. For its main numerical computation,
+qualify one plausible narrower implementation or give a concrete output
+requirement for the wider choice. When qualified choices are effectively tied,
+prefer narrower arithmetic; retain wider arithmetic for a demonstrated
+practical benefit.
+
+Treat completion of substantive numerical changes as proposed until an
+independent reviewer checks the practical numerical decisions and observable
+reports. The reviewer traces executed operand, product, accumulation and
+conversion types through the main loops, verifies useful work, demanding
+defaults, overrides and resource accounting, and investigates one credible
+consequential gap with a bounded check. Relay evidenced findings to the owner
+for repair and re-review without asking the user to tune internal stages.
+Preserve original attempts and distinguish owner results from independently
+accepted results. Reuse the existing review-and-repair process; delegated
+reviews do not recursively request another review.
+
+For a numerical acceptance assignment, reuse the existing independent review
+and owner-repair roles. Supply the actual task, source, public evidence, numerical
+guidance, read/write scope and aggregate budget. The following review questions
+belong in that assignment; map paths to the real scope instead of requiring a
+particular directory layout:
+
+- Trace executed operand, multiplication, accumulation and conversion types
+  through each main numerical loop, including implicit promotions and library
+  overloads. A narrow destination or buffer does not establish narrow computation.
+- Check the practical justification for retained wider hot arithmetic and added
+  numerical machinery, including inside replacement algorithms. Verify complete
+  useful work, invariant preparation, demanding automatic/default requests, exact
+  state, supported overrides and truthful accounting for live allocations.
+- Investigate one credible consequential gap when supplied evidence is
+  insufficient, using a bounded check and end-to-end cost where performance
+  matters. Do not invent a higher precision requirement, speed ratio, particular
+  algorithm or exhaustive optimization requirement. Preserve uncertainty.
+- Return acceptance or specific evidenced findings to the owner. The owner
+  repairs the production source; the independent reviewer checks the affected
+  contracts. Preserve original attempts, repair rounds, budgets and role limits.
+  Do not present a reviewed-and-repaired result as one-shot worker success.
+
+This is instruction-level guidance using the existing review-and-repair process,
+not a new runtime interception or proof of compliance. A delegated review does
+not recursively invoke another review or the main-chat completion gate.
+
 End-user and experiment turnaround time are part of the objective. Start with a
 small discriminating check using the production implementation, reusing valid
 evidence. Sample demanding shapes and relevant failure cases rather than relying

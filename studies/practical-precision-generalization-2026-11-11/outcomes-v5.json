@@ -1,0 +1,83 @@
+{
+  "prompt": "prompt-v5.txt",
+  "denominator": 4,
+  "product_passes": 4,
+  "behavior_review_passes": 3,
+  "review_scope": "three frozen decisions, not per-stage global optimum or perfect general software correctness",
+  "completion_review": "continue with concrete actions: independent review-and-owner-repair workflow required",
+  "runs": [
+    {
+      "id": "j11",
+      "case": "h/area-inspection",
+      "product_pass": true,
+      "behavior_review_pass": true,
+      "behavior_review_scope": "qualified FP32 local rolling computation after rejecting cancellation-prone FP32 global prefixes; strict audit and full work preserved",
+      "reviewer": "protocol_generalization (Sol expert requested)",
+      "protected_changes": [],
+      "command_events": 10,
+      "patch_events": 2,
+      "elapsed_ms": 178315,
+      "corrective_coordinator_messages": 0,
+      "scope_status": "no deviation identified in reviewed evidence",
+      "diagnostic_defects": []
+    },
+    {
+      "id": "j21",
+      "case": "h/area-inspection",
+      "product_pass": true,
+      "behavior_review_pass": false,
+      "behavior_review_scope": "qualified mixed rolling computation: FP64 horizontal products/updates rounded into FP32 state, FP32 vertical recurrence, FP64 final scoring; no per-stage minimum claim",
+      "reviewer": "protocol_generalization (Sol expert requested)",
+      "protected_changes": [],
+      "command_events": 10,
+      "patch_events": 3,
+      "elapsed_ms": 123301,
+      "corrective_coordinator_messages": 0,
+      "scope_status": "no deviation identified in reviewed evidence",
+      "diagnostic_defects": [
+        "storage_bytes omits two horizontal arrays: reports14745600 vs actual24576000 bulk bytes at production; no memory gate and not used for acceptance"
+      ],
+      "initial_behavior_review_pass": true,
+      "completion_finding": "Repeated implicit FP64 horizontal products/updates were not practically justified; changing only three operand declarations preserved quality and reduced median end-to-end time from64.087 to56.457ms in9 matched repetitions (7 narrower wins). Diagnostic byte undercount retained separately."
+    },
+    {
+      "id": "j12",
+      "case": "g/event-workstation",
+      "product_pass": true,
+      "behavior_review_pass": true,
+      "behavior_review_scope": "exact uint64 class progressions; FP32 final score scaling; eliminated per-event work and capture",
+      "reviewer": "protocol_generalization (Sol expert requested)",
+      "protected_changes": [],
+      "command_events": 6,
+      "patch_events": 3,
+      "elapsed_ms": 69916,
+      "corrective_coordinator_messages": 0,
+      "scope_status": "no deviation identified in reviewed evidence",
+      "diagnostic_defects": []
+    },
+    {
+      "id": "j22",
+      "case": "g/event-workstation",
+      "product_pass": true,
+      "behavior_review_pass": true,
+      "behavior_review_scope": "exact uint64 class progressions; eight local FP64 score calculations; eliminated per-event work and capture",
+      "reviewer": "protocol_generalization (Sol expert requested)",
+      "protected_changes": [],
+      "command_events": 5,
+      "patch_events": 2,
+      "elapsed_ms": 46363,
+      "corrective_coordinator_messages": 0,
+      "scope_status": "no deviation identified in reviewed evidence",
+      "diagnostic_defects": []
+    }
+  ],
+  "total_study_runs": 29,
+  "all_prior_waves_retained": true,
+  "requested_role": "luna_worker, Luna high",
+  "effective_runtime_model_effort": "not independently observed",
+  "initial_sol_behavior_review_passes": 4,
+  "numerical_objective_misses": [
+    "j21"
+  ],
+  "next_protocol": "workflow-protocol-v1.md"
+}

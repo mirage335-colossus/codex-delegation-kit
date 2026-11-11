@@ -1,0 +1,211 @@
+{
+  "public": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/participant/public/check.py"
+    ],
+    "returncode": 0,
+    "stdout": "{\"public_smoke\": \"PASS\", \"pixels\": 1189, \"storage_bytes\": 66584, \"elapsed_seconds\": 0.001931652004714124, \"samples\": 7, \"checksum_buckets\": 32}\n",
+    "stderr": ""
+  },
+  "baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline"
+    ],
+    "returncode": 1,
+    "stdout": "{\n  \"passed\": false,\n  \"failures\": [\n    \"reported production bulk storage 176160768 > 146800640\",\n    \"tracked production allocation peak 176177088 > 146800640\"\n  ],\n  \"checks\": [\n    \"same-build full output against independent double oracle\",\n    \"finite samples and all 32 output checksum/decision buckets\",\n    \"140 MiB normal-mode cap from output report and tracked C++ heap peak\",\n    \"high-accuracy audit mode\",\n    \"matched end-to-end starter comparison\"\n  ],\n  \"build_flags\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\"\n  ],\n  \"candidate_build_command\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\",\n    \"-include\",\n    \"/tmp/tmpoawqz1mo/tracker.hpp\",\n    \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline/core.cpp\",\n    \"-o\",\n    \"/tmp/tmpoawqz1mo/candidate\"\n  ],\n  \"cases\": [\n    {\n      \"shape_seed\": [\n        2048,\n        1536,\n        12791\n      ],\n      \"sample_max_error\": 3.390621117205228e-13,\n      \"full_output_checksum_max_error_per_element\": 4.852414766295018e-13,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": true,\n      \"reported_storage_bytes\": 176160768,\n      \"tracked_allocation_peak_bytes\": 176177088,\n      \"elapsed_seconds\": 0.1097700079990318,\n      \"pixels_per_second\": 28657445.301705234,\n      \"oracle_elapsed_seconds\": 0.06719082499330398,\n      \"oracle_run_command\": [\n        \"/tmp/tmpoawqz1mo/oracle\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpoawqz1mo/candidate\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          2048,\n          1536,\n          12791\n        ],\n        \"sample_max_error\": 2.3476819044354613e-08,\n        \"full_output_checksum_max_error_per_element\": 1.1582135250876036e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 138412032,\n      \"storage_only_tracked_allocation_peak_bytes\": 138428352,\n      \"storage_only_elapsed_seconds\": 0.08653277400298975,\n      \"storage_only_run_command\": [\n        \"/tmp/tmpoawqz1mo/storage-only\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ]\n    },\n    {\n      \"shape_seed\": [\n        1009,\n        769,\n        4093\n      ],\n      \"sample_max_error\": 4.690137167528974e-13,\n      \"full_output_checksum_max_error_per_element\": 1.9218364207126895e-12,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": false,\n      \"reported_storage_bytes\": 43451576,\n      \"tracked_allocation_peak_bytes\": 43458496,\n      \"elapsed_seconds\": 0.028091390995541587,\n      \"pixels_per_second\": 27621309.322957598,\n      \"oracle_elapsed_seconds\": 0.01703098999860231,\n      \"oracle_run_command\": [\n        \"/tmp/tmpoawqz1mo/oracle\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpoawqz1mo/candidate\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          1009,\n          769,\n          4093\n        ],\n        \"sample_max_error\": 2.3863804043955383e-08,\n        \"full_output_checksum_max_error_per_element\": 3.6532250709640595e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 34140524,\n      \"storage_only_tracked_allocation_peak_bytes\": 34144192,\n      \"storage_only_elapsed_seconds\": 0.024113731007673778,\n      \"storage_only_run_command\": [\n        \"/tmp/tmpoawqz1mo/storage-only\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ]\n    },\n    {\n      \"shape_seed\": [\n        379,\n        255,\n        8765\n      ],\n      \"sample_max_error\": 4.369837824924616e-13,\n      \"full_output_checksum_max_error_per_element\": 1.6423983585948297e-12,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": false,\n      \"reported_storage_bytes\": 5412120,\n      \"tracked_allocation_peak_bytes\": 5418944,\n      \"elapsed_seconds\": 0.00527214800240472,\n      \"pixels_per_second\": 18331238.03730823,\n      \"oracle_elapsed_seconds\": 0.0033481799910077825,\n      \"oracle_run_command\": [\n        \"/tmp/tmpoawqz1mo/oracle\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmpoawqz1mo/candidate\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          379,\n          255,\n          8765\n        ],\n        \"sample_max_error\": 1.5204958070391683e-08,\n        \"full_output_checksum_max_error_per_element\": 6.640265238329087e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 4252380,\n      \"storage_only_tracked_allocation_peak_bytes\": 4263872,\n      \"storage_only_elapsed_seconds\": 0.004228906007483602,\n      \"storage_only_run_command\": [\n        \"/tmp/tmpoawqz1mo/storage-only\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ]\n    }\n  ],\n  \"audit_mode\": {\n    \"shape_seed\": [\n      2048,\n      1536,\n      12791\n    ],\n    \"sample_max_error\": 3.390621117205228e-13,\n    \"full_output_checksum_max_error_per_element\": 4.852414766295018e-13,\n    \"max_decision_count_difference_per_bucket\": 0,\n    \"elapsed_seconds\": 0.09461562600336038,\n    \"tracked_allocation_peak_bytes\": 176177088,\n    \"storage_cap_applies\": false,\n    \"run_command\": [\n      \"/tmp/tmpoawqz1mo/candidate\",\n      \"2048\",\n      \"1536\",\n      \"12791\",\n      \"--audit\"\n    ],\n    \"oracle_elapsed_seconds\": 0.05971019100979902,\n    \"oracle_run_command\": [\n      \"/tmp/tmpoawqz1mo/oracle\",\n      \"2048\",\n      \"1536\",\n      \"12791\",\n      \"--audit\"\n    ]\n  },\n  \"matched_throughput\": {\n    \"shape_seed\": [\n      2048,\n      1536,\n      12791\n    ],\n    \"build_flags\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\"\n    ],\n    \"candidate_elapsed_median_seconds\": 0.09907200999441557,\n    \"starter_elapsed_median_seconds\": 0.0990880500030471,\n    \"storage_only_double_arithmetic_elapsed_median_seconds\": 0.08671977599442471,\n    \"candidate_pixels_per_second\": 31751934.78135062,\n    \"starter_pixels_per_second\": 31746794.89507831,\n    \"storage_only_double_arithmetic_pixels_per_second\": 36274632.44603217,\n    \"speedup_vs_starter\": 1.0001619025255715,\n    \"speedup_vs_storage_only_double_arithmetic\": 0.8753206480752018,\n    \"candidate_repetitions_seconds\": [\n      0.09875109500717372,\n      0.10212734699598514,\n      0.09907200999441557\n    ],\n    \"storage_only_repetitions_seconds\": [\n      0.08671977599442471,\n      0.08661308398586698,\n      0.09654100499756169\n    ],\n    \"starter_repetitions_seconds\": [\n      0.0990880500030471,\n      0.10210563500004355,\n      0.0970201299933251\n    ],\n    \"candidate_storage_reported_and_tracked_bytes\": [\n      176160768,\n      176177088\n    ],\n    \"storage_only_storage_reported_and_tracked_bytes\": [\n      138412032,\n      138428352\n    ],\n    \"starter_storage_reported_and_tracked_bytes\": [\n      176160768,\n      176177088\n    ],\n    \"storage_only_build_command\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\",\n      \"-include\",\n      \"/tmp/tmpoawqz1mo/tracker.hpp\",\n      \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/storage_only.cpp\",\n      \"-o\",\n      \"/tmp/tmpoawqz1mo/storage-only\"\n    ],\n    \"starter_build_command\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\",\n      \"-include\",\n      \"/tmp/tmpoawqz1mo/tracker.hpp\",\n      \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline.cpp\",\n      \"-o\",\n      \"/tmp/tmpoawqz1mo/baseline\"\n    ]\n  },\n  \"oracle_build_command\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\",\n    \"-include\",\n    \"/tmp/tmpoawqz1mo/tracker.hpp\",\n    \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/oracle.cpp\",\n    \"-o\",\n    \"/tmp/tmpoawqz1mo/oracle\"\n  ]\n}\n",
+    "stderr": "",
+    "passed": false,
+    "failures": [
+      "reported production bulk storage 176160768 > 146800640",
+      "tracked production allocation peak 176177088 > 146800640"
+    ],
+    "matched_throughput": {
+      "shape_seed": [
+        2048,
+        1536,
+        12791
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_elapsed_median_seconds": 0.09907200999441557,
+      "starter_elapsed_median_seconds": 0.0990880500030471,
+      "storage_only_double_arithmetic_elapsed_median_seconds": 0.08671977599442471,
+      "candidate_pixels_per_second": 31751934.78135062,
+      "starter_pixels_per_second": 31746794.89507831,
+      "storage_only_double_arithmetic_pixels_per_second": 36274632.44603217,
+      "speedup_vs_starter": 1.0001619025255715,
+      "speedup_vs_storage_only_double_arithmetic": 0.8753206480752018,
+      "candidate_repetitions_seconds": [
+        0.09875109500717372,
+        0.10212734699598514,
+        0.09907200999441557
+      ],
+      "storage_only_repetitions_seconds": [
+        0.08671977599442471,
+        0.08661308398586698,
+        0.09654100499756169
+      ],
+      "starter_repetitions_seconds": [
+        0.0990880500030471,
+        0.10210563500004355,
+        0.0970201299933251
+      ],
+      "candidate_storage_reported_and_tracked_bytes": [
+        176160768,
+        176177088
+      ],
+      "storage_only_storage_reported_and_tracked_bytes": [
+        138412032,
+        138428352
+      ],
+      "starter_storage_reported_and_tracked_bytes": [
+        176160768,
+        176177088
+      ],
+      "storage_only_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "-include",
+        "/tmp/tmpoawqz1mo/tracker.hpp",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/storage_only.cpp",
+        "-o",
+        "/tmp/tmpoawqz1mo/storage-only"
+      ],
+      "starter_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "-include",
+        "/tmp/tmpoawqz1mo/tracker.hpp",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline.cpp",
+        "-o",
+        "/tmp/tmpoawqz1mo/baseline"
+      ]
+    }
+  },
+  "witness": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"failures\": [],\n  \"checks\": [\n    \"same-build full output against independent double oracle\",\n    \"finite samples and all 32 output checksum/decision buckets\",\n    \"140 MiB normal-mode cap from output report and tracked C++ heap peak\",\n    \"high-accuracy audit mode\",\n    \"matched end-to-end starter comparison\"\n  ],\n  \"build_flags\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\"\n  ],\n  \"candidate_build_command\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\",\n    \"-include\",\n    \"/tmp/tmp0ts4tgrg/tracker.hpp\",\n    \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/witness/core.cpp\",\n    \"-o\",\n    \"/tmp/tmp0ts4tgrg/candidate\"\n  ],\n  \"cases\": [\n    {\n      \"shape_seed\": [\n        2048,\n        1536,\n        12791\n      ],\n      \"sample_max_error\": 3.612818100240389e-08,\n      \"full_output_checksum_max_error_per_element\": 3.6324381280650186e-09,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": true,\n      \"reported_storage_bytes\": 138412032,\n      \"tracked_allocation_peak_bytes\": 138428352,\n      \"elapsed_seconds\": 0.09204529201088008,\n      \"pixels_per_second\": 34175870.718386814,\n      \"oracle_elapsed_seconds\": 0.06320306299312506,\n      \"oracle_run_command\": [\n        \"/tmp/tmp0ts4tgrg/oracle\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp0ts4tgrg/candidate\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          2048,\n          1536,\n          12791\n        ],\n        \"sample_max_error\": 2.3476819044354613e-08,\n        \"full_output_checksum_max_error_per_element\": 1.1582135250876036e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 138412032,\n      \"storage_only_tracked_allocation_peak_bytes\": 138428352,\n      \"storage_only_elapsed_seconds\": 0.09810271399328485,\n      \"storage_only_run_command\": [\n        \"/tmp/tmp0ts4tgrg/storage-only\",\n        \"2048\",\n        \"1536\",\n        \"12791\"\n      ]\n    },\n    {\n      \"shape_seed\": [\n        1009,\n        769,\n        4093\n      ],\n      \"sample_max_error\": 2.3863804043955383e-08,\n      \"full_output_checksum_max_error_per_element\": 3.699756632294753e-09,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": false,\n      \"reported_storage_bytes\": 34140524,\n      \"tracked_allocation_peak_bytes\": 34144192,\n      \"elapsed_seconds\": 0.02731959000811912,\n      \"pixels_per_second\": 28401634.1302854,\n      \"oracle_elapsed_seconds\": 0.018352626997511834,\n      \"oracle_run_command\": [\n        \"/tmp/tmp0ts4tgrg/oracle\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp0ts4tgrg/candidate\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          1009,\n          769,\n          4093\n        ],\n        \"sample_max_error\": 2.3863804043955383e-08,\n        \"full_output_checksum_max_error_per_element\": 3.6532250709640595e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 34140524,\n      \"storage_only_tracked_allocation_peak_bytes\": 34144192,\n      \"storage_only_elapsed_seconds\": 0.027179205004358664,\n      \"storage_only_run_command\": [\n        \"/tmp/tmp0ts4tgrg/storage-only\",\n        \"1009\",\n        \"769\",\n        \"4093\"\n      ]\n    },\n    {\n      \"shape_seed\": [\n        379,\n        255,\n        8765\n      ],\n      \"sample_max_error\": 4.5666800896349e-08,\n      \"full_output_checksum_max_error_per_element\": 4.243195355639119e-09,\n      \"max_decision_count_difference_per_bucket\": 0,\n      \"production_storage_cap_applies\": false,\n      \"reported_storage_bytes\": 4252380,\n      \"tracked_allocation_peak_bytes\": 4263872,\n      \"elapsed_seconds\": 0.0057978120021289214,\n      \"pixels_per_second\": 16669219.34766297,\n      \"oracle_elapsed_seconds\": 0.00346809699840378,\n      \"oracle_run_command\": [\n        \"/tmp/tmp0ts4tgrg/oracle\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ],\n      \"run_command\": [\n        \"/tmp/tmp0ts4tgrg/candidate\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ],\n      \"storage_only_full_output_check\": {\n        \"shape_seed\": [\n          379,\n          255,\n          8765\n        ],\n        \"sample_max_error\": 1.5204958070391683e-08,\n        \"full_output_checksum_max_error_per_element\": 6.640265238329087e-10,\n        \"max_decision_count_difference_per_bucket\": 0\n      },\n      \"storage_only_reported_storage_bytes\": 4252380,\n      \"storage_only_tracked_allocation_peak_bytes\": 4263872,\n      \"storage_only_elapsed_seconds\": 0.004881499000475742,\n      \"storage_only_run_command\": [\n        \"/tmp/tmp0ts4tgrg/storage-only\",\n        \"379\",\n        \"255\",\n        \"8765\"\n      ]\n    }\n  ],\n  \"audit_mode\": {\n    \"shape_seed\": [\n      2048,\n      1536,\n      12791\n    ],\n    \"sample_max_error\": 3.390621117205228e-13,\n    \"full_output_checksum_max_error_per_element\": 4.852414766295018e-13,\n    \"max_decision_count_difference_per_bucket\": 0,\n    \"elapsed_seconds\": 0.10468277399195358,\n    \"tracked_allocation_peak_bytes\": 176177088,\n    \"storage_cap_applies\": false,\n    \"run_command\": [\n      \"/tmp/tmp0ts4tgrg/candidate\",\n      \"2048\",\n      \"1536\",\n      \"12791\",\n      \"--audit\"\n    ],\n    \"oracle_elapsed_seconds\": 0.06212033500196412,\n    \"oracle_run_command\": [\n      \"/tmp/tmp0ts4tgrg/oracle\",\n      \"2048\",\n      \"1536\",\n      \"12791\",\n      \"--audit\"\n    ]\n  },\n  \"matched_throughput\": {\n    \"shape_seed\": [\n      2048,\n      1536,\n      12791\n    ],\n    \"build_flags\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\"\n    ],\n    \"candidate_elapsed_median_seconds\": 0.08721922698896378,\n    \"starter_elapsed_median_seconds\": 0.11237677000463009,\n    \"storage_only_double_arithmetic_elapsed_median_seconds\": 0.09461583200027235,\n    \"candidate_pixels_per_second\": 36066909.8844231,\n    \"starter_pixels_per_second\": 27992689.235243116,\n    \"storage_only_double_arithmetic_pixels_per_second\": 33247374.498497725,\n    \"speedup_vs_starter\": 1.288440334593307,\n    \"speedup_vs_storage_only_double_arithmetic\": 1.0848047531107388,\n    \"candidate_repetitions_seconds\": [\n      0.093676645992673,\n      0.08145828499982599,\n      0.08721922698896378\n    ],\n    \"storage_only_repetitions_seconds\": [\n      0.09461583200027235,\n      0.09183681699505541,\n      0.09655059799843002\n    ],\n    \"starter_repetitions_seconds\": [\n      0.09569587299483828,\n      0.11237677000463009,\n      0.11324593299650587\n    ],\n    \"candidate_storage_reported_and_tracked_bytes\": [\n      138412032,\n      138428352\n    ],\n    \"storage_only_storage_reported_and_tracked_bytes\": [\n      138412032,\n      138428352\n    ],\n    \"starter_storage_reported_and_tracked_bytes\": [\n      176160768,\n      176177088\n    ],\n    \"storage_only_build_command\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\",\n      \"-include\",\n      \"/tmp/tmp0ts4tgrg/tracker.hpp\",\n      \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/storage_only.cpp\",\n      \"-o\",\n      \"/tmp/tmp0ts4tgrg/storage-only\"\n    ],\n    \"starter_build_command\": [\n      \"c++\",\n      \"-O3\",\n      \"-std=c++17\",\n      \"-DNDEBUG\",\n      \"-march=native\",\n      \"-include\",\n      \"/tmp/tmp0ts4tgrg/tracker.hpp\",\n      \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline.cpp\",\n      \"-o\",\n      \"/tmp/tmp0ts4tgrg/baseline\"\n    ]\n  },\n  \"oracle_build_command\": [\n    \"c++\",\n    \"-O3\",\n    \"-std=c++17\",\n    \"-DNDEBUG\",\n    \"-march=native\",\n    \"-include\",\n    \"/tmp/tmp0ts4tgrg/tracker.hpp\",\n    \"/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/oracle.cpp\",\n    \"-o\",\n    \"/tmp/tmp0ts4tgrg/oracle\"\n  ]\n}\n",
+    "stderr": "",
+    "passed": true,
+    "failures": [],
+    "matched_throughput": {
+      "shape_seed": [
+        2048,
+        1536,
+        12791
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_elapsed_median_seconds": 0.08721922698896378,
+      "starter_elapsed_median_seconds": 0.11237677000463009,
+      "storage_only_double_arithmetic_elapsed_median_seconds": 0.09461583200027235,
+      "candidate_pixels_per_second": 36066909.8844231,
+      "starter_pixels_per_second": 27992689.235243116,
+      "storage_only_double_arithmetic_pixels_per_second": 33247374.498497725,
+      "speedup_vs_starter": 1.288440334593307,
+      "speedup_vs_storage_only_double_arithmetic": 1.0848047531107388,
+      "candidate_repetitions_seconds": [
+        0.093676645992673,
+        0.08145828499982599,
+        0.08721922698896378
+      ],
+      "storage_only_repetitions_seconds": [
+        0.09461583200027235,
+        0.09183681699505541,
+        0.09655059799843002
+      ],
+      "starter_repetitions_seconds": [
+        0.09569587299483828,
+        0.11237677000463009,
+        0.11324593299650587
+      ],
+      "candidate_storage_reported_and_tracked_bytes": [
+        138412032,
+        138428352
+      ],
+      "storage_only_storage_reported_and_tracked_bytes": [
+        138412032,
+        138428352
+      ],
+      "starter_storage_reported_and_tracked_bytes": [
+        176160768,
+        176177088
+      ],
+      "storage_only_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "-include",
+        "/tmp/tmp0ts4tgrg/tracker.hpp",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/storage_only.cpp",
+        "-o",
+        "/tmp/tmp0ts4tgrg/storage-only"
+      ],
+      "starter_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "-include",
+        "/tmp/tmp0ts4tgrg/tracker.hpp",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/baseline.cpp",
+        "-o",
+        "/tmp/tmp0ts4tgrg/baseline"
+      ]
+    }
+  },
+  "mutations": {
+    "reduced-work": {
+      "command": [
+        "python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/evaluate.py",
+        "/tmp/pixel-classifier-reduced-work-final.cpp"
+      ],
+      "returncode": 1,
+      "stdout": "{\"passed\": false, \"failure\": \"full-output checksum error 0.57694014949151\", \"checks\": \"compile/run/full-output/resource/audit/timing\"}\n",
+      "stderr": ""
+    },
+    "all-zero": {
+      "command": [
+        "python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/d/pixel-classifier/private/evaluate.py",
+        "/tmp/pixel-classifier-all-zero-final.cpp"
+      ],
+      "returncode": 1,
+      "stdout": "{\"passed\": false, \"failure\": \"sample quality error 0.686651230151661\", \"checks\": \"compile/run/full-output/resource/audit/timing\"}\n",
+      "stderr": ""
+    }
+  }
+}

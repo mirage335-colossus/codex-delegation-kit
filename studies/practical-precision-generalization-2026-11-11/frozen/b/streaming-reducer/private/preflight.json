@@ -1,0 +1,24 @@
+{
+  "original_baseline": {
+    "command": "python3 -B private/evaluate.py participant",
+    "exit_code": 1,
+    "evidence": {
+      "oracle_all_shapes": true,
+      "capture_peak_rss_kib": 40968,
+      "limit_kib": 24576,
+      "elapsed_s": 1.1303,
+      "failed_check": "required_capture_resource_envelope"
+    }
+  },
+  "witness": {
+    "command": "tmp=$(mktemp -d); cp private/witness/core.cpp \"$tmp/core.cpp\"; python3 -B private/evaluate.py \"$tmp\"; rc=$?; rm -rf \"$tmp\"; exit $rc",
+    "exit_code": 0,
+    "evidence": {
+      "oracle_all_shapes": true,
+      "capture_peak_rss_kib": 11220,
+      "limit_kib": 24576,
+      "elapsed_s": 0.0393
+    }
+  },
+  "runner": "Evaluator compiles C++ in a temporary directory. RSS is sampled by a fresh Python wrapper process using RUSAGE_CHILDREN for the single native child; core-supplied measurements are not trusted."
+}

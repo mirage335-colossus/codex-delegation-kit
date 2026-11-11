@@ -1,0 +1,34 @@
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/b/trial-simulation/participant/core.cpp	2026-11-11 04:07:07.189300599 -0600
++++ /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/runs/f11/submitted/core.cpp	2026-11-11 04:16:57.947059602 -0600
+@@ -24,17 +24,27 @@
+   const std::uint64_t trials = std::strtoull(argv[1], nullptr, 10);
+   const std::uint64_t steps = std::strtoull(argv[2], nullptr, 10);
+   const std::uint64_t seed = std::strtoull(argv[3], nullptr, 10);
+-  if (!trials || !steps) return 2;
++  if (!trials || trials > 120000 || !steps || steps > 1024) return 2;
+ 
+   constexpr double decay = 0.9999;
++  // All trials share the same forcing sequence. Fold its contribution and the
++  // constant per-trial bias once, while still including every requested step.
++  double forcing_sum = 0;
++  double bias_gain = 0;
++  double initial_gain = 1;
++  for (std::uint64_t t = 0; t < steps; ++t) {
++    forcing_sum = decay * forcing_sum + force(t);
++    bias_gain = decay * bias_gain + 1;
++    initial_gain *= decay;
++  }
++
+   double mean = 0;
+   double m2 = 0;
+   for (std::uint64_t trial = 0; trial < trials; ++trial) {
+     const auto bits = hash(seed + trial * 0x9e3779b97f4a7c15ULL);
+-    double state = (static_cast<int>(bits % 20001) - 10000) * 0.0001;
++    const double initial = (static_cast<int>(bits % 20001) - 10000) * 0.0001;
+     const double bias = (static_cast<int>((bits >> 20) % 2001) - 1000) * 0.0000002;
+-    for (std::uint64_t t = 0; t < steps; ++t)
+-      state = decay * state + force(t) + bias;
++    const double state = initial_gain * initial + forcing_sum + bias_gain * bias;
+     const double delta = state - mean;
+     mean += delta / static_cast<double>(trial + 1);
+     m2 += delta * (state - mean);

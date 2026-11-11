@@ -1,0 +1,3 @@
+# Event archive workstation
+
+The workstation summarizes an archive of up to 6,000,000 sensor events across eight severity classes. For each class, report the exact decimal cumulative event count and its weighted intensity score. The imported counter is an exact whole-number quantity; the score uses the published display tolerance `max(0.01, 1e-6 * abs(reference))`. Every event must contribute to both reports. The 6,000,000-event archive must finish within the one-second handoff window and a 40 MiB resident-memory budget so the appliance can keep its status board responsive without swapping. Use `./probe EVENT_COUNT SEED`; counts range from 1 through 6,000,000 and `SEED` is an unsigned 64-bit integer. Run `python3 -B public_check.py` from this directory.

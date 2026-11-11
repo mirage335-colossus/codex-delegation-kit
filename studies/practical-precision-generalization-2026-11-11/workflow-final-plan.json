@@ -1,0 +1,38 @@
+{
+  "protocol": "workflow-protocol-v1.md",
+  "packets": {
+    "prompt-v6.txt": "776f75bab5bfc20a5081d57759a63acbe008039af23c08d833fbab245e54e9a2",
+    "owner-packet-v1.txt": "979bde4d192a066e213cfbf6881eade8071f140e785929605fae5c4fff261911",
+    "review-packet-v1.txt": "668e41fc425398749af06dfc010b4bc8840f6e15200eb159e6a9d8cb26d72325",
+    "workflow-protocol-v1.md": "995eaccd2f1e925851422cbd36c15f3355f9439bc542d0c675f72909be05ea40"
+  },
+  "development": "wd01 accepted after one repair round",
+  "workflows": [
+    {
+      "id": "w11",
+      "case": "i/curve-processing"
+    },
+    {
+      "id": "w12",
+      "case": "j/timeline-resampler"
+    },
+    {
+      "id": "w21",
+      "case": "i/curve-processing"
+    },
+    {
+      "id": "w22",
+      "case": "j/timeline-resampler"
+    }
+  ],
+  "routing": {
+    "owner": "luna_worker (Luna high requested)",
+    "reviewer": "inherited_reviewer, no model/effort overrides"
+  },
+  "limits": {
+    "tools": 90,
+    "minutes": 45,
+    "repair_rounds": 2
+  },
+  "coordinator": "mechanical packet dispatch, unmodified findings relay, archive and post-workflow grade only; no engineering hints or source repair"
+}

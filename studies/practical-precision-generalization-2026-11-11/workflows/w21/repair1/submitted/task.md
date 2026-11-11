@@ -1,0 +1,7 @@
+# Calibrate optical-sensor readings
+
+Improve the per-reading optical-density conversion used to process oversampled photometric sensor scans. Preserve the calibrated response represented by the supplied model, return one finite output for every reading, and keep the high-quality `--audit` result available for investigating values near the assay cutoff. The normal production scan contains **4096 × 2048 readings**.
+
+For normal processing, reported samples must be within **2e-5 optical-density units** of the reference. Across 32 buckets covering the complete output, mean-value and mean-squared-value errors must each be at most **2e-5 per reading**, and the count above the assay threshold may differ by at most **4 per bucket**. The audit invocation must match the reference within **1e-12** at samples, **1e-10 per reading** in both aggregates, and exactly in threshold counts. Normal mode must complete the production scan within **0.12 seconds** on the documented target CPU build. Record the production run’s end-to-end time. The `--audit` mode is exempt from this deadline.
+
+Build with `c++ -O3 -std=c++17 -DNDEBUG -march=native core.cpp -o ./curve-processing`. Run `./curve-processing WIDTH HEIGHT SEED`; no arguments select the production scan. Add `--audit` after the other arguments for the audit invocation. The public smoke and boundary checks are `python3 public/check.py [path-to-core.cpp]`.

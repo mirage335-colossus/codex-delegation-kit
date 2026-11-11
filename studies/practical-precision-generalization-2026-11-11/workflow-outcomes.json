@@ -1,0 +1,285 @@
+{
+  "kind": "prospective autonomous multi-agent numerical review and owner repair",
+  "plan": "workflow-final-plan.json",
+  "packets": {
+    "prompt-v6.txt": "776f75bab5bfc20a5081d57759a63acbe008039af23c08d833fbab245e54e9a2",
+    "owner-packet-v1.txt": "979bde4d192a066e213cfbf6881eade8071f140e785929605fae5c4fff261911",
+    "review-packet-v1.txt": "668e41fc425398749af06dfc010b4bc8840f6e15200eb159e6a9d8cb26d72325",
+    "workflow-protocol-v1.md": "995eaccd2f1e925851422cbd36c15f3355f9439bc542d0c675f72909be05ea40"
+  },
+  "workflow_count": 4,
+  "initial_proposals_product_passed": 4,
+  "initial_reviews_changes_required": 4,
+  "final_product_and_numerical_review_passed": 4,
+  "development": "workflows/wd01/outcome.json; separate retained j21 copy, not new transfer",
+  "one_shot_history": "29 initial implementation exercises retained separately in all-runs.json",
+  "limits": {
+    "tools": 90,
+    "minutes": 45,
+    "repair_rounds": 2
+  },
+  "budget_evidence": "Visible command, file-change and coordination events plus native turn durations; event counts are not resolved backend tool telemetry. All are below stage/aggregate limits. Elapsed aggregate includes coordinator delays and uses preparation time conservatively.",
+  "coordinator": "Frozen packet dispatch, exact full reviewer finding relay, stage packaging and post-workflow grading; no engineering hints or production repairs.",
+  "user_corrective_interventions": 0,
+  "scope_isolation": "Instruction-level only, not OS-enforced blinding.",
+  "model_evidence": "Luna/high owners requested; inherited_reviewer without overrides. Effective runtime model/effort/usage telemetry not observed.",
+  "workflows": [
+    {
+      "id": "w11",
+      "case": "i/curve-processing",
+      "proposal_product_accepted": true,
+      "initial_review": "changes_required",
+      "findings": [
+        "Removed unnecessary cutoff recalculation after guard-free qualification",
+        "Corrected array and process-reserved LUT accounting in both modes"
+      ],
+      "repair_rounds": 2,
+      "final_independent_review": "accepted",
+      "final_product_accepted": true,
+      "reviewer_source_hashes_unchanged": true,
+      "stages": [
+        {
+          "stage": "proposal",
+          "command_events": 9,
+          "file_change_events": 3,
+          "coordination_events": 1,
+          "visible_tool_events": 13,
+          "active_turn_seconds": 157.276,
+          "core_sha256": "4398d2b1f0f939d64a80f6512a20b91a27ca8f1189b60d77c2bb15c0e1d77b37",
+          "protected_changes": []
+        },
+        {
+          "stage": "review1",
+          "command_events": 6,
+          "file_change_events": 0,
+          "coordination_events": 1,
+          "visible_tool_events": 7,
+          "active_turn_seconds": 194.834,
+          "core_sha256": "4398d2b1f0f939d64a80f6512a20b91a27ca8f1189b60d77c2bb15c0e1d77b37",
+          "protected_changes": []
+        },
+        {
+          "stage": "repair1",
+          "command_events": 3,
+          "file_change_events": 2,
+          "coordination_events": 1,
+          "visible_tool_events": 6,
+          "active_turn_seconds": 65.433,
+          "core_sha256": "487b71341cbe52ea1b519ab326a69010c3d2baaf785f8491bb751fbd36a49787",
+          "protected_changes": []
+        },
+        {
+          "stage": "review2",
+          "command_events": 3,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 3,
+          "active_turn_seconds": 66.545,
+          "core_sha256": "487b71341cbe52ea1b519ab326a69010c3d2baaf785f8491bb751fbd36a49787",
+          "protected_changes": []
+        },
+        {
+          "stage": "repair2",
+          "command_events": 3,
+          "file_change_events": 1,
+          "coordination_events": 1,
+          "visible_tool_events": 5,
+          "active_turn_seconds": 33.575,
+          "core_sha256": "996c5e420e3941e85f03464ee36c21972acaa0a1f79a37f754f913a4f2afb36d",
+          "protected_changes": []
+        },
+        {
+          "stage": "accepted",
+          "command_events": 2,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 2,
+          "active_turn_seconds": 29.913,
+          "core_sha256": "996c5e420e3941e85f03464ee36c21972acaa0a1f79a37f754f913a4f2afb36d",
+          "protected_changes": []
+        }
+      ],
+      "aggregate_visible_tool_events": 36,
+      "elapsed_seconds_preparation_to_acceptance_snapshot": 1459.9386932849884,
+      "scope_exception": null
+    },
+    {
+      "id": "w21",
+      "case": "i/curve-processing",
+      "proposal_product_accepted": true,
+      "initial_review": "changes_required",
+      "findings": [
+        "Narrowed normal squared-value products while retaining qualified double accumulation"
+      ],
+      "repair_rounds": 1,
+      "final_independent_review": "accepted",
+      "final_product_accepted": true,
+      "reviewer_source_hashes_unchanged": true,
+      "stages": [
+        {
+          "stage": "proposal",
+          "command_events": 10,
+          "file_change_events": 3,
+          "coordination_events": 3,
+          "visible_tool_events": 16,
+          "active_turn_seconds": 171.091,
+          "core_sha256": "fcabebb9654538c769f61d54466e85597a2d141a7a1f6be72257f5528e93c1c3",
+          "protected_changes": []
+        },
+        {
+          "stage": "review1",
+          "command_events": 10,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 10,
+          "active_turn_seconds": 254.886,
+          "core_sha256": "fcabebb9654538c769f61d54466e85597a2d141a7a1f6be72257f5528e93c1c3",
+          "protected_changes": []
+        },
+        {
+          "stage": "repair1",
+          "command_events": 4,
+          "file_change_events": 1,
+          "coordination_events": 2,
+          "visible_tool_events": 7,
+          "active_turn_seconds": 45.979,
+          "core_sha256": "86ef68cd88bdcebdbac84f3be71658533405490dd2a3cce8f8dca7b86185b0a3",
+          "protected_changes": []
+        },
+        {
+          "stage": "accepted",
+          "command_events": 2,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 2,
+          "active_turn_seconds": 42.813,
+          "core_sha256": "86ef68cd88bdcebdbac84f3be71658533405490dd2a3cce8f8dca7b86185b0a3",
+          "protected_changes": []
+        }
+      ],
+      "aggregate_visible_tool_events": 35,
+      "elapsed_seconds_preparation_to_acceptance_snapshot": 1122.0701735019684,
+      "scope_exception": null,
+      "setup_exception": "Relative sed attempted from incorrect repository cwd and failed exit2 before reading source; subsequent reads used the assignment. Retained as a failed scope/setup attempt."
+    },
+    {
+      "id": "w12",
+      "case": "j/timeline-resampler",
+      "proposal_product_accepted": true,
+      "initial_review": "changes_required",
+      "findings": [
+        "Narrowed default generated-sample scaling; preserved exact integer phase and double audit",
+        "Corrected timing-description scope"
+      ],
+      "repair_rounds": 1,
+      "final_independent_review": "accepted",
+      "final_product_accepted": true,
+      "reviewer_source_hashes_unchanged": true,
+      "stages": [
+        {
+          "stage": "proposal",
+          "command_events": 5,
+          "file_change_events": 2,
+          "coordination_events": 1,
+          "visible_tool_events": 8,
+          "active_turn_seconds": 69.574,
+          "core_sha256": "b116f330cfad0a1da4e373885d2125321a165628c419d19521c12ba736359501",
+          "protected_changes": []
+        },
+        {
+          "stage": "review1",
+          "command_events": 7,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 7,
+          "active_turn_seconds": 171.581,
+          "core_sha256": "b116f330cfad0a1da4e373885d2125321a165628c419d19521c12ba736359501",
+          "protected_changes": []
+        },
+        {
+          "stage": "repair1",
+          "command_events": 2,
+          "file_change_events": 1,
+          "coordination_events": 1,
+          "visible_tool_events": 4,
+          "active_turn_seconds": 33.078,
+          "core_sha256": "e1d948cad53775069ab8381cbe0b9d296bc8a12168bc777c8bef3e22623bfcb4",
+          "protected_changes": []
+        },
+        {
+          "stage": "accepted",
+          "command_events": 4,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 4,
+          "active_turn_seconds": 35.074,
+          "core_sha256": "e1d948cad53775069ab8381cbe0b9d296bc8a12168bc777c8bef3e22623bfcb4",
+          "protected_changes": []
+        }
+      ],
+      "aggregate_visible_tool_events": 23,
+      "elapsed_seconds_preparation_to_acceptance_snapshot": 1052.1206922531128,
+      "scope_exception": "Initial pwd and rg --files for core.cpp/check/C++/header filenames ran in repository cwd outside assignment, exiting0. Retained later commands show no content reads from those listed paths or repository edits. Independent post-workflow audit discovered this. Numerical acceptance is not full scope compliance."
+    },
+    {
+      "id": "w22",
+      "case": "j/timeline-resampler",
+      "proposal_product_accepted": true,
+      "initial_review": "changes_required",
+      "findings": [
+        "Narrowed default generated-sample scaling; preserved exact integer phase and double audit"
+      ],
+      "repair_rounds": 1,
+      "final_independent_review": "accepted",
+      "final_product_accepted": true,
+      "reviewer_source_hashes_unchanged": true,
+      "stages": [
+        {
+          "stage": "proposal",
+          "command_events": 8,
+          "file_change_events": 1,
+          "coordination_events": 1,
+          "visible_tool_events": 10,
+          "active_turn_seconds": 83.068,
+          "core_sha256": "7fc96fe00e58c75e946ca763795ef8fe7493002f375a1fc48516d775e1a5542a",
+          "protected_changes": []
+        },
+        {
+          "stage": "review1",
+          "command_events": 7,
+          "file_change_events": 0,
+          "coordination_events": 1,
+          "visible_tool_events": 8,
+          "active_turn_seconds": 211.838,
+          "core_sha256": "7fc96fe00e58c75e946ca763795ef8fe7493002f375a1fc48516d775e1a5542a",
+          "protected_changes": []
+        },
+        {
+          "stage": "repair1",
+          "command_events": 2,
+          "file_change_events": 1,
+          "coordination_events": 1,
+          "visible_tool_events": 4,
+          "active_turn_seconds": 44.185,
+          "core_sha256": "17184d22d28cb59c9b1842ddce30358681068409c0b5c2a3d74254b42cca7a31",
+          "protected_changes": []
+        },
+        {
+          "stage": "accepted",
+          "command_events": 3,
+          "file_change_events": 0,
+          "coordination_events": 0,
+          "visible_tool_events": 3,
+          "active_turn_seconds": 39.436,
+          "core_sha256": "17184d22d28cb59c9b1842ddce30358681068409c0b5c2a3d74254b42cca7a31",
+          "protected_changes": []
+        }
+      ],
+      "aggregate_visible_tool_events": 25,
+      "elapsed_seconds_preparation_to_acceptance_snapshot": 1065.2018303871155,
+      "scope_exception": "Initial pwd, ls and rg --files inspected repository filenames outside assignment; later prohibited git status failed at /tmp boundary. Retained commands show no content reads from those listed paths or repository edits. Owner disclosed/corrected provenance. Numerical acceptance is not full scope compliance."
+    }
+  ],
+  "workflows_with_successful_out_of_scope_filename_inspection": 2,
+  "additional_failed_wrong_directory_read_attempts": 1
+}

@@ -1,0 +1,3 @@
+# Coordinate calibration workstation
+
+The survey workstation processes station batches and reports mean signed displacement and RMS displacement from the selected frame origin. The CLI is `./probe N ORIGIN STEP [--minimum-precision|--ticks]`, with `1 <= N <= 3,200,000`. Decimal mode outputs must match the frame-local reference within `1e-4` for mean and RMS; `--minimum-precision` is the reference-quality audit path and must match within `1e-8` on the public small batch. The exact-tick audit mode accepts an integer origin and integral tick size and must report the exact mean and RMS of the integer displacements. The normal 3.2-million-reading batch must finish within four seconds and stay below 20 MiB peak RSS. Run `python3 public_check.py` from this directory.

@@ -1,0 +1,99 @@
+{
+  "current_original_baseline": {
+    "command": "python3 -B private/evaluate.py participant",
+    "exit_code": 1,
+    "failed_checks": [
+      "17_frames_seed_305419896",
+      "4097_frames_seed_9223372036854775811",
+      "65537_frames_seed_2882400001",
+      "full_500k_stream_oracle",
+      "full_capture_rss_le_9_mib"
+    ],
+    "passed_checks": [
+      "1_frames_seed_7",
+      "2_frames_seed_19",
+      "audit_127_frames",
+      "audit_65536_frames",
+      "audit_rejects_oversize"
+    ],
+    "observations": {
+      "long_run_error_4097": 0.2852861295,
+      "full_output_shape": "mismatch due cumulative phase",
+      "full_native_wait4_rss_kib": 11272,
+      "public_native_wait4_rss_kib": 11288,
+      "rss_limit_kib": 9216,
+      "elapsed_s": 0.2424
+    }
+  },
+  "current_witness": {
+    "command": "python3 -B private/evaluate.py private/witness",
+    "exit_code": 0,
+    "passed_checks": [
+      "all output samples finite",
+      "exact output counts and full stream oracle",
+      "float interpolation tolerance on every default sample",
+      "audit at 127 and 65536 frames",
+      "oversize audit rejection",
+      "full_capture_rss_le_9_mib"
+    ],
+    "observations": {
+      "full_max_abs_error_fp32_interpolation": 1.8299999982041015e-07,
+      "allowed_absolute_error": 2e-06,
+      "full_native_wait4_rss_kib": 7432,
+      "public_native_wait4_rss_kib": 7368,
+      "rss_limit_kib": 9216,
+      "elapsed_s": 0.2255
+    }
+  },
+  "control_mutations": [
+    {
+      "mutation": "replace rational output phase/index with cumulative float phase",
+      "exit_code": 1,
+      "failed_checks": [
+        "17_frames_seed_305419896",
+        "4097_frames_seed_9223372036854775811",
+        "65537_frames_seed_2882400001",
+        "full_500k_stream_oracle"
+      ]
+    },
+    {
+      "mutation": "omit final resampled output",
+      "exit_code": 1,
+      "failed_checks": [
+        "2_frames_seed_19",
+        "17_frames_seed_305419896",
+        "4097_frames_seed_9223372036854775811",
+        "65537_frames_seed_2882400001",
+        "full_500k_stream_oracle"
+      ]
+    },
+    {
+      "mutation": "emit NaN for one default-mode output sample",
+      "exit_code": 1,
+      "failed_checks": [
+        "2_frames_seed_19",
+        "17_frames_seed_305419896",
+        "4097_frames_seed_9223372036854775811",
+        "65537_frames_seed_2882400001",
+        "full_500k_stream_oracle"
+      ],
+      "finite_check_rejects_nonfinite": true
+    }
+  ],
+  "preserved_earlier_results": {
+    "pre_fp32_interpolation_witness_max_error": 3.000000015074278e-08,
+    "pre_wait4_rss_values_kib": {
+      "baseline": 11472,
+      "witness": 7560
+    },
+    "measurement_status": "Those figures came from 1 ms VmRSS sampling and the earlier FP64 interpolation witness. They are retained as prior evidence, not used for admission. Current RSS results are direct child ru_maxrss via wait4."
+  },
+  "setup_failure_history": [
+    {
+      "attempt": "first memory-measurement wrapper put while after a semicolon in python -c",
+      "outcome": "wrapper exited before assertions (0 assertions in that attempt); replaced with native fork/exec/wait4 measurement and all current checks reran"
+    }
+  ],
+  "endpoint_contract": "Output timestamps are strictly before the last input timestamp; one input frame produces zero output frames. Audit supports up to and including 65,536 frames and rejects 65,537.",
+  "runner": "Full-output oracle decodes and finite-checks every sample, verifies exact frame count, and compares every channel sample. A small native fork/execvp/wait4 wrapper relays candidate stdout/stderr and records ru_maxrss for the exact child process; no Python RSS floor or application-reported memory is used. Default interpolation is explicitly FP32 with integer-rational phase; audit remains FP64."
+}

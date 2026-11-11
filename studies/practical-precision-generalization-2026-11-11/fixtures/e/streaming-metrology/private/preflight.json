@@ -1,0 +1,70 @@
+{
+  "original_baseline": {
+    "command": "python3 -B private/evaluate.py participant",
+    "exit_code": 1,
+    "failed_checks": [
+      "19_transient_seed_305419896",
+      "4097_normal_seed_2882400001",
+      "4097_transient_seed_2882400001",
+      "full_capture_normal_outputs",
+      "full_capture_transient_outputs",
+      "full_capture_normal_memory",
+      "full_capture_transient_memory"
+    ],
+    "observations": {
+      "full_normal_rss_kib": 52152,
+      "full_transient_rss_kib": 52048,
+      "rss_limit_kib": 24576,
+      "elapsed_s": 0.0605
+    },
+    "public_command": "python3 -B participant/public_check.py",
+    "public_result": "failed transient and full-batch output checks; full normal/transient RSS check failed at 52156 KiB"
+  },
+  "witness": {
+    "command": "python3 -B private/evaluate.py private/witness",
+    "exit_code": 0,
+    "passed_checks": [
+      "1_normal_seed_7",
+      "19_transient_seed_305419896",
+      "4097_normal_seed_2882400001",
+      "4097_transient_seed_2882400001",
+      "full_capture_normal_outputs",
+      "full_capture_transient_outputs",
+      "full_capture_normal_memory",
+      "full_capture_transient_memory"
+    ],
+    "observations": {
+      "full_normal_rss_kib": 11088,
+      "full_transient_rss_kib": 11300,
+      "rss_limit_kib": 24576,
+      "elapsed_s": 0.0461
+    },
+    "public_result": "public_check.py passed both full output oracles and RSS cap; 11212 KiB"
+  },
+  "control_mutations": [
+    {
+      "mutation": "narrow integrated-total accumulator from double to float",
+      "exit_code": 1,
+      "failed_checks": [
+        "19_transient_seed_305419896",
+        "4097_normal_seed_2882400001",
+        "4097_transient_seed_2882400001",
+        "full_capture_normal_outputs",
+        "full_capture_transient_outputs"
+      ]
+    },
+    {
+      "mutation": "process only half the sweep blocks",
+      "exit_code": 1,
+      "failed_checks": [
+        "1_normal_seed_7",
+        "19_transient_seed_305419896",
+        "4097_normal_seed_2882400001",
+        "4097_transient_seed_2882400001",
+        "full_capture_normal_outputs",
+        "full_capture_transient_outputs"
+      ]
+    }
+  ],
+  "runner": "Private evaluator compiles in its own temporary directory and uses a fresh Python wrapper with RUSAGE_CHILDREN to measure the single native process. Public and private references derive all channel sums and RMS from generated float records; application-reported memory is ignored."
+}

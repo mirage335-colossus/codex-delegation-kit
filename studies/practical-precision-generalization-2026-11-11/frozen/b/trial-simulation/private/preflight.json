@@ -1,0 +1,33 @@
+{
+  "original_baseline": {
+    "command": "python3 -B private/evaluate.py participant",
+    "exit_code": 1,
+    "evidence": {
+      "all_trial_oracles": true,
+      "required_batch_elapsed_s": 0.32114,
+      "limit_s": 0.18,
+      "failed_check": "time_120000x1024"
+    }
+  },
+  "witness": {
+    "command": "tmp=$(mktemp -d); cp private/witness/core.cpp \"$tmp/core.cpp\"; python3 -B private/evaluate.py \"$tmp\"; rc=$?; rm -rf \"$tmp\"; exit $rc",
+    "exit_code": 0,
+    "evidence": {
+      "all_trial_oracles": true,
+      "required_batch_elapsed_s": 0.00203,
+      "all_trials": 120000,
+      "time_steps_per_trial": 1024,
+      "one_trial_seed_above_2pow63": true
+    }
+  },
+  "mutation_check": {
+    "case": "only first half of requested trials contributes",
+    "exit_code": 1,
+    "failed_checks": [
+      "oracle_all_80_trials_160_steps",
+      "oracle_all_1300_trials_257_steps",
+      "oracle_all_120000_trials_1024_steps"
+    ]
+  },
+  "runner": "Evaluator uses an independent Python implementation of shared time forcing and evaluates the output of every requested trial. Public tasks specify 1e-10 small, 1e-9 intermediate and 1e-8 required-batch output tolerances."
+}

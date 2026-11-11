@@ -1,0 +1,222 @@
+{
+  "kind": "coordinator discriminator, not autonomous behavior",
+  "flags": [
+    "-O3",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-pedantic"
+  ],
+  "shape": [
+    "32",
+    "4",
+    "1024"
+  ],
+  "quality": {
+    "submitted-fp64": {
+      "command": [
+        "python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/f/spectral-bank/private/evaluate.py",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/submitted-fp64"
+      ],
+      "returncode": 0,
+      "stdout": "{\"checks\": [{\"case\": \"cold first request 32x4x1024\", \"check\": \"all one-sided powers and complete bin count\", \"passed\": true}, {\"case\": \"cold first request 32x4x1024\", \"check\": \"end-to-end completion <= 0.75 seconds\", \"passed\": true}, {\"case\": \"8x2x128:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"17x3x256:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"4x2x64:direct\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"direct diagnostic override\", \"check\": \"direct path is reported for explicit direct request\", \"passed\": true}, {\"case\": \"mixed review/replay request sequence\", \"check\": \"all bins, counts, and shape resets match reference\", \"passed\": true}], \"observations\": [{\"algorithm_reported\": \"fft\", \"case\": \"cold first request 32x4x1024\", \"end_to_end_seconds\": 0.02608490499551408, \"outputs\": 65664, \"seconds_field\": \"0.0047402299999999998\"}, {\"case\": \"reused per-size analysis preparation\", \"diagnostic_libm_calls\": 264192, \"interpretation\": \"diagnostic only; the public reuse instruction and cold deadline remain acceptance criteria\", \"one_plan_witness_calls\": 264192, \"status\": \"completed\"}, {\"algorithm_reported\": \"fft\", \"case\": \"8x2x128:auto\", \"end_to_end_seconds\": 0.0030698500049766153, \"outputs\": 1040, \"seconds_field\": \"0.0001005\"}, {\"algorithm_reported\": \"fft\", \"case\": \"17x3x256:auto\", \"end_to_end_seconds\": 0.0038970099994912744, \"outputs\": 6579, \"seconds_field\": \"0.00058811900000000001\"}, {\"algorithm_reported\": \"direct\", \"case\": \"4x2x64:direct\", \"end_to_end_seconds\": 0.0025406220083823428, \"outputs\": 264, \"seconds_field\": \"0.00040565499999999999\"}, {\"case\": \"mixed review/replay request sequence\", \"end_to_end_seconds\": 0.036261738001485355, \"requests\": 3}], \"passed\": true}\n",
+      "stderr": ""
+    },
+    "fp32-transform": {
+      "command": [
+        "python3",
+        "-B",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/f/spectral-bank/private/evaluate.py",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform"
+      ],
+      "returncode": 0,
+      "stdout": "{\"checks\": [{\"case\": \"cold first request 32x4x1024\", \"check\": \"all one-sided powers and complete bin count\", \"passed\": true}, {\"case\": \"cold first request 32x4x1024\", \"check\": \"end-to-end completion <= 0.75 seconds\", \"passed\": true}, {\"case\": \"8x2x128:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"17x3x256:auto\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"4x2x64:direct\", \"check\": \"all bins within public tolerance and complete count\", \"passed\": true}, {\"case\": \"direct diagnostic override\", \"check\": \"direct path is reported for explicit direct request\", \"passed\": true}, {\"case\": \"mixed review/replay request sequence\", \"check\": \"all bins, counts, and shape resets match reference\", \"passed\": true}], \"observations\": [{\"algorithm_reported\": \"fft\", \"case\": \"cold first request 32x4x1024\", \"end_to_end_seconds\": 0.03032912898925133, \"outputs\": 65664, \"seconds_field\": \"0.0055790309999999999\"}, {\"case\": \"reused per-size analysis preparation\", \"diagnostic_libm_calls\": 264192, \"interpretation\": \"diagnostic only; the public reuse instruction and cold deadline remain acceptance criteria\", \"one_plan_witness_calls\": 264192, \"status\": \"completed\"}, {\"algorithm_reported\": \"fft\", \"case\": \"8x2x128:auto\", \"end_to_end_seconds\": 0.002457905007759109, \"outputs\": 1040, \"seconds_field\": \"9.8845999999999995e-05\"}, {\"algorithm_reported\": \"fft\", \"case\": \"17x3x256:auto\", \"end_to_end_seconds\": 0.003961780996178277, \"outputs\": 6579, \"seconds_field\": \"0.00056658900000000005\"}, {\"algorithm_reported\": \"direct\", \"case\": \"4x2x64:direct\", \"end_to_end_seconds\": 0.002283155990880914, \"outputs\": 264, \"seconds_field\": \"0.000354459\"}, {\"case\": \"mixed review/replay request sequence\", \"end_to_end_seconds\": 0.030077894989517517, \"requests\": 3}], \"passed\": true}\n",
+      "stderr": ""
+    }
+  },
+  "timings": {
+    "submitted-fp64": {
+      "compile": [
+        "g++",
+        "-O3",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-pedantic",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/submitted-fp64/core.cpp",
+        "-o",
+        "/tmp/tmpsatdihu1/submitted-fp64"
+      ],
+      "compiler_stderr": "",
+      "whole_process_observations": [
+        {
+          "repetition": 0,
+          "elapsed_s": 0.025987982007791288,
+          "internal_s": 0.00487249,
+          "outputs": 65664
+        },
+        {
+          "repetition": 1,
+          "elapsed_s": 0.025350540003273636,
+          "internal_s": 0.004924317,
+          "outputs": 65664
+        },
+        {
+          "repetition": 2,
+          "elapsed_s": 0.02554518700344488,
+          "internal_s": 0.004924558,
+          "outputs": 65664
+        },
+        {
+          "repetition": 3,
+          "elapsed_s": 0.026565911000943743,
+          "internal_s": 0.005006773,
+          "outputs": 65664
+        },
+        {
+          "repetition": 4,
+          "elapsed_s": 0.02626297999813687,
+          "internal_s": 0.005043933,
+          "outputs": 65664
+        },
+        {
+          "repetition": 5,
+          "elapsed_s": 0.03033774498908315,
+          "internal_s": 0.005398872,
+          "outputs": 65664
+        },
+        {
+          "repetition": 6,
+          "elapsed_s": 0.03175485800602473,
+          "internal_s": 0.005771295,
+          "outputs": 65664
+        },
+        {
+          "repetition": 7,
+          "elapsed_s": 0.028359443007502705,
+          "internal_s": 0.005242587,
+          "outputs": 65664
+        },
+        {
+          "repetition": 8,
+          "elapsed_s": 0.027348659001290798,
+          "internal_s": 0.004929547,
+          "outputs": 65664
+        },
+        {
+          "repetition": 9,
+          "elapsed_s": 0.02818661800120026,
+          "internal_s": 0.005964719,
+          "outputs": 65664
+        },
+        {
+          "repetition": 10,
+          "elapsed_s": 0.027716330994735472,
+          "internal_s": 0.005575796,
+          "outputs": 65664
+        }
+      ],
+      "median_s": 0.027348659001290798,
+      "internal_median_s": 0.005043933
+    },
+    "fp32-transform": {
+      "compile": [
+        "g++",
+        "-O3",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-pedantic",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform/core.cpp",
+        "-o",
+        "/tmp/tmpsatdihu1/fp32-transform"
+      ],
+      "compiler_stderr": "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform/core.cpp: In function \u2018int automatic(int, int, int)\u2019:\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform/core.cpp:47:27: warning: narrowing conversion of \u2018cos(((double)a))\u2019 from \u2018double\u2019 to \u2018float\u2019 [-Wnarrowing]\n   47 |         roots[j]={std::cos(a),std::sin(a)};\n      |                   ~~~~~~~~^~~\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform/core.cpp:47:39: warning: narrowing conversion of \u2018sin(((double)a))\u2019 from \u2018double\u2019 to \u2018float\u2019 [-Wnarrowing]\n   47 |         roots[j]={std::cos(a),std::sin(a)};\n      |                               ~~~~~~~~^~~\n/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/spectral-diagnostic/fp32-transform/core.cpp:53:54: warning: narrowing conversion of \u2018(sample(c, w, i, n) * ((double)taper.std::vector<float>::operator[](((std::vector<float>::size_type)i))))\u2019 from \u2018double\u2019 to \u2018float\u2019 [-Wnarrowing]\n   53 |         for(int i=0;i<n;i++)frame[i]={sample(c,w,i,n)*taper[i],0.0};\n",
+      "whole_process_observations": [
+        {
+          "repetition": 0,
+          "elapsed_s": 0.026473065998288803,
+          "internal_s": 0.005092253,
+          "outputs": 65664
+        },
+        {
+          "repetition": 1,
+          "elapsed_s": 0.02775164699414745,
+          "internal_s": 0.005096301,
+          "outputs": 65664
+        },
+        {
+          "repetition": 2,
+          "elapsed_s": 0.024806684014038183,
+          "internal_s": 0.004839397,
+          "outputs": 65664
+        },
+        {
+          "repetition": 3,
+          "elapsed_s": 0.02669450399116613,
+          "internal_s": 0.005087514,
+          "outputs": 65664
+        },
+        {
+          "repetition": 4,
+          "elapsed_s": 0.025376378995133564,
+          "internal_s": 0.00506344,
+          "outputs": 65664
+        },
+        {
+          "repetition": 5,
+          "elapsed_s": 0.02566187699267175,
+          "internal_s": 0.005001011,
+          "outputs": 65664
+        },
+        {
+          "repetition": 6,
+          "elapsed_s": 0.02769836800871417,
+          "internal_s": 0.005598879,
+          "outputs": 65664
+        },
+        {
+          "repetition": 7,
+          "elapsed_s": 0.025605550996260718,
+          "internal_s": 0.005160753,
+          "outputs": 65664
+        },
+        {
+          "repetition": 8,
+          "elapsed_s": 0.02617184800328687,
+          "internal_s": 0.005251594,
+          "outputs": 65664
+        },
+        {
+          "repetition": 9,
+          "elapsed_s": 0.027109988004667684,
+          "internal_s": 0.005287682,
+          "outputs": 65664
+        },
+        {
+          "repetition": 10,
+          "elapsed_s": 0.02772532899689395,
+          "internal_s": 0.005571959,
+          "outputs": 65664
+        }
+      ],
+      "median_s": 0.026473065998288803,
+      "internal_median_s": 0.005096301
+    }
+  },
+  "every_bin_max_tolerance_ratios": [
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746,
+    0.050743984433954746
+  ]
+}

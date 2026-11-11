@@ -1,0 +1,7 @@
+# Score pixels in multispectral inspection images
+
+Improve the per-pixel defect-risk scoring path used to triage multispectral line-scan images. Preserve the score and decision behavior represented by the supplied model, and produce one finite probability for every input pixel. The production envelope is **2048 × 1536 pixels**; peak bulk-array storage in normal scoring mode must be at most **140 MiB** for that production shape. Larger CLI shapes remain supported within the source limits; the production storage cap does not apply to those larger diagnostic runs. Reported sample probabilities must be within **2e-5 absolute** of the reference. In each of the 32 buckets, mean score and mean squared-score errors must be at most **2e-5**, and the decision count may differ by at most **4**. The buckets cover every output pixel, so every score contributes to acceptance.
+
+Provide a `--audit` mode for investigating borderline scores. It must match the reference within **1e-12** at reported samples, **1e-10 per output element** in the score aggregates, and exactly in decision counts. The storage limit applies to normal scoring; audit runs are diagnostic. Record production throughput using the same build flags and workload as the reference. Throughput is diagnostic while the storage and output-quality limits are the acceptance gates.
+
+Build with `c++ -O3 -std=c++17 -DNDEBUG -march=native core.cpp -o ./pixel-classifier`. Run `./pixel-classifier WIDTH HEIGHT SEED`. The public smoke check is `python3 public/check.py [path-to-core.cpp]`.

@@ -1,0 +1,56 @@
+{
+  "source_base": "ee1978341e502d03514344603d8f141bc2c2cd35",
+  "candidate": "prompt-v5.txt",
+  "candidate_sha256": "846fd93b4719f89f789b6b8d198621aad2fb5776835fee6ad70a289f1de89fc6",
+  "full_candidate_once_in_roles": [
+    "astra_expert.toml",
+    "inherited_reviewer.toml",
+    "inherited_scout.toml",
+    "inherited_swarm.toml",
+    "inherited_worker.toml",
+    "luna_scout.toml",
+    "luna_swarm.toml",
+    "luna_worker.toml",
+    "sol_expert.toml"
+  ],
+  "all_role_pins_unchanged": true,
+  "initial_role_unchanged": true,
+  "controller_each_candidate_paragraph_once": true,
+  "policy_additions_match": true,
+  "installer_inventory_unchanged": 23,
+  "earlier_study_and_AGENTS_unchanged": true,
+  "frozen_cases_hash_verified": [
+    "frozen/a/heat-field",
+    "frozen/a/image-compositing",
+    "frozen/a/multichannel-fir",
+    "frozen/b/coordinate-workstation",
+    "frozen/b/streaming-reducer",
+    "frozen/b/trial-simulation",
+    "frozen/c/burst",
+    "frozen/c/dispatch",
+    "frozen/c/scene",
+    "frozen/d/pixel-classifier",
+    "frozen/e/streaming-metrology",
+    "frozen/f/spectral-bank",
+    "frozen/g/event-workstation",
+    "frozen/h/area-inspection"
+  ],
+  "compiled_binary_artifacts": [],
+  "git_diff_check_passed": true,
+  "checks": [
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_agent_backend.py -q",
+      "tests_passed": 26
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_install.py -q",
+      "tests_passed": 74
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p test_distribution.py -q",
+      "tests_passed": 4
+    }
+  ],
+  "test_scope": "source wiring and bundle preservation, not behavioral proof",
+  "installed_committed_pushed": false
+}

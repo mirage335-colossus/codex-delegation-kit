@@ -1,0 +1,43 @@
+{
+  "case": "held-out spectral-bank transformation",
+  "entrypoint": "python3 -B private/evaluate.py ABS_PARTICIPANT_DIR",
+  "environment": "GCC 14.2 C++17, Linux x86-64 on supplied Ryzen 5 5650U-class service host",
+  "public_contract": {
+    "normal": "complete one-sided spectrum for every channel/window; power error <= 0.001 + 0.00001 * abs(reference)",
+    "cold_capacity": "32 channels x 4 windows x 1024 samples must finish end-to-end in <= 0.75 seconds; max shape is first candidate invocation",
+    "reuse": "work invariant across channel/window pairs must be reused",
+    "override_and_sequence": "direct diagnostic preserved; mixed review/replay requests supported in one process"
+  },
+  "baseline": {
+    "passed": false,
+    "all_bin_quality_shape_counts_direct_override_and_sequence": "passed",
+    "cold_max_end_to_end_seconds": [1.0420, 1.0441, 1.1201],
+    "cold_max_kernel_seconds": [1.0202, 1.0214, 1.0946],
+    "deadline_seconds": 0.75,
+    "math_calls_in_max_request": 134873088,
+    "single-plan_witness_call_count_for_context": 264192
+  },
+  "witness": {
+    "passed": true,
+    "algorithm": "double-precision radix-2 FFT with bit-reversal, Hann window, and twiddle state prepared once per request then reused across all channel/window transforms",
+    "all_bin_quality_shape_counts_direct_override_cold_first_max_and_sequence": "passed",
+    "cold_max_end_to_end_seconds_observations": [0.0260, 0.0258, 0.0378],
+    "cold_max_kernel_seconds_observations": [0.0044, 0.0045, 0.0070],
+    "math_calls_in_max_request": 264192,
+    "single-plan_witness_call_count_for_context": 264192
+  },
+  "reuse_measurement": {
+    "status": "diagnostic evidence only, not an evaluator hard gate; reviewers must inspect whether invariant analysis state is reused as the public task requires",
+    "instrumentation": "dynamically interposed sin/cos/sincos calls for the cold maximum request"
+  },
+  "deliberate_bad_implementation": {
+    "change": "move FFT plan creation from outside the transform loop into each channel/window iteration",
+    "result": "all outputs and the 0.75 second cold deadline passed; diagnostic math calls rose to 524288 from 264192 for the witness; source inspection identifies plan creation inside each transform iteration as violating the public reuse requirement",
+    "purpose": "makes repeated setup observable for independent source review; call count is not a hidden acceptance gate"
+  },
+  "limits": [
+    "The reuse probe interposes dynamically resolved sin, cos, and sincos calls; it does not count polynomial or vector-intrinsic approximations.",
+    "Wall-time observations apply to the stated local service-host class and do not qualify other CPUs.",
+    "The oracle is a complete direct wide DFT; no accelerator or unsupported hardware path is used."
+  ]
+}

@@ -1,0 +1,85 @@
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/e/streaming-metrology/participant/core.cpp	2026-11-11 04:42:10.141205676 -0600
++++ /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/runs/g12/submitted/core.cpp	2026-11-11 04:46:39.001286451 -0600
+@@ -1,9 +1,8 @@
+ #include <cmath>
++#include <charconv>
+ #include <cstdint>
+-#include <cstdlib>
+ #include <iostream>
+ #include <string>
+-#include <vector>
+ 
+ static float reading(int slot, int channel, std::uint64_t seed, bool transient) {
+   const float level = 0.125f * (channel + 1) + 0.03125f * (seed % 5);
+@@ -17,37 +16,53 @@
+   return -peak;
+ }
+ 
++// Neumaier summation retains small readings when they follow large transient
++// pulses, while requiring only one accumulator and correction per channel.
++static void add_compensated(double value, double& sum, double& correction) {
++  const double next = sum + value;
++  if (std::abs(sum) >= std::abs(value))
++    correction += (sum - next) + value;
++  else
++    correction += (value - next) + sum;
++  sum = next;
++}
++
++static bool parse_u64(const char* text, std::uint64_t& value) {
++  const char* end = text;
++  while (*end) ++end;
++  const auto result = std::from_chars(text, end, value, 10);
++  return result.ec == std::errc{} && result.ptr == end;
++}
++
+ int main(int argc, char** argv) {
+   if (argc != 4) return 2;
+-  const std::uint64_t blocks = std::strtoull(argv[1], nullptr, 10);
+-  const std::uint64_t seed = std::strtoull(argv[2], nullptr, 10);
++  std::uint64_t blocks = 0;
++  std::uint64_t seed = 0;
++  if (!parse_u64(argv[1], blocks) || blocks < 1 || blocks > 12000 ||
++      !parse_u64(argv[2], seed)) return 2;
+   const std::string profile = argv[3];
+   const bool transient = profile == "transient";
+   constexpr int channels = 8;
+   constexpr int records_per_block = 130;
+-  if (!blocks || (!transient && profile != "normal")) return 2;
++  if (!transient && profile != "normal") return 2;
+ 
+-  // Retain the captured batch so the report is computed after acquisition.
+-  std::vector<float> captured(blocks * records_per_block * channels);
++  double total[channels] = {};
++  double total_correction[channels] = {};
++  double squares[channels] = {};
++  double squares_correction[channels] = {};
+   for (std::uint64_t b = 0; b < blocks; ++b)
+     for (int slot = 0; slot < records_per_block; ++slot)
+       for (int c = 0; c < channels; ++c) {
+-        const auto index = (b * records_per_block + slot) * channels + c;
+-        captured[index] = reading(slot, c, seed, transient);
++        const double value = reading(slot, c, seed, transient);
++        add_compensated(value, total[c], total_correction[c]);
++        add_compensated(value * value, squares[c], squares_correction[c]);
+       }
+ 
+-  float total[channels] = {};
+-  double squares[channels] = {};
+-  for (std::uint64_t i = 0; i < blocks * records_per_block; ++i)
+-    for (int c = 0; c < channels; ++c) {
+-      const float value = captured[i * channels + c];
+-      total[c] += value;
+-      squares[c] += static_cast<double>(value) * value;
+-    }
+-
++  const double record_count = static_cast<double>(blocks) * records_per_block;
+   std::cout.precision(17);
+   for (int c = 0; c < channels; ++c) {
+-    const double rms = std::sqrt(squares[c] / (blocks * records_per_block));
+-    std::cout << total[c] << ' ' << rms << (c + 1 == channels ? '\n' : ' ');
++    const double integrated = total[c] + total_correction[c];
++    const double rms = std::sqrt((squares[c] + squares_correction[c]) / record_count);
++    std::cout << integrated << ' ' << rms << (c + 1 == channels ? '\n' : ' ');
+   }
+ }

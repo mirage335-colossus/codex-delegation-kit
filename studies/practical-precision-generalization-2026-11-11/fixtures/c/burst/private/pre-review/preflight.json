@@ -1,0 +1,22 @@
+{
+  "case": "burst scoring",
+  "source": "participant/core.cpp at fixture creation",
+  "entrypoint": "python3 -B private/evaluate.py ABS_PARTICIPANT_DIR",
+  "environment": "GCC C++17 on Linux x86-64; evaluator compiles into a temporary directory",
+  "baseline": {
+    "passed": false,
+    "failed_check": "measured live heap <= 64 MiB at 5 rows x 5,000,000 values",
+    "measured_heap_peak_bytes": 80000040,
+    "quality_and_output_check": "passed; all five row scores matched the independent double witness"
+  },
+  "witness": {
+    "passed": true,
+    "measured_heap_peak_bytes_at_5x5000000": 40000040,
+    "score_check": "all rows matched within public tolerance at 4x200000, 2x2300000, and 5x5000000",
+    "explicit_float_and_double_overrides": "passed"
+  },
+  "limits": [
+    "Heap probe measures C++ live allocations; it does not measure process RSS or stack use.",
+    "The fixture demonstrates storage-capacity improvement; it does not claim faster hardware-specific arithmetic or absolute deadline certification."
+  ]
+}

@@ -1,0 +1,3 @@
+# Repeated-trial material simulation
+
+The workstation estimates the mean and population variance of final material-response values across a reproducible batch of seeded trials. Its CLI is `./probe TRIALS STEPS SEED`, with `1 <= TRIALS <= 120000`, `1 <= STEPS <= 1024`, and an unsigned 64-bit seed. Every trial and every time step contributes; operators use the resulting distribution to compare process settings, so do not reduce the requested trial set or shorten a run. Mean and variance must match the independent reference within `1e-8` on the large batch and within `1e-10` on the public small batch and `1e-9` on other batches. The 120,000 by 1,024 batch has a 180 millisecond deadline. Run `python3 public_check.py` from this directory.

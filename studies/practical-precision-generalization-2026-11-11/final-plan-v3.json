@@ -1,0 +1,42 @@
+{
+  "candidate": "prompt-v3.txt",
+  "prompt_sha256": "76be402cf2f91a55f2e2aeed42601ad665d802970c0c6166d49471771d117f35",
+  "behavior_protocol": "protocol-v3.md",
+  "protocol_sha256": "7233266c5071a3f6cdd7763036030bb31931e2abda1ee9a82ee0f4c0d276e4c7",
+  "development_regression": "d05",
+  "development_result": "passed arithmetic/quality/capacity-limit regression; no runtime ranking claim",
+  "fresh_transfer_runs": [
+    {
+      "id": "g11",
+      "case": "d/pixel-classifier"
+    },
+    {
+      "id": "g12",
+      "case": "e/streaming-metrology"
+    },
+    {
+      "id": "g13",
+      "case": "f/spectral-bank"
+    },
+    {
+      "id": "g21",
+      "case": "d/pixel-classifier"
+    },
+    {
+      "id": "g22",
+      "case": "e/streaming-metrology"
+    },
+    {
+      "id": "g23",
+      "case": "f/spectral-bank"
+    }
+  ],
+  "dispatch_requires": "completed author preflight and independent fixture review",
+  "corrective_messages_allowed": false,
+  "model_role_request": "luna_worker, Luna high",
+  "runtime_telemetry": "effective model/effort not independently observed",
+  "per_run_limit": {
+    "tools": 30,
+    "minutes": 15
+  }
+}

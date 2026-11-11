@@ -1,0 +1,228 @@
+{
+  "timings": {
+    "baseline": {
+      "all_seconds": [
+        0.06533662600850221,
+        0.06515437399502844,
+        0.0688468699954683,
+        0.07376594599918462,
+        0.08279415899596643,
+        0.0954116850043647,
+        0.08991310199780855,
+        0.07359540699690115,
+        0.08031953900353983
+      ],
+      "median_seconds": 0.07376594599918462
+    },
+    "blocked-f32": {
+      "all_seconds": [
+        0.05710703000659123,
+        0.05735330199240707,
+        0.06609750298957806,
+        0.06920801699743606,
+        0.07389064999006223,
+        0.0870031850063242,
+        0.06670876999851316,
+        0.06530346401268616,
+        0.06388575599703472
+      ],
+      "median_seconds": 0.06609750298957806
+    },
+    "naive-f32": {
+      "all_seconds": [
+        0.06295654199493583,
+        0.06262889700883534,
+        0.0633941429987317,
+        0.08356433401058894,
+        0.08245850099774543,
+        0.09436922999157105,
+        0.07424936300958507,
+        0.07275236600253265,
+        0.07955353098805062
+      ],
+      "median_seconds": 0.07424936300958507
+    }
+  },
+  "quality": [
+    {
+      "name": "baseline",
+      "args": [
+        4096,
+        2048,
+        13
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 8.697509379373969e-10,
+      "mean_square_error": 5.391311841407287e-09,
+      "count_error": 0,
+      "seconds": 0.06433881499106064,
+      "storage_bytes": 33816580,
+      "passes": true
+    },
+    {
+      "name": "blocked-f32",
+      "args": [
+        4096,
+        2048,
+        13
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 2.480010974359459e-08,
+      "mean_square_error": 4.677085874149611e-08,
+      "count_error": 0,
+      "seconds": 0.0573367619945202,
+      "storage_bytes": 33816580,
+      "passes": true
+    },
+    {
+      "name": "naive-f32",
+      "args": [
+        4096,
+        2048,
+        13
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 2.5046829986496988e-05,
+      "mean_square_error": 0.00020710145072921904,
+      "count_error": 0,
+      "seconds": 0.06414827799017075,
+      "storage_bytes": 33816580,
+      "passes": false
+    },
+    {
+      "name": "baseline",
+      "args": [
+        4096,
+        2048,
+        91
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 8.518219463127252e-10,
+      "mean_square_error": 5.3642272845877415e-09,
+      "count_error": 0,
+      "seconds": 0.06253841900615953,
+      "storage_bytes": 33816580,
+      "passes": true
+    },
+    {
+      "name": "blocked-f32",
+      "args": [
+        4096,
+        2048,
+        91
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 2.369003304636408e-08,
+      "mean_square_error": 3.185043340181437e-08,
+      "count_error": 0,
+      "seconds": 0.05773931700969115,
+      "storage_bytes": 33816580,
+      "passes": true
+    },
+    {
+      "name": "naive-f32",
+      "args": [
+        4096,
+        2048,
+        91
+      ],
+      "sample_error": 9.333999972938045e-08,
+      "mean_error": 1.964130249021423e-05,
+      "mean_square_error": 0.00022670254249579358,
+      "count_error": 0,
+      "seconds": 0.07020727299095597,
+      "storage_bytes": 33816580,
+      "passes": false
+    },
+    {
+      "name": "baseline",
+      "args": [
+        8192,
+        8192,
+        7
+      ],
+      "sample_error": 1.136269998092132e-07,
+      "mean_error": 7.405280832983863e-10,
+      "mean_square_error": 4.772663153573831e-09,
+      "count_error": 0,
+      "seconds": 0.4967220830003498,
+      "storage_bytes": 268697604,
+      "passes": true
+    },
+    {
+      "name": "blocked-f32",
+      "args": [
+        8192,
+        8192,
+        7
+      ],
+      "sample_error": 1.136269998092132e-07,
+      "mean_error": 6.305694633113035e-09,
+      "mean_square_error": 1.6292572180276466e-08,
+      "count_error": 0,
+      "seconds": 0.4580077110003913,
+      "storage_bytes": 268697604,
+      "passes": true
+    },
+    {
+      "name": "naive-f32",
+      "args": [
+        8192,
+        8192,
+        7
+      ],
+      "sample_error": 1.136269998092132e-07,
+      "mean_error": 0.0001923560161589677,
+      "mean_square_error": 0.004238161313057098,
+      "count_error": 0,
+      "seconds": 0.5139312940009404,
+      "storage_bytes": 268697604,
+      "passes": false
+    },
+    {
+      "name": "baseline",
+      "args": [
+        1,
+        1,
+        13
+      ],
+      "sample_error": 6.705499974724027e-10,
+      "mean_error": 6.705499974724027e-10,
+      "mean_square_error": 4.0233099946225537e-11,
+      "count_error": 0,
+      "seconds": 0.0021824840077897534,
+      "storage_bytes": 262152,
+      "passes": true
+    },
+    {
+      "name": "blocked-f32",
+      "args": [
+        1,
+        1,
+        13
+      ],
+      "sample_error": 6.705499974724027e-10,
+      "mean_error": 6.705499974724027e-10,
+      "mean_square_error": 1.5459999925214463e-11,
+      "count_error": 0,
+      "seconds": 0.002272622994496487,
+      "storage_bytes": 262152,
+      "passes": true
+    },
+    {
+      "name": "naive-f32",
+      "args": [
+        1,
+        1,
+        13
+      ],
+      "sample_error": 6.705499974724027e-10,
+      "mean_error": 6.705499974724027e-10,
+      "mean_square_error": 1.5459999925214463e-11,
+      "count_error": 0,
+      "seconds": 0.002936346994829364,
+      "storage_bytes": 262152,
+      "passes": true
+    }
+  ]
+}

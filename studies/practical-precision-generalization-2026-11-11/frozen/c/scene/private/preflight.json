@@ -1,0 +1,24 @@
+{
+  "case": "scripted scene renderer",
+  "entrypoint": "python3 -B private/evaluate.py ABS_PARTICIPANT_DIR",
+  "environment": "GCC 14.2 C++17 Linux x86-64; evaluator compiles to a temporary directory",
+  "baseline": {
+    "passed": false,
+    "frame_quality_and_counts": "passed in all three shapes",
+    "failed_checks": [
+      {"case": "12x320x180x1280x720x8", "measured_heap_peak_bytes": 7372904, "limit_bytes": 4194304},
+      {"case": "5x400x200x960x840x14", "measured_heap_peak_bytes": 6451248, "limit_bytes": 4194304},
+      {"case": "0x320x180x960x840x12", "measured_heap_peak_bytes": 6451208, "limit_bytes": 4194304}
+    ]
+  },
+  "witness": {
+    "passed": true,
+    "frame_quality_and_counts": "passed for preview-to-detail transition, changed shape, and first-request detail",
+    "measured_heap_peak_bytes": [3686504, 3225648, 3225608],
+    "diagnostic_storage_modes": "float buffer lower than double buffer, measured by allocation probe"
+  },
+  "limits": [
+    "Heap probe measures C++ live allocations, not process RSS or stack use.",
+    "Reported seconds cover the render loop; they exclude process startup and are diagnostic, not a platform-independent SLA."
+  ]
+}

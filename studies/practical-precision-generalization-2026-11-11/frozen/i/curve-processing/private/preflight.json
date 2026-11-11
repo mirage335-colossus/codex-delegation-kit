@@ -1,0 +1,664 @@
+{
+  "public_check": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/participant/public/check.py"
+    ],
+    "returncode": 0,
+    "stdout": "{\"public_smoke\": \"PASS\", \"varied_shapes\": 3, \"high_accuracy_audit\": \"PASS\", \"complete_output_buckets\": 32}\n",
+    "stderr": ""
+  },
+  "starter_baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/baseline"
+    ],
+    "returncode": 1,
+    "result": {
+      "passed": false,
+      "failures": [
+        "normal production deadline exceeded 0.185743s > 0.12s",
+        "normal production deadline exceeded 0.184938s > 0.12s",
+        "normal production deadline exceeded 0.185584s > 0.12s"
+      ],
+      "checks": [
+        "sample shape and finiteness",
+        "32 complete-output score/squared-score/threshold buckets",
+        "high-accuracy audit invocation",
+        "normal production deadline",
+        "matched fast-wide comparator"
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/baseline/core.cpp",
+        "-o",
+        "/tmp/tmpi6kprvf3/candidate"
+      ],
+      "production_shape_seed": [
+        4096,
+        2048,
+        13
+      ],
+      "deadline_seconds": 0.12,
+      "baseline": {
+        "elapsed_seconds": 0.1781859579932643,
+        "median_elapsed_seconds": 0.18579270399641246,
+        "repetitions_seconds": [
+          0.1781859579932643,
+          0.18579270399641246,
+          0.20089097000891343
+        ],
+        "reported_storage_bytes": 100663296,
+        "run_command": [
+          "/tmp/tmpi6kprvf3/baseline"
+        ],
+        "build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/baseline/core.cpp",
+          "-o",
+          "/tmp/tmpi6kprvf3/baseline"
+        ]
+      },
+      "production_repetitions": [
+        {
+          "repetition": 0,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error_per_reading": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.1857427299983101,
+          "fast_wide_elapsed_seconds": 0.06438271600927692,
+          "candidate_run_command": [
+            "/tmp/tmpi6kprvf3/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpi6kprvf3/fast-wide"
+          ]
+        },
+        {
+          "repetition": 1,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error_per_reading": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.1849380430066958,
+          "fast_wide_elapsed_seconds": 0.06309474799491,
+          "candidate_run_command": [
+            "/tmp/tmpi6kprvf3/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpi6kprvf3/fast-wide"
+          ]
+        },
+        {
+          "repetition": 2,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 0.0,
+            "max_mean_or_squared_mean_error_per_reading": 0.0,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.18558379000751302,
+          "fast_wide_elapsed_seconds": 0.06332007300807163,
+          "candidate_run_command": [
+            "/tmp/tmpi6kprvf3/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmpi6kprvf3/fast-wide"
+          ]
+        }
+      ],
+      "hidden_cases": [
+        {
+          "shape_seed": [
+            999,
+            731,
+            7
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error_per_reading": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.01880599500145763,
+          "oracle_elapsed_seconds": 0.018125381000572816,
+          "run_command": [
+            "/tmp/tmpi6kprvf3/candidate",
+            "999",
+            "731",
+            "7"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpi6kprvf3/oracle",
+            "999",
+            "731",
+            "7"
+          ]
+        },
+        {
+          "shape_seed": [
+            63,
+            37,
+            2025
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error_per_reading": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0019067129906034097,
+          "oracle_elapsed_seconds": 0.0014037960063433275,
+          "run_command": [
+            "/tmp/tmpi6kprvf3/candidate",
+            "63",
+            "37",
+            "2025"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpi6kprvf3/oracle",
+            "63",
+            "37",
+            "2025"
+          ]
+        },
+        {
+          "shape_seed": [
+            2,
+            1,
+            0
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error_per_reading": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.00127602499560453,
+          "oracle_elapsed_seconds": 0.0012313810002524406,
+          "run_command": [
+            "/tmp/tmpi6kprvf3/candidate",
+            "2",
+            "1",
+            "0"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpi6kprvf3/oracle",
+            "2",
+            "1",
+            "0"
+          ]
+        },
+        {
+          "shape_seed": [
+            1,
+            1,
+            91
+          ],
+          "max_sample_error": 0.0,
+          "max_mean_or_squared_mean_error_per_reading": 0.0,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0009763900015968829,
+          "oracle_elapsed_seconds": 0.0009990230028051883,
+          "run_command": [
+            "/tmp/tmpi6kprvf3/candidate",
+            "1",
+            "1",
+            "91"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmpi6kprvf3/oracle",
+            "1",
+            "1",
+            "91"
+          ]
+        }
+      ],
+      "audit_mode": {
+        "shape_seed": [
+          999,
+          731,
+          7
+        ],
+        "max_sample_error": 0.0,
+        "max_mean_or_squared_mean_error_per_reading": 0.0,
+        "max_threshold_count_delta_per_bucket": 0,
+        "elapsed_seconds": 0.018256149007356726,
+        "oracle_elapsed_seconds": 0.019040627012145706,
+        "run_command": [
+          "/tmp/tmpi6kprvf3/candidate",
+          "999",
+          "731",
+          "7",
+          "--audit"
+        ],
+        "oracle_run_command": [
+          "/tmp/tmpi6kprvf3/oracle",
+          "999",
+          "731",
+          "7"
+        ]
+      },
+      "matched_fast_wide_comparison": {
+        "candidate_median_seconds": 0.18558379000751302,
+        "fast_wide_wide_arithmetic_median_seconds": 0.06332007300807163,
+        "speedup_vs_fast_wide": 0.3411939857759572,
+        "candidate_samples_per_second": 45201189.17530676,
+        "fast_wide_samples_per_second": 132479442.95532753,
+        "candidate_storage_reported_bytes": 100663296,
+        "fast_wide_storage_reported_bytes": 67174408,
+        "candidate_repetitions_seconds": [
+          0.1857427299983101,
+          0.1849380430066958,
+          0.18558379000751302
+        ],
+        "fast_wide_repetitions_seconds": [
+          0.06438271600927692,
+          0.06309474799491,
+          0.06332007300807163
+        ],
+        "fast_wide_build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/fast_wide/core.cpp",
+          "-o",
+          "/tmp/tmpi6kprvf3/fast-wide"
+        ]
+      },
+      "oracle_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/oracle.cpp",
+        "-o",
+        "/tmp/tmpi6kprvf3/oracle"
+      ]
+    }
+  },
+  "witness": {
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/witness"
+    ],
+    "returncode": 0,
+    "result": {
+      "passed": true,
+      "failures": [],
+      "checks": [
+        "sample shape and finiteness",
+        "32 complete-output score/squared-score/threshold buckets",
+        "high-accuracy audit invocation",
+        "normal production deadline",
+        "matched fast-wide comparator"
+      ],
+      "build_flags": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native"
+      ],
+      "candidate_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/witness/core.cpp",
+        "-o",
+        "/tmp/tmp2p2bnob5/candidate"
+      ],
+      "production_shape_seed": [
+        4096,
+        2048,
+        13
+      ],
+      "deadline_seconds": 0.12,
+      "baseline": {
+        "elapsed_seconds": 0.18117903800157364,
+        "median_elapsed_seconds": 0.18200123800488655,
+        "repetitions_seconds": [
+          0.18117903800157364,
+          0.18983797899272759,
+          0.18200123800488655
+        ],
+        "reported_storage_bytes": 100663296,
+        "run_command": [
+          "/tmp/tmp2p2bnob5/baseline"
+        ],
+        "build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/baseline/core.cpp",
+          "-o",
+          "/tmp/tmp2p2bnob5/baseline"
+        ]
+      },
+      "production_repetitions": [
+        {
+          "repetition": 0,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 9.333999972938045e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.99433899009216e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.05247401099768467,
+          "fast_wide_elapsed_seconds": 0.06047450999903958,
+          "candidate_run_command": [
+            "/tmp/tmp2p2bnob5/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp2p2bnob5/fast-wide"
+          ]
+        },
+        {
+          "repetition": 1,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 9.333999972938045e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.99433899009216e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.05299597499833908,
+          "fast_wide_elapsed_seconds": 0.06152160299825482,
+          "candidate_run_command": [
+            "/tmp/tmp2p2bnob5/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp2p2bnob5/fast-wide"
+          ]
+        },
+        {
+          "repetition": 2,
+          "candidate_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 9.333999972938045e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.99433899009216e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "fast_wide_quality": {
+            "shape_seed": [
+              4096,
+              2048,
+              13
+            ],
+            "max_sample_error": 1.762600021493199e-08,
+            "max_mean_or_squared_mean_error_per_reading": 2.986545566407983e-07,
+            "max_threshold_count_delta_per_bucket": 0
+          },
+          "candidate_elapsed_seconds": 0.05275320699729491,
+          "fast_wide_elapsed_seconds": 0.06193147599697113,
+          "candidate_run_command": [
+            "/tmp/tmp2p2bnob5/candidate"
+          ],
+          "fast_wide_run_command": [
+            "/tmp/tmp2p2bnob5/fast-wide"
+          ]
+        }
+      ],
+      "hidden_cases": [
+        {
+          "shape_seed": [
+            999,
+            731,
+            7
+          ],
+          "max_sample_error": 9.333999972938045e-08,
+          "max_mean_or_squared_mean_error_per_reading": 3.071683976708407e-07,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.007319935990381055,
+          "oracle_elapsed_seconds": 0.01773218100424856,
+          "run_command": [
+            "/tmp/tmp2p2bnob5/candidate",
+            "999",
+            "731",
+            "7"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp2p2bnob5/oracle",
+            "999",
+            "731",
+            "7"
+          ]
+        },
+        {
+          "shape_seed": [
+            63,
+            37,
+            2025
+          ],
+          "max_sample_error": 1.3189599998852941e-06,
+          "max_mean_or_squared_mean_error_per_reading": 8.568767123674599e-07,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0016928600089158863,
+          "oracle_elapsed_seconds": 0.0014912510087015107,
+          "run_command": [
+            "/tmp/tmp2p2bnob5/candidate",
+            "63",
+            "37",
+            "2025"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp2p2bnob5/oracle",
+            "63",
+            "37",
+            "2025"
+          ]
+        },
+        {
+          "shape_seed": [
+            2,
+            1,
+            0
+          ],
+          "max_sample_error": 9.333999972938045e-08,
+          "max_mean_or_squared_mean_error_per_reading": 7.892599995784622e-07,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0013560860097641125,
+          "oracle_elapsed_seconds": 0.001270544991712086,
+          "run_command": [
+            "/tmp/tmp2p2bnob5/candidate",
+            "2",
+            "1",
+            "0"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp2p2bnob5/oracle",
+            "2",
+            "1",
+            "0"
+          ]
+        },
+        {
+          "shape_seed": [
+            1,
+            1,
+            91
+          ],
+          "max_sample_error": 6.705499974724027e-10,
+          "max_mean_or_squared_mean_error_per_reading": 6.705499974724027e-10,
+          "max_threshold_count_delta_per_bucket": 0,
+          "elapsed_seconds": 0.0012602850038092583,
+          "oracle_elapsed_seconds": 0.0010921290086116642,
+          "run_command": [
+            "/tmp/tmp2p2bnob5/candidate",
+            "1",
+            "1",
+            "91"
+          ],
+          "oracle_run_command": [
+            "/tmp/tmp2p2bnob5/oracle",
+            "1",
+            "1",
+            "91"
+          ]
+        }
+      ],
+      "audit_mode": {
+        "shape_seed": [
+          999,
+          731,
+          7
+        ],
+        "max_sample_error": 0.0,
+        "max_mean_or_squared_mean_error_per_reading": 0.0,
+        "max_threshold_count_delta_per_bucket": 0,
+        "elapsed_seconds": 0.017418959992937744,
+        "oracle_elapsed_seconds": 0.018502000995795242,
+        "run_command": [
+          "/tmp/tmp2p2bnob5/candidate",
+          "999",
+          "731",
+          "7",
+          "--audit"
+        ],
+        "oracle_run_command": [
+          "/tmp/tmp2p2bnob5/oracle",
+          "999",
+          "731",
+          "7"
+        ]
+      },
+      "matched_fast_wide_comparison": {
+        "candidate_median_seconds": 0.05275320699729491,
+        "fast_wide_wide_arithmetic_median_seconds": 0.06152160299825482,
+        "speedup_vs_fast_wide": 1.1662154113475895,
+        "candidate_samples_per_second": 159016076.50943673,
+        "fast_wide_samples_per_second": 136352233.8687755,
+        "candidate_storage_reported_bytes": 33587204,
+        "fast_wide_storage_reported_bytes": 67174408,
+        "candidate_repetitions_seconds": [
+          0.05247401099768467,
+          0.05299597499833908,
+          0.05275320699729491
+        ],
+        "fast_wide_repetitions_seconds": [
+          0.06047450999903958,
+          0.06152160299825482,
+          0.06193147599697113
+        ],
+        "fast_wide_build_command": [
+          "c++",
+          "-O3",
+          "-std=c++17",
+          "-DNDEBUG",
+          "-march=native",
+          "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/fast_wide/core.cpp",
+          "-o",
+          "/tmp/tmp2p2bnob5/fast-wide"
+        ]
+      },
+      "oracle_build_command": [
+        "c++",
+        "-O3",
+        "-std=c++17",
+        "-DNDEBUG",
+        "-march=native",
+        "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/i/curve-processing/private/oracle.cpp",
+        "-o",
+        "/tmp/tmp2p2bnob5/oracle"
+      ]
+    }
+  },
+  "mutation_results_file": "private/mutation-results.json",
+  "participant_interface": "participant/core.cpp, participant/task.md, participant/public/check.py only"
+}

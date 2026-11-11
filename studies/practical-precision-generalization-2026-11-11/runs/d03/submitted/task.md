@@ -1,0 +1,3 @@
+# Eight-channel sensor batch reducer
+
+Improve the reducer used by a vibration monitor. It reports the sum of all overlapping window means for every channel in a captured batch. Every window and sample contributes to the report; the operator cannot drop samples when the machine is busy. The supported CLI is `./probe N WINDOW`, with `1 <= WINDOW <= N <= 600000` and eight finite outputs. `python3 public_check.py` builds and probes the starter. Output tolerance is `max(0.02, 2e-7 * abs(reference))` per channel. The 600,000 by 256 capture must complete within four seconds and use at most 24 MiB peak resident memory, measured by the driver.

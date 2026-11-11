@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "starter",
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/b/coordinate-workstation/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/b/coordinate-workstation/participant"
+    ],
+    "returncode": 1,
+    "stdout": "{\"passed\": false, \"checks\": {\"decimal_oracle_n257\": true, \"decimal_oracle_n1501\": true, \"decimal_oracle_n1001\": true, \"decimal_oracle_n701\": false, \"minimum_precision_override\": true, \"exact_integer_ticks_above_2pow53_nonunit_step\": true, \"required_batch_output\": true, \"required_batch_memory_and_deadline\": false}, \"observations\": {\"decimal_n257\": [-7.496108949416342, 73.45028295485226], \"decimal_n1501\": [-0.004747486050966023, 0.2891532049118216], \"decimal_n1001\": [0.0, 0.08668912884697463], \"decimal_n701\": [0.0, 0.0], \"large_output\": [-0.00057703125, 72.2408377938424], \"large_reference\": [-0.00057703125, 72.2408377938424], \"peak_rss_kib\": 53216, \"elapsed_s\": 0.0597}}\n",
+    "stderr": ""
+  },
+  {
+    "kind": "witness",
+    "command": [
+      "python3",
+      "-B",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/b/coordinate-workstation/private/evaluate.py",
+      "/home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/fixtures/b/coordinate-workstation/private/witness"
+    ],
+    "returncode": 0,
+    "stdout": "{\"passed\": true, \"checks\": {\"decimal_oracle_n257\": true, \"decimal_oracle_n1501\": true, \"decimal_oracle_n1001\": true, \"decimal_oracle_n701\": true, \"minimum_precision_override\": true, \"exact_integer_ticks_above_2pow53_nonunit_step\": true, \"required_batch_output\": true, \"required_batch_memory_and_deadline\": true}, \"observations\": {\"decimal_n257\": [-7.496108949416342, 73.45028295485226], \"decimal_n1501\": [-0.004747501665665498, 0.2891478233287981], \"decimal_n1001\": [0.0, 0.08668909968417536], \"decimal_n701\": [-0.004807418050542049, 0.2873746082926206], \"large_output\": [-0.00057703125, 72.2408377938424], \"large_reference\": [-0.00057703125, 72.2408377938424], \"peak_rss_kib\": 15652, \"elapsed_s\": 0.0353}}\n",
+    "stderr": ""
+  }
+]

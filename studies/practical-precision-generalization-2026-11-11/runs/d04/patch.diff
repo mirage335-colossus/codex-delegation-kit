@@ -1,0 +1,52 @@
+--- /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/frozen/c/burst/participant/core.cpp	2026-11-11 04:00:04.891056251 -0600
++++ /home/user/___quick/p/_cur/codex-delegation-kit/studies/practical-precision-generalization-2026-11-11/runs/d04/submitted/core.cpp	2026-11-11 04:11:06.691007119 -0600
+@@ -1,3 +1,4 @@
++#include <algorithm>
+ #include <chrono>
+ #include <cmath>
+ #include <cstddef>
+@@ -9,18 +10,25 @@
+ 
+ template<class T> int run(int batches, std::size_t n, const char* name) {
+     using clock = std::chrono::steady_clock;
+-    std::vector<T> x(n), w(n);
+-    std::vector<double> scores(batches);
+-    for (std::size_t i=0;i<n;i++) {
+-        x[i] = T(std::sin(double(i)*0.0017)*0.7 + double(int(i%31)-15)*0.003);
+-        w[i] = T(std::cos(double(i)*0.0009)*0.4 + double(int(i%19)-9)*0.002);
+-    }
++    constexpr std::size_t buffer_budget = 64u * 1024u * 1024u;
++    std::vector<double> scores(batches, 0.0);
++    const std::size_t fixed_bytes = scores.capacity()*sizeof(double);
++    const std::size_t chunk_size = std::min(n, (buffer_budget-fixed_bytes)/(2*sizeof(T)));
++    std::vector<T> x(chunk_size), w(chunk_size);
+     const auto start=clock::now();
+-    for (int b=0;b<batches;b++) {
+-        T sum=0;
+-        const T bias=T((b-1)*0.0001);
+-        for (std::size_t i=0;i<n;i++) sum += double((x[i]+T(bias))*w[i]);
+-        scores[b]=double(sum);
++    for (std::size_t base=0;base<n;base+=chunk_size) {
++        const std::size_t count=std::min(chunk_size,n-base);
++        for (std::size_t j=0;j<count;j++) {
++            const std::size_t i=base+j;
++            x[j] = T(std::sin(double(i)*0.0017)*0.7 + double(int(i%31)-15)*0.003);
++            w[j] = T(std::cos(double(i)*0.0009)*0.4 + double(int(i%19)-9)*0.002);
++        }
++        for (int b=0;b<batches;b++) {
++            const T bias=T((b-1)*0.0001);
++            double sum=scores[b];
++            for (std::size_t j=0;j<count;j++) sum += double((x[j]+bias)*w[j]);
++            scores[b]=sum;
++        }
+     }
+     const double sec=std::chrono::duration<double>(clock::now()-start).count();
+     double checksum=0;
+@@ -37,6 +45,6 @@
+     if(batches<1||batches>16||n<1||n>10000000) return 2;
+     if(p=="double") return run<double>(batches,n,"double");
+     if(p=="float") return run<float>(batches,n,"float");
+-    if(p=="auto") return run<double>(batches,n,"double");
++    if(p=="auto") return run<float>(batches,n,"float");
+     std::cerr << "precision must be auto, float, or double\n"; return 2;
+ }
