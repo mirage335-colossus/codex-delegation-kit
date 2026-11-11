@@ -1,0 +1,196 @@
+## Native numerical processing
+
+For modems, DSP, and other intensive numerical processing inside an existing
+native application, **default to C++ or a similarly integrated native approach**.
+Prefer improving the current implementation, using appropriate native libraries,
+or adding a compatible in-process native component before moving part of the
+production hot path into Python scripts or separate processes. Familiarity with
+Python, shorter code, or a quick isolated prototype is not sufficient reason to
+introduce that architectural split. This is an application-integration preference,
+not a requirement to rewrite successful Python applications or the kit's Python
+orchestration tools.
+
+Honor stricter project contracts. Where the project requires one canonical
+compiled DSP and persistent receiver-state implementation, generic allowances
+for Python experiments or libraries do not authorize a second implementation
+or a Python-owned operating stage. Extend the native interfaces and probes;
+Python can launch them and analyze results. A separate C++ operating process
+still introduces a process boundary. Conversely, fresh native probe processes
+for test isolation do not split the application's operating signal chain.
+
+The user's November 10, 2026 engineering retrospective reported that diverting
+part of a C++ signal-processing chain into Python caused considerable agent
+distraction and integration difficulty. In that experience:
+
+- Returning to C++ made it easier to restructure multithreading and overlap
+  parallel processing of one batch with less parallel preparation of the next.
+- Managing separate processes instead of internal threads appeared to reduce
+  utilization and complicate coordination.
+- Separate Python scripts made GPU testing on cloud RunPod instances harder
+  than the native binary workflow; suitable tensor-core paths may also have
+  received less investigation.
+- Integrating a second signal-processing chain that narrowed the first chain's
+  work became harder across inter-process communication boundaries.
+
+These are reported project lessons, not controlled language benchmarks. The
+pumpModem activity and validation record reviewed on November 10 (revision
+`89945e8`) qualify the account: a later native scheduler improved first-message
+latency but worsened first-slot latency and slightly
+increased total replay time versus an earlier native baseline; it did not
+establish a general throughput or utilization gain. Native GPU optimizations
+improved scoped stages, while the small FP16 experiment was slower with packing
+costs and useful Tensor Core acceleration remained unproven. Preserve these
+distinctions: easier integration exposes optimization opportunities, but a
+language change, more concurrency or a fast kernel does not prove a faster
+complete receiver.
+
+Before proposing a split, inspect the existing native pipeline and evaluate:
+
+1. **Scheduling and utilization.** Identify serial preparation, parallel batch
+   work and dependencies. Consider reusable thread pools, pipelining or double
+   buffering to overlap preparation and computation, bounded queues and
+   backpressure, and CPU/GPU overlap where useful. Check nested library threads
+   and oversubscription. Coordinate stages within one explicit worker budget;
+   smaller ready batches need not shrink the global allocation. Preserve ordered
+   state/commit dependencies, cancellation and full memory reservations for
+   overlapping work; retain ownership until cancelled work actually stops.
+   Measure first-result latency, complete-message latency and sustained backlog
+   service separately; extra concurrency or high utilization
+   alone does not prove useful throughput. Project-specific worker multipliers
+   and memory limits are not universal defaults.
+2. **Data flow and chain coupling.** Keep compatible ownership and buffer
+   lifetimes, minimize copies and synchronization, and let one chain's detections
+   or candidate pruning reduce the other's work promptly. Transfer measurements
+   with their uncertainty and validity bounds; retain a correct fallback when
+   assistance is absent or invalid. Qualify each kind of assistance separately:
+   pumpModem's reviewed Helper path supplies frequency intervals, not validated
+   phase/timing transfer. Reducing the search work can matter more than making
+   each operation faster. Account for latency, serialization, transfers,
+   duplicated state and failure handling at each
+   proposed process boundary. For example, Python's
+   [multiprocessing queues serialize objects](https://docs.python.org/3.12/library/multiprocessing.html#exchanging-objects-between-processes).
+   Shared memory may reduce copies but still needs
+   ownership and synchronization; an in-process binding differs from script IPC.
+3. **GPU execution and reproducibility.** Design native CPU/GPU interfaces for
+   useful batches, suitable contiguous layouts, explicit shapes/strides and
+   reusable owned workspace. Qualify precision by stage: lower-precision bulk
+   arithmetic can coexist with sensitive coordinates, accumulation or decisions
+   needing higher precision. Arithmetic agreement alone does not qualify receiver
+   acquisition or sensitivity; report fallback paths explicitly. Inspect launch,
+   packing, transfer and synchronization costs before assuming tensor arithmetic
+   addresses the bottleneck. Extend
+   native probes around the production code instead of duplicating DSP in a
+   convenient benchmark script that needs another port. Keep local, CI, manual
+   and cloud tests such as RunPod on that same implementation, using a minimal
+   native source closure, reproducible build, required libraries/drivers, inputs
+   and launch instructions. Include setup and deployment effort when comparing
+   approaches; a native binary still has dependencies.
+4. **Evidence for an exception.** Compare a proposed alternative with a credible
+   integrated native baseline on representative end-to-end work. Preserve
+   numerical correctness and precision; measure latency, throughput, CPU/GPU
+   utilization, memory and transfer/copy costs, and account for build/deployment
+   reproducibility and maintenance effort. Include preparation, communication,
+   synchronization and cross-chain work reduction. An isolated fast kernel does
+   not establish a faster application. Label unmeasured benefits as hypotheses
+   and use a bounded experiment before committing to a large rewrite.
+
+When migrating an existing implementation, trace indirect test, CI, manual-case
+and forecasting entry points as well as the application. A runner called
+"native" may still measure retired code. Keep historical timings labeled with
+their implementation and source identity; establish new baselines rather than
+silently reusing old calibration. GPU-observed work or speed alone does not
+establish CPU capacity: use source- and workload-matched local CPU calibration
+and independent holdouts, retaining unresolved complete-receiver coverage.
+
+Python remains useful for experiments, offline analysis, test harnesses,
+orchestration, and bindings to optimized native libraries within the project's
+contract. A Python component can be appropriate when existing architecture,
+necessary libraries, isolation
+requirements or measured end-to-end benefits justify it. Explain that reason
+and the integration costs; prefer keeping tightly coupled production work
+in-process when practical. This guidance does not authorize a language rewrite
+or new deployment outside the user's task.
+
+Do not assume Python prevents parallel native execution or tensor-core use, or
+that C++ automatically enables either. Python numerical libraries can
+[release the GIL for native work](https://numpy.org/doc/stable/reference/thread_safety.html)
+and [use tensor-core-backed GPU operations](https://docs.pytorch.org/docs/2.15/notes/numerical_accuracy.html#tensorfloat-32-tf32-on-nvidia-ampere-and-later-devices).
+Tensor acceleration depends on supported
+operations, precision, shapes and the actual kernel/library path, with profiling
+and numerical validation required for a performance claim. Apply the
+[GPU selection and performance evidence](#gpu-selection-and-performance-evidence)
+criteria in either language.
+
+## GPU selection and performance evidence
+
+For accelerated numerical development, compatibility demonstrations and test
+speed, **evaluate NVIDIA RTX PRO 6000 Blackwell first and prefer it when the
+workload fits**. The user's priority is to exercise modern, highly parallel
+hardware and specialized tensor/matrix execution, demonstrate that the software
+uses it effectively, and substantially shorten testing. Treat this as a hardware
+selection preference, not a claim that every computation runs faster on it.
+Do not choose A100, RTX A5000 or another older GPU merely from habit, a familiar
+template or its hourly price. Record a concrete reason when choosing otherwise.
+
+Resolve the exact device before comparing or provisioning: NVIDIA distinguishes
+RTX PRO 6000 Blackwell Workstation Edition, Max-Q Workstation Edition and Server
+Edition. Power limits and other specifications differ. A label such as the user's
+"RTX PRO 6000 WX" must be verified against the provider's exact SKU; it is not
+an established NVIDIA variant name in the sources below. Do not silently equate
+it with a particular edition, RTX 6000 Ada, or an older Quadro RTX 6000.
+
+NVIDIA's specifications show substantially greater peak FP32 throughput for
+RTX PRO 6000 Blackwell than A100 or RTX A5000, alongside newer Tensor Cores.
+This supports the preference for suitable parallel FP32 and tensor work;
+peak specifications are not measured application or test-suite speedups.
+A100 and RTX A5000 also have Tensor Cores. Tensor acceleration requires supported
+operations, data types, shapes and an enabled software path; arbitrary scalar
+code does not automatically use it. Compare like precision and dense/sparse
+conditions, not an FP4 AI TOPS headline against FP32 or FP64 FLOPS.
+
+Before selecting hardware, identify required numerical precision and error
+tolerance, actual accelerated operations, working-set memory, bandwidth and
+interconnect needs, driver/toolchain/library support, and expected total test
+turnaround. **FP64-heavy HPC is a material exception:** A100 provides FP64 Tensor
+Core acceleration and can be more appropriate; NVIDIA positions RTX PRO servers
+for FP32-and-below HPC. Memory-bound or multi-GPU workloads, required deployment
+hardware, software compatibility, availability, existing capacity, budget and
+measured end-to-end time can also justify another choice. Keep required target
+hardware coverage. This preference does not authorize spending beyond the
+existing [cloud controls](CLOUD.md#advice-and-launch-authority).
+
+Use representative inputs and unchanged correctness requirements to demonstrate
+both compatibility and useful hardware utilization. Check that the intended GPU
+kernel/library path actually runs; when claiming Tensor Core use, verify that
+path with suitable profiling evidence. Report useful throughput, relevant
+compute/memory bottlenecks, and end-to-end test time against a named baseline
+with matched work and precision. A high generic GPU-utilization percentage alone
+does not establish efficient use of compute or Tensor Cores. Preserve numerical
+accuracy when considering lower precision; do not weaken assertions or workload
+coverage to manufacture speedup. Small, CPU-bound or transfer-bound tests may
+gain little. Where appropriate, batch independent cases to expose parallelism
+within existing resource limits. Hardware capability is a reason to test, not
+proof of high utilization or a promised speedup; record unmeasured gains as
+expectations and include setup/transfer costs in cloud turnaround estimates.
+
+Primary references checked November 10, 2026: NVIDIA's
+[RTX PRO 6000 Blackwell Workstation Edition specifications](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/),
+[Max-Q Workstation Edition](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000-max-q/),
+[Server Edition](https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/),
+[A100 specifications and FP64 support](https://www.nvidia.com/en-us/data-center/a100/),
+[RTX A5000 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/products/workstations/nvidia-rtx-a5000-datasheet.pdf),
+and [RTX PRO server target workloads](https://docs.nvidia.com/enterprise-reference-architectures/rtx-pro-ai-factory/latest/components.html).
+Verify current SKU specifications and software support when choosing hardware.
+
+
+For consequential acceptance or stopping criteria, identify their source and
+scope: explicit user requirements, applicable project or assignment contracts,
+correctness/resource/authorization limits, or experimental choices and
+heuristics. If the source is unknown, say so; a gate's label does not establish
+user authority. Preserve a predeclared experiment's failure, but do not promote
+an agent-chosen experimental gate into a user requirement or use it alone to
+discard useful progress the user expressly values. Missing implementation or
+provenance can block deployment without proving the approach lacks value.
+Independent review must challenge the criterion's source and scope as well as
+whether its measurement passed.
+

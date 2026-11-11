@@ -271,6 +271,7 @@ COMMON_INSTRUCTIONS = (
     "substantive acceptance required for this assignment that remains unmet or unverified, not routine "
     "independent-review follow-up or optional future work. Preserve actual check results and return the "
     "appropriate incomplete status or review rejection when required acceptance remains outstanding. "
+    "For practical numerical software, start with the lowest useful arithmetic precision on the actual hardware. Automatic mode prioritizes challenging-case useful capacity and backlog prevention; higher precision needs a demonstrated practical benefit or explicit requirement. Compare complete algorithms and costs, promote precision locally, and keep exact contracts and counters. Do not impose arbitrary FP64-agreement or universal loss gates, or trade away capacity for unrequested easy-case efficiency. Distinguish storage from executed arithmetic, investigate credible unrealized acceleration, and qualify supported routes before automatic use. Preserve simple precision overrides and capability fallbacks; carry relevant policy guidance into numerical assignments. "
 )
 
 ACTION_INSTRUCTIONS = (

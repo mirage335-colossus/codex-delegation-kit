@@ -1,5 +1,12 @@
 # Repository guidance
 
+For practical numerical software, **start with the lowest useful arithmetic
+precision and maximize challenging-case useful processing capacity by default**.
+Higher precision needs a demonstrated practical benefit or explicit requirement.
+Use automatic hardware-aware choices, local precision promotion and simple
+overrides; avoid arbitrary FP64-agreement or universal loss gates. Follow the
+[practical precision guidance](policy.md#practical-numerical-precision).
+
 For modem, signal-processing, and other compute-intensive paths in native
 applications, **prefer C++ or a similarly integrated native implementation**.
 Optimize the existing pipeline before splitting its hot path into Python

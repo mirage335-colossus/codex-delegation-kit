@@ -11,6 +11,12 @@ of task size or available parallelism.
 Preserve existing role settings, concurrency limits, and inference service tier;
 improve scheduling rather than enabling faster inference.
 
+**Practical numerical software: start with the lowest useful arithmetic precision
+on the actual hardware. Automatic mode prioritizes challenging-case processing
+capacity and backlog prevention; higher precision must earn its cost.** Apply the
+[practical precision guidance](#practical-numerical-precision) to the objective,
+algorithm and defaults, and carry it into relevant delegated assignments.
+
 **Native numerical processing: prefer C++ or a similarly integrated native
 approach for modem, signal-processing, and other compute-intensive paths in
 native applications.** First improve the existing pipeline, scheduling and data
@@ -1317,6 +1323,77 @@ limits/overrides govern; these heuristics do not revive superseded procedures
 or allowances. This method is instruction guidance, not a runtime
 monitor or enforced information-gain measurement.
 
+## Practical numerical precision
+
+For practical numerical software, start with the lowest arithmetic precision that
+plausibly serves the application on the actual hardware. Optimize useful
+end-to-end capacity on challenging supported workloads and prevent backlog or
+deadline failure. Higher precision must earn its cost through a demonstrated
+practical benefit or an explicit requirement; promote only the affected operations
+or state. Compare complete algorithms, including preparation, conversion,
+transfers and synchronization: a higher-precision algorithm can win by doing less
+work.
+
+Automatic mode is the user's maximum-useful-processing option. Choose the route
+that provides the better challenging-case ceiling across its supported range; do
+not wait for backlog, require manual per-stage tuning, or let a negligible
+easy-case latency/power advantage set a lower-capacity global default when no
+such user objective exists. Respect declared resource ceilings and real latency
+requirements. Use headroom for useful search, trials, scene complexity or other
+requested work, not empty utilization. Preserve a simple higher-precision/minimum-
+precision override, capability dispatch and explicit fallback reporting.
+
+Judge precision by practical outcomes, not automatic agreement with FP64, ADC bit
+depth, or an invented universal ppm/dB cutoff. Preserve failed diagnostics and
+distinguish their source from binding contracts. Report proportionate
+quality/capacity tradeoffs and uncertainty. Keep exact counters and explicit output
+requirements exact. Distinguish storage, multiplication and accumulation precision
+and actual executed instructions. When credible hardware evidence predicts an
+unrealized low-precision gain, check dispatch, packing, shapes, conversion and
+complete-stage cost before dismissing the opportunity. A tiny neutral test does
+not settle demanding-case potential; an advertised peak does not qualify a route.
+Use bounded representative experiments, then implement and automatically select
+supported improvements within authorization.
+
+Apply this default to modems, measurement appliances, simulations, rendering,
+games and other practical numerical applications. Evaluate reception, false
+alarms, completed design trials, useful scene complexity or the actual product
+outcome. Numerical error against a reference is a diagnostic unless the applicable
+contract makes it an acceptance condition. Neither "preserve accuracy" nor an
+existing `double` type establishes a scientific-precision requirement. An
+explicit scientific, exactness or other output contract remains binding; do not
+silently weaken it. Normalize or scale data, use wider accumulators or retain
+sensitive coordinates/state where they demonstrate a practical benefit instead
+of promoting the whole pipeline. Fewer bits alone do not guarantee faster work.
+
+End-user and experiment turnaround time are part of the objective. Start with a
+small discriminating check using the production implementation, reusing valid
+evidence. Sample demanding shapes and relevant failure cases rather than relying
+only on an easy demonstration. Report quality/capacity tradeoffs instead of
+inventing a universal allowable loss. Identify actual supported dispatch and
+fallback scope; a promising candidate can merit implementation and qualification
+without being ready for automatic deployment. Avoid exhaustive per-stage sweeps
+when a bounded comparison can settle the choice.
+
+The November 11, 2026 pumpModem conversation motivating this guidance required
+repeated user corrections to an agent-authored FP64 score gate, proposed dB
+cutoffs, and dismissal of low-precision arithmetic opportunities. Its final report
+also described a higher-precision chirp-Z algorithm winning by reducing work,
+and separated packed-arithmetic gains from larger algorithmic gains. These are
+reported project observations, not independently rerun hardware measurements or
+proof about model training. The accompanying clone-only prompting exercises are
+linked from `CONTRIBUTING.md`; their limited evidence does not establish general
+agent compliance.
+
+Primary implementation examples: AMD's
+[FP16 guidance](https://gpuopen.com/learn/first-steps-implementing-fp16/) shows why
+type spelling, compiler output, packed instructions and conversion overhead need
+separate checks; its 2018 toolchain details are historical. NVIDIA's
+[WMMA documentation](https://docs.nvidia.com/cuda/archive/13.3.0/cuda-programming-guide/05-appendices/cpp-language-extensions.html)
+documents supported operand/accumulator combinations. These support implementation
+checks, not universal speedups or acceptable application-error thresholds. Verify
+the current target's capabilities and execution path.
+
 ## Native numerical processing
 
 For modems, DSP, and other intensive numerical processing inside an existing
@@ -1406,7 +1483,8 @@ Before proposing a split, inspect the existing native pipeline and evaluate:
    approaches; a native binary still has dependencies.
 4. **Evidence for an exception.** Compare a proposed alternative with a credible
    integrated native baseline on representative end-to-end work. Preserve
-   numerical correctness and precision; measure latency, throughput, CPU/GPU
+   required application outcomes under the
+   [practical precision guidance](#practical-numerical-precision); measure latency, throughput, CPU/GPU
    utilization, memory and transfer/copy costs, and account for build/deployment
    reproducibility and maintenance effort. Include preparation, communication,
    synchronization and cross-chain work reduction. An isolated fast kernel does
@@ -1467,8 +1545,10 @@ operations, data types, shapes and an enabled software path; arbitrary scalar
 code does not automatically use it. Compare like precision and dense/sparse
 conditions, not an FP4 AI TOPS headline against FP32 or FP64 FLOPS.
 
-Before selecting hardware, identify required numerical precision and error
-tolerance, actual accelerated operations, working-set memory, bandwidth and
+Before selecting hardware, establish practical precision and error needs under
+the [precision guidance](#practical-numerical-precision), distinguishing explicit
+requirements from conservative existing types. Identify actual accelerated
+operations, working-set memory, bandwidth and
 interconnect needs, driver/toolchain/library support, and expected total test
 turnaround. **FP64-heavy HPC is a material exception:** A100 provides FP64 Tensor
 Core acceleration and can be more appropriate; NVIDIA positions RTX PRO servers
@@ -1484,9 +1564,11 @@ kernel/library path actually runs; when claiming Tensor Core use, verify that
 path with suitable profiling evidence. Report useful throughput, relevant
 compute/memory bottlenecks, and end-to-end test time against a named baseline
 with matched work and precision. A high generic GPU-utilization percentage alone
-does not establish efficient use of compute or Tensor Cores. Preserve numerical
-accuracy when considering lower precision; do not weaken assertions or workload
-coverage to manufacture speedup. Small, CPU-bound or transfer-bound tests may
+does not establish efficient use of compute or Tensor Cores. Preserve required
+application outcomes when considering lower precision; retain failed numerical
+diagnostics and identify their authority rather than silently weakening assertions
+or treating every reference tolerance as a product requirement. Preserve required
+workload coverage. Small, CPU-bound or transfer-bound tests may
 gain little. Where appropriate, batch independent cases to expose parallelism
 within existing resource limits. Hardware capability is a reason to test, not
 proof of high utilization or a promised speedup; record unmeasured gains as

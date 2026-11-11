@@ -17,6 +17,14 @@ coordination, review, evidence, safety boundaries, and interruptions.
 Denied or unavailable capabilities remain permission holds; they do not
 authorize a model, account, or backend fallback.
 
+**Practical numerical work starts with the lowest useful arithmetic precision.**
+Automatic mode should maximize useful capacity on challenging supported workloads
+and prevent backlog; higher precision needs a demonstrated application benefit or
+an explicit requirement. Compare complete algorithms, raise precision locally,
+and preserve simple user overrides. Avoid arbitrary FP64-agreement or universal
+loss gates and unrequested easy-case efficiency objectives. See the
+[practical precision policy](policy.md#practical-numerical-precision).
+
 **For modem, signal-processing, and other compute-intensive code in native
 applications, prefer C++ or a similarly integrated native approach.** Improve
 the existing pipeline before introducing a split Python/process architecture;
@@ -37,7 +45,7 @@ Preserve task scope and normal service permissions.
 highly parallel FP32 development, hardware-utilization demonstrations, and faster
 testing.** Agents must explain a choice of A100, RTX A5000 or another older GPU.
 See the [selection criteria and exceptions](policy.md#gpu-selection-and-performance-evidence)
-for precision (especially FP64), exact variants, software compatibility and
+for demonstrated precision needs (especially FP64), exact variants, software compatibility and
 measured speedups.
 
 For substantive tasks, obtain the policy's initial `astra_initial`

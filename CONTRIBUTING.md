@@ -87,6 +87,12 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [practical precision exercises](studies/practical-precision-2026-11-11/README.md)
+retain matched decision prompts, original answers and an executable route-selection
+transfer check. They distinguish frozen comparison results from an adaptive
+diagnostic and production hardware qualification. The full candidate is in the
+policy; compact reminders also reach native roles and controller-built prompts.
+
 The [historical objective-recovery study](studies/objective-recovery-2026-11-09/README.md)
 reproduces a decision error on an actual pre-intervention checkpoint: a failed
 experimental gate was promoted into a governing user requirement. It records

@@ -1,0 +1,19 @@
+{
+  "base_revision": "81556e2240af6bad5c9240ffb6d49e2d880a7f5e",
+  "baseline_dirty": false,
+  "checks": [
+    {"command": "python3 -m unittest discover -s tests -p test_agent_backend.py -q", "passed": 26, "executor": "prompt_delivery worker"},
+    {"command": "python3 -B -m unittest discover -s tests -p test_install.py -q", "passed": 74, "executor": "main"},
+    {"command": "python3 -B -m unittest discover -s tests -p test_distribution.py -q", "passed": 4, "executor": "main"},
+    {"check": "Frozen development/transfer/v2 SHA-256 digests", "result": "unchanged"},
+    {"check": "All ten role non-instruction TOML fields", "result": "unchanged from HEAD"},
+    {"check": "astra_initial.toml and install.py bytes", "result": "unchanged from HEAD"},
+    {"check": "Each of nine role reminders occurs once; initial role has none", "result": "passed"},
+    {"check": "Relative Markdown link destinations and anchors in changed docs and study", "checked": 67, "result": "passed"},
+    {"command": "git diff --check", "result": "passed"}
+  ],
+  "not_executed": ["full repository test suite", "production DSP or hardware qualification", "global installer apply"],
+  "installation": "source only; global deployment untouched",
+  "commit": "not created",
+  "push": "not performed"
+}

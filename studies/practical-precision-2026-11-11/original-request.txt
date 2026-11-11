@@ -1,0 +1,21 @@
+The most recent messages to the 'Connect Robust modem GUI features' task of the 'pumpModem' project, show some difficulty in which the user had to step in and steer AI development agents to prioritize practical arithmetic precision.
+
+This is possibly a consequence of AI development agents having been trained to optimize for scientific precision, to eventually have the best chance of answering questions, whereas practical software development really almost never benefits from high numerical precision.
+
+Exacting simulations are rare. Optimizing physically manufactured products benefits more from wide tolerance design, so more rapidly computed repeated simulations are almost always far more desirable.
+
+Almost if not all other applications are even less demanding. Video game fluid physics will be extremely impressive if remaining within 10% accuracy from frame to frame: the lowest arithmetic precision to provide the fastest processing time by default will be preferred, no one cares about accurately determining the point at which turbulent flows become unpredictable. Other physics and lighting use cases are even less demanding, to the point of using physically unrealistic models as a perfectly compelling shortcut if taken far enough.
+
+Moreover, if accuracy in signal processing, simulation, etc, were important, the end-user would likely be looking at the results with both a good eye, and access to strong AI ready to assist or make improvements to the software if necessary.
+
+Standalone applications such as measurement appliances, dedicated workstations, modems, Virtual Reality environments, video games, etc, do not have such a luxury, and must be optimized to 'just work' through as much utilization doing as much number crunching as possible by default with whatever available compute hardware the program is running on.
+
+Most of all, the users can reasonably be expected to use a GUI dropdown to force higher arithmetic precision, but cannot be expected to try all the options for all of the processing chain steps to identify appropriate numerical precision. 'Force minimum arithmetic precision' is one option, the other option must be programmed as the user's 'force maximum number crunching' option.
+
+Computational ceiling is important, computational efficiency under that ceiling is not.
+
+End user time is not just precious, but can be the difference between the next leap in capability and efficiency either happening or not, with potentially devastating consequences if high cycle time has reduced experiments performed or processing fails to keep up with backlogs.
+
+Thus, it is important that practical development - as opposed to the less generally useful scientific development - emphasize using the lowest numerical precision unless a practical benefit is shown for the alternative.
+
+Please use exercises to develop and refine prompting to steer AI development agents to on their own move towards the tradeoff choices the relevant 'pumpModem' chat was moved towards by intervening dirctives from the user.

@@ -1,0 +1,44 @@
+{
+  "r01": {
+    "decision_1": "auto_capacity",
+    "decision_2": "investigate_native_arithmetic",
+    "rationale": "Choose FP32 when it meets the selected scene’s frame deadline; automatically use the packed FP16 route when additional capacity is needed. FP32 is faster and uses less power at 50,000 particles, while packed FP16 supports three times as many particles within the deadline, with indistinguishable approved visuals in the tested range. Operators choose scene complexity, and all can select the reference-quality override, so a global FP32 default would unnecessarily limit capacity and a per-stage manual toggle would shift internal tuning to operators.",
+    "next_action": "Investigate and implement the documented packed-FP16 arithmetic path in the native transform kernel, then measure it against the current kernel on matched work. Check correctness, conversion and launch costs, and end-to-end frame performance before changing the default or claiming a speedup.",
+    "limits": "The particle results cover only the tested range; they do not establish visual equivalence or performance beyond it. The transform’s half-sized buffers are measured, but no arithmetic gain is observed: profiling shows scalar FP32 instructions and conversion work. Packed-FP16 support is documented but not yet implemented. No speedup has been demonstrated."
+  },
+  "r02": {
+    "decision_1": "q15",
+    "decision_2": "keep_as_diagnostic",
+    "rationale": "At 0.50-second arrivals, FP32’s 1.30-second block time would accumulate backlog; Q15’s 0.38-second time is below the arrival interval. Q15’s estimated 1.5 dB threshold penalty has sampling uncertainty, but the supplied product tradeoffs permit useful reception across this tested range. The <1e-6 score deviation test was agent-authored, not a user or protocol requirement, so its failure is diagnostic rather than a shipping gate. A new <1 dB requirement would also lack a stated source. These trials do not qualify complete sustained reception.",
+    "next_action": "Bounded qualification: run matched sustained-reception trials with Q15 using the required 1600 hypotheses and the same false-alarm setting. Measure backlog and reception outcomes, and refine the threshold-penalty estimate with its uncertainty. Preserve the score-gate failure as diagnostic; do not claim qualification until these checks pass.",
+    "limits": "Based only on supplied synthetic fixture facts. The Q15 route is the next candidate to qualify, not yet qualified for deployment."
+  },
+  "r03": {
+    "decision_1": "fp64_chirpz",
+    "decision_2": "mixed_fp16_fp32",
+    "rationale": "For the required search grid, outputs, and memory limit, FP64 chirp-Z is the fastest measured search at 7 ms; FP32 FFT takes 18 ms and INT8 dense contraction takes 24 ms including preparation. All preserve the required observations. For the reducer, mixed FP16 products with FP32 accumulation is the fastest option with usable outputs at 3 ms. All-FP16 loses small increments; all-FP64 takes 9 ms with no application benefit. Keep the sequence counter as uint64 and handle it with exact integer operations; do not convert it through floating point, which cannot represent every integer above 2^53 exactly. The GUI should default to automatic, hardware-aware selection without requiring per-stage precision tuning.",
+    "next_action": "Use these measured configurations as the workstation defaults, with the counter remaining uint64 and outside floating-point reduction.",
+    "limits": "These are supplied synthetic fixture measurements, not external hardware evidence. The measured costs apply to the stated grid, outputs, and memory limit; they do not establish performance on other hardware or workloads."
+  },
+  "r04": {
+    "decision_1": "auto_capacity",
+    "decision_2": "investigate_native_arithmetic",
+    "rationale": "Operators choose scene complexity, so the default should select a supported processing route automatically. Use FP32 route A when it meets the frame deadline; use mixed packed FP16 route B when the workload exceeds A’s measured 0.8-million-particle capacity and remains within B’s tested range. The 50,000-particle result favors A in latency and power, while B supports 2.4 million particles; both meet the declared ceilings, and their approved visuals were indistinguishable in the tested range. A global FP32 default would exclude that measured capacity for ordinary operators. Preserve the reference-quality override. The facts do not establish a threshold or behavior beyond the tested range, so validate those before relying on them.",
+    "next_action": "Profile and implement the documented packed-FP16 arithmetic path in the native transform kernel, then measure arithmetic and conversion costs and compare end-to-end performance against FP32 on the same device and workload. Keep the half-sized buffers as a memory result only until further measurements show more.",
+    "limits": "Observed: A supports 0.8 million particles within the deadline; B supports 2.4 million; at 50,000 particles A takes 0.9 ms and B takes 1.0 ms and uses more power; tested visuals are indistinguishable; the transform kernel uses half-sized buffers but has no arithmetic gain, with scalar FP32 instructions and conversion work. Not measured: performance of the unimplemented packed-FP16 transform path, energy savings, behavior outside the tested visual and capacity ranges, or gains from the proposed optimization. These are supplied synthetic fixture facts, not external hardware evidence."
+  },
+  "r05": {
+    "decision_1": "q15",
+    "decision_2": "keep_as_diagnostic",
+    "rationale": "Q15 completes a block in 0.38 s, below the 0.50 s arrival interval; FP32 takes 1.30 s and would accumulate backlog under these supplied timings. Q15’s 0.006 score deviation fails an agent-authored test whose 1e-6 tolerance is not a user or protocol requirement. Keep that result as diagnostic evidence, not a release gate. The estimated 1.5 dB threshold penalty has sampling uncertainty, but the stated product tradeoffs permit useful reception across this tested range, so neither rejecting Q15 nor imposing a new 1 dB limit is supported. These bounded trials do not qualify sustained reception.",
+    "next_action": "Qualify Q15 on representative sustained arrivals, measuring backlog and reception performance with the required 1600 hypotheses and false-alarm setting. Refine the threshold-penalty estimate and its uncertainty; retain the FP32 comparison as a named baseline. Preserve the score deviation as diagnostic data without making it a gate.",
+    "limits": "All timings and paired-trial observations are supplied synthetic fixture facts, not external hardware evidence. Full sustained reception remains unqualified. The prior interruption occurred before reading the packet; no assertions or checks were performed."
+  },
+  "r06": {
+    "decision_1": "fp64_chirpz",
+    "decision_2": "mixed_fp16_fp32",
+    "rationale": "For the required search grid, outputs, and memory limit, all three measured search options preserve the required observations; FP64 chirp-Z is fastest at 7 ms, versus 18 ms for FP32 FFT and 24 ms for INT8 dense contraction including preparation. For the reducer, mixed FP16 products with FP32 accumulation produces usable outputs in 3 ms. All-FP16 is faster but loses small increments and is unusable; all-FP64 takes 9 ms with no application benefit. Preserve the uint64 sample sequence counter as an integer throughout; do not convert it to a floating-point representation that cannot preserve exact values above 2^53. Set the GUI defaults to fp64_chirpz and mixed_fp16_fp32 for this workstation, with any alternate modes clearly selectable and no silent precision fallback.",
+    "next_action": "Use these measured configurations as the workstation defaults and retain checks for required observations, usable reducer outputs, and exact uint64 counter handling.",
+    "limits": "The supplied costs and outcomes are synthetic fixture facts, not external hardware evidence. They support a choice for the stated grid and constraints, but do not establish performance on a real workstation or future optimization results."
+  }
+}

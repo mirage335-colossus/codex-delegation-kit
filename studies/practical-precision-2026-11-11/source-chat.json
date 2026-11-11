@@ -1,0 +1,122 @@
+{
+  "source": {
+    "threadId": "01a1c4c0-c110-76c1-aebe-036f4345ca41",
+    "title": "Connect Robust modem GUI features",
+    "read_date": "2026-11-11",
+    "scope": "six recent turns; selected user corrections and final assistant reports; reported results not independently re-executed"
+  },
+  "turns": [
+    {
+      "id": "01a1c9cb-1d36-7960-b0ec-86f359998234",
+      "startedAt": 1794386894,
+      "messages": [
+        {
+          "role": "user",
+          "text": "\nSeems some things were identified as important.\n\n```\ncurrent score accuracy gate... numerical regression check against the FP64 reference...\n\nThis seems arbitrary and wrong. Less than parts per million is a huge amount of dynamic range, much more than the 16bit ADC bitstream would even have to begin with.\n\nLess than 1dB of sensitivity loss due to lower precision arithmetic which can be computed more than a few decibels further into the noise floor, seems worthwhile.\n\nOf course lower precision arithmetic will not have as low of a quantization as FP64 . FP64 is rather extreme numerical precision.\n\nLower precision arithmetic should not be ruled out arbitrarily.\n```\n\n```\nA 1dB sensitivity loss is also still somewhat arbitrary, albeit much more reasonable. At 3dB sensitivity loss, doubling necessary transmit time and such, that might be getting less acceptable, but 2dB might still be worth considering if the computational tradeoff was drastically stronger, and 1.5dB sensitivity loss for a multiple less computing itme might be very well worthwhile.\n\nProportionate tradeoffs should be considered or at least reported.\n```\n\n```\nFP16, INT8, etc, may still merit consideration, given the sensitivity and computation tradeoff merits, rather than the previous parts per million cutoff.\n```\n\n```\nTheoretically, this Radeon GPU, as well as possibly other GPUs and CPUs, may benefit from faster lower precision arithmetic, such as FP16, INT8, or other lower precision arithmetic, etc, and this may still merit consideration, given the sensitivity and computation tradeoff merits, rather than the previous parts per million cutoff.\n\nIt's not just about storage, though that is important, but also computational speed.\n```\n\n```\nIt may be possible to implement much better FP16 support, etc, for this Radeon GPU, etc. The current implementation may not be optimal, or using the appropriate driver features, etc.\n```\n\n```\nIf official specifications, or benchmarks, or community reported information, etc, suggests a higher throughput is possible at some different arithmetic precision, etc, but that is not realized, then it is worth determining why that is, and whether actual limits have been reached, instead of a severe implementation issue.\n\nAs an example, the Radeon GPU may have higher FP16 performance than FP32, as well as other possibly relevant documented, benchmarked, tested, etc, capabilities.\n```\n\n```\nIf the performance benefits of lower precision arithmetic do not show up in one test case, then defaulting to lower precision could still be worthwhile if much of the benefit could be realized in an unanticipated real-world more computationally challenging receiver use case.\n\nUnless there is a pitfall in the code preventing effective utilization of the full benefit in which case that should be corrected.\n\nOnly if there is a clear worthwhile benefit to higher precision arithmetic, or no possibility of a large performance benefit (eg. if one arithmetic precision is converted to the other), might it still make sense to keep higher numerical precision as default.\n```\n\nComputational ceiling on worst cases is important, computational efficiency or unnecessary precision well under the computational ceiling is not.\n\nIt is usually computational ceiling, not numerical precision, which prevents successful reception, so defaults should prevent that.\n\nAlgorithms and default automatic choices should prioritize not failing, not falling behind on backlog, especially in challenging cases. This means that higher computational ceiling is a first choice.\n\nThere is a GUI option to force higher arithmetic precision if this were somehow necessary, and it is expected this override will never be needed due to the low dynamic range needed on quiet spectrum - if this is not forced, algorithms can and should default to prioritize computational throughput to minimize risk of backlog failure.\n\nMoreover, since the user can force higher precision, but may not be able to force exactly the appropriate numerical precision or computational structure needed by the available processing hardware, the default automatic options is the only option the user has to maximize computational throughput, thus the default option absolutely must do that.\n\nPlease ensure this is prominently documented enough AI development agents will especially improve these more challenging cases and will suitably prioritize CPU ceiling preserving algorithms and choices (eg. arithmetic precision, computational structure).\n\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Documented prominently in [AGENTS.md](/home/user/___quick/p/_cur/dataPump/pumpModem/AGENTS.md:8) and the [automatic-mode contract](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/gpu-precision-controls.md:3), with links from development, architecture and performance guidance.\n\nThe policy now explicitly requires:\n\n- Prioritizing challenging-case throughput, workspace capacity and backlog prevention.\n- Justifying higher precision by useful evidence.\n- Avoiding universal FP64 tolerances, arbitrary dB cutoffs and easy-case results as rejection rules.\n- Investigating unrealized hardware benefits and automatically selecting better supported routes.\n\nHistorical failures and receiver correctness/resource contracts remain intact.\n\nDocumentation-only changes; link and diff checks passed. Independent review approved completion."
+        }
+      ]
+    },
+    {
+      "id": "01a1c931-67ea-7073-9025-b37c8fa53e07",
+      "startedAt": 1794376820,
+      "messages": [
+        {
+          "role": "user",
+          "text": "Please investigate and implement worthwhile lower-precision optimizations in the native modem. The objective is maximum complete-receiver throughput and DSP workspace capacity on challenging cases, without compromising reception—not a preference for any particular numerical format.\n\nFirst reconcile the current implementation, applicable measurements and relevant historical findings. Reuse valid evidence and identify the remaining gaps before experimenting. Distinguish demonstrated precision requirements from conservative implementation choices.\n\nInvestigate these specific opportunities:\n\n1. CPU processing\n   - Audit where large buffers, FFTs, filters and correlations use FP64.\n   - Check whether the existing AVX2 FP32 FFT implementation can serve production coarse-search work.\n   - Evaluate INT16 and INT8 kernels where packed integer arithmetic suits filtering or correlation.\n   - On this Ryzen 5 PRO 5650U, distinguish F16C conversion/storage support from native FP16 arithmetic, and AVX2 integer operations from newer VNNI/AMX capabilities.\n   - Preserve portability through explicit hardware capability dispatch.\n\n2. Radeon GPU processing\n   - Investigate genuinely packed-FP16 arithmetic for large post-channelization transforms and other suitable bulk work.\n   - VkFFT’s half-storage mode currently computes in FP32: evaluate its memory benefits separately from actual FP16 arithmetic.\n   - Research practical native implementations or library extensions before deciding custom kernels are necessary.\n   - Verify generated instructions and executed work; half-typed buffers alone are not evidence of packed arithmetic.\n\n3. Other GPU paths\n   - Reuse existing native CUDA FP16/INT8 and historical Tensor Core evidence.\n   - Investigate unresolved opportunities where actual hardware supports accelerated contractions.\n   - Compare complete algorithm costs and scaling. An INT8 matrix contraction is not an INT8 FFT, and faster isolated multiplication can still make the receiver slower.\n\nConsider mixed precision, normalization, power-of-two scaling, wider accumulators, data layout, batching and overlap. Keep higher precision where evidence shows it is needed, particularly coordinates, conditioning-sensitive calculations and persistent state. Quiet spectrum makes lower precision plausible but does not settle FFT intermediate range or accumulated numerical error.\n\nUse bounded, hierarchical experiments under the project’s testing contract. Predeclare representative strata, sample budgets, accuracy/performance gates and stopping rules. Include broad searches, long transforms, noise-only input, near-threshold signals, unsuccessful candidates and relevant precision-sensitive cases. Preserve every public hypothesis, configured-calendar behavior, physical quiet-slot completion and the full 2*H worker budget.\n\nMeasure complete affected-stage and receiver costs, including packing, scaling, conversions, transfers, preparation and synchronization. Report workspace savings separately from throughput. Do not infer CPU capacity or whole-receiver speedup from arithmetic peaks or isolated kernels.\n\nKeep all operating DSP in the canonical C++ stack. Implement and validate promising candidates within existing authorization, and adopt the fastest qualified route for its supported operating range with explicit fallback reporting.\n\nFinish with measured improvements, retained failures, instruction/precision evidence, remaining gaps and why each default was chosen. Do not claim FP16 or INT8 is best merely because it uses fewer bits.\n"
+        },
+        {
+          "role": "user",
+          "text": "current score accuracy gate... numerical regression check against the FP64 reference...\n\nThis seems arbitrary and wrong. Less than parts per million is a huge amount of dynamic range, much more than the 16bit ADC bitstream would even have to begin with.\n\nLess than 1dB of sensitivity loss due to lower precision arithmetic which can be computed more than a few decibels further into the noise floor, seems worthwhile.\n\nOf course lower precision arithmetic will not have as low of a quantization as FP64 . FP64 is rather extreme numerical precision.\n\nLower precision arithmetic should not be ruled out arbitrarily.\n"
+        },
+        {
+          "role": "user",
+          "text": "A 1dB sensitivity loss is also still somewhat arbitrary, albeit much more reasonable. At 3dB sensitivity loss, doubling necessary transmit time and such, that might be getting less acceptable, but 2dB might still be worth considering if the computational tradeoff was drastically stronger, and 1.5dB sensitivity loss for a multiple less computing itme might be very well worthwhile.\n\nProportionate tradeoffs should be considered or at least reported.\n"
+        },
+        {
+          "role": "user",
+          "text": "FP16, INT8, etc, may still merit consideration, given the sensitivity and computation tradeoff merits, rather than the previous parts per million cutoff.\n"
+        },
+        {
+          "role": "user",
+          "text": "Theoretically, this Radeon GPU, as well as possibly other GPUs and CPUs, may benefit from faster lower precision arithmetic, such as FP16, INT8, or other lower precision arithmetic, etc, and this may still merit consideration, given the sensitivity and computation tradeoff merits, rather than the previous parts per million cutoff.\n\nIt's not just about storage, though that is important, but also computational speed.\n"
+        },
+        {
+          "role": "user",
+          "text": "It may be possible to implement much better FP16 support, etc, for this Radeon GPU, etc. The current implementation may not be optimal, or using the appropriate driver features, etc.\n"
+        },
+        {
+          "role": "user",
+          "text": "If official specifications, or benchmarks, or community reported information, etc, suggests a higher throughput is possible at some different arithmetic precision, etc, but that is not realized, then it is worth determining why that is, and whether actual limits have been reached, instead of a severe implementation issue.\n\nAs an example, the Radeon GPU may have higher FP16 performance than FP32, as well as other possibly relevant documented, benchmarked, tested, etc, capabilities.\n"
+        },
+        {
+          "role": "user",
+          "text": "If the performance benefits of lower precision arithmetic do not show up in one test case, then defaulting to lower precision could still be worthwhile if much of the benefit could be realized in an unanticipated real-world more computationally challenging receiver use case.\n\nUnless there is a pitfall in the code preventing effective utilization of the full benefit in which case that should be corrected.\n\nOnly if there is a clear worthwhile benefit to higher precision arithmetic, or no possibility of a large performance benefit (eg. if one arithmetic precision is converted to the other), might it still make sense to keep higher numerical precision as default.\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Implemented the lower-precision and search improvements in the native modem. Automatic selection now uses Q15 on eligible CPU searches, packed FP16 arithmetic on eligible Radeon searches, and FP64 chirp-Z where that algorithm provides the better measured ceiling. The full `2×H` worker budget is preserved.\n\nMeasured results on this computer:\n\n- **CPU:** Chirp-Z reduced matched five-slot service from **1.446 s to 0.376 s** on a 1,794-frequency search—**3.85× faster** than the Q15 frequency route.\n- **Radeon:** Packed FP16 direct processing completed a 78-workspace, 1,799-frequency message in **1.72 s**, versus **4.93 s** with FP32 FFTs. With identical half-width storage, packed arithmetic improved the measured dot stage by **1.15×** over FP32 arithmetic. The larger gain comes mainly from avoiding unnecessary FFT outputs.\n- **Workspace:** Q15 saved **13 MiB** on a tested long-slot reservation. Removing unused peak entries saved **97.69 MiB** on a separate large-search plan. These are admission-bound savings; concurrent capacity was not measured.\n\nThe Radeon’s conditional arithmetic peaks are approximately **1.61 TFLOP/s FP32** and **3.23 TFLOP/s packed FP16** at 1.8 GHz. The measured mixed-arithmetic dot rate remains well below those peaks. Algorithm overhead, transfers, reductions and synchronization are possible contributors; the measurements do not establish which hardware resource is saturated. [AMD’s packed-FP16 guidance](https://gpuopen.com/learn/first-steps-implementing-fp16/) describes the relevant instructions and conversion costs.\n\nThe RTX PRO 6000 tests also exercised native FP16 and INT8 contractions. INT8 sped up the search tiles, but preparation and memory costs erased that advantage in the tested complete coarse phase. Those alternatives remain available for other shapes.\n\nNear-threshold paired cases showed matching observed decision brackets, but the samples are too small to establish a general sensitivity-loss bound. A separate weak-signal large-grid trial missed detection; that result is retained. The largest combined workload, sustained backlog capacity, CPU INT8 and multi-arrival packed-FP16 FFTs remain unqualified. Experimental ROCm support for this GPU also remains untested because the current user cannot access `/dev/kfd`.\n\nValidation passed **33/33 native tests**, focused GUI/FFT checks, actual Radeon tests and all three GUI Session modes. Strict GPU requests still require actual GPU work; ordinary GPU-enabled operation reports when it selects native processing. Both temporary RunPod instances were removed. The independent completion review found no remaining blocker for the bounded investigation.\n\nThe detailed measurements, failures, fallback rules and evidence limits are in the [validation record](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/validation.md) and [precision guide](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/gpu-precision-controls.md)."
+        }
+      ]
+    },
+    {
+      "id": "01a1c8cf-1848-7143-818e-51266084f0a7",
+      "startedAt": 1794370378,
+      "messages": [
+        {
+          "role": "user",
+          "text": "Please ensure throughput optimized arithmetic is chosen, especially for GPU acceleration. If INT8 is available and fastest, that is reasonable and appropriate.\n\nWhere higher precision might remain appropriate might be early in the signal processing chain, before I/Q complex direct down conversion narrowing the baseband to only received Helper Carrier tones or only received triple Robust Modem message/data signals. It is arithmetic exposed to the full bandwidth of the analog input baseband that might be more likely to need more dynamic range, and thus more numerical precision, after the frequency band has been narrowed, it is expected usually quiet spectrum will be used, either rarely used unoccupied plentiful spectrum, or outright licensed spectrum such as Amateur Radio. An actually strong consistent tone remaining in the same narrow frequency band during the entire message is expected so rare that is not a relevant design consideration.\n\nThus, where lower precision can be demonstrated to have sufficient dynamic range for the intended signals within their narrow frequency range, lower precision optimized for the CPU or relevant GPUs currently available on the computer, should be used.\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Implemented automatic **FP32 FFT processing after DATA-band isolation** on qualified AVX2 CPUs, with FP64 retained for filtering, sensitive state and conditioning safeguards.\n\nOn your Ryzen 5650U:\n\n- **1.20× faster** complete five-slot reception in the challenging wide-search case.\n- **1.18× faster** wide coarse search.\n- Easier cases remained essentially unchanged.\n\nThe Radeon retains qualified FP32 GPU processing; it has no accelerated INT8 dot path. Existing CUDA FP16/INT8 alternatives remain available.\n\nPassed **33 Robust tests, 29 GUI tests**, additional precision-boundary checks and actual Radeon validation. Final review passed; the GUI binary is rebuilt.\n\n[Validation details](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/validation.md:31) include sampling limits. These measurements do not establish sustained receiver capacity."
+        }
+      ]
+    },
+    {
+      "id": "01a1c89f-50b9-7733-87a4-7277db046bfe",
+      "startedAt": 1794367246,
+      "messages": [
+        {
+          "role": "user",
+          "text": "Please add a GUI toggle, on the left side of the Developer mode GUI toggle, for GPU toggle.\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Added **GPU** immediately left of **Developer mode**. It controls GPU acceleration for Robust reception and simulation, defaults off, and saves with launch settings.\n\nVerified actual Radeon decoding, off/on switching, and GUI layout. Rebuilt the [GUI application](/home/user/___quick/p/_cur/dataPump/pumpModem/build/dev/datapump-gui) with GPU support."
+        }
+      ]
+    },
+    {
+      "id": "01a1c853-29f0-7f51-8fd3-fd2e515ee434",
+      "startedAt": 1794362256,
+      "messages": [
+        {
+          "role": "user",
+          "text": "This computer has an AMD Ryzen 5 PRO 5650U with Radeon Graphics . Integrated GPUs with serious number crunching are particularly interesting, as these remain widely available despite the usefulness to other uses of GPUs which benefit more from memory bandwidth than number crunching.\n\nPlease attempt to support this GPU, optimize performance, report the speedup achieved, and report the speedup theoretically achievable with the interesting number crunching hardware this GPU has (if any).\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Implemented an optional **native C++ Vulkan backend** for your Radeon, with batched FFTs, reusable buffers, and a bounded compiled-program cache.\n\nMeasured against the full **24-worker CPU baseline**:\n\n| Complete coarse search | CPU | Radeon | Result |\n|---|---:|---:|---|\n| Narrow | 77.1 ms | 107.6 ms | GPU 40% slower |\n| Wider | 524.1 ms | 412.8 ms | **GPU 1.27× faster** |\n\nThese are three paired warm runs. Cold GPU startup remains slower; this does not establish whole-receiver speedup or sustained backlog capacity.\n\nThe derived hardware peaks are **1.61 TFLOPS FP32** and **3.23 TFLOPS packed FP16**. Against ideal CPU FP32 throughput at an illustrative 3 GHz, those represent **2.8× and 5.6× arithmetic ceilings**, not application forecasts. This GPU lacks Tensor Cores and accelerated INT8 dot products; the implemented path uses FP32 FFTs. [AMD specifications](https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen-pro/ryzen-pro-5000-series/amd-ryzen-5-pro-5650u.html), [FP16 guidance](https://gpuopen.com/learn/first-steps-implementing-fp16/).\n\n**32/32 native checks**, actual GPU correctness, and compiled receiver integration passed. Completion review passed. Both search cases are covered by the new CI workflow.\n\nSelection currently uses the native API/probe; GUI GPU selection remains unavailable. [Detailed results and commands](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/triad-performance.md:145)."
+        }
+      ]
+    },
+    {
+      "id": "01a1c819-4ea2-76e3-a4ca-d37dd989a6b4",
+      "startedAt": 1794358464,
+      "messages": [
+        {
+          "role": "user",
+          "text": "\nCertain GPUs are representative of GPUs that may be used by real-time receivers in a future implementation. For now, it would be best to ensure lower precision arithmetic, tensor core processing, and other structural or processor optimizations, are efficiently supported by the performance tests.\n\n- GeForce RTX 4090\n- GeForce RTX 4090 Mobile/Laptop\n- GeForce RTX 4060 Ti 16 GB\n- AMD Ryzen 5 PRO 5650U with Radeon Graphics\n- AMD Ryzen 7 8840U with Radeon Graphics\n\nIt is particularly important to distinguish from number crunching which might benefit massively from  tensor core processing as low as INT8 precision (eg. FFT searches for particularly challenging cases after direct conversion of I/Q baseband specific to Helper Carrier tones or specific to message/data Robust Modem reception, in which both would be on quiet spectrum not requiring much dynamic range).\n\nThe algorithm which best supports the most challenging cases (eg. wider frequency search) should be preferred as the default, to ensure these more challenging cases will not fall behind on backlog. Computational ceiling on worst cases is important, computational efficiency well under the computational ceiling is not.\n\n"
+        },
+        {
+          "role": "assistant",
+          "text": "Implemented the test support and documented all five targets in [agent guidance](/home/user/___quick/p/_cur/dataPump/pumpModem/AGENTS.md:38).\n\n- Added bounded native FP16/INT8 and GPU peak benchmarks, device/precision provenance, and CI architecture controls.\n- Fixed a cross-GPU FP32 rounding issue without relaxing numerical tolerances.\n- Passed **32/32 native CPU checks** on the 5650U.\n- Passed RTX 4090 CUDA correctness in **17.1 seconds**, followed by all component comparisons in **6.4 seconds**.\n\nFull FFT remains the broad-search default. INT8 matrix processing is distinct from INT8 FFT. AMD GPU support, other hardware measurements, and sustained receiver capacity remain unqualified. [Results and limits](/home/user/___quick/p/_cur/dataPump/pumpModem/docs/validation.md:25).\n\nThe RunPod rental was terminated with no remaining resources or hourly charges.\n\n<details>\n<summary>Cloud cleanup verification</summary>\n\n![RunPod cleanup verification](/tmp/pumpmodem-ada-cleanup.jpg)\n\n</details>"
+        }
+      ]
+    }
+  ]
+}
