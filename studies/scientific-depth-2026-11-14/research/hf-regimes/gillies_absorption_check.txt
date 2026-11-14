@@ -1,0 +1,26 @@
+Source: Gillies et al. 2026, DOI 10.1029/2025SW004906, §§2–4
+pooled_expected_pulse_loss_baseline=0.620
+pooled_baseline_reception=0.380
+absolute_loss_when_four_site_mean_A30_gt2dB=0.800..0.900
+absolute_increment_over_pooled_baseline=0.180..0.280 (18..28 percentage points)
+fraction_of_remaining_reception_that_is_lost=0.474..0.737
+frequency/site figure values are normalized increments, not absolute loss probability:
+  5_to_11_MHz_most_bands_low_end=0.26
+  5_to_11_MHz_most_bands_high_end=0.32
+  14_MHz=0.19
+  10_MHz_reported_anomaly=0.4
+  remote_3_riometers=(0.24, 0.28)
+  nearest_Rankin_Inlet=0.41
+conditional_absolute_loss=p_baseline_frequency + normalized_increment*(1-p_baseline_frequency)
+frequency-specific baseline probabilities are required; pooled 0.62 is not interchangeable with them
+operation-denominator sensitivity; hypothetical share of listed opportunities actually offline
+  offline_share=0.00: inferred_loss_given_operating=0.620
+  offline_share=0.05: inferred_loss_given_operating=0.600
+  offline_share=0.10: inferred_loss_given_operating=0.578
+  offline_share=0.20: inferred_loss_given_operating=0.525
+offline-share values are scenarios only; paper excludes Jul/Aug 2016 from occurrence plot but gives no operation-log fraction
+scheduled_opportunities_per_frequency_per_24h_at_4_per_hour=96
+scheduled_opportunities_per_frequency_per_24h_at_8_per_hour=192
+scheduled_opportunities_per_frequency_per_24h_at_24_per_hour=576
+frequency set MHz=5.38, 6.93, 8.10, 10.42, 11.11, 14.36
+no actual run-time pulse count/denominator reconstructed

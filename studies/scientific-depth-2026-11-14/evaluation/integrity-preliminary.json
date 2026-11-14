@@ -1,0 +1,828 @@
+{
+  "scope": "scientific-depth-2026-11-14",
+  "meter": {
+    "documented_manual_or_timing_uncertainty_sections": [
+      "Reviewer source-call accounting uncertainty",
+      "Late groundwave web reservation",
+      "EME source-call continuation uncertainty",
+      "Lead continuation count correction"
+    ],
+    "errors": [],
+    "late_recording_limit": "No trusted receipt/call timestamps are present; lateness cannot be independently inferred from this meter.",
+    "manual_activity_limit": "Receipts cover cooperative wrapped operations only. Boundary-incident reports manual source-call uncertainty and a late groundwave reservation; neither can be certified or cleared by aggregate receipt consistency.",
+    "metadata_fields": {
+      "id": 363,
+      "operations": 363,
+      "request": 363,
+      "result": 357,
+      "run": 363,
+      "status": 363
+    },
+    "meter_total_used": 1173,
+    "meter_version": 1,
+    "missing_receipt_ids": [],
+    "receipt_file_count": 363,
+    "receipt_id_count": 363,
+    "receipt_total_operations": 1173,
+    "run_checks": [
+      {
+        "cap": 80,
+        "count_matches": true,
+        "meter_used": 59,
+        "receipt_operations": 59,
+        "run": "eme",
+        "within_cap": true
+      },
+      {
+        "cap": 140,
+        "count_matches": true,
+        "meter_used": 124,
+        "receipt_operations": 124,
+        "run": "groundwave",
+        "within_cap": true
+      },
+      {
+        "cap": 90,
+        "count_matches": true,
+        "meter_used": 90,
+        "receipt_operations": 90,
+        "run": "hf-reference",
+        "within_cap": true
+      },
+      {
+        "cap": 176,
+        "count_matches": true,
+        "meter_used": 176,
+        "receipt_operations": 176,
+        "run": "hf-regimes",
+        "within_cap": true
+      },
+      {
+        "cap": 120,
+        "count_matches": true,
+        "meter_used": 100,
+        "receipt_operations": 100,
+        "run": "lead",
+        "within_cap": true
+      },
+      {
+        "cap": 2,
+        "count_matches": true,
+        "meter_used": 1,
+        "receipt_operations": 1,
+        "run": "meter-smoke",
+        "within_cap": true
+      },
+      {
+        "cap": 80,
+        "count_matches": true,
+        "meter_used": 32,
+        "receipt_operations": 32,
+        "run": "native",
+        "within_cap": true
+      },
+      {
+        "cap": 140,
+        "count_matches": true,
+        "meter_used": 128,
+        "receipt_operations": 128,
+        "run": "noise",
+        "within_cap": true
+      },
+      {
+        "cap": 6,
+        "count_matches": true,
+        "meter_used": 3,
+        "receipt_operations": 3,
+        "run": "primary-fallback",
+        "within_cap": true
+      },
+      {
+        "cap": 80,
+        "count_matches": true,
+        "meter_used": 43,
+        "receipt_operations": 43,
+        "run": "receiver",
+        "within_cap": true
+      },
+      {
+        "cap": 24,
+        "count_matches": true,
+        "meter_used": 16,
+        "receipt_operations": 16,
+        "run": "review-eme",
+        "within_cap": true
+      },
+      {
+        "cap": 20,
+        "count_matches": true,
+        "meter_used": 20,
+        "receipt_operations": 20,
+        "run": "review-ground",
+        "within_cap": true
+      },
+      {
+        "cap": 50,
+        "count_matches": true,
+        "meter_used": 40,
+        "receipt_operations": 40,
+        "run": "review-hf",
+        "within_cap": true
+      },
+      {
+        "cap": 16,
+        "count_matches": true,
+        "meter_used": 3,
+        "receipt_operations": 3,
+        "run": "review-native",
+        "within_cap": true
+      },
+      {
+        "cap": 64,
+        "count_matches": true,
+        "meter_used": 64,
+        "receipt_operations": 64,
+        "run": "review-noise",
+        "within_cap": true
+      },
+      {
+        "cap": 24,
+        "count_matches": true,
+        "meter_used": 11,
+        "receipt_operations": 11,
+        "run": "review-receiver",
+        "within_cap": true
+      },
+      {
+        "cap": 20,
+        "count_matches": true,
+        "meter_used": 9,
+        "receipt_operations": 9,
+        "run": "review-validation",
+        "within_cap": true
+      },
+      {
+        "cap": 48,
+        "count_matches": true,
+        "meter_used": 38,
+        "receipt_operations": 38,
+        "run": "review-vlf",
+        "within_cap": true
+      },
+      {
+        "cap": 80,
+        "count_matches": true,
+        "meter_used": 40,
+        "receipt_operations": 40,
+        "run": "validation",
+        "within_cap": true
+      },
+      {
+        "cap": 96,
+        "count_matches": true,
+        "meter_used": 96,
+        "receipt_operations": 96,
+        "run": "vlf-antennas",
+        "within_cap": true
+      },
+      {
+        "cap": 80,
+        "count_matches": true,
+        "meter_used": 80,
+        "receipt_operations": 80,
+        "run": "vlf-propagation",
+        "within_cap": true
+      }
+    ],
+    "statuses": {
+      "reserved": 1,
+      "returned": 362
+    },
+    "timestamp_or_late_fields": [],
+    "timestamp_or_late_fields_present": false,
+    "timing_reconstructable": false,
+    "total_cap": 1600,
+    "total_within_cap": true,
+    "unfinished_ids": [
+      "892ce85542c84147b79405a87e216dac"
+    ],
+    "unlisted_receipt_files": []
+  },
+  "prose_classification_rule": {
+    "current-scientific-prose": "research/** chapter.md, source-ledger.md, synthesis.md; canonical active files only.",
+    "evaluator": "All evaluation/** Markdown, including interim synthesis, maps, criteria, and adjudication.",
+    "historical-first-pass-or-correction": "Research Markdown whose basename explicitly marks first-pass, initial, or correction material.",
+    "other-study-markdown": "Remaining Markdown; not presumed to be scientific prose.",
+    "supplemental-continuation-prose": "Research Markdown named chapter-continuation* or source-ledger-continuation*."
+  },
+  "prose_file_counts_by_class": {
+    "current-scientific-prose": 22,
+    "evaluator": 63,
+    "historical-first-pass-or-correction": 7,
+    "other-study-markdown": 20,
+    "supplemental-continuation-prose": 6
+  },
+  "prose_files": [
+    {
+      "class": "other-study-markdown",
+      "path": "README.md",
+      "words": 498
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/acceptance.md",
+      "words": 1519
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/adjudication-notes.md",
+      "words": 566
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/boundary-incident.md",
+      "words": 687
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/final-adjudication.md",
+      "words": 1014
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/eme/chapter.md",
+      "words": 4257
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/eme/source-ledger.md",
+      "words": 1582
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/groundwave/chapter.md",
+      "words": 5363
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/groundwave/source-ledger.md",
+      "words": 1495
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/hf-regimes/README.md",
+      "words": 34
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/hf-regimes/chapter.md",
+      "words": 5462
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/hf-regimes/source-ledger.md",
+      "words": 1866
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/native/chapter.md",
+      "words": 3989
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/native/source-ledger.md",
+      "words": 1950
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/noise/chapter.md",
+      "words": 5151
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/noise/source-ledger.md",
+      "words": 1589
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/receiver/chapter.initial.md",
+      "words": 5096
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/receiver/chapter.md",
+      "words": 6144
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/receiver/source-ledger.md",
+      "words": 2000
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/validation/chapter.md",
+      "words": 3534
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/validation/source-ledger.md",
+      "words": 1450
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/vlf-antennas/chapter.md",
+      "words": 3946
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/vlf-antennas/source-ledger.md",
+      "words": 1512
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/vlf-propagation/chapter.md",
+      "words": 5592
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/first-pass/vlf-propagation/source-ledger.md",
+      "words": 1860
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/interim-synthesis/README.md",
+      "words": 59
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/interim-synthesis/source-ledger.md",
+      "words": 2453
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/interim-synthesis/synthesis.md",
+      "words": 8453
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-eme.md",
+      "words": 2173
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-ground.md",
+      "words": 2404
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-hf.md",
+      "words": 1990
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-native.md",
+      "words": 1686
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-noise.md",
+      "words": 1674
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-receiver.md",
+      "words": 2213
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-validation.md",
+      "words": 2038
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/map-vlf.md",
+      "words": 2554
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/review-contract.md",
+      "words": 383
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/eme/followup.md",
+      "words": 2047
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/eme/review.md",
+      "words": 2653
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/correction-review.md",
+      "words": 1931
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/correction-source-checks.md",
+      "words": 624
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/final-review.md",
+      "words": 1908
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/final-source-checks.md",
+      "words": 707
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/replay/LFMF/LICENSE.md",
+      "words": 326
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/review.md",
+      "words": 1969
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/ground/source-checks.md",
+      "words": 695
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/hf/followup.md",
+      "words": 2510
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/hf/review.md",
+      "words": 2590
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/native/followup.md",
+      "words": 1124
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/native/review.md",
+      "words": 1910
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/native/source-checks.md",
+      "words": 883
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/noise/followup.md",
+      "words": 1764
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/noise/followup2.md",
+      "words": 2339
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/noise/followup3.md",
+      "words": 885
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/noise/review.md",
+      "words": 2037
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/noise/source-checks.md",
+      "words": 607
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/receiver/followup.md",
+      "words": 564
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/receiver/review.md",
+      "words": 1972
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/validation/followup.md",
+      "words": 2316
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/validation/review.md",
+      "words": 2257
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/reviews/vlf/review.md",
+      "words": 5004
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/source-checks.md",
+      "words": 176
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/uptake-design/adjudication-key.md",
+      "words": 880
+    },
+    {
+      "class": "evaluator",
+      "path": "evaluation/uptake-design/observations.md",
+      "words": 517
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/branch-contract.md",
+      "words": 494
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/candidate-policy.md",
+      "words": 1591
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/environment.md",
+      "words": 228
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/research-environment.md",
+      "words": 422
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/task.md",
+      "words": 171
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/uptake-handoff.md",
+      "words": 177
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/uptake-task.md",
+      "words": 147
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "inputs/web-recipe.md",
+      "words": 373
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/eme/chapter-continuation.md",
+      "words": 2908
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/eme/chapter.md",
+      "words": 4257
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/eme/source-ledger-continuation.md",
+      "words": 2164
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/eme/source-ledger.md",
+      "words": 1582
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/groundwave/acquisition-log.md",
+      "words": 563
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/groundwave/chapter.firstpass.md",
+      "words": 5363
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/groundwave/chapter.md",
+      "words": 8099
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/groundwave/chapter.pre-extension.md",
+      "words": 6356
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/groundwave/source-ledger.md",
+      "words": 2674
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/groundwave/tmp/LFMF/LICENSE.md",
+      "words": 326
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/hf-reference/chapter.md",
+      "words": 4170
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/hf-reference/source-ledger.md",
+      "words": 1384
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/hf-regimes/README.md",
+      "words": 141
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/hf-regimes/chapter-first-pass.md",
+      "words": 5462
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/hf-regimes/chapter.md",
+      "words": 9311
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/hf-regimes/source-ledger-first-pass.md",
+      "words": 1866
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/hf-regimes/source-ledger.md",
+      "words": 5478
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/hf-regimes/watterson-browser-primary.md",
+      "words": 831
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/lead/corrections.md",
+      "words": 788
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/lead/receiver-cost.md",
+      "words": 2548
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/lead/source-ledger.md",
+      "words": 2824
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/lead/synthesis.md",
+      "words": 10680
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/native/chapter.md",
+      "words": 7282
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/native/source-ledger.md",
+      "words": 3895
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/noise/chapter-continuation.md",
+      "words": 2775
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/noise/chapter-continuation2.md",
+      "words": 2241
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/noise/chapter.md",
+      "words": 5151
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/noise/source-ledger-continuation.md",
+      "words": 685
+    },
+    {
+      "class": "supplemental-continuation-prose",
+      "path": "research/noise/source-ledger-continuation2.md",
+      "words": 733
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/noise/source-ledger.md",
+      "words": 1589
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/receiver/chapter.initial.md",
+      "words": 5096
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/receiver/chapter.md",
+      "words": 6144
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/receiver/source-ledger.md",
+      "words": 2000
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/validation/chapter.md",
+      "words": 3677
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "research/validation/followup.md",
+      "words": 3418
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/validation/source-ledger.md",
+      "words": 2046
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/vlf-antennas/chapter-correction-pass.md",
+      "words": 5073
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/vlf-antennas/chapter-first-pass.md",
+      "words": 3946
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/vlf-antennas/chapter.md",
+      "words": 6217
+    },
+    {
+      "class": "historical-first-pass-or-correction",
+      "path": "research/vlf-antennas/source-ledger-correction-pass.md",
+      "words": 1948
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/vlf-antennas/source-ledger.md",
+      "words": 2483
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/vlf-propagation/chapter.md",
+      "words": 5592
+    },
+    {
+      "class": "current-scientific-prose",
+      "path": "research/vlf-propagation/source-ledger.md",
+      "words": 1860
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "results/activation.md",
+      "words": 177
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "results/owner.md",
+      "words": 7573
+    },
+    {
+      "class": "other-study-markdown",
+      "path": "results/prompt-refinements.md",
+      "words": 426
+    }
+  ],
+  "word_count_note": "Per-file whitespace-token counts only; no aggregate word total is reported because chapters, ledgers, synthesis, and historical/evaluator text overlap in purpose.",
+  "record_scope": "Historical exercise observations; not a validation of the current checkout.",
+  "freeze_and_identity": {
+    "all_frozen_hashes_match": true,
+    "comparator_source_identity_limit": "These IDs are recorded in the original inventory. This tool does not inspect pump source or verify the historical repository states.",
+    "prospective_stage": "before fresh owner dispatch and scientific gathering",
+    "recorded_comparator_source_ids": {
+      "kit_head": "08fc5207af39b9dd728d83ffeaadd4d1b4815653",
+      "pump_head": "13db435fc85114be2e2a0298580d5c3e2bcba996"
+    }
+  }
+}

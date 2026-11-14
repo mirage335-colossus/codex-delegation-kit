@@ -1,0 +1,45 @@
+{
+  "domain": "MF/HF noise, interference and equipment effects",
+  "status": "partial",
+  "artifact_sha256": {
+    "frozen_first_pass_chapter": "79a54e64d9c73f4342b8eb6735cf6e5c6eb17b9dd59551af041efba07a87a1db",
+    "live_research_chapter": "79a54e64d9c73f4342b8eb6735cf6e5c6eb17b9dd59551af041efba07a87a1db",
+    "frozen_first_pass_ledger": "70110f8558b656f977a943cfb2f8f6f222ac2b5aa456127de7d716cc4e37b075",
+    "live_research_ledger": "70110f8558b656f977a943cfb2f8f6f222ac2b5aa456127de7d716cc4e37b075"
+  },
+  "criteria": [
+    {"focus":"Background source mechanisms","disposition":"supported","artifact":"research/noise/chapter.md:39-103","reason":"Distinguishes source and equipment terms and conditions across regimes."},
+    {"focus":"Recommendation and empirical disagreement","disposition":"supported","artifact":"research/noise/chapter.md:9,65-81","reason":"Labels predecessor calculations; contrasts published measurements with caveats. Current v18 status/scope independently confirmed."},
+    {"focus":"Reference planes and quantitative combination","disposition":"partial","artifact":"research/noise/chapter.md:41-49,118-122","reason":"Reference-plane and single-curve bandwidth calculations are sound; no independent multi-component sum/dependence example or receiver conversion."},
+    {"focus":"Marginal and temporal evidence","disposition":"partial","artifact":"research/noise/chapter.md:57-61,91-103","reason":"Primary VLF marginal evidence and limitations, but no comparable MF/HF APD/event-model analysis."},
+    {"focus":"Interference, congestion and occupancy","disposition":"partial","artifact":"research/noise/chapter.md:69-71,91-103,126-132","reason":"Conceptual distinction is correct; no inspected quantitative HF occupancy/congestion comparison or operation denominator."},
+    {"focus":"Ordered device chain","disposition":"supported","artifact":"research/noise/chapter.md:43-49,107-116","reason":"Correctly orders front-end stages and separates external/internal terms."},
+    {"focus":"Blocking, AGC and recovery","disposition":"partial","artifact":"research/noise/chapter.md:107-116","reason":"Mechanisms and proposed measurements are sound; no worked receiver-order/blocker response result."},
+    {"focus":"Clock, filtering and conversion alternatives","disposition":"partial","artifact":"research/noise/chapter.md:33-35,109-115,126-132","reason":"Effects are named and uncalibrated, but no quantitative timing/filter/phase scale check is shown."},
+    {"focus":"Band-specific cross-links","disposition":"supported","artifact":"research/noise/chapter.md:53-61,83-89,118-122","reason":"VLF and microwave cases remain distinct; idealized lunar beam calculation independently reproduced."},
+    {"focus":"Noise controls and receiver implications","disposition":"partial","artifact":"research/noise/chapter.md:17-22,124-132","reason":"Good conditional recommendations and falsifiers; no paired receiver/no-signal ablation was executed."},
+    {"focus":"Validation and unresolved dependencies","disposition":"partial","artifact":"research/noise/chapter.md:11,61,71,89,109-138","reason":"Target calibration boundary is explicit; calculations run, but no noise product analysis, transfer comparison or source-model discriminator."}
+  ],
+  "depth_dimensions": {
+    "mechanisms_and_regimes":"supported",
+    "literature_discovery_and_primary_sources":"partial",
+    "alternatives_and_counterevidence":"partial",
+    "quantitative_conventions_and_uncertainty":"supported_boundary_with_combination_gap",
+    "executed_discriminators":"partial",
+    "decision_relevance_and_next_discriminator":"supported_boundary"
+  },
+  "web_run": {"run_id":"review-noise","operations_used":19,"cap":20,"operations_unused":1},
+  "calculations": {
+    "branch_script":"passed; exact outputs match noise_sensitivity.out",
+    "independent_p372_table":"passed; all 1/30 MHz entries agree within 0.01 dB",
+    "independent_sm2449_deltas":"passed; city 11.33 dB and residential 9.52 dB at 1.65 MHz",
+    "initial_lunar_recompute":"failed before lunar work: NameError for missing log import; zero lunar calculations in that attempt",
+    "corrected_lunar_recompute":"passed; beam coupling and antenna-temperature values reproduced"
+  },
+  "highest_value_next_checks": [
+    "Analyze one accessible primary MF/HF waveform or APD record against two alternative event models at stated bandwidth and threshold.",
+    "Calculate P.372 component combination versus declared positive-power dependence alternatives.",
+    "Compare a measured HF occupancy statistic with modem bandwidth without claiming 250 Hz loss probability.",
+    "Add one published blocker/order result and one clock/filter scale calculation."
+  ]
+}

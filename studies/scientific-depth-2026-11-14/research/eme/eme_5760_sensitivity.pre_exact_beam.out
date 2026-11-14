@@ -1,0 +1,31 @@
+f_GHz=5.760; lambda_m=0.052047; range_km=384400; B_Hz=100; Tsys_offmoon_K_assumed=100
+projected_lunar_disk_area_km2=9483082; albedo_reference=0.06 (measured locally at 7.209GHz; no cross-frequency calibration claimed)
+Assumptions: balanced TX/RX station class; Pt delivered at each feed/antenna reference plane; eta_ap=.55; no feedline, weather, pointing, clock, RFI or polarization mismatch loss; sigma=.06 over a uniform lunar projected disk (conditional sensitivity, not measured 5.760GHz total RCS or strict bound).
+reported_3m_37W_class: Pt_W=37; D_m=3.0; eta=.55_assumed; G_dBi=42.56; HPBW_deg=1.21; disk_mean_beam_power_gain=0.943; sigma_eff_m2=5.0649e+11
+  Tmoon_beam_K=23.3 at 210K brightness; coupling=0.111; noise_in_100Hz_dBm=-157.69; lunar_noise_penalty_dB=0.91
+  Pr_dBm=-154.19; C/N0_dBHz=23.50; C/N_dB_in_100Hz=3.50
+  lunar_brightness_K=140; Tmoon_ant_K=15.5; moon_noise_penalty_dB=0.63; C/N_dB=3.78
+  lunar_brightness_K=210; Tmoon_ant_K=23.3; moon_noise_penalty_dB=0.91; C/N_dB=3.50
+  lunar_brightness_K=280; Tmoon_ant_K=31.0; moon_noise_penalty_dB=1.17; C/N_dB=3.24
+  albedo_sensitivity=0.03; sigma_eff_m2=2.5325e+11; Pr_dBm=-157.20; delta_from_0.06_dB=-3.01
+  albedo_sensitivity=0.06; sigma_eff_m2=5.0649e+11; Pr_dBm=-154.19; delta_from_0.06_dB=+0.00
+  albedo_sensitivity=0.12; sigma_eff_m2=1.0130e+12; Pr_dBm=-151.18; delta_from_0.06_dB=+3.01
+reported_5m_70W_class: Pt_W=70; D_m=5.0; eta=.55_assumed; G_dBi=47.00; HPBW_deg=0.73; disk_mean_beam_power_gain=0.853; sigma_eff_m2=4.1420e+11
+  Tmoon_beam_K=58.5 at 210K brightness; coupling=0.278; noise_in_100Hz_dBm=-156.60; lunar_noise_penalty_dB=2.00
+  Pr_dBm=-143.42; C/N0_dBHz=33.18; C/N_dB_in_100Hz=13.18
+  lunar_brightness_K=140; Tmoon_ant_K=39.0; moon_noise_penalty_dB=1.43; C/N_dB=13.75
+  lunar_brightness_K=210; Tmoon_ant_K=58.5; moon_noise_penalty_dB=2.00; C/N_dB=13.18
+  lunar_brightness_K=280; Tmoon_ant_K=78.0; moon_noise_penalty_dB=2.50; C/N_dB=12.68
+  albedo_sensitivity=0.03; sigma_eff_m2=2.0710e+11; Pr_dBm=-146.43; delta_from_0.06_dB=-3.01
+  albedo_sensitivity=0.06; sigma_eff_m2=4.1420e+11; Pr_dBm=-143.42; delta_from_0.06_dB=+0.00
+  albedo_sensitivity=0.12; sigma_eff_m2=8.2840e+11; Pr_dBm=-140.41; delta_from_0.06_dB=+3.01
+delay_geometry: tau_max_ms=11.591; first_5mi_two_way_us=53.68; u_5mi=0.004631; uniform_projected_area_fraction=0.009241
+delay_profile: beam=3m; model=uniform_albedo_beam_weighted; L_m=none; t50_ms=3.15806; t90_ms=7.72455; mean_ms=3.68316; rms_delay_ms=4.56476; stddev_ms=2.69654; first5mi_fraction=0.010355
+delay_profile: beam=3m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.4; L_m=15960.9; t50_ms=0.07285; t90_ms=0.24184; mean_ms=0.10505; rms_delay_ms=0.14856; stddev_ms=0.10505; first5mi_fraction=0.400000
+delay_profile: beam=3m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.5; L_m=11720.7; t50_ms=0.05361; t90_ms=0.17832; mean_ms=0.07742; rms_delay_ms=0.10949; stddev_ms=0.07742; first5mi_fraction=0.500000
+delay_profile: beam=3m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.6; L_m=8844.9; t50_ms=0.04063; t90_ms=0.13486; mean_ms=0.05857; rms_delay_ms=0.08283; stddev_ms=0.05857; first5mi_fraction=0.600000
+delay_profile: beam=5m; model=uniform_albedo_beam_weighted; L_m=none; t50_ms=2.76212; t90_ms=7.33290; mean_ms=3.37032; rms_delay_ms=4.26766; stddev_ms=2.61799; first5mi_fraction=0.012542
+delay_profile: beam=5m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.4; L_m=16083.0; t50_ms=0.07285; t90_ms=0.24196; mean_ms=0.10506; rms_delay_ms=0.14857; stddev_ms=0.10506; first5mi_fraction=0.400000
+delay_profile: beam=5m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.5; L_m=11786.6; t50_ms=0.05372; t90_ms=0.17832; mean_ms=0.07742; rms_delay_ms=0.10949; stddev_ms=0.07742; first5mi_fraction=0.500000
+delay_profile: beam=5m; model=exp_depth_sensitivity_fitted_to_classic; target_first5mi_fraction=0.6; L_m=8882.4; t50_ms=0.04063; t90_ms=0.13486; mean_ms=0.05857; rms_delay_ms=0.08283; stddev_ms=0.05857; first5mi_fraction=0.600000
+delay_profile_limit: exponential profile is a conditional one-parameter shape, not a measured law; 0.4/0.5/0.6 fractions are sensitivity cases, not uncertainty bounds; historical datum has no stated error bars; ideal Gaussian beams; target-band spatial/polarization/frequency dependence remains unknown

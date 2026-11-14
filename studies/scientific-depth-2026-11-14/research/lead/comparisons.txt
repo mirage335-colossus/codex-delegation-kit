@@ -1,0 +1,81 @@
+loaded linear-resonator transfer: default band edge +/-112.5 Hz
+5k Q=  10: edge   -0.80dB with 12Hz detune   -0.96dB; edge phase -24.23deg; center group delay  0.637ms; settling 1%    2.93ms
+5k Q=  50: edge   -7.83dB with 12Hz detune   -8.57dB; edge phase -66.04deg; center group delay  3.183ms; settling 1%   14.66ms
+5k Q= 200: edge  -19.14dB with 12Hz detune  -20.01dB; edge phase -83.66deg; center group delay 12.732ms; settling 1%   58.63ms
+5k Q=1000: edge  -33.07dB with 12Hz detune  -33.95dB; edge phase -88.73deg; center group delay 63.662ms; settling 1%  293.17ms
+8k Q=  10: edge   -0.33dB with 12Hz detune   -0.40dB; edge phase -15.71deg; center group delay  0.398ms; settling 1%    1.83ms
+8k Q=  50: edge   -4.74dB with 12Hz detune   -5.34dB; edge phase -54.58deg; center group delay  1.989ms; settling 1%    9.16ms
+8k Q= 200: edge  -15.14dB with 12Hz detune  -15.99dB; edge phase -79.92deg; center group delay  7.958ms; settling 1%   36.65ms
+8k Q=1000: edge  -28.99dB with 12Hz detune  -29.87dB; edge phase -87.96deg; center group delay 39.789ms; settling 1%  183.23ms
+8k/Q200 after removing local center delay: unwrapped edge phase residual 242.37deg, amplitude 0.1750
+
+coherent two-component transfer, deterministic relative phase pi at center
+r=0.30 center/75/112.5 power vs tap-power sum -3.47dB/1.89dB/-0.60dB; effective center group delay -3.00ms, actual support 0/7ms
+r=0.90 center/75/112.5 power vs tap-power sum -22.58dB/2.97dB/-1.15dB; effective center group delay -63.00ms, actual support 0/7ms
+r=0.99 center/75/112.5 power vs tap-power sum -42.97dB/2.98dB/-1.15dB; effective center group delay -693.00ms, actual support 0/7ms
+r=1.01 center/75/112.5 power vs tap-power sum -43.05dB/2.98dB/-1.15dB; effective center group delay +707.00ms, actual support 0/7ms
+local independent equal-power taps: center covariance vs band-flat mismatch
+  100us |rho_adj|=0.9997 |rho_outer|=0.9989 center-gain within-edge error/P=0.0003
+  300us |rho_adj|=0.9975 |rho_outer|=0.9900 center-gain within-edge error/P=0.0025
+ 1000us |rho_adj|=0.9724 |rho_outer|=0.8910 center-gain within-edge error/P=0.0276
+ 3000us |rho_adj|=0.7604 |rho_outer|=0.1564 center-gain within-edge error/P=0.2396
+ 7000us |rho_adj|=0.0785 |rho_outer|=0.9877 center-gain within-edge error/P=1.0785
+10000us |rho_adj|=0.7071 |rho_outer|=0.0000 center-gain within-edge error/P=1.7071
+
+path Doppler and LO error; algebraic examples
+8000Hz RF: 0.1ppm=   0.0008Hz, 1m/s geometry=  -0.000027Hz
+1e+06Hz RF: 0.1ppm=      0.1Hz, 1m/s geometry=  -0.003336Hz
+3e+07Hz RF: 0.1ppm=        3Hz, 1m/s geometry=  -0.100069Hz
+5.8e+09Hz RF: 0.1ppm=      580Hz, 1m/s geometry= -19.346718Hz
+5.8GHz straight-plasma asymptote, one leg, 1 TECU: group delay 39.96ps; at 1 TECU/s carrier phase derivative +0.2318Hz
+HF synthetic falsifier: d(tau_group)/dt=0, d(phi)/(2pi dt)=+5 Hz; fixed delay+NCO reproduces it.
+A geometric-only delay slope forcing +5 Hz at 10 MHz would falsely impose -0.5 us/s in group delay.
+
+synthetic retarded-leg discriminator (not ephemeris): equatorial planar site/Moon geometry
+Tx/Rx long +30/+30deg path 2.527678447s; retarded -9955.473Hz; simultaneous topocentric -9956.960Hz; retard delta -2.169us; geocenter -1160.803Hz
+Tx/Rx long +30/-60deg path 2.535554305s; retarded +2013.225Hz; simultaneous topocentric +2011.733Hz; retard delta -2.276us; geocenter -1160.803Hz
+Tx/Rx long +0/+0deg path 2.521890162s; retarded -1159.108Hz; simultaneous topocentric -1160.803Hz; retard delta -0.252us; geocenter -1160.803Hz
+monostatic center-to-near-surface delay difference (and plane-wave near-to-limb span): 11.5907ms
+full-depth bound is not RMS or a power quantile; pointing/scatter/polarization weight the observed taps
+960sps complex capture, center +150.000Hz: default band fits strict Nyquist True; if accidentally unfiltered, center aliases to +150.000Hz (never validated recovery)
+960sps complex capture, center +390.000Hz: default band fits strict Nyquist False; if accidentally unfiltered, center aliases to +390.000Hz (never validated recovery)
+960sps complex capture, center +580.000Hz: default band fits strict Nyquist False; if accidentally unfiltered, center aliases to -380.000Hz (never validated recovery)
+960sps complex capture, center +2013.225Hz: default band fits strict Nyquist False; if accidentally unfiltered, center aliases to +93.225Hz (never validated recovery)
+960sps complex capture, center -9955.473Hz: default band fits strict Nyquist False; if accidentally unfiltered, center aliases to -355.473Hz (never validated recovery)
+Accounting for constant CFO alone with 0.5Hz/s linear residual slope leaves 16.0 cycles at 16s aperture edge (center reference).
+Group time shear for pure nondispersive geometry with |fc shift|=10kHz at 5.8GHz:
+t=  16s: tau changes   27.586us,  0.026 capture samples; far edge drift after RF-only correction 0.0031 cycles
+t= 256s: tau changes  441.379us,  0.424 capture samples; far edge drift after RF-only correction 0.0497 cycles
+t=2048s: tau changes 3531.034us,  3.390 capture samples; far edge drift after RF-only correction 0.3972 cycles
+
+one loss with physical temp + reference move; both planes yield same C/N0
+Ta=     35.0K T_in=   171.804K T_out=   142.900K C/N0=+33.249 dB-Hz vs ignoring feeder and Rx +40.158
+Ta=    290.0K T_in=   426.804K T_out=   355.000K C/N0=+29.297 dB-Hz vs ignoring feeder and Rx +30.975
+Ta= 100000.0K T_in=100136.804K T_out= 83290.166K C/N0=+5.593 dB-Hz vs ignoring feeder and Rx +5.599
+complex IQ: for unit power before the selected channel filter, C/N0=40 dB-Hz and B=225 Hz,
+Fs=  960: total unfiltered complex var 0.096, in-B var 0.0225, SNR at unit power +16.478dB
+Fs= 1920: total unfiltered complex var 0.192, in-B var 0.0225, SNR at unit power +16.478dB
+Fs=12000: total unfiltered complex var 1.2, in-B var 0.0225, SNR at unit power +16.478dB
+8.822kHz operator report: at 0.125Hz, SNR -13.20dB -> C/N0 -22.23dB-Hz; equal-power flat-PSD at 225Hz -> -45.75dB; 150 bits/6.7556h -> 22.20bit/h
+
+optimistic known signal/phase and iid proper complex Gaussian noise, alpha=.01
+whole-observation residual E/N0=    0: optimal P(data|link on)=0.010000; miss=0.990000
+whole-observation residual E/N0=0.001: optimal P(data|link on)=0.011256; miss=0.988744
+whole-observation residual E/N0=  0.1: optimal P(data|link on)=0.030113; miss=0.969887
+whole-observation residual E/N0=    1: optimal P(data|link on)=0.180849; miss=0.819151
+whole-observation residual E/N0=    5: optimal P(data|link on)=0.798403; miss=0.201597
+whole-observation residual E/N0=   10: optimal P(data|link on)=0.984055; miss=0.015945
+zero residual, valid noise-only: exactly P(data|true quiet), so DATA/quiet distinction needs extra observations.
+independent erasure masks may inform observation validity; propagation-truth masks are oracle leakage.
+
+hypothetical calibrated dual receive projection, correlated equal noise variance (known phasing)
+noise rho=0.0, signal relative phase   0deg: one port 0.500, uncalibrated equal sum 1.000, ideal whitened combiner 1.000
+noise rho=0.0, signal relative phase  90deg: one port 0.500, uncalibrated equal sum 0.500, ideal whitened combiner 1.000
+noise rho=0.0, signal relative phase 180deg: one port 0.500, uncalibrated equal sum 0.000, ideal whitened combiner 1.000
+noise rho=0.5, signal relative phase   0deg: one port 0.500, uncalibrated equal sum 0.667, ideal whitened combiner 0.667
+noise rho=0.5, signal relative phase  90deg: one port 0.500, uncalibrated equal sum 0.333, ideal whitened combiner 1.333
+noise rho=0.5, signal relative phase 180deg: one port 0.500, uncalibrated equal sum 0.000, ideal whitened combiner 2.000
+noise rho=0.9, signal relative phase   0deg: one port 0.500, uncalibrated equal sum 0.526, ideal whitened combiner 0.526
+noise rho=0.9, signal relative phase  90deg: one port 0.500, uncalibrated equal sum 0.263, ideal whitened combiner 5.263
+noise rho=0.9, signal relative phase 180deg: one port 0.500, uncalibrated equal sum 0.000, ideal whitened combiner 10.000
+These are SNR in units of single-port signal norm/noise variance; capabilities require both sampled ports.

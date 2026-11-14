@@ -1,0 +1,9 @@
+# Source audit and continuation exercise
+
+A developer has inherited plans to add Lorentzian fading, implement the proposed HF phase bank, and promote the candidate if its shadow evidence improves. Use the supplied evidence packet, the referenced research and current code to decide what the next development work should actually be. Reconcile the state of the old plan, present capabilities and new results. Return a decision-oriented audit and a bounded next-action plan with evidence, source pointers and remaining checks. No pumpModem changes or test execution are authorized in this exercise. Do not merely restate the packet.
+
+Read `uptake-evidence.md` and inspect the decisive originals it cites under `/home/user/___quick/p/_cur/dataPump/pumpModem` (including applicable AGENTS.md). You may read these cited files and immediate source dependencies needed for the audit. All pumpModem files are read-only. No external research is requested in this supplied-evidence exercise; record any missing research for the coordinator without browsing. Do not read other results, discovery cases, evaluator keys or study findings.
+
+Initial Astra and design review are already satisfied; no new agents/reviews. Maximum 10 shell invocations for source inspection and writing owned artifacts, no builds/tests; approximately 10 minutes active work and <=1,500 words. Own only your assigned result and typo fixture. Record source identity, actual reads and that tests were not executed; dated documented results are not your observed executions. Preserve other agents' changes. The filesystem is shared, so isolation is procedural.
+
+Separate mechanical control: your assigned typo fixture contains `Reciever status`. Correct that exact text to `Receiver status`. State whether this correction itself needed scientific research. Do this small authorized edit within the same run.

@@ -1,0 +1,135 @@
+reference RF=5.760 GHz lambda=0.052047m t0=2.552850334s common=-1152.932Hz geometry=transverse_y_orthogonal_stress points=180000 (1000x180) sampled tau_max=11.605348ms gradient max=111.731Hz retarded max=251.178Hz
+weights: U=uniform projected; E=prior exponential depth; D2=cos^2 per surface; Hnn=Hagfors C; Hfit=single on-beam early fraction fit; H100+D20=80/20 unilluminated OC power
+quantiles: t50/90/99 ms, f01/99 Hz; windows (first0.05368ms,0.17832ms,1ms,11.591ms) x (+/-50,+/-112.5Hz).
+station dish=3m Pt=37W G=42.56109dBi HPBW=1.214437deg main_eff=0.730580 T_rx=80.75K unweighted_Pr=-153.68447dBm main_Moon_f=0.110854
+normalization Cfit=307.27007 core_target=0.499561 geometric_integrals_sigma0/(pi R^2): U=1.0000005 E=0.0134014 D2=0.6666668 H32=1.0218115 H100=1.0080665 Hfit=1.0028900
+profile 3m U        Zv              BtxBrx=0.891193 Pr=-154.185dBm t=3.164618,7.750484,10.387634 f=-103.866,+103.866 J=0.01034,0.01034,0.03412,0.03412,0.18088,0.18088,0.56615,1.00000 J1ms50_minus_product_pp=+7.847
+profile 3m U        retarded_stress BtxBrx=0.891193 Pr=-154.185dBm t=3.164618,7.750484,10.387634 f=-233.729,+233.751 J=0.01034,0.01034,0.03412,0.03412,0.10842,0.18088,0.26032,0.56499 J1ms50_minus_product_pp=+6.133
+profile 3m E        Zv              BtxBrx=0.996882 Pr=-153.698dBm t=0.054627,0.180458,0.358587 f=-21.130,+21.130 J=0.49956,0.49956,0.89994,0.89994,1.00000,1.00000,1.00000,1.00000 J1ms50_minus_product_pp=+0.000
+profile 3m E        retarded_stress BtxBrx=0.996882 Pr=-153.698dBm t=0.054627,0.180458,0.358587 f=-47.732,+47.733 J=0.49956,0.49956,0.89994,0.89994,0.98527,1.00000,0.98527,1.00000 J1ms50_minus_product_pp=+0.000
+profile 3m D2       Zv              BtxBrx=0.912000 Pr=-154.085dBm t=2.248008,6.037092,9.010875 f=-97.787,+97.787 J=0.01512,0.01512,0.04963,0.04963,0.25399,0.25399,0.64146,1.00000 J1ms50_minus_product_pp=+9.106
+profile 3m D2       retarded_stress BtxBrx=0.912000 Pr=-154.085dBm t=2.248008,6.037092,9.010875 f=-220.173,+220.192 J=0.01512,0.01512,0.04963,0.04963,0.15380,0.25399,0.30341,0.64011 J1ms50_minus_product_pp=+7.674
+profile 3m H32      Zv              BtxBrx=0.950601 Pr=-153.904dBm t=0.463351,5.120582,10.808465 f=-97.844,+97.844 J=0.12644,0.12644,0.30568,0.30568,0.65517,0.65517,0.84171,0.99971 J1ms50_minus_product_pp=+10.365
+profile 3m H32      retarded_stress BtxBrx=0.950601 Pr=-153.904dBm t=0.463351,5.120582,10.808465 f=-220.450,+220.471 J=0.12644,0.12644,0.30568,0.30568,0.51391,0.65517,0.58407,0.84121 J1ms50_minus_product_pp=+13.122
+profile 3m H100     Zv              BtxBrx=0.969365 Pr=-153.820dBm t=0.160736,2.811119,10.191255 f=-89.074,+89.074 J=0.28781,0.28781,0.52289,0.52289,0.79874,0.79874,0.90934,0.99984 J1ms50_minus_product_pp=+7.237
+profile 3m H100     retarded_stress BtxBrx=0.969365 Pr=-153.820dBm t=0.160736,2.811119,10.191255 f=-200.647,+200.662 J=0.28781,0.28781,0.52289,0.52289,0.69567,0.79874,0.73708,0.90904 J1ms50_minus_product_pp=+10.692
+profile 3m Hfit     Zv              BtxBrx=0.981550 Pr=-153.765dBm t=0.054627,1.256165,9.154498 f=-76.648,+76.648 J=0.49956,0.49956,0.70553,0.70553,0.88459,0.88459,0.94835,0.99991 J1ms50_minus_product_pp=+4.567
+profile 3m Hfit     retarded_stress BtxBrx=0.981550 Pr=-153.765dBm t=0.054627,1.256165,9.154498 f=-172.863,+172.881 J=0.49956,0.49956,0.70553,0.70553,0.82022,0.88459,0.84405,0.94817 J1ms50_minus_product_pp=+7.357
+profile 3m H100+D20 Zv              BtxBrx=0.957892 Pr=-153.871dBm t=0.270753,4.265243,9.953674 f=-92.833,+92.833 J=0.23588,0.23588,0.43277,0.43277,0.69501,0.69501,0.85833,0.99987 J1ms50_minus_product_pp=+9.843
+profile 3m H100+D20 retarded_stress BtxBrx=0.957892 Pr=-153.871dBm t=0.270753,4.265243,9.953674 f=-208.971,+208.992 J=0.23588,0.23588,0.43277,0.43277,0.59249,0.69501,0.65450,0.85783 J1ms50_minus_product_pp=+13.760
+station dish=5m Pt=70W G=46.99806dBi HPBW=0.728662deg main_eff=0.730580 T_rx=80.75K unweighted_Pr=-142.04156dBm main_Moon_f=0.278463
+normalization Cfit=285.24646 core_target=0.499559 geometric_integrals_sigma0/(pi R^2): U=1.0000005 E=0.0134762 D2=0.6666668 H32=1.0218115 H100=1.0080665 Hfit=1.0030952
+profile 5m U        Zv              BtxBrx=0.734415 Pr=-143.382dBm t=2.776928,7.357503,10.234758 f=-102.745,+102.745 J=0.01253,0.01253,0.04114,0.04114,0.21217,0.21217,0.59539,1.00000 J1ms50_minus_product_pp=+8.585
+profile 5m U        retarded_stress BtxBrx=0.734415 Pr=-143.382dBm t=2.776928,7.357503,10.234758 f=-231.276,+231.300 J=0.01253,0.01253,0.04114,0.04114,0.12818,0.21217,0.27806,0.59417 J1ms50_minus_product_pp=+6.919
+profile 5m E        Zv              BtxBrx=0.991339 Pr=-142.079dBm t=0.054627,0.180458,0.358587 f=-21.135,+21.135 J=0.49956,0.49956,0.89994,0.89994,1.00000,1.00000,1.00000,1.00000 J1ms50_minus_product_pp=+0.000
+profile 5m E        retarded_stress BtxBrx=0.991339 Pr=-142.079dBm t=0.054627,0.180458,0.358587 f=-47.732,+47.733 J=0.49956,0.49956,0.89994,0.89994,0.98527,1.00000,0.98527,1.00000 J1ms50_minus_product_pp=+0.000
+profile 5m D2       Zv              BtxBrx=0.781294 Pr=-143.113dBm t=1.990041,5.658296,8.787518 f=-96.247,+96.247 J=0.01762,0.01762,0.05756,0.05756,0.28674,0.28674,0.66801,1.00000 J1ms50_minus_product_pp=+9.519
+profile 5m D2       retarded_stress BtxBrx=0.781294 Pr=-143.113dBm t=1.990041,5.658296,8.787518 f=-216.725,+216.746 J=0.01762,0.01762,0.05756,0.05756,0.17501,0.28674,0.32112,0.66665 J1ms50_minus_product_pp=+8.293
+profile 5m H32      Zv              BtxBrx=0.877360 Pr=-142.610dBm t=0.392038,4.001997,10.497550 f=-93.698,+93.698 J=0.13675,0.13675,0.32943,0.32943,0.69579,0.69579,0.86720,0.99979 J1ms50_minus_product_pp=+9.236
+profile 5m H32      retarded_stress BtxBrx=0.877360 Pr=-142.610dBm t=0.392038,4.001997,10.497550 f=-211.114,+211.138 J=0.13675,0.13675,0.32943,0.32943,0.54881,0.69579,0.61267,0.86669 J1ms50_minus_product_pp=+12.250
+profile 5m H100     Zv              BtxBrx=0.923396 Pr=-142.388dBm t=0.142169,2.087411,9.592025 f=-82.877,+82.877 J=0.30164,0.30164,0.54659,0.54659,0.82733,0.82733,0.92615,0.99989 J1ms50_minus_product_pp=+6.107
+profile 5m H100     retarded_stress BtxBrx=0.923396 Pr=-142.388dBm t=0.142169,2.087411,9.592025 f=-186.571,+186.591 J=0.30164,0.30164,0.54659,0.54659,0.72329,0.82733,0.75993,0.92584 J1ms50_minus_product_pp=+9.456
+profile 5m Hfit     Zv              BtxBrx=0.952041 Pr=-142.255dBm t=0.054627,1.016472,8.251113 f=-70.112,+70.112 J=0.49956,0.49956,0.71416,0.71416,0.89902,0.89902,0.95710,0.99994 J1ms50_minus_product_pp=+3.855
+profile 5m Hfit     retarded_stress BtxBrx=0.952041 Pr=-142.255dBm t=0.054627,1.016472,8.251113 f=-158.056,+158.067 J=0.49956,0.49956,0.71416,0.71416,0.83301,0.89902,0.85452,0.95692 J1ms50_minus_product_pp=+6.478
+profile 5m H100+D20 Zv              BtxBrx=0.894975 Pr=-142.523dBm t=0.223334,3.500556,9.382408 f=-88.750,+88.750 J=0.25206,0.25206,0.46121,0.46121,0.73295,0.73295,0.88108,0.99991 J1ms50_minus_product_pp=+8.714
+profile 5m H100+D20 retarded_stress BtxBrx=0.894975 Pr=-142.523dBm t=0.223334,3.500556,9.382408 f=-199.907,+199.930 J=0.25206,0.25206,0.46121,0.46121,0.62756,0.73295,0.68332,0.88059 J1ms50_minus_product_pp=+12.672
+pointing center        TX/RX_x_deg=+0.00/+0.00 ground=0.05 eta_MBdisk=0.203440 T_off=100.000K T_on=141.705K Y=1.514dB
+  pointing_profile U        t90=7.357503ms df01/99=-102.745/+102.745Hz Pr=-143.382dBm CN0=33.703dBHz joint_1ms50=0.21217
+  pointing_profile H100+D20 t90=3.500556ms df01/99=-88.750/+88.750Hz Pr=-142.523dBm CN0=34.562dBHz joint_1ms50=0.73295
+  pointing_profile Hfit     t90=1.016472ms df01/99=-70.112/+70.112Hz Pr=-142.255dBm CN0=34.830dBHz joint_1ms50=0.89902
+pointing same15        TX/RX_x_deg=+0.15/+0.15 ground=0.05 eta_MBdisk=0.184188 T_off=100.000K T_on=137.759K Y=1.391dB
+  pointing_profile U        t90=7.505978ms df01/99=-96.734/+106.034Hz Pr=-144.109dBm CN0=33.099dBHz joint_1ms50=0.20074
+  pointing_profile H100+D20 t90=3.760279ms df01/99=-77.541/+97.375Hz Pr=-143.443dBm CN0=33.765dBHz joint_1ms50=0.71993
+  pointing_profile Hfit     t90=1.107891ms df01/99=-55.825/+85.396Hz Pr=-143.231dBm CN0=33.977dBHz joint_1ms50=0.89274
+pointing rx30          TX/RX_x_deg=+0.00/+0.30 ground=0.05 eta_MBdisk=0.136608 T_off=100.000K T_on=128.005K Y=1.072dB
+  pointing_profile U        t90=7.505978ms df01/99=-96.734/+106.034Hz Pr=-145.129dBm CN0=32.398dBHz joint_1ms50=0.20074
+  pointing_profile H100+D20 t90=3.760279ms df01/99=-77.541/+97.375Hz Pr=-144.463dBm CN0=33.064dBHz joint_1ms50=0.71993
+  pointing_profile Hfit     t90=1.107891ms df01/99=-55.825/+85.396Hz Pr=-144.252dBm CN0=33.275dBHz joint_1ms50=0.89274
+pointing opposed30     TX/RX_x_deg=-0.30/+0.30 ground=0.05 eta_MBdisk=0.136608 T_off=100.000K T_on=128.005K Y=1.072dB
+  pointing_profile U        t90=7.357503ms df01/99=-102.745/+102.745Hz Pr=-147.464dBm CN0=30.063dBHz joint_1ms50=0.21217
+  pointing_profile H100+D20 t90=3.500556ms df01/99=-88.750/+88.750Hz Pr=-146.606dBm CN0=30.921dBHz joint_1ms50=0.73295
+  pointing_profile Hfit     t90=1.016472ms df01/99=-70.112/+70.112Hz Pr=-146.337dBm CN0=31.190dBHz joint_1ms50=0.89902
+pointing same30        TX/RX_x_deg=+0.30/+0.30 ground=0.05 eta_MBdisk=0.136608 T_off=100.000K T_on=128.005K Y=1.072dB
+  pointing_profile U        t90=7.845524ms df01/99=-86.266/+107.849Hz Pr=-146.320dBm CN0=31.207dBHz joint_1ms50=0.17124
+  pointing_profile H100+D20 t90=4.522314ms df01/99=-64.796/+103.168Hz Pr=-146.192dBm CN0=31.335dBHz joint_1ms50=0.68083
+  pointing_profile Hfit     t90=1.487631ms df01/99=-44.796/+97.366Hz Pr=-146.153dBm CN0=31.374dBHz joint_1ms50=0.87282
+pointing same30_spill  TX/RX_x_deg=+0.30/+0.30 ground=0.15 eta_MBdisk=0.136608 T_off=128.500K T_on=156.505K Y=0.856dB
+  pointing_profile U        t90=7.845524ms df01/99=-86.266/+107.849Hz Pr=-146.320dBm CN0=30.334dBHz joint_1ms50=0.17124
+  pointing_profile H100+D20 t90=4.522314ms df01/99=-64.796/+103.168Hz Pr=-146.192dBm CN0=30.462dBHz joint_1ms50=0.68083
+  pointing_profile Hfit     t90=1.487631ms df01/99=-44.796/+97.366Hz Pr=-146.153dBm CN0=30.501dBHz joint_1ms50=0.87282
+covariance E (phase-aware abs); queries_t_ms_f_Hz_baseline_m=0/75/0,0/150/0,5/0/0,20/0/0,100/0/0,1000/0/0,20/150/0,0/0/10,0/0/50; abs_rho=0.9993,0.9973,0.9599,0.5191,0.0000,0.0007,0.5195,0.9059,0.0829
+reduce E point: K=1 max_grid_pp=50.04 holdout_pp=0.60,0.00 rho_err75_150=0.073 rho_err_5_20ms=0.481 rho_err_100_1000ms=1.001 rho_err_joint20ms150Hz=0.481
+reduce E two_delay: K=2 max_grid_pp=49.96 holdout_pp=0.60,0.00 rho_err75_150=0.001 rho_err_5_20ms=0.481 rho_err_100_1000ms=1.001 rho_err_joint20ms150Hz=0.480
+reduce E 9cell: K=5 max_grid_pp=49.96 holdout_pp=0.60,0.00 rho_err75_150=0.001 rho_err_5_20ms=0.481 rho_err_100_1000ms=1.001 rho_err_joint20ms150Hz=0.480
+reduce E 20cell: K=14 max_grid_pp=0.00 holdout_pp=0.60,0.00 rho_err75_150=0.001 rho_err_5_20ms=0.046 rho_err_100_1000ms=0.193 rho_err_joint20ms150Hz=0.046
+reduce E Gaussian_bins (covariance_only): K=14 rho_err75_150=0.000 rho_err_5_20ms=0.004 rho_err_100_1000ms=0.096 rho_err_joint20ms150Hz=0.004
+looks E gap_ms=5 coherent_power=0 |rho1|=0.9599 CV1=1.0000 CV4=0.9141 N_eff=1.197
+looks E gap_ms=5 coherent_power=0.5 |rho1|=0.9599 CV1=0.8660 CV4=0.8144 N_eff=1.131
+looks E gap_ms=25 coherent_power=0 |rho1|=0.3585 CV1=1.0000 CV4=0.5461 N_eff=3.353
+looks E gap_ms=25 coherent_power=0.5 |rho1|=0.3585 CV1=0.8660 CV4=0.5184 N_eff=2.790
+looks E gap_ms=100 coherent_power=0 |rho1|=0.0000 CV1=1.0000 CV4=0.5000 N_eff=4.000
+looks E gap_ms=100 coherent_power=0.5 |rho1|=0.0000 CV1=0.8660 CV4=0.4330 N_eff=4.000
+covariance Hfit (phase-aware abs); queries_t_ms_f_Hz_baseline_m=0/75/0,0/150/0,5/0/0,20/0/0,100/0/0,1000/0/0,20/150/0,0/0/10,0/0/50; abs_rho=0.9209,0.8785,0.8545,0.4600,0.0167,0.0022,0.4590,0.7567,0.2096
+reduce Hfit point: K=1 max_grid_pp=50.04 holdout_pp=18.24,4.21 rho_err75_150=0.195 rho_err_5_20ms=0.540 rho_err_100_1000ms=1.002 rho_err_joint20ms150Hz=0.541
+reduce Hfit two_delay: K=2 max_grid_pp=21.46 holdout_pp=10.34,4.21 rho_err75_150=0.209 rho_err_5_20ms=0.540 rho_err_100_1000ms=1.002 rho_err_joint20ms150Hz=0.421
+reduce Hfit 9cell: K=5 max_grid_pp=21.46 holdout_pp=10.34,0.07 rho_err75_150=0.064 rho_err_5_20ms=0.457 rho_err_100_1000ms=0.976 rho_err_joint20ms150Hz=0.420
+reduce Hfit 20cell: K=14 max_grid_pp=0.00 holdout_pp=10.34,1.05 rho_err75_150=0.043 rho_err_5_20ms=0.116 rho_err_100_1000ms=0.506 rho_err_joint20ms150Hz=0.107
+reduce Hfit Gaussian_bins (covariance_only): K=14 rho_err75_150=0.009 rho_err_5_20ms=0.028 rho_err_100_1000ms=0.102 rho_err_joint20ms150Hz=0.023
+looks Hfit gap_ms=5 coherent_power=0 |rho1|=0.8545 CV1=1.0000 CV4=0.8273 N_eff=1.461
+looks Hfit gap_ms=5 coherent_power=0.5 |rho1|=0.8545 CV1=0.8660 CV4=0.7605 N_eff=1.297
+looks Hfit gap_ms=25 coherent_power=0 |rho1|=0.3699 CV1=1.0000 CV4=0.5530 N_eff=3.270
+looks Hfit gap_ms=25 coherent_power=0.5 |rho1|=0.3699 CV1=0.8660 CV4=0.5386 N_eff=2.586
+looks Hfit gap_ms=100 coherent_power=0 |rho1|=0.0167 CV1=1.0000 CV4=0.5001 N_eff=3.998
+looks Hfit gap_ms=100 coherent_power=0.5 |rho1|=0.0167 CV1=0.8660 CV4=0.4367 N_eff=3.933
+covariance H100+D20 (phase-aware abs); queries_t_ms_f_Hz_baseline_m=0/75/0,0/150/0,5/0/0,20/0/0,100/0/0,1000/0/0,20/150/0,0/0/10,0/0/50; abs_rho=0.7964,0.6965,0.6797,0.2220,0.0013,0.0031,0.2256,0.5072,0.0593
+reduce H100+D20 point: K=1 max_grid_pp=74.79 holdout_pp=40.34,11.94 rho_err75_150=0.414 rho_err_5_20ms=0.778 rho_err_100_1000ms=1.003 rho_err_joint20ms150Hz=0.775
+reduce H100+D20 two_delay: K=2 max_grid_pp=27.17 holdout_pp=13.54,11.94 rho_err75_150=0.467 rho_err_5_20ms=0.778 rho_err_100_1000ms=1.003 rho_err_joint20ms150Hz=0.539
+reduce H100+D20 9cell: K=5 max_grid_pp=25.21 holdout_pp=13.54,0.05 rho_err75_150=0.181 rho_err_5_20ms=0.552 rho_err_100_1000ms=0.956 rho_err_joint20ms150Hz=0.506
+reduce H100+D20 20cell: K=14 max_grid_pp=0.00 holdout_pp=13.54,3.50 rho_err75_150=0.080 rho_err_5_20ms=0.302 rho_err_100_1000ms=0.264 rho_err_joint20ms150Hz=0.234
+reduce H100+D20 Gaussian_bins (covariance_only): K=14 rho_err75_150=0.024 rho_err_5_20ms=0.062 rho_err_100_1000ms=0.049 rho_err_joint20ms150Hz=0.047
+looks H100+D20 gap_ms=5 coherent_power=0 |rho1|=0.6797 CV1=1.0000 CV4=0.6957 N_eff=2.066
+looks H100+D20 gap_ms=5 coherent_power=0.5 |rho1|=0.6797 CV1=0.8660 CV4=0.6693 N_eff=1.674
+looks H100+D20 gap_ms=25 coherent_power=0 |rho1|=0.1509 CV1=1.0000 CV4=0.5086 N_eff=3.865
+looks H100+D20 gap_ms=25 coherent_power=0.5 |rho1|=0.1509 CV1=0.8660 CV4=0.4707 N_eff=3.386
+looks H100+D20 gap_ms=100 coherent_power=0 |rho1|=0.0013 CV1=1.0000 CV4=0.5000 N_eff=4.000
+looks H100+D20 gap_ms=100 coherent_power=0.5 |rho1|=0.0013 CV1=0.8660 CV4=0.4332 N_eff=3.997
+covariance D2 (phase-aware abs); queries_t_ms_f_Hz_baseline_m=0/75/0,0/150/0,5/0/0,20/0/0,100/0/0,1000/0/0,20/150/0,0/0/10,0/0/50; abs_rho=0.6339,0.3379,0.2673,0.0017,0.0002,0.0022,0.0558,0.0371,0.0014
+reduce D2 point: K=1 max_grid_pp=98.24 holdout_pp=87.58,33.91 rho_err75_150=0.956 rho_err_5_20ms=1.002 rho_err_100_1000ms=1.002 rho_err_joint20ms150Hz=0.975
+reduce D2 two_delay: K=2 max_grid_pp=22.92 holdout_pp=6.67,33.91 rho_err75_150=0.848 rho_err_5_20ms=1.002 rho_err_100_1000ms=1.002 rho_err_joint20ms150Hz=0.892
+reduce D2 9cell: K=5 max_grid_pp=1.76 holdout_pp=6.67,0.71 rho_err75_150=0.494 rho_err_5_20ms=0.390 rho_err_100_1000ms=0.987 rho_err_joint20ms150Hz=0.445
+reduce D2 20cell: K=14 max_grid_pp=0.00 holdout_pp=6.67,11.52 rho_err75_150=0.063 rho_err_5_20ms=0.673 rho_err_100_1000ms=0.211 rho_err_joint20ms150Hz=0.348
+reduce D2 Gaussian_bins (covariance_only): K=14 rho_err75_150=0.034 rho_err_5_20ms=0.140 rho_err_100_1000ms=0.003 rho_err_joint20ms150Hz=0.080
+looks D2 gap_ms=5 coherent_power=0 |rho1|=0.2673 CV1=1.0000 CV4=0.5264 N_eff=3.608
+looks D2 gap_ms=5 coherent_power=0.5 |rho1|=0.2673 CV1=0.8660 CV4=0.4904 N_eff=3.119
+looks D2 gap_ms=25 coherent_power=0 |rho1|=0.0014 CV1=1.0000 CV4=0.5000 N_eff=4.000
+looks D2 gap_ms=25 coherent_power=0.5 |rho1|=0.0014 CV1=0.8660 CV4=0.4329 N_eff=4.001
+looks D2 gap_ms=100 coherent_power=0 |rho1|=0.0002 CV1=1.0000 CV4=0.5000 N_eff=4.000
+looks D2 gap_ms=100 coherent_power=0.5 |rho1|=0.0002 CV1=0.8660 CV4=0.4323 N_eff=4.014
+far_cap U: orthographic power in mu<R/D sliver=1.1320943e-05
+far_cap E: orthographic power in mu<R/D sliver=8.7146223e-68
+far_cap Hfit: orthographic power in mu<R/D sliver=0.00012898497
+far_cap H100+D20: orthographic power in mu<R/D sliver=0.00018448162
+far_cap D2: orthographic power in mu<R/D sliver=3.986934e-08
+fresnel: spherical_quadratic_half_wave_m=212.15 flat_screen_half_wave_m=3155.67 radial_perturbation_pi_phase_mm=13.012 fractional_RF_25Hz_ppm=0.004340
+cost Fs=960 hypothetical_shared_tail_bytes=1216 hypothetical_ring_if_bulk_also_stored_bytes=40416 replay_75s_bytes=1224000
+  paths=1 upper_fractional_interp_taps_per_s=15360 state_at_64B_per_path=64
+  paths=2 upper_fractional_interp_taps_per_s=30720 state_at_64B_per_path=128
+  paths=9 upper_fractional_interp_taps_per_s=138240 state_at_64B_per_path=576
+  paths=20 upper_fractional_interp_taps_per_s=307200 state_at_64B_per_path=1280
+  paths=180000 upper_fractional_interp_taps_per_s=2764800000 state_at_64B_per_path=11520000
+cost Fs=6000 hypothetical_shared_tail_bytes=2144 hypothetical_ring_if_bulk_also_stored_bytes=247216 replay_75s_bytes=7650000
+  paths=1 upper_fractional_interp_taps_per_s=96000 state_at_64B_per_path=64
+  paths=2 upper_fractional_interp_taps_per_s=192000 state_at_64B_per_path=128
+  paths=9 upper_fractional_interp_taps_per_s=864000 state_at_64B_per_path=576
+  paths=20 upper_fractional_interp_taps_per_s=1920000 state_at_64B_per_path=1280
+  paths=180000 upper_fractional_interp_taps_per_s=17280000000 state_at_64B_per_path=11520000
+SCENARIO 5m 70W: same co-located geometry and shape H100+D20 OC held fixed; SC power shape D2 with unilluminated RCS 0.2*OC; independent OC and SC fields, illustrative.
+arm clear apparent_deg=60 aperture_offset_deg_TX_RX=0.00/0.00 ground_frac=0.05 gas_cloud_rain_db_per_leg=0.0462/0.0000/0.0000; TX_RX_signal_loss_dB=0.0462/0.0462 eta_rx=0.989421 E_rx=2.890K
+  P_unbeam_OC=-142.042dBm beam_loss=0.482dB net_pol_loss=-0.000dB P_antenna=-142.616dBm T_off=102.072K T_on=143.336K T_moon_excess=41.264K T_rx_main_emission=2.111K T_ground=14.500K Y=1.474dB CN0=34.420dBHz CN100=14.420dB
+  residual=0.000ms/+0.0Hz joint_1ms50_ideal=0.73295 joint_1ms50_offset=0.73295 joint_178us50_offset=0.46121 captured_CN0_1ms50=33.071dBHz captured_CN0_178us50=31.059dBHz
+arm wet apparent_deg=10 aperture_offset_deg_TX_RX=0.30/0.30 ground_frac=0.15 gas_cloud_rain_db_per_leg=0.2304/0.0356/4.4216; TX_RX_signal_loss_dB=4.6875/4.6875 eta_rx=0.339818 E_rx=180.329K
+  P_unbeam_OC=-142.042dBm beam_loss=4.150dB net_pol_loss=0.974dB P_antenna=-156.541dBm T_off=257.833K T_on=267.349K T_moon_excess=9.516K T_rx_main_emission=131.744K T_ground=43.500K Y=0.157dB CN0=17.788dBHz CN100=-2.212dB
+  residual=0.050ms/+25.0Hz joint_1ms50_ideal=0.65394 joint_1ms50_offset=0.59322 joint_178us50_offset=0.34650 captured_CN0_1ms50=15.520dBHz captured_CN0_178us50=13.185dBHz
+  wet emission_half_sensitivity_Ton=201.477K captured_CN0_1ms50=16.748dBHz joint_1ms112p5_offset=0.64693
+visibility at 10deg: unobstructed if modeled 8deg local skyline; 12deg blocking skyline is a separately masked physical absence: signal zero, thermal and observation validity persist if recording.
+timing sensitivity: 0.004340ppm RF for +25Hz, independent of 1ppm sample clock accumulating 75.0us over 75s; sampled atmospheric-excess scales 60/10degs=~18/~89ns round trip (conditional).

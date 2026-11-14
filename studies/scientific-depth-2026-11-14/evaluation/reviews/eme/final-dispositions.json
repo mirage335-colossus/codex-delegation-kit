@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "review": "final independent EME review after research freeze",
+  "domain_id": "EME",
+  "domain": "Passive 5.76–5.8 GHz Earth–Moon–Earth scattering and station practice",
+  "status": "Partial",
+  "preserved_initial_status": "Partial; evaluation/reviews/eme/dispositions.json is unchanged",
+  "prior_followup_status": "Partial; followup.md and followup-dispositions.json are retained unchanged",
+  "frozen_artifacts": [
+    "research/eme/chapter-continuation.md",
+    "research/eme/source-ledger-continuation.md",
+    "research/eme/eme_5760_sensitivity.py",
+    "research/eme/eme_5760_sensitivity.out",
+    "research/eme/eme_joint_delay_doppler.py",
+    "research/eme/eme_joint_delay_doppler.initial_coarse.out",
+    "research/eme/eme_joint_delay_doppler.n1000.out",
+    "research/eme/eme_joint_delay_doppler.out",
+    "research/lead/synthesis.md",
+    "research/lead/comparisons.py",
+    "research/lead/comparisons.txt",
+    "research/lead/source-ledger.md"
+  ],
+  "identity": {"pump_head":"13db435fc85114be2e2a0298580d5c3e2bcba996","pump_modified_built_or_run":false},
+  "criteria": [
+    {"id":"EME-01","initial":"Supported","prior_followup":"Supported","final":"Supported","basis":"Path and evidence definitions are clear; Senior and Siegel citation corrected using official NIST volume index and indexed scan record."},
+    {"id":"EME-02","initial":"Partial","prior_followup":"Partial","final":"Supported boundary","basis":"Independent reproduction of complete conditional 5.760GHz two-leg budget with correct ⟨B_TX B_RX⟩, separate antenna-temperature integration, reference planes and noise; target-band RCS/station calibration remain a declared empirical boundary."},
+    {"id":"EME-03","initial":"Partial","prior_followup":"Partial","final":"Partial","basis":"Two conditional radial scattering profiles and point alternative are quantified, but no normalized angular specular/Hagfors-plus-diffuse scattering law or field/power interpretation is carried through."},
+    {"id":"EME-04","initial":"Partial","prior_followup":"Partial","final":"Supported boundary","basis":"Geometric support, projected measure, t50/t90/RMS, two beam-weighted power profiles and a historically anchored sensitivity are computed; 5.76GHz bistatic PDP remains unknown."},
+    {"id":"EME-05","initial":"Partial","prior_followup":"Partial","final":"Supported boundary","basis":"Joint surface delay/Doppler windows and factorized-marginal comparison use source-scaled conditional gradients and constructed orientation stress, with resolution convergence and a correct CW versus ranging falsifier; no target full-disk spectrum or joint capture is claimed."},
+    {"id":"EME-06","initial":"Partial","prior_followup":"Partial","final":"Supported boundary","basis":"Retarded-leg surface calculation and lead's station-separated retarded/simultaneous/geocenter synthetic comparisons expose applicable geometry errors. No actual site/epoch is specified and no actual ephemeris is claimed."},
+    {"id":"EME-07","initial":"Partial","prior_followup":"Supported boundary","final":"Supported boundary","basis":"Primary local CPR .44/.45 and OC albedo .06 carried with footprint and cross-band limits; target-band projection remains unknown."},
+    {"id":"EME-08","initial":"Partial","prior_followup":"Partial","final":"Partial","basis":"Correct centered Gaussian signal/noise coupling and aperture comparison exist; pointing offsets, station pattern/spillover, ground/sky and speckle correlation remain materially underquantified."},
+    {"id":"EME-09","initial":"Partial","prior_followup":"Partial","final":"Partial","basis":"Two-end rain and operational context remain; conditional gas/cloud/low-elevation and joint site/weather-to-receiver case are still feasible and incomplete."},
+    {"id":"EME-10","initial":"Partial","prior_followup":"Partial","final":"Partial","basis":"Several simple physical alternatives now have receiver-window consequences, but model implementation fidelity/cost/native integration comparison remains incomplete."},
+    {"id":"EME-11","initial":"Partial","prior_followup":"Supported boundary","final":"Supported boundary","basis":"Primary 7.209GHz observed/predicted measurements, independent conditional link/noise arithmetic, disk geometry, and joint-grid convergence are reported with precise limits; calibrated whole-disc 5.76GHz observations remain unavailable."},
+    {"id":"EME-12","initial":"Partial","prior_followup":"Partial","final":"Partial","basis":"Joint delay–Doppler dependence is quantified, but weather/pointing/polarization/noise/tracking/outage are not assembled into a compatible receiver-facing adverse state."}
+  ],
+  "six_depth_dimensions": {
+    "mechanisms_regimes_observables":"Substantially covered; local X-band measurement, C-band conditional link, CW and ranging observables are separated.",
+    "source_discovery_original_evidence":"Substantially covered with recorded access limits; full Sun et al. article and ITU body evidence checked; NIST identity verified, interior scan access not independently repeated.",
+    "alternatives_counterevidence":"Improved but partial; projected/exponential/point alternatives and orientation stresses contrast, angular specular/diffuse model comparison remains.",
+    "quantitative_interpretation":"Strong for stated conditional cases; units, measure, beam products, estimator definitions, reference planes, sensitivity and convergence declared.",
+    "executed_discriminators":"Conditional budgets, Gaussian integrals, early-area comparison and 1000/2000-grid numerical convergence; no physical 5.76GHz observation.",
+    "decision_relevance":"Delay/frequency window calculation and CW-vs-ranging discriminator are useful; combined atmospheric/pointing/noise and native fidelity choice remain incomplete."
+  },
+  "independent_numeric_check": {
+    "3m_37W": {"mean_oneway_beam":0.94349,"mean_twoway_beam_product":0.89119,"moon_temperature_K_at_210K":23.281,"sigma_eff_m2":5.0707542e11,"Pr_dBm":-154.1848,"CN_100Hz_dB":3.5054},
+    "5m_70W": {"mean_oneway_beam":0.85321,"mean_twoway_beam_product":0.73441,"moon_temperature_K_at_210K":58.482,"sigma_eff_m2":4.1787084e11,"Pr_dBm":-143.3821,"CN_100Hz_dB":13.2172},
+    "joint_2k_outputs": {"uniform_projected_5m_Km_t50_ms":2.7741,"uniform_projected_5m_Km_t90_ms":7.352944,"uniform_projected_5m_1ms_plusminus50_joint":0.212171,"factorized_marginals":0.142944,"difference_percentage_points":6.923,"exp_profile_5m_t50_ms":0.05423,"exp_profile_5m_t90_ms":0.179734},
+    "radial_convergence_1k_to_2k": {"exp_t50_ms":"0.054627 to 0.054230","exp_t90_ms":"0.180458 to 0.179734","first_53_68us_fraction":"0.49956 to 0.49955"}
+  },
+  "execution_record": {
+    "saved_output_inspection":"Final 1000 and 2000 outputs and initial coarse output inspected; 1000/2000 convergence and final window values match report.",
+    "independent_script_rerun":"Not counted. First launch used the wrong root-relative script path and exited before assertions; corrected nested launch output/session status was not captured by the wrapper.",
+    "budget_reproduction":"Independent standard-library formula calculation reproduces final beam/noise/link table to displayed precision.",
+    "web_meter":"review-eme total remains 16 of 24 operations; no new web operation used in final review.",
+    "pump_work":"No pump build, runtime, receiver, or hardware work."
+  },
+  "prioritized_remaining_scientific_work": [
+    "Compare a normalized LL67/T52 or otherwise justified angular quasi-specular/diffuse law with projected and historical-core sensitivities across cross section, delay, Doppler-power width and polarization.",
+    "Add a bounded pointing-offset and receiver sky/ground/spillover or spatial-correlation sensitivity to the centered Gaussian station model.",
+    "Join a compatible weather/pointing/polarization/noise condition to a delay-Doppler receiver-window statistic and state its failure observable."
+  ]
+}

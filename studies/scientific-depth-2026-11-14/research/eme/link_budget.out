@@ -1,0 +1,25 @@
+lambda_m=0.041585
+tx_gain_dbi=59.66; rx_gain_dbi=66.33; tx_aperture_m2=127.235; rx_aperture_m2=590.619
+footprint_area_km2=198713; sigma_m2=1.3910e+10; sigma_dbsm=101.43; RCS_assumption=0.07*projected_503km_disk
+Pr_W=4.4060e-16; Pr_dBm=-123.56; kTB_dBm=-163.34; raw_CNR_dB=39.78 in 35Hz, before integration
+published_metric_DeltaPn_W=2.4796e-21; SNR_Pr_over_DeltaPn=177688 (52.50dB), 10s, matched to paper's estimator convention
+if sigma power is /6..10: Pr_dBm=-131.34..-133.56; CNR_dB=31.99..29.78
+10log10(6..10) dB=7.78..10.00
+echo_width_5.8GHz_scaled_Hz=28.16; valid only with same footprint/geometry/libration
+paper_derived_7.209GHz_width_to_total_path_rate_span_mps: 35Hz=1.455; 90Hz=3.743; 1mps_at_5.8GHz=19.35Hz
+spherical_front_surface_delay_near_subradar_to_limb_ms=11.564
+roundtrip_center_delay_s=2.564441; one-way_pointing_offset_from_dish_gain_not_modeled
+range_km=356500; range_delta_dB=+1.31
+range_km=406700; range_delta_dB=-0.98
+carrier_GHz=5.800; fixed_aperture_radar_gain_factor_vs_7.209_dB=-1.89
+carrier_GHz=7.209; fixed_aperture_radar_gain_factor_vs_7.209_dB=+0.00
+carrier_GHz=10.368; fixed_aperture_radar_gain_factor_vs_7.209_dB=+3.16
+conditional_5760MHz_dish_D3m_eta.55: gain_dbi=42.56; approximate_HPBW_deg=1.21
+  point-source_mainbeam_loss_at_offset_0.10deg_dB=0.08; not_integrated_lunar_disk_loss
+  point-source_mainbeam_loss_at_offset_0.25deg_dB=0.51; not_integrated_lunar_disk_loss
+conditional_5760MHz_dish_D5m_eta.55: gain_dbi=47.00; approximate_HPBW_deg=0.73
+  point-source_mainbeam_loss_at_offset_0.10deg_dB=0.23; not_integrated_lunar_disk_loss
+  point-source_mainbeam_loss_at_offset_0.25deg_dB=1.42; not_integrated_lunar_disk_loss
+conditional_ITU_P838_5.8GHz_circular: k=0.0004985; alpha=1.5993; combined_two_endpoint_rain_path_km=4.0
+  rain_rate_mm_h=25; gamma_R_dB_km=0.086; one_way_earth_endpoint_loss_dB=0.17; both_ends_combined_loss_dB=0.34
+  rain_rate_mm_h=100; gamma_R_dB_km=0.788; one_way_earth_endpoint_loss_dB=1.58; both_ends_combined_loss_dB=3.15

@@ -1,0 +1,82 @@
+{
+  "domain_id": "VALID",
+  "domain": "Numerical simulation methodology and statistical validation",
+  "overall": "Partial",
+  "participant_artifact": "studies/scientific-depth-2026-11-14/evaluation/first-pass/validation/chapter.md",
+  "live_artifact": "studies/scientific-depth-2026-11-14/research/validation/chapter.md",
+  "artifacts_identical": true,
+  "source_revision": "pumpModem 13db435fc85114be2e2a0298580d5c3e2bcba996",
+  "independent_sources": [
+    {
+      "source": "ITU-R P.368-10 official body",
+      "url": "https://www.itu.int/dms_pubrec/itu-r/rec/p/R-REC-P.368-10-202208-I%21%21PDF-E.pdf",
+      "locator": "Annex 1, §§1 and conditions, parsed lines 109-146",
+      "finding": "Confirms frequency/surface-wave scope, negligible-ionospheric-reflection caveat, reference antenna and homogeneous-Earth assumptions."
+    },
+    {
+      "source": "ITU-R P.533-14 official body",
+      "url": "https://www.itu.int/dms_pubrec/itu-r/rec/p/R-REC-P.533-14-201908-I%21%21PDF-E.pdf",
+      "locator": "§§7-10, printed pp. 22-24",
+      "finding": "Confirms monthly median/decile reliability basis and digital time/frequency-window parameters; not a short-time channel episode distribution."
+    },
+    {
+      "source": "ITU-R P.372-18 official record and summary",
+      "url": "https://www.itu.int/rec/R-REC-P.372-18-202609-I/en",
+      "locator": "Record approved 2026-09-08, in force; summary HTML states 0.1 Hz-100 GHz and noise-source classes",
+      "finding": "Current status is verified. The official 30,437,927-byte PDF open failed with HTTP 400 content-too-large; summary does not expose detailed body clauses."
+    },
+    {
+      "source": "NIST TN 1297 official page",
+      "url": "https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-4-type-b-evaluation-standard-uncertainty",
+      "locator": "§4",
+      "finding": "Supports use of measurement history, calibration information and check standards for uncertainty inputs; does not supply missing project calibration data."
+    },
+    {
+      "source": "Pump current canonical docs",
+      "url": "local: /home/user/___quick/p/_cur/dataPump/pumpModem/docs/robust-current.md and docs/channel-models.md",
+      "locator": "robust-current native interfaces, bounded input/quiet completion; channel-models normalized/synthetic scope",
+      "finding": "Consistent with the participant's distinction between synthetic assumptions, complete receiver behavior and physical/device qualification."
+    }
+  ],
+  "independent_calculation": {
+    "script": "studies/scientific-depth-2026-11-14/evaluation/reviews/validation/desk-reproduction.py",
+    "output": "studies/scientific-depth-2026-11-14/evaluation/reviews/validation/desk-reproduction.txt",
+    "method": "Recomputed zero-failure binomial upper bounds and sample sizes, finite-n AR(1) design effects via closed geometric sums, and thermal bandwidth conversions using Python standard library.",
+    "result": "All participant numerical outputs reproduced to stated rounding; AR(1) example is a valid mean-uncertainty illustration, not a failure-probability correction."
+  },
+  "web_meter": {
+    "run": "review-validation",
+    "operations_used": 9,
+    "operations_cap": 20
+  },
+  "rows": [
+    {"id":"VALID-01","disposition":"Supported boundary","participant_locator":"Decision handoff; §§1.1-1.2, 2.1, 3.1, 4.1","gap":"No calibrated product measurand, deployment population or reliability target was supplied; participant explicitly leaves these to the owner."},
+    {"id":"VALID-02","disposition":"Partial","participant_locator":"§3.1; §4.2","gap":"No implementation-level comparison of finite stochastic generator families or their sampling, normalization, initialization, aliasing or block errors."},
+    {"id":"VALID-03","disposition":"Partial","participant_locator":"§§1.1-1.2, 2.1, 4.2","gap":"No physical-path to sampled phase/delay/covariance derivation or finite interpolation, initialization and tail error discriminator."},
+    {"id":"VALID-04","disposition":"Partial","participant_locator":"§§1.2, 2.1-2.2, 4.2","gap":"Joint episodes and independent seeds are discussed, but physical cross-path/time/carrier covariance and outage/resumption metrics are not derived or checked."},
+    {"id":"VALID-05","disposition":"Partial","participant_locator":"Decision handoff; §§2.1, 3.1, 4.2","gap":"Representative versus stress distinction is sound, but observed severe, conditional-tail, compatible, adversarial and outage classes and tail-dependence evidence are incomplete."},
+    {"id":"VALID-06","disposition":"Supported","participant_locator":"§§2.1-2.4","gap":"No material methodological gap for this scoped protocol; actual target population/data remain open under other rows."},
+    {"id":"VALID-07","disposition":"Supported boundary","participant_locator":"§§2.2-2.4, 4.1, 6","gap":"Illustrative interval/sample requirements are correct; the operational threshold, powered design and cost admission await a supplied service target."},
+    {"id":"VALID-08","disposition":"Outside declared conditions","participant_locator":"Decision handoff; §§2.1, 3.1","gap":"No weighted rare-event or tail-prevalence claim is made; this is valid only while the target-law claim remains absent."},
+    {"id":"VALID-09","disposition":"Partial","participant_locator":"§§1.1-1.2, 4.1-4.2","gap":"Matched design is prospective only; no calibrated capture, public field episode, reference-observable comparison or baseline receiver outcome was analyzed."},
+    {"id":"VALID-10","disposition":"Partial","participant_locator":"§2.3; §6","gap":"AR(1) is a valid IID-window counterexample, but no finite-channel generator adverse case, approximation error or failed comparison is executed."},
+    {"id":"VALID-11","disposition":"Partial","participant_locator":"§§5-6; source-ledger.md §§Primary and official evidence, Search questions and unresolved work","gap":"Good provenance, but no workload admission for the proposed experiment or current generator comparison; current P.372 summary HTML should be recorded, while detailed body remains unavailable."}
+  ],
+  "domain_checks": {
+    "mechanisms_and_regimes":"Partial",
+    "foundational_and_recent_primary_discovery":"Partial",
+    "alternatives_and_counterevidence":"Partial",
+    "quantitative_interpretation":"Supported for worked statistical/metrology examples only",
+    "executed_discriminators":"Partial",
+    "decision_link_and_next_discriminator":"Partial"
+  },
+  "not_performed": [
+    "No pumpModem build, source modification, receiver execution, hardware qualification, or physical field-data analysis.",
+    "No current P.372-18 detailed body interpretation because the official PDF exceeded the reader's content limit."
+  ],
+  "priority_followups": [
+    "Execute one source-backed finite-channel generator or sampled-interpolation counterexample with exact inputs and metric.",
+    "Analyze an accessible comparable source observable/public dataset or document a specific empty/blocked source route and exact missing calibration artifact.",
+    "Cost the next proposed capture/holdout experiment by sample count, duration, receiver work, memory and time before calling it admitted."
+  ]
+}

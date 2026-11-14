@@ -1,0 +1,7 @@
+# Observed automatic initiation
+
+The fresh Sol engineering owner received task.md, environment.md and candidate-policy.md only. The frozen ordinary development task did not request research. Before any coordinator research dispatch the owner sent:
+
+> Please initiate dedicated scientific lead with sustained synthesis across LF small-antenna/alternative coupling and site noise, 1/30 MHz groundwave and terrain/surface effects, HF quiet/changing/high latitude/disturbance and outages, and 5.8 GHz passive EME link/distributed scattering/polarization and calibration. Each branch should trace inspected primary sources and discriminants to physical reduction, consequences for existing mixtures/receiver, alternative methods, one bounded calculated or observed result where quantitative decisions carry, adverse cases distinct from climatology, and remaining dependencies. An independent coverage pass is useful after synthesis. I will audit canonical boundaries and desk-check cross-regime contract independently, no external access requested for me yet.
+
+The coordinator accepted this request and then allocated the lead and scientific branches. The owner continued source audit and independent desk calculations. This demonstrates observed activation in this one guided exercise, not automatic activation frequency in normal use. The participant read boundary is procedural, not independently sandbox enforced.

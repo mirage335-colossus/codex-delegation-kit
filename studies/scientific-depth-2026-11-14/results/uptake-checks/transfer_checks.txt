@@ -1,0 +1,57 @@
+VLF: H_up=H_end/H_down, 20 log10(abs(H)); degrees are relative.
+V01 S0 UP   worst_gain=  -1.209 dB edges=-1.209,-1.179 dB phase=+29.532,-29.188 deg loaded_Q=20.000000
+V01 S0 DOWN worst_gain= -15.197 dB edges=-15.197,-15.079 dB phase=+79.989,-79.850 deg loaded_Q=200.000000
+V01 S0 END  worst_gain= -16.406 dB edges=-16.406,-16.258 dB phase=+109.521,-109.038 deg
+  nominal probes within 3 dB: 1 / 7
+  fitted cascade symmetric -3 dB width 39.468 Hz
+V01 S1 UP   worst_gain=  -1.209 dB edges=-1.209,-1.179 dB phase=+29.532,-29.188 deg loaded_Q=20.000000
+V01 S1 DOWN worst_gain=  -1.209 dB edges=-1.209,-1.179 dB phase=+29.532,-29.188 deg loaded_Q=20.000000
+V01 S1 END  worst_gain=  -2.418 dB edges=-2.418,-2.359 dB phase=+59.064,-58.375 deg
+  nominal probes within 3 dB: 7 / 7
+  fitted cascade symmetric -3 dB width 254.854 Hz
+  max |S1 upstream - S0 upstream|= 2.8197508380667666e-12
+V02 S0 UP   worst_gain= -15.197 dB edges=-15.197,-15.079 dB phase=+79.989,-79.850 deg loaded_Q=200.000000
+V02 S0 DOWN worst_gain=  -1.209 dB edges=-1.209,-1.179 dB phase=+29.532,-29.188 deg loaded_Q=20.000000
+V02 S0 END  worst_gain= -16.406 dB edges=-16.406,-16.258 dB phase=+109.521,-109.038 deg
+  nominal probes within 3 dB: 1 / 7
+  fitted cascade symmetric -3 dB width 39.468 Hz
+V02 S1 UP   worst_gain= -15.197 dB edges=-15.197,-15.079 dB phase=+79.989,-79.850 deg loaded_Q=200.000000
+V02 S1 DOWN worst_gain=  -1.209 dB edges=-1.209,-1.179 dB phase=+29.532,-29.188 deg loaded_Q=20.000000
+V02 S1 END  worst_gain= -16.406 dB edges=-16.406,-16.258 dB phase=+109.521,-109.038 deg
+  nominal probes within 3 dB: 1 / 7
+  fitted cascade symmetric -3 dB width 39.468 Hz
+  max |S1 upstream - S0 upstream|= 0.0
+  max |V01 S0 - V02 S0| end-to-end= 0.0
+EME L01: offset; pre - mix = post; output; rel gain; folded
+-112.5; +2368.25 - +2418.25 =   -50.0;   -50.0;   +0.001 dB; False
+ -75.0; +2405.75 - +2418.25 =   -12.5;   -12.5;   +0.014 dB; False
+ -37.5; +2443.25 - +2418.25 =   +25.0;   +25.0;   +0.025 dB; False
+  +0.0; +2480.75 - +2418.25 =   +62.5;   +62.5;   +0.019 dB; False
+ +37.5; +2518.25 - +2418.25 =  +100.0;  +100.0;   +0.002 dB; False
+ +75.0; +2555.75 - +2418.25 =  +137.5;  +137.5;   +0.000 dB; False
++112.5; +2593.25 - +2418.25 =  +175.0;  +175.0;   +0.025 dB; False
+  center +62.5; narrow/public: True/True; candidate min +0.000 dB; desk 1200 min/max -0.0141/-0.0003 dB
+EME L02: offset; pre - mix = post; output; rel gain; folded
+-112.5; +2116.25 - +2372.75 =  -256.5;  -256.5;  -19.622 dB; False
+ -75.0; +2153.75 - +2372.75 =  -219.0;  -219.0;   -1.691 dB; False
+ -37.5; +2191.25 - +2372.75 =  -181.5;  -181.5;   +0.026 dB; False
+  +0.0; +2228.75 - +2372.75 =  -144.0;  -144.0;   -0.002 dB; False
+ +37.5; +2266.25 - +2372.75 =  -106.5;  -106.5;   +0.014 dB; False
+ +75.0; +2303.75 - +2372.75 =   -69.0;   -69.0;   +0.026 dB; False
++112.5; +2341.25 - +2372.75 =   -31.5;   -31.5;   +0.019 dB; False
+  center -144.0; narrow/public: False/True; candidate min -19.622 dB; desk 1200 min/max -0.0141/+0.0005 dB
+EME L03: offset; pre - mix = post; output; rel gain; folded
+-112.5; +2455.00 - +2284.50 =  +170.5;  +170.5;   +0.025 dB; False
+ -75.0; +2492.50 - +2284.50 =  +208.0;  +208.0;   -0.453 dB; False
+ -37.5; +2530.00 - +2284.50 =  +245.5;  +245.5;  -11.210 dB; False
+  +0.0; +2567.50 - +2284.50 =  +283.0;  +283.0;  -52.820 dB; False
+ +37.5; +2605.00 - +2284.50 =  +320.5;  -279.5;  -63.021 dB; True
+ +75.0; +2642.50 - +2284.50 =  +358.0;  -242.0;  -63.324 dB; True
++112.5; +2680.00 - +2284.50 =  +395.5;  -204.5;  -62.821 dB; True
+  center +283.0; narrow/public: False/True; candidate min -63.324 dB; desk 1200 min/max -0.0193/+0.0021 dB
+  +320.5 folds to -279.5, gain -63.021 dB; an incoming -279.5 has gain -56.443 dB
+  causal FIR group lag 20.833333 ms; memory 100 input samples, 41.666667 ms
+  full center+nominal DATA half support 412.5 Hz, Fs > 825 Hz before skirts
+  candidate at +212.5 Hz (narrow center edge + DATA edge) -0.831 dB
+  desk 1200: gains at 412.5, 600, 787.5 Hz: -0.015 dB, -61.728 dB, -67.595 dB
+  desk 1200 sampled nominal pass min/max -0.0206/+0.0061 dB; fold-onto-nominal-band stop max -67.595 dB (not continuous bounds)

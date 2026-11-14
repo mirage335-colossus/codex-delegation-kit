@@ -1,0 +1,48 @@
+{
+  "domain": "MF/HF noise, interference and equipment effects",
+  "review": "additive final-domain re-review; all earlier noise reviews/dispositions preserved",
+  "status": "partial",
+  "artifacts": [
+    "research/noise/chapter-continuation2.md",
+    "research/noise/source-ledger-continuation2.md",
+    "research/noise/noise_quantile_timechecks.py",
+    "research/noise/noise_quantile_timechecks.out"
+  ],
+  "web_run": {"run_id":"review-noise","root_allocation":56,"used_at_review_end":56,"operations_admitted_this_stage":16,"last_reservation_rejected_before_web_call":2},
+  "criteria": [
+    {"focus":"Background source mechanisms","disposition":"supported","reason":"External natural/man-made/interference/equipment terms and frequency/time/band conditions are separated."},
+    {"focus":"Recommendation and empirical disagreement","disposition":"partial","reason":"P.372 editions are bounded and Fockens comparison is conditioned; current v18 detail is unavailable, SM.2449-1 reuses/cites Fockens at least in part, and broader source-corpus disagreement comparison remains incomplete."},
+    {"focus":"Reference planes and quantitative combination","disposition":"supported_boundary","reason":"Conditional source combination, quantile and dependence alternatives are calculated; parsed P.372-17 sign cannot be visually confirmed and target RF-to-ADC plane is unavailable."},
+    {"focus":"Marginal and temporal evidence","disposition":"partial","reason":"Measured conditional APDs, NTIA time-record examples and exact synthetic same-marginal chronology improve analysis; NTIA event locator needs reconciliation and no raw modem-window chronology is available."},
+    {"focus":"Interference, congestion and occupancy","disposition":"supported_boundary","reason":"Primary Cyprus thresholded 1 kHz Q and sweep conditions are distinguished from modem bandwidth, waveform and slot loss."},
+    {"focus":"Ordered device chain","disposition":"supported_boundary","reason":"Ordered chain, reciprocal mixing and synthetic blocker/clipping counterexample establish mechanism; target chain remains uncalibrated."},
+    {"focus":"Blocking, AGC and recovery","disposition":"supported_boundary","reason":"Source-backed reciprocal mixing and owner pre/post-clipping calculation support conditional ordering; target thresholds and recovery are absent."},
+    {"focus":"Clock, filtering and conversion alternatives","disposition":"supported_boundary","reason":"Independent conditional filter/clock scales plus measurement selectivity guidance; no target hardware calibration."},
+    {"focus":"Band-specific cross-links","disposition":"supported","reason":"VLF, MF/HF and EME quantities remain conditional and distinct."},
+    {"focus":"Noise model controls and receiver implications","disposition":"supported_boundary","reason":"AWGN control, conditional replay, interference and blocker tests link to observables/falsifiers without natural-probability claims."},
+    {"focus":"Validation and unresolved dependencies","disposition":"partial","reason":"Calculations and source checks improve coverage, but current standard detail, NTIA event identity, data reuse provenance, raw data and target transfer remain unresolved."}
+  ],
+  "depth_dimensions": {
+    "mechanisms_and_regimes":"supported",
+    "literature_discovery_and_original_sources":"partial",
+    "alternatives_and_counterevidence":"supported_boundary",
+    "quantitative_conventions_and_uncertainty":"supported_boundary",
+    "executed_discriminators":"partial",
+    "decision_relevance":"supported_boundary"
+  },
+  "checks": {
+    "continuation_script":"passed; output reproduced",
+    "P372_17_parsed_equations":"verified through metered primary-source search result; literal minus-sign substitution fails one-component median identity; no standard-bug conclusion because visual verification failed",
+    "P372_15_moment_method":"conditional predecessor method identity and two-component results independently reproduced",
+    "NTIA_TR_91_277":"official PDF full open failed due size; indexed primary-source result confirmed 23.862 MHz record index and revealed a 5.936 MHz date/record locator requiring reconciliation",
+    "Fockens_2019":"full primary paper reopened; campaign conditions, measurement bandwidth/conversion, population, reference antenna and scope checked",
+    "SM2449_1":"opened report references Fockens 2019 as source [1]; another source [3] may contribute, provenance not resolved; do not count as independent replication yet",
+    "pump_builds_tests":"not performed"
+  },
+  "highest_value_remaining_checks": [
+    "Resolve NTIA 5.936 MHz figure/time against the official record index and independently inspect the impulsive record passage.",
+    "Identify SM.2449-1 reference [3] and establish whether its Netherlands observations are independent of the Fockens campaign.",
+    "Visually verify P.372-17 combination equation sign from an authorized copy/correction; compare v18 only if the method is used.",
+    "Compare remaining campaign evidence across German/regulator, Norway and McMurdo/Black Island conditions without flattening measurement definitions."
+  ]
+}

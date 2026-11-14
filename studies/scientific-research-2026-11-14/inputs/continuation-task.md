@@ -1,0 +1,5 @@
+# Adaptive EME continuation
+
+Continue useful research from the original EME objective, your own first report and its gaps. Derive your own questions; seek additions that can change or qualify development choices rather than repeat existing evidence. Preserve contrary findings and source-access limits. This is an adaptive continuation after the first comparison, not another held-out test. Do not read the other arm, evaluator notes or pumpModem references. No answer-key hints are supplied.
+
+The baseline uses its existing guidance and this continuation task. The other arm additionally receives the generic coverage refinement. Both have the same ceiling of 12 additional individual web operations including failures and 3 additional shell invocations, ~8 minutes active work and <=1,800 words plus an ordered operation log. Earlier 24-operation reports remain unchanged. Use your assigned new output path and return incremental findings with source locators, implications, changed decisions, unresolved gaps and honest stop reason. No new agents or project changes. Preserve the original report and all other files.

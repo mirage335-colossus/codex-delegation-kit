@@ -1,0 +1,69 @@
+{
+  "review": "Final additive EME integration review",
+  "date": "2026-11-14",
+  "status": "Supported boundary",
+  "preserved_prior": {
+    "initial": "Partial; evaluation/reviews/eme/dispositions.json unchanged",
+    "prior_followup": "Partial; evaluation/reviews/eme/followup-dispositions.json unchanged",
+    "prior_final": "Partial; evaluation/reviews/eme/final-dispositions.json unchanged"
+  },
+  "frozen_artifacts": [
+    "research/eme-integration/chapter.md",
+    "research/eme-integration/source-ledger.md",
+    "research/eme-integration/angular_eme.py",
+    "research/eme-integration/angular_eme.out",
+    "research/eme-integration/angular_eme.fine.out",
+    "research/eme-atmosphere/chapter.md",
+    "research/eme-atmosphere/source-ledger.md",
+    "research/eme-atmosphere/endpoint_case.py",
+    "research/eme-atmosphere/endpoint_case.out"
+  ],
+  "rows": [
+    {
+      "id": "EME-03",
+      "previous_final": "Partial",
+      "final_additive": "Supported boundary",
+      "basis": "Matched projected, depth, diffuse, Hagfors, fitted-Hagfors and mixed angular models carry normalized surface measure, beam product, polarization and delay-Doppler windows through conditional results. Publisher PDF review of Sultan-Salem and Tyler 2006 independently confirms the mean-square/square-mean distinction and finite-area/energy limitations. No 5.760 GHz target RCS or coherence calibration is inferred."
+    },
+    {
+      "id": "EME-08",
+      "previous_final": "Partial",
+      "final_additive": "Supported boundary",
+      "basis": "Conditional pointing, noise, beam partition, ground spill and complex speckle/correlation sensitivities quantify distinct receiver observables and countercases. Real antenna pattern, Jones response and calibrated IQ remain measurement boundaries."
+    },
+    {
+      "id": "EME-09",
+      "previous_final": "Partial",
+      "final_additive": "Supported boundary",
+      "basis": "The frozen integration joins independently reviewed standard-based two-leg attenuation/emission to pointing, polarization, obstruction visibility, receiver noise and capture. Conditional gas-chart and half-emission sensitivity are retained; no occurrence probability or local-weather forecast is claimed."
+    },
+    {
+      "id": "EME-10",
+      "previous_final": "Partial",
+      "final_additive": "Supported boundary",
+      "basis": "Scalar, centroid, bounded-cell, covariance-proxy and replay alternatives are compared on fitted and held-out capture/covariance metrics, mapped to native seams and bounded with explicit illustrative cost/state calculations. No timing or production-qualification claim is made."
+    },
+    {
+      "id": "EME-12",
+      "previous_final": "Partial",
+      "final_additive": "Supported boundary",
+      "basis": "A compatible constructed wet/visible state jointly combines atmosphere, pointing, polarization projection, noise, timing/frequency error and receiver capture; blocked-path behavior is separated. No physical joint occurrence or outage probability is claimed."
+    }
+  ],
+  "carried_forward_rows": "EME-01/02/04/05/06/07/11 retain final-dispositions.json results; this review does not reopen or overwrite them.",
+  "six_depth_dimensions": {
+    "mechanisms_regimes_observables": "Supported at conditional scope",
+    "literature_discovery_primary_evidence": "Supported with explicit search and transfer boundary",
+    "alternatives_counterevidence": "Supported",
+    "quantitative_interpretation_uncertainty": "Supported for conditional calculations",
+    "executed_discriminators": "Supported as desk evidence; no field or product qualification",
+    "decision_relevance_next_discriminator": "Supported"
+  },
+  "remaining_material_boundary": "No calibrated 5.760 GHz whole-disk scattering/coherence measurement or station-specific beam/noise/Jones response is in the reviewed evidence. The limited search does not prove such data are generally unavailable. A matched calibrated target-band coded capture and repeated coherent IQ/reference are the next empirical discriminators.",
+  "evidence_provenance": {
+    "independent_primary_check": "Opened publisher PDF of Sultan-Salem and Tyler (2006), Hagfors' law revisited; verified abstract and §§1–2 discussion of approximation limits and mean-square versus square-mean RCS.",
+    "calculation_replay": "Coordinator reports independent byte-identical replay of frozen default angular and endpoint outputs; reviewer did not rerun these scripts in this final pass.",
+    "atmosphere_check": "See atmosphere-component-review.md for prior independent method, units, geometry and endpoint output check.",
+    "pump_build_or_runtime": "None"
+  }
+}

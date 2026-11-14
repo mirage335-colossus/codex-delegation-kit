@@ -1,0 +1,24 @@
+INDEPENDENT LOGNORMAL POWER SOURCES (conditional, dB relative to one component median)
+seed=372, n=600000, each median=0dB, dB sigma=9, individual D90=11.534dB
+linear sum then empirical quantiles: median=5.797dB, Q90=15.091dB
+naive sum of individual Q90 watts: 14.544dB
+P.372-15 moment-matched lognormal sum: median=4.486dB, D90=10.582dB, Q90=15.068dB
+perfect common dB fluctuation, same marginals: total Q90=14.544dB
+cached P.372-17 alpha minus-sign literal, one input median=0dB sigma=9dB -> -18.651dB (non-identity; do not use without visual/source resolution)
+The simulation sums component power variables as an equivalent-power model; physical voltages have instantaneous cross terms. Power/PSD sums hold in expectation or in an averaged bin/window when cross-spectral terms average to zero. Summing separate quantiles is not the quantile of a sum unless dependence structure happens to make it so.
+
+P.372-17 VS NETHERLANDS GRAPH-READ COMPARISON (predecessor median curves, 2700Hz)
+1.8 MHz:
+  city: P.372-17 short lossless monopole predicted 13.65dBµV/m; Fockens Fig.3 approximate 27.0; graph difference +13.35dB
+  residential: P.372-17 short lossless monopole predicted 9.35dBµV/m; Fockens Fig.3 approximate 18.0; graph difference +8.65dB
+30 MHz:
+  city: P.372-17 short lossless monopole predicted 4.24dBµV/m; Fockens Fig.3 approximate 7.0; graph difference +2.76dB
+  residential: P.372-17 short lossless monopole predicted -0.06dBµV/m; Fockens Fig.3 approximate -2.0; graph difference -1.94dB
+Approximate graph read, not a matched-antenna/statistically paired difference; Fockens uses calibrated tuned loops and reports population/site averages.
+
+SAME APD / DIFFERENT EVENT CHRONOLOGY (bounded synthetic data-equivalent)
+1000 windows x 1600 samples/window; total event fraction=1.000%; APD histogram exactly same (event amplitude and zero otherwise)
+distributed chronology: 16 event samples/window; 1000/1000 windows contain events
+clustered chronology: 10 full-event windows, 990 empty; 1.0% windows contain events
+both have mean 16.0 event samples/window; clustered count SD/window=159.2
+This exposes conditional outage clustering only; no signal, decoder or slot-loss probability is modeled.

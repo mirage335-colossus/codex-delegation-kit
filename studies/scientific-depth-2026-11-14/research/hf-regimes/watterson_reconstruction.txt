@@ -1,0 +1,28 @@
+Watterson Table 4/6/8 rounded aggregate-path reconstruction
+weights from path relative dB; a/b rows excluded; no absolute delay implied
+
+I1: 9.259 MHz, paths=3
+  normalized powers = 76.33%, 19.17%, 4.49%
+  delay mean reconstructed/reported = 137.33/137.0 us; delta=+0.33 us
+  delay mixture 2sigma reconstructed/reported = 476.65/478.0 us; delta=-1.35 us
+  Doppler mean reconstructed/reported = 0.001375/0.001300 Hz; delta=+0.000075 Hz
+  Doppler mixture 2sigma reconstructed/reported = 0.122775/0.123000 Hz; delta=-0.000225 Hz
+  power-normalized tap centers/delays = (40 us, +0.0094 Hz), (290 us, +0.0089 Hz), (1139 us, -0.1670 Hz)
+
+I2: 9.259 MHz, paths=4
+  normalized powers = 67.24%, 25.56%, 1.73%, 5.47%
+  delay mean reconstructed/reported = 172.77/173.0 us; delta=-0.23 us
+  delay mixture 2sigma reconstructed/reported = 521.68/520.0 us; delta=+1.68 us
+  Doppler mean reconstructed/reported = 0.017155/0.017100 Hz; delta=+0.000055 Hz
+  Doppler mixture 2sigma reconstructed/reported = 0.140022/0.140000 Hz; delta=+0.000022 Hz
+  power-normalized tap centers/delays = (40 us, +0.0071 Hz), (290 us, +0.0159 Hz), (590 us, +0.1080 Hz), (1126 us, +0.1180 Hz)
+
+I3A: 5.864 MHz, paths=3
+  normalized powers = 68.98%, 16.93%, 14.08%
+  delay mean reconstructed/reported = 587.21/589.0 us; delta=-1.79 us
+  delay mixture 2sigma reconstructed/reported = 463.73/464.0 us; delta=-0.27 us
+  Doppler mean reconstructed/reported = 0.110124/0.110000 Hz; delta=+0.000124 Hz
+  Doppler mixture 2sigma reconstructed/reported = 0.066176/0.066600 Hz; delta=-0.000424 Hz
+  power-normalized tap centers/delays = (445 us, +0.0989 Hz), (750 us, +0.1310 Hz), (1088 us, +0.1400 Hz)
+
+Assumptions: rounded printed values; aggregate tap powers and one Gaussian 2sigma per path; report-level delay/frequency summaries may use different estimation/smoothing and include finite errors. Relative delay origin is arbitrary. These checks do not recover raw time series, exact subband correlation, phase, outages, or occurrence frequencies.

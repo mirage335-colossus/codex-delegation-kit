@@ -1,0 +1,193 @@
+# Receiver statistics and decision models across the requested bands
+
+## Decision handoff
+
+**Keep the canonical continuous C++ receiver as the only state and decision owner.** Its existing shared channel basis, causal gain tracking, public frequency/arrival/clock hypotheses, bounded score workspace, ordered commit, and fixed evidence masses are already the right integration point. The receiver literature supports extending its *structured likelihoods* where evidence warrants it; it does not support a second modem, unrestricted per-carrier lanes, or a model bank whose maximum score is treated as calibrated probability.
+
+**Use one measured front-end and propagation observation model, with band-conditioned channel priors.** At receiver reference plane (p), model the observation as
+
+\[
+y_p(t)=\mathcal F_p\{\int h_{\rm prop}(t,\tau)s(t-\tau)\,d\tau\}+i_p(t)+n_p(t),
+\]
+
+where \(\mathcal F_p\) is the calibrated antenna/feed/filter/analog path to that plane, \(h_{\rm prop}\) is the propagation response, and \(i_p,n_p\) are interference and receiver/external noise with explicit units and covariance. Do not let an unknown propagation tap compensate for a known narrow resonator, ADC clipping, or a shifted calibration plane. A discrete-mode starting model is
+
+\[
+h_{\rm prop}(t,\tau)=\sum_\ell a_\ell(t)\,\delta(\tau-\tau_\ell(t)),\qquad
+H(t,f_c+\nu)=\sum_\ell a_\ell(t)e^{-j2\pi(f_c+\nu)\tau_\ell(t)}.
+\]
+
+This naturally shares path state across carriers while retaining delay-induced phase/amplitude slope *inside* each carrier. It is a conditional representation, not a claim that every VLF, groundwave, HF, or lunar path is a finite set of stationary rays.
+
+**Choose detector structure by what is known and coherent.** Known template, phase, and Gaussian covariance favors coherent matched likelihood. Unknown common phase with a fixed waveform has an exact low-cost projection/GLRT solution; for uniform phase the integrated likelihood is a monotone Bessel-​function of the same correlation magnitude, so the ranking can agree while evidence calibration and model-complexity penalties differ. Time-varying taps need causal pilot/state estimation or likelihood marginalized over a declared channel covariance. Differential/multi-symbol noncoherent processing is a conditional option for short coherence and low pilot budget, not a free upgrade; its sufficient block model and rate/complexity costs must match the observed channel.
+
+**Do not turn hidden signal loss into decoded silence.** A complete signal-only fade and transmitter cessation both produce the same noise-only I/Q distribution when no independent pilot/anchor survives. The receiver can mark the observation ambiguous or no-evidence; it cannot infer the latent cause from those samples. Keep event-level false completion, miss, early/partial detection, and erasure validity distinct. Calibrate them across the entire public hypothesis scan and repeated windows, not as one isolated threshold crossing.
+
+**First useful addition:** compare, within the existing receiver and fixed work budget, (a) its current public likelihoods, (b) a shared per-delay-tap/path response with explicit covariance across carrier centers and within each occupied band, and (c) current independent/AR gain alternatives. Use fixed public priors, proper complex covariance likelihoods, and held-out stream intervals. Promote a model only if it improves whole-path predictive likelihood / bit-null discrimination and calibrated event error at bounded cost. The desk experiment below shows why a single RMS delay or a single “coherence bandwidth” cannot choose the bank.
+
+### Receiver decision table
+
+| Domain | Receiver representation to reuse/test | Main limit or measurement needed |
+|---|---|---|
+| Sub-9 kHz, electrically small antennas/coupling | Calibrated complex front-end transfer and noise at one named plane; slowly tracked common phase/frequency plus an optional delay basis when the receiver sees multiple modes. A local near-field coupler is an observation path with its own transfer and calibration, not automatically equivalent to a radiating antenna. | Loaded-Q amplitude/phase/group-delay and settling, actual oscillator/reference error, linear range/clipping, coupling repeatability, and local VLF noise/interference. A narrow RF span can still be non-flat when fractional bandwidth is large or resonator Q is high. VLF branch calculations show this can be an order-one waveform effect; no product receiver calibration is available here. |
+| About 1 MHz and 30 MHz groundwave | Start with the measured/calibrated complex gain and carrier offset; add a bounded path-delay basis only when the observed waveform shows delayed ground/reflection paths. Continue channel and front-end state through gaps using the public erasure rules. | Do not borrow HF skywave Doppler/delay distributions. Ground conductivity/terrain and path geometry set propagation; local man-made noise and front-end dynamic range can dominate detection. Require paired receiver-plane captures before deciding which temporal prior is adequate. |
+| 1–30 MHz skywave | Reuse the native delay basis and causal per-tap tracking. Test an ITU F.1487/Watterson-type public controlled scatter profile separately from real-time nonstationary/mode-change cases. Keep path power, excess delay, per-tap center shift, Doppler PSD, and outage distinct. | Classic Watterson is a useful baseline, not the full high-latitude/wideband law: spread-F and within-mode dispersion are omitted; real modes can be directional, nonstationary, disappear, or have non-Gaussian and path-dependent scatter. Need matched delay-Doppler observations, resolution, calibration, and event identity. |
+| Passive EME near 5.8 GHz | Retarded two-leg ephemeris/oscillator estimate supplies a coarse Doppler/arrival prior; let canonical public frequency and timing hypotheses perform bounded residual search. Treat lunar return as a weighted delay-Doppler/polarization scattering response (possibly quasi-specular plus diffuse), not a flat carrier gain. | A 5.8 GHz carrier can have kilohertz-scale geometry Doppler, while lunar surface delay support is millisecond-scale. Pointing, libration, roughness, antenna beam coupling, and polarization weight which part of the disk is observed. A 1296 MHz field setup is useful receiver evidence but not a validated 5.8 GHz channel distribution. |
+
+These are conditional receiver priors and measurement priorities. The assigned evidence has not calibrated the user's front end, chosen a modulation-specific equalizer, or qualified a link in any band.
+
+## Source and revision identity
+
+The worktree for this delegation-kit assignment was at Git `08fc5207af39b9dd728d83ffeaadd4d1b4815653` with pre-existing modified kit files and an untracked `studies/scientific-depth-2026-11-14/` before my receiver artifacts. I preserved all of them. The separate pumpModem source identity and receiver facts below are from the assigned native source owner, who reports HEAD `13db435fc85114be2e2a0298580d5c3e2bcba996`; the source owner also reports existing dirty `_appraisal/` work in that worktree. I did not inspect that repository or those curated files.
+
+The native owner reports that `live.cpp:777-828` routes composite and analog projection into the same `StreamingChannel`/`CompleteStreamReceiver`; `triad_stream_receiver.cpp:688-696` owns the canonical score/base/overlap workspace and ordered per-slot commit; and `triad_receiver.cpp:396-401` makes coarse detection require a wholly valid window. Current source-backed candidate families include fixed public affine taps; a short-coherence Gaussian likelihood; chronological common-frequency proposal mixtures; medium independent and causal AR gain models; coherent linear drift; projected narrowband line nuisance with notched and expanded-unnotched checks; and differential/segmented proposals that are not production commitments. Public epoch/ordinal, bit/null, arrival/frequency/clock hypotheses and score mass stay in the shared receiver. The native owner reports two fully scored quiet slots as an explicit public contract for terminal/rearm behavior and reports gaps as erasures/ambiguity under the stated source cases. Those are source-owner findings, not runtime observations from this research.
+
+One important hard limit is identifiable from source plus statistics: if a channel state removes all expected data energy while valid receiver noise remains, the signal-present-but-faded and true-quiet likelihoods coincide. No hidden propagation truth mask can legitimately resolve that case. Invalid-input masks are different: they indicate what was not observed and must be treated as erasures, not as zeros or quiet samples.
+
+## Evidence map and search scope
+
+Fresh searches and primary/official reads covered time-varying delay-Doppler representations, F.1487 and P.533 receiver-facing channel parameters, high-latitude wideband sounding and Watterson limitations, Kalman channel tracking, coherent/noncoherent GLRT alternatives, channel-estimation error penalties, receiver false alarm/miss/early detection, high-latitude network diversity, and EME measurement context. The web meter for run `receiver` recorded 32 logical operations against cap 80. I read only assigned input files, permitted fresh chapters under this same study, the branch owner's permitted source summary, the listed official/primary public sources, and my own output. I did not inspect prior studies, evaluator material, pump `_ref/`/`_appraisal/`, or a broad pump source tree.
+
+The source ledger provides locators and access limits. Major findings:
+
+1. Bello's channel-operator theory separates the general time-varying linear channel from simplifying WSS, uncorrelated-scattering, and WSSUS assumptions. DRDC's high-latitude sounding report uses the time-varying impulse response (h(t,\tau)) and tapped-delay form; ITU F.1487 describes multiple HF modes with distinct path delays, Doppler shifts, and Doppler spreads. A time-frequency scattering function is useful for measuring second-order structure, but the measurement window, probe ambiguity, noise floor, and local-stationarity interval are part of the claim.
+2. The standardized F.1487 profiles support *controlled modem comparison*, while the high-latitude measured results show why a single profile is not an occurrence model. The 1992 Sondrestrom–Bedford 1 MHz campaign's selected single-mode samples reported a 90th-percentile RMS delay spread of 400 μs and RMS Doppler spread of 3 Hz during a mildly disturbed interval, with larger values around solar flares; correlations over delay fell to small values within a few microseconds, supporting the authors' uncorrelated-scattering hypothesis for that dataset. This is not a universal joint percentile or a 5.8 GHz/VLF/goundwave prior.
+3. Estimation errors matter to decoded performance. An adaptive Kalman tracker is one way to implement a declared Gauss-Markov prior, but its optimality assumes that process and observation covariance are known and correctly specified. Published DFE analysis explicitly shows a fading-rate-dependent error floor with imperfect channel tracking; it also assumes a Gaussian channel model and idealized decision behavior. Therefore report estimated-state covariance and uncertainty; don't score a perfectly known channel against an estimated one.
+4. Unknown phase/gain need not force differential modulation. Projection onto the signal subspace is a GLRT/joint channel-data estimate; a prior-integrated likelihood can instead penalize different channel models and carry calibrated evidence. A few-symbol differential detector can cost power versus coherent detection, while multi-symbol GLRT can recover much of that cost at higher complexity. Both alternatives rely on coherence assumptions and are candidates only inside bounded public scheduling.
+5. Receiver event errors have more than two categories. Packet-detection literature distinguishes no signal, partial preamble, full preamble, false alarm, early detection, and miss. With unknown noise power, normalized correlator statistics can be CFAR in their declared AWGN model, but normalization does not repair unmodeled impulsive interference or correlated scan thresholds. Use a noise/interferer model and event calibration appropriate to the receiver plane.
+6. Diversity gains are conditional on actual independence/correlation and deployment. A 2017–2018 high-latitude network campaign reports improved availability with geographically separated station paths (10–30% for one network setup; 10–50% for another). These are network space-diversity results, not a per-symbol coherent-combining gain. Reuse them as evidence that independent path/node selection can matter in disturbed conditions, not as a receiver SNR promise.
+
+## Statistical model and the meaning of “spread”
+
+For a linear time-varying channel, an impulse response `h(t, τ)` means the output at absolute time `t` due to an impulse delayed by `τ`; a sampled model is `r[n] = Σℓ h[n,ℓ]s[n−ℓ] + η[n]`. Frequency response at carrier `fc` is not just a scalar if occupied offsets `ν` see a different response. Under the tapped-path model,
+
+\[
+H(t,f_c+\nu)=\sum_\ell a_\ell(t)e^{-j2\pi(f_c+\nu)\tau_\ell}.
+\]
+
+If path gains form an uncorrelated-scattering process with delay power profile `P(τ)`, the normalized channel frequency correlation is the characteristic transform
+
+\[
+R_H(\Delta f)=\frac{\int P(\tau)e^{-j2\pi\Delta f\tau}\,d\tau}{\int P(\tau)\,d\tau}.
+\]
+
+Likewise, a local Doppler power spectrum `S(ν)` gives a temporal covariance
+
+\[
+R_h(\Delta t)=\frac{\int S(\nu)e^{j2\pi\nu\Delta t}\,d\nu}{\int S(\nu)\,d\nu}.
+\]
+
+These Fourier dualities require the stated linear/second-order model and are only as representative as the measured support and weights. RMS delay and RMS Doppler are not sufficient statistics for every response: distinct distributions with the same RMS can have different notches, tails, and correlation lobes. The product of spreads is a useful underspread/measurement heuristic, not a universal receiver pass/fail gate. Report the whole relevant PDP/PSD or tap model, reference plane, estimator, time window, integration/aperture, resolution, dynamic range, sidelobe bias, and whether “spread” means RMS, a percentile power interval, 2σ Gaussian width, or first/last thresholded tap.
+
+ITU F.1487 makes this distinction concrete: Annex 1 lists mode/path differential delays, path strengths, frequency shifts, and frequency spreads; O/X magnetoionic components can show different shifts and spreads. Annex 3 defines Gaussian tap frequency spread as `2σ` and uses time/frequency windows `T_w`,`F_w`, required S/N, and dominant/subdominant amplitude ratio for performance testing. These standardized parameters are controlled test inputs, not calibrated priors for all latitudes. The high-latitude DRDC report says ordinary 3/12 kHz modem bandwidths may still be *frequency-selective* from a propagation perspective because multimode delay may exceed a symbol interval; Watterson is flat for a single mode and lacks F-layer spread-F. A 1 MHz probing campaign is not directly equivalent to a 3 kHz modem observation.
+
+### Worked 75 Hz carrier-bank discriminator
+
+`receiver_discriminators.py` is an independent stdlib desk calculation and small proper-complex-Gaussian Monte Carlo. It is not another modem, pump execution, or field channel. It compares these matched distributions on one synchronized, unit-amplitude pilot observation per carrier:
+
+- Carrier centers `−75, 0, +75 Hz`; occupied width `225 Hz`.
+- `H_path`: two independent, equal-power circular-complex Gaussian path coefficients with common delays `[0, τ]`, each coefficient variance `0.5`, so every carrier has mean channel power `P=1`.
+- `H_ind`: one independent flat circular-complex Gaussian coefficient per carrier, variance `1`, also `P=1` per carrier.
+- Both use the same proper-complex white noise variance `N0`, equal model prior `1/2`, and the *same common residual-frequency trajectory conditioned out*. This isolates the shared path basis from independent carrier gains.
+- For the path hypothesis, `R[k,l]=0.5(1+exp(-j2π(fc[k]−fc[l])τ))`. Thus `|ρ(Δf)|=|cos(πΔfτ)|`, and a single delay separation gives a nonmonotone frequency-correlation comb, not a scalar correlation bandwidth. The center-to-edge flat-gain complex mismatch at `δf=37.5 Hz` is `E|H(fc+δf)−H(fc)|²/P = 2 sin²(π δf τ)`.
+- At `τ=7 ms` (RMS delay `τ/2=3.5 ms` for this two-equal-tap toy), adjacent and outer carrier correlation magnitudes are `0.078459` and `0.987688`; center-to-edge correlation magnitude is `0.678801`, while center-to-edge complex MSE is `1.078459 P`. Independent flat gains therefore cannot be judged by a single carrier spacing or by RMS delay alone. At `τ=0.8 ms` (RMS `0.4 ms`) those magnitudes are `0.982287` adjacent and `0.929776` outer, showing a different regime. The `0.4 ms` number is on the scale of one observed high-latitude percentile, not an asserted path distribution.
+- Gaussian-covariance KL separation `D(path||ind)` per three-complex-observation vector is `0.286 nats` at per-carrier SNR `0 dB` and `1.746 nats` at `10 dB` for `τ=7 ms`. Equal-prior model identification errors from 25,000 simulated vectors per model are `0.3610 ± 0.00215` and `0.1351 ± 0.00153`, respectively. Those are model-identification errors for this single-triple statistic, *not bit or frame errors*. They show that equal marginal powers do not make the channel priors equivalent and that a single observation may not identify them reliably.
+
+This Monte Carlo deliberately does not test the native receiver. It assumes a known/removable common residual trajectory, one independent pilot sample per center at a time, zero-mean Gaussian taps, Gaussian white noise, no within-carrier pilot grid other than the analytical center-edge covariance, and exactly known model priors. It does not include pulse shaping, fading during the probe, any SNR estimation error, line/impulse interference, branch correlation, calendar behavior, validity masks, or false data completion. Run a matched held-out public-stream discriminator before adopting a per-carrier model.
+
+The independent fresh lead check adds a complementary deterministic two-component stress. At a 7 ms actual support interval `[0,7 ms]` with relative phase `π` at carrier center, the apparent local group delay can be `−63 ms` at echo/direct magnitude ratio `0.9` and `−693 ms` at ratio `0.99`, although the physical support stays `[0,7 ms]`; band-edge power differs substantially. This is cancellation-induced local slope, not an actual longer path. It reinforces two checks: keep support/tail evidence separate from phase-slope estimates; and evaluate the *whole candidate waveform response*, not an in-band center scalar or local delay alone. The underlying values are in the lead's fresh desk file `research/lead/comparisons.py/.txt`, not my output.
+
+## Detector families and their tradeoffs
+
+### Coherent matched likelihood
+
+For known signal template vector `s`, known phase/amplitude, and proper complex Gaussian residual `n ~ CN(0,R_n)`, the matched statistic is proportional to `Re(sᴴ R_n⁻¹ y)` for a known sign/bit or the squared whitened correlation for presence. This is the most efficient family when phase, frequency, timing, channel response, and noise covariance are sufficiently known. It is sensitive to model error. Residual carrier phase/frequency, front-end phase slope, unmodeled path delay, tap-tracking lag, or wrong noise covariance can reduce the correlation or create false evidence.
+
+An estimate-then-detect path should propagate channel-estimate covariance into the score or use a likelihood that marginalizes it; assuming perfect estimates is optimistic. The 1995 fading-multipath DFE analysis shows a fading-rate-dependent error floor from channel estimation error even when thermal noise falls, under its Gauss-Markov/Rayleigh/decision assumptions. It reports that channel estimation errors reduce effective signal power and increase equivalent noise covariance. The useful lesson is broad: compare actual causal estimators with their covariance, not an oracle estimate. The specific DFE BER curves are not transferable to this 3-carrier receiver.
+
+### Projection, GLRT, and marginalization
+
+For `y = α s + n`, unknown complex scalar `α` and known Gaussian covariance, the maximum-likelihood nuisance estimate is
+
+\[
+\hat\alpha=(s^H R_n^{-1}s)^{-1}s^H R_n^{-1}y,
+\]
+
+and the GLRT presence score is the squared whitened projection `|sᴴR_n⁻¹y|²/(sᴴR_n⁻¹s)`. For an unknown phase with fixed known amplitude and a uniform phase prior, integrating the likelihood yields an `I₀(2|sᴴR_n⁻¹y|/N₀)` term; it is monotone in the same correlation magnitude. Thus in this restricted one-template setting the GLRT and integrated-phase ranking can match, but the marginal evidence has a prior/normalization and should be used when comparing models or accumulating probability mass. Warrier and Madhow give a geometric subspace interpretation of noncoherent detection as joint channel/data estimation, and show how multi-symbol differential PSK can improve on two-symbol differential detection at added algorithmic complexity.
+
+For unknown parameters selected from a bank (arrival, carrier, clock, channel model), maximizing a score is not the same as summing properly normalized likelihood mass. A larger bank creates a multiple-comparison advantage. Use fixed public prior mass and report calibrated evidence; or if using a GLRT for selection, calibrate its false event rate for the full scan. Do not let a high-dimensional independent per-carrier model win merely because it has more free complex coefficients.
+
+### Tracking and model uncertainty
+
+Kalman/LMMSE tracking is optimal for linear-Gaussian state/measurement models with known covariances. Arikan's HF paper proposes an adaptive Kalman channel impulse-response estimator, including robust initialization and adapting state-process covariance; its examples are simulations over modified Watterson channel profiles. It explicitly starts from a stationary Watterson-like model and adds a layer-thickness spread function, rather than experimentally proving that one Kalman implementation is universally superior. Use the method as a compact candidate for per-tap causal state estimation, not as a default truth model.
+
+When model parameters or channel covariance are uncertain, useful alternatives are: (1) a small fixed-weight likelihood mixture of known profiles; (2) covariance shrinkage or conservative variance inflation; (3) switching/change-point state when a real mode-set change occurs; (4) a robust noise likelihood if receiver-plane residuals are demonstrably heavy-tailed; and (5) a generalized likelihood ratio for nuisance frequency/phase with its scan penalty calibrated. All of these increase work or can reduce ideal-model efficiency. Use per-case predictive score and decision errors to decide. Keep the native work limit explicit: sample×hypothesis×tap count must remain bounded, chronology and shared overlap retained, and any auxiliary scorer must meet the existing lease/mass/capacity contract. Full dense covariance inversion scales cubically in observation dimension; low-rank path/state covariance with a bounded number of taps can use state recursions or Woodbury forms and should be preferred if it reaches the same likelihood.
+
+### Nuisance tones, impulses, and front-end limitations
+
+For a known or independently estimated narrowband line, write a matched design matrix `U` for its complex tone(s) and payload template `S`. In colored Gaussian noise, either jointly estimate nuisance coefficients with the signal hypotheses or project using the `R⁻¹`-weighted subspace orthogonal to `U`. Count fitted nuisance dimensions and normalize the residual covariance. If the line frequency/gain is selected on the payload itself, the selection search creates another multiple-comparison bias. Estimate/freeze line parameters on independent quiet/reference material where possible, preserve an unnotched diagnostic score, and test whether the supposed line basis overlaps actual carrier/pilot energy.
+
+Gaussian least squares is fragile to rare high-amplitude bursts and clipping; a Huber/clipped, Student-t/scale-mixture, or explicit impulsive-noise likelihood can reduce outlier domination. These are conditional additions. Clipping is nonlinear and destroys some information; robust loss may downweight valid high-amplitude signal too; impulsive noise may be correlated or line-like rather than iid. Derive the residual law from real-valued receiver-plane captures and use the noise branch's noise/impulse evidence before proposing a particular robust score. Preserve the clean Gaussian matched baseline to measure the cost on Gaussian cases.
+
+Front-end response, propagation, and noise should be separated by calibration plane. At sub-9 kHz, a narrow resonator can strongly reshape an otherwise 225 Hz occupied band. The permitted VLF antenna branch's one-pole desk check (5 kHz, loaded Q 50) gives 7.83 dB band-edge attenuation and 66° edge phase; at Q 200 the edge loss is 19.14 dB and phase is 84°. Those values are illustrative circuits, not user's hardware. They show why channel group-delay estimates must be measured after or de-embedded from the known analog path. At 5.8 GHz, the lead's idealized EME geometry reports ~−9,956 Hz two-way Doppler for one equatorial geometry, while a geocentric approximation gives ~−1,161 Hz; the exact number is a synthetic geometry result, not ephemeris. It implies coarse retarded two-leg Doppler must precede a narrow residual search. The lead also derives an 11.59 ms monostatic center-to-near-surface delay span at the Moon; this is a support bound, not RMS delay or an observed power percentile.
+
+## Diversity, tracking, and evidence boundaries by regime
+
+**Frequency diversity:** combine separate-band evidence as independent only when measured channel/noise covariance supports that approximation. The two-tap example produces frequency-correlation combs and sometimes very large center-to-edge mismatch; RMS delay alone does not identify independent frequencies. If paths are correlated, exploit joint covariance rather than count them as independent votes.
+
+**Time diversity:** interleave, repeat, or decode across a declared fade coherence interval. The gain depends on fade persistence and code/packet time. A single fixed timeout or carrier-frequency proposal cannot be interpreted as time diversity unless the full epoch history shows it.
+
+**Spatial/site diversity:** separate-site HF results are evidence for route selection in changing high-latitude conditions; they do not imply in-phase sum at one receiver. Require co-timed same-packet data and reference planes before coherently combining remote nodes.
+
+**Polarization diversity:** HF O/X components can rotate and fade differently; orthogonal antennas can prevent nulls when both are present with suitable powers. There is little benefit when a single component dominates. Since no dual-polarized project input/API is known here, defer any implementation until capture data/hardware exist; do not simulate a polarization gain as a scalar SNR bonus.
+
+**VLF coupled receiver:** the antenna/coupling path may itself be narrowband, high-Q, lossy, or non-radiating near-field. Calibrate transfer, delay, gain, and noise for each coupling alternative before calling a state “channel fading.” Keep analog settling and frequency calibration in the signal model. The VLF propagation and antenna branches own the physical detailed results.
+
+**Groundwave:** do not introduce an ionospheric Watterson prior merely because the carrier lies near an HF band edge. A direct/ground-reflection model with path-dependent amplitude/delay and calibrated reference is the simplest candidate; estimate changing channel states from measured path samples. The groundwave branch owns terrain, conductivity, and noise-source interpretation.
+
+**HF:** use the ITU controlled model for reproducible modem comparisons; adapt the small shared path basis for candidate time-varying/dispersion structure. Keep differential Doppler/center shift distinct from per-tap PSD width, common oscillator wander, and delay. High-latitude frequency/time changes, disturbed absorption/outage, multimode cancellation, and diffuse F-layer spread require separate observations and cases.
+
+**EME:** use retarded transmit/receive/Moon geometry to set coarse center frequency and delay, then estimate residuals. A lunar echo may combine a coherent quasi-specular core with diffuse surface contributions whose weights depend on frequency, roughness, aspect, libration, pointing, polarization and antenna pattern. The 2015 Chalmers 1296 MHz thesis reports an echo SNR estimate around `5.4 dB` (2σ uncertainty `+1.2/−1.6 dB`) in 100 Hz and measured libration-induced Doppler spread consistent with theoretical prediction. It explicitly calls for repeatability/improved measurement and is not a 5.8 GHz transfer law. The EME branch's direct 5.8 GHz conditional calculations should determine which delay/Doppler support to exercise; the receiver still must not treat its full disk energy as necessarily within the hardware main beam.
+
+## False completion, misses, and calibration
+
+Define the public event precisely. At minimum distinguish `H0`: valid receiver noise/no expected transmission; `H1`: partial or misaligned preamble/observation, an interference coincidence, or insufficient valid support; and `H2`: complete public signal evidence with the required slot validity and bit/null separation. False completion includes declaring `H2` under `H0` or `H1`; early frame detection and missed complete signal are distinct event classes. Receiver literature on unique-word detection explicitly distinguishes false alarm, early detection, and miss, and notes that correlation sidelobes/interferers can drive early declarations. The native project already holds public hypotheses, slot-to-score alignment, invalid gaps, and a two-fully-scored-quiet-slot state rule; keep those semantics stable.
+
+For complex white Gaussian noise, a normalized complex matched correlation score under noise-only is exponential with unit mean. With `M=1000` independent template/arrival/frequency/clock trials and per-test `P_FA=10⁻⁴`, the event probability of at least one crossing is `1−(1−10⁻⁴)^1000 = 0.095167`. To target family-wise `α=10⁻³`, the independent-test exponential energy threshold is `13.8150`; Bonferroni's `ln(M/α)` gives `13.8155`. The difference is small here, but the event risk grows by ~95× relative to the local test rate. This is a desk calculation from the saved script, not the native receiver's number of independent tests. Correlations among overlapping windows and hypothesis vectors change the exact distribution. Calibrate the actual event, with actual candidate count and chronology, using public null/noise/partial inputs. Do not consume hidden path/fade labels as validity truth.
+
+A robust completion check should separately measure:
+
+- complete valid public transmission correctly completed;
+- valid noise-only stream falsely completed;
+- partial/misaligned/interferer-corrupted window falsely completed early;
+- complete signal missed, rejected, or left ambiguous;
+- invalid-window behavior when gaps exist, including an episode that later resumes;
+- hidden fade/outage case where I/Q is noise-like and correct output should be ambiguity/no-evidence rather than inferred data or ground-truth link-off.
+
+Use common seeds, bytes, sample clocks, channel and front-end realizations, identical work/cost limits, and a public matched baseline. Attribute the first changed statistic and public output. Report both score covariance/marginals and event outcomes. A scoring branch can improve full-path support and still lose on whole-path false completion; match those units explicitly.
+
+## Priority order and discriminating work for the owner
+
+1. **Reuse and name the current boundary.** Preserve one `CompleteStreamReceiver`, shared ordered commit, base/overlap windows, public hypotheses/masses/calendar, two quiet slots, and bounded same-stream work. Keep front-end transfer and receiver-plane noise units explicit. No receiver build/test was run here.
+2. **Instrument common public observables.** Record per-carrier complex estimates, common frequency/phase path, per-delay basis estimates/covariance, residual whiteness/line/impulse indicators, valid-sample count, public hypothesis count, actual work cost, and episode outcome. Distinguish missing samples from valid zeros. Record full candidate score vector or a compact sufficient diagnostic, not just the winning hypothesis.
+3. **Run covariance discriminators in the real channel inputs.** Compare current independent and causal-AR gains with shared delay-tap covariance under identical valid sample matrices. Include 75 Hz spacing / 225 Hz width and a range of paired measured delay-Doppler profiles; evaluate within-carrier edge response and cross-carrier joint likelihood. Then hold out later intervals with the same calendar/front-end. Tests should detect the predicted covariance, not just fit nuisance phase.
+4. **Compare detector families under declared conditions.** For long coherence, pilot-tracked coherent score; for uncertain common phase, projection/GLRT; for uncertain tap law, Gaussian state-marginal likelihood; for short-coherence/low pilot budget, bounded multi-symbol noncoherent/differential candidate. Match byte/channel/frequency/phase/noise inputs and count search multiplicity and CPU. Keep the currently fixed public evidence mass; changing it is a model-contract change requiring independent review.
+5. **Test nuisance and robust residual treatment.** Use a line present only in quiet intervals, an overlapping desired component, Gaussian noise, measured colored noise, and a burst/noise mixture. Record both notched and unnotched likelihood and evidence lost to the nuisance model. Freeze the line model independently when possible. Model interference branch cost under the same block budget.
+6. **Calibrate event-level behavior across bands.** Sweep complete/no-signal/partial frames and repeated public windows at receiver-plane SNR/C/N0, delay support, Doppler process and reference oscillator values. Report `P_false completion`, early-detection probability, miss probability, erasure/ambiguity, decoding error, false-clear/rearm errors, and work. Use an independent public run/capture split for tuning vs checking. No single metric substitutes for the others.
+7. **Use each science branch's conditional cases.** VLF: measured antenna/coupler transfer, loaded Q and local interference. Groundwave: path-specific gain, local man-made noise and any observed reflection delays. HF: a standardized F.1487 case plus paired quiet/disturbed observed segments, with standard definitions. EME: measured/ephemeris-referenced two-way frequency/delay and lunar-scatter weighting at 5.8 GHz. Do not map these to one universal `SNR + Doppler` pair.
+
+**Promotion criterion:** a new production likelihood earns adoption only if it improves an independently held-out whole-path public decision metric under matched inputs, has empirically calibrated event risk/false completion, handles wrong-model/hidden-fade ambiguity without oracle data, and stays inside the current receiver work, ordering, and public-mass contracts. If no calibrated captures exist, keep the model as a reproducible stress/profile only; do not claim practical capacity or field availability.
+
+## Limitations and unresolved inputs
+
+- No current pump implementation, source diff, or pump-side receiver run was independently inspected in this research branch; source/API statements are cited as the native owner's findings above. The owner should check actual uptake against source. No pump build, test suite, or receiver probe was run.
+- No user front-end calibration, simultaneous three-carrier raw capture, field-measured channel covariance, transmitter/receiver reference stability, data/noise capture, or paired antenna configurations were supplied. All absolute receiver thresholds and model probabilities remain unresolved.
+- The 75 Hz/225 Hz calculation is a synthetic two-ray Gaussian covariance discriminator. It is deliberately narrow: it tests channel prior equivalence under equal marginals, not communication error rate or environmental frequency of occurrence.
+- Current channel/receiver state can only report what the input can identify. If a complete fade yields valid noise-only I/Q, it cannot tell whether the remote transmitter stopped. A valid independent synchronization/reference/pilot or external state input is required to resolve cause.
+- Literature limits: the measured HF study is a single high-latitude route and short 1992 campaign; F.1487 is a controlled simulator recommendation; Arikan's tracker examples are modeled; Stojanovic et al.'s DFE analysis is a generic Rayleigh/Gauss-Markov study; Chalmers' EME measurement is at 1296 MHz. None establishes receiver performance across the requested four regimes.
+
+## Commands and outcomes
+
+- `python3 studies/scientific-depth-2026-11-14/research/receiver/receiver_discriminators.py` — final run exited 0 and wrote the deterministic output saved in `receiver_discriminators.out` (conditioned complex-Gaussian covariance comparison, equal-prior finite model-identification simulation, and independent-test false-event arithmetic). During drafting, an earlier script run failed with `TypeError` because a list was used as a loop bound; corrected to `len(centers_hz)` and reran successfully. No assertions or product receiver checks were run.
+- Web meter run `receiver`: 32 operations used of 80; all routed through the supplied recipe. No allowance extension requested because the remaining decision-relevant receiver questions are supported within this scope.
+- No pump source edits, pump builds, receiver runs, global changes, installs, cloud jobs, or external messages were performed.

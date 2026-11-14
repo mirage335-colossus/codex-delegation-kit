@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "review": "initial independent review",
+  "domain_id": "EME",
+  "domain": "Passive 5.76–5.8 GHz Earth–Moon–Earth scattering and station practice",
+  "status": "Partial",
+  "frozen_artifact": "evaluation/first-pass/eme/",
+  "identity": {
+    "pump_head": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+    "chapter_sha256": "3b3ecd22d8ceca0f16b2f0dabe3b5c412a5fd47fde24fb5a10b5ed6c3908988d",
+    "source_ledger_sha256": "f2eba7d23b7d601b47ce7e494e4c49d59dd7dd85ae094e4dc32c0ae21c6d3121",
+    "script_sha256": "bbb000abf5e3d9dba1dd2deefa7bd9ffacecac40162b9d411c51bd39e55ca199",
+    "output_sha256": "7809f77f68be744d723b221eec85c61519a3eb94b5b233e0c9d2ee3568ccb529"
+  },
+  "criteria": [
+    {"id":"EME-01","status":"Supported","participant":"research/eme/chapter.md:1-54; source-ledger.md:7-21","evidence":"Clear passive EME path identity, observables, and transfer limits; equations distinguish bistatic and monostatic cases.","gap":"Correct the misattributed 1960 Senior–Siegel article.","next":"Correct author/title attribution and retain full-text access limitation."},
+    {"id":"EME-02","status":"Partial","participant":"research/eme/chapter.md:40-54,83-101; link_budget.py","evidence":"Correct extended-target integral and source-matched 7.209 GHz link calculation; independent result reproduces Pr and the paper's noise estimator.","gap":"No complete conditional 5.76–5.8 GHz received-power/C/N0 budget with cross-section, receiver noise, and an integrated beam factor. Missing deployment inputs do not prevent a labeled illustrative case.","next":"Add conditional target-band reference budget and cross-section/noise/beam sensitivities."},
+    {"id":"EME-03","status":"Partial","participant":"research/eme/chapter.md:58-71,103-110","evidence":"Compares point, uniform, Hagfors, composite, ephemeris, and fading-only alternatives with qualitative failure conditions.","gap":"No normalized angular kernel, quantitative diffuse/polarization law, or calculated discriminator among candidate shapes; the measured 0.06 local albedo is not reported.","next":"Compare a source-backed classical angular/delay law and a bounded alternative under matched normalization."},
+    {"id":"EME-04","status":"Partial","participant":"research/eme/chapter.md:58-60,99","evidence":"Correctly separates 2.56 s bulk delay from 11.564 ms finite-distance geometric support and does not call support a PDP.","gap":"No delay-power quantiles, explicit surface/projected-area convention, or beam-weighted profile check; these are feasible from classical measurements even though 5.8 GHz PDP data are absent.","next":"Reproduce a classical delay curve/table, calculate defined quantiles, and state its wavelength/beam transfer limits."},
+    {"id":"EME-05","status":"Partial","participant":"research/eme/chapter.md:62-71,93-100","evidence":"Correctly labels 35/90 Hz as 7.2 GHz, DE436-derived footprint widths, separates common shift and spread, and scales only conditionally.","gap":"Omits measured approximately 40/90 Hz spectrum widths, 2/5 Hz resolution, and source definitions; no joint delay-Doppler law, PSD/correlation estimator, or target-band spectrum.","next":"Report predicted and observed source widths separately with resolution and estimator, preserving the target-band gap."},
+    {"id":"EME-06","status":"Partial","participant":"research/eme/chapter.md:32-54,62,109","evidence":"Correctly describes two-leg path geometry, station-specific rates, and the DE436 source case.","gap":"No independent retarded-geometry calculation or quantified geocentric/instantaneous approximation error. The cited source geometry/epoch allows a bounded check.","next":"Run a small geometry check on the cited paper's stated station/epoch, or explicitly bound why available ephemeris inputs prevent it."},
+    {"id":"EME-07","status":"Partial","participant":"research/eme/chapter.md:73-77,95; source-ledger.md:9,14","evidence":"Explains OC/SC convention and distinguishes circular-channel ratios from antenna mismatch; bounds a one-off 10 GHz operator report.","gap":"The cited primary source's measured 0.44/0.45 SC/OC ratios and 0.06 OC albedo are omitted; no target-band feed/Jones statistics exist.","next":"Add measured local circular-channel values and footprint/calibration boundaries; do not promote them to universal 5.8 GHz coefficients."},
+    {"id":"EME-08","status":"Partial","participant":"research/eme/chapter.md:79,83-89,112","evidence":"Connects lunar noise to beam/phase, separates point-source pointing estimates from full-disc coupling, and reports one station's Moon-noise increase.","gap":"No beam-fill/antenna-temperature calculation or dish-integrated lunar coupling; speckle/spatial correlation is qualitative.","next":"Perform a conditional beam-fill and signal/noise comparison across representative apertures; label the model and temperature inputs."},
+    {"id":"EME-09","status":"Partial","participant":"research/eme/chapter.md:85-91,112; source-ledger.md:19-20","evidence":"Executes a conditional two-end P.838 rain calculation and preserves operational RFI examples without claiming availability.","gap":"No gas/cloud/low-elevation or two-leg scintillation calculation; no weather-conditioned receiver/clock observations. Some site inputs are genuinely absent.","next":"Add one standards-based gas/cloud sensitivity under stated conditions and preserve weather/dependence limits."},
+    {"id":"EME-10","status":"Partial","participant":"research/eme/chapter.md:103-112; source-ledger.md:21","evidence":"Useful simple-to-composite model alternatives and failure conditions; identifies existing native two-path reuse without calling it measured EME.","gap":"No concrete cost/observable comparison for delay-Doppler surface, replay, or native receiver alternatives.","next":"Compare a minimal structured kernel and replay by cost, observable, and receiver relevance; avoid builds."},
+    {"id":"EME-11","status":"Partial","participant":"research/eme/chapter.md:93-101; source-ledger.md:7-20; link_budget.py","evidence":"Independent arithmetic matches the 7.2 GHz radar equation/SNR convention; official PDS record and useful primary observations are identified; exact-band source search is bounded and honestly limited.","gap":"The report omits decisive accessible measurements from the 2020 paper and does not analyze a public numerical product/raw record. No matched full-disc 5–6 cm EME record was found.","next":"Add the primary paper's observed spectrum/CPR/albedo/SNR results and a bounded recent X/C calibration-transfer check; retain the whole-disc target-band boundary."},
+    {"id":"EME-12","status":"Partial","participant":"research/eme/chapter.md:85-89,103-116","evidence":"Rain and interference sensitivities are explicit, failure causes are separated, and no natural occurrence probability is inferred.","gap":"No matched downstream receiver discriminator or joint adverse/outage case preserving beam, noise, cross-section, weather, polarization and tracking dependence.","next":"Specify one paired conditional stress and an outcome that would favor a channel or receiver choice; keep it synthetic."}
+  ],
+  "depth_dimensions": {
+    "regimes_and_observables": "Partial: clear path and observable distinctions; target-band channel remains underdetermined.",
+    "literature_discovery": "Partial: primary and official sources plus bounded searches; incorrect foundational attribution and omitted accessible primary measurements/recent calibration transfer.",
+    "alternatives_and_counterevidence": "Partial: useful model alternatives and calibration/RFI counterevidence; measured near-band outputs and quantitative kernel contrasts are missing.",
+    "quantitative_interpretation": "Partial: equations, units, estimator, and source-matched arithmetic are strong; target-band budget, PDP and polarization calculations remain.",
+    "executed_discriminators": "Partial: link, geometry, pointing and rain checks executed; no public PDS raster/raw EME reanalysis and primary spectrum outputs are not carried into results.",
+    "decision_relevance": "Partial: concrete operational dependencies and failure modes; no selected conditional target-band receiver budget or downstream falsifying outcome."
+  },
+  "access_and_accounting": {
+    "meter_run": "review-eme",
+    "web_operations": 6,
+    "source_calculation_shell_allowance": 20,
+    "local_primary_access": ["Sun et al. 2020 PMC full text", "NASA PDS record"],
+    "failed_checks": [
+      {"source":"NASA NTRS PDF 20150020402","notice":"Cache miss"},
+      {"source":"NIST PDF jresv64Dn3p217_A1b.pdf","notice":"HTTP 400: Content length is too large: 16741766"}
+    ],
+    "written_artifacts": ["review.md", "dispositions.json", "link_budget_review.py", "link_budget_review.txt"]
+  }
+}

@@ -1,0 +1,15 @@
+# Exercise environment and authority
+
+This is a fresh engineering-owner assignment. The parent initial consultation is satisfied. Read only the assigned task, candidate policy and this environment; do not inspect prior study outputs or evaluator material.
+
+Allowed project context is the current pumpModem AGENTS.md, include/datapump/triad_modem_v3.hpp, src/triad_simulation_stream.cpp, docs/channel-models.md, docs/robust-current.md and narrow immediate implementation dependencies. The project is /home/user/___quick/p/_cur/dataPump/pumpModem. It is read-only; concurrent changes must be preserved. _ref/ and _appraisal/ and all earlier study answers are withheld from participants. This is an exercise boundary, not a claim that the real project lacks prior knowledge. Record any scientific conclusions already visible in permitted documentation.
+
+The assignment authorizes source audit, design, small independent research-only calculations and analysis of relevant public numerical observations or reference products. Save scripts and real outputs in explicitly assigned study paths. Do not implement a second modem, run pump builds or receiver campaigns, rent compute, install packages globally, or modify any pump files. A desk calculation is not product qualification.
+
+The coordinator may provide permitted expert and discovery assistance when you request it through native messages. Do not spawn agents yourself. State the objective, decisions it affects, required breadth/depth, independent scopes, proposed finite allocation and expected evidence. The available opportunity is sufficient for a substantial full-scope investigation: up to ten discovery branches, a synthesis lead and bounded follow-up reserve, subject to useful work and actual allocation. There is no requirement to fill these slots. Continue independent useful engineering work while genuine dependencies are pending.
+
+Research web requests must use the supplied per-request receipt recipe once delegated; requests count all nested query/open/etc. items, including failures. The helper records admission and completion for calls routed through it; it is not an OS or tool sandbox. Do not bypass a refused allowance. Request a prospective extension for a consequential unresolved branch rather than overrun it. Limits are experimental allocations, not proof of scientific sufficiency.
+
+Owner source audit allowance: 18 inspection/calculation shell invocations and a decision-oriented handoff. Logging and final artifact writes are separate reporting operations. Additional useful work requires a scoped request before dependent execution, not an invented claim of completion. No small word ceiling applies to the substantive research appendices; write enough supported detail for reuse, without padding or reproducing copyrighted sources. The owner handoff can stay compact by citing them.
+
+Own only the absolute output path assigned by the coordinator. Other agents work in the same checkout. Initial/completion reviews do not recurse into this assignment. Return actual evidence, uncertainty and decisions; do not claim equivalence with an unseen comparator corpus or invent tests.

@@ -1,0 +1,15 @@
+CASE: matched common residual-frequency trajectory; 3 carrier centers [-75, 0, 75] Hz; occupied width 225 Hz
+H_path: two shared complex path gains, delays [0, tau], each power 0.5; H_ind: independent flat complex gain per carrier, variance 1
+Both hypotheses have equal per-carrier average signal power and the same circular complex AWGN variance; the common trajectory is conditioned out identically.
+Bayes model priors are equal (1/2 each); KL is expected model-evidence separation, Bayes error is a finite one-triplet discrimination simulation, not bit decoding.
+tau_ms,delay_rms_ms,adjacent_corr_mag,outer_corr_mag,within_37p5Hz_corr_mag,within_edge_complex_mse_over_P,KL_path_to_ind_SNR0_nats,KL_path_to_ind_SNR10_nats,Bayes_model_error_SNR0,MC_SE,Bayes_model_error_SNR10,MC_SE
+0.8,0.4,0.982287,0.929776,0.995562,0.017713,0.642991,3.250670,0.292140,0.002034,0.070260,0.001143
+2.0,1.0,0.891007,0.587785,0.972370,0.108993,0.456747,2.268809,0.328740,0.002101,0.116800,0.001436
+7.0,3.5,0.078459,0.987688,0.678801,1.078459,0.285657,1.746018,0.361020,0.002148,0.135100,0.001529
+8.0,4.0,0.309017,0.809017,0.587785,1.309017,0.262257,1.686523,0.359580,0.002146,0.137820,0.001542
+NOTE: two-ray toy only; tau is path separation, RMS delay is tau/2. These are not empirical delay distributions or guaranteed disambiguation with one observation.
+
+CASE: illustrative event-level false-completion accounting under independent complex-Gaussian normalized correlator tests
+M=1000, per_test_Pfa=0.0001 => familywise_Pfa=0.09516711
+For familywise_alpha=0.001: exact_threshold_energy=13.815011, Bonferroni_threshold_energy=13.815511 (Exp(1) null score)
+NOTE: receiver hypotheses/windows are correlated in practice; calibrate actual event-level false completions on null/noise streams, including repeated windows and final framing checks.
