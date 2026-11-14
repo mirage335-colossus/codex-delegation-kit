@@ -1,0 +1,396 @@
+{
+  "kit_head": "08fc5207af39b9dd728d83ffeaadd4d1b4815653",
+  "pump_head": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+  "kit_dirty": " M AGENTS.md\n M CONTRIBUTING.md\n M README.md\n M agent_backend.py\n M agents/astra_expert.toml\n M agents/inherited_reviewer.toml\n M agents/inherited_scout.toml\n M agents/inherited_worker.toml\n M agents/luna_scout.toml\n M agents/luna_worker.toml\n M agents/sol_expert.toml\n M policy.md\n M tests/test_agent_backend.py\n M tests/test_distribution.py\n?? FURTHER-agents.md\n?? studies/scientific-research-2026-11-14/\n",
+  "pump_dirty": " M _appraisal/highFidelity-triple_Robust_Modem/CMakeLists.txt\n M _appraisal/highFidelity-triple_Robust_Modem/README.md\n M _appraisal/highFidelity-triple_Robust_Modem/hf-research.md\n M _appraisal/highFidelity-triple_Robust_Modem/models.md\n M _appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md\n M _appraisal/highFidelity-triple_Robust_Modem/run.py\n M _appraisal/highFidelity-triple_Robust_Modem/src/hf_scenarios.cpp\n M _appraisal/highFidelity-triple_Robust_Modem/src/main.cpp\n M _appraisal/highFidelity-triple_Robust_Modem/src/scenarios.cpp\n M _appraisal/highFidelity-triple_Robust_Modem/tests/test_integration.py\n M _appraisal/highFidelity-triple_Robust_Modem/tests/test_runner.py\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-domain-edge-brackets.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-domain-edge-diagnostic.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-domain-edge-receiver.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-domain-receiver.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-domain-screen.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-gui-admission.json\n?? _appraisal/highFidelity-triple_Robust_Modem/campaigns/hf-gui-coverage.json\n?? _appraisal/highFidelity-triple_Robust_Modem/coverage_design.py\n?? _appraisal/highFidelity-triple_Robust_Modem/hf-coverage-expansion.md\n?? _appraisal/highFidelity-triple_Robust_Modem/hf-fullwave.md\n?? _appraisal/highFidelity-triple_Robust_Modem/include/appraisal/hf_design.hpp\n?? _appraisal/highFidelity-triple_Robust_Modem/include/appraisal/hf_fullwave.hpp\n?? _appraisal/highFidelity-triple_Robust_Modem/include/appraisal/hf_gui_profile.hpp\n?? _appraisal/highFidelity-triple_Robust_Modem/src/hf_design.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/src/hf_fullwave.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/src/hf_fullwave_probe.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/src/hf_gui_profile.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/tests/test_coverage_design.py\n?? _appraisal/highFidelity-triple_Robust_Modem/tests/test_hf_design.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/tests/test_hf_fullwave.cpp\n?? _appraisal/highFidelity-triple_Robust_Modem/tests/test_hf_gui_profile.cpp\n",
+  "files": {
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/00-evidence-and-modeling-method.md": {
+      "sha256": "94344e440ca2f36168807d221382a8b86408ab72ee5a897fde69acfbc0e7e3da",
+      "words": 2407
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/10-sub9khz-antenna.md": {
+      "sha256": "73194caf408b51af3535d6c52ada70e952225756c02320691bde32e5e88fd796",
+      "words": 4424
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/20-groundwave-1-and-30mhz.md": {
+      "sha256": "9d6dc7e096ca1c6a59552ab9574d3207426f4991ae72fc048805e593325edf9c",
+      "words": 4207
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/30-skywave-1-to-30mhz.md": {
+      "sha256": "44da45285cd5ff4e93e8ad7e98222a51eccf9e5c9904ea1dc54b8bcba5429348",
+      "words": 3852
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/40-earth-moon-earth-5p8ghz.md": {
+      "sha256": "7aa5428f130929a9800f0304a708caf22c79a61c09c7520ffe0ed56cd0d92968",
+      "words": 4683
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/50-noise-interference-and-frontends.md": {
+      "sha256": "9cc6b238d0d1c084a85ae5ab02527f6da96e8affcdc34577419b1aab44a1c3e6",
+      "words": 3051
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/60-native-implementation-options.md": {
+      "sha256": "cc7e8cb85bcff8f71792d887c88b3cbc651c9732449b33e01f95c1c37d8ecf03",
+      "words": 2314
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Astra-6/README.md": {
+      "sha256": "54afc7a64b23003f6fadb7f3f74052daaa76f1d7abb4f16d70d1b214c50e9207",
+      "words": 1445
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/00-method-and-modem-context.md": {
+      "sha256": "fffbf0a84c23f52bcc31325c0d74fc0a585e7b4c44e5727035f3249538a8cd06",
+      "words": 5685
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/10-sub9khz-propagation.md": {
+      "sha256": "66fadeaf06444b2fa8c31c3f4f2656656629c4de6c2ee02bdf9eb5abb73c913f",
+      "words": 20006
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/11-sub9khz-antennas-links-and-practice.md": {
+      "sha256": "7893f9550f5290099eadbdb7e160d03fc3b01086708d8753f2f0693440932c6d",
+      "words": 34422
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/12-sub9khz-noise.md": {
+      "sha256": "b00f9c9168181d1f4103a514767567a1954582aa490a233aaffe1299640dbed0",
+      "words": 17658
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/20-groundwave-1mhz.md": {
+      "sha256": "b81e71f4a95ab76861dca70423b47ca92660fcf0947856e646aba398e3788e16",
+      "words": 20862
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/25-groundwave-30mhz.md": {
+      "sha256": "f5bf83657032558aa7881fa01e29b0fd29572be8ba4e8df97164e52f3e6118d7",
+      "words": 20360
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/30-skywave-signal-level-and-outages.md": {
+      "sha256": "918f19c0123b8c0e9d646274e44d80be10aa5e252ca67c4874541c083cf9fb3a",
+      "words": 18638
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/31-skywave-dispersion-midlatitude-nvis-longhaul.md": {
+      "sha256": "3172345450dabd95b55e81af4fa38f59cecc7c1e73487a92eccbe08fa145b97a",
+      "words": 18559
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/32-skywave-dispersion-highlatitude-equatorial.md": {
+      "sha256": "1bb53091329e48fc61db4582f88d83608f1e14b38edd3aedeff48221975232b9",
+      "words": 20044
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/33-hf-channel-models-and-simulators.md": {
+      "sha256": "f4876edd093f6c1fd6b6eb64f763c4fc6f703c784a52a31db98a04fad22313ee",
+      "words": 17243
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/40-eme-lunar-scattering-and-geometry.md": {
+      "sha256": "8b9298fe5b79111e3d2a3ad30243ee103bd3fca367a282d98c2ffb2d4ce9e7ee",
+      "words": 18956
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/41-eme-systems-practice-and-environment.md": {
+      "sha256": "144290fd319fa94b30045d3c93fa9549d6d578116ed4a8954604c028a91a9118",
+      "words": 17467
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/50-noise-and-interference-mf-hf.md": {
+      "sha256": "0118fde035adb245668567fcc1900b6a0286d21eb19fef5b703f4f20c2b1c536",
+      "words": 19988
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/55-equipment-and-front-end-effects.md": {
+      "sha256": "cc91869d2225208c47321e3b63cb78ade953ae9a721cd364f12db81e87d45f19",
+      "words": 19126
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/60-simulation-methods-and-validation.md": {
+      "sha256": "1a631e680709b90c86954fcfb2555846622db6c82e0538569e573785cd0b6483",
+      "words": 18738
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/70-implementation-options.md": {
+      "sha256": "3ddede19b017ea9071dc5433edd2ab3696f622e155cd98009582ea42904c9399",
+      "words": 2721
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/80-completion-plan.md": {
+      "sha256": "4ea5a352e4dad7f7bd36a29044ba74ba3bebd7507626626c5af5282bb4f9912d",
+      "words": 3522
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/81-scenarios-sub9.md": {
+      "sha256": "cd7344b1033b5043569539cebcd51d45482898b75077407bf03f739b38b8c18e",
+      "words": 8099
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/82-scenarios-groundwave.md": {
+      "sha256": "ddfcb1444003a1d0bbbbede2bf535faa27aa36088c529f45c3792b101371ba1c",
+      "words": 7121
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/83-scenarios-skywave.md": {
+      "sha256": "a27854a4869d3a2abf9c86493e55a369a1ec1edd1be40b8edb1c057dd498b727",
+      "words": 6224
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/84-scenarios-eme.md": {
+      "sha256": "f039f35271b8ac595f31619daf4db455efd488b0145fab6f3abf519e526cee09",
+      "words": 6993
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/85-scenarios-noise-and-equipment.md": {
+      "sha256": "8df38e1756822de65f77d1dc5f1f88b28fe3af878e6cb4fedde2ceb4e16ada8a",
+      "words": 5183
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/86-statistics-and-calculation-checks.md": {
+      "sha256": "a1a645f55abb8f44da8e37cb76de8b78a3e6f8a482b6327cd465106b508876e1",
+      "words": 9278
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/87-evidence-remediation-audit.md": {
+      "sha256": "ce9a4b0307a13e8137913fb7e316df2ccf8c9d3814f34f8103c0fef18808b210",
+      "words": 9482
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/90-cross-check-calculations.md": {
+      "sha256": "b7240cae3b362f84dfe40c62b1fb45e636e4e95ee6618f1d6f2371bcb41bef9b",
+      "words": 12424
+    },
+    "_ref/highFidelity-triple_Robust_Modem/Fable-5.2/README.md": {
+      "sha256": "88010cb403842354dbe0fcb5f12f11f6af5b3851265af977f41717c83f41b98c",
+      "words": 962
+    },
+    "_ref/resilience-triple_Robust_Modem/Astra-6/report.md": {
+      "sha256": "b4e28b04f63ba72058ced8f8fe04d71f04e0916d35dba5ca2067a244377b68fa",
+      "words": 10236
+    },
+    "_ref/resilience-triple_Robust_Modem/Fable-5.2/robust-nonstationary-channel-research.md": {
+      "sha256": "1b83d43b30641c1726ad5651392103c2ccb8a1e1172f4fb615bc0bedb8a3f203",
+      "words": 24654
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/README.md": {
+      "sha256": "442c2bdc16f24bb25ba4c39236739e09ca88c117cf0ac2dc8b03e7aa454bc847",
+      "words": 3052
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/competitor/README.md": {
+      "sha256": "548b7028ef189faae2d40d19c1b48a50e35bb9c29d1dc49218a45ae0242d3720",
+      "words": 2286
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/coverage.md": {
+      "sha256": "e82c1aaa81d7dcb0f1118bb123be9c1e12fcfbf6d648e57aefde0570d34a44e1",
+      "words": 3059
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/experiment-protocol.md": {
+      "sha256": "26ce1930b17d793d745909ac240d3cc6af9cf597c7eb387206059352a7540251",
+      "words": 4448
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/fixtures/hf-ding-2021/README.md": {
+      "sha256": "eba061642d3e71f0bb8afa6788e5c62b3fb784c4d2aa8765fc02da77208fdd6d",
+      "words": 793
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-coverage-expansion.md": {
+      "sha256": "7bace7a0edb51b7b69438369ac980a571d5097764f041cb8e3df033823d282d8",
+      "words": 1516
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-ensemble.md": {
+      "sha256": "ab274ed42023bd5ce1392b822df32d0367a8768cf9324828bf1dd9824703acf9",
+      "words": 2813
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-experiments.md": {
+      "sha256": "8974fabbcfa50f1d577ff369e0ff72c939ee8e4452d3dbd86859cce0f7d9d59f",
+      "words": 2655
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-fullwave.md": {
+      "sha256": "d40ec0a1e0ad23fd4acb997f2a5813a6265a7e36256a244c3fd95c6a5ebd8a07",
+      "words": 1523
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-phase-refinement.md": {
+      "sha256": "3f4275910373f12d635d60a21f0e72d08808465c702c8ca9507b3dae644f906f",
+      "words": 3749
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-public-search.md": {
+      "sha256": "862fdec519637cfa018981328651817b943db87c4d47c35fb5931884783e8956",
+      "words": 2585
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-research.md": {
+      "sha256": "92c0a0fe7213fff21b2b60e7daf12a653976bc4a3a1a3546de6fac3c87eec3a4",
+      "words": 3189
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/hf-validation.md": {
+      "sha256": "239957f220de99e268bee365dac574a0c688cfad11821723fde3df52141cfa63",
+      "words": 7587
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/20261113T234036-1b97ee1d/integration-smoke/report.md": {
+      "sha256": "2a555680a4d2aa539a908660fced7db8b3efcc496230cf58c779f330f54cd7dc",
+      "words": 371
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/20261113T234426-419cfc25/awgn-trend/report.md": {
+      "sha256": "20d70c35fe20263d1132dd03a565fb9277b808449bb42e628dd4d8201708a635",
+      "words": 621
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/20261113T234551-c2d5b716/weak-signal-pilot/report.md": {
+      "sha256": "4cf77deef597ccc69a792d1f704e01238ae5775e51db440fb5408e4ea71c4fff",
+      "words": 413
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/20261113T235040-b789ac3f/cuda-paired/report.md": {
+      "sha256": "2943e836784375d249ea9d808ec223b27e57f8c6070953c906b908988af1720c",
+      "words": 317
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-eme-discriminator/report.md": {
+      "sha256": "b3afa333c3232a9e546a272e9b7d9ac852d0ca06e8a12d2a23b4c17881cb34df",
+      "words": 297
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-eme-episodes/report.md": {
+      "sha256": "e82cd2aac7b0833a2b33608b68aa9ea9a5fa8a63c2e2b339244c0836ddcf9eb7",
+      "words": 419
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-noise-ablation/report.md": {
+      "sha256": "8bbd88aea18df52bea87ba3f5bd17ef0c01c08d1f6399ad585c590f00af2d9e3",
+      "words": 321
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-propagation-breadth/report.md": {
+      "sha256": "79baf3f689422a144734c371ff6bbdd1c70bf0807f236086036cea68d9d8473d",
+      "words": 651
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-receiver-controls/report.md": {
+      "sha256": "1624a2ab89ea5d1ab78018d4781b0f98958d0d627e7734fde1f7cb02b579dc1e",
+      "words": 549
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-vlf-reference/report.md": {
+      "sha256": "1a13a311b375591872a1e12d5f2c0e0b410cf570132f758a11b9ad3e01bf3a77",
+      "words": 483
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/comprehensive-weak-holdouts/report.md": {
+      "sha256": "65a9e9da171f1046e83dfa1fd4fc06cc4dc7991a707ba05580c8e822ac6d83c9",
+      "words": 398
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-common-text/report.md": {
+      "sha256": "0513848569163dec00a2003f6573ba8e7c4f3c797a680a8925d0267a617007ae",
+      "words": 403
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-domain-edge-receiver/report.md": {
+      "sha256": "192fb5d5de646dd69ce4cf048e5e6bcd6d6a72e3125c503e5ede970f98be06f6",
+      "words": 309
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-domain-receiver/report.md": {
+      "sha256": "73342637b35e2031db151dc37f1b3a05f1488e23a2d6bcfffb124dc6372b50a4",
+      "words": 426
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-domain-screen/report.md": {
+      "sha256": "4738f3ca8f0846fa1fa4c1812d3a2497cffe77b948ffba630feea299e44de88a",
+      "words": 562
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-fec-equal-energy/report.md": {
+      "sha256": "7bc88b812010e72ce0968ede3649f0cb286053d35e00d813cfe8e9e60929c199",
+      "words": 350
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-gui-admission/report.md": {
+      "sha256": "b93d3d42b15f55ae90bd694d65b1e3e54d547f14b20b8f4898a6ea33fa9d4c6e",
+      "words": 430
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-gui-coverage/report.md": {
+      "sha256": "37b92822cfa7c084f3a0b8b418cb68956eb910032315ecf71372af743f5793d7",
+      "words": 472
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-helper-controls/report.md": {
+      "sha256": "10a127e94f3c60e8d803348ad93afcb859dd1f45d10275f4e8a1cb22dbe40d05",
+      "words": 383
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-helper-noise-support/report.md": {
+      "sha256": "35becbe58ff2cffde8f219b4c84a7484756a8c9374bdfc897a46980fa6a5743e",
+      "words": 403
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-history-trend/report.md": {
+      "sha256": "d9c75669004770c028e6a26da7e8bed3bad61d9c1fef61f08a91e9141aab1885",
+      "words": 740
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-boundaries/report.md": {
+      "sha256": "c938147979553ebc724d553a9697b698f54f50f71733f4ce656a08bb738a582b",
+      "words": 489
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-long-causal/report.md": {
+      "sha256": "9ae7509cde5b6f11d6f187970c66257518878e3bddeb75dd33c377661461edc6",
+      "words": 301
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-long-receiver/report.md": {
+      "sha256": "cb01d3f98384ef5aa6aa88d5501bcfe4300b55f6c7badd521a72912f2eb324c0",
+      "words": 293
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-native-miss/report.md": {
+      "sha256": "d2c03902ed5029e183d5be43210ffa5b7f153b4706009139c0f0f9b3aa082c62",
+      "words": 308
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-receiver/report.md": {
+      "sha256": "def0503c19f011a1b37358a08e3c3dddc9a209c150dbca46c382a1e26e1a3a41",
+      "words": 548
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-independent-screen/report.md": {
+      "sha256": "d9dd32247e3bdc6249c9be7fee32acbda1dc71b8d60aca53884c5f69385fd259",
+      "words": 516
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-measured-replay/report.md": {
+      "sha256": "cf76e5e46cc0a4457a3212b954d3d2032a96bab125f2b954d32868d2e5b726b4",
+      "words": 701
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-native-fec/report.md": {
+      "sha256": "f241f5d4704ccee0617cc15f4810bb52109a81e209d6804aca5e18bcd912149e",
+      "words": 420
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-final-shadow/report.md": {
+      "sha256": "776b4d690d053e4182c89bc2a0babc87fd58df1293c0023b9d1b5f0b7b0db5fd",
+      "words": 341
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-followup/report.md": {
+      "sha256": "2e7723c05adce42d7bb536bd0e9e7a712734dc5e454c8e927759a9cd89ad1a5a",
+      "words": 731
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-long-failure-diagnostic/report.md": {
+      "sha256": "6c627fe5e2685df9a1bea8d5a1dd9d6bb13d3c88f745bfc9412a7198fd358d7c",
+      "words": 318
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-physical-diagnostic/report.md": {
+      "sha256": "31b4307abc831f0471008d0bb272f22e81f40f7c8949eab989d77906d7d683b5",
+      "words": 309
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-refinement-receiver/report.md": {
+      "sha256": "a24ebc8d730f7e86400e9de07e6a76fdcb611453d0893b0b20db1d5b26cbce60",
+      "words": 637
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-refinement-shadow/report.md": {
+      "sha256": "4c326fcd8386d912e68830f4723266567d50db1264cb05acc598980f99dd7947",
+      "words": 310
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-staged-receiver/report.md": {
+      "sha256": "04777c75b8e1cb3b8307f6a7ac35a0cde1ac806fb11a4502e940f196c72c19a2",
+      "words": 415
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-phase-staged-shadow/report.md": {
+      "sha256": "9fe5eb62599c4553b90c04194f9732e30a3faa22ce8196c2be08ca278a831c66",
+      "words": 341
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-failed-slot/report.md": {
+      "sha256": "9ab0d8e547d0d9cbbc8f2ca13eebee57e213bde9a5f989cda4143da5e2c5a70d",
+      "words": 286
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-paired-rendering/report.md": {
+      "sha256": "b90bc8ef06dd9d3d1ee976e074ebf7a0936f03a538fc38d81fb7d0d4c79c659d",
+      "words": 309
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-receiver/report.md": {
+      "sha256": "3a7199cc4b086dac342a7582731d2e2fc8f4778898ede060b55dfd1532fa73a0",
+      "words": 517
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-search/report.md": {
+      "sha256": "bd0260f2bb92e68a02a4d99a00a0452aed502f7927dcc57391f4196c4b0800cd",
+      "words": 571
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-shared-preparation/report.md": {
+      "sha256": "91d38063c1e6ea53cf75cc52e2c88c7c46e3bdd92c7c9ef1903fbc8f16566622",
+      "words": 332
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-public-timing-controls/report.md": {
+      "sha256": "0bfde2730a575955a43ff5eaf1fbe146e54403ecb81c14754132fab164464889",
+      "words": 346
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-sensitivity-brackets/report.md": {
+      "sha256": "3ab7a10bab6a81c3ddd6745126ad8d52e184fe7a88ae4a7894d9e5875b691643",
+      "words": 1099
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/local-evidence/hf-unusual/report.md": {
+      "sha256": "e104e0c56357fe82becdbebc210383cfc0b37a0955f1261e0992e9c3a54a4aad",
+      "words": 789
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/models.md": {
+      "sha256": "3a4439ad5dc629952fd2e0690239bfcbff3ce271024c72dba8ec6b03fe05842d",
+      "words": 5893
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md": {
+      "sha256": "834ea251aacf6f02fb65e5072eb95a7819c63cce0f617ae622f9013a61bd6e99",
+      "words": 2443
+    },
+    "_appraisal/highFidelity-triple_Robust_Modem/validation.md": {
+      "sha256": "294dee59d3fa1c40e93124fff1a6d4291a295212d5cdd81af5e956fe34649f76",
+      "words": 6784
+    }
+  }
+}

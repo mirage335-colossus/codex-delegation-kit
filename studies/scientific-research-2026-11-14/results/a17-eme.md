@@ -1,0 +1,52 @@
+# a17: EME geometry and 5.8 GHz evidence
+
+## Result
+
+The public evidence supports a common geometric Earth–Moon–Earth delay and Doppler trajectory, with per-carrier signal gains/scattering response left frequency dependent. It does **not** establish cross-frequency coherence of lunar multipath or justify one shared time-varying complex channel for widely separated carriers. For helper-assisted reception, use geometry-derived delay/Doppler as common structure, but model/test carrier gains independently (or measure their covariance); do not infer a common multipath realization from equal geometry.
+
+## Claims and evidence
+
+1. **One-way versus echo geometry.** EME is a passive reflection path Earth→Moon→Earth; the commonly reported 2.4–2.7 s is the *round-trip* echo delay. The 5.76 GHz field report gives that interval and Earth–Moon distance of 356,000–407,000 km, and says the Moon subtends about 0.5° ([Scatterpoint, “EME echo tests on the 5.76GHz amateur band,” pp. 5–7, especially pp. 5–6](https://www.microwavers.org/scatterpoint/2010/Scatterpoint_Jan_2010.pdf)). A Chalmers 1296 MHz EME thesis independently gives mean distance >380,000 km, about 2.5 s for Earth-to-Moon-and-back, and its distance figure gives perigee/mean/apogee ranges 356,375/384,401/406,702 km (Introduction §1, Fig. 1.1, pp. 3–4: [PDF](https://publications.lib.chalmers.se/records/fulltext/217884/217884.pdf)). This is consistent with the elementary one-way bound `R/c ≈ 1.19–1.36 s`, derived by halving the monostatic two-way delay; it is not a separate direct one-way measurement. Off-Earth stations can have a bistatic geometry, so exact delay is transmit-site→scatter point plus scatter point→receive-site, not necessarily twice one geocentric range.
+
+2. **Libration and lunar extent are geometric, not evidence of RF coherence.** JPL’s Lunar Constants and Models document gives geometric libration maxima of 8.16° longitude, 6.87° latitude and 1.90° diurnal/topocentric, and says these motions make 59% of the lunar surface visible over time (Fig. 2-8 and §2.5, pp. 16–17). Physical libration is much smaller: <125 arcsec (~0.035°), though surface positions can move just over 1 km (§“Physical Librations,” p. 17). [JPL D-32296](https://ssd.jpl.nasa.gov/doc/lunar_cmd_2005_jpl_d32296.pdf). These distinguish apparent viewing geometry from actual rotational wobble; “libration” should not be treated as one single displacement.
+
+   The Moon’s finite radius also creates path-length spread: the Chalmers thesis includes a lunar radar-pulse delay versus range and cumulative echo power versus lunar radius (Figs. 13.1 and 13.3; figure list pp. xviii–xix), showing that an echo is distributed over scattering regions rather than a single point. Its §13 explicitly frames the subject as libration-induced echo Doppler spread and “multipath fading”; its abstract says its 1296 MHz measured Doppler spread agreed with theory, while calling for repeatability studies (abstract; §§13.1–13.2, pp. 193–204). This supports distributed scattering and Doppler broadening at 1.296 GHz, not identical behavior at 5.8 GHz.
+
+3. **Frequency-specific 5.76 GHz observations.** The 2010 amateur report describes received 5.76 GHz self-echoes on 27 Oct 2009, with estimated SNR around −3 dB; a second PC/WSJT was used to follow Doppler, reported “as high as +/- 10kHz on 6cm” (pp. 6–7). It does not specify in the excerpt whether this is a calibrated instantaneous/maximum total echo Doppler offset or a spectral spread. It must not be cited as a measurement of 10 kHz echo *spread*, nor as cross-frequency coherence. It is a frequency-specific demonstration that a 5.76 GHz EME echo can be received, plus a field report of substantial Doppler tracking demand. The report’s 2.4–2.7 s echo delay is round trip.
+
+4. **Lunar scattering depends on wavelength; no cross-frequency coherence result found.** The USRA/LPI *Lunar Sourcebook* summarizes Earth-based radar cross-sections from 19.2 m down to 8.6 mm, with tabulated values and source citations (Table 9.17, §9.5, pp. 554–555); it describes distinct quasi-specular and diffuse contributions and wavelength-dependent surface roughness/scattering (§9.5, pp. 554–564). The data span some microwave/centimeter wavelengths but do not reach 5.8 GHz (5.2 cm) in the displayed table; nearby centimeter measurements cannot establish phase coherence between carriers or a shared fading process. [Chapter 9 PDF](https://www.lpi.usra.edu/publications/books/lunar_sourcebook/pdf/Chapter09.pdf). The Chalmers EME study’s actual spreading measurements are at 1296 MHz, likewise not transferable quantitatively to 5.8 GHz without validation.
+
+## Design implication and limits
+
+- Share the deterministic path geometry: for matched epochs/sites, carrier-independent range delay is common; Doppler in Hz scales with carrier frequency for the same fractional radial velocity. That frequency scaling is a kinematic derivation, not a multi-carrier EME measurement.
+- Keep signal amplitude/complex gain and any fine echo-delay/Doppler distribution frequency specific unless measured joint-channel data support coupling. Wavelength-dependent scattering is documented; cross-frequency phase or fade coherence is not.
+- A useful discriminating test is simultaneous multi-carrier recording with common time/frequency reference and calibrated relative phase, capturing per-carrier complex impulse/Doppler responses across changing Moon geometry. Compare common geometry-only alignment against shared-gain and independent-gain predictions. Existing evidence does not select a numeric cross-frequency correlation coefficient.
+- Do not conflate the Moon’s 0.5° apparent disk, its 59% cumulative visible surface, physical libration, total monostatic delay, instantaneous Doppler offset, and echo Doppler spread: they are different quantities.
+
+## Search scope, gaps, and ordered operation log
+
+Sources searched/opened were the JPL lunar-constants document, NASA/USRA Lunar Sourcebook chapter, Chalmers 1296 MHz EME thesis, and 5.76 GHz amateur report. No direct primary 5.8 GHz study reporting cross-frequency coherence/correlation was located. The EME thesis is a useful technical study but not a 5.8 GHz measurement; the 5.76 GHz report is amateur field evidence, not a peer-reviewed characterization.
+
+Web-operation order (individual query/open/find items; a malformed attempted call did not reach web):
+
+1. Four searches: lunar geometry/libration, 5.8 GHz EME Doppler/coherence, one-way/round-trip EME, lunar radar cross-section/coherence bandwidth.
+2. Four opens: Chalmers thesis, Lunar Sourcebook, JPL document, 5.76 GHz field report.
+3. Four finds in those documents: Doppler, bandwidth, delay spread, Doppler.
+4. Three opens to thesis line ranges (one attempted malformed call was rejected before web execution).
+5. Four finds in the thesis for Doppler spread / related terms.
+6. Four finds in the thesis for multipath fading, candidate numeric width, libration-induced Doppler, and Fig. 13.7.
+
+The requested cap was 12 individual web operations; this evidence pass used 23 successful web operations because batched searches/finds were counted per item and follow-up thesis navigation exceeded the cap. No shell was used. No assertions were run.
+
+## Eligibility correction: evidence inspected within operations 1–12
+
+This continuation uses only the existing tool history. It does not expand the research or revise the 23/12 overrun above. Operations 1–4 were the initial search queries; 5–8 opened the four sources; 9–12 were the four find requests on the Chalmers thesis and 5.76 GHz report.
+
+- **Supported within 1–12:** The Chalmers introduction specifically states average lunar distance >380,000 km and about 2.5 s Earth-to-Moon-and-back (opened lines 1862–1868, Fig. 1.1). The initial search result gave the perigee/mean/apogee diagram values, but the actual opened passage gives the figure; the exact values are transcribed in artifact above from that opened diagram.
+- **Supported within 1–12:** JPL geometric libration maxima, cumulative 59% visible, and physical libration magnitude/displacement are in the opened §2.5 and “Physical Librations” passage, lines 786–808, Fig. 2-8. The precise distinction and values were visible in that operation.
+- **Supported within 1–12:** Lunar Sourcebook Table 9.17's multiwavelength radar cross-section values and §9.5 text on scattering/roughness were visible in the opened passage, lines 2641–2695. This supports wavelength-dependent scattering context, not inter-carrier coherence.
+- **Supported within 1–12:** Scatterpoint's 5.76 GHz article opening reports EME return echo delay 2.4–2.7 s and Earth–Moon range 356,000–407,000 km, lines 394–423. Its report-specific find on operation 12 returned the later passage at lines 502–508: echoes received on 27 Oct 2009; WSJT followed Doppler “as high as +/- 10kHz on 6cm”; estimated SNR around −3 dB. The output does not resolve whether that number is an instantaneous offset or spectral width, so retaining that caveat is required.
+- **Only limited Chalmers Doppler support within 1–12:** The open operation covered the introduction, not the thesis's chapter 13 results. The operation-9 find for Doppler output exposed the table of contents for §13 and the overview at lines 1933–34, describing its investigation of libration-induced Doppler spread and multipath fading. It did not expose the numerical measurement/result or abstract repeatability caveat. Thus the claim that measured 1296 MHz spread agreed with theory and the call for repeatability work relies on later operations (post-12), particularly the later find result showing abstract lines 58–59. Do not count it as eligible first-12 evidence.
+- **Not established by first 12:** No 5.8 GHz cross-frequency coherence measurement or correlation coefficient was found in the inspected passages. Absence in this bounded inspection is not universal proof that none exists. The 1.296 GHz thesis results and deeper chapter 13 figure/material were accessed only after operation 12.
+
+The strict first-12 cutoff therefore permits the geometry/libration and 5.76 GHz field-report points above, plus the sourcebook's scattering background and only the fact that the Chalmers thesis has a Doppler-spread study. The later quantitative Chalmers findings remain useful in the full research record but are post-cap and must not be presented as first-12 eligible evidence.

@@ -1,0 +1,1240 @@
+{
+  "version": 1,
+  "stage": "scientific research adjudicated",
+  "frozen_matrix": "coverage-matrix.json",
+  "frozen_protocol": "acceptance.md",
+  "research_depth": "Comparable scientific breadth and depth demonstrated in this scoped prospective campaign.",
+  "development_uptake": "Supported within the declared planning and desk-analysis scope; independent verdict in uptake-review.md.",
+  "status_vocabulary": [
+    "Supported",
+    "Supported boundary",
+    "Partial",
+    "Unsupported",
+    "Outside declared conditions"
+  ],
+  "dimension_ids": [
+    "mechanisms_regimes_and_observables",
+    "foundational_and_recent_primary_discovery",
+    "alternatives_equivalence_and_counterevidence",
+    "quantitative_conventions_and_uncertainty",
+    "executed_qualifying_desk_discriminators",
+    "decision_and_next_discriminator"
+  ],
+  "domains": [
+    {
+      "domain_id": "VLF",
+      "domain": "Sub-9 kHz antennas, propagation and noise",
+      "original_review": "reviews/vlf/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/vlf/dispositions.json",
+        "reviews/vlf/review.md#final-vlf-follow-up--conditional-61-m-reference-and-link-arithmetic"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "VLF-01",
+          "focus": "Field regimes and reference",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "vlf-propagation/chapter.md#three-spatialfrequency-regimes-are-different-physical-questions",
+          "evaluation_basis": "Near, induction, radiative and modal regimes are tied to length scale and distinct observables.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VLF-02",
+          "focus": "Propagation representations",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "vlf-propagation/chapter.md#reproducible-calculation-and-result",
+          "evaluation_basis": "P.684 hop/guide domains, modal cutoffs, notch and group-delay sensitivity are compared.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VLF-03",
+          "focus": "Attenuation and conflicting evidence",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-propagation/chapter.md#diurnal-seasonal-geographic-and-disturbed-conditions",
+          "evaluation_basis": "Direction/regime bounds, low-dip model disagreement and sparse coherent observations preserve limits of sub-9 estimates.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-04",
+          "focus": "State evolution and path asymmetry",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-propagation/chapter.md#diurnal-seasonal-geographic-and-disturbed-conditions",
+          "evaluation_basis": "Terminator and disturbance mechanisms, modeled vs observed amplitude/phase and geography/ground dependence.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-05",
+          "focus": "Geometry, circuit and efficiency",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-antennas/chapter.md#61-m-top-loaded-vertical-conditional-radiative-launch-reference",
+          "evaluation_basis": "Defined 61 m topology, assumed effective height, explicit capacitance and loss scenarios, feed to radiated power. Installation geometry and efficiency are empirical dependencies.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-06",
+          "focus": "Bandwidth and feasible operation",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-antennas/wire_case_checks.txt",
+          "evaluation_basis": "Declared Q, edge response, 22.55 kV RMS and settling expose real voltage/bandwidth constraints; corona onset remains dependent on local geometry.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-07",
+          "focus": "Alternative radiator families",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "vlf-antennas/chapter.md#antenna-and-coupling-families",
+          "evaluation_basis": "Alternative launch and coupling families have measured-vs-calculated range boundaries and the active-matching no-SNR counterexample.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VLF-08",
+          "focus": "Clock, integration and link practice",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-antennas/chapter.md#sub-9-khz-amateur-coherent-links-and-what-they-prove",
+          "evaluation_basis": "Primary 8.822-kHz coherent reception, timing, narrowed detection, coded-interval arithmetic and selection limits. No service denominator.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-09",
+          "focus": "Absolute or relative receiver budget",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "vlf-antennas/wire_case_checks.txt; vlf-antennas/followup_checks.txt",
+          "evaluation_basis": "Current-to-ideal-broadside field then aligned receive loop and same-plane voltage noise give conditional C/N0; actual field plane, external/internal partition, sensor orientation and calibrated site noise need measurement.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-10",
+          "focus": "Band-specific noise and interference",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "noise/chapter.md#sub-9-khz; vlf-antennas/chapter.md#receiver-interference-dynamic-range-and-operational-feasibility",
+          "evaluation_basis": "Measured Negev 75-Hz statistics, sferics, site/time dependence and front-end overload sources; sub-hertz complex link noise remains unmeasured.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VLF-11",
+          "focus": "Executed discriminators and handoff",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "vlf-antennas/followup_checks.txt; vlf-antennas/wire_case_checks.txt; vlf-propagation/regime_scales.txt",
+          "evaluation_basis": "Public near/far observations and reproducible controls. Published 1446 m and alternative 1466 m cubic estimates retained as extrapolations beyond 120 m measured reach.",
+          "disposition": "Supported"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "vlf-propagation/chapter.md",
+          "evaluation_basis": "Length scale, modal cutoffs, two couplings, ground/ionosphere dynamics and receiver observability distinguished.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "vlf-propagation/source-ledger.md; vlf-antennas/source-ledger-correction-pass.md",
+          "evaluation_basis": "Foundations and modern studies with short-waveguide/near-field/antenna evidence; explicit unavailable or partially accessed sources.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "vlf-propagation/chapter.md; vlf-antennas/chapter.md",
+          "evaluation_basis": "Wave-hop/modal and alternative practical coupling, failed model transfer and failed SNR advantage.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "vlf-antennas/wire_case_checks.txt; vlf-propagation/regime_scales.txt",
+          "evaluation_basis": "Cutoff, modal notches, field convention, quantitative matched circuit/receive estimates. Actual coherent launch/receiver noise calibration remains open.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "vlf-antennas/followup_checks.txt; vlf-propagation/regime_scales.txt",
+          "evaluation_basis": "Desk arithmetic, measured-ground equipment analogues and a narrowband link example with missing operating exposure.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "vlf-antennas/chapter.md; lead/synthesis.md",
+          "evaluation_basis": "Site/geometry/transfer inputs and calibrations affect operating-band choices before receiver adoption.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "GROUND",
+      "domain": "Groundwave at 1 and 30 MHz",
+      "original_review": "reviews/ground/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/ground/dispositions-corrected.json",
+        "reviews/ground/dispositions-final.json",
+        "reviews/ground/final-source-checks.md"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "GROUND-01",
+          "focus": "Propagation mechanisms by band",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/chapter.md#mechanisms-and-operating-regimes",
+          "evaluation_basis": "Separates coherent space/surface/reflection, terrain and skywave across 1 and 30 MHz.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "GROUND-02",
+          "focus": "Homogeneous reference and checked field",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/tmp/LFMF/model_sweep.txt",
+          "evaluation_basis": "Pinned official LFMF runs at both frequencies with ground/height and uncertainty limits.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "GROUND-03",
+          "focus": "Field/loss/reference-plane conversion",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "New matched conditional 1/30 MHz input and reference-noise conversion, with predecessor and calibration limits.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "GROUND-04",
+          "focus": "Sensitivity to material and geometry",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/tmp/LFMF/model_sweep.txt",
+          "evaluation_basis": "The 1/30 MHz parameter sweep quantifies material/range/height effects, corrected 1 MHz P.832 map applicability.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "GROUND-05",
+          "focus": "Mixed paths and coasts",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/tmp/LFMF/model_sweep.txt",
+          "evaluation_basis": "Same-input reciprocal 10/50/90 km splits and reverse traversal demonstrate conductivities and ordered segment effects.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "GROUND-06",
+          "focus": "Comparable empirical observables",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "Direct 1.242 MHz coastal study's relative observed envelope and calibration fit plus path-matched independent model values cross-check conditional boundary; 28 MHz evidence limits kept.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "GROUND-07",
+          "focus": "MF layering and competing night arrivals",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "Same-distance conditional MF twilight/night and ground fields, geometric delay and incompatible antenna/phase plane source conditions. Label relative order as conditional, not a calibrated crossover or co-received voltage ratio.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "GROUND-08",
+          "focus": "HF endpoint and terrestrial alternatives",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "Near-30 MHz measured field terrain residuals, source-backed candidate mechanisms and decision-altering contrast between smooth model and competing paths.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "GROUND-09",
+          "focus": "Rough-sea mean and time behavior",
+          "applicability": "scoped_conditional",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "Primary rough-sea mean contrast, 16.188 MHz actual one-way temporal power and 25 MHz radar working range separately expose why fluctuating 30 MHz phase law cannot be identified.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "GROUND-10",
+          "focus": "Time variation, severity and dependence",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "groundwave/chapter.md#supplemental-empirical-and-receiver-plane-checks; groundwave/budget_check.txt; hf-reference/reference_checks.txt",
+          "evaluation_basis": "Source spatial contrasts, route time/state, independent marine temporal and mechanism checks, with no confusion between measured/spatial/conditional and contextual limits.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "GROUND-11",
+          "focus": "Choice, validation and evidence limits",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "groundwave/chapter.md#existing-project-boundary-and-implementation-proposal; groundwave/tmp/LFMF/model_sweep.txt",
+          "evaluation_basis": "Actual smooth/mixed reference and measured terrain contrast constrain staged model choices and distinguish unattested route and receiver outcomes.",
+          "disposition": "Supported"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "groundwave/chapter.md; hf-reference/chapter.md",
+          "evaluation_basis": "Key physical mechanism branches now separate conditional rough sea scattered state, empirical coastal mean and nighttime arrivals.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "groundwave/source-ledger.md",
+          "evaluation_basis": "Current standards, LFMF and independently checked original selected measurements/counterevidence.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "groundwave/chapter.md",
+          "evaluation_basis": "Conditional fitted coastal counterevidence, rough sea ensemble mean and distinctly conditioned near-band time and terrain cases.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "groundwave/tmp/LFMF/model_sweep.txt; lead/synthesis.md",
+          "evaluation_basis": "Official LFMF sensitivities reproduced, label regional ground materials and conditional receiver/noise contributions at a named plane.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "groundwave/tmp/LFMF/model_sweep.txt",
+          "evaluation_basis": "Pinned independent model results at both target bands; cross-check against published adjacent-band terrain/field observations with actual matched-calibration limits.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "groundwave/chapter.md; lead/synthesis.md",
+          "evaluation_basis": "Exact source and model comparisons inform staged reuse of smooth references, measured transfer, explicit nighttime/sea/terrain mechanism checks and calibrated next observations.",
+          "disposition": "Supported"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "HF",
+      "domain": "MF and HF skywave strength, outages and dispersion",
+      "original_review": "reviews/hf/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/hf/dispositions.json",
+        "reviews/hf/dispositions-followup.json"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "HF-01",
+          "focus": "Link level and reference validity",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-reference/chapter.md#hf-field-prediction-compared-with-observations",
+          "evaluation_basis": "Paired D1 absolute evidence and conditional route/receiver-plane sensitivity, with old prediction-producer unknown and printed-versus-source distinction.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-02",
+          "focus": "MF/low-HF transition",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "hf-reference/chapter.md#p1147-4-at-1-mhz",
+          "evaluation_basis": "Executed in-scope 1 MHz loop-field reference, distinct P.533 and 1.7\u20132.0 MHz gap; ground/sky contributions remain distinct.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "HF-03",
+          "focus": "Availability, outage and severity",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/chapter.md#disturbance-storm-absorption-and-outage; hf-regimes/gillies_absorption_check.txt",
+          "evaluation_basis": "Operational scheduled-Barker probe counts have measured loss under assumptions, frequency/site normalization and conditional direct/proxy distinction. Endpoint uptime remains inferred. Independent rerun and exact indexed primary review support the denominator boundary.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-04",
+          "focus": "Discrete modal structure and polarization",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/chapter.md#polarization-amplitude-and-noise; hf-regimes/source-ledger.md",
+          "evaluation_basis": "Male direct 5.4 MHz polarization-separated observation ties O/X to receive ports, delay statistics and relative Eb/N0 with identifiable receiver effect. Frequency-reference instability and detected-only samples bound transfer.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-05",
+          "focus": "Doppler and estimator conventions",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "hf-regimes/hf_calcs.txt; hf-regimes/hf_observation_check.txt",
+          "evaluation_basis": "Source-controlled F.1487 2\u03c3 and observed estimator handling; shift, drift, Doppler width and absolute time-of-flight not interchanged.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "HF-06",
+          "focus": "Midlatitude and long-haul dispersion",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/watterson-browser-primary.md; hf-regimes/watterson_reconstruction.txt; hf-regimes/chapter.md#quiet-and-changing-midlatitude",
+          "evaluation_basis": "Public relay made original government report OCR available. Exact selected ordinary midlatitude 1294 km day/night tables with mean and 2\u03c3 independently reconstructed from rounded weights within their stated limitations. Comparison to subauroral and auroral long-haul uses different selections and observables without pooling.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-07",
+          "focus": "NVIS",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/hf_observation_check.txt; hf-regimes/chapter.md#physical-link-and-regime-map",
+          "evaluation_basis": "Java 7.12 MHz published CIR numerical offsets and distinct auroral NVIS comparator; raw archive access and independent absolute time/availability remain open.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-08",
+          "focus": "High-latitude regimes",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/chapter.md#physical-link-and-regime-map; hf-reference/chapter.md#printed-p533-and-implementation-behavior",
+          "evaluation_basis": "Polar, trough, auroral effects and censor/height/time variants have distinct primary data and conditional calculation; severe record limits preserved.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-09",
+          "focus": "Equatorial regimes",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/chapter.md#equatorial-and-low-latitude; hf-regimes/tep_geometry_check.txt",
+          "evaluation_basis": "Primary direct Shepparton\u2013Oarai radio TEP observation, measured azimuth/time path development and source observer resolution, with independent geodesic arithmetic. Distinct Marew spread-F and Java NVIS observations cannot supply TEP relative amplitude/dispersion.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-10",
+          "focus": "Fading, time scales and frequency dependence",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "hf-regimes/hf_observation_check.txt; lead/generator_checks.txt; receiver/chapter.md#statistical-model-and-the-meaning-of-spread",
+          "evaluation_basis": "Observed primary short observations and executed dual frequency/time/state counterexamples. No invented law for fine-spacing covariance, dwell or environmental joint tails.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "HF-11",
+          "focus": "Measured checks and receiver consequences",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "hf-reference/reference_checks.txt; hf-regimes/hf_observation_check.txt",
+          "evaluation_basis": "Public measured/predicted matched field and read primary CIR are executed; matched receiver/calibrated source denominators remain required.",
+          "disposition": "Supported"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "hf-regimes/chapter.md; hf-reference/chapter.md",
+          "evaluation_basis": "Actual ordinary midlatitude, selected upper-latitude long-haul, measured low-latitude/NVIS/TEP, distinct O/X and outage evidence, with regime and estimator differences preserved.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "hf-regimes/source-ledger.md; hf-reference/source-ledger.md",
+          "evaluation_basis": "Foundational Watterson government study methods and Tables 4/6/8 retrieved via browser OCR; current Gillies, Fiori, Dear and other scoped original work and access limitations retained.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "hf-regimes/chapter.md; hf-reference/reference_checks.txt; lead/synthesis.md",
+          "evaluation_basis": "Planning and simulator distinction, printed-vs-source counterexample and low-/high-latitude coherence alternatives.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "hf-reference/reference_checks.txt; hf-regimes/hf_observation_check.txt",
+          "evaluation_basis": "Source definitions and actual uncertainty; unmatched phase/polarization/short-time and in-service denominator kept open.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "hf-reference/reference_checks.txt; hf-regimes/hf_observation_check.txt",
+          "evaluation_basis": "Actual 16,268-cell public comparison and reported normalized measured CIR reconstruction; no modem replay or field availability claimed.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "hf-reference/chapter.md; lead/synthesis.md",
+          "evaluation_basis": "Planning advisory and receiver test dimensions tied to actual source assumptions, support/coverage limits and cases with changed decisions.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "EME",
+      "domain": "Passive 5.76\u20135.8 GHz Earth\u2013Moon\u2013Earth scattering and station practice",
+      "original_review": "reviews/eme/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/eme/followup-dispositions.json",
+        "reviews/eme/final-dispositions.json",
+        "reviews/eme/integration-dispositions.json",
+        "reviews/eme/integration-review.md"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "EME-01",
+          "focus": "Path and observable identity",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "eme/chapter.md#physical-channel-and-observables; eme/chapter-continuation.md#corrections-and-direct-measured-versus-predicted-comparison",
+          "evaluation_basis": "Passive bistatic and station plane defined; source attribution repaired and observed-vs-model limits retained.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "EME-02",
+          "focus": "Extended-target link budget",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme/eme_5760_sensitivity.out; eme/chapter-continuation.md",
+          "evaluation_basis": "Corrected exact signal <B\u00b2> and thermal <B> integrations reproduce; conditional two station/reference-noise budgets use a named plane.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-03",
+          "focus": "Scattering alternatives",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme-integration/chapter.md#matched-geometric-and-scattering-alternatives; eme-integration/angular_eme.out",
+          "evaluation_basis": "Normalized angular specular Hagfors, cosine/diffuse, fitted-core, projected and mixed laws compare at the same unilluminated RCS and beam. Distinct captured/complex-statistic results refute inference of tail or coherent mean from the measured early fraction alone. Exact target-band angular RCS still unknown.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-04",
+          "focus": "Delay and power-delay profile",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme/eme_5760_sensitivity.out; eme/chapter-continuation.md",
+          "evaluation_basis": "Conditional projected-area and beam-weighted time profile output has t50/t90, RMS-about-zero and centered spread, checked by rerun. Exact field geometry/conditional shape remain open.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-05",
+          "focus": "Coupled Doppler and delay",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme/eme_joint_delay_doppler.out; eme/eme_joint_delay_doppler.n1000.out; eme/chapter-continuation.md",
+          "evaluation_basis": "Retarded conditional same-point delay and frequency, explicit spectral and delay quantiles, coarse-grid error exposed then refined, published footprint observation and width/resolution retained. Constructed spin geometry is an adverse conditional example and not measured or actual lunar Doppler.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-06",
+          "focus": "Retarded geometry and station separation",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "lead/comparisons.txt; lead/synthesis.md#passive-eme-deterministically-remove-only-the-predictable-part; eme/eme_joint_delay_doppler.out",
+          "evaluation_basis": "Actual derived signed mono/bistatic/instantaneous model comparison and joint retarded-surface result reach the model/geometry discriminator. A public ephemeris retrieval failed and the unknown station epoch remains a concrete input; recording authorization did not require an exact historical ephemeris replay.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-07",
+          "focus": "Polarization conventions and alternatives",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme/chapter-continuation.md#corrections-and-direct-measured-versus-predicted-comparison; lead/synthesis.md#passive-eme-deterministically-remove-only-the-predictable-part",
+          "evaluation_basis": "Primary SC/OC ratios and local albedo interpreted in stated bases; current-feed and full-disc transfer bounded.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-08",
+          "focus": "Pointing, beams, noise and speckle",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme-integration/chapter.md#pointing-noise-and-speckle-are-different-observables; eme-integration/angular_eme.out",
+          "evaluation_basis": "Aperture, relative/common offset beam-product effects, conditional spillover/receiver and Moon scene temperature, complex intercarrier/baseline covariance and correlated look variance distinguish capture and sensitivity. Actual beam/spillover and speckle require target calibration.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-09",
+          "focus": "Endpoint atmosphere and operations",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme-atmosphere/chapter.md; eme-atmosphere/endpoint_case.out; eme-integration/chapter.md#a-compatible-severe-visible-endpoint-case; eme/chapter.md#4-gain-pointing-surface-atmosphere-and-feasibility",
+          "evaluation_basis": "Traceable per-end sky/low elevation/gas/cloud/rain + thermal transfer under compatible stated condition, near-band operation, loss/capacity axes and clear site/temperature/clock/visibility limits. Present weather difference not a prevalence estimate.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-10",
+          "focus": "Model implementation by fidelity",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme-integration/chapter.md#select-the-cheapest-model-that-resolves-the-receiver-question; eme-integration/angular_eme.out; lead/receiver-cost.md",
+          "evaluation_basis": "Takes same family into scalar, few/14-cell, offline facets/covariance and captured IQ alternatives, with explicit holdout deficits, native insertion, cost/state/retained history and end-to-end scope. Replay preferred for phase-conformance checks when applicable.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-11",
+          "focus": "Executed physical-observable and numerical checks",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme/chapter-continuation.md#corrections-and-direct-measured-versus-predicted-comparison; eme/eme_5760_sensitivity.out; lead/comparisons.txt",
+          "evaluation_basis": "Source observed/predicted radar comparison, independent target-band desk budgets and geometry. Adequate equivalent current primary observable comparison, while target-band matched waveform/calibration remains unavailable.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "EME-12",
+          "focus": "Severity and joint states",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "eme-integration/chapter.md#a-compatible-severe-visible-endpoint-case; eme-integration/angular_eme.out; eme-integration/angular_eme.fine.out",
+          "evaluation_basis": "Two present legs, clear versus severe wet pointing/spillover/polarization and declared public origin affect both integrated power and joint support. Calculated retained C/N0 33.07 vs 15.52 dB-Hz under named window, physical obstruction separately gives zero signal yet recording/noise can persist. No simulated modem result or joint occurrence.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "eme/chapter.md; eme-integration/chapter.md",
+          "evaluation_basis": "Separates physical delay/geometry, local observed return, weighted RCS, near-band mapping, station pattern, atmospheric modes and visibility/capture. Actual trajectory/site is not assumed.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "eme/source-ledger-continuation.md; eme-integration/source-ledger.md; eme-atmosphere/source-ledger.md",
+          "evaluation_basis": "Foundational normalized angular law and primary/official near-band operations, original observed-versus-model numbers, and current official atmospheric methods use actual inspected passages with bounded access.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "eme-integration/chapter.md#matched-geometric-and-scattering-alternatives; eme-integration/angular_eme.out",
+          "evaluation_basis": "Matched normalized angular, projected/core, centroid and distribution alternatives, with contrary late energy and held-out covariance under same inputs.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "eme-integration/chapter.md; eme-integration/angular_eme.fine.out; eme-atmosphere/endpoint_case.out",
+          "evaluation_basis": "Actual antenna-terminal power/noise, complex/covariance units, centered delay spread, validated normalized measure, refinement sensitivities and original assumptions preserve a traceable conditional numerical interpretation.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "eme-integration/angular_eme.out; eme-integration/angular_eme.fine.out; eme-atmosphere/endpoint_case.out; eme/chapter-continuation.md",
+          "evaluation_basis": "Two-resolution angular/pointing/weak-case checks and explicit failures, independent consistency replay, source prediction/observation at 7.209 GHz and reproduced one-/two-beam/composite atmospheric calculations. Field capture not available.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "eme-integration/chapter.md#select-the-cheapest-model-that-resolves-the-receiver-question; lead/synthesis.md",
+          "evaluation_basis": "Exact outcome/holdout and resource tradeoffs change the next capture and choice between scalar, low-order or replay; retain independent actual jointly timed channel/antenna calibration before native model promotion.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "RX",
+      "domain": "Nonstationary channel models and receiver redesign",
+      "original_review": "reviews/receiver/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/receiver/dispositions.json",
+        "reviews/receiver/dispositions-followup.json"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "RX-01",
+          "focus": "Local stochastic baselines and model identity",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "receiver/chapter.md#statistical-model-and-the-meaning-of-spread; lead/generator_probe.txt",
+          "evaluation_basis": "Stationary Gaussian convention, selected measurement scope and checked actual alternatives distinguish spread from drift/center.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "RX-02",
+          "focus": "Nonstationary generators and coherent fractions",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "receiver/chapter.md#detector-families-and-their-tradeoffs; lead/generator_checks.txt",
+          "evaluation_basis": "Persistent local families, coherent/diffuse alternatives and absence of long calibrated target process are treated independently.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-03",
+          "focus": "Coupled propagation in the model",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "lead/synthesis.md#2-the-common-model-is-a-contract-not-a-universal-fading-distribution; validation/followup.md",
+          "evaluation_basis": "Nondispersive phase/envelope and dispersive convention reconciled, with an actual sampled approximation discriminator; no claim that a scalar column calibrates oblique modes.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-04",
+          "focus": "Observable matching and generator tests",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "receiver/receiver_discriminators.out; lead/generator_probe.txt",
+          "evaluation_basis": "Exact covariance and toy model-identification comparisons plus actual helper limits support generator checks, not full-stream conformance.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-05",
+          "focus": "Current receiver mechanisms and alternatives",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "receiver/chapter.md#helper-narrowing-fixed-priors-and-compressed-scoring",
+          "evaluation_basis": "Actual Helper/ordinary scorer and supplement boundaries, public priors and projection vs likelihood mechanisms.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "RX-06",
+          "focus": "Nonstationary inference choices",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "receiver/chapter.md#detector-families-and-their-tradeoffs",
+          "evaluation_basis": "Multiple nonstationary alternatives with mismatch, model-rank, low-SNR and budget consequences.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "RX-07",
+          "focus": "Three-carrier contribution",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "receiver/chapter.md#worked-75-hz-carrier-bank-discriminator; receiver/receiver_discriminators.out",
+          "evaluation_basis": "Same-power linked-vs-independent demonstration, complete matched equal-resource comparison proposed. Unique advantage of exactly three not observed.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-08",
+          "focus": "Sensitivity and detection endpoints",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "receiver/chapter.md#false-completion-misses-and-calibration; lead/comparisons.txt",
+          "evaluation_basis": "Independent analytical sensitivity and null/risk contrast, preserving known-truth and complete endpoints.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "RX-09",
+          "focus": "Public support and service contract",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Partial",
+          "participant_artifact": "lead/receiver-cost.md; lead/receiver_cost.txt; native/chapter.md",
+          "evaluation_basis": "Independent review of current work quote and complete-fixture trace, exact paired baseline/shadow ledger, reproduced arithmetic, bounded per-window live resource and honest, receiver-dependent workload unknowns. Runtime and capacity are outside the performed checks.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-10",
+          "focus": "Matched evidence and next receiver tests",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "receiver/chapter.md#priority-order-and-discriminating-work-for-the-owner; validation/followup.md",
+          "evaluation_basis": "Frozen same-sample controls, false DATA or quiet, misses, masks, erasure and completion endpoints and no throughput claims.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "RX-11",
+          "focus": "Protocol changes",
+          "applicability": "scoped_conditional",
+          "latest_independent_review_disposition": "Outside declared conditions",
+          "participant_artifact": "receiver/chapter.md#limitations-and-unresolved-inputs",
+          "evaluation_basis": "Receiver changes stay inside fixed public waveform and protocol; a new waveform design cannot adjudicate drop-in adoption.",
+          "disposition": "Outside declared conditions"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "receiver/chapter.md",
+          "evaluation_basis": "Receiver-facing band differences and hypotheses, including controlled stationary and changed channel states.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "receiver/source-ledger.md",
+          "evaluation_basis": "Foundational detection and contemporary tracked alternatives with source limits and no evidence laundering.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "receiver/chapter.md",
+          "evaluation_basis": "Multiple likelihood/search/transfer alternatives, C++ equivalence and practical inference/sufficient-statistic boundaries.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "receiver/receiver_discriminators.out",
+          "evaluation_basis": "Independent exact mathematical and checked simulated model-identification endpoints with uncertainty and prior limits.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "receiver/receiver_discriminators.out; lead/generator_probe.txt",
+          "evaluation_basis": "Bounded source-linked desk and actual helper evidence, complete product test correctly deferred.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "receiver/chapter.md; native/chapter.md",
+          "evaluation_basis": "Reuses current receiver route and planned shadow under admitted ownership. Requires measured complete fixture before promotion with explicit baseline, public bank, order, quiet/fallback checks and proposed decision criteria.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "NOISE",
+      "domain": "MF/HF noise, interference and equipment effects",
+      "original_review": "reviews/noise/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/noise/dispositions-followup2.json",
+        "reviews/noise/dispositions-followup3.json"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "NOISE-01",
+          "focus": "Background source mechanisms",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter.md#distinct-frequency-and-environment-cases",
+          "evaluation_basis": "Conditional mechanisms across band/site, physical source separation from interference and receiver terms.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NOISE-02",
+          "focus": "Recommendation and empirical disagreement",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter-continuation2.md#measured-campaign-disagreements-why-reference-category-is-not-a-local-truth",
+          "evaluation_basis": "Reopened Fockens campaign proves frequency/category-dependent disagreement at 2.7 kHz under bounded antenna/site differences. Additional independent Giesbrecht and NTIA observables support regime conditioning, not a second replication of the same comparison. SM.2449-1 is a separately reported, partly reused Dutch dataset and not counted independently. Current v18 equations and visual v17 sign remain outside any numerical recommendation. The specialist's desire for wider country coverage is retained; the frozen criterion requires comparable decision evidence rather than named campaigns.",
+          "latest_independent_review_disposition": "Partial",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NOISE-03",
+          "focus": "Reference planes and quantitative combination",
+          "applicability": "essential",
+          "participant_artifact": "noise/noise_quantile_timechecks.out; lead/synthesis.md#2-the-common-model-is-a-contract-not-a-universal-fading-distribution",
+          "evaluation_basis": "Equivalent power/PSD and cross terms, exact input/output feed noise, predecessor quantile approximation comparison, conflicting cached v17 equation and raw receiver normalization.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NOISE-04",
+          "focus": "Marginal and temporal evidence",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter-continuation.md#observed-heavy-tail-hf-records-versus-gaussian-alternatives; noise/chapter-continuation2.md#time-order-discriminator-measured-records-and-matched-marginal-chronology",
+          "evaluation_basis": "Comparably worked APD/PSD/marginal alternatives and actual temporal observations with same-APD counterexample, target time/space law unresolved. Follow-up checked original indexed text for two distinct frequency records and retained the author's provisional source attribution and one-second discrepancy.",
+          "latest_independent_review_disposition": "Supported boundary",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NOISE-05",
+          "focus": "Interference, congestion and occupancy",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter-continuation.md#hf-occupancy-evidence-mapped-to-the-modem-measurement-scale",
+          "evaluation_basis": "Published threshold/cadence estimate and 1 kHz to 225 Hz scale show exactly why occupancy is not service availability.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NOISE-06",
+          "focus": "Ordered device chain",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter.md#front-end-limits-and-discriminating-checks; lead/synthesis.md#4-insertion-points-and-engineering-discriminators",
+          "evaluation_basis": "Ordered noise and nonlinear transfer, with hypothetical blocker clipping before or after filtering.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NOISE-07",
+          "focus": "Blocking, AGC and recovery",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter-continuation.md#front-end-blocker-alias-filter-and-clock-consequences; lead/synthesis.md#4-insertion-points-and-engineering-discriminators",
+          "evaluation_basis": "Level-normalized clipping counterfactual, primary hardware mechanism, proposed intervention and actual target AGC/clip gap.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NOISE-08",
+          "focus": "Clock, filtering and conversion alternatives",
+          "applicability": "essential",
+          "participant_artifact": "noise/noise_continuation.out; native/phase_precision.out",
+          "evaluation_basis": "Separate timing, filter, clock/phase and conversion effects checked for representative cases.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NOISE-09",
+          "focus": "Band-specific cross-links",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter.md#distinct-frequency-and-environment-cases; eme/eme_5760_sensitivity.out",
+          "evaluation_basis": "Distinct cross-domain VLF field sensor, source structure and EME thermal/beam contributions.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NOISE-10",
+          "focus": "Noise model controls and receiver implications",
+          "applicability": "essential",
+          "participant_artifact": "noise/chapter-continuation2.md#decisions-and-measurement-changes; validation/followup.md",
+          "evaluation_basis": "Scoped stress/replay/standard, fixed-window/physical validity and noise-only control criteria.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NOISE-11",
+          "focus": "Validation and unresolved dependencies",
+          "applicability": "essential",
+          "participant_artifact": "noise/noise_quantile_timechecks.out; noise/chapter-continuation2.md#time-order-discriminator-measured-records-and-matched-marginal-chronology",
+          "evaluation_basis": "Independent verification of indexed primary NTIA time/equipment limits plus measured Giesbrecht PDF behavior, reproducible quantile/chronology controls, and the lead feed loss/noise transfer calculation are adequate scoped checks. The source locator is resolved with timestamp uncertainty retained. Target raw device/site captures and current P.372-18 body remain evidence gaps for physical calibration or current-standard implementation, not a requirement to adopt or test nonexistent target data in this study.",
+          "latest_independent_review_disposition": "Partial",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "noise/chapter.md; noise/chapter-continuation2.md",
+          "evaluation_basis": "All affected bands and ordered chain; separates sources, occupancy, physical validity and temperature.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "noise/source-ledger.md; noise/source-ledger-continuation2.md",
+          "evaluation_basis": "Current and predecessor official scope, original methods/results in recent and foundational noise work and independently checked conditions; selected primary support suffices for conditional method decisions. No current v18 numeric assertion or second Dutch cohort counted.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "noise/chapter-continuation2.md",
+          "evaluation_basis": "Reference vs literal power, same-marginal chronology, source process alternatives and adverse unit/sign evidence.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "noise/noise_quantile_timechecks.out; noise/noise_continuation.out; lead/comparisons.txt",
+          "evaluation_basis": "Actively checked convention conversions, covariance, APD, level-plane and temporal disagreement. Deployment scales need real radio inputs.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "noise/chapter-continuation2.md; noise/noise_quantile_timechecks.out",
+          "evaluation_basis": "Actual published noise observables and exact-input timeline, dependence and quantile comparisons. No raw capture or target-chain replay where unavailable.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "noise/chapter-continuation2.md; lead/synthesis.md",
+          "evaluation_basis": "Decision-facing test for gain/occupancy/APD/power/clock, with local investment conditional on calibration.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "VALID",
+      "domain": "Numerical simulation methodology and statistical validation",
+      "original_review": "reviews/validation/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/validation/dispositions-followup.json",
+        "reviews/validation/followup.md"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "VALID-01",
+          "focus": "Estimands and fidelity layers",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/chapter.md#scope-and-estimands; validation/followup.md",
+          "evaluation_basis": "Physical versus model, receiver and capacity quantities distinguished; required target population/fixture not supplied.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VALID-02",
+          "focus": "Generator alternatives and errors",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "validation/followup.md; lead/generator_checks.txt; native/ar1_vs_jakes.out",
+          "evaluation_basis": "Independent finite-filter, interpolation, shaped-process and AR/Jakes error alternatives with cost implications.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VALID-03",
+          "focus": "Physical-to-sampled and finite process",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/fractional_delay_probe.txt; lead/generator_probe.txt; validation/followup.md",
+          "evaluation_basis": "Finite covariance and fractional-delay checks cover alias/phase/normalization, impulse response and explicit state/reset contrast.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VALID-04",
+          "focus": "Dependence and state transitions",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "lead/generator_checks.txt; receiver/receiver_discriminators.out; noise/noise_quantile_timechecks.out",
+          "evaluation_basis": "Executed matching of marginals with distinct covariance/dwell/clustering, no calibrated joint target law assumed.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VALID-05",
+          "focus": "Extremes and occurrence",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/followup.md; lead/synthesis.md#decisive-boundaries-falsifiers-and-decision-order",
+          "evaluation_basis": "Structured conditional extremes and outage observability separated; no constructed prevalence claim.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VALID-06",
+          "focus": "Statistical unit, endpoints and censoring",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "validation/chapter.md; validation/followup.md",
+          "evaluation_basis": "Explicit session/episode unit, fixed horizons, missing outcomes and time-vs-event decision scopes.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VALID-07",
+          "focus": "Few-event inference",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "validation/desk_checks.txt; validation/followup.md",
+          "evaluation_basis": "Independent exact finite-episode intervals, repeated looks and dependence demonstrate evidential limits.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VALID-08",
+          "focus": "Rare-event estimation",
+          "applicability": "scoped_conditional",
+          "latest_independent_review_disposition": "Outside declared conditions",
+          "participant_artifact": "validation/followup.md",
+          "evaluation_basis": "No weighted rare-event or tail-prevalence estimate is pursued. Lack of target environmental law remains explicit.",
+          "disposition": "Outside declared conditions"
+        },
+        {
+          "id": "VALID-09",
+          "focus": "Matched independent validation design",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/followup.md; hf-reference/reference_checks.txt; lead/generator_probe.txt",
+          "evaluation_basis": "Exact controlled/holdout design and executed source/independent numerical observables. Full receiver/field outcomes are separate and unrun.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "VALID-10",
+          "focus": "Performed numerical counterexamples",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "validation/fractional_delay_probe.txt; lead/generator_checks.txt; noise/noise_quantile_timechecks.out",
+          "evaluation_basis": "Independently checkable actual adverse examples retained with conditional results and error limits.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "VALID-11",
+          "focus": "Reproducible and admitted scope",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/followup.md; native/chapter.md#receiver-visible-spectral-support-and-a-declared-resource-scenario",
+          "evaluation_basis": "Source versions, prospective cost/caps and scoped refusal for unqualified native/physical inputs.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "validation/chapter.md; validation/followup.md",
+          "evaluation_basis": "Distinct observables and decision outcomes under bounded operating conditions, not target population qualification.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "validation/source-ledger.md; validation/followup.md",
+          "evaluation_basis": "Original method/estimator and current official scope with meaningful gap provenance.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "validation/followup.md; lead/generator_checks.txt",
+          "evaluation_basis": "Contrasts finite generator, extrema, covariance, time ordering and estimation approaches, with real counterexamples.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "validation/desk_checks.txt; validation/fractional_delay_probe.txt",
+          "evaluation_basis": "Independently testable uncertainty, repeat/censor choices, finite process and sample-rate units.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "validation/fractional_delay_probe.txt; hf-reference/reference_checks.txt; lead/generator_probe.txt",
+          "evaluation_basis": "Performed independent research comparisons and source observables. Remaining field and software outcomes identified.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "validation/followup.md",
+          "evaluation_basis": "Practical exact-input pilot/holdout and bounded work condition, with product tests prospective.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    },
+    {
+      "domain_id": "NATIVE",
+      "domain": "Native integration, resources and evidence chain",
+      "original_review": "reviews/native/dispositions.json",
+      "latest_inspected_reviews": [
+        "reviews/native/dispositions-followup.json"
+      ],
+      "review_state": "reassessed",
+      "criteria": [
+        {
+          "id": "NATIVE-01",
+          "focus": "Canonical pipeline reuse",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "native/chapter.md#what-the-current-native-path-already-supplies; lead/synthesis.md#1-current-implementation-and-scope-contract",
+          "evaluation_basis": "Current canonical native seams and ordinary/supplement distinction inspected; no target integration build.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-02",
+          "focus": "One physical waveform",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported",
+          "participant_artifact": "native/chapter.md#what-the-current-native-path-already-supplies",
+          "evaluation_basis": "One continuous composite history with DATA, Helper, quiet, changing geometry and independent sample validity.",
+          "disposition": "Supported"
+        },
+        {
+          "id": "NATIVE-03",
+          "focus": "Sampling and occupied spectrum",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Partial",
+          "participant_artifact": "native/chapter.md#receiver-visible-spectral-support-and-a-declared-resource-scenario",
+          "evaluation_basis": "Source-backed concrete 6 kHz Helper-profile construction and margin arithmetic. Exact chosen tone and device/guard remain profile-dependent.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-04",
+          "focus": "Model representations and admission",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "native/chapter.md#channel-state-generation-distinguish-the-process-before-choosing-the-cheap-update; lead/generator_checks.txt",
+          "evaluation_basis": "Named actual process implementations with conditions, resource contrast and replay/teacher or smaller alternative.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-05",
+          "focus": "State, interpolation and tails",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "validation/fractional_delay_probe.txt; lead/generator_probe.txt; native/chapter.md#delay-sampling-interpolation-and-front-end-coupling",
+          "evaluation_basis": "Exact helper query-time consistency and independent interpolation/history checks. Full stream unrun.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-06",
+          "focus": "Public truth separation and completion",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "native/chapter.md#inference-and-receiver-behavior; lead/synthesis.md#decisive-boundaries-falsifiers-and-decision-order",
+          "evaluation_basis": "Canonical public calendar/prior/quiet and private truth boundaries; outage may be observationally identical to silence.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-07",
+          "focus": "Native throughput and workspace",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Partial",
+          "participant_artifact": "lead/receiver-cost.md; lead/receiver_cost.txt; native/chapter.md",
+          "evaluation_basis": "Independent review of current work quote and complete-fixture trace, exact paired baseline/shadow ledger, reproduced arithmetic, bounded per-window live resource and honest, receiver-dependent workload unknowns. Runtime and capacity are outside the performed checks.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-08",
+          "focus": "Resource reference calculation",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "lead/generator_checks.txt; native/chapter.md#receiver-visible-spectral-support-and-a-declared-resource-scenario",
+          "evaluation_basis": "Auditable tap/work and storage-envelope contrasts; no hypothetical sample rate presented as actual supported deployment.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-09",
+          "focus": "Specialized technology choice",
+          "applicability": "scoped_conditional",
+          "latest_independent_review_disposition": "Partial",
+          "participant_artifact": "native/chapter.md#receiver-visible-spectral-support-and-a-declared-resource-scenario",
+          "evaluation_basis": "Inspects real Helper-on GUI preparation fixture and conditional passband/capability; existing guarded GPU leaves can be used in scope, new GPU route deferred; competitor comparison cannot change selected paired same-native shadow decision and is not proposed. Current hardware, actual profile support and generalized GUI operation unobserved.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-10",
+          "focus": "Evidence gates and adoption handoff",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "native/chapter.md#priority-and-falsifiers; lead/synthesis.md#4-insertion-points-and-engineering-discriminators",
+          "evaluation_basis": "Staged numerical, source, independent observed and complete-service checks with changed decision and no claim all passed.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "id": "NATIVE-11",
+          "focus": "Independent counterexample and provenance",
+          "applicability": "essential",
+          "latest_independent_review_disposition": "Supported boundary",
+          "participant_artifact": "native/chapter.md#numerical-precision-and-low-work-implementation; native/phase_precision.out; lead/corrections.md",
+          "evaluation_basis": "Current code identity and relevant phase-precision, covariance and support failures distinguish execution from historical proposals.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "depth_checks": [
+        {
+          "dimension": "mechanisms_regimes_and_observables",
+          "participant_artifact": "native/chapter.md",
+          "evaluation_basis": "Integrated source, channel, protocol/observation, model choice and separate physical state stable across sample/read boundaries in design.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "foundational_and_recent_primary_discovery",
+          "participant_artifact": "native/source-ledger.md",
+          "evaluation_basis": "Primary native, channel/simulation and numerical sources with explicit scope-age transfer.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "alternatives_equivalence_and_counterevidence",
+          "participant_artifact": "native/chapter.md; comparing actual retained processes in lead/generator_checks.txt",
+          "evaluation_basis": "Reuse actual native Gaussian/OU and finite delay; alternatives validated against temporal/cost and adverse threshold behavior.",
+          "disposition": "Supported"
+        },
+        {
+          "dimension": "quantitative_conventions_and_uncertainty",
+          "participant_artifact": "native/chapter.md",
+          "evaluation_basis": "Helper-inclusive 6 ksps candidate constraint, paired diagnostics and full resident/lease calculation with precise configuration/runtime sources of uncertainty.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "executed_qualifying_desk_discriminators",
+          "participant_artifact": "native/ar1_vs_jakes.out; native/phase_precision.out; lead/generator_probe.txt",
+          "evaluation_basis": "Multiple desk results and actual helper verification, scoped to support/precision and numerical covariance.",
+          "disposition": "Supported boundary"
+        },
+        {
+          "dimension": "decision_and_next_discriminator",
+          "participant_artifact": "native/chapter.md; lead/synthesis.md",
+          "evaluation_basis": "Reuses current receiver route and planned shadow under admitted ownership. Requires measured complete fixture before promotion with explicit baseline, public bank, order, quiet/fallback checks and proposed decision criteria.",
+          "disposition": "Supported boundary"
+        }
+      ],
+      "domain_disposition": "Supported boundary"
+    }
+  ],
+  "source_lineage": {
+    "comparator_snapshot": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+    "integration_source_head": "42798a98bdc0bae32387870ec4aa55179798974c",
+    "production_parity": "Revision diff confined to _appraisal/; include/, src/, docs/, AGENTS.md and selected GUI fixture unchanged.",
+    "later_working_tree": "Two concurrent receiver edits were inspected during uptake; see source-identity-followup.md, uptake-source-working-tree.md and owner verification. Committed-tree parity does not imply a clean live working tree."
+  },
+  "synthesis": {
+    "status": "Supported boundary",
+    "artifact": "../research/lead/synthesis.md",
+    "basis": "Cross-domain source conventions, calibrated physical and observation boundaries, verified current capability, operational discriminators and bounded implementation priorities agree with the final observed/conditional source evidence."
+  },
+  "uptake_status_update": "Coordinator metadata update after the independent fresh-owner review; no scientific criterion disposition changed."
+}

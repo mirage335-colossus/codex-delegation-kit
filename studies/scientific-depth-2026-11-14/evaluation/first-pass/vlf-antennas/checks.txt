@@ -1,0 +1,38 @@
+Q flatness bounds for 225-Hz occupied band, one-pole resonator, edge=112.5 Hz
+f0=3kHz: Q<=4.66 at 0.5dB; Q<=6.78 at 1dB; Q<=13.3 at 3dB; Q<=1.17 at 5deg; Q<=2.35 at 10deg
+f0=5kHz: Q<=7.76 at 0.5dB; Q<=11.3 at 1dB; Q<=22.2 at 3dB; Q<=1.94 at 5deg; Q<=3.92 at 10deg
+f0=8kHz: Q<=12.4 at 0.5dB; Q<=18.1 at 1dB; Q<=35.5 at 3dB; Q<=3.11 at 5deg; Q<=6.27 at 10deg
+f0=9kHz: Q<=14 at 0.5dB; Q<=20.4 at 1dB; Q<=39.9 at 3dB; Q<=3.5 at 5deg; Q<=7.05 at 10deg
+
+One-pole detuning response at f0=5kHz and occupied band edge
+QL=10: edge_amp=-0.801dB edge_phase=-24.23deg; tau=0.637ms; 1%settle=2.93ms
+QL=25: edge_amp=-3.552dB edge_phase=-48.37deg; tau=1.592ms; 1%settle=7.33ms
+QL=100: edge_amp=-13.274dB edge_phase=-77.47deg; tau=6.366ms; 1%settle=29.32ms
+QL=300: edge_amp=-22.630dB edge_phase=-85.76deg; tau=19.099ms; 1%settle=87.95ms
+
+Small-loop radiation-resistance scale, Rr=31200*(N*A/lambda^2)^2 ohm
+f=3kHz 10turn 1m2: lambda=99.9km Rrad=3.129e-14ohm
+f=3kHz 1turn 56m2: lambda=99.9km Rrad=9.811e-13ohm
+f=3kHz 10turn 1000m2: lambda=99.9km Rrad=3.129e-08ohm
+f=5kHz 10turn 1m2: lambda=60.0km Rrad=2.414e-13ohm
+f=5kHz 1turn 56m2: lambda=60.0km Rrad=7.571e-12ohm
+f=5kHz 10turn 1000m2: lambda=60.0km Rrad=2.414e-07ohm
+f=8kHz 10turn 1m2: lambda=37.5km Rrad=1.582e-12ohm
+f=8kHz 1turn 56m2: lambda=37.5km Rrad=4.961e-11ohm
+f=8kHz 10turn 1000m2: lambda=37.5km Rrad=1.582e-06ohm
+
+Reactive-field scale r=lambda/(2pi) and dipole Hnear/Hfar scale comparison
+f=3kHz lambda=99.9km r_lambda_2pi=15.90km
+f=5kHz lambda=60.0km r_lambda_2pi=9.54km
+f=8kHz lambda=37.5km r_lambda_2pi=5.96km
+
+Loop open-circuit induced voltage per 1 pT RMS B at f=5kHz, V=2pi*f*N*A*B
+1turn 1m2: 31.42nV RMS
+60turn 0.29m2: 546.6nV RMS
+10turn 1000m2: 3.142e+05nV RMS
+
+7.8kHz nanocrystalline paper measured field conversion
+47.32dB(uA/m) -> H=0.00023227A/m, B=2.9188e-10T=291.9pT
+pure 1/r^3 extrapolation to 0.16pT: 1466.3m
+pure 1/r^3 extrapolation to 1pT: 796.0m
+pure 1/r^3 extrapolation to 10pT: 369.5m

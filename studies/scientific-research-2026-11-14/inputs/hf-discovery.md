@@ -1,0 +1,7 @@
+# HF discovery case
+
+Prepare scientific grounding for improving a native C++ three-carrier weak-signal modem's channel appraisal. The current illustrative simulator has two rays, optional correlated complex gains, smooth delay motion, common frequency wander, Gaussian sample noise, an impulse/tone control and finite outages. An `HF Worst` setting declares 7 ms excess-delay support and 30 Hz differential Doppler. These are implementation controls, not measured environmental probabilities. DATA and a separate Helper occupy distinct frequencies in one received composite waveform.
+
+Research which channel-model families and adverse HF skywave conditions should guide a credible next appraisal and receiver-development plan. Explain relevant alternatives and the practical differences that can change implementation or evaluation. The work should be useful for an engineer deciding what to reuse, add, measure or reject, including whether existing severe presets cover intermediate conditions. Keep common shift, spreading and nonstationarity in scope, including recent academic evidence where available. No production implementation or modem qualification is requested in this exercise.
+
+Use external literature discovery. Do not read pumpModem, other study cases/results/evaluation, or the answer-bearing reference reports. The case is distilled from pumpModem research, but source examples are reserved for evaluation. Do not claim the illustrative description is an audit of current pumpModem.

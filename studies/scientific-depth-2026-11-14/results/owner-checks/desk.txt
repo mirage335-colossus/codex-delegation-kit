@@ -1,0 +1,31 @@
+Illustrative analytic references; no source build, field prediction, or qualification.
+8 kHz ideal triangular-current monopole and single-turn loop Rr (ohm), monopole efficiency with 10 ohm loss (dB): 2.811242467865373e-05 1.580616842625959e-10 -55.51102916061112
+Electrical ground conductivity to displacement ratio sigma/(2*pi*f*eps0), at 1/30 MHz:
+1000000.0 [(0.005, 89.87551792261172), (5.0, 89875.51792261172)]
+30000000.0 [(0.005, 2.995850597420391), (5.0, 2995.8505974203904)]
+Gain mismatch of equal-power uncorrelated symmetric-delay rays, projected at center, as mean squared fraction of summed ray power:
+0.0001 10 9.869596283573756e-06 9.869604401089359e-06
+0.0001 100 0.0009868792685368 0.0009869604401089359
+0.0001 500 0.02462331880972446 0.024674011002723394
+0.007 10 0.04816647612250513 0.04836106156533786
+0.007 100 3.175570504584946 4.836106156533785
+0.007 500 2.000000000000001 120.90265391334464
+0.01159 10 0.13111826711706565 0.13257652069499712
+0.01159 100 3.7556316539222436 13.257652069499715
+0.01159 500 0.40063068302582083 331.44130173749284
+Gaussian ray B=2sigma numerical comparison (2x midpoint quadrature), T=16 s. Pair: Gaussian coherence retained, OU with same 1/e lag:
+0.1 4.501581580785531 0.4195206849763876 0.4089113296665441
+0.5 0.9003163161571062 0.09656928310945179 0.10620696562408466
+1 0.4501581580785531 0.04907621330088999 0.05468662618927623
+10 0.04501581580785531 0.004978862785462517 0.005611144798474044
+30 0.01500527193595177 0.0016613799754257308 0.0018738977201438918
+0.1 ppm residual in Hz at 8 kHz, 1, 30 and 5800 MHz: [0.0007999999999999999, 0.09999999999999999, 3.0, 580.0]
+EME conditional receiver reference: delay center round trip, excess diameter front surface, dish gain dBi, received dBm, C/N0 dB-Hz, residual Hz per m/s total route rate
+2.564440763883393 0.011590685179945387 42.62119525591856 -138.63691091076302 [44.521575818951895, 38.201343671897845] 19.34671752149282
+Nominal unit-mean useful signal power received at synthetic 32 dB-Hz, 12 kHz complex sampling, sample complex noise variance and per-axis sigma: 7.571488133762316 1.945698863360196
+If TX gain is reduced 6 dB and receiver N0 unchanged, realized C/N0 (dB-Hz): 26.0
+If a 1000-Hz blocker exceeds a 100 Hz modeled half-band by 20 dB at the physical first stage, a downstream brickwall may remove it but cannot identify an earlier clip.
+First-stage hard clip before ideal LPF, one second. Blocker peak, clips, wanted-tone recovered peak, amplitude delta dB: 0.5 0 0.08000000000000214 2.3143859197278586e-13
+First-stage hard clip before ideal LPF, one second. Blocker peak, clips, wanted-tone recovered peak, amplitude delta dB: 1.5 6000 0.0400000000000056 -6.020599913278408
+First-stage hard clip before ideal LPF, one second. Blocker peak, clips, wanted-tone recovered peak, amplitude delta dB: 3.0 10000 0.013333333333340547 -15.563025007668173
+Independent Bernoulli episodes with zero events: exact one-sided 95% upper bounds for n=30,300,3000: [0.09503385285530414, 0.009936081944457711, 0.000998079011996587]

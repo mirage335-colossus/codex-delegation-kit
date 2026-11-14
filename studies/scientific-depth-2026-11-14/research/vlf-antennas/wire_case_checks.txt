@@ -1,0 +1,19 @@
+f=8822 Hz; lambda=33.982 km; h=61 m; h/lambda=0.001795; heff=42.70 m (assumed 0.70h, not solved from this umbrella geometry)
+NPL bare 3-mm-radius vertical-wire capacitance estimate=380.2 pF (top wires increase C; NPL says simple-rod formula not applicable to top-loaded geometry)
+Rrad=160*pi^2*(heff/lambda)^2=0.002493 ohm, conditional ideal-ground short-monopole form
+C_total_nF  Xc_kohm  L_H  Rcoil_ohm(Q=300)  Rloss_total_ohm(plus2+5)  eta_pct  Pin_W@1A  Prad_mW  ERP_mW  Vcap_kVrms@1A
+     0.40    45.10 0.814           150.34                157.34 0.00158    157.34    2.493   4.561        45.10
+     0.80    22.55 0.407            75.17                 82.17 0.00303     82.17    2.493   4.561        22.55
+     1.60    11.28 0.203            37.58                 44.59 0.00559     44.59    2.493   4.561        11.28
+
+Nominal conditional case: Ctotal=0.8nF, Qcoil=300, Rwire=2ohm, Rground=5ohm, Ibase=1Arms
+Rcoil=75.17ohm; Rrad=0.002493ohm; eta=0.00303%; input real power=82.17W; radiated=2.493mW; ERP=4.561mW
+lossless tuned 50ohm-to-82.17ohm resistive match voltage ratio secondary/primary=1.282; practical matcher losses omitted
+loaded Q=274.4; 3dB bandwidth approx 32.1Hz; one-pole ±112.5Hz edge=-16.99dB, phase=±81.9deg; at ±75Hz carrier offset=-13.57dB, phase=±77.9deg
+field at 10km ideal free-space/perfect-ground broadside reference: E=47.37uV/m; B=E/c=158.01fT (not an Earth-ionosphere path prediction)
+Thomson 60-turn 0.50x0.58m loop at same-plane field: open-circuit Voc=152.40nV; assumed 1nV/sqrtHz input noise -> C/N0=43.66dB-Hz; C/N225=20.14dB; no site noise or polarization loss
+circulating capacitor/antenna RMS voltage at 1Arms=22.55kV (peak=31.89kV); mean potential gradient over 61m=370V/m, not local conductor surface field
+tank amplitude ringdown tau=Q/(pi*f)=9.90ms; 1-percent settle=45.6ms (linear one-pole estimate; tuner/PA may take longer)
+center detune for 10deg phase≈2.8Hz; for 1dB voltage-response loss≈8.2Hz; +1% C alone shifts f downward by≈43.8Hz, which is -9.3dB/69.8deg in this model
+if nominal ground loss is 50ohm instead of assumed5ohm, eta_rad=0.00196%
+Assumptions that dominate: 0.70h effective height, top-loaded C scenarios, coil Q=300, added conductor/ground R=2/5ohm, ideal image/pattern and no propagation loss, and hypothetical 1nV/sqrtHz receive noise. None are site measurements.

@@ -1,0 +1,42 @@
+{
+  "domain_id": "VALID",
+  "domain": "Numerical simulation methodology and statistical validation",
+  "initial_review": "studies/scientific-depth-2026-11-14/evaluation/reviews/validation/review.md",
+  "initial_dispositions": "studies/scientific-depth-2026-11-14/evaluation/reviews/validation/dispositions.json",
+  "followup_review": "studies/scientific-depth-2026-11-14/evaluation/reviews/validation/followup.md",
+  "source_revision": "pumpModem 13db435fc85114be2e2a0298580d5c3e2bcba996",
+  "overall_followup": "Supported boundary",
+  "row_dispositions": [
+    {"id":"VALID-01","disposition":"Supported boundary","basis":"The research distinguishes physical, model, receiver and capacity estimands and records absent target calibration/population as owner inputs."},
+    {"id":"VALID-02","disposition":"Supported","basis":"Fresh generator-family, finite-filter/interpolation, AR/Jakes, trajectory/replay and observed noise alternatives have scoped error/cost comparisons."},
+    {"id":"VALID-03","disposition":"Supported boundary","basis":"Finite Gaussian and fractional-delay formula checks cover sampled covariance, phase, support, normalization and state limits; complete stream and profile-specific physical tail remain unexecuted."},
+    {"id":"VALID-04","disposition":"Supported boundary","basis":"Matched marginal/dwell, multicarrier covariance, source-dependence and time-history checks are performed; the natural target joint law requires calibrated synchronized captures."},
+    {"id":"VALID-05","disposition":"Supported boundary","basis":"Observed conditional extremes, event/outage, marginal-versus-joint limits and synthetic stresses are separated; no natural target occurrence law is claimed."},
+    {"id":"VALID-06","disposition":"Supported","basis":"Episode, pairing, endpoint and censoring methods remain explicit; source comparator and companion observations preserve missingness and dependence limits."},
+    {"id":"VALID-07","disposition":"Supported","basis":"Independent exact interval, AR(1), and multiplicity illustrations are correct and state their assumptions; no unprovided product target is selected."},
+    {"id":"VALID-08","disposition":"Outside declared conditions","basis":"No weighted rare-event or tail-prevalence estimator is claimed; constructed probabilities remain conditional illustrations."},
+    {"id":"VALID-09","disposition":"Supported boundary","basis":"A five-regime matched-control/holdout matrix and bounded pilot now complement actual published/source-observable comparators; calibrated target captures and product results remain outside the study and blocked on missing profile/calibration inputs."},
+    {"id":"VALID-10","disposition":"Supported","basis":"Multiple independently checkable adverse/boundary counterexamples cover finite processes, interpolation, dependence, outages, same-power/same-flat-PSD noise tails, multiple looks and public field residuals."},
+    {"id":"VALID-11","disposition":"Supported boundary","basis":"Exact source/data provenance, retained failures, 20-record/40-replay count, source-composed tail and parametric sample/storage formula, active-only lower bound, cap and refusal conditions are supplied; actual totals are held until profile/tail/lane inputs exist; no runtime/hardware qualification is claimed."}
+  ],
+  "domain_depth_checks": {
+    "mechanisms_regimes_observables":"Supported boundary",
+    "foundational_recent_primary_discovery":"Supported",
+    "alternatives_counterevidence":"Supported",
+    "quantitative_interpretation":"Supported",
+    "executed_discriminators":"Supported boundary",
+    "decision_and_next_discriminator":"Supported boundary"
+  },
+  "additional_web_operations_in_this_review": 0,
+  "performed_checks": [
+    "Read and compared actual Gaussian helper headers with lead standalone probe and retained output; did not rebuild it.",
+    "Read source interpolation implementation and independent fractional-delay calculation/output; no pump source was built or run.",
+    "Reran research/hf-reference/reference_checks.py with python3 -I; successful exit and saved metrics reviewed.",
+    "Independently recalculated pilot duration, 48 kS/s sample and storage arithmetic, paired receiver input seconds, and run count."
+  ],
+  "not_performed": [
+    "No pump build, complete channel simulation, production receiver run, calibrated field capture, hardware measurement or throughput benchmark.",
+    "No claim that D1 rows are independent holdout trials, target modem outcomes, or a natural availability denominator.",
+    "The bounded pilot remains conditional on the actual receiver profile, calibration/front-end inventory, maximum path/selective/interpolation/frontend tail, capture lead/trail, sample rate and lane count."
+  ]
+}

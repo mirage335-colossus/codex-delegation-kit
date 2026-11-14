@@ -1,0 +1,31 @@
+Ideal Gaussian ACF R(d)=exp[-(pi*B*d)^2/2]; no receive/project measurement
+B*lag=  0.01 ideal=0.9995066415 fixed mean=0.9995067987 error=+1.571e-07 knot-phase span=2.363e-05
+B*lag=  0.03 ideal=0.9955685261 fixed mean=0.9955701947 error=+1.669e-06 knot-phase span=1.338e-04
+B*lag=0.0625 ideal=0.9809080339 fixed mean=0.9809161791 error=+8.145e-06 knot-phase span=1.532e-05
+B*lag= 0.125 ideal=0.9257914512 fixed mean=0.9258216219 error=+3.017e-05 knot-phase span=5.673e-05
+B*lag=  0.25 ideal=0.7346029443 fixed mean=0.7346913303 error=+8.839e-05 knot-phase span=1.662e-04
+B*lag=  0.45 ideal=0.3681379873 fixed mean=0.3682454874 error=+1.075e-04 knot-phase span=3.149e-05
+B*lag=   0.5 ideal=0.2912129332 fixed mean=0.2913058760 error=+9.294e-05 knot-phase span=1.745e-04
+B*lag=  0.75 ideal=0.0622979825 fixed mean=0.0623041025 error=+6.120e-06 knot-phase span=1.139e-05
+B*lag=     1 ideal=0.0071918834 fixed mean=0.0071817279 error=-1.016e-05 knot-phase span=1.905e-05
+B*lag=   1.5 ideal=0.0000150625 fixed mean=0.0000148518 error=-2.107e-07 knot-phase span=3.926e-07
+B*lag=     2 ideal=0.0000000027 fixed mean=0.0000000025 error=-1.451e-10 knot-phase span=2.674e-10
+
+Receive-clock FIR (4096 maximum radius) vs fixed-time 53 terms, physical-time presets:
+Fs=  960 B= 0.1: requested 30,559 taps (rejected by tap cap); fixed grid 1.6knots/s, ~339 new-knot terms/s plus per-sample interp and other work
+Fs=  960 B= 0.5: requested  6,113 taps (max error 1.843e-12 vs ideal ACF at tested sampled lags; 23,473,920 real kernel terms/s for both rays); fixed grid 8knots/s, ~1,696 new-knot terms/s plus per-sample interp and other work
+Fs=  960 B=   1: requested  3,057 taps (max error 1.826e-12 vs ideal ACF at tested sampled lags; 11,738,880 real kernel terms/s for both rays); fixed grid 16knots/s, ~3,392 new-knot terms/s plus per-sample interp and other work
+Fs=  960 B=  10: requested    307 taps (max error 1.438e-12 vs ideal ACF at tested sampled lags; 1,178,880 real kernel terms/s for both rays); fixed grid 160knots/s, ~33,920 new-knot terms/s plus per-sample interp and other work
+Fs=  960 B=  30: requested    103 taps (max error 9.587e-13 vs ideal ACF at tested sampled lags; 395,520 real kernel terms/s for both rays); fixed grid 480knots/s, ~101,760 new-knot terms/s plus per-sample interp and other work
+Fs=12000 B= 0.1: requested 381,973 taps (rejected by tap cap); fixed grid 1.6knots/s, ~339 new-knot terms/s plus per-sample interp and other work
+Fs=12000 B= 0.5: requested 76,397 taps (rejected by tap cap); fixed grid 8knots/s, ~1,696 new-knot terms/s plus per-sample interp and other work
+Fs=12000 B=   1: requested 38,199 taps (rejected by tap cap); fixed grid 16knots/s, ~3,392 new-knot terms/s plus per-sample interp and other work
+Fs=12000 B=  10: requested  3,821 taps (max error 1.833e-12 vs ideal ACF at tested sampled lags; 183,408,000 real kernel terms/s for both rays); fixed grid 160knots/s, ~33,920 new-knot terms/s plus per-sample interp and other work
+Fs=12000 B=  30: requested  1,275 taps (max error 1.730e-12 vs ideal ACF at tested sampled lags; 61,200,000 real kernel terms/s for both rays); fixed grid 480knots/s, ~101,760 new-knot terms/s plus per-sample interp and other work
+
+Equal marginal process: two-state Markov latent availability at 1s step, p(outage)=.10 exactly
+Conditional emission: same pair of proper Gaussian gain laws in both models, so all one-row level CDFs match.
+P(off->off)=0.20, P(on->off)=0.08888889; off-run mean 1.250s; Pr(stationary start then 16s all off)=3.2768e-12; Pr(episode length>=32s|new off)=2.147484e-22
+P(off->off)=0.90, P(on->off)=0.01111111; off-run mean 10.000s; Pr(stationary start then 16s all off)=0.02058911; Pr(episode length>=32s|new off)=0.03815204
+P(off->off)=0.98, P(on->off)=0.00222222; off-run mean 50.000s; Pr(stationary start then 16s all off)=0.07385691; Pr(episode length>=32s|new off)=0.5345746
+The difference is not sample-validity loss or a field probability. Paired block/episode validation must include durations and recovery.

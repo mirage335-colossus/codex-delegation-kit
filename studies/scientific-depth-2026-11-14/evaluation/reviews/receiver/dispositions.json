@@ -1,0 +1,37 @@
+{
+  "domain_id": "RX",
+  "review_date": "2026-11-14",
+  "review_status": "partial; one feasible service-cost ledger remains",
+  "source_identity": {
+    "kit_base": "08fc5207af39b9dd728d83ffea4dd4d1b4815653",
+    "pump_base": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+    "frozen_matrix_date": "2026-11-14"
+  },
+  "web_review_meter": {"run": "review-receiver", "used": 11, "cap": 24},
+  "rows": [
+    {"id":"RX-01","disposition":"Supported","evidence":"research/receiver/chapter.md:62-98; research/hf-regimes/chapter.md: model equivalences; ITU-R F.1487 and Nissen et al. 2003 primary checks","gap":"No universal population distribution claimed."},
+    {"id":"RX-02","disposition":"Supported boundary","evidence":"research/receiver/chapter.md:53-60,82-85,132-164; research/hf-regimes/chapter.md; HiCIRF phase omission checked","gap":"No long calibrated complex HF record/dynamic state law."},
+    {"id":"RX-03","disposition":"Supported boundary","evidence":"research/receiver/chapter.md:64-102; research/lead/synthesis.md: common model and phase/delay counterexample","gap":"Oblique magnetoionic/scalar-column model unqualified."},
+    {"id":"RX-04","disposition":"Supported boundary","evidence":"research/native/chapter.md:29-47,98; research/lead/generator_checks.txt; research/lead/generator_probe.txt","gap":"No end-to-end application/channel/receiver conformance execution."},
+    {"id":"RX-05","disposition":"Supported","evidence":"research/receiver/chapter.md:104-144; Pump src/triad_receiver.cpp:168-178,238-270,377-419; src/triad_receiver_fine.cpp:25-33,320-346,480-500; src/triad_gaussian_kernel.cpp:137-160","gap":"Source facts do not establish runtime performance."},
+    {"id":"RX-06","disposition":"Supported","evidence":"research/receiver/chapter.md:104-144,183-193; native/chapter.md:59-65","gap":"Alternatives are conditional candidates, not tested product changes."},
+    {"id":"RX-07","disposition":"Supported boundary","evidence":"research/receiver/chapter.md:86-102; independent_covariance_check.py/.txt; research/lead/synthesis.md:13","gap":"No native matched public-message/work comparison; toy tests one pilot covariance only."},
+    {"id":"RX-08","disposition":"Supported","evidence":"research/receiver/chapter.md:166-181; independent_covariance_check.py/.txt","gap":"Illustrative independent-test law is not actual correlated scan or native event risk."},
+    {"id":"RX-09","disposition":"Partial","evidence":"research/receiver/chapter.md:104-110,181-193; native/chapter.md:21-27,75-83; lead/synthesis.md:21-23","gap":"No comparable baseline/candidate full-path service-cost tally; proposed follow-up is feasible from source bounds."},
+    {"id":"RX-10","disposition":"Supported boundary","evidence":"research/receiver/chapter.md:168-193,203-208; research/validation/chapter.md:87-108","gap":"Matched receiver outcomes and hardware cost remain future qualification."},
+    {"id":"RX-11","disposition":"Outside declared conditions","evidence":"research/receiver/chapter.md:5-26; research/lead/synthesis.md: decision and boundaries","gap":"Fixed public waveform/protocol scope; no redesign proposed."}
+  ],
+  "checks": {
+    "independent_covariance": {"performed": true, "output":"independent_covariance_check.txt", "recomputed":"adjacent |rho|=0.0784590957; outer |rho|=0.9876883406; KL=0.285657 nats at linear SNR 1 and 1.746018 nats at 10", "limit":"One-pilot three-complex-observation covariance discrimination; not bit or service performance."},
+    "independent_null_arithmetic": {"performed": true, "output":"independent_covariance_check.txt", "recomputed":"M=1000 independent Exp(1) tests at local 1e-4 yield familywise 0.095167; target 1e-3 thresholds 13.815011 exact and 13.815511 Bonferroni", "limit":"Actual receiver scan tests are correlated and not enumerated by this calculation."},
+    "pump_product_execution": {"performed": false, "reason":"Outside this receiver depth review; no build, product test, receiver trial, or hardware qualification."}
+  },
+  "six_dimensions": {
+    "regimes_observables":"strong",
+    "primary_and_recent_sources":"strong_with_access_limits",
+    "alternatives_counterevidence":"strong",
+    "quantitative_conventions_uncertainty":"strong_for_desk_scope",
+    "performed_discriminators":"bounded_research_only",
+    "decision_linkage":"strong_except_RX09_cost_ledger"
+  }
+}

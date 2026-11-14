@@ -1,0 +1,30 @@
+SAME-RMS TAIL COMPARISON (analytic, signed real samples)
+22 dB above RMS amplitude = 12.5893 RMS; signed-real Gaussian with σ=RMS exceedance=2.419e-36; complex-Gaussian Rayleigh envelope exceedance at r/RMS=1.476e-69
+Gaussian |x|>3 sigma: 0.0026998
+Gaussian |x|>5 sigma: 5.73303e-07
+Gaussian |x|>10 sigma: 1.52397e-23
+
+EQUAL COMPONENTS, POWER AT REFERENCE PLANE
+rho=-0.9: total/one=0.200; level vs one=-6.990 dB
+rho=+0.0: total/one=2.000; level vs one=+3.010 dB
+rho=+0.5: total/one=3.000; level vs one=+4.771 dB
+rho=+0.9: total/one=3.800; level vs one=+5.798 dB
+rho=+1.0: total/one=4.000; level vs one=+6.021 dB
+
+SAME-MEAN-POWER SPARSE-SAMPLE STRESS (illustrative, not measured)
+|x|>3 rms: sparse mixture=0.001, Gaussian=0.0026998, ratio=0.37
+|x|>5 rms: sparse mixture=0.001, Gaussian=5.73303e-07, ratio=1.74e+03
+|x|>10 rms: sparse mixture=0.001, Gaussian=1.52397e-23, ratio=6.56e+19
+4k sample/s x 16s: N=64000, expected sparse events=64.0, P(at least one)=1.000000000
+Event clustering/coloring changes peak, duration and independent-event count; fixed occupancy alone is not a temporal model.
+
+MODEM-SCALE CONDITIONAL FILTER/CLOCK CALCULATIONS
+ideal 6 dB/pole/octave estimate: fs=960 Hz, occupied BW=225 Hz, edge=112.5 Hz, Nyquist=480 Hz, DR=40 dB -> 3.19 poles
+ideal 6 dB/pole/octave estimate: fs=960 Hz, occupied BW=225 Hz, edge=112.5 Hz, Nyquist=480 Hz, DR=60 dB -> 4.78 poles
+ideal 6 dB/pole/octave estimate: fs=960 Hz, occupied BW=225 Hz, edge=112.5 Hz, Nyquist=480 Hz, DR=80 dB -> 6.37 poles
+filter transition ratio=4.2667, octaves=2.0931; real RF/IF selectivity and blocker rejection need measured transfer.
+sample clock 1 ppm over 16s: timing drift=16.000 us, sample drift=0.015360
+sample clock 10 ppm over 16s: timing drift=160.000 us, sample drift=0.153600
+sample clock 100 ppm over 16s: timing drift=1600.000 us, sample drift=1.536000
+1 kHz occupancy bin/native 225 Hz width ratio=4.4444; equal flat-PSD integrated noise differs by 6.478 dB; 1/10 spacing RBW bound for 225 Hz channels=22.5 Hz (ITU-R SM.2256 guidance for swept analyzer).
+Giesbrecht loss-free antenna mapping offset at 6.2 MHz: 20log10(F)+108.5=124.348 dB; their chain gain/loss constant (149.7) is setup-specific.

@@ -1,0 +1,22 @@
+Illustrative scored duration=1s, rows=6,000, coordinate cap=4
+  immutable IQ + mask=102,000 bytes, new full whitened vector=96,000 bytes
+  shadow template evaluations up to 48,000 raw rows
+  colored only: 792,000 real operations
+  colored + identity control: 1,368,000 real operations
+  all stages, both arms: runtime and actual complete-slot rows unmeasured
+Illustrative scored duration=16s, rows=96,000, coordinate cap=4
+  immutable IQ + mask=1,632,000 bytes, new full whitened vector=1,536,000 bytes
+  shadow template evaluations up to 768,000 raw rows
+  colored only: 12,672,000 real operations
+  colored + identity control: 21,888,000 real operations
+  all stages, both arms: runtime and actual complete-slot rows unmeasured
+Illustrative TX history arithmetic at 21ms and clock scale 1.0: 3,040 bytes per ring
+Illustrative TX history arithmetic at 21ms and clock scale 1.0001: 3,056 bytes per ring
+Five-domain pilot: 20 records and 40 arm runs
+  active-source duration lower bound: 620s per arm
+  sample-zero simulation extent: N_d,j = max(N_natural,d,j, minimum_capture_samples_d,j)
+  the public capture floor already reserves two quiet slots; check aperture validity separately
+  full input duration: sum(N_d,j / F_s,rx)
+  full input bytes: 17 * sum(N_d,j) per lane
+  exact profile/tail inputs and observed longer tails require preflight
+Superseded first estimate: 652s/arm using arbitrary 1s/2s/3s tails; underaccounted and unusable for allocation.

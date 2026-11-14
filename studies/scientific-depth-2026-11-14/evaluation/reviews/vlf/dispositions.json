@@ -1,0 +1,277 @@
+{
+  "review": "initial_vlf_antenna_first_pass",
+  "reviewed_utc": "2026-11-14",
+  "scope": "antenna and coupling first-pass artifact only; overall VLF domain provisional pending propagation and noise reviews",
+  "metered_web_operations_used": 19,
+  "metered_web_operations_cap": 24,
+  "source_calculation_artifacts": [
+    "antenna_calcs.py",
+    "antenna_calcs.txt"
+  ],
+  "overall_domain_status": "provisional",
+  "rows": [
+    {
+      "id": "VLF-01",
+      "disposition": "Partial",
+      "qualifier": "pending propagation",
+      "basis": "Fresh antenna chapter bounds local/inductive and guide-wave field regimes but not the modal propagation treatment."
+    },
+    {
+      "id": "VLF-02",
+      "disposition": "Partial",
+      "qualifier": "pending propagation",
+      "basis": "No hop/modal representation comparison or mode/group-delay discriminator in this antenna-only chapter."
+    },
+    {
+      "id": "VLF-03",
+      "disposition": "Partial",
+      "qualifier": "pending propagation",
+      "basis": "Rusch boundary is carefully scoped; quantitative attenuation and low-band conflict await propagation review."
+    },
+    {
+      "id": "VLF-04",
+      "disposition": "Partial",
+      "qualifier": "pending propagation",
+      "basis": "Path/site dependence is noted; ionospheric state evolution and direction/censoring evidence await propagation review."
+    },
+    {
+      "id": "VLF-05",
+      "disposition": "Partial",
+      "basis": "No quantified approximately 61-m reference circuit, efficiency chain, or feed-to-field convention; missing installation data does not alone establish a supported boundary."
+    },
+    {
+      "id": "VLF-06",
+      "disposition": "Partial",
+      "basis": "225-Hz one-pole Q/ring-down and detuning checks are reproduced; reference voltage/corona/insulation and loaded circuit are not quantified."
+    },
+    {
+      "id": "VLF-07",
+      "disposition": "Supported",
+      "basis": "Top-loaded, horizontal line, loop, electrode, mechanical and receive alternatives are compared with evidence and applicability boundaries; Rusch, Ai and Yan were independently checked."
+    },
+    {
+      "id": "VLF-08",
+      "disposition": "Partial",
+      "basis": "Historical reception endpoint is bounded, but coherent phase, clocks, coding, modem interval, and operation denominator are not connected in this pass."
+    },
+    {
+      "id": "VLF-09",
+      "disposition": "Partial",
+      "basis": "Strong vector/calibration chain and loop voltage scale, but no same-plane conditional C/N0 budget; noise review pending."
+    },
+    {
+      "id": "VLF-10",
+      "disposition": "Partial",
+      "qualifier": "pending noise",
+      "basis": "Some noise/interference evidence is cited; complete band-specific spectrum, site/time, and nonlinear processing awaits noise review."
+    },
+    {
+      "id": "VLF-11",
+      "disposition": "Supported",
+      "basis": "Reproducible desk checks and primary reported observables are used; key physical qualification limits and discriminating handoff are explicit. Ai projection discrepancy remains a small correction request."
+    }
+  ],
+  "source_checks": [
+    {
+      "source": "Rusch 1959 Caltech thesis",
+      "access": "full primary text opened",
+      "locator": "Long-Range Propagation Experiments pp.117-120; Summary pp.121-123",
+      "finding": "8.4-kHz Cambridge/Rocky Point signal presence; no field/stability measure; favorable granite; few-percent power-line efficiency limit; approximately +/-50-Hz tuning."
+    },
+    {
+      "source": "Ai et al. 2025 Nanomaterials",
+      "access": "full publisher PDF opened after article HTML returned HTTP 429",
+      "locator": "sections 2.3-3, figures 11-12, pp.11-13",
+      "finding": "7.8-kHz 47.32 dB\u00b5A/m at 120m was measured; 1446m at 0.16pT is a calculated r^-3 extrapolation."
+    },
+    {
+      "source": "Yan et al. 2017 Wiley",
+      "access": "full primary text opened",
+      "locator": "sections 4.1-4.2 and conclusion",
+      "finding": "15-30kHz loop study reports improved gain but no SNR advantage with studied 4dB-noise-figure receiver."
+    },
+    {
+      "source": "Chu 1948 MIT PDF",
+      "access": "fetch failed with HTTP 429",
+      "locator": "not independently verified in this review",
+      "finding": "No decisive disposition rests on inaccessible exact Chu text; one-pole calculation is independently evaluated."
+    },
+    {
+      "source": "Kemp et al. 2019 Nature Communications",
+      "access": "fetch redirected to inaccessible institutional login",
+      "locator": "not independently verified in this review",
+      "finding": "Mechanical-antenna details remain supported by the fresh artifact ledger only and are not a decisive numerical basis here."
+    }
+  ],
+  "calculation_note": "Independent calculations in antenna_calcs.py reproduce the 225-Hz bandwidth Q/phase values, one-pole response and ringdown, ideal loop radiation-resistance scale, loop receive voltage, and Ai H/B conversion. Ai conditional extrapolation gives 1466.26m under 0.16pT and r^-3, versus the paper's 1446m; request input reconciliation.",
+  "next": "Append a dated continuation after propagation and noise artifacts arrive; preserve these initial dispositions and the Ai discrepancy.",
+  "combined_review": {
+    "reviewed_utc": "2026-11-14",
+    "scope": "combined frozen propagation, antenna/link, and noise evidence; initial antenna-only rows above retained unchanged",
+    "overall_domain_status": "Partial",
+    "metered_web_operations_used": 33,
+    "metered_web_operations_cap": 36,
+    "source_calculation_artifacts": [
+      "antenna_calcs.py",
+      "antenna_calcs.txt",
+      "../first-pass/vlf-propagation/regime_scales.py",
+      "../first-pass/vlf-propagation/regime_scales.txt",
+      "../first-pass/noise/noise_sensitivity.py",
+      "../first-pass/noise/noise_sensitivity.out",
+      "../reviews/noise/source-checks.md"
+    ],
+    "rows": [
+      {
+        "id": "VLF-01",
+        "disposition": "Supported",
+        "evidence": "Propagation chapter \u00a7\u00a7Three spatial/frequency regimes, Nearby regime boundaries, Earth-ionosphere guide; antenna chapter \u00a7\u00a7Calibration and field normalization, Field conversion and link budget.",
+        "basis": "Distinct near/source coupling, earth-current, ground-wave, short multimode and long-guide regimes with component/reference-plane caveats; scale table spans 500 Hz-9 kHz."
+      },
+      {
+        "id": "VLF-02",
+        "disposition": "Supported",
+        "evidence": "Propagation chapter \u00a7\u00a7Earth-ionosphere guide, Reproducible calculation and result; P.684-8 \u00a7\u00a72.3.9, 3, Annex 2; DEMETER comparison.",
+        "basis": "Compared hop/ground-wave and complex modal representations; independently checked P.684 field vector sum/modal structure and accuracy qualifications; ideal 1.67-2.14 kHz cutoff and constructed \u221240 dB notch/\u2212693 ms local group-delay example are labeled non-observational."
+      },
+      {
+        "id": "VLF-03",
+        "disposition": "Supported boundary",
+        "evidence": "Propagation chapter \u00a7\u00a7Ground boundary and alternative propagation mechanisms, Diurnal/seasonal/geographic/disturbed conditions, Remaining evidence boundary; Rusch 1959 first-pass source check; ARRL 2014 locator.",
+        "basis": "Combines directional/day-night broadband attenuation, low-dip westward-night fit failure, and sparse direct sub-9 path reports; no general narrowband modem attenuation distribution is claimed, and matched complex transfer is specified as discriminator."
+      },
+      {
+        "id": "VLF-04",
+        "disposition": "Supported boundary",
+        "evidence": "Propagation chapter \u00a7Diurnal, seasonal, geographic and disturbed conditions and source-ledger entries S5-S10.",
+        "basis": "Links terminators, season, magnetic direction, heterogeneous ground and disturbances to amplitude/phase observables; evidence remains mostly broadband or not target-band and no joint sub-9 outage law is claimed."
+      },
+      {
+        "id": "VLF-05",
+        "disposition": "Partial",
+        "evidence": "Antenna chapter \u00a7\u00a7Transmit choices, Matching/bandwidth/calibration; Rusch primary check.",
+        "basis": "Radiator options and power/field limitations are substantive, but no approximately 61-m assumed reference topology with current/effective height, capacitance, matching/ground loss, feed power and compatible field convention."
+      },
+      {
+        "id": "VLF-06",
+        "disposition": "Partial",
+        "evidence": "Antenna chapter \u00a7Matching, bandwidth, calibration and retuning; independent antenna_calcs.py/.txt.",
+        "basis": "225-Hz Q, ripple, phase, detuning and ring-down checks are quantitative and independently reproduced; voltage/corona/insulation/loss constraints for a stated reference installation remain unquantified."
+      },
+      {
+        "id": "VLF-07",
+        "disposition": "Supported",
+        "evidence": "Antenna chapter \u00a7\u00a7Transmit choices, Recent magnetoelectric results; Rusch, Ai 2025 and Yan 2017 direct checks.",
+        "basis": "Compares radiator/coupler families while separating local near-field device evidence from large-guide links; measured versus extrapolated Ai range and Yan no-SNR result are preserved."
+      },
+      {
+        "id": "VLF-08",
+        "disposition": "Supported boundary",
+        "evidence": "Nicholson first-person RSGB post 2015-01-04 lines 37-72 (directly inspected); propagation chapter remaining-evidence section; ARRL 2014 report.",
+        "basis": "Primary operator report records three 8.822-kHz message events, coherent BPSK, 8-s best event, 25 characters/3040 coded bits, timing/phase/antenna-weight search, sferic blanking and weak combined E/H reception; denominator/repeated availability remains absent."
+      },
+      {
+        "id": "VLF-09",
+        "disposition": "Partial",
+        "evidence": "Antenna calibration section; lead synthesis VLF passage; noise chapter reference-plane framework.",
+        "basis": "Conditional S/N-to-dB-Hz arithmetic and calibration workflow exist, but no complete TX-to-vector-receive/noise same-plane C/N0 calculation with explicit external and internal terms and axis response."
+      },
+      {
+        "id": "VLF-10",
+        "disposition": "Supported boundary",
+        "evidence": "Noise chapter \u00a7Sub-9 kHz; Reuveni et al. 2010 \u00a7\u00a72-4 (directly inspected); reviews/noise/source-checks.md; P.372-17 predecessor scope check.",
+        "basis": "Band-specific legacy recommendation and calibrated 386-day Negev Vd measurements include 4/7.5/10/26-kHz bins, temporal variation and impulsive limits; local coupling is distinguished from atmospheric noise. No target-site coherent/sub-hertz statistics or detailed current P.372-18 numbers are asserted."
+      },
+      {
+        "id": "VLF-11",
+        "disposition": "Supported",
+        "evidence": "Independent antenna_calcs.py/.txt and Rusch/Ai/Yan checks; propagation regime scales; noise source checks; direct P.684, Nicholson, Reuveni reads.",
+        "basis": "Desk calculations and primary-observable checks were executed/reproduced with material boundaries and a usable handoff. Ai projection remains numerically unreconciled: independent 1466.26 m under stated r^-3/0.16-pT assumptions versus paper 1446 m."
+      }
+    ],
+    "depth_dimensions": [
+      {
+        "name": "Mechanisms and regimes",
+        "assessment": "Substantive: distinguishes local induction/ground coupling, short-path multimode, and longer guide propagation and names frequency, path and receiver dependencies."
+      },
+      {
+        "name": "Foundational and recent discovery",
+        "assessment": "Substantive with gaps: P.684, classical modes, DEMETER, recent path/weather/conductivity and Negev data are covered; P.372-18 numeric body remains inaccessible."
+      },
+      {
+        "name": "Alternatives and counterevidence",
+        "assessment": "Substantive: hop/mode/full-wave and path models compared; low-dip night fit failure, low cutoff, Rusch bare endpoint, Yan no-SNR and Ai near-field projection limits retained."
+      },
+      {
+        "name": "Quantitative interpretation",
+        "assessment": "Substantive but not end-to-end: observables, units, bandwidth and idealizations are explicit; reference antenna and same-plane C/N0 are missing."
+      },
+      {
+        "name": "Executed discriminators",
+        "assessment": "Substantive for desk/source checks only; no physical field capture, modem run, or hardware qualification."
+      },
+      {
+        "name": "Decision relevance and handoff",
+        "assessment": "Substantive, with missing conditional reference circuit, end-to-end C/N0 and target-site operation/noise observations."
+      }
+    ],
+    "source_access_limit": "P.684-8, Nicholson and Reuveni were directly inspected in resumed smaller batches. NBS TN300 and Cummer PDF fetches timed out; their unobserved details are not claimed as independent checks. Current P.372-18 numeric PDF body was too large for the noise reviewer fetcher.",
+    "next": "Resolve VLF-05 reference circuit, VLF-09 conditional same-plane link budget and Ai projection discrepancy; retain site/device calibration and operation denominator as field work."
+  },
+  "final_followup": {
+    "reviewed_utc": "2026-11-14",
+    "scope": "final re-review of corrected conditional 61 m reference and same-plane radiation-zone receive-budget addition; prior first and combined reviews preserved",
+    "overall_domain_status": "Supported boundary",
+    "updated_rows": [
+      {
+        "id": "VLF-05",
+        "previous_disposition": "Partial",
+        "disposition": "Supported boundary",
+        "basis": "The declared 61-m topology now traces assumed effective height and capacitance brackets through tuning, coil/wire/ground losses, radiation resistance, efficiency, feed/radiated/ERP power and a compatible ideal field reference. Site current distribution, actual soil/loss and guided field remain open."
+      },
+      {
+        "id": "VLF-06",
+        "previous_disposition": "Partial",
+        "disposition": "Supported boundary",
+        "basis": "The conditional loaded RLC case quantifies loaded Q, 225-Hz edge response, detuning, voltage stress and ringdown; installation corona threshold and actual loaded transfer still need geometry/hardware qualification."
+      },
+      {
+        "id": "VLF-09",
+        "previous_disposition": "Partial",
+        "disposition": "Supported boundary",
+        "basis": "The 10-km ideal radiation-zone field is carried through E/B, aligned loop open-circuit voltage and conditional same-plane C/N0/C/N. Site external noise, actual transfer/orientation/loading and receiver noise remain unmeasured."
+      }
+    ],
+    "final_other_rows": "Unchanged from combined_review: VLF-01,02,07,11 Supported; VLF-03,04,08,10 Supported boundary.",
+    "primary_source_checks": [
+      {
+        "source": "Ma & FitzGerrell, U.S. Department of Commerce OT 77-131 (1977)",
+        "locator": "pp. 2-4, equations (1)-(2); full official GovInfo PDF directly opened",
+        "finding": "40*pi^2(h/lambda)^2 triangular current; 160*pi^2(h/lambda)^2 for top-loaded nearly uniform current, fourfold at fixed h. Underlying measured antenna family is 0.3-0.46 m HF vehicle geometry, not VLF."
+      },
+      {
+        "source": "NPL DEM-EM 005 (2004)",
+        "locator": "p.7 capacitance formula and surrounding text; full NPL PDF directly opened and focused text-find",
+        "finding": "CISPR bare monopole capacitance form with low-frequency correction tending to unity; source contrasts ANSI 2h/a term and reports 1.04 m/3 mm examples 11.9 vs 10.4 pF. Top hats change capacitance/effective height and require like-for-like modeling or measurement."
+      }
+    ],
+    "independent_calculations": [
+      "wire_case_checks.py nominal case independently reproduced: Rrad 0.0024933 ohm, eta 0.003034%, Pin 82.17 W, Prad 2.493 mW, E(10 km) 47.370 uV/m, B 158.010 fT, loop Voc 152.399 nV, conditional C/N0 43.660 dB-Hz and C/N225 20.138 dB.",
+      "Independently reproduced all Ctotal 0.4/0.8/1.6 nF rows: loss/efficiency/power/voltage outputs match saved table.",
+      "Loaded Q, 3-dB bandwidth, edge transfer and capacitance detuning outputs independently reproduced; details in final follow-up section of review.md."
+    ],
+    "artifact_hashes": {
+      "research/vlf-antennas/chapter.md": "700648b52dd12fe8d5c2c725b258e0f29d0f31ac891cef9c72c82a35e3b059f1",
+      "research/vlf-antennas/source-ledger.md": "ed72afc9827d54496b123e5633b807f81d5c1825e68e9771feab8c06dcad624f",
+      "research/vlf-antennas/wire_case_checks.py": "a5e037a0b3bb64cecd677acc48871847191221fedf61562ce5f40afbb7d17f7a",
+      "research/vlf-antennas/wire_case_checks.txt": "b7f687bb855548b11de212ddbc71f6a51a9a6744b368f26a774f79ddcbf9edb5"
+    },
+    "limitations": "10-km point is an ideal free-space/perfect-ground broadside radiation-zone reference, not physical VLF path prediction or range. All circuit losses, h_eff and C_A brackets, field orientation and receiver noise are stated assumptions; no site or hardware was measured. Ai 1446/1466-m extrapolation input/cause remains unresolved and is not guessed.",
+    "continuation_accounting": {
+      "substantive_source_calculation_shell_invocations": 4,
+      "metered_web_operations_added": 5,
+      "review_vlf_metered_total": 38,
+      "review_vlf_metered_cap": 48,
+      "earlier_cumulative_source_calculation_invocation_total": "unknown"
+    }
+  }
+}

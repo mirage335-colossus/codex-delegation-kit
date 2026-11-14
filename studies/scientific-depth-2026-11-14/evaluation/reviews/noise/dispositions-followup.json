@@ -1,0 +1,47 @@
+{
+  "domain": "MF/HF noise, interference and equipment effects",
+  "review": "additive follow-up; original evaluation/reviews/noise/dispositions.json preserved",
+  "status": "partial",
+  "continuation": "research/noise/chapter-continuation.md",
+  "continuation_script": "research/noise/noise_continuation.py",
+  "continuation_output": "research/noise/noise_continuation.out",
+  "web_run": {"run_id":"review-noise","allocation":40,"operations_reserved_and_finished_by_this_followup":11,"shared_used_when_last_reservation_rejected":37,"unmetered_calls":0},
+  "updated_rows": [
+    {"focus":"Source classes, regimes and interference","disposition":"supported","basis":"The continuation preserves conditional HF/VLF/EME and distinguishes environmental sources, services and equipment."},
+    {"focus":"Current standard and measured disagreement","disposition":"partial","basis":"P.372-18 numeric clauses remain inaccessible; the new continuation does not supply the broader Dutch, German, Norway and McMurdo comparison."},
+    {"focus":"Measurement quantities, bandwidth and calibration","disposition":"partial","basis":"Adds measured 4 kHz HF field-PDF and conditional 1 kHz occupancy context, but cross-campaign conversions and target transfer remain open."},
+    {"focus":"APD, Vd and amplitude statistics","disposition":"supported boundary for stated records; partial for general MF/HF process","basis":"Directly inspected Giesbrecht and NIST Beckmann sources support conditional marginal/model evidence. Temporal chronology and target-window tails are not established."},
+    {"focus":"Stochastic models and counterevidence","disposition":"partial","basis":"Adds Gaussian/Bi-Kappa, historical Poisson/lognormal-plus-Rayleigh and sparse equal-power alternatives; no explicit P.372 quantile-versus-literal-sum counterexample."},
+    {"focus":"Temporal, spectral and spatial structure","disposition":"partial","basis":"Dawn evolution, occupancy, and historical millisecond impulses are supported; no HF event clustering fit or spatial/cross-band dependence analysis."},
+    {"focus":"Component aggregation and dependence","disposition":"partial","basis":"Independent correlation calculation closes dependence sensitivity but not the standard reference-combination versus literal-sum distinction."},
+    {"focus":"Reference planes, units and conversions","disposition":"partial","basis":"Better calibrated field/occupancy context; no full target antenna-to-ADC/NF/loss/dBFS conversion or uncertainty budget."},
+    {"focus":"Occupancy versus modem/link availability","disposition":"supported boundary","basis":"Primary Cyprus Q, threshold, 1 kHz width, 100 ms interval and hourly sweep were checked; no slot-loss inference is made."},
+    {"focus":"Ordered front end and equipment effects","disposition":"supported boundary","basis":"Noise filter/clock scales plus owner's synthetic blocker/clipping-order calculation support mechanism and preserve target-chain limits."},
+    {"focus":"Band-specific hardware/cross-links","disposition":"supported","basis":"HF, VLF and EME quantities remain distinct."},
+    {"focus":"Controls, validation and decision handoff","disposition":"supported boundary","basis":"Conditional AWGN/replay/occupancy/blocker controls have decision-relevant observables and falsifiers; no target qualification is claimed."}
+  ],
+  "depth_dimensions": {
+    "mechanisms_and_regimes":"supported",
+    "literature_discovery_and_original_sources":"partial",
+    "alternatives_and_counterevidence":"partial",
+    "quantitative_conventions_and_uncertainty":"partial",
+    "executed_discriminators":"partial",
+    "decision_relevance":"supported_boundary"
+  },
+  "checks": {
+    "continuation_calculator":"passed; output matches stored noise_continuation.out",
+    "component_dependence":"independently recomputed",
+    "filter_clock_occupancy_scales":"independently recomputed",
+    "Giesbrecht_primary":"reopened; source supports time-varying 4 kHz signed-field PDF context; exact figure-tail values were not digitally re-read in follow-up",
+    "Beckmann_primary":"NIST full article reopened; envelope APD definition and physical model verified; Fig. 5 points were not independently digitized",
+    "Cyprus_primary":"reopened; Q definition, 1 kHz width, 100 ms interval and <1 h sweep verified",
+    "ITU_SM2256":"official PDF reopened; selectivity/overload/threshold guidance checked",
+    "pump_execution":"not performed or authorized"
+  },
+  "highest_value_remaining_checks": [
+    "Calculate P.372 reference component-combination approximation versus literal independent power sum including the adverse ordering example.",
+    "Inspect original Beckmann Fig. 5 and document detector/RMS/BW conventions if exact tail points drive a decision.",
+    "Analyze accessible HF event chronology or explicitly bound temporal conclusions to the measured marginal.",
+    "Complete the conditional cross-campaign modern measurement comparison without flattening site/band/antenna differences."
+  ]
+}

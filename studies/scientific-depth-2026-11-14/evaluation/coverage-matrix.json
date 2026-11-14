@@ -1,0 +1,726 @@
+{
+  "version": 1,
+  "frozen_utc_date": "2026-11-14",
+  "comparable_scope": "Combined pumpModem high-fidelity and resilience reference research, with appraisal used to calibrate evidence and uptake boundaries.",
+  "kit_base": "08fc5207af39b9dd728d83ffeaadd4d1b4815653",
+  "pump_base": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+  "baseline_and_source_hashes": "corpus-inventory.json",
+  "evaluation_method": "acceptance.md",
+  "evaluator_input_sha256": {
+    "acceptance.md": "5c2c7e0536e22cb3db5066eb302981dce3eb66530dd739388a0c494e2e7bfefa",
+    "corpus-inventory.json": "d141eb60b376973d2deeef79cf9ddf45a9427954f3c340904c15e66514cd954e",
+    "map-eme.md": "f446e63d95bbeb508dbe824e959085f12687b36dfe4225f00c915bac3be0e3b7",
+    "map-ground.md": "eba58dbc1131898677c4c350102e3ef73ec3821aaecd31fe00bc299965f2ac63",
+    "map-hf.md": "dbb2e9b06c7bc0db11e0e83929a2db21c62829717176b5150d5f574fff1305df",
+    "map-native.md": "ce917d77b90442e286f111df898b715121449c3213a2190373cf582dfe4bc77b",
+    "map-noise.md": "63ec0248e20a9d579485eee0346168479bd2ebe8ef2b61b3921bd02451bee32a",
+    "map-receiver.md": "1aff15ef46e9e85b9d7229bd78af7e09a6ec28bf13b8effa31075727d6e40355",
+    "map-validation.md": "c85d3743eed1f4e5c57dc586114cfdda8b13887680b0fc05c505b615a2cf5684",
+    "map-vlf.md": "64fa2dd1cc5dd48fdab0e70e462b4e82731c0c0e9688c6cb6575ddc550b55473"
+  },
+  "rule": "Apply all domain depth checks independently. Essential and applicable conditional rows need supported evidence or a supported external boundary. Credit equivalent decision-relevant evidence across linked chapters without duplicating it. No aggregate score.",
+  "domains": [
+    {
+      "domain_id": "VLF",
+      "domain": "Sub-9 kHz antennas, propagation and noise",
+      "evaluator_map": "map-vlf.md",
+      "criteria": [
+        {
+          "id": "VLF-01",
+          "applicability": "essential",
+          "focus": "Field regimes and reference",
+          "substantive_evidence": "Explain near-field, induction, radiating and waveguide regimes at the proposed frequencies and path scales. Define field components and when an equivalent loss is only a coordinate.",
+          "map_items": "1"
+        },
+        {
+          "id": "VLF-02",
+          "applicability": "essential",
+          "focus": "Propagation representations",
+          "substantive_evidence": "Compare modal and hop or other suitable representations. Quantify mode cutoff, phase/group delay or interference for a representative regime and distinguish an ideal-guide result from observed path behavior.",
+          "map_items": "2–3"
+        },
+        {
+          "id": "VLF-03",
+          "applicability": "essential",
+          "focus": "Attenuation and conflicting evidence",
+          "substantive_evidence": "Compare level evidence across relevant frequencies, distance, day/night and direction. Address contrary or sparse low-band evidence and the physical observation needed to reconcile it.",
+          "map_items": "4"
+        },
+        {
+          "id": "VLF-04",
+          "applicability": "essential",
+          "focus": "State evolution and path asymmetry",
+          "substantive_evidence": "Tie ionospheric day/night, terminator and disturbance mechanisms, magnetic direction and heterogeneous ground to observable gain, phase or loss with time scales, source conditions and censoring.",
+          "map_items": "5–6"
+        },
+        {
+          "id": "VLF-05",
+          "applicability": "essential",
+          "focus": "Geometry, circuit and efficiency",
+          "substantive_evidence": "Quantify an approximately 61 m reference design under declared topology, current/effective-height, capacitance, matching and loss assumptions. Trace feed power through radiation resistance and compatible field or power conventions.",
+          "map_items": "7–8",
+          "reference_open_boundary": "Actual geometry, complex impedance, efficiency and loaded transfer require installation measurement."
+        },
+        {
+          "id": "VLF-06",
+          "applicability": "essential",
+          "focus": "Bandwidth and feasible operation",
+          "substantive_evidence": "Compare bandwidth and mode of detuning under an appropriate Q/voltage/loss model. Explain when matching, insulation, corona or changing geometry rather than nominal bandwidth changes the design decision.",
+          "map_items": "9"
+        },
+        {
+          "id": "VLF-07",
+          "applicability": "essential",
+          "focus": "Alternative radiator families",
+          "substantive_evidence": "Compare practically relevant top-loaded and alternative installations by coupling mechanism, transfer, range and evidence. Use technology or link records with bounded geometries and a defensible operating inference.",
+          "map_items": "10–11"
+        },
+        {
+          "id": "VLF-08",
+          "applicability": "essential",
+          "focus": "Clock, integration and link practice",
+          "substantive_evidence": "Relate conditional observed phase/coherence and published reception endpoints to the long transmit/receive interval, clocks, coding and selection or missing operation denominator.",
+          "map_items": "11"
+        },
+        {
+          "id": "VLF-09",
+          "applicability": "essential",
+          "focus": "Absolute or relative receiver budget",
+          "substantive_evidence": "Carry TX, vector E or B field, received transfer, orientation and external/internal noise to the same calibrated or explicitly conditional C/N0 plane. Check a representative calculation. Keep magnetic and electric observations distinct unless matched.",
+          "map_items": "12",
+          "reference_open_boundary": "Representative sensor and field calibration remains missing."
+        },
+        {
+          "id": "VLF-10",
+          "applicability": "essential",
+          "focus": "Band-specific noise and interference",
+          "substantive_evidence": "Use sub-9 kHz observational or recommendation evidence for lightning, spectral notch, site/season and local interference, retaining bandwidth, waveform or APD, filtering and non-Gaussian or blanking limitations. Distinguish interference frequency from measured coupling.",
+          "map_items": "13–15",
+          "reference_open_boundary": "Calibrated target-band joint waveform or coherent sub-hertz noise statistics need matched measurements."
+        },
+        {
+          "id": "VLF-11",
+          "applicability": "essential",
+          "focus": "Executed discriminators and handoff",
+          "substantive_evidence": "Independently check a material antenna or propagation numerical inference and examine relevant primary field/noise data or reported observables. Explain which model or circuit choices survive, preserve contrary findings and specify unresolved calibration and scenario inputs.",
+          "map_items": "16"
+        }
+      ]
+    },
+    {
+      "domain_id": "GROUND",
+      "domain": "Groundwave at 1 and 30 MHz",
+      "evaluator_map": "map-ground.md",
+      "criteria": [
+        {
+          "id": "GROUND-01",
+          "applicability": "essential",
+          "focus": "Propagation mechanisms by band",
+          "substantive_evidence": "Distinguish surface wave, direct/reflected space wave and competing propagation. Treat 1 MHz and 30 MHz separately, including why a nominal band endpoint need not determine the dominant mode.",
+          "map_items": "1, 10–11"
+        },
+        {
+          "id": "GROUND-02",
+          "applicability": "essential",
+          "focus": "Homogeneous reference and checked field",
+          "substantive_evidence": "Set model authority, frequency and geometry domain, ground properties and antenna assumptions. Reproduce a published or derived reference relationship with independently checkable inputs near both bands.",
+          "map_items": "2, 4–5"
+        },
+        {
+          "id": "GROUND-03",
+          "applicability": "essential",
+          "focus": "Field/loss/reference-plane conversion",
+          "substantive_evidence": "Separate ground-level field, basic loss, terminal level, gain/radiated power, height and noise conversion with auditable units. Derive conditional link consequences without charging common factors twice.",
+          "map_items": "3, 5"
+        },
+        {
+          "id": "GROUND-04",
+          "applicability": "essential",
+          "focus": "Sensitivity to material and geometry",
+          "substantive_evidence": "Investigate conductivity, permittivity, curvature, height, depth or layering and their frequency/range interactions. Quantify when model or material uncertainty changes the recommendation.",
+          "map_items": "4–5, 9, 14"
+        },
+        {
+          "id": "GROUND-05",
+          "applicability": "essential",
+          "focus": "Mixed paths and coasts",
+          "substantive_evidence": "Compare directional or reciprocal mixed-route methods, transitions and uncertainty in segment inputs. Use a same-input reference or observed coastal profile to evaluate when a simpler approximation is adequate.",
+          "map_items": "6"
+        },
+        {
+          "id": "GROUND-06",
+          "applicability": "essential",
+          "focus": "Comparable empirical observables",
+          "substantive_evidence": "Inspect source or archive observables for 1 MHz and nearby 30 MHz through representative field-based cases. Preserve censoring, instrument and propagation confounds, separation of amplitude-only and calibrated complex inputs, and transfer limits.",
+          "map_items": "7–8, 16",
+          "reference_open_boundary": "Available adjacent-band or relative observations may not identify a calibrated target-band complex channel."
+        },
+        {
+          "id": "GROUND-07",
+          "applicability": "essential",
+          "focus": "MF layering and competing night arrivals",
+          "substantive_evidence": "Condition local effects and seasonality on material and route. Treat twilight/night skywave as a possible separate mode and compare explanations for loss or fading rather than fitting one surface-wave trajectory.",
+          "map_items": "9–10"
+        },
+        {
+          "id": "GROUND-08",
+          "applicability": "essential",
+          "focus": "HF endpoint and terrestrial alternatives",
+          "substantive_evidence": "Investigate low-elevation surface, space/reflected, terrain/diffraction, clutter and other plausible contributions at 30 MHz. Tie an observational or geometric discriminator to competing mechanisms.",
+          "map_items": "11, 13"
+        },
+        {
+          "id": "GROUND-09",
+          "applicability": "scoped_conditional",
+          "focus": "Rough-sea mean and time behavior",
+          "substantive_evidence": "For marine or mixed routes, distinguish reduced mean coherent field from time-varying scattered return. Compare smooth/rough representations and identify what wave, path, tide and measured observables could separate them.",
+          "map_items": "12",
+          "reference_open_boundary": "Long calibrated complex marine paths and state metadata are needed for temporal fitting.",
+          "conditional_scope_exclusion": "For deployment routes without a material water segment or marine scattering contribution; general mixed-route coverage remains essential."
+        },
+        {
+          "id": "GROUND-10",
+          "applicability": "essential",
+          "focus": "Time variation, severity and dependence",
+          "substantive_evidence": "Separate spatial and temporal comparisons, coherent alternatives, constructed stress and outage. Give conditional ranges and support or limitations for co-occurrence without inferring time law from a spatial field curve.",
+          "map_items": "8, 14"
+        },
+        {
+          "id": "GROUND-11",
+          "applicability": "essential",
+          "focus": "Choice, validation and evidence limits",
+          "substantive_evidence": "Compare the viable model families by observable and cost. State staged scalar/complex/reference checks and physical holdout inputs, with at least one executed discriminating reference or primary-data comparison.",
+          "map_items": "13, 15–16",
+          "reference_open_boundary": "Native receiver performance and actual route/device qualification require later work."
+        }
+      ]
+    },
+    {
+      "domain_id": "HF",
+      "domain": "MF and HF skywave strength, outages and dispersion",
+      "evaluator_map": "map-hf.md",
+      "criteria": [
+        {
+          "id": "HF-01",
+          "applicability": "essential",
+          "focus": "Link level and reference validity",
+          "substantive_evidence": "Explain absorption and propagation loss terms, antenna/polarization and model/terminal conventions. Work a quantitative reference with documented frequency/domain, geometry, calendar, ionospheric inputs and model uncertainty.",
+          "map_items": "1–2",
+          "reference_open_boundary": "Printed standards and official implementations can differ under matched inputs; provenance does not resolve empirical intent."
+        },
+        {
+          "id": "HF-02",
+          "applicability": "essential",
+          "focus": "MF/low-HF transition",
+          "substantive_evidence": "Cover the lower frequency boundary through applicable MF/low-HF treatment and possibly coexisting groundwave, separating near-band extrapolation from an in-domain model.",
+          "map_items": "6"
+        },
+        {
+          "id": "HF-03",
+          "applicability": "essential",
+          "focus": "Availability, outage and severity",
+          "substantive_evidence": "Separate propagation support, awake/scheduled transmissions, received levels and completed service. Contrast flare, storm, absorption or mode absence with dispersion. Preserve actual link observables versus proxies and nondetections.",
+          "map_items": "3–5",
+          "reference_open_boundary": "Undetected observations and incomplete operations can prevent estimating unconditional availability."
+        },
+        {
+          "id": "HF-04",
+          "applicability": "essential",
+          "focus": "Discrete modal structure and polarization",
+          "substantive_evidence": "Relate operating geometry, O/X or other modes, incidence/hops and polarization projection to power, excess/group delay and possible interference or cancellation.",
+          "map_items": "7, 15"
+        },
+        {
+          "id": "HF-05",
+          "applicability": "essential",
+          "focus": "Doppler and estimator conventions",
+          "substantive_evidence": "Preserve centroid/coherent shift, width, drift, O/X offsets and oscillator effects, together with width estimator, threshold, window, resolution, aliasing and conditioning. Check at least one consequential comparison or conversion.",
+          "map_items": "8–9"
+        },
+        {
+          "id": "HF-06",
+          "applicability": "essential",
+          "focus": "Midlatitude and long-haul dispersion",
+          "substantive_evidence": "Compare quiet, disturbed and long-haul representative observations with matched or explicitly incompatible delay/Doppler metrics and useful model implications.",
+          "map_items": "10"
+        },
+        {
+          "id": "HF-07",
+          "applicability": "essential",
+          "focus": "NVIS",
+          "substantive_evidence": "Treat near-vertical mode geometry, range/height or critical-frequency behavior and observed local dispersion as its own population, using calibrated or clearly bounded data.",
+          "map_items": "11"
+        },
+        {
+          "id": "HF-08",
+          "applicability": "essential",
+          "focus": "High-latitude regimes",
+          "substantive_evidence": "Distinguish auroral, trough and polar behavior, off-great-circle/coherent or broad paths, and season, disturbance and sampling effects. Follow evidence limits when only censored or directed sounder products are available.",
+          "map_items": "12"
+        },
+        {
+          "id": "HF-09",
+          "applicability": "essential",
+          "focus": "Equatorial regimes",
+          "substantive_evidence": "Evaluate equatorial spread-F, quiet or trans-equatorial path behavior as evidence allows. Preserve distinct local and trans-equatorial geometry and transfer limits for radar or geophysical observables.",
+          "map_items": "13"
+        },
+        {
+          "id": "HF-10",
+          "applicability": "essential",
+          "focus": "Fading, time scales and frequency dependence",
+          "substantive_evidence": "Describe conditional power/fluctuation statistics, fade durations and nonmonotone severity. Analyze joint delay–Doppler, frequency correlation and local coherence rather than substituting isolated marginals.",
+          "map_items": "4, 14–16",
+          "reference_open_boundary": "Long calibrated, fine-spacing joint mode and phase/amplitude records remain needed for natural laws."
+        },
+        {
+          "id": "HF-11",
+          "applicability": "essential",
+          "focus": "Measured checks and receiver consequences",
+          "substantive_evidence": "Examine appropriate sounding, event or link evidence and perform matched quantitative interpretation or denominator sensitivity. Distinguish standard control from physical episode and derive testable constraints on model and receiver planning.",
+          "map_items": "17–18"
+        }
+      ]
+    },
+    {
+      "domain_id": "EME",
+      "domain": "Passive 5.76–5.8 GHz Earth–Moon–Earth scattering and station practice",
+      "evaluator_map": "map-eme.md",
+      "criteria": [
+        {
+          "id": "EME-01",
+          "applicability": "essential",
+          "focus": "Path and observable identity",
+          "substantive_evidence": "Define passive bistatic or monostatic EME, station geometry, band, polarization and measured/calculated observables. Bound transfer from orbital radar, active downlinks and other frequencies.",
+          "map_items": "1, 16"
+        },
+        {
+          "id": "EME-02",
+          "applicability": "essential",
+          "focus": "Extended-target link budget",
+          "substantive_evidence": "Derive and independently check a target-band two-leg link with cross section, beam weighting, gain and loss, received power and noise planes separate. Distinguish whole-disc from finite overlapping beams.",
+          "map_items": "2, 12"
+        },
+        {
+          "id": "EME-03",
+          "applicability": "essential",
+          "focus": "Scattering alternatives",
+          "substantive_evidence": "Compare angular specular, diffuse and other plausible laws, their normalization, material/coherence interpretations and distinguishing residuals, without treating a convenient shape as a fitted law.",
+          "map_items": "3"
+        },
+        {
+          "id": "EME-04",
+          "applicability": "essential",
+          "focus": "Delay and power-delay profile",
+          "substantive_evidence": "Derive bulk versus excess delay and the geometry of geometric support versus power quantiles. Check a representative surface/projected area or beam-weighted comparison.",
+          "map_items": "4"
+        },
+        {
+          "id": "EME-05",
+          "applicability": "essential",
+          "focus": "Coupled Doppler and delay",
+          "substantive_evidence": "Derive the offset, rate and distributed width from same-path geometry, rotation and libration. Preserve support, FWHM, power width and coherence definitions and quantify why they differ.",
+          "map_items": "5"
+        },
+        {
+          "id": "EME-06",
+          "applicability": "essential",
+          "focus": "Retarded geometry and station separation",
+          "substantive_evidence": "Compare geocentric, instantaneous station and retarded two-leg geometries as applicable. Check visibility, time/frame conventions and the error or observable relevant to receiver bounds.",
+          "map_items": "6, 12"
+        },
+        {
+          "id": "EME-07",
+          "applicability": "essential",
+          "focus": "Polarization conventions and alternatives",
+          "substantive_evidence": "Account for helicity or linear basis conventions, reflection, basis transport and scattering products. Treat published CPR, different footprints and unmatched station projection with transfer limits.",
+          "map_items": "7"
+        },
+        {
+          "id": "EME-08",
+          "applicability": "essential",
+          "focus": "Pointing, beams, noise and speckle",
+          "substantive_evidence": "Compare aperture/illumination, co-pointing and narrower beam effects on gain, scattering spread, speckle and lunar noise. Map celestial, ground and receiver terms into system temperature or C/N0.",
+          "map_items": "8–9"
+        },
+        {
+          "id": "EME-09",
+          "applicability": "essential",
+          "focus": "Endpoint atmosphere and operations",
+          "substantive_evidence": "Condition gas, cloud/rain, low elevation and occultation effects on each endpoint. Separate weather fluctuations from lunar fading; tie measured operational clocks, correction, calibration or pointing to long waveform operation.",
+          "map_items": "10–11"
+        },
+        {
+          "id": "EME-10",
+          "applicability": "essential",
+          "focus": "Model implementation by fidelity",
+          "substantive_evidence": "Compare scalar, delay–Doppler, geometric surface and replay or simpler conditional alternatives with distinct observables, cost and receiver use.",
+          "map_items": "13–14"
+        },
+        {
+          "id": "EME-11",
+          "applicability": "essential",
+          "focus": "Executed physical-observable and numerical checks",
+          "substantive_evidence": "Use target-band model arithmetic or convergence plus inspect/reanalyze a suitable radar, ephemeris, EME or other primary observable. Keep observable and provenance limits, contrary results and next requirement explicit.",
+          "map_items": "12, 15–17",
+          "reference_open_boundary": "Whole-disc calibrated 5.76–5.8 GHz two-station complex records are required for conditional empirical transfer."
+        },
+        {
+          "id": "EME-12",
+          "applicability": "essential",
+          "focus": "Severity and joint states",
+          "substantive_evidence": "Build physical conditional cases, compatible constructed stresses and absence or observable outage with explicit dependency and one downstream discriminator. Do not imply that independent extremes co-occur at observed frequencies.",
+          "map_items": "14, 18"
+        }
+      ]
+    },
+    {
+      "domain_id": "RX",
+      "domain": "Nonstationary channel models and receiver redesign",
+      "evaluator_map": "map-receiver.md",
+      "criteria": [
+        {
+          "id": "RX-01",
+          "applicability": "essential",
+          "focus": "Local stochastic baselines and model identity",
+          "substantive_evidence": "Compare stationary test families under their measured selection, band and time assumptions. Establish mathematical/operational equivalence with the present generator where appropriate; distinguish stochastic spectrum from a deterministic center shift or drift.",
+          "map_items": "1–3, 18"
+        },
+        {
+          "id": "RX-02",
+          "applicability": "essential",
+          "focus": "Nonstationary generators and coherent fractions",
+          "substantive_evidence": "Compare persistent trajectories, stationary residuals, coherent/diffuse mixtures, parametric physics and measured replay. Retain conflicting specular evidence, time variation, coherence limits, O/X or single-port projection, and the difference between exact replay and parameter reconstruction.",
+          "map_items": "3–8",
+          "reference_open_boundary": "Long calibrated complex, distributed HF records and fitted dynamic state laws remain unavailable for several regimes."
+        },
+        {
+          "id": "RX-03",
+          "applicability": "essential",
+          "focus": "Coupled propagation in the model",
+          "substantive_evidence": "Derive RF phase, delay and Doppler consistency in dispersive versus nondispersive paths and avoid double-counting. Test an analytic, ray or wave limiting case if necessary to decide a physics driven implementation.",
+          "map_items": "5, 7",
+          "reference_open_boundary": "A scalar vertical-column model is not physically qualified for oblique magnetoionic propagation."
+        },
+        {
+          "id": "RX-04",
+          "applicability": "essential",
+          "focus": "Observable matching and generator tests",
+          "substantive_evidence": "Name independent generator tests for power, covariance/PSD, delay, shared frequency state and profile changes, including an off-grid or independent observable. Run a bounded mathematical or source-observable discriminator relevant to the selected model.",
+          "map_items": "8–9, 17"
+        },
+        {
+          "id": "RX-05",
+          "applicability": "essential",
+          "focus": "Current receiver mechanisms and alternatives",
+          "substantive_evidence": "Trace actual acquisition/search, tracking, hypothesis/nuisance handling, prior and decision paths using current source. Compare Gaussian gain marginalization, projection/GLRT or conceptually equivalent formulations, and identify which added model changes the observable receiver behavior.",
+          "map_items": "10–11, 16, 20"
+        },
+        {
+          "id": "RX-06",
+          "applicability": "essential",
+          "focus": "Nonstationary inference choices",
+          "substantive_evidence": "Compare practical options such as small temporal bases, bounded geometry bank or local refinement, nonlinear state tracking, sparse/diffuse hybrid, and a reduced block or richer model. Discuss null or noise penalty, energy loss, grid misses and dimension/gain ambiguities with a falsifier.",
+          "map_items": "10–11, 17"
+        },
+        {
+          "id": "RX-07",
+          "applicability": "essential",
+          "focus": "Three-carrier contribution",
+          "substantive_evidence": "Separate common-phase or shared-subspace benefit from independent diversity and other mechanisms. Define equal time, energy, bandwidth, public hypotheses and receiver-work comparators and sensitivities under adverse covariance.",
+          "map_items": "12",
+          "reference_open_boundary": "A unique benefit of exactly three carriers remains unidentified without native matched comparison."
+        },
+        {
+          "id": "RX-08",
+          "applicability": "essential",
+          "focus": "Sensitivity and detection endpoints",
+          "substantive_evidence": "Distinguish known-channel and truth-aligned references from public-search likelihood and full receiver decisions. Derive or independently check a useful small inference or null example and name where noise estimation, mixtures or multiplicity break its conditions.",
+          "map_items": "13"
+        },
+        {
+          "id": "RX-09",
+          "applicability": "essential",
+          "focus": "Public support and service contract",
+          "substantive_evidence": "Keep configured-calendar public hypotheses, timing, admission and nuisance bounds distinct from realized channel and bits. Charge baseline and candidates for preparation, acquisition, tracking, reacquisition, codec, completion, workspace and fallbacks.",
+          "map_items": "14, 19–20"
+        },
+        {
+          "id": "RX-10",
+          "applicability": "essential",
+          "focus": "Matched evidence and next receiver tests",
+          "substantive_evidence": "Define frozen causal comparisons and negative/out-of-regime controls for success, wrong bits, false data, erasure and physical completion. Preserve observed disagreement or failed check and delimit complete-receiver and target-hardware claims.",
+          "map_items": "15–17, 19–20",
+          "reference_open_boundary": "Historical receiver cohorts have limited applicability and hardware remains separately unqualified."
+        },
+        {
+          "id": "RX-11",
+          "applicability": "scoped_conditional",
+          "focus": "Protocol changes",
+          "substantive_evidence": "If a proposed redesign alters waveform/probe/carrier design, compare it separately from drop-in inference with equivalent resources, time, information and scheduling assumptions.",
+          "map_items": "11–12",
+          "conditional_scope_exclusion": "When the design explicitly restricts all candidates to fixed public waveform/protocol and a waveform change cannot answer this adoption decision."
+        }
+      ]
+    },
+    {
+      "domain_id": "NOISE",
+      "domain": "MF/HF noise, interference and equipment effects",
+      "evaluator_map": "map-noise.md",
+      "criteria": [
+        {
+          "id": "NOISE-01",
+          "applicability": "essential",
+          "focus": "Background source mechanisms",
+          "substantive_evidence": "Distinguish atmospheric, Galactic, solar, man-made and equipment terms and identify frequency, direction, environment and time conditions. Keep external natural noise distinct from interfering transmitters and receiver-added noise.",
+          "map_items": "1–2"
+        },
+        {
+          "id": "NOISE-02",
+          "applicability": "essential",
+          "focus": "Recommendation and empirical disagreement",
+          "substantive_evidence": "Use a versioned reference applicable to each claimed curve, and compare recent or otherwise discriminating measurements and contrary sites or methods under bandwidth, instrument and time selection. Retain uncertainty and standard-model scope.",
+          "map_items": "3–5"
+        },
+        {
+          "id": "NOISE-03",
+          "applicability": "essential",
+          "focus": "Reference planes and quantitative combination",
+          "substantive_evidence": "Convert measured field, port power, noise figure/temp, PSD, ENBW and ADC/detector units under explicit assumptions. Independently check a material scaling or additive power calculation with its dependence assumptions.",
+          "map_items": "9–10"
+        },
+        {
+          "id": "NOISE-04",
+          "applicability": "essential",
+          "focus": "Marginal and temporal evidence",
+          "substantive_evidence": "Separate APD, PSD, envelope and event duration, timing, clustering, spectral shape and cross-band dependence. Compare model families such as Gaussian control, event/shot or heavy tail family by identifiable properties and failure cases.",
+          "map_items": "5–9",
+          "reference_open_boundary": "Available marginals do not identify calibrated long joint waveform statistics at the selected site and bandwidth."
+        },
+        {
+          "id": "NOISE-05",
+          "applicability": "essential",
+          "focus": "Interference, congestion and occupancy",
+          "substantive_evidence": "Distinguish spectrum occupancy/detections from interference power waveform, attempted-operation denominator, availability and loss. Condition interferer types and near/far or local coupling on receiver bandwidth and mode.",
+          "map_items": "1, 8, 11"
+        },
+        {
+          "id": "NOISE-06",
+          "applicability": "essential",
+          "focus": "Ordered device chain",
+          "substantive_evidence": "Trace antenna pickup, passive loss, filters, mixers, oscillators, variable gain, ADC and digital response in physically consequential order. Include reference-plane, limiter/startup histories and avoid treating nonlinear stages as commuting.",
+          "map_items": "10, 12"
+        },
+        {
+          "id": "NOISE-07",
+          "applicability": "essential",
+          "focus": "Blocking, AGC and recovery",
+          "substantive_evidence": "Explain intermodulation or reciprocal mixing, nonlinear compression, quiet recovery and overload/ADC response with conditional threshold, gain and calibration evidence. Choose a primary-observable or calculation showing why another order or level convention gives a different result.",
+          "map_items": "12–13, 16",
+          "reference_open_boundary": "Actual device transfer, blocker recovery and close-in clock/phase noise need representative equipment records."
+        },
+        {
+          "id": "NOISE-08",
+          "applicability": "essential",
+          "focus": "Clock, filtering and conversion alternatives",
+          "substantive_evidence": "Treat clock skew/jitter, phase noise, finite filters or quantization as separate realizable choices. Explain which matter by band, signal scale and observer and what independently observable tests separate them.",
+          "map_items": "12–14"
+        },
+        {
+          "id": "NOISE-09",
+          "applicability": "essential",
+          "focus": "Band-specific cross-links",
+          "substantive_evidence": "Carry the sub-9 kHz sensor/lightning case and EME direction-dependent ground, sky and lunar beam noise into shared equipment/accounting decisions; allow domain chapter cross-references where scope and calibration remain explicit.",
+          "map_items": "14"
+        },
+        {
+          "id": "NOISE-10",
+          "applicability": "essential",
+          "focus": "Noise model controls and receiver implications",
+          "substantive_evidence": "Compare synthetic, standardized and calibrated/replayed inputs, adverse or absent signal, paired ablations and nonlinear effects. State implications for false DATA or completion at compatible planes, with no natural occurrence claim.",
+          "map_items": "15"
+        },
+        {
+          "id": "NOISE-11",
+          "applicability": "essential",
+          "focus": "Validation and unresolved dependencies",
+          "substantive_evidence": "Inspect appropriate primary waveform/statistic evidence and carry an executed quantitative comparison through noise/transfer validation. Specify distinct holds for device, site, physical and modem behavior.",
+          "map_items": "16"
+        }
+      ]
+    },
+    {
+      "domain_id": "VALID",
+      "domain": "Numerical simulation methodology and statistical validation",
+      "evaluator_map": "map-validation.md",
+      "criteria": [
+        {
+          "id": "VALID-01",
+          "applicability": "essential",
+          "focus": "Estimands and fidelity layers",
+          "substantive_evidence": "Identify physical observable, target population and development decision; distinguish source reproduction, numerical verification, fit, independent holdout, receiver behavior and hardware capacity.",
+          "map_items": "1, 4, 15"
+        },
+        {
+          "id": "VALID-02",
+          "applicability": "essential",
+          "focus": "Generator alternatives and errors",
+          "substantive_evidence": "Compare plausible analytic, standard/stochastic, trajectory, physical and replay routes. Explain at least two different error sources or costs of sampled stochastic implementations such as spectral blocks, sinusoids, filter or AR/covariance approaches.",
+          "map_items": "2"
+        },
+        {
+          "id": "VALID-03",
+          "applicability": "essential",
+          "focus": "Physical-to-sampled and finite process",
+          "substantive_evidence": "Derive phase/delay/width or covariance conventions, sampling, interpolation, causal tail and support handling. Inspect how finite windows, normalization, seeds and persistent state change signals, noise and observables.",
+          "map_items": "3, 5, 7"
+        },
+        {
+          "id": "VALID-04",
+          "applicability": "essential",
+          "focus": "Dependence and state transitions",
+          "substantive_evidence": "Represent outage/resume and multiscale coupling across paths, time, carriers and equipment. Validate joint metrics or bound the absence of needed data. Distinguish genuine shared stochastic structure from shared seeds.",
+          "map_items": "5–6"
+        },
+        {
+          "id": "VALID-05",
+          "applicability": "essential",
+          "focus": "Extremes and occurrence",
+          "substantive_evidence": "Distinguish observed event, conditional tail, compatible stress, deliberately adversarial stress and physical outage with joint-dependence and missing-population limits.",
+          "map_items": "6"
+        },
+        {
+          "id": "VALID-06",
+          "applicability": "essential",
+          "focus": "Statistical unit, endpoints and censoring",
+          "substantive_evidence": "Specify independent episode/cluster, target population, fixed diagnostic roots, paired outcomes, objective exclusions, missing/censored handling, and difference between conditional and environmental probabilities.",
+          "map_items": "7–8, 11"
+        },
+        {
+          "id": "VALID-07",
+          "applicability": "essential",
+          "focus": "Few-event inference",
+          "substantive_evidence": "Use a valid fixed or sequential analysis with predeclared endpoint, error control, stopping and sample unit. Work an independent quantitative example showing power, interval, repeated looks or multiplicity limits and inconclusive outcomes.",
+          "map_items": "9, 12"
+        },
+        {
+          "id": "VALID-08",
+          "applicability": "scoped_conditional",
+          "focus": "Rare-event estimation",
+          "substantive_evidence": "If claiming weighted rare-event probabilities, establish target/proposal distributions, support, weights, diagnostics and validation. Reject a probability estimate with undefined natural law and provide a defensible alternative objective.",
+          "map_items": "10",
+          "reference_open_boundary": "Rare-event or joint environmental distributions are not available merely from constructed adversity.",
+          "conditional_scope_exclusion": "When no weighted or tail prevalence estimate is pursued; the need for a target law and the boundary on constructed cases still apply."
+        },
+        {
+          "id": "VALID-09",
+          "applicability": "essential",
+          "focus": "Matched independent validation design",
+          "substantive_evidence": "Provide frozen same-input comparisons, real controls, per-domain independent target metrics, holdouts and acceptance boundaries. Prevent normalization, truth leakage, selected successes or component timing from answering a different question.",
+          "map_items": "4, 11"
+        },
+        {
+          "id": "VALID-10",
+          "applicability": "essential",
+          "focus": "Performed numerical counterexamples",
+          "substantive_evidence": "Independently implement small research arithmetic with exact inputs and error criterion; retain failed checks and revisions where encountered. Include a material adverse case for method assumptions such as equal-width spectra giving different fade statistics, normalization losing fades or sampled/interpolation error.",
+          "map_items": "12–13"
+        },
+        {
+          "id": "VALID-11",
+          "applicability": "essential",
+          "focus": "Reproducible and admitted scope",
+          "substantive_evidence": "Use inspectable primary or official sources, source/data versions and exact statistical definitions. Design a bounded next experiment with workload accounting and distinguish proposed, run, failed, inapplicable and unadmitted checks.",
+          "map_items": "14–16"
+        }
+      ]
+    },
+    {
+      "domain_id": "NATIVE",
+      "domain": "Native integration, resources and evidence chain",
+      "evaluator_map": "map-native.md",
+      "criteria": [
+        {
+          "id": "NATIVE-01",
+          "applicability": "essential",
+          "focus": "Canonical pipeline reuse",
+          "substantive_evidence": "Identify current C++ emit/stream/channel/complete receiver/message interfaces and proposed integration with current source locators. Compare existing capability against added implementation and avoid duplicating the production DSP, codec or state machine.",
+          "map_items": "1, 4"
+        },
+        {
+          "id": "NATIVE-02",
+          "applicability": "essential",
+          "focus": "One physical waveform",
+          "substantive_evidence": "Keep DATA, Helper and quiet samples under one timed channel and preserve gaps, longitudinal environment and physically shared state without assuming invariant or independent carrier gains.",
+          "map_items": "2, 6–7"
+        },
+        {
+          "id": "NATIVE-03",
+          "applicability": "essential",
+          "focus": "Sampling and occupied spectrum",
+          "substantive_evidence": "Distinguish RF carrier from sample bandwidth and charge actual waveform, offset carrier/Helper, blockers, filters and guard/alias conditions. Quantify where sample rate or sample count changes resource admission.",
+          "map_items": "3, 8–10"
+        },
+        {
+          "id": "NATIVE-04",
+          "applicability": "essential",
+          "focus": "Model representations and admission",
+          "substantive_evidence": "Compare available analytic, conditioned stochastic, replay, hybrid/physics and surrogate representations by observable, fidelity and cost. Name concrete input preconditions, measurable alternatives and when reuse versus an added model is justified.",
+          "map_items": "4–6"
+        },
+        {
+          "id": "NATIVE-05",
+          "applicability": "essential",
+          "focus": "State, interpolation and tails",
+          "substantive_evidence": "Preserve clocks, modes, channel/front-end state, source ordinals and physically justified tails across chunk and schedule choices. Bound history and bulk delay separately and propose an independent chunk/tail discriminator.",
+          "map_items": "7–8"
+        },
+        {
+          "id": "NATIVE-06",
+          "applicability": "essential",
+          "focus": "Public truth separation and completion",
+          "substantive_evidence": "Trace actual configured calendar, key/ordinal and permitted public support; keep private model realization and intended content out of inference. Preserve two scored quiet slots and distinguish interior real silence, invalid capture, outage and EOF in planning.",
+          "map_items": "11",
+          "reference_open_boundary": "Unknown-calendar/address acquisition remains outside this operating objective."
+        },
+        {
+          "id": "NATIVE-07",
+          "applicability": "essential",
+          "focus": "Native throughput and workspace",
+          "substantive_evidence": "Explain native hot-path placement, integration boundary and fully charged W=2H worker/service contract as applicable. Bound end-to-end live memory, input/prep/search/tails, backpressure, per-stream load, fallbacks and timing across pipeline. Distinguish bulk episode throughput and hardware qualification.",
+          "map_items": "9–10"
+        },
+        {
+          "id": "NATIVE-08",
+          "applicability": "essential",
+          "focus": "Resource reference calculation",
+          "substantive_evidence": "Execute a bounded work/memory/time arithmetic cross-check for contrasting costly regimes such as long-time VLF versus wide-geometry EME and use it to reject or stage an alternative. Ground actual APIs and limits with read-only source analysis.",
+          "map_items": "8–10"
+        },
+        {
+          "id": "NATIVE-09",
+          "applicability": "scoped_conditional",
+          "focus": "Specialized technology choice",
+          "substantive_evidence": "If considering GPU acceleration, GUI-admitted profiles, competitor comparison or a new propagation/receiver approximation, verify concrete capability and evidence required before claiming that path works beyond a toy or component.",
+          "map_items": "4, 9–12 and additional material topics",
+          "conditional_scope_exclusion": "When the specialized route is outside the adopted design decision and the report states why its behavior cannot alter that decision."
+        },
+        {
+          "id": "NATIVE-10",
+          "applicability": "essential",
+          "focus": "Evidence gates and adoption handoff",
+          "substantive_evidence": "Link scientific claim, applicability, current implementation, discriminator and scoped next adoption choice. Plan component controls, source-observable checks, independently calibrated regimes, complete-message behavior and intended-hardware checks separately.",
+          "map_items": "12",
+          "reference_open_boundary": "Existing integration/observables do not establish every pathway or current representative capacity."
+        },
+        {
+          "id": "NATIVE-11",
+          "applicability": "essential",
+          "focus": "Independent counterexample and provenance",
+          "substantive_evidence": "Inspect critical current source and an independent contract, trace adverse or unsupported practical behavior through the smallest valid next check, and keep proposal, dated historical claims and observed present evidence distinct. Retain revision and dirty limitations.",
+          "map_items": "7, 11–12 and Evidence chains"
+        }
+      ]
+    }
+  ]
+}

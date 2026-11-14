@@ -1,0 +1,20 @@
+Ai et al. (2025), measured field marker at 120 m
+H=0.000232274 A/m RMS-equivalent if reported amplitude is RMS; B=mu0*H=291.9 pT
+Thomson 60-turn 0.50x0.58m receive loop, aligned/open-circuit Voc=248.9 uV
+conditional receiver input voltage noise=1 nV/sqrtHz: C/N0=107.92 dB-Hz; C/N(225Hz)=84.40 dB
+
+Nicholson (2015) quoted 0.12 fT case, conditional same receive loop/alignment
+Voc=0.1157 nV RMS; for 1 nV/sqrtHz C/N0=-18.73 dB-Hz
+paper-derived C/N0≈-22.23 dB-Hz implies white input voltage density 1.5 nV/sqrtHz at this hypothetical sensor plane
+flat white-noise-only C/N in 225Hz=-45.75 dB; at 0.125Hz=-13.20 dB
+
+Conditional series-equivalent reading of Ai antenna Z
+L=0.1526 mH; equivalent series tuning C=2.728 uF; component-Q=|X|/R=8.5
+one-pole 225-Hz span at nominal f: edge magnitude=-0.254 dB, phase=±13.78 deg
+3 uF at 7.8kHz |Xc|=6.801 ohm; at 23 Arms Vc=156.4 Vrms (221.2 Vpeak)
+23 Arms through reported 0.88-ohm real part would dissipate I^2R=465.5 W if same reference plane and resistance remains linear
+
+Cubic extrapolation cross-check (not measured reach)
+rounded 47.32 dBµA/m point -> 1466.3 m at 0.16pT vs article 1446 m; delta=20.3 m (1.40%)
+article 1446m result implies 279.95pT at120m / 46.96 dBµA/m, only 0.363 dB below rounded marker
+Article measured range is at most 120m; both reach numbers are r^-3 threshold extrapolations, not a measured communication/link distance.

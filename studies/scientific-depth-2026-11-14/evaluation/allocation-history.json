@@ -1,0 +1,260 @@
+[
+  {
+    "utc": "2026-11-14T10:59:03.291764+00:00",
+    "event": "initial prospective allocation before research",
+    "total_cap": 1200,
+    "runs": {
+      "vlf-antennas": 80,
+      "vlf-propagation": 80,
+      "groundwave": 80,
+      "hf-regimes": 80,
+      "receiver": 80,
+      "eme": 80,
+      "noise": 80,
+      "validation": 80,
+      "native": 80,
+      "lead": 80,
+      "meter-smoke": 2,
+      "review-vlf": 24,
+      "review-ground": 20,
+      "review-hf": 24,
+      "review-receiver": 24,
+      "review-eme": 24,
+      "review-noise": 20,
+      "review-validation": 20,
+      "review-native": 16,
+      "adjudication": 30,
+      "uptake": 16
+    },
+    "note": "Per-request cooperative accounting; total cap leaves unassigned correction reserve. Allocations are ceilings, not targets or sufficiency criteria. Source inspection and small research-only desk calculations limited to 30 substantive shell calls per branch initially; logging and writes separate."
+  },
+  {
+    "utc": "2026-11-14T11:20:55.130529+00:00",
+    "event": "prospective correction allocation after independent initial HF review and cross-domain synthesis",
+    "before": {
+      "hf-regimes": 80,
+      "lead": 80
+    },
+    "after": {
+      "hf-regimes": 160,
+      "lead": 120
+    },
+    "total_cap": 1200,
+    "reason": "Work measured channel populations, quantitative path/availability references and public/reference discriminators; lead reconciles source reuse and cross-domain evidence. Prior usage HF35 and lead79 within original80."
+  },
+  {
+    "utc": "2026-11-14T11:23:45.152744+00:00",
+    "event": "prospective depth correction reserve and independent propagation reference support",
+    "before": {
+      "total_cap": 1200,
+      "noise": 80
+    },
+    "after": {
+      "total_cap": 1600,
+      "noise": 140,
+      "hf-reference": 60
+    },
+    "reason": "Independent reviews found feasible material measured-HF/reference, noise-model, component-dependence and frontend comparison gaps. Original attempts retained; no overrun excused. Adds standalone helper/reference execution only in study/tmp using existingcompiler, no pumpbuildsystem/receiver/hardware or packageinstall."
+  },
+  {
+    "utc": "2026-11-14T11:26:53.587935+00:00",
+    "event": "prospective independent VLF cross-domain verification extension",
+    "before": {
+      "review-vlf": 24
+    },
+    "after": {
+      "review-vlf": 36
+    },
+    "reason": "Initial five-source returned batch exceeded reader context; preserve charged operations and independently inspect decisive propagation sources in smaller requests. Source/calc allowance previously raised20to28."
+  },
+  {
+    "utc": "2026-11-14T11:28:13.455681+00:00",
+    "event": "prospective primary HF reference reconciliation",
+    "before": {
+      "hf-reference": 60
+    },
+    "after": {
+      "hf-reference": 90
+    },
+    "reason": "Verify published output units/deciles and official code definitions; failed public gitclone preserved as separate acquisition1of3. Up to10 read-only GitHub connector calls additionally admitted and separately logged; no changes/networkcircumvention."
+  },
+  {
+    "utc": "2026-11-14T11:31:12.558410+00:00",
+    "event": "prospective groundwave depth correction",
+    "before": {
+      "groundwave": 80
+    },
+    "after": {
+      "groundwave": 140
+    },
+    "reason": "Correct P832frequencyreference and execute same-input material/geometry/mixedpath fieldcomparison with source-backed numericalreference; prior69within80."
+  },
+  {
+    "utc": "2026-11-14T11:32:38.174997+00:00",
+    "event": "prospective corrected-noise independent verification",
+    "before": {
+      "review-noise": 20
+    },
+    "after": {
+      "review-noise": 40
+    },
+    "reason": "Recheck new primary empirical APD/PDF/occupancy and dependence/frontend calculations; source/calc allowance20to32."
+  },
+  {
+    "utc": "2026-11-14T11:37:45.946837+00:00",
+    "event": "prospective radiative antenna reference extension",
+    "before": {
+      "vlf-antennas": 80
+    },
+    "after": {
+      "vlf-antennas": 96
+    },
+    "reason": "Complement measured compact-loop chain with practical approximately60m radiating wire/topload circuit, loss/voltage/field and conditionalreceiver consequences; retain unresolved reported extrapolation cause."
+  },
+  {
+    "utc": "2026-11-14T11:40:16.928638+00:00",
+    "event": "prospective HF corrected full-campaign verification",
+    "before": {
+      "review-hf": 24
+    },
+    "after": {
+      "review-hf": 50
+    },
+    "reason": "Verify direct channel populations, D1 measured/reference numerical comparisons, MF pathreference and sourcenormalizations; cumulativeinitial24 preserved."
+  },
+  {
+    "utc": "2026-11-14T11:51:14.435879+00:00",
+    "event": "prospective final antenna and noise correction verification",
+    "before": {
+      "review-vlf": 36,
+      "review-noise": 40
+    },
+    "after": {
+      "review-vlf": 48,
+      "review-noise": 56
+    },
+    "reason": "Verify actual61m circuit/control and currentnoisequantile/timechronology changes. VLF prior sourcecalltotalunknown retained; newbounded12source-callcontinuation separate, notretroactivecaprepair."
+  },
+  {
+    "utc": "2026-11-14T11:58:49.322632+00:00",
+    "event": "prospective NTIA primary waveform record verification",
+    "before": {
+      "review-noise": 56
+    },
+    "after": {
+      "review-noise": 64
+    },
+    "reason": "Resolve sourcefigure/date metadata and timechronology excerpt whencompletePDFreaderfails; preservefailure andearlier56charges."
+  },
+  {
+    "utc": "2026-11-14T12:18:47.738580+00:00",
+    "event": "prospective quiet-midlatitude primary-source access check",
+    "before": {
+      "hf-regimes": 160
+    },
+    "after": {
+      "hf-regimes": 176
+    },
+    "reason": "Pursue original selected-mode measurements/appropriate equivalent ratherthan infer absence fromtwofailedarchiveURLs; preserve prior160within160."
+  },
+  {
+    "utc": "2026-11-14T12:26:40.105313+00:00",
+    "event": "prospective coordinator direct public-report source fallback",
+    "after": {
+      "primary-fallback": 6
+    },
+    "reason": "Check original public OCR/directmetadata formats for cited report inaccessible viaitem/DOI, nocuratedanswertransfer."
+  },
+  {
+    "utc": "2026-11-14T12:27:19.486573+00:00",
+    "event": "prospective read-only browser fallback",
+    "after": {
+      "root_primary_browser_actions": 8
+    },
+    "reason": "Original publicreport item,DOI,OCRstream/download andmetadata fail researchreader; try separatebrowseronpublicOCRonly, notcredentials/settings. Browseractions separatelyrecorded fromwebmeter."
+  },
+  {
+    "utc": "2026-11-14T12:36:20.210353+00:00",
+    "event": "prospective source/calculation continuation",
+    "after": {
+      "eme_additional_source_calc_calls": 20,
+      "hf_additional_source_calc_calls": 16,
+      "adjudication_additional_source_calc_calls": 12
+    },
+    "reason": "Finish coupled near-band lunar law and convergence; use newly retrieved original Watterson tables for baseline reconstruction; final independent evidence adjudication. Earlier EME cumulative count reported uncertain/exceeded is preserved, not retroactively regularized. No additional web authorized."
+  },
+  {
+    "utc": "2026-11-14T12:39:03.135925+00:00",
+    "event": "prospective final integration and HF re-review",
+    "after": {
+      "lead_additional_source_calc_calls": 12,
+      "review_hf_additional_source_calc_calls": 12,
+      "integrity_worker_source_calc_calls": 20
+    },
+    "reason": "Reconcile freshly accessible primary source and completed corrected scientific checks, independent review, inventory. No additional web allowance."
+  },
+  {
+    "utc": "2026-11-14T12:42:56.290471+00:00",
+    "event": "prospective final EME review and lead integration",
+    "after": {
+      "review_eme_additional_source_calc_calls": 12,
+      "lead_additional_source_calc_calls": 2
+    },
+    "reason": "Focused finalcoupledcheck. Leadreports13sourceexec_commandcalls inprevious12-callcontinuation, oneover. Thisextension isprospective, notretroactive."
+  },
+  {
+    "utc": "2026-11-14T12:45:01.849693+00:00",
+    "event": "prospective fresh-owner uptake allocation",
+    "after": {
+      "uptake_owner_source_calc_calls": 60,
+      "uptake_web_operations": 16
+    },
+    "reason": "Apply frozen research to current read-only source and new constructed observations; independently derive decisions. No pump builds/receiver execution. Root dispatch after freeze."
+  },
+  {
+    "utc": "2026-11-14T12:51:41.005020+00:00",
+    "event": "prospective lunar cross-domain correction after final partial review",
+    "after": {
+      "eme-integration": 48,
+      "eme_integration_source_calc_calls": 40,
+      "review-eme": 40,
+      "review_eme_additional_source_calc_calls": 16
+    },
+    "reason": "Independent review identifies feasible normalized angular-scattering, pointing/pattern/spatial and compatible atmosphere/polarization/noise jointcapture severity cases and concrete renderercost comparison. Existingsciencepreserved; newSolowner addsboundedchapter. No pump orhardwareexecution."
+  },
+  {
+    "utc": "2026-11-14T12:53:07.522239+00:00",
+    "event": "prospective parallel endpoint atmospheric evidence",
+    "after": {
+      "eme-atmosphere": 24,
+      "eme_atmosphere_source_calc_calls": 20
+    },
+    "reason": "DisjointLunaprimarycoefficientsandconditionedendpointlookupwhileSolintegratesangularlaw/pointing/speckle/renderer. No duplicateleadsearch."
+  },
+  {
+    "utc": "2026-11-14T13:15:14.855487+00:00",
+    "event": "prospective final lunar synthesis integration",
+    "after": {
+      "lead_additional_source_calc_calls": 10
+    },
+    "reason": "Integrate completed angular, atmospheric and renderer discrimination results without repeating settled domains; no new web."
+  },
+  {
+    "utc": "2026-11-14T13:24:33.782516+00:00",
+    "event": "prospective source identity and fresh uptake review",
+    "after": {
+      "adjudication_source_identity_calls": 6,
+      "adjudication_uptake_source_calc_calls": 20
+    },
+    "reason": "Handle new concurrent receiver working-tree edits without overwriting them; independent fresh-owner uptake review after result. Science thresholds and input hashes unchanged."
+  },
+  {
+    "utc": "2026-11-14T13:27:31.997259+00:00",
+    "event": "prospective mandatory completion review reserve",
+    "after": {
+      "completion-review": 16,
+      "completion_review_source_calc_calls": 30
+    },
+    "reason": "Pinned Astra review only after the fresh uptake result and independent acceptance are ready; reuse established science, inspect material uncertainty and source wiring. No global install or pump modifications."
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "domain": "MF/HF noise, interference and equipment effects",
+  "review": "additive NTIA source-locator update; prior files preserved",
+  "status": "partial",
+  "meter": {"run_id":"review-noise","allocation":64,"used_before_followup3":56,"admitted_operations_followup3":8,"last_reservation_rejected_before_web_call":4},
+  "updated_criterion": {
+    "focus":"Marginal and temporal evidence",
+    "prior_disposition":"partial",
+    "updated_disposition":"supported_boundary",
+    "evidence":"Official NTIA indexed OCR §2.3.1 lines 218–227 verifies the 5.936 MHz Case Study 1 date/time and Gaussian-like I marginal with Rician-like power-envelope interpretation. §2.3.5/Figure 30 lines 899–901 confirms a separate 23.862 MHz one-second record with roughly 0.5 ms quasi-periodic pulse spacing. The report says only one of 42 cases clearly shows impulses and leaves arrival-statistic modeling outside scope. The continuation supplies an exact-marginal/different-chronology counterexample and keeps raw-data/target transfer limits explicit.",
+    "unresolved":"Case Study 5 main-text time 19:22:31 UT differs by one second from Appendix A-1 record 8 at 19:22:32 UT; no cause inferred. Full PDF figure and raw ADC samples were not visually inspected/available; exact 400 kHz/1.024 MS/s setup was not re-read in this focused excerpt."
+  },
+  "source_identity_resolution": {
+    "case_study_1":"10 Mar 1989 09:58:10 UT, 5.936 MHz, §2.3.1 and Figures 1–5; verified via primary indexed OCR",
+    "appendix_record_5":"15 Mar 1989 09:46:34 UT, 5.936 MHz, 22 dB attenuation; distinct capture",
+    "case_study_5":"15 Mar 1989 about 19:22:3x UT, 23.862 MHz; main text/Appendix differ one second",
+    "impulse_claim":"Figure 30 shows a different 4 ms segment of the one-second record, pulses spaced about 0.5 ms, source only presumed man-made; primary indexed OCR verified"
+  },
+  "access_grade":"Official primary indexed OCR excerpts; direct full PDF fetch was too large, figures not visually inspected and raw samples not available.",
+  "whole_domain_status":"partial",
+  "remaining_gaps":[
+    "Do not transfer selected historical NTIA records into a modem-window occurrence or loss probability.",
+    "Resolve SM.2449-1 reference [3] and Dutch campaign overlap before counting independent empirical replications.",
+    "Visually confirm P.372-17 equation and v18 numeric treatment if used.",
+    "Continue cross-campaign comparison with conditional site, antenna, bandwidth, threshold and epoch matching."
+  ]
+}

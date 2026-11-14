@@ -1,0 +1,14 @@
+f_GHz=5.760; rain_R_mm_h=100.0; slab_vertical_km=1.0; cloud_LWC_g_m3=0.20; slab_T_K=273.15
+P838_interp: kH=0.00055454; alphaH=1.618752; kV=0.00040318; alphaV=1.580192; circular_k=0.00047886; circular_alpha=1.602519; gamma_rain_dB_km=0.767798
+P840_double_Debye: Kcloud_dB_km_per_g_m3=0.03091652
+GAS_INPUT: zenith_gas_dB=0.0400 (rounded chart read from P.676-13 Fig. 4 standard atmosphere, 1013.25hPa/15C/7.5g_m3; replace with site/profile output)
+clear_reference: elevation_deg=60.0; layer_path_km=1.155;
+  one_way_gas_dB=0.0462; cloud_dB=0.0000; rain_dB=0.0000; total_dB=0.0462; transmission=0.989421
+  T_emit_rx_K=2.89; tx_leg_loss_dB=0.046; rx_leg_loss_dB=0.046;
+  echo_before_weather_dBm=-143.38; echo_after_two_signal_legs_dBm=-143.47
+broad_rain_cloud_stress: elevation_deg=10.0; layer_path_km=5.759;
+  one_way_gas_dB=0.2304; cloud_dB=0.0356; rain_dB=4.4216; total_dB=4.6875; transmission=0.339818
+  T_emit_rx_K=180.33; tx_leg_loss_dB=4.688; rx_leg_loss_dB=4.688;
+  echo_before_weather_dBm=-143.38; echo_after_two_signal_legs_dBm=-152.76
+Assumption: apparent elevations, reciprocal colocation; slab must span full path projection. The 10deg wet case needs a broad cell about 5.67km across for a 1km vertical slab. Conditional stress case only; no joint probability or universal worst case.
+Radiative transfer: use RX T_out = T_in*transmission + T_emit on Moon/sky main-beam brightness once; ground spillover bypasses atmosphere. Keep RX atmospheric emission distinct from receiver noise. Do not transform aggregate Tsys that already includes sky/ground.

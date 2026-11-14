@@ -1,0 +1,47 @@
+Uptake owner verification (2026-11-14; source strictly read-only)
+
+Interpreter: /usr/bin/python3, 3.13.5.
+From the study directory:
+  python3 -I results/uptake-checks/transfer_checks.py
+  python3 -I inputs/observations/build_observations.py <new empty /tmp directory>
+The second script was first inspected: it creates the supplied directory if
+needed and writes its two named CSVs there. Both regenerated files compared
+byte-for-byte with frozen inputs using cmp. Independent calculation stdout
+also compared byte-for-byte on rerun. No regeneration wrote to inputs/research.
+
+SHA-256:
+bff5f6c351a121b5242bb3b2b7cd8795ff3284fb0268adc9254260a5c1e97b87  inputs/observations/observations.md
+4ce9fb3e860818e4154dafcdb9a0712a964e3343bb52c3ce4d638b50226912fc  inputs/observations/vlf-transfer.csv
+e7e55c19d37f9bdd314854e0ce5e6f4ba5c1f4ea3b82425a2736140c9c6b5be0  inputs/observations/eme-probes.csv
+16b6cde8f24229d7a2ecc751714fa42d4d030b6c4fe02f3678ca90966687d836  inputs/observations/build_observations.py
+99a0203ca66fcac0edaa8103414a2b576a77c94b567bd4dcc3ca3ac1f869aaba  results/uptake-checks/transfer_checks.py
+34bc49d592ec4af2e21102925100b498f4a886dc4440d8dce86826b44f2eb0e9  results/uptake-checks/transfer_checks.txt
+
+Pump HEAD 42798a98bdc0bae32387870ec4aa55179798974c at start and
+post-plan recheck. The scoped committed diff from the original research
+head is empty across AGENTS.md/CMakeLists.txt/src/include/tests/docs.
+Scoped working status remained M for the following two files only:
+cddce9bc2b7291bda566abb569cd04a46e0eca5a  src/triad_receiver.cpp
+1072cc242983e79a2e192e21171b0b7e043ec702  src/triad_receiver_driver.hpp
+Other consequential source identities (git hash-object):
+0c11edef9e7199b6d09a865ec2512a64be6d2c43  src/triad_stream_receiver.cpp
+0e3353b96675a88e157e7fa803db1ffca90b067b  src/triad_simulation_stream.cpp
+0ef958b252b77c7bc4b6c5b637dc1639bd1057cd  src/live.cpp
+424dc6ce77f708418430234a25461d233e1e6ddd  src/triad_receiver_coarse.cpp
+45d810509a29bd5a0c28b9ed6176412c5253c56a  src/robust_profile.cpp
+f6a143092d3048c4a468b7026be8120251945213  src/robust_audio_frontend.cpp
+The scoped search 'rg -n ... src include tests' found the alternative scorer
+symbols at their native declarations and definitions only. The ordinary
+constructor and test fixture routes were inspected separately. Geographic
+propagation products and old report values were read from frozen research, not
+re-executed. Preexisting dirty changes were preserved. No appraisal/reference
+contents, earlier study results or evaluation contents were read.
+
+Final plan check: all 17 relative file links and linked headings resolve.
+
+Limits: 60 separate source/calculation exec_command calls used (including two
+unsuccessful guessed-source locators, replaced with correct scoped source
+discovery, and a source read ending in an empty /dev/null search). Report/log
+writes are separate. Zero external request items. No native build, native
+receiver execution, hardware, cloud or field checks; zero assertions on
+the product itself from these commands. Transfer checks are desk evidence.

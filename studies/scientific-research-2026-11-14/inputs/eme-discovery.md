@@ -1,0 +1,5 @@
+# EME transfer case
+
+Prepare scientific grounding for a native complex-baseband appraisal of a three-carrier weak-signal modem over a passive Earth–Moon–Earth path near 5.8 GHz. DATA and a separate Helper occupy distinct frequencies. The prospective simulator must represent link availability and receiver decisions, not only produce plausible-looking fading. The proposed first design uses a point reflector with one delay and Doppler, then independent random gains per carrier; a more detailed alternative would sample a lunar surface. Determine which scientific mechanisms, alternative model families and evidence should decide between or improve these options. Include noise, polarization, geometry and relevant recent academic evidence when available. No RF-rate simulation, implementation or product qualification is requested.
+
+Use external literature discovery. Do not read pumpModem, other study cases/results/evaluation, or answer-bearing reference reports. This case is held out from prompt revision: do not tailor the treatment based on its results. The case description is a planning scenario, not a current-code audit.

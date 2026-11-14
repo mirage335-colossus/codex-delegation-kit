@@ -1,0 +1,44 @@
+{
+  "domain_id": "GROUND",
+  "review_stage": "post_correction_independent_review",
+  "initial_review_preserved": "evaluation/reviews/ground/review.md",
+  "first_pass_artifact_preserved": true,
+  "correction_artifacts": [
+    "research/groundwave/chapter.md:143-188",
+    "research/groundwave/tmp/LFMF/model_sweep.cpp",
+    "research/groundwave/tmp/LFMF/model_sweep.txt",
+    "research/groundwave/acquisition-log.md"
+  ],
+  "web_run": {"run_id":"review-ground","operations_used":10,"cap":20},
+  "independent_replay": {
+    "upstream_commit":"57886e9d0a29fd8f04a6416dc3f782322f5a3589",
+    "model_sweep_output_identical": true,
+    "mixed_path_cases_reproduced": 6,
+    "mixed_path_rounding_tolerance_db": 0.001,
+    "source_body_matches_pinned_blobs_after_removing_serialization_lf": true
+  },
+  "rows": [
+    {"id":"GROUND-01","disposition":"Supported","evidence":["research/groundwave/chapter.md:5-17","research/groundwave/chapter.md:45-61","research/groundwave/chapter.md:159-173"],"reason":"Band-specific surface, space/reflected/diffracted and skywave distinction remains correct; new LFMF results are explicitly homogeneous smooth-earth predictions, not LOS behavior."},
+    {"id":"GROUND-02","disposition":"Supported","evidence":["research/groundwave/chapter.md:5","research/groundwave/chapter.md:75-82","research/groundwave/chapter.md:143-173","NTIA/LFMF pinned source, src/LFMF.cpp and include/LFMF.h"],"reason":"Reference assumptions and 1-km normalization are sound. The corrected report adds independently replayed official-model field/loss values at 1 and 30 MHz for declared inputs, while retaining the conditional/model-only boundary."},
+    {"id":"GROUND-03","disposition":"Partial","evidence":["research/groundwave/chapter.md:73-87","research/groundwave/chapter.md:159","research/groundwave/chapter.md:134-141"],"reason":"The called API returns field, basic loss and an idealized 4.77-dBi receive-power result, and sample amplitude/power conversion is correct; no worked antenna/terminal/noise-bandwidth/CN0 or actual receiver-threshold example is shown.","correction":"Report one conditional antenna-plane conversion and keep it separate from normalized IQ and P.368 field."},
+    {"id":"GROUND-04","disposition":"Supported","evidence":["research/groundwave/chapter.md:35-44","research/groundwave/chapter.md:143-184","ITU-R P.832-4 Annex 1 §3.2, official wording verified"],"reason":"Actual LFMF values quantify ground-property/frequency/range interaction and height sensitivity at both bands, with illustrative inputs and explicit transfer limits. The P.832 error is corrected: MF maps are standardized to 1 MHz and have no seasonal allowance or permittivity map."},
+    {"id":"GROUND-05","disposition":"Supported","evidence":["research/groundwave/chapter.md:63-71","research/groundwave/chapter.md:175-184","evaluation/reviews/ground/replay/LFMF/mixed_replay.cpp","Aono & Muramatsu 1955 original, pp.51-58"],"reason":"Candidate computes forward, reverse and reciprocal Millington predictions at both frequencies and three boundary positions with common inputs; independent API replay matches. The original measurement evidence is retained as conditional contrary evidence, and the result is not claimed as a shoreline validation."},
+    {"id":"GROUND-06","disposition":"Partial","evidence":["research/groundwave/chapter.md:15-17","research/groundwave/chapter.md:89-105","NTIA TR-84-151 §§7-9, Tables 2-3"],"reason":"28-MHz adverse measured terrain results remain strong and correctly bounded; new LFMF simulations are not empirical. Accessible near-1-MHz relative/coastal and service records remain unanalyzed, and no exact target-band complex channel is established.","correction":"Add one source-native near-band observable while preserving the true complex-channel transfer boundary."},
+    {"id":"GROUND-07","disposition":"Partial","evidence":["research/groundwave/chapter.md:7","research/groundwave/chapter.md:49-50","research/groundwave/chapter.md:87","research/groundwave/chapter.md:143-188"],"reason":"Surface-only model conditions are explicit, but no quantitative night crossover, delayed coherent arrival, P.1147/P.1321 comparison or finite-layer calculation is added."},
+    {"id":"GROUND-08","disposition":"Partial","evidence":["research/groundwave/chapter.md:13-15","research/groundwave/chapter.md:26","research/groundwave/chapter.md:51","research/groundwave/chapter.md:71","research/groundwave/chapter.md:143-173"],"reason":"New smooth-Earth/height values plus Fresnel geometry and 28-MHz terrain observations strengthen the case; a matched terrain/coast/spacewave alternative or direct competing-mode discriminator remains unexecuted."},
+    {"id":"GROUND-09","disposition":"Partial","evidence":["research/groundwave/chapter.md:11","research/groundwave/chapter.md:41","research/groundwave/chapter.md:67-71","research/groundwave/chapter.md:159-182"],"reason":"The new sea calculations concern smooth homogeneous sea only. No rough-sea coherent mean correction or separate time-varying scattering behavior is analyzed; long calibrated 30-MHz marine complex records remain a genuine boundary."},
+    {"id":"GROUND-10","disposition":"Partial","evidence":["research/groundwave/chapter.md:15-17","research/groundwave/chapter.md:83-87","research/groundwave/chapter.md:130-143","research/groundwave/chapter.md:159-188"],"reason":"Quantified conditional spatial/model severity and uncertainty limits improve, but no temporal law, outage rate, co-occurrence, or measured dependence discriminator is provided."},
+    {"id":"GROUND-11","disposition":"Supported","evidence":["research/groundwave/chapter.md:21-29","research/groundwave/chapter.md:107-132","research/groundwave/chapter.md:143-188","evaluation/reviews/ground/replay/LFMF/model_sweep.txt","evaluation/reviews/ground/replay/LFMF/mixed_replay.txt"],"reason":"The report now executes an official reference comparison at both bands and a same-input mixed-route discriminator, and ties model choice to actual native C++ placement and staged/falsifiable validation. It accurately leaves site, receiver and RF qualification for later."}
+  ],
+  "depth_checks": {
+    "mechanisms_and_regimes":"Partial",
+    "foundational_and_recent_discovery":"Supported",
+    "alternatives_and_counterevidence":"Partial",
+    "quantitative_interpretation":"Partial",
+    "executed_discriminators":"Supported",
+    "decision_relevance":"Supported"
+  },
+  "domain_status":"Partial",
+  "outside_declared_conditions_used":false,
+  "reason_domain_remains_partial":"GROUND-03, GROUND-06, GROUND-07, GROUND-08, GROUND-09 and GROUND-10 remain materially incomplete; no calibrated target-band empirical record is claimed."
+}

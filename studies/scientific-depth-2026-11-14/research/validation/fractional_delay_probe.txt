@@ -1,0 +1,26 @@
+COMPLEX TONE RESPONSE: Fs=1 sample-unit; fractional delay=8.25 samples
+freq_cycles_per_sample  gain_dB  residual_phase_deg  implied_delay_error_samples
+                 0.010  -0.0001              0.0000                    -0.000005
+                 0.050  -0.0011              0.0011                    -0.000062
+                 0.125   0.0002             -0.0030                     0.000067
+                 0.200  -0.0015              0.0044                    -0.000061
+                 0.350  -0.0159              0.1013                    -0.000804
+                 0.450  -1.6535             13.7940                    -0.085148
+
+IMPULSE SUPPORT: x[64]=1, y[n]=interp(x,n-delay); threshold 1e-12
+delay= 8.00: first= 72, last= 72, input_index=64, peak=1.00000000, output_energy=1.00000000
+delay= 3.25: first= 60, last= 75, input_index=64, peak=0.89670479, output_energy=0.93553257
+delay= 8.25: first= 65, last= 80, input_index=64, peak=0.89670479, output_energy=0.93553257
+delay=12.25: first= 69, last= 84, input_index=64, peak=0.89670479, output_energy=0.93553257
+
+INITIALIZATION: unit complex tone begins at sample 0; nominal delay=8.25
+strict-causal pre-arrival outputs=8; first=(1, 0.00024981800838433794); max_pre=0.79706404
+The source initializes its bounded history with zeros; interpreting this precursor requires the actual signal's occupied-band and source-ramp assumptions.
+
+CHUNK HISTORY CHECK: complex tone plus impulse, chunk sizes 16 and 31
+chunk=16: differing_outputs=144, max_abs_error=1.5071671, first=16
+chunk=31: differing_outputs= 85, max_abs_error=1.0908898, first=31
+
+GAIN NORMALIZATION CHECK: g=0.5 before interpolation; fixed source noise omitted
+unit_gain_rms=1.00002315; half_gain_rms=0.50001158; ratio=0.50000000
+if each output were renormalized back to input RMS, half_gain would become 1.000x larger (signal-level evidence erased)

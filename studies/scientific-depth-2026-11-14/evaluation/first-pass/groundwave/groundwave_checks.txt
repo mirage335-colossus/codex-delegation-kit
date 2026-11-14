@@ -1,0 +1,24 @@
+P.368-10 reference-field normalization
+f=1 MHz: E=109.54 dB(uV/m), P.368 Lb=32.46 dB, 1-km FSPL=32.45 dB, difference=+0.008 dB
+f=30 MHz: E=109.54 dB(uV/m), P.368 Lb=62.00 dB, 1-km FSPL=61.99 dB, difference=+0.008 dB
+
+Power-loss dB to voltage/complex-IQ amplitude (fixed receive impedance)
+20 dB path power loss: apply IQ amplitude x0.1; power x0.01; with fixed receiver noise variance, SNR shifts by -20 dB
+
+Conduction/displacement-current ratio sigma/(2*pi*f*epsilon0*epsilon_r)
+very-dry illustrative: sigma=0.0001 S/m, eps_r=3, ratio@1MHz=0.599, ratio@30MHz=0.02
+medium-dry illustrative: sigma=0.001 S/m, eps_r=15, ratio@1MHz=1.2, ratio@30MHz=0.0399
+wet illustrative: sigma=0.01 S/m, eps_r=30, ratio@1MHz=5.99, ratio@30MHz=0.2
+average-salinity sea-water P.368 curve: sigma=5 S/m, eps_r=70, ratio@1MHz=1.28e+03, ratio@30MHz=42.8
+
+Geometry screens; Earth effective radius k=4/3 (P.526 convention)
+heights 2 m/2 m: nominal refracted radio horizon=11.65 km (frequency-independent geometry; no cutoff claim)
+heights 10 m/2 m: nominal refracted radio horizon=18.86 km (frequency-independent geometry; no cutoff claim)
+midpoint first-Fresnel radius, 1 km at 1 MHz: 275.0 m
+midpoint first-Fresnel radius, 1 km at 30 MHz: 50.2 m
+midpoint first-Fresnel radius, 10 km at 1 MHz: 869.6 m
+midpoint first-Fresnel radius, 10 km at 30 MHz: 158.8 m
+midpoint first-Fresnel radius, 45 km at 1 MHz: 1844.8 m
+midpoint first-Fresnel radius, 45 km at 30 MHz: 336.8 m
+
+Interpretation: the P.368 reference agrees with free-space loss at 1 km; this validates the reference convention only. Soil ratios show why frequency-specific complex ground properties matter. Horizon/Fresnel values screen geometry but do not model groundwave attenuation or declare reception impossible beyond the horizon.

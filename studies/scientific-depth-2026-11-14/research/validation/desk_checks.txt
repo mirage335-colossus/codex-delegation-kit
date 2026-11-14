@@ -1,0 +1,24 @@
+zero observed failures: exact one-sided 95% binomial upper bound
+n=  30: exact=9.503385%; rule-of-three=10.000000%; exp approximation=9.985774%
+n= 100: exact=2.951305%; rule-of-three=3.000000%; exp approximation=2.995732%
+n= 300: exact=0.993608%; rule-of-three=1.000000%; exp approximation=0.998577%
+n=1000: exact=0.299125%; rule-of-three=0.300000%; exp approximation=0.299573%
+
+AR(1) illustrative autocorrelation penalty for mean uncertainty
+n=  100, rho=0.9: n_eff=5.81, variance inflation=17.20x
+n= 1000, rho=0.9: n_eff=53.13, variance inflation=18.82x
+n=10000, rho=0.9: n_eff=526.81, variance inflation=18.98x
+
+noise-bandwidth conversion at 290 K, using kT0 = -203.98 dBW/Hz
+B= 2400 Hz: thermal noise=-140.18 dBm; SNR=(C/N0)-33.80 dB
+B=12000 Hz: thermal noise=-133.19 dBm; SNR=(C/N0)-40.79 dB
+
+paired comparison with shared additive calibration error
+shared error=-2.0 dB: absolute baseline=-112.0, candidate=-110.0, paired delta=2.0 dB
+shared error=+0.0 dB: absolute baseline=-110.0, candidate=-108.0, paired delta=2.0 dB
+shared error=+2.0 dB: absolute baseline=-108.0, candidate=-106.0, paired delta=2.0 dB
+
+independent zero-event trials needed to bound a failure probability at 95% one-sided confidence
+target=1.0000%: n=299; zero-event upper=0.996915%
+target=0.1000%: n=2995; zero-event upper=0.099974%
+target=0.0100%: n=29956; zero-event upper=0.010000%

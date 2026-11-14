@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "review": "additive independent EME continuation review",
+  "domain_id": "EME",
+  "domain": "Passive 5.76–5.8 GHz Earth–Moon–Earth scattering and station practice",
+  "status": "Partial",
+  "preserved_initial_disposition": "evaluation/reviews/eme/dispositions.json remains the first-pass record; initial domain status Partial",
+  "fresh_artifacts": [
+    "research/eme/chapter-continuation.md",
+    "research/eme/source-ledger-continuation.md",
+    "research/eme/eme_5760_sensitivity.py",
+    "research/eme/eme_5760_sensitivity.out",
+    "research/lead/synthesis.md",
+    "research/lead/comparisons.py",
+    "research/lead/comparisons.txt",
+    "research/lead/source-ledger.md"
+  ],
+  "identity": {
+    "pump_head": "13db435fc85114be2e2a0298580d5c3e2bcba996",
+    "pump_modified_or_built": false
+  },
+  "criteria": [
+    {"id":"EME-01","initial":"Supported","followup":"Supported","evidence":"Continuation corrects Senior and Siegel authorship; official NIST volume index and indexed original-scan title/byline/abstract substantiate it. Full PDF remains too large for direct browser fetch.","remaining":"No material row gap."},
+    {"id":"EME-02","initial":"Partial","followup":"Partial","evidence":"Conditional symmetric 3m/37W and 5m/70W target-band budgets include extended-target cross section, two-beam weighting, terminal power and noise, and independently reproduce Pr at −154.190/−143.420 dBm.","remaining":"Moon noise coupling omits Gaussian disk-average attenuation. Corrected ideal Tmoon is ~23.3/58.5K and C/N in 100Hz ~3.50/13.18dB. Target-band albedo remains an explicitly conditional cross-band input."},
+    {"id":"EME-03","initial":"Partial","followup":"Partial","evidence":"Measured local OC albedo is now reported; Senior–Siegel early-energy comparison supplies adverse evidence against uniform projected-disk power as a full channel model.","remaining":"No quantitative matched-normalization comparison of angular scattering laws and their delay/Doppler/receiver consequences; F84 T52+MEAN sensitivity is accessible."},
+    {"id":"EME-04","initial":"Partial","followup":"Partial","evidence":"Projected-area cumulative law and 5-mile/50%-historical comparison are calculated with explicit frequency/estimator limit.","remaining":"Accessible F84 source-matched t50/t90/RMS and beam/finite-distance quantiles are not compared; historical frequency is not specified."},
+    {"id":"EME-05","initial":"Partial","followup":"Partial","evidence":"Predicted 35/90Hz distinguished from observed approximate 40/90Hz on 2/5Hz bins; SNR, peak offsets and session residual also correctly separated.","remaining":"No delay-conditioned Doppler or measured target-band spectrum; Fig.1 width estimator remains unspecified."},
+    {"id":"EME-06","initial":"Partial","followup":"Partial","evidence":"Lead provides an idealized synthetic retarded-leg comparison and capture implication, expressly not an ephemeris result.","remaining":"No cited-epoch station/DE436 retarded two-leg check or quantified applicable geometry error."},
+    {"id":"EME-07","initial":"Partial","followup":"Supported boundary","evidence":"Measured local CPR .44/.45 and OC albedo .06 are now reported with polarization convention, footprint and cross-band limits.","remaining":"5.76GHz scatter/feed projection remains genuinely unmeasured and is stated as boundary."},
+    {"id":"EME-08","initial":"Partial","followup":"Partial","evidence":"Two aperture conditional signal/noise comparisons quantify beam effects; lead adds reference-plane/noise and pre-decimation context.","remaining":"Apply exact Gaussian weighting to antenna temperature. Speckle/spatial decorrelation and a station-specific measured noise comparison remain."},
+    {"id":"EME-09","initial":"Partial","followup":"Partial","evidence":"Initial two-end rain sensitivity/operating evidence remains bounded; continuation preserves these limits.","remaining":"No gas/cloud/low-elevation desk sensitivities or measured per-end clock/pointing qualification at reference depth."},
+    {"id":"EME-10","initial":"Partial","followup":"Partial","evidence":"Strong near-center cluster with optional weaker bounded tail is a well-bounded simpler recommendation.","remaining":"No comparable observable/cost/failure table of scalar/replay versus delay–Doppler/facet models."},
+    {"id":"EME-11","initial":"Partial","followup":"Supported boundary","evidence":"Primary 7.209GHz full text reopened and observed/predicted widths, SNR, CPR and albedo independently extracted; target-band conditional budget independently reproduced; historical adverse comparison is explicitly non-target-band.","remaining":"Whole-disc calibrated 5.76GHz record remains unavailable; ideal noise integral has a small correction to make."},
+    {"id":"EME-12","initial":"Partial","followup":"Partial","evidence":"Albedo, lunar brightness and first-pass weather/interference severities are conditional and avoid unsupported probability claims.","remaining":"No coupled EME adverse/outage case propagates scattering, beam, polarization, noise, weather and tracking into one receiver discriminator. Lead's capture case is useful but synthetic and separate."}
+  ],
+  "independent_checks": {
+    "sun_2020_primary": "Full PMC article reopened; §§2–3, Fig.1–2 checked. 35/90Hz pred vs ~40/90Hz figure estimates; bins 2/5Hz; predicted SNR 167k/185k vs integrated 177k/203k; local CPR .44/.45 and OC albedo .06 confirmed.",
+    "senior_siegel": "Official NIST Volume 64D index and indexed NIST-hosted original scan confirm title/authors. Direct PDF open failed HTTP 400 content too large (16741766 bytes); DOI resolver inaccessible. Interior historical delay passage not independently reopened here.",
+    "itu_moon_brightness": "Official ITU P.372-15 full PDF failed HTTP 400 content too large (30966212 bytes); metered official search text and P.372-17 search result confirm 140K new Moon to 280K full Moon above 1GHz.",
+    "budget_reproduction": "Independent stdlib calculation reproduces target-case Pr −154.190 and −143.420dBm. Exact Gaussian disk temperature weighting gives ~23.3/58.5K and C/N ~3.50/13.18dB in 100Hz rather than script's 24.7/68.5K and 3.45/12.91dB.",
+    "delay_comparator": "Recomputed uniform-projected-disk F(u)=2u−u²: 0.924% within 5mi/53.68μs of 11.591ms support; ratio to participant-reported historical 50% is 54.1x. F84 source model offers accessible t50/t90/RMS and beam-weighted delay-Doppler cases not yet compared."
+  },
+  "cross_domain_evidence": {
+    "lead_geometry": "research/lead/comparisons.txt synthetic retarded geometry demonstrates station separation and retarding effects; it is not an ephemeris calculation.",
+    "lead_capture": "research/lead/comparisons.txt 960sps examples show where 225Hz nominal band no longer fits capture, motivating RF or pre-narrowing correction; constructed frequencies are not observed EME residuals.",
+    "lead_noise": "research/lead/synthesis.md:106,114 distinguishes reference planes, lunar brightness/antenna temperature, beam, measured 7.2GHz evidence and the target-band calibration gap."
+  },
+  "access_and_accounting": {
+    "meter_run":"review-eme",
+    "web_operations_total":16,
+    "allocation":24,
+    "remaining":8,
+    "failed_access":[
+      {"source":"NIST-hosted 1960 paper PDF","notice":"HTTP 400: Content length is too large: 16741766"},
+      {"source":"NASA NTRS record","notice":"HTTP 403 Forbidden"},
+      {"source":"ITU-R P.372-15 PDF","notice":"HTTP 400: Content length is too large: 30966212"},
+      {"source":"1960 paper DOI resolver","notice":"URL inaccessible via web tool"}
+    ],
+    "review_artifacts":["followup.md","followup-dispositions.json"]
+  },
+  "priority_remaining_work":[
+    "Correct exact Gaussian-beam antenna-temperature weighting in the 5.760GHz sensitivity calculation.",
+    "Run/reproduce the accessible F84 T52+MEAN vs uniform/projected-area weighted delay and delay-Doppler comparisons (t50/t90/RMS, power widths, beam and aperture sensitivity) and link results to receiver capture/search margin.",
+    "Keep 5.76GHz cross-section, polarization, whole-disc calibration, and station-specific observations as genuine empirical limits; do not require hardware to complete the desk checks above."
+  ]
+}

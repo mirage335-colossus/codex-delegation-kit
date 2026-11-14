@@ -1,0 +1,23 @@
+frequency_hz wavelength_km lambda_over_2pi_km r_over_lambda_500km
+          500       599.585              95.427                  0.834
+         1000       299.792              47.713                  1.668
+         1700       176.349              28.067                  2.835
+         3000        99.931              15.904                  5.003
+         5000        59.958               9.543                  8.339
+         8000        37.474               5.964                 13.343
+         9000        33.310               5.301                 15.010
+
+ideal_parallel_plate_cutoffs_kHz (f_n=n*c/(2h))
+height_km=70.0 fundamental_kHz=2.141 higher_mode_n_at_3kHz=1.40 higher_mode_n_at_8kHz=3.74
+height_km=85.0 fundamental_kHz=1.763 higher_mode_n_at_3kHz=1.70 higher_mode_n_at_8kHz=4.54
+height_km=90.0 fundamental_kHz=1.666 higher_mode_n_at_3kHz=1.80 higher_mode_n_at_8kHz=4.80
+
+Earth_circumference_km=40030.2
+
+ideal_good_conductor_skin_depth_m (delta=sqrt(2/(2*pi*f*mu0*sigma)))
+sigma_S_per_m=4 at_1kHz_3kHz_8kHz=     7.96      4.59      2.81
+sigma_S_per_m=0.01 at_1kHz_3kHz_8kHz=   159.15     91.89     56.27
+sigma_S_per_m=0.001 at_1kHz_3kHz_8kHz=   503.29    290.58    177.94
+
+illustrative_two_path_notch: H=1-0.99*exp(-j*2*pi*f*T)
+f_hz=8000 physical_path_support_ms=7 abs_H=0.01 null_depth_db=-40.00 local_group_delay_ms=-693.000
