@@ -75,6 +75,33 @@ evidence. Keep consequential design and acceptance with an authorized owner.
 The policy explains when to use each role and how to retain original failures,
 holds, and review requirements through a continuation.
 
+For consequential scientific work, the
+[research and development workflow](policy.md#scientific-literature-research-and-development-uptake)
+initiates sustained research from ordinary development requests when important
+scientific gaps could change the work; the user need not ask for research.
+It assigns a dedicated research lead using an existing permitted expert role,
+with enough scope for substantial reusable synthesis while independent code
+audits and settled implementation continue.
+Broad assignments define coverage across the relevant operating envelope and
+require explanatory and discriminating depth in each material domain. Authorized
+reference calculations or public-observation checks support consequential
+quantitative choices; independent review returns useful depth gaps for correction.
+It combines foundational and recent primary literature, competing mechanisms,
+contrary evidence and checks for equivalent existing capabilities. Detailed
+research feeds a compact source-to-decision handoff that workers and reviewers
+reconcile with current code and new findings. Routine settled work needs no
+literature campaign. `_ref/` and `_appraisal/` remain user-curated and require an
+explicit request to write there; agent research uses an authorized `research/`
+location or existing task evidence. The controller gains no network or tool
+permissions from this guidance.
+
+The [prospective depth and uptake exercise](studies/scientific-depth-2026-11-14/README.md)
+demonstrates the workflow in one broad development-planning case: independent
+review accepted all eight scientific domains and fresh-owner uptake after
+multiple correction rounds. Its frozen criteria, original failures, source
+limits and resource-accounting deviations remain available; it does not estimate
+general activation reliability or token savings.
+
 For included Desktop Codex allowance, the user's current planning index is
 Luna 0.1, Terra 1, Sol about 10, and Astra about 20. It is a unitless estimate,
 separate from API prices and purchased credits; see the [weekly usage cost

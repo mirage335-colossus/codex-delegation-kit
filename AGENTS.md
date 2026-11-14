@@ -28,6 +28,11 @@ Do not present these estimates as official rates or change routing/pins from the
 
 For current evidence-discovery and screening guidance, see
 [policy.md](policy.md#evidence-discovery-and-terra-screening).
+For consequential scientific work, follow the
+[literature research and development uptake guidance](policy.md#scientific-literature-research-and-development-uptake).
+Keep `_ref/` and `_appraisal/` read-only unless the user explicitly requests
+curation there; use an authorized `research/` location or existing task evidence
+for agent-gathered knowledge.
 
 Before substantive task work, obtain an initial review from `astra_initial`
 (`gpt-6-astra`, `ultra`) using only the original prompt and context already

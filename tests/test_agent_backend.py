@@ -154,6 +154,19 @@ class AgentBackendTests(unittest.TestCase):
                 params = json.loads((self.root / "thread-params").read_text())
                 prompt = params["developerInstructions"]
                 self.assertEqual(prompt.count(backend.COMMON_INSTRUCTIONS), 1)
+                self.assertIn("For consequential scientific questions", prompt)
+                self.assertIn("no browsing, network, or tool permissions", prompt)
+                self.assertIn("does not change the run's model or effort settings", prompt)
+                self.assertIn("return the exact evidence or access request to the controller without self-escalation", prompt)
+                self.assertIn("proactively request scoped literature coverage and synthesis from the controller or coordinator", prompt)
+                self.assertIn("while continuing independent permitted work", prompt)
+                self.assertIn("Reuse adequate existing evidence and do not repeat settled research", prompt)
+                self.assertIn("require substantive explanation and discriminating evidence in each material domain", prompt)
+                self.assertIn("When a consequential design depends on a quantitative derivation", prompt)
+                self.assertIn("identify the missing evidence/check and request it", prompt)
+                self.assertIn("Keep detailed reusable support behind a concise handoff", prompt)
+                self.assertIn("When a source reports both predictions and observations, inspect results and limitations", prompt)
+                self.assertIn("reconcile discrepancies and preserve unknown inputs", prompt)
                 self.assertEqual((params["model"], params["config"]["model_reasoning_effort"],
                                   params["serviceTier"]), ("test-model", "medium", "default"))
                 self.assertFalse(params["config"]["agents.enabled"])
@@ -161,10 +174,14 @@ class AgentBackendTests(unittest.TestCase):
                 if role is None:
                     self.assertIn("Do not call tools, spawn agents", prompt)
                     self.assertIn("execute commands, access services, or alter files", prompt)
+                    self.assertIn("a request to consider evidence grants no browsing, network, or tool permissions", prompt)
+                    self.assertIn("In supplied-context runs, reason only from supplied context and data and request unavailable evidence; never use tools or network.", prompt)
                     self.assertEqual(params["sandbox"], "read-only")
                 else:
                     self.assertIn(f"You are the {role}", prompt)
                     self.assertIn("do not maintain duplicate records or spawn agents", prompt)
+                    self.assertIn("Do not access network services", prompt)
+                    self.assertIn("Use only the authorized repository and permitted command scope", prompt)
                     self.assertIn("Original repository (read-only)", prompt)
                     self.assertEqual(params["sandbox"], "read-only" if role in {"scout", "reviewer"} else "workspace-write")
                     if role == "reviewer":

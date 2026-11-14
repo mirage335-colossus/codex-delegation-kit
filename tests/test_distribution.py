@@ -114,6 +114,66 @@ class DistributionTests(unittest.TestCase):
                 else:
                     self.assertEqual((role_config["model"], role_config["model_reasoning_effort"]), settings)
 
+        research_guidance = {
+            "luna_scout": (
+                "map plausible mechanisms, approach families and assumptions",
+                "map the entire relevant requested operating envelope",
+                "Give each material domain real explanatory depth and discriminating evidence",
+                "Surface missing domain depth for independent review and correction",
+                "carry the actual comparison and measurement conventions into the decision",
+            ),
+            "inherited_scout": (
+                "map plausible mechanisms, approach families and assumptions",
+                "map the entire relevant requested operating envelope",
+                "Give each material domain real explanatory depth and discriminating evidence",
+                "Surface missing domain depth for independent review and correction",
+                "carry the actual comparison and measurement conventions into the decision",
+            ),
+            "sol_expert": (
+                "dedicated research-lead assignment",
+                "request a sustained research lead through the coordinator without waiting for the user to ask",
+                "Establish a coverage contract for the entire relevant operating envelope",
+                "carry out meaningful bounded derivations, reference calculations or public-observation checks",
+                "preserve the actual comparison, conventions and contrary measured outcomes",
+            ),
+            "inherited_reviewer": (
+                "dedicated research-lead assignment",
+                "request a sustained research lead through the coordinator without waiting for the user to ask",
+                "Review coverage across the entire relevant operating envelope",
+                "return independently found depth gaps for correction",
+                "check that the actual comparison, measurement conventions and contrary measured outcomes are retained",
+            ),
+            "luna_worker": (
+                "verify that a proposed method is not already implemented",
+                "request scoped research support through the owner/coordinator without assuming the user must ask",
+                "Consume assigned supporting evidence",
+                "flag material operating-envelope, domain-depth or design-dependent check gaps to the owner",
+                "carry through its measured comparison and conventions",
+            ),
+            "inherited_worker": (
+                "verify that a proposed method is not already implemented",
+                "request scoped research support through the owner/coordinator without assuming the user must ask",
+                "Consume assigned supporting evidence",
+                "flag material operating-envelope, domain-depth or design-dependent check gaps to the owner",
+                "carry through its measured comparison and conventions",
+            ),
+            "astra_expert": (
+                "review whether implementation and checks actually take up",
+                "check whether substantial research was initiated when material scientific gaps could change the decisions ahead",
+                "verify the coverage contract spans the entire relevant operating envelope",
+                "independently identified depth gaps are sent for correction",
+                "verify that results and limitations, actual comparisons, measurement conventions and contrary measured outcomes inform the decision",
+            ),
+        }
+        for role, markers in research_guidance.items():
+            with self.subTest(scientific_research_role=role):
+                source_role = tomllib.loads((source / "agents" / (role + ".toml")).read_text(encoding="utf-8"))
+                installed_role = tomllib.loads((home / "delegation-kit/agents" / (role + ".toml")).read_text(encoding="utf-8"))
+                for marker in markers:
+                    self.assertIn(marker, source_role["developer_instructions"])
+                    self.assertIn(marker, installed_role["developer_instructions"])
+                self.assertEqual(source_role, installed_role)
+
     def test_relocated_source_update_idempotent_reinstall_and_disable_retain_state(self):
         original_source = self.root / "original source"
         relocated_source = self.root / "relocated kit source"

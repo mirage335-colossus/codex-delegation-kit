@@ -87,6 +87,25 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [prospective scientific-depth exercise](studies/scientific-depth-2026-11-14/README.md)
+extends the earlier narrow comparison to the combined reference collection through frozen
+per-domain criteria, a fresh ordinary development assignment, sustained scientific
+branches, independent source and calculation checks, and subsequent development
+uptake. It preserves first passes, corrections, access limits and the distinction
+between guided observed behavior and a general reliability claim. The completed
+comparison accepts all 87 applicable criteria (two other criteria are conditional
+and outside the declared scope), all 48 domain-depth checks, and fresh-owner
+uptake across eight domains. These results include supported empirical boundaries;
+they do not assert field qualification or strict manual-budget compliance.
+
+The [scientific research and uptake exercises](studies/scientific-research-2026-11-14/README.md)
+use pumpModem's curated research and appraisals as read-only exemplars. They retain
+matched HF/EME discovery reports, a supplied-evidence source-audit comparison,
+an adaptive coverage refinement and a new-research handoff. The evidence supports
+specific distinctions and records mixed results, budget overruns and coverage
+gaps; it does not establish parity with the entire historical corpus, runtime
+modem improvements or cost savings.
+
 The [autonomous numerical implementation study](studies/practical-precision-generalization-2026-11-11/README.md)
 tests the delivered numerical guidance on native applications with ordinary
 product requests. It retains one-shot misses, prompt revisions, matched native
