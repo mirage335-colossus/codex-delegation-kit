@@ -71,6 +71,19 @@ for line in sys.stdin:
             result["thread"]["environments"] = [{"environmentId":"remote", "cwd":thread_cwd, "runtimeWorkspaceRoots":[thread_cwd]}]
     elif method == "turn/start":
         emit({"id": identity, "result": {"turn": {"id": turn}}})
+        if mode in {"research-guard", "research-wait"}:
+            emit({"method":"item/completed", "params":{"threadId":thread, "turnId":turn,
+                "item":{"type":"agentMessage", "id":"finding", "text":"Source A section 3 rules out the first hypothesis."}}})
+            emit({"method":"item/agentMessage/delta", "params":{"threadId":thread, "turnId":turn,
+                "itemId":"unfinished", "delta":"Second source comparison remains "}})
+            emit({"method":"item/agentMessage/delta", "params":{"threadId":thread, "turnId":turn,
+                "itemId":"unfinished", "delta":"unfinished."}})
+            emit({"method":"item/completed", "params":{"threadId":thread, "turnId":turn,
+                "item":{"type":"reasoning", "text":"hidden reasoning must not enter recovery"}}})
+            if mode == "research-guard":
+                emit({"method":"item/started", "params":{"threadId":thread, "turnId":turn,
+                    "item":{"type":"webSearch", "id":"denied-web"}}})
+            continue
         if mode == "wait":
             continue
         if mode == "denied":
@@ -297,6 +310,104 @@ class AgentBackendTests(unittest.TestCase):
         self.assertNotEqual(process.returncode, 0)
         self.assertEqual(result["status"], "hold")
         self.assertIn("unexpected tool activity", result["detail"])
+
+    def test_guard_preserves_public_research_and_supported_cleanup_without_acceptance(self):
+        process, result = self.run_fake("research-guard")
+        self.assertEqual(process.returncode, 1, process.stderr)
+        self.assertEqual(result["status"], "hold")
+        self.assertIsNone(result["result"])
+        self.assertIn("unexpected tool activity", result["detail"])
+        self.assertEqual(result["termination_kind"], "error")
+        recovery = result["recovery"]
+        self.assertFalse(recovery["accepted"])
+        self.assertEqual([m["text"] for m in recovery["messages"]], [
+            "Source A section 3 rules out the first hypothesis.",
+            "Second source comparison remains unfinished."])
+        self.assertTrue(recovery["messages"][0]["completed_message"])
+        self.assertFalse(recovery["messages"][1]["completed_message"])
+        self.assertNotIn("hidden reasoning", json.dumps(recovery))
+        self.assertEqual(result["cleanup_interrupt"], {"requested": True, "acknowledged": True,
+                         "terminal_observed": True, "terminal_status": "interrupted"})
+        self.assertIn("denied-web", Path(result["events"]).read_text())
+        self.assertEqual((self.root / "calls").read_text().count("turn/start"), 1)
+
+    def test_recovery_message_retention_is_bounded_and_marks_omissions(self):
+        state = {"turn_id": "t", "recovery": {"messages": [], "omitted_messages": 0, "omitted_text_bytes": 0}}
+        for index in range(20):
+            backend._capture_public_message(state, "item/completed", {"turnId": "t", "item": {
+                "type": "agentMessage", "id": str(index), "text": "finding " + str(index)}})
+        self.assertEqual(len(state["recovery"]["messages"]), backend.MAX_RECOVERY_MESSAGES)
+        self.assertEqual(state["recovery"]["omitted_messages"], 4)
+        backend._capture_public_message(state, "item/agentMessage/delta", {
+            "turnId": "t", "itemId": "large", "delta": "µ" * backend.MAX_RECOVERY_TEXT_BYTES})
+        recovery = state["recovery"]
+        self.assertLessEqual(sum(len(m["text"].encode()) for m in recovery["messages"]), backend.MAX_RECOVERY_TEXT_BYTES)
+        self.assertTrue(recovery["messages"][-1]["text_truncated"])
+        self.assertGreater(recovery["omitted_text_bytes"], 0)
+        before = json.dumps(recovery)
+        self.assertFalse(backend._capture_public_message(state, "item/agentMessage/delta", {
+            "turnId": "other-turn", "itemId": "foreign", "delta": "foreign"}))
+        self.assertEqual(json.dumps(recovery), before)
+
+    def test_live_checkpoint_precedes_timeout_and_remains_unaccepted(self):
+        (self.root / "mode").write_text("research-wait")
+        self.task["timeout_seconds"] = 1.5
+        spec = self.prepare()
+        process = subprocess.Popen(spec["argv"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.addCleanup(lambda: process.kill() if process.poll() is None else None)
+        deadline = time.monotonic() + 3
+        checkpoint = None
+        while time.monotonic() < deadline and process.poll() is None:
+            path = self.directory / "backend-result.json"
+            if path.exists():
+                checkpoint = json.loads(path.read_text())
+                if len(checkpoint.get("recovery", {}).get("messages", [])) == 2:
+                    break
+            time.sleep(.01)
+        self.assertIsNone(process.poll(), "public checkpoint must exist while the operation is still running")
+        self.assertEqual(checkpoint["detail"], "turn running")
+        self.assertFalse(checkpoint["recovery"]["accepted"])
+        _, stderr = process.communicate(timeout=5)
+        self.assertEqual(process.returncode, 1, stderr)
+        result = backend.collect(self.directory, {"state": "completed", "released": True, "returncode": 1})
+        self.assertEqual(len(result["recovery"]["messages"]), 2)
+        self.assertIsNone(result["result"])
+        self.assertIn("deadline expired", result["detail"])
+
+    def test_checkpoint_denial_keeps_prior_evidence_and_still_closes_and_restores_signals(self):
+        import engineering
+        (self.root / "mode").write_text("research-guard")
+        self.prepare()
+        original_atomic, original_validate, original_close = backend._atomic, engineering.validate_artifact_paths, backend.Rpc.close
+        denied, preserved, closed = [False], {}, []
+        signals = {sig: signal.getsignal(sig) for sig in (signal.SIGTERM, signal.SIGINT)}
+        def checkpoint(path, state, **kwargs):
+            if "unexpected tool activity" in state.get("detail", ""):
+                if not denied[0]:
+                    preserved["result"] = path.read_bytes()
+                    preserved["events"] = (self.directory / "backend-events.jsonl").read_bytes()
+                denied[0] = True
+                raise ValueError("synthetic changed ignore rule denies checkpoint")
+            return original_atomic(path, state, **kwargs)
+        def validate(paths, **kwargs):
+            if denied[0] and any(Path(path).name == "backend-events.jsonl" for path in paths):
+                raise ValueError("synthetic changed ignore rule denies raw append")
+            return original_validate(paths, **kwargs)
+        def close(client):
+            original_close(client)
+            closed.append(client.process.poll())
+        with patch.object(backend, "_atomic", side_effect=checkpoint), patch.object(backend.Rpc, "close", new=close), \
+                patch.object(engineering, "validate_artifact_paths", side_effect=validate):
+            with self.assertRaisesRegex(backend.BackendError, "original operation state: unexpected tool activity.*preservation error"):
+                backend.run_request(self.directory / "backend-request.json")
+        self.assertEqual(len(closed), 1)
+        self.assertIsNotNone(closed[0])
+        self.assertEqual({sig: signal.getsignal(sig) for sig in signals}, signals)
+        self.assertEqual((self.directory / "backend-result.json").read_bytes(), preserved["result"])
+        self.assertEqual((self.directory / "backend-events.jsonl").read_bytes(), preserved["events"])
+        checkpoint = json.loads(preserved["result"])
+        self.assertIn("Source A section 3", checkpoint["recovery"]["messages"][0]["text"])
+        self.assertIn("turn/interrupt", (self.root / "calls").read_text())
 
     def test_duplicate_internal_run_never_dispatches_twice(self):
         process, _ = self.run_fake()

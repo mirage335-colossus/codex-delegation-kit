@@ -21,6 +21,10 @@ import time
 _spec = importlib.util.spec_from_file_location("primary_research_meter", Path(__file__).with_name("research_meter.py"))
 meter = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(meter)
+_storage_spec = importlib.util.spec_from_file_location(
+    "relay_artifact_storage", Path(__file__).resolve().parents[3] / "engineering.py")
+storage = importlib.util.module_from_spec(_storage_spec)
+_storage_spec.loader.exec_module(storage)
 ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,79}\Z")
 # Fixed opportunity for the separately admitted neutral paired study route.
 # This does not change scientific-v1's existing profile or admission semantics.
@@ -330,6 +334,16 @@ def publish(directory, request_id, response_file, *, status, actual_operations, 
                                     "bytes": len(dependency_data), "requested_source_path": request["parameters"]["path"],
                                     "frozen_source_revision": read_json(directory / "support/project-source.json")["revision"],
                                     "provenance_basis": "operator scope review; bytes hashed, source acquisition not executed by relay"}
+        staging = control / (request_id + ".publication")
+        response_stage = staging / "response"
+        raw_destinations = [response_stage / "response.bin", target / "response.bin"]
+        if relative is not None:
+            raw_destinations.extend([staging / "dependency" / relative, dest])
+        # Admit concrete staging AND final files before any reservation or copy.
+        # A refusal leaves the supplied response/dependency and existing evidence
+        # intact. It does not refund the earlier acquisition or authorize replay.
+        # This is a preflight, not a lock against concurrent ignore-rule changes.
+        storage.validate_artifact_paths(raw_destinations)
         # This operator-only reservation retains actual costs even if publication
         # fails. Late results never finish or mutate the locked author meter.
         state["bytes"] += size
@@ -340,9 +354,7 @@ def publish(directory, request_id, response_file, *, status, actual_operations, 
             state["violations"].append({"id": request_id, "actual_operations": actual_operations,
                                         "reserved_operations": receipt["operations"], "actual_tool_calls": actual_calls})
         meter._atomic_json(state_path, state)
-        staging = control / (request_id + ".publication")
         staging.mkdir()
-        response_stage = staging / "response"
         response_stage.mkdir()
         with (response_stage / "response.bin").open("xb") as stream:
             stream.write(data)

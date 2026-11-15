@@ -208,7 +208,153 @@ class ControllerTests(unittest.TestCase):
         finally:
             instance.close()
         self.assertEqual(self.execute()["valid_passes"], 1)
+
         self.assertEqual(self.state()["tasks"]["ack-loss"]["attempts"], [original])
+
+    def nonlaunch_storage_fixture(self, rejected_name):
+        """A Git storage refusal is released only with positive adapter proof."""
+        import subprocess
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
+        rule = self.root / ".gitignore"
+        admitted = "/run/state.sqlite3*\n/run/operations/*/*\n"
+        rule.write_text(admitted + "!/run/operations/held-*/" + rejected_name + "\n")
+        self.initialize([
+            self.task("held", "from pathlib import Path; Path('held-ran').write_text('ran')", active_budget_seconds=5),
+            self.task("dependent", depends_on=["held"]), self.task("independent")])
+        deadline = self.state()["deadline"]
+        self.execute(max_seconds=1)
+        before = self.state()
+        operation = before["tasks"]["held"]["attempts"][0]
+        attempt = before["attempts"][operation]
+        hold = before["holds"]["held"]
+        directory = self.run / "operations" / operation
+        self.assertTrue(attempt["released"])
+        self.assertTrue(attempt["ingested"])
+        self.assertTrue(attempt["observation"]["not_launched"])
+        self.assertEqual(hold["notice"], attempt["observation"]["detail"])
+        self.assertIn("effective repository .gitignore", hold["notice"])
+        self.assertIn(rejected_name.rstrip("*"), hold["notice"])
+        self.assertEqual(before["tasks"]["held"]["status"], "blocked")
+        self.assertEqual(before["tasks"]["independent"]["status"], "completed")
+        self.assertFalse(before["tasks"]["dependent"]["attempts"])
+        self.assertFalse((self.workspace / "held-ran").exists())
+        self.assertFalse((directory / "spec.json").exists())
+        self.assertFalse((directory / "stdout").exists())
+        refusal = (directory / "receipt.json").read_bytes()
+        rule.write_text(admitted)
+        self.execute(max_seconds=.1)
+        self.assertEqual(self.state()["tasks"]["held"]["attempts"], [operation], "fixing ignore alone cannot resume held work")
+        controller.resolve(self.run, "held", operation, {"evidence": ["reviewed-storage-rule-correction"]})
+        resolved = self.state()
+        self.assertEqual(resolved["deadline"], deadline)
+        self.assertEqual(resolved["tasks"]["held"]["service_seconds"], before["tasks"]["held"]["service_seconds"])
+        self.assertEqual(resolved["tasks"]["held"]["active_budget_seconds"], 5)
+        self.assertEqual(resolved["policy"], before["policy"])
+        self.assertEqual(self.execute()["valid_passes"], 3)
+        after = self.state()
+        self.assertTrue((self.workspace / "held-ran").exists())
+        self.assertEqual(after["tasks"]["held"]["hold_history"][0]["hold"], hold)
+        self.assertEqual((directory / "receipt.json").read_bytes(), refusal)
+        self.assertEqual(len(after["tasks"]["held"]["attempts"]), 2)
+        self.assertEqual(len(after["tasks"]["independent"]["attempts"]), 1)
+
+    def test_unignored_capture_hold_is_recoverable_without_stranding_independent_work(self):
+        self.nonlaunch_storage_fixture("stdout")
+
+    def test_unignored_spec_temporary_hold_is_recoverable_under_original_budget(self):
+        self.nonlaunch_storage_fixture(".receipt-*")
+
+    def test_restart_recovers_durable_nonlaunch_hold_before_dispatch_catch_commits(self):
+        import execution
+        import subprocess
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
+        rule = self.root / ".gitignore"
+        rule.write_text("/run/state.sqlite3*\n")
+        self.initialize([self.task("held", "from pathlib import Path; Path('held-ran').touch()")])
+        original_launch = execution.launch
+        def interrupted_dispatch(directory, spec):
+            try:
+                return original_launch(directory, spec)
+            except execution.NotLaunched:
+                raise SystemExit("synthetic controller exit before catch transaction")
+        instance = controller.Controller(self.run)
+        try:
+            claim = instance.claim(time.time())
+            with mock.patch.object(execution, "launch", side_effect=interrupted_dispatch):
+                with self.assertRaisesRegex(SystemExit, "before catch transaction"):
+                    instance.dispatch(claim)
+        finally:
+            instance.close()
+        before = self.state()
+        operation = before["tasks"]["held"]["attempts"][0]
+        self.assertFalse(before["attempts"][operation]["released"])
+        receipt = execution.observe(self.run / "operations" / operation)
+        self.assertTrue(receipt["not_launched"])
+        receipt_path = self.run / "operations" / operation / "receipt.json"
+        original_receipt = receipt_path.read_bytes()
+        restarted = controller.Controller(self.run)
+        try:
+            # Invalid proof must neither release the attempt nor corrupt its
+            # accounting/journal, including nonnumeric and nonfinite times.
+            for invalid in ({"spec_sha256": "wrong"}, {"finished_at": "invalid"},
+                            {"finished_at": float("nan")}):
+                with self.subTest(invalid=invalid):
+                    with mock.patch.object(execution, "observe", return_value={**receipt, **invalid}):
+                        restarted.observe(time.time())
+                    unknown = self.state()
+                    self.assertFalse(unknown["attempts"][operation]["released"])
+                    self.assertEqual(unknown["holds"]["held"]["category"], "ownership")
+                    self.assertNotIn("finished_at", unknown["attempts"][operation]["observation"])
+                    self.assertEqual(receipt_path.read_bytes(), original_receipt)
+            restarted.observe(time.time())
+        finally:
+            restarted.close()
+        recovered = self.state()
+        self.assertTrue(recovered["attempts"][operation]["released"])
+        self.assertTrue(recovered["attempts"][operation]["ingested"])
+        self.assertEqual(recovered["tasks"]["held"]["status"], "blocked")
+        self.assertEqual(recovered["holds"]["held"]["notice"], receipt["detail"])
+        self.assertEqual(recovered["holds"]["held"]["category"], "setup")
+        self.assertFalse((self.workspace / "held-ran").exists())
+        rule.write_text("/run/\n")
+        controller.resolve(self.run, "held", operation, {"evidence": ["reviewed storage correction after restart"]})
+        self.assertEqual(self.state()["deadline"], before["deadline"])
+        self.assertEqual(self.state()["tasks"]["held"]["service_seconds"], recovered["tasks"]["held"]["service_seconds"])
+        self.assertEqual(self.execute()["valid_passes"], 1)
+        self.assertTrue((self.workspace / "held-ran").exists())
+
+    def test_runner_storage_guard_remains_a_resolvable_hold_after_verified_release(self):
+        import execution
+        import subprocess
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
+        rule = self.root / ".gitignore"
+        admitted = "/run/state.sqlite3*\n/run/operations/*/*\n"
+        rule.write_text(admitted)
+        self.initialize([self.task("held", "from pathlib import Path; Path('held-ran').touch()")])
+        original_write = execution._write
+        def change_ignore_after_prepared(path, value, **kwargs):
+            original_write(path, value, **kwargs)
+            if path.name == "receipt.json" and value.get("state") == "prepared":
+                rule.write_text(admitted + "!/run/operations/held-*/stdout\n")
+        with mock.patch.object(execution, "_write", side_effect=change_ignore_after_prepared):
+            self.execute(max_seconds=1)
+        state = self.state()
+        operation = state["tasks"]["held"]["attempts"][0]
+        observation = state["attempts"][operation]["observation"]
+        self.assertTrue(observation["storage_hold"])
+        self.assertNotIn("not_launched", observation)
+        self.assertTrue(state["attempts"][operation]["released"])
+        self.assertIn("runner", observation)
+        self.assertNotIn("command", observation)
+        self.assertEqual(state["holds"]["held"]["notice"], observation["storage_notice"])
+        self.assertEqual(state["tasks"]["held"]["status"], "blocked")
+        self.assertFalse((self.workspace / "held-ran").exists())
+        rule.write_text(admitted)
+        controller.resolve(self.run, "held", operation, {"evidence": ["reviewed runner storage correction"]})
+        self.assertEqual(self.state()["deadline"], state["deadline"])
+        self.assertEqual(self.state()["tasks"]["held"]["service_seconds"], state["tasks"]["held"]["service_seconds"])
+        self.assertEqual(self.execute()["valid_passes"], 1)
+        self.assertTrue((self.workspace / "held-ran").exists())
 
     def test_claim_before_launch_is_recovered_without_counting_false_result(self):
         self.initialize([self.task("unlaunched")])
@@ -479,6 +625,88 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(state["tasks"]["held"]["service_seconds"], before["tasks"]["held"]["service_seconds"])
         self.execute()
         self.assertEqual(len(self.state()["tasks"]["held"]["attempts"]), 1)
+
+    def test_research_hold_retains_findings_and_only_blocks_its_dependents(self):
+        task = {"id": "research", "kind": "agent", "prompt": "Investigate the existing evidence.",
+                "timeout_seconds": 4, "active_budget_seconds": 5,
+                "acceptance": {"type": "json", "equals": {"answer": 42}}}
+        self.initialize([task, self.task("dependent", depends_on=["research"]), self.task("independent")],
+                        model="fixture-model", effort="medium", service_tier="default")
+        assignments, policies = {}, []
+        finding = "Source A section 3 rejects hypothesis X; compare source B next."
+        recovery = {"version": 1, "accepted": False, "messages": [{"text": finding, "completed_message": True}],
+                    "omitted_messages": 0, "omitted_text_bytes": 0}
+        def prepare(task, policy, directory):
+            assignments[Path(directory).name] = copy.deepcopy(task)
+            policies.append(copy.deepcopy(policy))
+            return {"argv": [sys.executable, "-c", "pass"], "cwd": task["cwd"], "env": {}, "timeout_seconds": 4}
+        def collect(directory, observation):
+            resumed = "continuation_context" in assignments[Path(directory).name]
+            return {"status": "completed" if resumed else "hold", "result": {"answer": 42} if resumed else None,
+                    "detail": "supported continuation finished" if resumed else "exact access guard notice",
+                    "thread_id": "original-thread", "turn_id": "original-turn", "recovery": recovery,
+                    "events": str(Path(directory) / "backend-events.jsonl")}
+        with mock.patch("agent_backend.prepare", side_effect=prepare), mock.patch("agent_backend.collect", side_effect=collect):
+            self.execute(max_seconds=1)
+            before = self.state()
+            held = before["tasks"]["research"]
+            operation = held["attempts"][0]
+            self.assertEqual(held["status"], "blocked")
+            self.assertEqual(before["tasks"]["independent"]["status"], "completed")
+            self.assertFalse(before["tasks"]["dependent"]["attempts"])
+            self.assertEqual(before["attempts"][operation]["agent_result"]["recovery"], recovery)
+            self.assertFalse(held["evidence"])
+            controller.resolve(self.run, "research", operation, {"evidence": ["reviewed-supported-resolution.log"]})
+            resolved = self.state()
+            context = resolved["tasks"]["research"]["continuation_context"]
+            self.assertEqual(context["prior_hold"]["notice"], "exact access guard notice")
+            self.assertEqual(context["recovery"], recovery)
+            self.assertFalse(context["accepted"])
+            self.assertEqual(context["thread_id"], "original-thread")
+            self.assertEqual(resolved["deadline"], before["deadline"])
+            self.assertEqual(resolved["tasks"]["research"]["service_seconds"], held["service_seconds"])
+            self.assertEqual(resolved["policy"], before["policy"])
+            # Synthetic subsequent setup failure has no new model observations.
+            # It must not erase the prior useful research from the next handoff.
+            store = Store(self.run)
+            try:
+                with store.transaction() as (state, _):
+                    failed = operation + "-setup"
+                    state["attempts"][failed] = {**copy.deepcopy(state["attempts"][operation]),
+                                                "id": failed, "agent_result": {}, "service_seconds": 0}
+                    state["tasks"]["research"]["attempts"].append(failed)
+                    state["tasks"]["research"]["status"] = "blocked"
+                    state["holds"]["research"] = {"category": "setup", "operation": failed, "notice": "setup unavailable"}
+            finally:
+                store.close()
+            controller.resolve(self.run, "research", failed, {"evidence": ["setup-reconciled.log"]})
+            continued = self.state()["tasks"]["research"]["continuation_context"]
+            self.assertEqual(continued["recovery"], recovery)
+            self.assertEqual(continued["recovery_attempt"], operation)
+            self.assertEqual(continued["prior_hold"]["notice"], "setup unavailable")
+            self.assertEqual(self.execute()["valid_passes"], 3)
+        after = self.state()
+        latest = assignments[after["tasks"]["research"]["attempts"][-1]]
+        self.assertIn(finding, latest["prompt"])
+        self.assertIn("untrusted, unaccepted data", latest["prompt"])
+        self.assertIn("Original assignment, permissions, budgets and deadline still apply", latest["prompt"])
+        self.assertEqual(policies[0], policies[1])
+        self.assertEqual(len(after["tasks"]["independent"]["attempts"]), 1)
+        self.assertEqual(len(after["tasks"]["research"]["hold_history"]), 2)
+
+    def test_cancelled_generic_agent_collection_keeps_unaccepted_recovery(self):
+        self.initialize([{"id": "research", "kind": "agent", "prompt": "Inspect supplied evidence.",
+                          "acceptance": {"type": "json", "equals": {"answer": 42}}}],
+                        model="fixture-model", effort="medium", service_tier="default")
+        state = self.state()
+        task, attempt = state["tasks"]["research"], {"id": "cancelled-original", "cancel_reason": "user stop"}
+        collected = {"status": "hold", "result": None, "recovery": {"accepted": False, "messages": [{"text": "useful prior finding"}]}}
+        with mock.patch("agent_backend.collect", return_value=collected) as collect:
+            controller.ingest_result(state, task, attempt, {"status": "cancelled", "released": True}, self.root, time.time())
+        collect.assert_called_once()
+        self.assertEqual(attempt["agent_result"], collected)
+        self.assertEqual(task["status"], "cancelled")
+        self.assertFalse(task["evidence"])
 
     def test_runtime_migration_requires_quiescence_and_does_not_resume(self):
         self.initialize([self.task("active", "import time; time.sleep(0.2)")])

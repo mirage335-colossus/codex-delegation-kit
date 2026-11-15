@@ -145,6 +145,35 @@ controller keeps its existing responsibilities and uniform run-selected models,
 and its research guidance does not supply this lean role. Neither route gains
 network or tool permissions from this guidance.
 
+Research accounts contain authored explanations, comparisons, useful checks,
+conclusions and citations. Downloaded papers, datasets, copied third-party source,
+extracted text and raw tool responses belong in authorized outside-repository
+scratch or a narrow cache such as `/.research-artifacts/`. Establish and verify
+effective repository `.gitignore` coverage before writing any acquired content,
+including staging and final paths. Global exclusions alone are insufficient;
+tracked files remain tracked despite ignore rules. Keep `research/` available for
+authored knowledge and preserve the curated-directory boundary. Existing acquired
+material needs a deliberate retention or migration decision, not automatic deletion.
+
+Research authors checkpoint useful findings, source access, completed checks and
+open questions as work progresses. Guard interruptions preserve that handoff and
+the exact failure; supported continuations reuse it under the original holds,
+budget and deadline. Independent permitted work continues, while dependent work
+waits for actual resolution. Preserved partial findings are not automatically
+accepted, and neither a user stop nor a sealed historical outcome is overwritten.
+These native-agent duties are prompt guidance, not an interceptor for arbitrary
+tool calls or filesystem writes. See the [research policy](policy.md#scientific-literature-research-and-development-uptake)
+and [interruption procedure](policy.md#classify-interruptions-before-implementation-escalation).
+
+The optional Python controller adds concrete safeguards: durable bounded public
+message checkpoints, recovery context for explicitly resolved agent holds, and
+artifact-path admission for new state, owned captures and source-bearing evidence.
+The retained study relay checks both staging and final payload paths. Existing
+state access and cancellation receipts remain available after an ignore-rule
+change so storage checks cannot strand owned execution. These are scoped
+preflight checks, not a filesystem sandbox or a scientific acceptance decision.
+See the [implementation lessons and limits](research/interruption-and-storage.md).
+
 Evaluation protocols, results and limitations are recorded in the
 [depth and uptake study](studies/scientific-depth-2026-11-14/README.md) and the
 [autonomous research study](studies/autonomous-scientific-depth-2026-11-14/README.md).

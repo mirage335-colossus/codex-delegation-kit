@@ -20,8 +20,10 @@ from pathlib import Path
 import signal
 import subprocess
 import sys
-import tempfile
 import time
+import uuid
+
+from engineering import validate_artifact_paths
 
 
 FINAL = {"completed", "cancelled", "setup_error"}
@@ -30,6 +32,14 @@ _RUNNERS: dict[str, subprocess.Popen] = {}
 
 class ExecutionError(ValueError):
     """Invalid specification or conflicting operation ownership."""
+
+
+class NotLaunched(ExecutionError):
+    """A new operation was durably fenced before any runner launch attempt."""
+
+    def __init__(self, observation):
+        super().__init__(observation["detail"])
+        self.observation = observation
 
 
 def _safe(path):
@@ -48,13 +58,16 @@ def _read(path):
     return json.loads(raw)
 
 
-def _write(path, data):
+def _write(path, data, *, artifact=False):
     path = _safe(path)
     raw = (json.dumps(data, sort_keys=True, allow_nan=False) + "\n").encode()
-    temporary = None
+    temporary = path.parent / (".receipt-" + uuid.uuid4().hex)
+    if artifact:
+        validate_artifact_paths([path, temporary])
+    created = False
     try:
-        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".receipt-", delete=False) as output:
-            temporary = Path(output.name)
+        with os.fdopen(os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600), "wb") as output:
+            created = True
             output.write(raw)
             output.flush()
             os.fsync(output.fileno())
@@ -65,7 +78,7 @@ def _write(path, data):
         finally:
             os.close(fd)
     finally:
-        if temporary is not None:
+        if created:
             temporary.unlink(missing_ok=True)
 
 
@@ -194,16 +207,50 @@ def launch(directory: Path, spec: dict) -> dict:
     directory.mkdir(parents=True, exist_ok=True)
     with _lock(directory / "metadata.lock") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
+        if (directory / "receipt.json").exists():
+            previous = _read(directory / "receipt.json")
+            if previous.get("not_launched") is True:
+                if previous.get("spec_sha256") != fingerprint:
+                    raise ExecutionError("operation already exists with a different specification")
+                if (previous.get("state") != "setup_error" or previous.get("released") is not True
+                        or previous.get("operation_id") != spec["operation_id"]
+                        or not isinstance(previous.get("finished_at"), (int, float))
+                        or not math.isfinite(previous["finished_at"])):
+                    raise ExecutionError("inconsistent nonlaunch receipt; reconcile uncertain operation")
+                if ((directory / "spec.json").exists()
+                        and _canonical(_read(directory / "spec.json")) != fingerprint):
+                    raise ExecutionError("operation already exists with a different specification")
+                raise NotLaunched(previous)
+            if not (directory / "spec.json").exists():
+                raise ExecutionError("existing receipt has no specification; reconcile uncertain operation")
         if (directory / "spec.json").exists():
             if _canonical(_read(directory / "spec.json")) != fingerprint:
                 raise ExecutionError("operation already exists with a different specification")
             return observe(directory)
-        _write(directory / "spec.json", spec)
-        _write(directory / "receipt.json", {
-            "version": 1, "operation_id": spec["operation_id"], "spec_sha256": fingerprint,
-            "state": "prepared", "released": False, "prepared_at": time.time(),
-            "detail": "launch fenced; runner acknowledgement pending",
-        })
+        try:
+            # Admit only a new operation, under the same lock as its launch
+            # fence. A later ignore edit cannot reclassify existing execution.
+            validate_artifact_paths([directory / name for name in
+                                     ("spec.json", "receipt.json", "stdout", "stderr", "runner.stderr")])
+            _write(directory / "spec.json", spec, artifact=True)
+            _write(directory / "receipt.json", {
+                "version": 1, "operation_id": spec["operation_id"], "spec_sha256": fingerprint,
+                "state": "prepared", "released": False, "prepared_at": time.time(),
+                "detail": "launch fenced; runner acknowledgement pending",
+            })
+        except (OSError, ValueError) as error:
+            # No Popen has been attempted in this branch. Persist a metadata-only
+            # refusal before releasing the lock so concurrent calls cannot retry
+            # this operation identity, even after storage admission is corrected.
+            refused = {"version": 1, "operation_id": spec["operation_id"], "spec_sha256": fingerprint,
+                       "state": "setup_error", "released": True, "not_launched": True,
+                       "finished_at": time.time(), "returncode": None, "detail": str(error)}
+            try:
+                _write(directory / "receipt.json", refused)
+            except (OSError, ValueError) as persistence_error:
+                raise ExecutionError("prelaunch refusal could not be durably fenced: " + str(error)
+                                     + "; receipt error: " + str(persistence_error)) from persistence_error
+            raise NotLaunched(refused) from error
         try:
             with (directory / "runner.stderr").open("ab") as errors:
                 runner = subprocess.Popen(
@@ -294,6 +341,13 @@ def _run(directory):
             if (directory / "cancel.json").exists():
                 cancel_reason = _read(directory / "cancel.json")["reason"]
             else:
+                try:
+                    validate_artifact_paths([directory / "stdout", directory / "stderr"])
+                except (OSError, ValueError) as error:
+                    # The runner exists, but no command was created. Distinguish
+                    # this storage guard from ordinary command setup failures.
+                    receipt.update(storage_hold=True, storage_notice=str(error))
+                    raise
                 with (directory / "stdout").open("wb") as stdout, (directory / "stderr").open("wb") as stderr:
                     command = subprocess.Popen(spec["argv"], cwd=spec["cwd"],
                                                env=dict(os.environ, **spec["env"]),

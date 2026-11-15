@@ -8,6 +8,8 @@ from pathlib import Path
 import sqlite3
 import time
 
+from engineering import validate_artifact_paths
+
 SCHEMA = 2
 _HASH_CACHE = {}
 
@@ -59,6 +61,13 @@ class Store:
             raise ValueError("state database must not be a symlink")
         if not create and not self.path.is_file():
             raise ValueError("run does not exist; use start")
+        # State includes task prompts and source-bearing evidence. Admit all
+        # SQLite-controlled file names before creating a new database. Existing
+        # state must remain accessible for cancellation/recovery even if rules
+        # changed later; this is admission, not a concurrency/sandbox promise.
+        if create and not self.path.exists():
+            validate_artifact_paths([self.path, *(Path(str(self.path) + suffix)
+                                               for suffix in ("-wal", "-shm", "-journal"))])
         if create:
             self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.connection = sqlite3.connect(self.path, timeout=10, isolation_level=None)

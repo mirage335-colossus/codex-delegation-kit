@@ -11,6 +11,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -152,6 +153,63 @@ class ExecutionTests(unittest.TestCase):
         self.assertFalse(result["released"])
         self.assertTrue((self.directory / "cancel.json").exists())
         self.assertFalse(execution._signal_owned(identity, signal.SIGTERM))
+
+    def test_spec_temporary_refusal_fences_identity_without_launch_or_raw_capture(self):
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
+        rule = self.root / ".gitignore"
+        rule.write_text("".join("/operation/" + name + "\n" for name in
+                                ("spec.json", "receipt.json", "stdout", "stderr", "runner.stderr")))
+        spec = self.spec("from pathlib import Path; Path('must-not-run').touch()")
+        with self.assertRaises(execution.NotLaunched) as refused:
+            execution.launch(self.directory, spec)
+        self.assertIn(".receipt-", str(refused.exception))
+        self.assertTrue(refused.exception.observation["released"])
+        self.assertEqual({p.name for p in self.directory.iterdir()}, {"metadata.lock", "receipt.json"})
+        self.assertFalse((self.root / "must-not-run").exists())
+        before = (self.directory / "receipt.json").read_bytes()
+        rule.write_text("/operation/\n")
+        # Even corrected admission cannot implicitly replay a fenced identity.
+        def replay(_):
+            try:
+                execution.launch(self.directory, spec)
+            except execution.NotLaunched as error:
+                return error.observation
+            self.fail("fenced nonlaunch was replayed")
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            observations = list(pool.map(replay, range(4)))
+        self.assertTrue(all(value == refused.exception.observation for value in observations))
+        self.assertEqual((self.directory / "receipt.json").read_bytes(), before)
+        with self.assertRaisesRegex(execution.ExecutionError, "different specification") as changed:
+            execution.launch(self.directory, self.spec("print('different')"))
+        self.assertNotIsInstance(changed.exception, execution.NotLaunched)
+        self.assertFalse((self.root / "must-not-run").exists())
+
+    def test_changed_ignore_cannot_release_or_reclassify_prior_uncertain_launch(self):
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, capture_output=True)
+        self.directory.mkdir()
+        spec = self.spec("from pathlib import Path; Path('must-not-retry').touch()")
+        execution._write(self.directory / "spec.json", spec)
+        execution._write(self.directory / "receipt.json", {
+            "state": "prepared", "released": False, "prepared_at": time.time() - 10})
+        (self.root / ".gitignore").write_text("")
+        observation = execution.launch(self.directory, spec)
+        self.assertEqual(observation["state"], "uncertain")
+        self.assertFalse(observation["released"])
+        self.assertNotIn("not_launched", observation)
+        self.assertFalse((self.root / "must-not-retry").exists())
+
+    def test_failed_nonlaunch_receipt_persistence_never_claims_release(self):
+        original = execution._write
+        def write(path, value, **kwargs):
+            if path.name == "receipt.json":
+                raise OSError("synthetic metadata storage failure")
+            return original(path, value, **kwargs)
+        with mock.patch.object(execution, "validate_artifact_paths", side_effect=ValueError("exact storage refusal")), \
+                mock.patch.object(execution, "_write", side_effect=write):
+            with self.assertRaisesRegex(execution.ExecutionError, "exact storage refusal.*synthetic metadata storage failure") as error:
+                execution.launch(self.directory, self.spec())
+        self.assertNotIsInstance(error.exception, execution.NotLaunched)
+        self.assertFalse(execution.observe(self.directory)["released"])
 
     def test_runner_crash_retains_reservation_for_surviving_process(self):
         spec = self.spec("import time; time.sleep(20)")

@@ -16,6 +16,7 @@ import shutil
 import stat
 import subprocess
 import tempfile
+import uuid
 
 MAX_FILES = 20000
 MAX_FILE_BYTES = 8 * 1024 * 1024
@@ -96,6 +97,67 @@ def _git(root, *args, optional=False, input=None):
     if len(result.stdout) > 8 * 1024 * 1024:
         raise ValueError("repository file inventory exceeds 8 MiB")
     return result.stdout
+
+
+def validate_artifact_paths(paths, *, directories=False):
+    """Preflight raw-content destinations; this is not a filesystem sandbox.
+
+    Repository captures must be untracked and excluded by that repository's
+    own .gitignore. Global excludes and .git/info/exclude are insufficient.
+    Authored research and user-curated directories are never capture caches.
+    Outside-repository scratch is permitted here, but still needs the caller's
+    authorization. Call before writing bytes, including staging/temporary files
+    and final destinations. With directories=True, require whole-directory
+    exclusion and no tracked descendants for provider-managed output trees.
+    Concurrent path or ignore-rule replacement is not
+    prevented; callers retain their own no-follow and ownership protections.
+    """
+    for value in paths:
+        path = Path(value)
+        if (not path.is_absolute() or ".." in path.parts or ".git" in path.parts
+                or "\0" in str(path)):
+            raise ValueError("artifact path must be absolute without traversal or Git metadata")
+        for entry in (path, *path.parents):
+            if entry.is_symlink():
+                raise ValueError(f"artifact path must not traverse a symlink: {entry}")
+            if entry.exists() and not (entry.is_file() if entry == path and not directories else entry.is_dir()):
+                raise ValueError(f"artifact path has a non-file destination or non-directory parent: {entry}")
+        # Inspect every enclosing worktree, so a nested repository cannot hide
+        # a raw capture from an outer repository's tracking/ignore rules.
+        for root in ((path, *path.parents) if directories else path.parents):
+            marker = root / ".git"
+            if marker.is_symlink():
+                raise ValueError(f"artifact repository metadata must not be a symlink: {marker}")
+            # Some managed environments mount empty .git placeholders in
+            # scratch ancestors. No Git metadata exists there. Nonempty broken
+            # metadata is still inspected and fails closed below.
+            empty_marker = marker.is_dir() and next(marker.iterdir(), None) is None
+            if not marker.exists() or empty_marker:
+                if (root / "HEAD").is_file() and (root / "objects").is_dir() and (root / "config").is_file():
+                    if _git(root, "rev-parse", "--is-bare-repository").strip() == b"true":
+                        raise ValueError("artifact path must not be inside a bare Git repository")
+                continue
+            actual = Path(os.fsdecode(_git(root, "rev-parse", "--show-toplevel").rstrip(b"\n")))
+            if actual != root:
+                raise ValueError("artifact repository root disagrees with Git metadata")
+            if path == root:
+                raise ValueError("a repository root cannot be an artifact directory")
+            name = path.relative_to(root).as_posix()
+            parts = Path(name).parts if directories else Path(name).parts[:-1]
+            if {"research", "_ref", "_appraisal"}.intersection(parts):
+                raise ValueError("raw artifacts belong outside research/, _ref/, and _appraisal/")
+            if _git(root, "ls-files", "--cached", "-z", "--", ":(literal)" + name):
+                raise ValueError(f"raw artifact destination is already tracked: {path}")
+            excluded = _git(root, "check-ignore", "--no-index", "-v", "-z", "--stdin",
+                            optional=True, input=os.fsencode(name + ("/" if directories else "")) + b"\0")
+            fields = excluded.split(b"\0") if excluded else []
+            if len(fields) != 5 or fields[-1] != b"" or fields[2].startswith(b"!"):
+                raise ValueError(f"raw artifact needs an effective repository .gitignore rule: {path}")
+            source = Path(os.fsdecode(fields[0]))
+            source = source if source.is_absolute() else root / source
+            if (".." in source.parts or not source.is_relative_to(root) or source.name != ".gitignore"
+                    or any(p.is_symlink() for p in (source, *source.parents))):
+                raise ValueError(f"raw artifact exclusion must come from this repository's .gitignore: {path}")
 
 
 def _read_entry(root_fd, name):
@@ -331,8 +393,11 @@ def durable_json(path, value):
     """Persist bounded evidence before committing a destructive cleanup intent."""
     path = Path(path)
     data = (json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n").encode()
-    with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as stream:
-        temporary = Path(stream.name)
+    temporary = path.parent / (".evidence-" + uuid.uuid4().hex)
+    validate_artifact_paths([path, temporary])
+    # Preserve an admitted partial/complete temporary on write or rename error;
+    # a failed evidence commit must not discard the only captured source copy.
+    with os.fdopen(os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600), "wb") as stream:
         stream.write(data)
         stream.flush()
         os.fsync(stream.fileno())

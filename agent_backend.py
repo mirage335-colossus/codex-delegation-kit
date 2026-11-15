@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 from collections import deque
+from contextlib import ExitStack
 import json
 import math
 import os
@@ -19,10 +20,12 @@ import select
 import signal
 import subprocess
 import sys
-import tempfile
 import time
+import uuid
 
 MAX_BYTES = 1024 * 1024
+MAX_RECOVERY_TEXT_BYTES = 32 * 1024
+MAX_RECOVERY_MESSAGES = 16
 PROFILE = "read-only-no-exec"
 ENGINEERING_PROFILE = "engineering"
 # Verified by the installed app-server's default selection and environment/info.
@@ -60,15 +63,19 @@ def _json(raw):
 
 
 def _atomic(path, value, *, identical=False):
+    from engineering import validate_artifact_paths
     encoded = (json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n").encode()
+    validate_artifact_paths([path])
     if path.is_symlink():
         raise BackendError("backend file must not be a symlink")
     if identical and path.exists():
         if path.read_bytes() != encoded:
             raise BackendError("operation identity reused with different backend request")
         return
-    with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as stream:
-        temporary = Path(stream.name)
+    temporary = path.parent / (".backend-" + uuid.uuid4().hex + ".tmp")
+    validate_artifact_paths([temporary])
+    descriptor = os.open(temporary, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    with os.fdopen(descriptor, "wb") as stream:
         stream.write(encoded)
         stream.flush()
         os.fsync(stream.fileno())
@@ -80,6 +87,94 @@ def _atomic(path, value, *, identical=False):
         os.close(descriptor)
 
 
+def _artifact_preflight(directory):
+    from engineering import validate_artifact_paths
+    validate_artifact_paths([directory / name for name in (
+        "backend-request.json", "backend-result.json", "backend-events.jsonl", "backend-started")])
+    validate_artifact_paths([directory / "runtime-state", directory / "runtime-logs"], directories=True)
+
+
+def _capture_public_message(state, method, body):
+    """Retain bounded public output as unaccepted data, never reasoning items."""
+    if body.get("turnId", state["turn_id"]) != state["turn_id"]:
+        return False
+    if method == "item/completed" and body.get("item", {}).get("type") == "agentMessage":
+        item = body["item"]
+        identity, text, complete = item.get("id"), item.get("text"), True
+    elif method == "item/agentMessage/delta":
+        identity, text, complete = body.get("itemId"), body.get("delta"), False
+    else:
+        return False
+    if not isinstance(text, str):
+        return False
+    recovery = state["recovery"]
+    messages = recovery["messages"]
+    identity = identity[:256] if isinstance(identity, str) else None
+    prior = next((record for record in messages if identity is not None and record["item_id"] == identity), None)
+    if prior is not None:
+        messages.remove(prior)
+        if not complete:
+            text = prior["text"] + text
+    raw = text.encode()
+    omitted = max(0, len(raw) - MAX_RECOVERY_TEXT_BYTES)
+    record = {"item_id": identity, "text": raw[-MAX_RECOVERY_TEXT_BYTES:].decode("utf-8", "ignore"),
+              "completed_message": complete, "text_truncated": bool(omitted) or bool(prior and not complete and prior["text_truncated"])}
+    messages.append(record)
+    recovery["omitted_text_bytes"] += omitted
+    while len(messages) > MAX_RECOVERY_MESSAGES or sum(len(m["text"].encode()) for m in messages) > MAX_RECOVERY_TEXT_BYTES:
+        removed = messages.pop(0)
+        recovery["omitted_messages"] += 1
+        recovery["omitted_text_bytes"] += len(removed["text"].encode())
+    return True
+
+
+def _interrupt_cleanup(client, state, directory):
+    """Best-effort supported interruption, bounded independently of acceptance."""
+    cleanup = state.setdefault("cleanup_interrupt", {"requested": False, "acknowledged": False,
+                                                     "terminal_observed": False})
+    deadline = time.monotonic() + .5
+    try:
+        identity = client.send("turn/interrupt", {"threadId": state["thread_id"], "turnId": state["turn_id"]})
+        cleanup["requested"] = True
+        with ExitStack() as files:
+            events = None
+            try:
+                from engineering import validate_artifact_paths
+                validate_artifact_paths([directory / "backend-events.jsonl"])
+                events = files.enter_context((directory / "backend-events.jsonl").open("a"))
+            except (OSError, ValueError) as error:
+                # A storage hold must neither strand execution nor bypass the
+                # newly denied destination. Earlier artifacts remain untouched.
+                cleanup["events_persistence_error"] = str(error)[:2000]
+            while time.monotonic() < deadline:
+                message = client.notifications.popleft() if client.notifications else client.read(deadline)
+                if message.get("id") == identity and "method" not in message:
+                    cleanup["acknowledged"] = "error" not in message
+                    continue
+                body, method = message.get("params", {}), message.get("method", "")
+                if body.get("threadId", state["thread_id"]) != state["thread_id"]:
+                    continue
+                # Keep observations without processing or accepting further tools.
+                if events is not None:
+                    try:
+                        events.write(json.dumps(message, ensure_ascii=False) + "\n")
+                        events.flush()
+                        os.fsync(events.fileno())
+                    except OSError as error:
+                        cleanup["events_persistence_error"] = str(error)[:2000]
+                        events = None
+                _capture_public_message(state, method, body)
+                if method == "turn/completed" and body.get("turn", {}).get("id") == state["turn_id"]:
+                    for item in body["turn"].get("items", []):
+                        _capture_public_message(state, "item/completed", {"item": item})
+                    cleanup["terminal_observed"] = True
+                    cleanup["terminal_status"] = body["turn"].get("status")
+                    break
+    except (OSError, ValueError, TypeError, KeyError, TimeoutError) as error:
+        cleanup["detail"] = str(error)[:2000]
+    # Neither acknowledgement nor a terminal replaces execution release checks.
+
+
 def prepare(task, policy, directory):
     """Prepare an immutable request; never run inference or change global config.
 
@@ -89,6 +184,7 @@ def prepare(task, policy, directory):
     unsandboxed thread/shellCommand API.
     """
     directory = Path(directory).absolute()
+    _artifact_preflight(directory)
     if any(p.is_symlink() for p in (directory, *directory.parents)):
         raise BackendError("backend directory must not traverse symlinks")
     for key in ("model", "effort", "service_tier", "codex_binary"):
@@ -276,7 +372,7 @@ COMMON_INSTRUCTIONS = (
     "During ordinary development, when an important scientific gap could materially change direction, research should begin without waiting for the user, while independent permitted work continues. The coordinator initiates a dedicated research assignment; an assigned engineering owner requests it through the existing coordinator channel. Scale work to consequence and requested breadth; settled tasks need no campaign. First reuse adequate curated research and verify current applicability, investigating its gaps rather than duplicating it. For substantial broad grounding, the engineering or task owner commissions one pair of independent full-problem inquiries through existing eligible responsibilities. Each gets the original problem, full envelope, constraints and common source facts; neither receives the other inquiry's questions, map, findings or account, or the emerging engineering plan, until both first accounts are preserved. The task owner sets an initial-account checkpoint and reserves follow-through within the shared allowance. An assigned inquiry requests bounded support through the controller, not another pair; scouts and workers surface gaps but do not commission it. "
     "For scientific critique, scope the full brief before seeing authors' coverage maps, accounts or engineering plans. Use permitted routes for bounded primary-source discovery across the full brief, then return source-supported questions, competing explanations, transfer limits and scope changes; request exact retrieval when access is unavailable. Only after preserving that scope should the critic receive the account(s), reconciliation and factual source context. Request missing original context through the controller. Factual source context excludes engineering recommendations, including those appended to code observations. Withhold engineering plans and prior tranche approvals through scientific disposition. If an author map/account or engineering plan/approval was previously exposed, disclose that exposure and request suitable independent review where feasible; do not claim blinding. Early architecture review uses a separate permitted responsibility within the same limits, or dependent commitments wait. Check the weakest primary-source support, decisive quantitative comparisons and contrary or coupled cases. "
     "For broad grounding, cover the requested operating envelope with substantive explanations and discriminating evidence in each material domain; depth in one cannot offset an omitted or shallow other. Assess bounded-step engineering readiness separately from scientific coverage; neither readiness nor one successful example per branch establishes broad grounding. For consequential quantitative questions, perform a meaningful bounded derivation, reference calculation or public-observation check when authorized inputs and execution are available, even if target calibration remains; distinguish these research checks from product qualification. For consequential claims, connect source-supported mechanisms and conditions to the development decision and affected code or check; state what was performed and what remains unqualified. When sources report both predictions and observations, do not substitute assumptions or model predictions for measurements, omit contrary results or collapse source values and independent reconstructions; inspect actual results, limits and measurement conventions, reconcile discrepancies and preserve unknowns. Retain each material question, including unanswered ones, its conditions and unresolved distinctions. Map conclusions to their conditions and performed evidence; positive or negative evidence may address, reject or bound alternatives, and a successful example closes only distinctions it actually resolves. Preserve additions, disagreements and reasons for removing questions; citations or word counts do not substitute for dispositions. Return gaps with their impact and smallest feasible discriminator; scouts and workers report scope contraction and unanswered question groups to the owner. Before treating missing deployment or calibration inputs as a boundary, complete feasible source comparisons or representative calculations, or preserve the specific gap and downstream consequence. Complete feasible research and changed-evidence scientific review before handoff, then verify engineering uptake and independently review resulting decisions before acceptance. When real limits prevent correction, report science as partial with the exact missing evidence or next check; an intermediate report is not closure while material feasible research remains. "
-    "Treat _ref/ and _appraisal/ as user-curated; write there only on explicit curation request. Keep gathered substantive knowledge in an authorized research/ location or existing task evidence; no new research file or ledger is mandatory. If outside evidence or execution is unavailable, request its exact source/input/access or next check through the controller and report the limit; do not infer or claim any permission beyond the assignment, including browsing, network, tools, writes or continuation. This guidance does not change model/effort, authorize nested delegation, add roles or expand the task's access. "
+    "Treat _ref/ and _appraisal/ as user-curated; write there only on explicit curation request. Keep authored synthesis, useful knowledge and citations in an authorized research/ location or existing task evidence; no new research file or ledger is mandatory. Downloaded papers, datasets, copied source, extracted text and raw tool responses belong only in authorized outside-repository scratch or a separate cache whose actual destinations are untracked and effectively excluded by repository .gitignore rules, never in research/. Check before writing, including staging paths; global ignores or .git/info/exclude alone do not satisfy this requirement. Incrementally retain public findings, source locators, unfinished questions and exact interruption notices so a guard does not discard useful work. Preserve the original limits and counters, keep the blocked operation held, and reuse retained findings on supported continuation without rerouting or repeating denied operations. If outside evidence or execution is unavailable, request its exact source/input/access or next check through the controller and report the limit; do not infer or claim any permission beyond the assignment, including browsing, network, tools, writes or continuation. This guidance does not change model/effort, authorize nested delegation, add roles or expand the task's access. "
     "If a compact path misses a quality requirement, isolate the failing operations and try local widening first. Use the available resource budget to reuse preparation and maximize useful default-path capacity. Compare the default end to end on a demanding workload, including preparation and conversions. Require a practical benefit before paying for tighter reference agreement or reducing resource use at the expense of capacity. "
     "Treat storage and executed arithmetic as separate choices. Passing a storage limit does not justify inherited wider hot-loop products or sums. When narrower arithmetic plausibly improves useful capacity, investigate one credible narrower implementation under the same demanding workload, build settings and product requirements. Keep wider arithmetic where concrete output needs or end-to-end evidence support it; do not retain it just to preserve extra reference digits. Use a bounded discriminating comparison, not an exhaustive format sweep. "
     "Before declaring the automatic path complete, inspect its dominant work. Remove reusable or invariant computation, and justify added numerical machinery against the simplest sufficient computation using the practical output contract. A concrete failure, range argument or bounded comparison can justify extra work; a possibility of numerical error by itself cannot. "
@@ -573,19 +669,24 @@ class Rpc:
         self.notifications.append(message)
 
     def close(self):
-        if self.process.poll() is None:
-            self.process.terminate()
-            try:
-                self.process.wait(timeout=1)
-            except subprocess.TimeoutExpired:
-                self.process.kill()
-                self.process.wait(timeout=1)
+        try:
+            if self.process.poll() is None:
+                self.process.terminate()
+                try:
+                    self.process.wait(timeout=1)
+                except subprocess.TimeoutExpired:
+                    self.process.kill()
+                    self.process.wait(timeout=1)
+        finally:
+            self.process.stdin.close()
+            self.process.stdout.close()
 
 
 def run_request(path):
     path = Path(path).absolute()
     request = _json(path.read_text())
     directory = path.parent
+    _artifact_preflight(directory)
     destination = directory / "backend-result.json"
     # Execution's operation lock prevents duplicates. A separate launch marker
     # prevents accidental direct replay of this internal entry point as well.
@@ -602,13 +703,18 @@ def run_request(path):
              "configured": {key: request[key] for key in ("model", "effort", "service_tier", "sandbox", "approval", "network", "agent_tools")},
              "operation_id": request["operation_id"], "thread_id": None, "turn_id": None,
              "detail": "startup not yet acknowledged", "commands": [], "file_changes": [],
-             "events": str(directory / "backend-events.jsonl"), "termination_kind": "error"}
+             "events": str(directory / "backend-events.jsonl"), "termination_kind": "error",
+             "recovery": {"version": 1, "accepted": False, "messages": [], "omitted_messages": 0,
+                          "omitted_text_bytes": 0,
+                          "limitation": "Bounded public agent output, not accepted findings or permission; inspect retained events/workspace for omitted evidence. omitted_text_bytes counts cumulative trims, not unique source bytes."}}
     _atomic(destination, state)
     interrupted = [False]
     def on_signal(signum, frame):
         interrupted[0] = True
     previous_signals = {sig: signal.signal(sig, on_signal) for sig in (signal.SIGTERM, signal.SIGINT)}
     client = None
+    cancellation_sent = False
+    terminal_observed = False
     try:
         if request["agent_tools"] == ENGINEERING_PROFILE and os.environ.get("CODEX_EXEC_SERVER_URL"):
             raise BackendError("engineering local execution refuses CODEX_EXEC_SERVER_URL override")
@@ -656,9 +762,16 @@ def run_request(path):
         state["detail"] = "turn running"
         _atomic(destination, state)
         final_text = None
-        cancellation_sent = False
+        last_public_checkpoint = time.monotonic()
+        pending_public_checkpoint = False
         with (directory / "backend-events.jsonl").open("a") as events:
             while True:
+                if pending_public_checkpoint and time.monotonic() - last_public_checkpoint >= 1:
+                    events.flush()
+                    os.fsync(events.fileno())
+                    _atomic(destination, state)
+                    last_public_checkpoint = time.monotonic()
+                    pending_public_checkpoint = False
                 if interrupted[0] and not cancellation_sent:
                     client.send("turn/interrupt", {"threadId": state["thread_id"], "turnId": state["turn_id"]})
                     cancellation_sent = True
@@ -683,6 +796,15 @@ def run_request(path):
                     continue
                 events.write(json.dumps(message, ensure_ascii=False) + "\n")
                 events.flush()
+                if _capture_public_message(state, method, body):
+                    pending_public_checkpoint = True
+                    # Complete public messages checkpoint immediately; streamed
+                    # deltas coalesce to avoid Git/fsync work for every token.
+                    if method == "item/completed":
+                        os.fsync(events.fileno())
+                        _atomic(destination, state)
+                        last_public_checkpoint = time.monotonic()
+                        pending_public_checkpoint = False
                 if method == "model/rerouted":
                     raise BackendError("runtime rerouted the requested model; result held")
                 if method == "thread/tokenUsage/updated":
@@ -695,7 +817,10 @@ def run_request(path):
                     if method == "item/completed" and item.get("type") == "agentMessage":
                         final_text = item.get("text")
                 if method == "turn/completed" and body.get("turn", {}).get("id") == state["turn_id"]:
+                    terminal_observed = True
                     turn = body["turn"]
+                    for item in turn.get("items", []):
+                        _capture_public_message(state, "item/completed", {"item": item})
                     if turn.get("status") != "completed" or cancellation_sent:
                         if cancellation_sent and turn.get("status") == "interrupted" and not turn.get("error"):
                             state["termination_kind"] = "interrupted"
@@ -726,6 +851,7 @@ def run_request(path):
                          detail="swarm experiment reached its assigned time limit; no engineering outcome established")
             try:
                 client.send("turn/interrupt", {"threadId": state["thread_id"], "turnId": state["turn_id"]})
+                cancellation_sent = True
             except (OSError, ValueError):
                 pass  # The owned executor still must verify descendant release.
         else:
@@ -733,11 +859,26 @@ def run_request(path):
     except (OSError, ValueError, KeyError, TypeError) as error:
         state.update(status="hold", detail=str(error))
     finally:
-        if client:
-            client.close()
-        _atomic(destination, state)
-        for sig, previous in previous_signals.items():
-            signal.signal(sig, previous)
+        try:
+            try:
+                # Record the original hold before orderly cleanup can fail.
+                _atomic(destination, state)
+            finally:
+                try:
+                    if client and state["turn_id"] and not terminal_observed and not cancellation_sent:
+                        _interrupt_cleanup(client, state, directory)
+                finally:
+                    if client:
+                        client.close()
+            _atomic(destination, state)
+        except (OSError, ValueError) as error:
+            # The earlier durable checkpoint remains valid. Expose both causes
+            # in the owned executor's stderr when a new checkpoint is denied.
+            raise BackendError("backend preservation failed; original operation state: " + state["detail"]
+                               + "; preservation error: " + str(error)) from error
+        finally:
+            for sig, previous in previous_signals.items():
+                signal.signal(sig, previous)
     return 0 if state["status"] == "completed" else 1
 
 

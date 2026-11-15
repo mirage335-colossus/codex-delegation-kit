@@ -685,11 +685,56 @@ their contents without an explicit request to curate those destinations.** An
 older report proposing those paths does not supply that authorization. Keep
 substantive agent-gathered scientific knowledge in an authorized `research/`
 location or existing task evidence; retain detailed explanations and source
-locators that later development can retrieve. Use temporary storage for search
-scraps. Resolve the output destination against the authorized project before
-writing, especially when studying another read-only checkout. This grants no
-additional write permission, requires no new document for
-every task and creates no parallel assignment ledger.
+locators that later development can retrieve. These destinations hold authored,
+high-density knowledge: mechanisms, comparisons, derivations, conclusions,
+uncertainty and citations. They are not collections of downloaded papers,
+datasets, copied third-party source, extracted publication text or raw tool
+responses. Authored reproducible checks and useful results may accompany the
+account under the project's conventions. Resolve the output destination against
+the authorized project before writing, especially when studying another
+read-only checkout. This grants no additional write permission, requires no new
+document for every task and creates no parallel assignment ledger.
+
+For necessary acquired originals and raw captures, use authorized scratch outside
+repositories or a narrow repository cache such as `/.research-artifacts/`.
+**Before writing third-party material inside a repository, establish and verify
+an effective rule in that repository's `.gitignore`.** Check the actual paths,
+including temporary/staging paths and final rename destinations; a cache's name
+or an ignored parent alone does not establish coverage. Reject symlink escapes,
+path traversal, negated exclusions and already-tracked destinations. Global Git
+exclusions and `.git/info/exclude` alone do not meet this portable repository
+contract. A `.gitignore` rule does not untrack existing files. Do not blanket-ignore
+`research/`, put acquisitions in `_ref/` or `_appraisal/`, or hide acquired payloads
+in encoded or compressed research documents. Preserve citations, versions,
+locators and useful access limitations in the authored account rather than copying
+source bodies into it. Existing acquired files need a deliberate, authorized
+retention or migration decision; do not delete, move, untrack or rewrite history
+merely to make an exclusion check pass.
+
+Checkpoint useful research incrementally at meaningful findings and before a
+potentially interrupting execution. Update the existing authored account or
+assignment handoff with conclusions and their support, source identity and actual
+access, completed checks, contradictions, open questions, retained artifact
+locations and the next useful permitted step. Carry the original assignment,
+ownership, remaining shared allowance, deadline and active holds. A concise
+handoff can point to detailed accounts; it must not replace or erase them.
+Keep unfinished observations explicitly unaccepted. Checkpoints preserve public
+findings and reproducible evidence, not hidden reasoning or secrets.
+
+A guard failure or interrupted actor must not by itself abandon the scientific
+objective or erase useful work. Preserve the exact available failure and follow
+the [interruption procedure](#classify-interruptions-before-implementation-escalation).
+Stop the affected operation or owned actor at the supported scope; continue
+independent permitted work. If the supported boundary requires stopping a larger
+session, preserve its available accounts and recovery handoff before orderly
+cleanup when feasible. Do not repeat successful source acquisitions or restart
+the inquiry solely because a new context is needed. A supported continuation
+reuses retained knowledge and checks under the same holds, budgets and deadline;
+it reconciles the blocked operation rather than replaying it. No checkpoint
+clears a denial, resumes an explicit user stop or makes partial evidence accepted.
+A started acquisition is not proof of completed delivery, inspection or known
+cost. Keep sealed historical outcomes unchanged; later recovered knowledge may
+be useful without retroactively making a failed exercise pass.
 
 Build a task-specific map of scientific questions, approach families, influential
 assumptions and important gaps before converging on a favorite method. Start from
@@ -890,7 +935,11 @@ Reusable research assignment cue:
 > assesses the whole research problem.
 > Return detailed scientific synthesis plus a concise development handoff, within
 > the assigned authority and budget. Keep curated destinations read-only unless
-> explicitly authorized.
+> explicitly authorized. Checkpoint useful findings and open questions so an
+> interrupted actor can hand off its work without restarting the inquiry or
+> clearing its holds. Keep research accounts authored and citation-rich; acquired
+> papers, data and raw captures require authorized outside-repository scratch or
+> verified repository `.gitignore` coverage in a separate narrow cache.
 
 Reusable development continuation cue:
 
@@ -900,6 +949,8 @@ Reusable development continuation cue:
 > decision, what is already equivalent, and what actual implementation/check still
 > remains. Continue targeted research where it could change the next decision;
 > preserve unresolved limits and the distinction between proposals and execution.
+> Reuse interrupted work through supported continuation under its original
+> limits; keep the exact blocked operation held until actually resolved.
 
 ## Initial Astra consultation
 
@@ -2178,7 +2229,15 @@ Retain exact available notice text (or the fact that it is unavailable), the
 attempted operation, known model/effort, supported affected scope and uncertainty,
 partial patch/checks, original evidence and remaining acceptance conditions in
 the existing assignment records. Preserve ID, elapsed budget, deadline, ownership
-and failure history. Use the existing validation path for setup/tool permissions,
+and failure history. For research, retain the authored scientific account,
+public observations, source locators and actual access, completed calculations,
+open questions and the next permitted step. Preserve useful evidence before
+cleanup when feasible and retain its location for continuation; do not discard
+an entire inquiry because one operation or actor stopped. Keep raw captures in
+authorized outside-repository scratch or repository-ignored storage, separate
+from authored knowledge. A continuation starts from preserved work rather than
+repeating the original inquiry, and still requires the same supported resolution
+and remaining allowance. Use the existing validation path for setup/tool permissions,
 retaining the exact available denial; unresolved restricted operations remain
 blocked even if a strong owner later oversees other work. For model
 refusal/uncertainty or service
