@@ -1,0 +1,84 @@
+# Scientific profile access instructions
+
+This is an on-request capability receipt, not a scientific task or source list.
+The service returns these frozen bytes for a `capability` request. Replace
+`DIRECTORY` below with the operation directory from your execution environment.
+
+The author, its helpers, waits and gates share eight elapsed hours from the
+recorded monotonic dispatch deadline. The requested capacity is twelve active
+identities including the root; any stricter inherited child limit is retained
+in `support/profile.json`. There are thirty-two helper assignments, including
+gates. Continued work by the same child in the same scope does not consume a new
+assignment; new scopes and replacements do. Record each through:
+
+```text
+python3 -B DIRECTORY/support/scientific_relay.py assignment --directory DIRECTORY --author OWNED_AUTHOR_ID --child OWNED_CHILD_ID --scope STABLE_SCOPE_ID
+```
+
+The root operates its own native helpers and assigns disjoint output paths.
+The external service does not choose helpers, allocate scientific branches,
+write scientific summaries, or ask an early-finishing primary to continue.
+
+The shared public acquisition allocation is 2,000 web request items, 100 public
+browser content actions, and 80 other supported public calls. Failed attempts
+and repeated requests consume their reserved units; there are no refunds.
+These are cooperative reservations, not authenticated per-caller limits or
+interception of unwrapped native tools. Evaluator work uses a separate budget.
+
+Native web input mapping is unverified. Do not infer native inputs from
+`WebSearchAction` output events or make unmetered native acquisitions. Use the
+exact-request mailbox. A `web` request carries the documented root-service
+`web.run` arguments unchanged: arrays `search_query`, `open`, `click`, `find`,
+and `screenshot`, and optional `response_length`. Each array item costs one
+operation. Unsupported fields or units are held; do not execute an uncounted
+substitute. The service executes every literal requested action once and returns
+raw results/errors. No selection of sources, excerpts, or next steps is supplied.
+
+Write a JSON request, then enqueue it:
+
+```json
+{"id":"stable-id","author":"OWNED_AUTHOR_ID","kind":"web","parameters":{"search_query":[{"q":"your exact query"}],"response_length":"long"}}
+```
+
+```text
+python3 -B DIRECTORY/support/scientific_relay.py enqueue --directory DIRECTORY --request YOUR_REQUEST_FILE
+```
+
+Use `browser` or `public` with `parameters` containing exactly `tool` (the literal
+supported public tool name) and `arguments` (its exact argument object). One
+request reserves one content action or one other call. A tool that internally
+batches multiple content actions is not supported by that one-unit recipe.
+Use kind `browser_control` for specifically requested browser initialization or
+control. These calls are counted separately from content actions, within the
+finite mailbox request ceiling; they grant no additional content actions. The
+operator records both actual invocation count and content-operation units.
+Unreviewed tools, unknown operation units, private-service requests and known
+permission blocks must be held by the service before execution.
+
+Use `dependency` with exactly `path` (ordinary relative source path) and
+`purpose` for a specifically needed omitted source dependency. Curated material,
+other episodes, evaluator files and new instruction files are excluded. The
+operator must verify the requested ordinary dependency against the frozen
+project revision and applicable permissions. Additions appear separately under
+`relay/dependencies/REQUEST_ID/`; the frozen project is never mutated.
+
+Poll `relay/inbox/REQUEST_ID/receipt.json` and `response.bin`, continuing useful
+independent work while a request is pending. Preserve error/blocked receipts.
+The first root terminal or elapsed deadline closes author delivery. In-flight
+results that miss that boundary remain private operator audit, with actual costs
+retained; they are not delivered later to fill an omission. Pending author
+reservations are not refunded or retrospectively repaired. A shared bounded lock
+and a final deadline/closure check govern each publication commit.
+Service availability is frozen in `support/profile.json`; unavailable means no
+service will be supplied. The mailbox is not a way around an access or permission
+restriction. Do not change a blocked request's label, provider, account or path
+to retry it. No one in the service is authorized to contact people, spend money,
+rent compute, or execute the product on your behalf.
+
+The collector has 512 MiB protocol, 512 MiB event, and 512 MiB relay-response
+ceilings, a 2 MiB individual protocol/request ceiling and a 16 MiB individual
+relay-response ceiling. Stderr retains a 1 MiB tail with total byte counts.
+The artifact-lock manifest is bounded to 65,536 entries and thirty seconds;
+failure to finish that collection is an explicit infrastructure limitation.
+There is no aggregate author-disk, process-memory or token quota claim. A ceiling
+or access failure is an infrastructure limitation, not a scientific conclusion.

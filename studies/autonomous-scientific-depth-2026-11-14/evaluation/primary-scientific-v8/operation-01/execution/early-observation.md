@@ -1,0 +1,15 @@
+> Retention note (2026-11-15): this is a historical authored report or prompt. Third-party source payloads, project snapshots and raw execution archives were removed at the user's request. Statements about preserved files, hashes and completed checks describe the original exercise; this checkout no longer supports its exact replay.
+
+# V8 operation-01 early metadata observation
+
+One snapshot was taken at **+236.207413 seconds** (monotonic `142782.856839409`), with last included event +235.498027. The fixed prefix contains 1,930 lines / 994,759 bytes, SHA-256 `309fdbb2873f3d1145d8de5d4cc557e5e67e6e5914c2561ab5d521f8c22cba5b`. No arbitrary milestone wait or later activity scan was used. Native exec 52680 is coordinator-reported running; the observer sent no client request.
+
+The root ordinary turn started at +0.075842. Frozen input, wire parameters and native userMessage agree on text/type; the ordinary request retains SHA-256 `620bebf24a81d2acf112c70b4c4709fe830b511e470df30ec7fd8acef3457e1a`. Stored `dispatch_uncertain`, null turn and pre-ACK fields are stale startup state rather than a launch-failure finding.
+
+The only observed child is `/root/initial_review`, metadata role `astra_initial`, owned by root. It starts at +25.717348; its final message is recorded at +209.496492 and turn completes at +209.573224. **All observed commands follow that completion**: first policy read starts +214.685483 and the source-manifest metadata read +228.973455. No project code inventory command is yet visible; source-manifest metadata is not code inspection. Root remains active with an open turn; the adviser is idle/completed. Peak observed overlap is two turn identities including root.
+
+Fourteen commands completed: 12 exit 0 and two exit 1 with `hold: invalid stable identifier`. Those two concern attempted initial-scope registration and capability enqueue. The attempted scope is not counted as an admitted assignment. Subsequent successful relay-helper inspection is visible at +235.462293. The snapshot does not establish recovery, a technical stall or external service delivery; root continues to own literal service operation. No research-inquiry child is observed yet, and no continuation advice is supplied.
+
+Six successful child reads all use `includeTurns=false` and return empty turns. Full history and exact child dispatch/follow-up text are unavailable. The live startup result has no usable current history-error total. Root/child metadata declare Astra/ultra while the native child-start activity says xhigh; these labels are retained without normalization. OpenAI/default service tier and sandbox metadata are configuration declarations; effective serving and enforcement remain unobserved.
+
+Nine bounded consistency checks passed. Only public lifecycle/status metadata, input hashes, administrative command records and their technical notices were inspected; no scientific artifacts or results, hidden reasoning, auth or startup.stderr were read. No actor was contacted, no new history requested, no acquisition or relay action performed, and no private runtime/source written. Ownership of this fixed observation is yielded.

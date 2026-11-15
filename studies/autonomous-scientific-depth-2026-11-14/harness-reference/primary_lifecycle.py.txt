@@ -1,0 +1,1109 @@
+#!/usr/bin/env python3
+"""Private actual-primary study adapter. Default: prepare only; never installs.
+
+The setup command creates an ephemeral root but NEVER starts a turn. The separate
+preflight command sends the frozen original task once. Neither dispatches advisers.
+Linux/bubblewrap and the existing saved-auth route are required; no fallback.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import re
+import select
+import shutil
+import signal
+import stat
+import subprocess
+import sys
+import time
+import tomllib
+
+STUDY = Path(__file__).resolve().parents[1]
+SNAPSHOT = STUDY / "evaluation/source-v5"
+MODEL, EFFORT = "gpt-6-astra", "ultra"
+# Published snapshot layouts, independent of the mutable checkout installer.
+RUNTIME_FILES_23 = (
+    "README.md", "policy.md", "supervisor.py", "install.py", "uninstall.py",
+    "agents/luna_scout.toml", "agents/luna_worker.toml", "agents/sol_expert.toml",
+    "agents/inherited_scout.toml", "agents/inherited_worker.toml",
+    "agents/inherited_reviewer.toml", "controller.py", "controller_store.py",
+    "execution.py", "agent_backend.py", "scheduling.py", "ORCHESTRATION.md",
+    "engineering.py", "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
+    "agents/astra_expert.toml", "agents/astra_initial.toml", "CLOUD.md",
+)
+RUNTIME_INVENTORIES = {
+    23: RUNTIME_FILES_23,
+    24: RUNTIME_FILES_23 + ("agents/sol_researcher.toml",),
+}
+SNAPSHOT_TEST_FILES = {"tests/test_agent_backend.py", "tests/test_distribution.py"}
+MAX_MESSAGE = 2 * 1024 * 1024
+MAX_EVIDENCE = 32 * 1024 * 1024
+MAX_TERMINAL = 64 * 1024
+BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
+END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
+INSTRUCTIONS = {"AGENTS.md", "AGENTS.override.md"}
+# Known app-only context is deliberately not inherited by the private process.
+DROP_CODEX_ENV = {
+    "CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS", "CODEX_APP_RUNTIME_CLI_PATH",
+    "CODEX_APP_TOOLS_PIPE_PATH", "CODEX_CI", "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+    "CODEX_MCP_NODE_PATH", "CODEX_PERMISSION_PROFILE", "CODEX_SAGE_BACKFILL_TRACKER_TAB_REUSE",
+    "CODEX_SANDBOX_NETWORK_DISABLED", "CODEX_SESSION_ID", "CODEX_SHELL", "CODEX_TECTONIC_PATH",
+    "CODEX_TASK_WORKSPACE_VERIFYING_IDENTITY", "CODEX_THREAD_ID", "CODEX_TOOL_CALL_ID", "CODEX_VERSION",
+}
+DISABLE_FEATURES = ("apps", "plugins", "hooks", "computer_use", "browser_use", "browser_use_external",
+                    "image_generation", "remote_plugin", "tool_suggest", "memories", "request_permissions_tool",
+                    "multi_agent_v2", "multi_agent_v2_dynamic_tools", "skill_mcp_dependency_install")
+
+
+class Hold(RuntimeError):
+    pass
+
+
+class RpcError(Hold):
+    pass
+
+
+def scientific():
+    name = "primary_scientific_profile"
+    if name not in sys.modules:
+        module_spec = importlib.util.spec_from_file_location(name, Path(__file__).with_name("scientific_profile.py"))
+        module = importlib.util.module_from_spec(module_spec)
+        sys.modules[name] = module
+        module_spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+def neutral():
+    name = "primary_neutral_profile"
+    if name not in sys.modules:
+        module_spec = importlib.util.spec_from_file_location(name, Path(__file__).with_name("neutral_profile.py"))
+        module = importlib.util.module_from_spec(module_spec)
+        sys.modules[name] = module
+        module_spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+def profile_module(name):
+    if name == "scientific-v1":
+        return scientific()
+    if name == "neutral-v1":
+        return neutral()
+    raise Hold("unknown frozen scientific profile")
+
+
+def safe(path, *, exists=True):
+    path = Path(os.path.abspath(path))
+    for part in (path, *path.parents):
+        if part.is_symlink():
+            raise Hold("symlinked path refused: " + str(part))
+    if exists and not path.exists():
+        raise Hold("missing path: " + str(path))
+    return path
+
+
+def digest(path):
+    path = safe(path)
+    if not path.is_file():
+        raise Hold("not a regular input file: " + str(path))
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+
+
+def write_json(path, value):
+    path = safe(path, exists=False)
+    temp = path.with_suffix(path.suffix + ".tmp")
+    fd = os.open(temp, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "wb") as out:
+        out.write(canonical(value) + b"\n")
+        out.flush()
+        os.fsync(out.fileno())
+    os.replace(temp, path)
+
+
+def fence(directory, name):
+    """A durable uncertainty fence, never an instruction to resume/replay."""
+    fd = os.open(safe(directory) / name, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "w") as out:
+        out.write(str(time.time()))
+        out.flush()
+        os.fsync(out.fileno())
+    parent = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(parent)
+    finally:
+        os.close(parent)
+
+
+def clean_environment(home, codex_home):
+    for key in os.environ:
+        if key.startswith("CODEX_") and key not in DROP_CODEX_ENV | {"CODEX_HOME"}:
+            raise Hold("unknown inherited Codex override: " + key)
+        if key.startswith(("OPENAI_", "AZURE_", "ANTHROPIC_")) or any(
+                token in key.upper() for token in ("PROXY", "API_KEY", "BASE_URL", "ENDPOINT")):
+            raise Hold("inherited routing/auth override is not approved: " + key)
+    result = {"HOME": str(home), "CODEX_HOME": str(codex_home), "PATH": "/usr/bin:/bin",
+              "LANG": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1", "TMPDIR": "/tmp"}
+    # Keep inherited restriction indicators; isolation must not erase them.
+    for key in ("CODEX_SANDBOX_NETWORK_DISABLED", "CODEX_PERMISSION_PROFILE"):
+        if key in os.environ:
+            result[key] = os.environ[key]
+    return result
+
+
+def frozen_inventory(snapshot, *, expected_manifest_sha256=None):
+    if expected_manifest_sha256 is None:
+        manifest = json.loads(safe(snapshot / "manifest.json").read_text())
+    else:
+        manifest_bytes = safe(snapshot / "manifest.json").read_bytes()
+        if hashlib.sha256(manifest_bytes).hexdigest() != expected_manifest_sha256:
+            raise Hold("frozen source manifest changed")
+        manifest = json.loads(manifest_bytes)
+    hashes = manifest["copied_files_sha256"]
+    root = safe(snapshot / "checkout")
+    actual = set()
+    for p in root.rglob("*"):
+        safe(p)
+        if p.is_file():
+            actual.add(str(p.relative_to(root)))
+        elif not p.is_dir():
+            raise Hold("non-regular frozen input: " + str(p))
+    count = manifest["runtime_inventory_entries"]
+    expected = RUNTIME_INVENTORIES.get(count) if type(count) is int else None
+    if (expected is None or set(hashes) != actual
+            or actual != set(expected) | SNAPSHOT_TEST_FILES):
+        raise Hold("frozen source inventory mismatch")
+    for name, expected in hashes.items():
+        if Path(name).is_absolute() or ".." in Path(name).parts or digest(root / name) != expected:
+            raise Hold("frozen source hash mismatch: " + name)
+    if expected_manifest_sha256 is None:
+        installer_at(root, runtime_entries=count)
+    # Neutral admission imports only the subsequently verified private copy.
+    return root, manifest
+
+
+def installer_at(root, *, runtime_entries=None):
+    spec = importlib.util.spec_from_file_location("primary_frozen_installer", root / "install.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    # Import only after all bytes matched the frozen manifest. No install/main call.
+    spec.loader.exec_module(module)
+    count = len(module.FILES)
+    if (tuple(module.FILES) != RUNTIME_INVENTORIES.get(count)
+            or (runtime_entries is not None and count != runtime_entries)):
+        raise Hold("unexpected runtime inventory")
+    expected_roles = {Path(name).stem for name in module.FILES if name.startswith("agents/")}
+    if set(module.ROLES) != expected_roles:
+        raise Hold("runtime role inventory mismatch")
+    if "sol_researcher" in expected_roles:
+        settings = tomllib.loads(safe(root / "agents/sol_researcher.toml").read_text())
+        settings.pop("developer_instructions", None)
+        if settings != {"model": "gpt-6.1-sol", "model_reasoning_effort": "ultra"}:
+            raise Hold("research role pins or overrides changed")
+    return module
+
+
+def instruction_view(original, replacement):
+    if original.count(BEGIN) != 1 or original.count(END) != 1:
+        raise Hold("global instruction gateway missing, duplicate, or incomplete")
+    start, finish = original.index(BEGIN), original.index(END) + len(END)
+    if original.index(END) < start:
+        raise Hold("reversed managed instruction markers")
+    return original[:start] + replacement.rstrip("\n") + original[finish:]
+
+
+def check_configuration(path, *, minimum_children=2):
+    # Values stay in memory, never in evidence; credentials are never opened.
+    config = tomllib.loads(safe(path).read_text())
+    forbidden = {"profile", "profiles", "model_providers", "model_instructions_file",
+                 "experimental_instructions_file", "developer_instructions", "instructions",
+                 "project_doc_fallback_filenames", "project_doc_max_bytes", "remote"}
+    if forbidden & config.keys() or config.get("model_provider", "openai") != "openai":
+        raise Hold("unreviewed routing or instruction configuration override")
+    agents = config.get("agents", {})
+    if "max_threads" in agents:
+        raise Hold("legacy concurrency alias needs a reviewed process-local normalization")
+    for key in ("max_threads", "max_concurrent_threads_per_session"):
+        if key in agents and (type(agents[key]) is not int or agents[key] < minimum_children):
+            raise Hold("existing child concurrency limit is stricter than the preflight")
+    servers = config.get("mcp_servers", {})
+    if not isinstance(servers, dict) or any(not re.fullmatch(r"[A-Za-z0-9_-]+", n) for n in servers):
+        raise Hold("MCP server names cannot be safely overridden")
+    return sorted(servers)
+
+
+def prepare(directory, task, fixture, *, snapshot=None, codex=None, home=None, profile=None):
+    directory = safe(directory, exists=False)
+    if directory.exists():
+        raise Hold("operation path reused; reconcile rather than replay")
+    if directory.parent != Path("/tmp"):
+        raise Hold("operation must be a fresh direct child of /tmp")
+    task, fixture = safe(task), safe(fixture)
+    if not task.is_file() or not fixture.is_dir() or task.stat().st_size > 128 * 1024:
+        raise Hold("task/fixture shape or size is unsupported")
+    selected = identity_data = selected_module = None
+    if profile is not None:
+        if snapshot is not None:
+            raise Hold("scientific candidate must come only from its explicit profile")
+        selected_module = profile_module(json.loads(safe(profile).read_text()).get("name"))
+        selected, identity_data = selected_module.admit(safe(profile), task, fixture, safe, digest)
+        snapshot = Path(selected["snapshot"])
+    else:
+        snapshot = safe(snapshot or SNAPSHOT)
+    home = safe(home or os.environ["HOME"])
+    codex_home = safe(os.environ.get("CODEX_HOME", str(home / ".codex")))
+    if codex_home != home / ".codex":
+        raise Hold("nonstandard CODEX_HOME needs a reviewed namespace layout")
+    clean_environment(home, codex_home)
+    for parent in (Path("/"), Path("/tmp"), codex_home):
+        for filename in INSTRUCTIONS:
+            p = parent / filename
+            if p.exists() and p != codex_home / "AGENTS.md":
+                raise Hold("overriding/applicable instruction needs explicit preservation: " + str(p))
+    fixture_hashes = {}
+    for p in fixture.rglob("*"):
+        safe(p)
+        if (p.name in INSTRUCTIONS and not (selected and p == fixture / "AGENTS.md")) or p.name == ".codex":
+            raise Hold("fixture instruction/config override refused: " + str(p))
+        if p.is_file():
+            fixture_hashes[str(p.relative_to(fixture))] = digest(p)
+        elif not p.is_dir():
+            raise Hold("non-regular fixture input")
+    if ((not selected and len(fixture_hashes) > 256)
+            or sum((fixture / n).stat().st_size for n in fixture_hashes) > 8 * 1024 * 1024):
+        raise Hold("fixture exceeds bounded input size")
+    is_neutral = selected is not None and selected_module.NAME == "neutral-v1"
+    frozen, manifest = (frozen_inventory(snapshot, expected_manifest_sha256=selected["source_manifest_sha256"])
+                        if is_neutral else frozen_inventory(snapshot))
+    binary = Path(codex or shutil.which("codex") or "").resolve(strict=True)
+    safe(binary)
+    # This study freezes the installed official npm distribution, not arbitrary wrappers.
+    package = home / ".local/lib/node_modules/@openai/codex"
+    if binary != package / "bin/codex.js":
+        raise Hold("unsupported CLI entry point; expected installed official launcher")
+    native = package / "node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex"
+    native_hash = digest(native)
+    minimum_children = 11 if selected and selected_module.NAME == "neutral-v1" else (1 if selected else 2)
+    servers = check_configuration(codex_home / "config.toml", minimum_children=minimum_children)
+    children = 2
+    if selected:
+        existing = tomllib.loads((codex_home / "config.toml").read_text()).get("agents", {})
+        children = min(11, existing.get("max_concurrent_threads_per_session", 11))
+    auth = safe(codex_home / "auth.json")  # metadata only; NEVER digest/read/copy
+    if not auth.is_file():
+        raise Hold("saved authentication file route unavailable")
+    directory.mkdir(mode=0o700)
+    for name in ("runtime", "scratch", "evidence", "view"):
+        (directory / name).mkdir(mode=0o700)
+    (directory / "runtime/codex-tmp").mkdir(mode=0o700)
+    (directory / "runtime/installation_id").touch(mode=0o600, exist_ok=False)
+    shutil.copytree(frozen, directory / "source")
+    shutil.copytree(fixture, directory / "fixture")
+    if is_neutral:
+        (directory / "task.txt").write_bytes(task.read_bytes())
+        selected_module.stage(directory, selected, identity_data, children, write_json)
+        selected_module.verify_staged_inputs(directory, selected, manifest, identity_data, safe, digest)
+        # These copies remain tied to the exact admitted declarations, rather
+        # than becoming authoritative through their newly captured hashes.
+        (directory / "view/profile-input.json").write_bytes(Path(profile).read_bytes())
+        (directory / "view/source-manifest.json").write_bytes((snapshot / "manifest.json").read_bytes())
+        if (json.loads((directory / "view/profile-input.json").read_text()) != selected
+                or digest(directory / "view/source-manifest.json") != selected["source_manifest_sha256"]):
+            raise Hold("neutral staged admission declaration changed")
+    if selected:
+        fixture_layout = selected_module.stage_fixture_layout(directory, fixture_hashes, safe)
+    if not is_neutral:
+        (directory / "task.txt").write_bytes(task.read_bytes())
+    installer = installer_at(directory / "source", runtime_entries=manifest["runtime_inventory_entries"])
+    blocks = installer.blocks(directory / "source")
+    gateway = instruction_view((codex_home / "AGENTS.md").read_text(), blocks["AGENTS.md"])
+    (directory / "view/AGENTS.md").write_text(gateway)
+    (directory / "view/roles.toml").write_text(blocks["config.toml"])
+    role_entries = tomllib.loads(blocks["config.toml"])["agents"]
+    for role in ("astra_initial", "astra_expert"):
+        values = tomllib.loads((directory / "source/agents" / (role + ".toml")).read_text())
+        if (values.get("model"), values.get("model_reasoning_effort")) != (MODEL, EFFORT):
+            raise Hold("required role pins changed")
+    if selected and not is_neutral:
+        selected_module.stage(directory, selected, identity_data, children, write_json)
+        (directory / "view/profile-input.json").write_bytes(Path(profile).read_bytes())
+        (directory / "view/source-manifest.json").write_bytes((snapshot / "manifest.json").read_bytes())
+    files = {str(p.relative_to(directory)): digest(p) for p in directory.rglob("*")
+             if p.is_file() and p.relative_to(directory).parts[0] not in {"runtime", "scratch", "evidence", "work", "relay"}}
+    spec = {"schema": 1, "directory": str(directory), "home": str(home), "codex_home": str(codex_home),
+            "binary": str(binary), "native_binary": str(native), "package": str(package),
+            "binary_sha256": digest(binary), "native_sha256": native_hash,
+            "driver_sha256": digest(Path(__file__)),
+            "source_base_head": manifest["base_head"],
+            "source_manifest_sha256": selected["source_manifest_sha256"] if is_neutral else digest(snapshot / "manifest.json"),
+            "source_hashes": manifest["copied_files_sha256"], "files": files,
+            "host_config_sha256": digest(codex_home / "config.toml"),
+            "host_instructions_sha256": digest(codex_home / "AGENTS.md"),
+            "roles": role_entries, "mcp_names": servers,
+            "requested": {"model": MODEL, "effort": EFFORT, "service_tier": "unobserved; override omitted",
+                          "sandbox": "read-only", "approval": "never", "fallback": False},
+            "limits": {"wall_seconds": 1200, "cleanup_seconds": 30, "max_open_children": 2,
+                       "max_evidence_bytes": MAX_EVIDENCE, "token_cap": None},
+            "claims": {"preparation_only": True, "authenticated_inference": False}}
+    if selected:
+        spec.update({"profile": selected_module.NAME, "profile_input": selected,
+                     "fixture_layout": fixture_layout,
+                     "profile_sha256": digest(Path(profile)), "project_identity": identity_data["snapshot_sha256"],
+                     "support_hashes": {name: digest(Path(__file__).with_name(name)) for name in selected_module.SUPPORT}})
+        spec["requested"]["sandbox"] = "workspace-write"
+        spec["limits"] = dict(selected_module.LIMITS, max_open_children=children,
+                              effective_active_identity_limit=children + 1)
+        spec["claims"].update({"native_web_input_mapping": "unverified; use canonical public-request mailbox",
+                               "accounting": "cooperative, not native-call interception",
+                               "runtime_profile_enforcement": "unverified until approved runtime check"})
+    write_json(directory / "prepared.json", spec)
+    write_json(directory / "mounts.json", mounts(spec))
+    return spec
+
+
+def verify_prepared(directory):
+    directory = safe(directory)
+    spec = json.loads((directory / "prepared.json").read_text())
+    if spec["directory"] != str(directory):
+        raise Hold("operation moved")
+    if spec.get("driver_sha256") != digest(Path(__file__)):
+        raise Hold("driver changed since preparation; retain operation and prepare a fresh one")
+    for name, expected in spec["files"].items():
+        if digest(directory / name) != expected:
+            raise Hold("prepared input changed: " + name)
+    for tree in ("source", "fixture", "view", *(("support",) if spec.get("profile") else ())):
+        expected = {n for n in spec["files"] if n.startswith(tree + "/")}
+        actual = set()
+        for p in (directory / tree).rglob("*"):
+            safe(p)
+            if p.is_file():
+                actual.add(str(p.relative_to(directory)))
+            elif not p.is_dir():
+                raise Hold("non-regular prepared input: " + str(p))
+        if actual != expected:
+            raise Hold("prepared tree inventory changed: " + tree)
+    if spec.get("profile"):
+        selected_module = profile_module(spec["profile"])
+        try:
+            selected_module.verify_fixture_layout(directory, spec.get("fixture_layout"),
+                [name.removeprefix("fixture/") for name in spec["files"] if name.startswith("fixture/")], safe)
+        except ValueError as error:
+            raise Hold(str(error)) from error
+        for name, expected in spec["support_hashes"].items():
+            if digest(Path(__file__).with_name(name)) != expected:
+                raise Hold("scientific helper changed since preparation: " + name)
+        frozen = spec["profile_input"]
+        if (digest(directory / "view/profile-input.json") != spec["profile_sha256"]
+                or digest(directory / "view/source-manifest.json") != frozen["source_manifest_sha256"]
+                or spec["source_manifest_sha256"] != frozen["source_manifest_sha256"]):
+            raise Hold("scientific candidate/profile identity changed")
+        if json.loads((directory / "view/profile-input.json").read_text()) != frozen:
+            raise Hold("scientific frozen declaration changed")
+        children = spec["limits"]["max_open_children"]
+        if (type(children) is not int or not 1 <= children <= 11 or spec["limits"] != dict(
+                selected_module.LIMITS, max_open_children=children, effective_active_identity_limit=children + 1)):
+            raise Hold("scientific frozen allocation changed")
+        if selected_module.NAME == "neutral-v1":
+            if children != 11:
+                raise Hold("neutral fixed child capacity changed")
+            try:
+                selected_module.verify_context(directory, frozen, digest)
+            except ValueError as error:
+                raise Hold(str(error)) from error
+        # Source/task/project copies were hash-checked above; no live source is consulted.
+        if digest(directory / "task.txt") != frozen["task_sha256"]:
+            raise Hold("scientific ordinary task identity changed")
+    for path, key in ((spec["binary"], "binary_sha256"), (spec["native_binary"], "native_sha256"),
+                      (Path(spec["codex_home"]) / "config.toml", "host_config_sha256"),
+                      (Path(spec["codex_home"]) / "AGENTS.md", "host_instructions_sha256")):
+        if digest(path) != spec[key]:
+            raise Hold("launch dependency changed: " + str(path))
+    clean_environment(Path(spec["home"]), Path(spec["codex_home"]))
+    for mode, source, _ in mounts(spec):
+        if source is not None:
+            safe(source)
+    return spec
+
+
+def mounts(spec):
+    d, home, ch = Path(spec["directory"]), Path(spec["home"]), Path(spec["codex_home"])
+    result = [("ro", "/", "/"), ("tmpfs", None, "/tmp"),
+              ("tmpfs", None, "/var/tmp"), ("tmpfs", None, "/run"),
+              ("tmpfs", None, str(home)),
+              ("ro", spec["package"], spec["package"]),
+              ("ro", str(ch / "config.toml"), str(ch / "config.toml")),
+              ("ro", str(ch / "auth.json"), str(ch / "auth.json")),
+              ("ro", str(d / "view/AGENTS.md"), str(ch / "AGENTS.md")),
+              ("ro", str(d / "source"), str(ch / "delegation-kit"))]
+    if (ch / "rules").exists():
+        # No personal skills/plugins/agent directories or sockets are exposed.
+        safe(ch / "rules")
+        result.append(("ro", str(ch / "rules"), str(ch / "rules")))
+    result += [("proc", None, "/proc"), ("dev", None, "/dev"),
+               ("ro", str(d / "source"), str(d / "source")),
+               ("ro", str(d / "fixture"), str(d / "fixture")),
+               ("rw", str(d / "runtime"), str(d / "runtime")),
+               ("rw", str(d / "scratch"), str(d / "scratch")),
+               ("rw", str(d / "runtime/codex-tmp"), str(ch / "tmp")),
+               ("rw", str(d / "runtime/installation_id"), str(ch / "installation_id"))]
+    if spec.get("profile"):
+        result += profile_module(spec["profile"]).extra_mounts(d)
+    return result
+
+
+def containment(spec, command):
+    args = ["/usr/bin/bwrap", "--unshare-pid", "--unshare-ipc", "--die-with-parent", "--new-session"]
+    for mode, source, dest in mounts(spec):
+        args += {"ro": ["--ro-bind", source, dest], "rw": ["--bind", source, dest],
+                 "tmpfs": ["--tmpfs", dest], "proc": ["--proc", dest], "dev": ["--dev", dest]}[mode]
+    # Rebinding /home removes the entire original study, installed kit, session,
+    # state, logs, plugin tree and app sockets. /tmp and /run mask shared sockets.
+    args += ["--remount-ro", spec["home"], "--chdir", str(Path(spec["directory"]) / "fixture"), "--", *command]
+    return args
+
+
+def overrides(spec):
+    d = Path(spec["directory"])
+    values = {"model": MODEL, "model_reasoning_effort": EFFORT, "approval_policy": "never",
+              "sandbox_mode": "read-only", "sqlite_home": str(d / "runtime/sqlite"),
+              "log_dir": str(d / "runtime/logs"), "web_search": "live",
+              "features.multi_agent": True, "features.shell_tool": True, "features.unified_exec": True,
+              "features.code_mode_host": True,
+              "agents.max_concurrent_threads_per_session": 2}
+    values.update({"features." + key: False for key in DISABLE_FEATURES})
+    if spec.get("profile"):
+        values.update(profile_module(spec["profile"]).configuration(d, spec["limits"]["max_open_children"]))
+    values.update({"mcp_servers." + name + ".enabled": False for name in spec["mcp_names"]})
+    for role, fields in spec["roles"].items():
+        for key, value in fields.items():
+            values["agents." + role + "." + key] = value
+    return values
+
+
+def server_command(spec):
+    command = [spec["binary"], "--no-daemon"]
+    for key, value in overrides(spec).items():
+        command += ["-c", key + "=" + json.dumps(value)]
+    return command + ["app-server", "--listen", "stdio://"]
+
+
+def identity(pid):
+    try:
+        raw = Path(f"/proc/{pid}/stat").read_text()
+        parts = raw[raw.rfind(")") + 2:].split()
+        return {"pid": pid, "start_ticks": int(parts[19]), "state": parts[0],
+                "boot_id": Path("/proc/sys/kernel/random/boot_id").read_text().strip()}
+    except FileNotFoundError:
+        return None
+
+
+def signal_owned(saved, sig):
+    try:
+        fd = os.pidfd_open(saved["pid"])
+    except ProcessLookupError:
+        return
+    try:
+        current = identity(saved["pid"])
+        if current and all(saved[k] == current[k] for k in ("pid", "start_ticks", "boot_id")):
+            signal.pidfd_send_signal(fd, sig)
+    finally:
+        os.close(fd)
+
+
+class OwnedProcess:
+    """PID namespace init is the ownership/release unit, including setsid children."""
+    def __init__(self, argv, env):
+        self.process = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE, env=env, bufsize=0, close_fds=True)
+        self.saved = identity(self.process.pid)
+        self.pid_namespace = None
+        self.members = {}
+
+    def observe(self):
+        # Namespace descendants can outlive the launcher briefly; record their
+        # host identities so release is not inferred from launcher exit alone.
+        for entry in Path("/proc").iterdir():
+            if not entry.name.isdecimal():
+                continue
+            try:
+                status = (entry / "status").read_text()
+                ppid = int(re.search(r"^PPid:\s*(\d+)", status, re.M)[1])
+                if ppid == self.process.pid or int(entry.name) in self.members:
+                    ns = os.readlink(entry / "ns/pid")
+                    if ns != os.readlink("/proc/self/ns/pid"):
+                        self.pid_namespace = ns
+                if self.pid_namespace and os.readlink(entry / "ns/pid") == self.pid_namespace:
+                    self.members[int(entry.name)] = identity(int(entry.name))
+            except (FileNotFoundError, PermissionError, ProcessLookupError):
+                continue
+
+    def close(self, seconds=3):
+        self.observe()
+        deadline = time.monotonic() + seconds
+        for sig in (signal.SIGTERM, signal.SIGKILL):
+            if self.process.poll() is None:
+                signal_owned(self.saved, sig)
+            try:
+                self.process.wait(timeout=min(1, max(.01, deadline - time.monotonic())))
+            except subprocess.TimeoutExpired:
+                pass
+        self.observe()
+        while time.monotonic() < deadline:
+            alive = [v for v in self.members.values() if v and (now := identity(v["pid"]))
+                     and now["start_ticks"] == v["start_ticks"] and now["state"] != "Z"]
+            if not alive and self.process.poll() is not None:
+                for pipe in (self.process.stdin, self.process.stdout, self.process.stderr):
+                    pipe.close()
+                return {"released": self.pid_namespace is not None,
+                        "cleanup_observation": "namespace observed and members gone" if self.pid_namespace else
+                        "launcher reaped; namespace closure unobserved", "launcher": self.saved,
+                        "pid_namespace": self.pid_namespace,
+                        "observed_members": list(self.members.values()), "returncode": self.process.returncode}
+            time.sleep(.02)
+        return {"released": False, "launcher": self.saved, "pid_namespace": self.pid_namespace,
+                "observed_members": list(self.members.values())}
+
+
+class Rpc:
+    def __init__(self, owned, observe=lambda message: None, max_bytes=MAX_EVIDENCE,
+                 *, stderr_limit=None, count_input=False, on_send=lambda message: None):
+        self.owned, self.process, self.observe = owned, owned.process, observe
+        self.serial, self.buffer, self.bytes = 0, bytearray(), 0
+        self.max_bytes = max_bytes
+        self.stderr = bytearray()
+        self.stderr_limit, self.stderr_bytes, self.count_input = stderr_limit, 0, count_input
+        self.on_send = on_send
+        self.deadline_limit = None
+        os.set_blocking(self.process.stdin.fileno(), False)
+
+    def effective_deadline(self, deadline):
+        return min(deadline, self.deadline_limit) if self.deadline_limit is not None else deadline
+
+    def write_message(self, message, deadline):
+        payload = canonical(message) + b"\n"
+        if len(payload) > MAX_MESSAGE:
+            raise Hold("protocol input message limit reached")
+        sent = 0
+        fd = self.process.stdin.fileno()
+        while sent < len(payload):
+            remaining = self.effective_deadline(deadline) - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError("monotonic protocol send deadline expired")
+            self.owned.observe()
+            _, writable, _ = select.select([], [fd], [], min(.1, remaining))
+            if writable:
+                try:
+                    count = os.write(fd, payload[sent:])
+                except BlockingIOError:
+                    continue
+                if count <= 0:
+                    raise Hold("protocol write made no progress")
+                sent += count
+                if self.count_input:
+                    self.bytes += count
+                    if self.bytes > self.max_bytes:
+                        raise Hold("protocol input/output storage limit reached")
+
+    def send(self, method, params=None, *, deadline, notification=False):
+        self.serial += 1
+        message = {"method": method, "params": params or {}}
+        if not notification:
+            message["id"] = self.serial
+        self.on_send(message)
+        self.write_message(message, deadline)
+        return self.serial
+
+    def read(self, deadline):
+        if time.monotonic() >= self.effective_deadline(deadline):
+            raise TimeoutError("monotonic protocol deadline expired")
+        while b"\n" not in self.buffer:
+            remaining = self.effective_deadline(deadline) - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError("monotonic protocol deadline expired")
+            self.owned.observe()
+            ready, _, _ = select.select([self.process.stdout, self.process.stderr], [], [], min(.1, remaining))
+            for pipe in ready:
+                data = os.read(pipe.fileno(), 65536)
+                if pipe is self.process.stderr:
+                    self.stderr_bytes += len(data)
+                    self.stderr.extend(data)
+                    if self.stderr_limit is not None and len(self.stderr) > self.stderr_limit:
+                        del self.stderr[:-self.stderr_limit]
+                elif not data:
+                    raise Hold("server EOF with partial JSON" if self.buffer else "server EOF before reply")
+                else:
+                    self.buffer.extend(data)
+                self.bytes += len(data)
+            if self.bytes > self.max_bytes or len(self.buffer) > MAX_MESSAGE:
+                raise Hold("protocol output/storage limit reached")
+        line, _, self.buffer = self.buffer.partition(b"\n")
+        try:
+            message = json.loads(line)
+        except (ValueError, UnicodeDecodeError):
+            raise Hold("malformed protocol JSON") from None
+        if not isinstance(message, dict):
+            raise Hold("protocol message is not an object")
+        if time.monotonic() >= self.effective_deadline(deadline):
+            raise TimeoutError("monotonic protocol deadline expired")
+        return message
+
+    def call(self, method, params, deadline):
+        request_id = self.send(method, params, deadline=deadline)
+        while True:
+            message = self.read(deadline)
+            if message.get("id") == request_id and "method" not in message:
+                if "error" in message:
+                    # Exact runtime error is retained; no account/config response.
+                    raise RpcError("RPC error: " + json.dumps(message["error"]))
+                if "result" not in message:
+                    raise Hold("RPC reply missing result")
+                return message["result"]
+            self.notification(message, deadline)
+
+    def notification(self, message, deadline):
+        if "method" in message and "id" in message:
+            self.write_message({"id": message["id"], "error": {
+                "code": -32601, "message": "private study cannot approve interactive requests"}}, deadline)
+            raise Hold("unexpected server request: " + message["method"])
+        self.observe(message)
+
+
+class NativeTree:
+    """Observed causal identities and durable completion, never invented events."""
+    def __init__(self, root):
+        self.root = root
+        self.own_ids = {root}
+        self.pending_reads = set()
+        self.completion = None
+
+    def observe(self, message):
+        method, body = message.get("method"), message.get("params", {})
+        thread = body.get("thread", {})
+        if method == "thread/started" and thread.get("parentThreadId") in self.own_ids:
+            self.own_ids.add(thread["id"])
+            self.pending_reads.add(thread["id"])
+        item = body.get("item", {})
+        if item.get("type") == "collabAgentToolCall" and body.get("threadId") in self.own_ids:
+            for child in item.get("receiverThreadIds", []):
+                if not isinstance(child, str):
+                    continue
+                if item.get("tool") == "spawnAgent":
+                    self.own_ids.add(child)
+                    self.pending_reads.add(child)
+                elif method == "item/completed" and child in self.own_ids:
+                    self.pending_reads.add(child)
+        if (method in {"item/started", "item/completed"}
+                and item.get("type") == "subAgentActivity" and body.get("threadId") in self.own_ids):
+            # V2 publishes causal child creation through this item rather than
+            # a spawnAgent tool result. Its effort is the resolved creation
+            # value, not proof of the requested role/configuration. Read the
+            # actual child metadata/history through the existing bounded path.
+            child = item.get("agentThreadId")
+            if isinstance(child, str) and child and child != self.root:
+                if item.get("kind") == "started":
+                    self.own_ids.add(child)
+                    self.pending_reads.add(child)
+                elif item.get("kind") in {"interacted", "completed"} and child in self.own_ids:
+                    self.pending_reads.add(child)
+        if method == "turn/completed" and body.get("threadId") == self.root and self.completion is None:
+            self.completion = terminal_snapshot(body["turn"])
+
+
+def safe_settings(response):
+    return {key: response.get(key) for key in ("model", "modelProvider", "reasoningEffort", "serviceTier",
+            "cwd", "sandbox", "approvalPolicy", "runtimeWorkspaceRoots", "instructionSources")}
+
+
+def inspect_config(spec, response):
+    effective = response.get("config", {})
+    if spec.get("profile"):
+        expected = profile_module(spec["profile"]).configuration(spec["directory"], spec["limits"]["max_open_children"])
+        for key, value in expected.items():
+            actual = effective
+            for part in key.split("."):
+                actual = actual.get(part) if isinstance(actual, dict) else None
+            if actual != value:
+                raise Hold("scientific native configuration unconfirmed: " + key)
+    for name in DISABLE_FEATURES:
+        if effective.get("features", {}).get(name) is not False:
+            raise Hold("integration-disable setting not confirmed: " + name)
+    for role, fields in spec["roles"].items():
+        actual = effective.get("agents", {}).get(role)
+        # The runtime serializes optional display nicknames even when omitted
+        # from the candidate TOML. They do not change the role's source/pin.
+        normalized = dict(actual) if isinstance(actual, dict) else actual
+        if isinstance(normalized, dict) and "nickname_candidates" not in fields:
+            nicknames = normalized.pop("nickname_candidates", None)
+            if nicknames is not None and not (isinstance(nicknames, list) and all(isinstance(v, str) for v in nicknames)):
+                raise Hold("invalid role display-nickname metadata: " + role)
+        if normalized != fields:
+            detail = {"role": role, "observed_type": type(actual).__name__,
+                      "expected_keys": sorted(fields),
+                      "observed_keys": sorted(actual) if isinstance(actual, dict) else [],
+                      "differing_expected_keys": [k for k in fields if not isinstance(actual, dict) or actual.get(k) != fields[k]]}
+            raise Hold("candidate role entry not confirmed: " + json.dumps(detail, sort_keys=True))
+    for layer in [effective, *(v.get("config", {}) for v in response.get("layers", []) or [])]:
+        if any(name not in spec["mcp_names"] for name in layer.get("mcp_servers", {})):
+            raise Hold("previously unknown MCP configuration layer")
+    for name in spec["mcp_names"]:
+        if effective.get("mcp_servers", {}).get(name, {}).get("enabled") is not False:
+            raise Hold("MCP disable not confirmed")
+
+
+def without_reasoning(value):
+    if isinstance(value, list):
+        return [without_reasoning(v) for v in value]
+    if isinstance(value, dict):
+        if value.get("type") in {"reasoning", "reasoningSummary", "reasoningText"}:
+            return {"type": value["type"], "content_omitted": "private reasoning"}
+        return {k: without_reasoning(v) for k, v in value.items() if k not in {"encrypted_content"}}
+    return value
+
+
+def terminal_snapshot(turn):
+    """Bounded independent terminal evidence; never retain private payloads."""
+    sanitized = without_reasoning(turn)
+    encoded = canonical(sanitized)
+    if len(encoded) <= MAX_TERMINAL:
+        return sanitized
+    return {"id": str(sanitized.get("id", ""))[:256], "status": str(sanitized.get("status", ""))[:64],
+            "terminal_payload_omitted": "sanitized terminal exceeded independent snapshot ceiling",
+            "sanitized_payload_bytes": len(encoded), "sanitized_payload_sha256": hashlib.sha256(encoded).hexdigest()}
+
+
+def verify_root(spec, response):
+    for key, value in (("model", MODEL), ("reasoningEffort", EFFORT), ("approvalPolicy", "never")):
+        if response.get(key) != value:
+            raise Hold("configured root setting mismatch: " + key)
+    if response.get("modelProvider") != "openai":
+        raise Hold("provider route mismatch")
+    if response.get("cwd") != str(Path(spec["directory"]) / "fixture"):
+        raise Hold("root workspace mismatch")
+    roots = [str(Path(spec["directory"]) / "fixture")]
+    if spec.get("profile"):
+        selected_module = profile_module(spec["profile"])
+        selected_module.verify_runtime(spec, response)
+        roots = selected_module.workspace_roots(spec["directory"])
+    elif response.get("sandbox", {}).get("type") != "readOnly":
+        raise Hold("native shell sandbox not retained")
+    expected_env = [{"environmentId": "local", "cwd": str(Path(spec["directory"]) / "fixture"),
+                     "runtimeWorkspaceRoots": roots}]
+    if response.get("thread", {}).get("environments") != expected_env:
+        raise Hold("local execution environment was not confirmed")
+    sources = response.get("instructionSources")
+    if not isinstance(sources, list) or str(Path(spec["codex_home"]) / "AGENTS.md") not in sources:
+        raise Hold("candidate global instruction source was not confirmed")
+    thread = response.get("thread", {})
+    if not thread.get("id") or thread.get("agentRole") or thread.get("parentThreadId"):
+        raise Hold("runtime did not provide a fresh main root identity")
+    return thread["id"]
+
+
+def failure_status(state, error):
+    if state.get("turn_dispatch_attempted") and not state.get("turn_start_acknowledged"):
+        return "dispatch_uncertain"
+    if isinstance(error, TimeoutError):
+        return "cutoff"
+    return "runtime_hold" if state.get("turn_start_acknowledged") else "setup_hold"
+
+
+def run(directory, *, live=False, wall_seconds=None):
+    spec = verify_prepared(directory)
+    directory = Path(spec["directory"])
+    selected_module = profile_module(spec["profile"]) if spec.get("profile") else None
+    if wall_seconds is not None and not 1 <= wall_seconds <= spec["limits"]["wall_seconds"]:
+        raise Hold("wall time outside frozen maximum")
+    is_scientific = bool(spec.get("profile"))
+    if is_scientific and wall_seconds is not None:
+        raise Hold("scientific profile freezes its eight-hour author allocation")
+    fence(directory, "launched")
+    state = {"mode": "preflight" if live else "setup-only", "status": "setup_hold", "turn_started": False,
+             "turn_dispatch_attempted": False, "turn_start_acknowledged": False,
+             "configured": spec["requested"], "resolved_execution_telemetry": "unobserved",
+             "source_manifest_sha256": spec["source_manifest_sha256"], "limits": spec["limits"],
+             "events_are_synthetic": False, "thread_id": None, "turn_id": None,
+             "claims": "setup does not establish auth/inference, child history, gate behavior or remote visibility"}
+    if is_scientific:
+        state["profile"] = spec["profile"]
+    events = (directory / "evidence/events.jsonl").open("w")
+    tree = None
+    event_bytes = 0
+    collection_deadline = None
+    cleanup_deadline = None
+
+    def close_service(reason):
+        if not is_scientific or state.get("service_closed") or state.get("service_closure_error"):
+            return
+        payload = without_reasoning({"reason": reason, "first_root_terminal": tree.completion if tree else None})
+        try:
+            state["service_closed"] = selected_module.close_service(directory, payload)
+        except (OSError, ValueError, TimeoutError) as error:
+            state["service_closure_error"] = str(error)
+            raise
+
+    def record(kind, payload):
+        nonlocal event_bytes
+        row = canonical({"monotonic": time.monotonic(), "kind": kind,
+                         "payload": without_reasoning(payload)})
+        event_bytes += len(row) + 1
+        if event_bytes > spec["limits"].get("max_evidence_bytes", MAX_EVIDENCE):
+            raise Hold("event storage limit reached")
+        events.write(row.decode() + "\n")
+        events.flush()
+
+    def observe(message):
+        nonlocal collection_deadline
+        method = message.get("method", "")
+        # Do not retain raw Responses items or reasoning content. All other
+        # notifications retain native payloads; no synthetic behavioral events.
+        if "reasoning" in method.lower() or "rawresponse" in method.lower():
+            message = {"method": method, "content_omitted": "reasoning/raw Responses payload"}
+        if method.startswith(("account/", "config/")):
+            return
+        if tree is not None:
+            previous_terminal = tree.completion
+            tree.observe(message)
+            if is_scientific and previous_terminal is None and tree.completion is not None:
+                # Snapshot and close independently of the event recorder. Even
+                # an event-cap failure cannot lose or expose the received terminal.
+                collection_deadline = min(deadline, time.monotonic() + spec["limits"]["terminal_collection_seconds"])
+                state["terminal_collection_deadline"] = collection_deadline
+                if client is not None:
+                    client.deadline_limit = collection_deadline
+                close_service("first_root_terminal")
+        record("native_notification", message)
+        if method == "model/rerouted":
+            raise Hold("runtime model reroute; no fallback or retry")
+        if tree is not None:
+            if is_scientific:
+                if len(tree.own_ids) - 1 > spec["limits"]["max_assignments"]:
+                    state.setdefault("resource_violations", []).append("observed helper identities exceed shared assignment allocation")
+                    raise Hold(state["resource_violations"][-1])
+                body = message.get("params", {})
+                if (body.get("threadId") in tree.own_ids
+                        and body.get("item", {}).get("type") == "webSearch"):
+                    state.setdefault("resource_violations", []).append("native web acquisition observed without a verified input meter")
+                    raise Hold(state["resource_violations"][-1])
+
+    owned = client = None
+    deadline = time.monotonic() + (45 if is_scientific else (wall_seconds or (spec["limits"]["wall_seconds"] if live else 45)))
+    try:
+        owned = OwnedProcess(containment(spec, server_command(spec)),
+                             clean_environment(Path(spec["home"]), Path(spec["codex_home"])))
+        state["launcher"] = owned.saved
+        if is_scientific:
+            client = Rpc(owned, observe, max_bytes=spec["limits"]["max_protocol_bytes"],
+                         stderr_limit=spec["limits"]["max_stderr_bytes"], count_input=True,
+                         on_send=lambda message: record("turn_start_wire", message)
+                         if message.get("method") == "turn/start" else None)
+        else:
+            client = Rpc(owned, observe)
+        setup_deadline = min(deadline, time.monotonic() + 45)
+        init = client.call("initialize", {"clientInfo": {"name": "primary-lifecycle-study", "version": "1"},
+                                           "capabilities": {"experimentalApi": True}}, setup_deadline)
+        state["server_identity"] = {k: init.get(k) for k in ("userAgent", "platformFamily", "platformOs")}
+        if "0.163.0" not in str(init.get("userAgent", "")):
+            raise Hold("standalone runtime version differs from reviewed 0.163.0")
+        client.send("initialized", notification=True, deadline=setup_deadline)
+        config = client.call("config/read", {"cwd": str(directory / "fixture"), "includeLayers": True}, setup_deadline)
+        effective = config.get("config", {})
+        state["safe_config"] = {k: effective.get(k) for k in ("model", "model_reasoning_effort", "service_tier", "sandbox_mode", "approval_policy")}
+        inspect_config(spec, config)
+        roots = selected_module.workspace_roots(directory) if is_scientific else [str(directory / "fixture")]
+        params = {"model": MODEL, "cwd": str(directory / "fixture"),
+                  "sandbox": "workspace-write" if is_scientific else "read-only",
+                  "approvalPolicy": "never", "ephemeral": True, "allowProviderModelFallback": False,
+                  "config": overrides(spec), "runtimeWorkspaceRoots": roots,
+                  "environments": [{"environmentId": "local", "cwd": str(directory / "fixture"),
+                                    "runtimeWorkspaceRoots": roots}]}
+        response = client.call("thread/start", params, setup_deadline)
+        state["configured_runtime_settings"] = safe_settings(response)
+        state["thread_id"] = response.get("thread", {}).get("id")
+        root = verify_root(spec, response)
+        tree = NativeTree(root)
+        # A successful empty read proves metadata visibility only, not child history.
+        inspected = client.call("thread/read", {"threadId": root, "includeTurns": False}, setup_deadline)
+        if is_scientific:
+            metadata = inspected.get("thread", {})
+            if "path" not in metadata or any(metadata.get(key) != value for key, value in (
+                    ("id", root), ("ephemeral", True), ("path", None), ("model", MODEL), ("reasoningEffort", EFFORT))):
+                raise Hold("scientific root metadata not confirmed")
+        state["root_metadata"] = {k: inspected.get("thread", {}).get(k) for k in (
+            "id", "agentRole", "parentThreadId", "model", "reasoningEffort", "ephemeral", "path", "source")}
+        for item in (response.get("thread", {}), inspected.get("thread", {})):
+            if item.get("ephemeral") is False or item.get("path"):
+                raise Hold("runtime contradicts ephemeral/no-rollout request")
+        state["ephemeral_metadata_visibility"] = {
+            "requested": True, "runtime_field_present": "ephemeral" in inspected.get("thread", {}),
+            "rollout_path": inspected.get("thread", {}).get("path")}
+        if not live:
+            state["status"] = "setup_completed"
+            return state
+        if is_scientific:
+            state["storage_admission"] = selected_module.require_storage(directory, spec["limits"])
+        fence(directory, "turn-dispatch-may-have-occurred")
+        if is_scientific:
+            dispatched = time.monotonic()
+            deadline = dispatched + spec["limits"]["wall_seconds"]
+            timing = {"dispatch_monotonic": dispatched, "deadline_monotonic": deadline,
+                      "wall_seconds": spec["limits"]["wall_seconds"], "scope": "shared author, helpers, waits and gates"}
+            state["author_timing"] = timing
+            write_json(directory / "relay/inbox/dispatch.json", timing)
+        state["status"] = "dispatch_uncertain"
+        state["turn_dispatch_attempted"], state["turn_started"] = True, None
+        write_json(directory / "evidence/result.json", state)
+        inputs = [{"type": "text", "text": (directory / "task.txt").read_bytes().decode("utf-8")}]
+        if is_scientific:
+            if selected_module.NAME == "neutral-v1":
+                inputs.append(selected_module.context_input(directory))
+            inputs.append({"type": "text", "text": (directory / "environment.md").read_bytes().decode("utf-8")})
+        turn_params = {"threadId": root, "model": MODEL, "effort": EFFORT,
+                       "approvalPolicy": "never", "input": inputs}
+        if is_scientific:
+            turn_params["sandboxPolicy"] = selected_module.sandbox(directory)
+            record("frozen_turn_input", turn_params)
+        result = client.call("turn/start", turn_params, deadline)
+        state["turn_id"], state["turn_started"] = result["turn"]["id"], True
+        state["turn_start_acknowledged"] = True
+        while True:
+            # Snapshot each observed child's metadata once per queued event.
+            # Completion may arrive during these synchronous RPC reads.
+            pending = set(tree.pending_reads)
+            tree.pending_reads.clear()
+            for child in pending:
+                include_turns = True
+                child_deadline = min(deadline, collection_deadline) if collection_deadline is not None else deadline
+                try:
+                    meta = client.call("thread/read", {"threadId": child, "includeTurns": True}, child_deadline)
+                except RpcError as error:
+                    state.setdefault("child_visibility_gaps", []).append(str(error))
+                    # Ephemeral history may be unavailable while metadata is
+                    # visible. Keep the same deadline and label this partial read.
+                    include_turns = False
+                    try:
+                        meta = client.call("thread/read", {"threadId": child, "includeTurns": False}, child_deadline)
+                    except RpcError as error:
+                        state.setdefault("child_visibility_gaps", []).append(str(error))
+                        continue
+                child_thread = meta.get("thread", {})
+                if child_thread.get("id") != child or (
+                        child_thread.get("parentThreadId") is not None and
+                        child_thread["parentThreadId"] not in tree.own_ids):
+                    raise Hold("child metadata contradicts observed own-tree identity")
+                record("rpc_response", {"method": "thread/read", "threadId": child,
+                                        "includeTurns": include_turns, "result": meta})
+            if tree.completion is not None:
+                # Drain any child completions received during the final reads.
+                if tree.pending_reads:
+                    continue
+                state["status"] = tree.completion["status"]
+                break
+            message = client.read(deadline)
+            client.notification(message, deadline)
+        return state
+    except (Hold, TimeoutError, OSError, ValueError, KeyError) as error:
+        if is_scientific:
+            cleanup_deadline = time.monotonic() + spec["limits"]["cleanup_seconds"]
+        state["status"] = failure_status(state, error)
+        state["error"] = str(error)
+        if is_scientific:
+            try:
+                close_service("collector_failure_or_deadline")
+            except (OSError, ValueError, TimeoutError) as close_error:
+                state["service_closure_error"] = str(close_error)
+        if client and state["turn_id"]:
+            try:
+                client.deadline_limit = None  # Only the bounded administrative interrupt remains.
+                interrupt_deadline = time.monotonic() + 2
+                if cleanup_deadline is not None:
+                    interrupt_deadline = min(interrupt_deadline, cleanup_deadline)
+                client.call("turn/interrupt", {"threadId": state["thread_id"], "turnId": state["turn_id"]}, interrupt_deadline)
+                state["interrupt_acknowledged"] = True
+            except (Hold, TimeoutError, OSError):
+                state["interrupt_acknowledged"] = False
+        return state
+    finally:
+        if is_scientific:
+            if cleanup_deadline is None:
+                cleanup_deadline = time.monotonic() + spec["limits"]["cleanup_seconds"]
+            try:
+                close_service("collector_stopped")
+            except (OSError, ValueError, TimeoutError) as close_error:
+                state["service_closure_error"] = str(close_error)
+        if owned:
+            allowance = (max(0, cleanup_deadline - time.monotonic()) if is_scientific
+                         else spec["limits"]["cleanup_seconds"] - 2)
+            state["cleanup"] = owned.close(allowance)
+        if tree is not None and is_scientific:
+            state["first_root_terminal"] = tree.completion
+            state["observed_owned_ids"] = sorted(tree.own_ids)
+            state["native_assignment_count_lower_bound"] = len(tree.own_ids) - 1
+        if is_scientific:
+            if state.get("cleanup", {}).get("released"):
+                try:
+                    state["resource_summary"] = selected_module.resource_summary(directory)
+                    service = state["resource_summary"].get("relay_service") or {}
+                    if service.get("violations"):
+                        state.setdefault("resource_violations", []).append({"relay_service": service["violations"]})
+                    locked = selected_module.lock_artifacts(directory, spec["limits"]["artifact_lock_seconds"],
+                                                         spec["limits"]["max_artifact_entries"])
+                    write_json(directory / "evidence/author-artifacts.json", locked)
+                    state["author_artifacts_locked"] = True
+                except (ValueError, OSError, TimeoutError) as error:
+                    state["author_artifacts_locked"] = False
+                    state["artifact_lock_error"] = str(error)
+            else:
+                state["author_artifacts_locked"] = False
+        if client:
+            # Startup stderr is bounded, private, and never printed wholesale.
+            (directory / "evidence/startup.stderr").write_bytes(client.stderr)
+            if is_scientific:
+                state["stream_counts"] = {"protocol_bytes": client.bytes, "event_bytes": event_bytes,
+                    "stderr_bytes": client.stderr_bytes, "stderr_retained_bytes": len(client.stderr),
+                    "stderr_retention": "bounded tail; omitted bytes = total minus retained"}
+        events.close()
+        if is_scientific:
+            state["final_events_sha256"] = digest(directory / "evidence/events.jsonl")
+        write_json(directory / "evidence/result.json", state)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("operation", choices=("prepare", "setup", "preflight"), nargs="?", default="prepare")
+    parser.add_argument("--directory", type=Path, required=True)
+    parser.add_argument("--task", type=Path)
+    parser.add_argument("--fixture", type=Path)
+    parser.add_argument("--wall-seconds", type=int)
+    parser.add_argument("--snapshot", type=Path)
+    parser.add_argument("--profile", type=Path, help="explicit frozen study profile JSON; no candidate default")
+    args = parser.parse_args()
+    try:
+        if args.operation == "prepare":
+            if not args.task or not args.fixture:
+                parser.error("prepare requires --task and --fixture")
+            value = prepare(args.directory, args.task, args.fixture, snapshot=args.snapshot, profile=args.profile)
+            print(json.dumps({"status": "prepared", "directory": value["directory"], "inference": False}))
+        else:
+            value = run(args.directory, live=args.operation == "preflight", wall_seconds=args.wall_seconds)
+            print(json.dumps({k: value.get(k) for k in ("status", "mode", "turn_started", "error", "cleanup")}))
+            accepted = value["status"] in ("setup_completed", "completed") and value["cleanup"]["released"]
+            if value.get("profile"):
+                accepted = (accepted and value.get("author_artifacts_locked") and value.get("service_closed")
+                            and not value.get("resource_violations") and not value.get("service_closure_error"))
+            return 0 if accepted else 1
+    except (Hold, FileExistsError, ValueError) as error:
+        print(json.dumps({"status": "hold", "error": str(error)}))
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.dont_write_bytecode = True
+    raise SystemExit(main())

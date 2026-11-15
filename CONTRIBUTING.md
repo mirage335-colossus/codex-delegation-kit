@@ -14,8 +14,8 @@ For the current Luna evidence-discovery strategy and its limits, see
 [policy.md](policy.md#evidence-discovery-and-terra-screening).
 
 The maintained runtime source includes the policy, installer, advisory helper,
-controller modules, operating and cloud guides, and ten files in `agents/`. The
-installed bundle is a copy of the explicit twenty-three-file `FILES` list in
+controller modules, operating and cloud guides, and eleven files in `agents/`. The
+installed bundle is a copy of the explicit twenty-four-file `FILES` list in
 `install.py`;
 `CONTRIBUTING.md`, `tests/`, and `examples/` remain clone-only resources. Keep the
 manifest and bundle version behavior compatible with existing installations. If
@@ -42,16 +42,20 @@ it with the installed directory; an unknown source remains unknown.
 The installer accepts the original eight-file, three-role manifest, the
 eleven-file, six-role advisory manifest, the seventeen/eighteen-file controller
 and engineering manifests, the twenty-file, eight-role swarm manifest, and the
-twenty-one/twenty-two-file Astra manifests. It migrates their exact owned
-registration blocks to the current ten roles. Preserve supported published
-instruction gateways when adding the mandatory completion-review gateway.
+twenty-one/twenty-two-file Astra manifests, and the twenty-three-file cloud-guide
+manifest with its ten roles and all three published instruction gateways. It
+migrates their exact owned registration blocks to the current eleven roles.
+The twenty-four-file bundle adds native `sol_researcher` at Sol/ultra; preserve
+the ten earlier role blocks, descriptions and order, and the managed instruction
+gateway. Historical gateway exceptions remain scoped to their supported inventories.
 Keep active and disabled legacy installations compatible, preserve unrelated
 configuration and evidence, and refuse collisions with unowned files or role
 registrations. The four inherited role files deliberately omit model and
 reasoning-effort selectors. Preserve the original three pinned pairs, Luna-medium
 swarm pin, and the Astra-ultra initial and strategic/completion-review pins.
-Adding a role must not change
-the controller's uniform per-run model policy or imply automatic escalation.
+The dedicated scientific role adds no service-tier override, controller
+responsibility or model route. Adding a role must not change the controller's
+uniform per-run model policy or imply automatic escalation.
 
 Installation copies controller code but never starts a controller or enables it
 for a task. Disable removes only the managed instruction and role activation

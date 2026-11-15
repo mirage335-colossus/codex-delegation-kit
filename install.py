@@ -111,11 +111,40 @@ OLD23_PREVIOUS_AGENTS_GATEWAY = (
     "Preserve the user's selected primary model. Project contracts and authorization "
     "constraints remain applicable.\n"
 )
-ROLES = {
+# Freeze the published ten-role / twenty-three-file activation independently
+# of subsequent native roles and their inventory.
+OLD23_AGENTS_GATEWAY = (
+    "For coding, repository investigation, debugging, software design, and technical factual research, "
+    "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
+    "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
+    "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
+    "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
+    "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
+    "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
+    "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
+    "and follow `{policy}` before deciding whether to delegate.\n"
+    "Before the main chat decides to stop advancing a substantive user request and return control to the user, "
+    "submit its proposed stopping decision to `astra_expert` (`gpt-6-astra` at `ultra`) for the mandatory "
+    "completion review described in the policy. Before issuing a final response that ends work, require a current "
+    "applicable review and resolve feasible authorized next steps. The trigger is the decision to stop, regardless "
+    "of response wording or whether completion is claimed. The review must examine current evidence and available "
+    "agent findings, search existing solutions, brainstorm alternatives and perform relevant external research. "
+    "Preserve explicit user stops, genuine governing limits, necessary clarification and ongoing tool waits; report "
+    "unavailable review honestly. This gate is separate from the initial consultation and is not recursive for "
+    "delegated subtasks.\n"
+    "Preserve the user's selected primary model. Project contracts and authorization "
+    "constraints remain applicable.\n"
+)
+OLD23_ROLES = {
     **OLD21_ROLES,
     "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
 }
-FILES = OLD22_FILES + ("CLOUD.md",)
+OLD23_FILES = OLD22_FILES + ("CLOUD.md",)
+ROLES = {
+    **OLD23_ROLES,
+    "sol_researcher": "Scientific authorship, research leadership, and independent scientific critique.",
+}
+FILES = OLD23_FILES + ("agents/sol_researcher.toml",)
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
 LEGACY_AGENTS_GATEWAY = (
@@ -193,29 +222,8 @@ def parse_toml(data: bytes | None, path: Path) -> dict:
 
 
 def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
-    if roles == ROLES:
-        gateway = (
-            "For coding, repository investigation, debugging, software design, and technical factual research, "
-            "before substantive work on each new main task, obtain one initial review from the pinned `astra_initial` "
-            "role (`gpt-6-astra` at `ultra`) using only the original prompt and context already available. Do no "
-            "preparatory investigation, planning, decomposition, or implementation, and do not dispatch any other "
-            "subagent, before obtaining that review. Ask about intent, constraints, ambiguities, approaches and "
-            "alternatives, and early user questions. Clearly trivial mechanical authorized configuration edits, "
-            "Git pulls, or basic recompiles may skip this review; if unsure, get the review. Reuse it for ordinary "
-            "progress and continuations and delegated subtasks; do not repeat it or apply it recursively. Then read "
-            f"and follow `{target / 'policy.md'}` before deciding whether to delegate.\n"
-            "Before the main chat decides to stop advancing a substantive user request and return control to the user, "
-            "submit its proposed stopping decision to `astra_expert` (`gpt-6-astra` at `ultra`) for the mandatory "
-            "completion review described in the policy. Before issuing a final response that ends work, require a current "
-            "applicable review and resolve feasible authorized next steps. The trigger is the decision to stop, regardless "
-            "of response wording or whether completion is claimed. The review must examine current evidence and available "
-            "agent findings, search existing solutions, brainstorm alternatives and perform relevant external research. "
-            "Preserve explicit user stops, genuine governing limits, necessary clarification and ongoing tool waits; report "
-            "unavailable review honestly. This gate is separate from the initial consultation and is not recursive for "
-            "delegated subtasks.\n"
-            "Preserve the user's selected primary model. Project contracts and authorization "
-            "constraints remain applicable.\n"
-        )
+    if roles in (ROLES, OLD23_ROLES):
+        gateway = OLD23_AGENTS_GATEWAY.format(policy=target / "policy.md")
     elif roles == OLD21_ROLES:
         gateway = OLD21_AGENTS_GATEWAY.format(policy=target / "policy.md")
     else:
@@ -276,7 +284,7 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
                              set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES),
-                             set(OLD22_FILES), set(FILES)):
+                             set(OLD22_FILES), set(OLD23_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         if inventory == set(LEGACY_FILES):
             known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
@@ -285,10 +293,12 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         elif inventory == set(OLD21_FILES):
             known_blocks = blocks(home / "delegation-kit", OLD21_ROLES)
         elif inventory == set(OLD22_FILES):
-            known_blocks = blocks(home / "delegation-kit", ROLES)
+            known_blocks = blocks(home / "delegation-kit", OLD23_ROLES)
             target = home / "delegation-kit"
             old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
             known_blocks["AGENTS.md"] = f"{BEGIN}\n{old_gateway}{END}\n"
+        elif inventory == set(OLD23_FILES):
+            known_blocks = blocks(home / "delegation-kit", OLD23_ROLES)
         elif inventory == set(FILES):
             known_blocks = expected
         else:
@@ -301,7 +311,7 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             if inventory == set(OLD21_FILES) and name == "AGENTS.md":
                 legacy = blocks(home / "delegation-kit", PRE_ASTRA_ROLES)[name]
                 allowed += (legacy, "\n" + legacy)
-            if inventory == set(FILES) and name == "AGENTS.md":
+            if inventory == set(OLD23_FILES) and name == "AGENTS.md":
                 target = home / "delegation-kit"
                 old_gateway = OLD22_AGENTS_GATEWAY.format(policy=target / "policy.md")
                 old_block = f"{BEGIN}\n{old_gateway}{END}\n"

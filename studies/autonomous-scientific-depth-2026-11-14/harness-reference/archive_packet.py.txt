@@ -1,0 +1,337 @@
+#!/usr/bin/env python3
+"""Freeze a terminal participant packet without inspecting scientific content.
+
+Usage (both destination parents must already exist):
+  python3 -B archive_packet.py --packet /tmp/cdk-example \
+      --archive /owned/archives/example --record /owned/records/example.json
+
+Run only after the owner is terminal. This is an artifact freezer, not a scheduler
+or a lock on participant activity. Existing archives and records are rejected.
+All regular-file bytes and empty directories are copied; symlinks are copied as
+links and recorded without opening their targets. Special files prevent a clean
+freeze. Source/archived manifests and source identity/mtime/ctime observations
+detect changes seen during the copy; they cannot prove absence of all transient
+concurrent changes. An unstable or failed copy retains its archive and record.
+Exit 0 means a clean byte freeze, 2 means rejection or an unclean freeze. Meter
+reconciliation is reported separately: cooperative receipts are not complete
+tool telemetry and cannot establish unrecorded activity or owner termination.
+"""
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import stat
+import sys
+
+
+DIRECTORY_FLAGS = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+READ_FLAGS = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
+RECEIPT_ID = re.compile(r"[0-9a-f]{32}\Z")
+
+
+def _json_bytes(value: object) -> bytes:
+    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _directory(path: Path) -> int:
+    """Open every path component without following symlinks."""
+    fd = os.open("/", DIRECTORY_FLAGS)
+    try:
+        for part in path.parts[1:]:
+            child = os.open(part, DIRECTORY_FLAGS, dir_fd=fd)
+            os.close(fd)
+            fd = child
+        return fd
+    except BaseException:
+        os.close(fd)
+        raise
+
+
+def _state(info: os.stat_result) -> list[int]:
+    return [info.st_dev, info.st_ino, info.st_mode, info.st_size,
+            info.st_mtime_ns, info.st_ctime_ns]
+
+
+def _snapshot(root_fd: int, destination_fd: int | None = None) -> dict:
+    entries, observed, issues = [], {}, []
+
+    def visit(directory_fd: int, relative: str, copy_fd: int | None) -> None:
+        initial = _state(os.fstat(directory_fd))
+        observed[relative or "."] = initial
+        # A long-lived directory handle may retain an old listing/cursor after
+        # files are created through it. Open a fresh handle for every listing;
+        # dup() would share the existing open-file description and cursor.
+        listing_fd = os.open(".", DIRECTORY_FLAGS, dir_fd=directory_fd)
+        try:
+            names = sorted(os.listdir(listing_fd))
+        finally:
+            os.close(listing_fd)
+        for name in names:
+            path = f"{relative}/{name}" if relative else name
+            try:
+                info = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
+                observed[path] = _state(info)
+                if stat.S_ISLNK(info.st_mode):
+                    target = os.readlink(name, dir_fd=directory_fd)
+                    raw = os.fsencode(target)
+                    entries.append({"path": path, "type": "symlink", "target": target,
+                                    "size": len(raw), "sha256": hashlib.sha256(raw).hexdigest()})
+                    if copy_fd is not None:
+                        os.symlink(target, name, dir_fd=copy_fd)
+                elif stat.S_ISDIR(info.st_mode):
+                    child = os.open(name, DIRECTORY_FLAGS, dir_fd=directory_fd)
+                    copied_child = None
+                    try:
+                        if _state(os.fstat(child)) != _state(info):
+                            issues.append(f"{path}: directory changed before opening")
+                        entries.append({"path": path, "type": "directory"})
+                        if copy_fd is not None:
+                            os.mkdir(name, dir_fd=copy_fd)
+                            copied_child = os.open(name, DIRECTORY_FLAGS, dir_fd=copy_fd)
+                        visit(child, path, copied_child)
+                    finally:
+                        os.close(child)
+                        if copied_child is not None:
+                            os.close(copied_child)
+                elif stat.S_ISREG(info.st_mode):
+                    source = os.open(name, READ_FLAGS, dir_fd=directory_fd)
+                    output = None
+                    try:
+                        opened = os.fstat(source)
+                        if not stat.S_ISREG(opened.st_mode):
+                            raise OSError("file changed to a non-regular entry")
+                        if _state(opened) != _state(info):
+                            issues.append(f"{path}: file changed before opening")
+                        if copy_fd is not None:
+                            output = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                                             os.O_NOFOLLOW, 0o600, dir_fd=copy_fd)
+                        digest, size = hashlib.sha256(), 0
+                        while chunk := os.read(source, 1024 * 1024):
+                            digest.update(chunk)
+                            size += len(chunk)
+                            if output is not None:
+                                remaining = memoryview(chunk)
+                                while remaining:
+                                    remaining = remaining[os.write(output, remaining):]
+                        if output is not None:
+                            os.fsync(output)
+                        if _state(os.fstat(source)) != _state(opened):
+                            issues.append(f"{path}: file changed while reading")
+                        entries.append({"path": path, "type": "file", "size": size,
+                                        "sha256": digest.hexdigest()})
+                    finally:
+                        os.close(source)
+                        if output is not None:
+                            os.close(output)
+                else:
+                    entries.append({"path": path, "type": "unsupported", "mode": info.st_mode})
+                    issues.append(f"{path}: special file was not copied")
+            except OSError as exc:
+                issues.append(f"{path}: {exc}")
+        if _state(os.fstat(directory_fd)) != initial:
+            issues.append(f"{relative or '.'}: directory changed while reading")
+
+    visit(root_fd, "", destination_fd)
+    entries.sort(key=lambda entry: entry["path"])
+    return {"entries": entries,
+            "manifest_sha256": hashlib.sha256(_json_bytes(entries)).hexdigest(),
+            "regular_file_bytes": sum(e["size"] for e in entries if e["type"] == "file"),
+            "observed_state": observed, "issues": sorted(issues)}
+
+
+def _read_json(root_fd: int, relative: str) -> object:
+    parts = relative.split("/")
+    parent = os.dup(root_fd)
+    try:
+        for part in parts[:-1]:
+            child = os.open(part, DIRECTORY_FLAGS, dir_fd=parent)
+            os.close(parent)
+            parent = child
+        fd = os.open(parts[-1], READ_FLAGS, dir_fd=parent)
+        with os.fdopen(fd, "r", encoding="utf-8") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise ValueError("not a regular JSON file")
+            return json.load(stream)
+    finally:
+        os.close(parent)
+
+
+def _nonnegative_int(value: object) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
+
+
+def _accounting(root_fd: int, manifest: list[dict]) -> list[dict]:
+    """Read only meter metadata and receipt accounting fields, not research."""
+    paths = {entry["path"]: entry["type"] for entry in manifest}
+    roots = {str(Path(path).parent) for path in paths
+             if Path(path).name in {"meter.json", "allocations.json"}}
+    roots.update(str(Path(path).parent.parent) for path in paths
+                 if Path(path).parent.name == "receipts" and path.endswith(".json"))
+    results = []
+    for root in sorted(roots):
+        prefix = "" if root == "." else root + "/"
+        errors, statuses, sums = [], Counter(), Counter()
+        result = {"root": root, "telemetry_scope": "cooperative-only, not complete-tool telemetry"}
+
+        def read(name: str) -> object | None:
+            path = prefix + name
+            if path not in paths:
+                return None
+            if paths[path] != "file":
+                errors.append(f"{path}: not a regular file; target not read")
+                return None
+            try:
+                return _read_json(root_fd, path)
+            except (OSError, ValueError, UnicodeError) as exc:
+                errors.append(f"{path}: invalid accounting JSON ({type(exc).__name__})")
+                return None
+
+        state, allocation = read("meter.json"), read("allocations.json")
+        result.update(meter=state, allocations=allocation)
+        valid_state = (isinstance(state, dict) and state.get("version") == 1
+                       and isinstance(state.get("used"), dict)
+                       and all(isinstance(k, str) and _nonnegative_int(v)
+                               for k, v in state["used"].items())
+                       and isinstance(state.get("receipts"), list)
+                       and all(isinstance(v, str) and RECEIPT_ID.fullmatch(v)
+                               for v in state["receipts"]))
+        if state is not None and not valid_state:
+            errors.append("meter.json: invalid version-1 accounting shape")
+        used = state["used"] if valid_state else {}
+        expected = state["receipts"] if valid_state else []
+        found, unclosed = set(), []
+        receipts_prefix = prefix + "receipts/"
+        for path in sorted(paths):
+            if not path.startswith(receipts_prefix) or "/" in path[len(receipts_prefix):]:
+                continue
+            name = path[len(receipts_prefix):]
+            if not name.endswith(".json"):
+                continue
+            receipt = read("receipts/" + name)
+            if not isinstance(receipt, dict):
+                errors.append(f"{path}: missing or invalid receipt object")
+                continue
+            receipt_id, run = receipt.get("id"), receipt.get("run")
+            operations, status = receipt.get("operations"), receipt.get("status")
+            if (not isinstance(receipt_id, str) or not RECEIPT_ID.fullmatch(receipt_id)
+                    or name != receipt_id + ".json" or not isinstance(run, str)
+                    or not _nonnegative_int(operations) or not isinstance(status, str)):
+                errors.append(f"{path}: invalid receipt accounting fields")
+                continue
+            found.add(receipt_id)
+            sums[run] += operations
+            statuses[status] += 1
+            if status not in {"returned", "error"}:
+                unclosed.append(receipt_id)
+            if status not in {"reserved", "returned", "error"}:
+                errors.append(f"{path}: unknown receipt status")
+        missing, extra = sorted(set(expected) - found), sorted(found - set(expected))
+        if len(expected) != len(set(expected)):
+            errors.append("meter.json: duplicate receipt IDs")
+        if valid_state:
+            for run in sorted(set(used) | set(sums)):
+                if used.get(run, 0) != sums.get(run, 0):
+                    errors.append(f"{run}: charged {used.get(run, 0)} != receipt operations {sums.get(run, 0)}")
+        elif found:
+            errors.append("receipt totals have no valid meter for comparison")
+        valid_allocation = (isinstance(allocation, dict)
+                            and _nonnegative_int(allocation.get("total_cap"))
+                            and isinstance(allocation.get("runs"), dict)
+                            and all(isinstance(k, str) and _nonnegative_int(v)
+                                    for k, v in allocation["runs"].items()))
+        if allocation is not None and not valid_allocation:
+            errors.append("allocations.json: invalid allocation shape")
+        if valid_state and valid_allocation:
+            if sum(used.values()) > allocation["total_cap"]:
+                errors.append("charged total exceeds allocation")
+            for run, charge in used.items():
+                if run not in allocation["runs"] or charge > allocation["runs"][run]:
+                    errors.append(f"{run}: missing or exceeded run allocation")
+        result.update(charged_total=sum(used.values()) if valid_state else None,
+                      charged_by_run=used if valid_state else None,
+                      receipt_operation_sum=sum(sums.values()), receipt_operations_by_run=dict(sums),
+                      receipt_status_counts=dict(statuses), missing_receipts=missing,
+                      unlisted_receipts=extra, unclosed_receipts=sorted(unclosed),
+                      discrepancies=errors,
+                      reconciled=valid_state and not (errors or missing or extra or unclosed))
+        results.append(result)
+    return results
+
+
+def freeze(packet: Path, archive: Path, record: Path) -> dict:
+    packet, archive, record = (Path(os.path.abspath(p)) for p in (packet, archive, record))
+    if packet.parent != Path("/tmp") or not packet.name.startswith("cdk-"):
+        raise ValueError("packet must be a direct /tmp/cdk-* directory")
+    if (archive.is_relative_to(packet) or record.is_relative_to(packet)
+            or record.is_relative_to(archive) or archive.is_relative_to(record)):
+        raise ValueError("archive and record must be separate destinations outside the packet")
+    source_fd = _directory(packet)
+    archive_parent = record_parent = archived_fd = record_fd = None
+    try:
+        archive_parent = _directory(archive.parent)
+        record_parent = _directory(record.parent)
+        for parent, name in ((archive_parent, archive.name), (record_parent, record.name)):
+            try:
+                os.stat(name, dir_fd=parent, follow_symlinks=False)
+            except FileNotFoundError:
+                continue
+            raise ValueError(f"refusing existing destination: {name}")
+        os.mkdir(archive.name, mode=0o700, dir_fd=archive_parent)
+        archived_fd = os.open(archive.name, DIRECTORY_FLAGS, dir_fd=archive_parent)
+        record_fd = os.open(record.name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                            0o600, dir_fd=record_parent)
+        result = {"version": 1, "packet": str(packet), "archive": str(archive),
+                  "record": str(record), "started_utc": datetime.now(timezone.utc).isoformat(),
+                  "clean_freeze": False, "status": "failed",
+                  "manifest_definition": "SHA256 of sorted, indented JSON entries plus newline; file hashes cover bytes, symlink hashes cover link text bytes",
+                  "limits": "Cooperative-only accounting is not complete-tool telemetry. This freezer does not establish owner termination or exclude all transient concurrent changes."}
+        try:
+            before = result["source_before"] = _snapshot(source_fd)
+            copied = result["source_during_copy"] = _snapshot(source_fd, archived_fd)
+            after = result["source_after"] = _snapshot(source_fd)
+            stored = result["archive_after"] = _snapshot(archived_fd)
+            stable = (not any(s["issues"] for s in (before, copied, after))
+                      and before["entries"] == copied["entries"] == after["entries"]
+                      and before["observed_state"] == after["observed_state"])
+            matches = not stored["issues"] and stored["entries"] == before["entries"]
+            result.update(source_stable=stable, archive_matches_source=matches,
+                          clean_freeze=stable and matches,
+                          status="clean" if stable and matches else "unstable")
+            result["accounting"] = _accounting(archived_fd, stored["entries"])
+        except (OSError, ValueError) as exc:
+            result.update(status="failed", clean_freeze=False, error=str(exc))
+        result["finished_utc"] = datetime.now(timezone.utc).isoformat()
+        with os.fdopen(record_fd, "wb", closefd=False) as stream:
+            stream.write(_json_bytes(result))
+            stream.flush()
+            os.fsync(stream.fileno())
+        return result
+    finally:
+        for fd in (source_fd, archive_parent, record_parent, archived_fd, record_fd):
+            if fd is not None:
+                os.close(fd)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--packet", required=True, type=Path)
+    parser.add_argument("--archive", required=True, type=Path)
+    parser.add_argument("--record", required=True, type=Path)
+    args = parser.parse_args()
+    try:
+        result = freeze(args.packet, args.archive, args.record)
+        print(json.dumps({key: result[key] for key in ("status", "clean_freeze", "archive", "record")}))
+        return 0 if result["clean_freeze"] else 2
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"status": "rejected", "clean_freeze": False, "error": str(exc)}))
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

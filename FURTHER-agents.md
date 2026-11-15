@@ -5,7 +5,7 @@ This is a carefully curated list of possible future improvements - this should n
 
 # Research by Default
 
-NOTICE: Unusually, this has already been done, but is kept in FURTHER for now until proven completed and adequate.
+NOTICE: Unusually, this has already been at least partly implemented, but the exercises have not yet concluded with enough confidence of reliably achieving enough breadth and depth. Thus, kept in FURTHER for now until proven completed and adequate.
 
 ## Prompt
 
@@ -55,6 +55,36 @@ Please use exercises based on the _ref/ and _appraisal/ directories, to refine p
 Prompting the main chat to exclusively do research, resulted in extremely extensive research, seemingly far beyond what resulted from research done on the fly.
 
 The idea here is to, if practical, get such extensive research as found in the example _ref directory, to happen, if appropriate, without either an explicit request, or this having been the user's only request to that round on the main chat.
+
+---
+
+Prompting the main chat led to exclusively do research, resulted in extremely extensive research, seemingly far beyond what resulted from research done on the fly.
+
+The idea here is to, if practical, get such extensive research as found in the example _ref directory, to happen, if appropriate, without either an explicit request, or this having been the user's only request to that round on the main chat.
+
+---
+
+Does this result in as extensive of gathering of scientific information as was the case for the _ref/ directory, etc?
+
+---
+
+Please proceed with exercises, refinement, etc, to actually demonstrate that breadth and depth, etc.
+
+---
+
+Was this research work autonomously initiatied?
+
+---
+
+Please proceed with exercises, refinement, etc, to actually demonstrate equally extensive research emerging reliably without such follow-through.
+
+---
+
+An appraisal suggested this. Seems changing the experimental approach may be worthwhile.
+
+```
+My assessment is more cautious now: useful autonomous research and uptake are demonstrated within the exercises; reference-level depth and reliability are still failing. The exercises also use a configured scientific test environment, so automatic selection of this behavior across ordinary installed-app chats remains unproven. One bounded V9 test is defensible, but continued similar failures would justify changing the experimental approach rather than accumulating more prompt revisions.
+```
 
 
 ## Example for Exercise - High Fidelity Test Suite

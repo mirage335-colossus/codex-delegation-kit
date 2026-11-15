@@ -1,0 +1,17 @@
+> Retention note (2026-11-15): this is a historical authored report or prompt. Third-party source payloads, project snapshots and raw execution archives were removed at the user's request. Statements about preserved files, hashes and completed checks describe the original exercise; this checkout no longer supports its exact replay.
+
+# Root decision: matched groundwave diagnostic
+
+15 November 2026. Adopt the [independent experimental redesign](../experimental-redesign-2026-11-15.md), SHA256 `b5e575d703fe0f68166504e220f33b12a90490b2193413ea49ace156000d5f4b`, in response to the user's request to change the experimental approach. The next experiment is two matched actual-primary groundwave cases, not the previously proposed full-envelope V9 episode.
+
+Keep the accepted V9 candidate (historical locator: `../source-v9/manifest.json`; artifact not bundled), manifest SHA256 `89b7d9e63fb50e767e6114a74465a783a3e3c33701c85ba147aa6d2ebe56c424`, unchanged. One case receives an explicit standalone research assignment; the other receives an ordinary development-planning assignment. Both receive the same groundwave application context, full ordinary source fixture, requested primary settings, native role pool, neutral execution environment and equal public-access opportunity. Assignment to opaque case identities will use an OS-random draw after the identities are fixed and before either launch.
+
+Adopt the design's finite allowances and branches: 1,000 web items, 50 browser content actions and 40 other public acquisitions per author, without transfers; eight hours per case including native assistance and gates, twelve active identities and 32 helper assignments. Reserve a separate pair-assessment allowance of 200 web items, 20 browser content actions and 20 other public acquisitions over four hours. No minimum expenditure is required. Record consumed resources and actual delivery separately from available ceilings.
+
+Freeze exact prompts, common context, neutral environment, candidate and harness identities, assessment instructions, limits and branch rules before author dispatch. Lock both first returns before grading either. Preserve all original GROUND criteria, including scientific application consequences in the standalone research case. Autonomous initiation and actual engineering uptake are additional, separate judgments for the ordinary case.
+
+At most one unchanged paired replication is allowed, only for the design's discordant-outcome or concrete repairable material-delivery branches. If both valid cases remain scientifically incomplete, inspect the first missing work stage in the locked evidence before choosing one materially different work-method diagnostic. Do not automatically revise prompts, increase budgets, add critics, switch models or launch another broad campaign.
+
+The narrow study-profile extension, task preparation and review are authorized repository work. Author dispatch remains held until concrete preparation and transport checks pass. No active/global installation, pumpModem modification or execution, curated-directory write, commit or publication is authorized. The diagnostic is a selected-domain feasibility and mechanism investigation; it cannot establish broad reliability or ordinary installed-app behavior.
+
+This decision supersedes the *next-launch sequence* in the earlier V9 proposal and strategy review. It does not rewrite their history, change earlier grades, establish scientific success or satisfy the separate main-task stopping review.

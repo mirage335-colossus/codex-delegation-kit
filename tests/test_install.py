@@ -147,12 +147,16 @@ class InstallerTests(unittest.TestCase):
 
     def seed_old22(self, *, active=True):
         """Create the published twenty-two-file bundle before the cloud guide."""
-        return self.seed_layout(kit.OLD22_FILES, kit.ROLES, active=active,
+        return self.seed_layout(kit.OLD22_FILES, kit.OLD23_ROLES, active=active,
                                agents_block=published_old22_agents_block)
 
-    def seed_current_with_old22_gateway(self, *, active=True):
-        """Create the current 23-file inventory with its published old gateway."""
-        target = self.seed_layout(kit.FILES, kit.ROLES, active=active)
+    def seed_old23(self, *, active=True):
+        """Create the frozen 23-file, ten-role inventory with its final gateway."""
+        return self.seed_layout(kit.OLD23_FILES, kit.OLD23_ROLES, active=active)
+
+    def seed_old23_with_old22_gateway(self, *, active=True):
+        """Create the published 23-file inventory with its initial-only gateway."""
+        target = self.seed_old23(active=active)
         old = published_old22_agents_block(target)
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
@@ -165,9 +169,9 @@ class InstallerTests(unittest.TestCase):
         manifest_path.write_text(json.dumps(manifest))
         return target
 
-    def seed_current_with_old23_previous_gateway(self, *, active=True):
+    def seed_old23_with_previous_completion_gateway(self, *, active=True):
         """Seed the prior 23-file completion gateway."""
-        target = self.seed_layout(kit.FILES, kit.ROLES, active=active)
+        target = self.seed_old23(active=active)
         old = published_old23_previous_agents_block(target)
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
@@ -208,7 +212,7 @@ class InstallerTests(unittest.TestCase):
                 block = agents_block(target)
             elif name == "AGENTS.md" and roles == kit.OLD21_ROLES:
                 block = published_old21_agents_block(target)
-            elif name == "AGENTS.md" and roles != kit.ROLES:
+            elif name == "AGENTS.md" and roles not in (kit.ROLES, kit.OLD23_ROLES):
                 block = published_legacy_agents_block(target)
             path = self.home / name
             before = kit.read_state(path)
@@ -240,6 +244,8 @@ class InstallerTests(unittest.TestCase):
             old_agents = prior_agents_block
         elif prior_roles == kit.OLD21_ROLES:
             old_agents = published_old21_agents_block(target).encode()
+        elif prior_roles == kit.OLD23_ROLES:
+            old_agents = kit.blocks(target, kit.OLD23_ROLES)["AGENTS.md"].encode()
         else:
             old_agents = published_legacy_agents_block(target).encode()
         new_agents = kit.blocks(target)["AGENTS.md"].encode()
@@ -403,12 +409,18 @@ class InstallerTests(unittest.TestCase):
         expected_agents = globals_before[self.agents].data.replace(
             published_old22_agents_block(target).encode(), kit.blocks(target)["AGENTS.md"].encode(), 1)
         self.assertEqual(kit.read_state(self.agents), kit.State(expected_agents, globals_before[self.agents].mode))
-        self.assertEqual(kit.read_state(self.config), globals_before[self.config])
+        self.assert_only_role_block_updated(
+            target, globals_before, kit.OLD23_ROLES,
+            prior_agents_block=published_old22_agents_block(target).encode())
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"], kit.blocks(target)["AGENTS.md"])
-        self.assertEqual(manifest["activation"]["config.toml"], prior_activation["config.toml"])
+        previous_config = prior_activation["config.toml"]
+        self.assertEqual(manifest["activation"]["config.toml"], {
+            **previous_config, "inserted": previous_config["inserted"].replace(
+                kit.blocks(target, kit.OLD23_ROLES)["config.toml"],
+                kit.blocks(target)["config.toml"], 1)})
         self.assertEqual(kit.plan(self.home, self.source), [])
 
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
@@ -458,8 +470,8 @@ class InstallerTests(unittest.TestCase):
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual({path: kit.read_state(path) for path in before}, before)
 
-    def test_current23_previous_completion_gateway_direct_disable(self):
-        target = self.seed_current_with_old23_previous_gateway()
+    def test_old23_previous_completion_gateway_direct_disable(self):
+        target = self.seed_old23_with_previous_completion_gateway()
         evidence = target / "state/retained/result.json"
         evidence.parent.mkdir(parents=True)
         evidence.write_bytes(b"keep\n")
@@ -467,8 +479,8 @@ class InstallerTests(unittest.TestCase):
         self.assert_original()
         self.assertEqual(evidence.read_bytes(), b"keep\n")
 
-    def test_current23_previous_completion_gateway_upgrade_and_disable(self):
-        target = self.seed_current_with_old23_previous_gateway()
+    def test_old23_previous_completion_gateway_upgrade_and_disable(self):
+        target = self.seed_old23_with_previous_completion_gateway()
         evidence = target / "state/retained/result.json"
         evidence.parent.mkdir(parents=True)
         evidence.write_bytes(b"keep\n")
@@ -476,15 +488,16 @@ class InstallerTests(unittest.TestCase):
         kit.apply(kit.plan(self.home, self.source))
         self.assertIn(kit.blocks(target)["AGENTS.md"].encode(), self.agents.read_bytes())
         self.assertEqual(kit.read_state(self.agents).mode, self.original[self.agents].mode)
-        self.assertEqual(kit.read_state(self.config), active_before[self.config])
+        self.assert_only_role_block_updated(
+            target, active_before, kit.OLD23_ROLES,
+            prior_agents_block=published_old23_previous_agents_block(target).encode())
         self.assertEqual(kit.plan(self.home, self.source), [])
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assert_original()
         self.assertEqual(evidence.read_bytes(), b"keep\n")
 
-    def test_inactive_current23_previous_completion_gateway_reactivation(self):
-        self.activate()
-        target = self.home / "delegation-kit"
+    def test_inactive_old23_previous_completion_gateway_reactivation(self):
+        target = self.seed_old23()
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
@@ -499,8 +512,8 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(kit.read_state(self.config), kit.State(expected_config, before_config.mode))
         self.assertEqual(kit.plan(self.home, self.source), [])
 
-    def test_current23_previous_gateway_direct_disable(self):
-        target = self.seed_current_with_old22_gateway()
+    def test_old23_previous_gateway_direct_disable(self):
+        target = self.seed_old23_with_old22_gateway()
         original_agents = self.original[self.agents]
         original_config = self.original[self.config]
         evidence = target / "state/retained/result.json"
@@ -513,11 +526,10 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(evidence.read_bytes(), b"keep\n")
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertFalse(manifest["active"])
-        self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+        self.assertEqual(set(manifest["bundle_digests"]), set(kit.OLD23_FILES))
 
-    def test_current23_previous_gateway_upgrade_disable_and_idempotence(self):
-        self.activate()
-        target = self.home / "delegation-kit"
+    def test_old23_previous_gateway_upgrade_disable_and_idempotence(self):
+        target = self.seed_old23()
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         old = published_old22_agents_block(target)
@@ -533,7 +545,10 @@ class InstallerTests(unittest.TestCase):
         kit.apply(kit.plan(self.home, self.source))
         self.assertEqual(self.agents.read_bytes(), b"prefix\n" + current.encode() + b"suffix\n")
         self.assertEqual(kit.read_state(self.agents).mode, self.original[self.agents].mode)
-        self.assertEqual(kit.read_state(self.config), config_before)
+        expected_config = config_before.data.replace(
+            kit.blocks(target, kit.OLD23_ROLES)["config.toml"].encode(),
+            kit.blocks(target)["config.toml"].encode(), 1)
+        self.assertEqual(kit.read_state(self.config), kit.State(expected_config, config_before.mode))
         self.assertEqual(evidence.read_bytes(), b"keep\n")
         self.assertEqual(kit.plan(self.home, self.source), [])
         manifest = json.loads(manifest_path.read_text())
@@ -544,9 +559,8 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(kit.read_state(self.config), self.original[self.config])
         self.assertEqual(evidence.read_bytes(), b"keep\n")
 
-    def test_inactive_current23_previous_gateway_reactivation(self):
-        self.activate()
-        target = self.home / "delegation-kit"
+    def test_inactive_old23_previous_gateway_reactivation(self):
+        target = self.seed_old23()
         # Create a real inactive installation, then restore its prior 23-file gateway.
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         manifest_path = target / ".installation/manifest.json"
@@ -638,9 +652,8 @@ class InstallerTests(unittest.TestCase):
             with self.subTest(legacy_gateway=legacy_gateway):
                 self.assert_inactive_old21_reactivation_preserves(legacy_gateway=legacy_gateway)
 
-    def test_current23_manifest_rejects_both_historical_gateways_without_writes(self):
-        self.activate()
-        target = self.home / "delegation-kit"
+    def test_old23_manifest_rejects_both_historical_gateways_without_writes(self):
+        target = self.seed_old23()
         manifest_path = target / ".installation/manifest.json"
         original_manifest = json.loads(manifest_path.read_text())
         historical = (published_old21_agents_block(target), published_legacy_agents_block(target))
@@ -657,8 +670,8 @@ class InstallerTests(unittest.TestCase):
                     self.assertEqual(self.snapshot_home(), before)
         manifest_path.write_text(json.dumps(original_manifest))
 
-    def test_current23_previous_completion_gateway_tampering_is_refused_without_writes(self):
-        target = self.seed_current_with_old23_previous_gateway()
+    def test_old23_previous_completion_gateway_tampering_is_refused_without_writes(self):
+        target = self.seed_old23_with_previous_completion_gateway()
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         old = manifest["activation"]["AGENTS.md"]["inserted"]
@@ -672,8 +685,7 @@ class InstallerTests(unittest.TestCase):
             self.assertEqual(self.snapshot_home(), before)
 
     def test_current_previous_gateway_manifest_is_accepted(self):
-        self.activate()
-        target = self.home / "delegation-kit"
+        target = self.seed_old23()
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         old = published_old22_agents_block(target)
@@ -686,6 +698,172 @@ class InstallerTests(unittest.TestCase):
         kit.apply(preview)
         self.assertIn(kit.blocks(target)["AGENTS.md"].encode(), self.agents.read_bytes())
         self.assertEqual(kit.plan(self.home, self.source), [])
+
+    def test_published_old23_inventory_and_activation_bytes_are_frozen(self):
+        target = Path("/codex/delegation-kit")
+        self.assertEqual(len(kit.OLD23_FILES), 23)
+        self.assertEqual(len(kit.OLD23_ROLES), 10)
+        self.assertEqual(kit.digest(("\n".join(kit.OLD23_FILES) + "\n").encode()),
+                         "190a9993123a931851bfa8dda01c0ab7a9746d86ad2ba965b827f078f8ea6d31")
+        published = kit.blocks(target, kit.OLD23_ROLES)
+        self.assertEqual(kit.digest(published["config.toml"].encode()),
+                         "8bb4b1d7ed9cf29b39487afa0bc5b5b1fc7302497e5c93ab518d7aa35c3ca504")
+        self.assertEqual(kit.digest(published["AGENTS.md"].encode()),
+                         "dfd90c2855a9c2299aeda89551c4b36e9a63014cf8a746d695994dffd35e157b")
+        self.assertEqual(kit.blocks(target)["AGENTS.md"], published["AGENTS.md"])
+        self.assertEqual(tuple(kit.ROLES)[:-1], tuple(kit.OLD23_ROLES))
+        self.assertEqual(tuple(kit.ROLES)[-1], "sol_researcher")
+        self.assertEqual(kit.FILES, kit.OLD23_FILES + ("agents/sol_researcher.toml",))
+
+    def test_old23_current_gateway_upgrade_adds_only_owned_research_registration(self):
+        target = self.seed_old23()
+        self.config.write_bytes(self.config.read_bytes() +
+                                b'\n[agents.personal]\nconfig_file = "personal.toml"\n')
+        before = {path: kit.read_state(path) for path in (self.agents, self.config)}
+        changes = kit.plan(self.home, self.source)
+        self.assertFalse((target / "agents/sol_researcher.toml").exists())
+        self.assertFalse(any(change.path == self.agents for change in changes))
+        kit.apply(changes)
+        self.assert_only_role_block_updated(target, before, kit.OLD23_ROLES)
+        self.assertEqual(set(kit.parse_toml(self.config.read_bytes(), self.config)["agents"]),
+                         {*kit.ROLES, "personal"})
+        self.assertEqual((target / "agents/sol_researcher.toml").read_bytes(),
+                         (self.source / "agents/sol_researcher.toml").read_bytes())
+        self.assertEqual(kit.plan(self.home, self.source), [])
+
+    def test_all_published_layouts_disable_and_reactivate_preserve_user_state(self):
+        layouts = (
+            (self.seed_legacy, kit.LEGACY_FILES),
+            (self.seed_advisory, kit.ADVISORY_FILES),
+            (self.seed_controller, kit.CONTROLLER_FILES),
+            (self.seed_engineering, kit.ENGINEERING_FILES),
+            (self.seed_swarm, kit.SWARM_FILES),
+            (self.seed_old21, kit.OLD21_FILES),
+            (self.seed_old22, kit.OLD22_FILES),
+            (self.seed_old23, kit.OLD23_FILES),
+            (self.seed_old23_with_old22_gateway, kit.OLD23_FILES),
+            (self.seed_old23_with_previous_completion_gateway, kit.OLD23_FILES),
+        )
+        for seed, files in layouts:
+            for active in (True, False):
+                with self.subTest(layout=seed.__name__, active=active), tempfile.TemporaryDirectory() as temporary:
+                    self.home = Path(temporary) / "home"
+                    self.home.mkdir()
+                    self.agents = self.home / "AGENTS.md"
+                    self.config = self.home / "config.toml"
+                    self.agents.write_bytes(b"user guidance without final newline")
+                    self.agents.chmod(0o640)
+                    self.config.write_bytes(
+                        b'model = "primary"\nmodel_reasoning_effort = "ultra"\n'
+                        b'service_tier = "priority"\n[agents]\nmax_threads = 5\n'
+                        b'[agents.personal]\nconfig_file = "personal.toml"\n')
+                    self.config.chmod(0o640)
+                    user_globals = {path: kit.read_state(path) for path in (self.agents, self.config)}
+                    target = seed(active=active)
+                    evidence = target / "state/retained/result.json"
+                    evidence.parent.mkdir(parents=True)
+                    evidence.write_bytes(b'{"keep":true}\n')
+                    evidence.chmod(0o600)
+                    evidence_before = kit.read_state(evidence)
+
+                    kit.apply(kit.plan(self.home, self.source, uninstall=True))
+                    self.assertEqual({path: kit.read_state(path) for path in user_globals}, user_globals)
+                    manifest = json.loads((target / ".installation/manifest.json").read_text())
+                    self.assertEqual(set(manifest["bundle_digests"]), set(files))
+                    self.assertFalse(manifest["active"])
+                    self.assertFalse((target / "agents/sol_researcher.toml").exists())
+                    self.assertEqual(kit.plan(self.home, self.source, uninstall=True), [])
+
+                    self.activate()
+                    manifest = json.loads((target / ".installation/manifest.json").read_text())
+                    self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
+                    self.assertEqual(len(manifest["bundle_digests"]), 24)
+                    loaded = kit.parse_toml(self.config.read_bytes(), self.config)
+                    self.assertEqual(loaded["model"], "primary")
+                    self.assertEqual(loaded["model_reasoning_effort"], "ultra")
+                    self.assertEqual(loaded["service_tier"], "priority")
+                    self.assertEqual(loaded["agents"]["max_threads"], 5)
+                    self.assertEqual(set(loaded["agents"]), {*kit.ROLES, "max_threads", "personal"})
+                    self.assertEqual(kit.plan(self.home, self.source), [])
+                    kit.apply(kit.plan(self.home, self.source, uninstall=True))
+                    self.assertEqual({path: kit.read_state(path) for path in user_globals}, user_globals)
+                    self.assertEqual(kit.read_state(evidence), evidence_before)
+
+    def test_old23_upgrade_refuses_unowned_research_file_even_with_identical_bytes(self):
+        target = self.seed_old23()
+        path = target / "agents/sol_researcher.toml"
+        path.write_bytes((self.source / "agents/sol_researcher.toml").read_bytes())
+        before = self.snapshot_home()
+        with self.assertRaisesRegex(kit.Refusal, "not owned"):
+            kit.plan(self.home, self.source)
+        self.assertEqual(self.snapshot_home(), before)
+        kit.apply(kit.plan(self.home, self.source, uninstall=True))
+        self.assert_original()
+        self.assertEqual(kit.read_state(path), before[path.relative_to(self.home)])
+
+    def test_old23_research_role_collisions_block_upgrade_but_not_disable(self):
+        for standalone in (False, True):
+            with self.subTest(standalone=standalone), tempfile.TemporaryDirectory() as temporary:
+                self.home = Path(temporary) / "home"
+                self.home.mkdir()
+                self.agents = self.home / "AGENTS.md"
+                self.config = self.home / "config.toml"
+                self.agents.write_bytes(b"User instructions\n")
+                self.config.write_bytes(b'model = "primary"\n')
+                user_agents = kit.read_state(self.agents)
+                original_config = kit.read_state(self.config)
+                target = self.seed_old23()
+                if standalone:
+                    personal = self.home / "agents/my-research.toml"
+                    personal.parent.mkdir()
+                    personal.write_bytes(b'name = "sol_researcher"\nmodel = "personal"\n')
+                    expected_config = original_config
+                else:
+                    extra = b'\n[agents.sol_researcher]\nconfig_file = "personal.toml"\n'
+                    self.config.write_bytes(self.config.read_bytes() + extra)
+                    expected_config = kit.State(original_config.data + extra, original_config.mode)
+                before = self.snapshot_home()
+                with self.assertRaisesRegex(kit.Refusal, "conflicts"):
+                    kit.plan(self.home, self.source)
+                self.assertEqual(self.snapshot_home(), before)
+                kit.apply(kit.plan(self.home, self.source, uninstall=True))
+                self.assertEqual(kit.read_state(self.agents), user_agents)
+                self.assertEqual(kit.read_state(self.config), expected_config)
+                if standalone:
+                    self.assertEqual(kit.read_state(personal), before[personal.relative_to(self.home)])
+                self.assertFalse((target / "agents/sol_researcher.toml").exists())
+
+    def test_current24_does_not_accept_old_gateway_exceptions(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        path = target / ".installation/manifest.json"
+        original = json.loads(path.read_text())
+        for gateway in (published_old22_agents_block(target),
+                        published_old23_previous_agents_block(target),
+                        published_old21_agents_block(target), published_legacy_agents_block(target)):
+            with self.subTest(gateway=gateway):
+                manifest = json.loads(json.dumps(original))
+                manifest["activation"]["AGENTS.md"]["inserted"] = gateway
+                path.write_text(json.dumps(manifest))
+                before = self.snapshot_home()
+                for uninstall in (False, True):
+                    with self.subTest(uninstall=uninstall), self.assertRaisesRegex(
+                            kit.Refusal, "unexpected managed block"):
+                        kit.plan(self.home, self.source, uninstall=uninstall)
+                    self.assertEqual(self.snapshot_home(), before)
+
+    def test_current24_cannot_claim_old_ten_role_activation(self):
+        self.activate()
+        target = self.home / "delegation-kit"
+        path = target / ".installation/manifest.json"
+        manifest = json.loads(path.read_text())
+        manifest["activation"]["config.toml"]["inserted"] = kit.blocks(target, kit.OLD23_ROLES)["config.toml"]
+        path.write_text(json.dumps(manifest))
+        before = self.snapshot_home()
+        for uninstall in (False, True):
+            with self.subTest(uninstall=uninstall), self.assertRaisesRegex(kit.Refusal, "unexpected managed block"):
+                kit.plan(self.home, self.source, uninstall=uninstall)
+            self.assertEqual(self.snapshot_home(), before)
 
     def test_current_modified_gateway_refused_without_writes(self):
         self.seed_current_with_legacy_gateway()
@@ -1073,6 +1251,12 @@ class InstallerTests(unittest.TestCase):
 
     def test_swarm_inventory_cannot_claim_new_activation_block(self):
         self.assert_historical_inventory_cannot_claim_new_activation_block(self.seed_swarm)
+
+    def test_old22_inventory_cannot_claim_research_role_activation(self):
+        self.assert_historical_inventory_cannot_claim_new_activation_block(self.seed_old22)
+
+    def test_old23_inventory_cannot_claim_research_role_activation(self):
+        self.assert_historical_inventory_cannot_claim_new_activation_block(self.seed_old23)
 
     def test_historical_inventory_cannot_claim_new_agents_gateway(self):
         target = self.seed_engineering()

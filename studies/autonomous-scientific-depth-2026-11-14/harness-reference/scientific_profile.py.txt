@@ -1,0 +1,299 @@
+"""Preparation and collection for an explicit prospective scientific profile.
+
+No model, network, installation, or project execution is performed here.
+"""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import stat
+import time
+
+NAME = "scientific-v1"
+PROJECT_COUNT, PROJECT_BYTES = 368, 5805584
+PROJECT_SHA256 = "0840671edead1f1d1edad02f5592ec977a47edf98cce203ba1615d4b02f75bda"
+TASK_SHA256 = "620bebf24a81d2acf112c70b4c4709fe830b511e470df30ec7fd8acef3457e1a"
+LIMITS = {"wall_seconds": 8 * 3600, "setup_seconds": 45, "cleanup_seconds": 30,
+          "terminal_collection_seconds": 2,
+          "max_open_children": 11, "max_active_identities": 12, "max_assignments": 32,
+          "web_items": 2000, "browser_actions": 100, "public_calls": 80,
+          "max_protocol_bytes": 512 * 1024 * 1024, "max_evidence_bytes": 512 * 1024 * 1024,
+          "max_message_bytes": 2 * 1024 * 1024, "max_stderr_bytes": 1024 * 1024,
+          "max_relay_bytes": 512 * 1024 * 1024, "max_relay_response_bytes": 16 * 1024 * 1024,
+          "max_relay_requests": 4096, "artifact_lock_seconds": 30, "max_artifact_entries": 65536, "token_cap": None}
+SUPPORT = ("scientific_profile.py", "scientific_relay.py", "research_meter.py", "scientific_access.md")
+FIXTURE_MOUNTPOINTS = (".git", ".agents", ".codex", ".aws")
+
+
+def close_service(directory, payload):
+    spec = importlib.util.spec_from_file_location("primary_service_closure", Path(__file__).with_name("scientific_relay.py"))
+    relay = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(relay)
+    return relay.close_author(directory, payload)
+
+
+def source_directories(files):
+    return {str(parent) for name in files for parent in Path(name).parents if parent != Path(".")}
+
+
+def inventory(root, safe, digest):
+    result, directories = {}, set()
+    for path in sorted(root.rglob("*")):
+        safe(path)
+        relative = str(path.relative_to(root))
+        if any(part in FIXTURE_MOUNTPOINTS for part in path.relative_to(root).parts):
+            raise ValueError("excluded project path: " + relative)
+        if path.is_file():
+            if any(part in {"_ref", "_appraisal"} for part in path.relative_to(root).parts):
+                raise ValueError("excluded project path: " + relative)
+            if path.name in {"AGENTS.md", "AGENTS.override.md"} and relative != "AGENTS.md":
+                raise ValueError("noncanonical project instructions: " + relative)
+            result[relative] = {"sha256": digest(path), "size_bytes": path.stat().st_size}
+        elif path.is_dir():
+            directories.add(relative)
+        else:
+            raise ValueError("nonregular project input")
+    if directories != source_directories(result):
+        raise ValueError("project directory inventory changed")
+    return result
+
+
+def fixture_layout():
+    return [{"path": "fixture/" + name, "type": "directory", "empty": True} for name in FIXTURE_MOUNTPOINTS]
+
+
+def verify_fixture_layout(directory, layout, files, safe):
+    expected = fixture_layout()
+    if layout != expected or any(entry["empty"] is not True for entry in layout):
+        raise ValueError("scientific fixture layout declaration changed")
+    fixture = safe(directory / "fixture")
+    for entry in expected:
+        target = safe(directory / entry["path"])
+        if not target.is_dir() or any(target.iterdir()):
+            raise ValueError("scientific fixture mountpoint must be an empty directory: " + entry["path"])
+    directories = set()
+    for path in fixture.rglob("*"):
+        safe(path)
+        if path.is_dir():
+            directories.add(str(path.relative_to(fixture)))
+    if directories != source_directories(files) | set(FIXTURE_MOUNTPOINTS):
+        raise ValueError("scientific fixture directory inventory changed")
+
+
+def stage_fixture_layout(directory, files, safe):
+    """Only the admitted private fixture copy gets native protection mountpoints."""
+    fixture = safe(directory / "fixture")
+    for name in FIXTURE_MOUNTPOINTS:
+        if safe(fixture / name, exists=False).exists():
+            raise ValueError("pre-existing scientific fixture mountpoint: " + name)
+    original_mode = stat.S_IMODE(fixture.stat().st_mode)
+    try:
+        # copytree preserves the source's read-only mode; restore it after staging.
+        fixture.chmod(original_mode | stat.S_IWUSR | stat.S_IXUSR)
+        for name in FIXTURE_MOUNTPOINTS:
+            (fixture / name).mkdir(mode=0o700, exist_ok=False)
+    finally:
+        fixture.chmod(original_mode)
+    layout = fixture_layout()
+    verify_fixture_layout(directory, layout, files, safe)
+    return layout
+
+
+def admit(path, task, fixture, safe, digest):
+    """An operator chooses the candidate explicitly; no default snapshot applies."""
+    profile = json.loads(safe(path).read_text())
+    required = {"schema", "name", "candidate_label", "snapshot", "source_manifest_sha256",
+                "project_manifest", "project_manifest_sha256", "task_sha256", "relay_services"}
+    if set(profile) != required or profile["schema"] != 1 or profile["name"] != NAME:
+        raise ValueError("unsupported scientific profile shape")
+    if not isinstance(profile["candidate_label"], str) or not profile["candidate_label"].strip():
+        raise ValueError("explicit candidate label required")
+    for key in ("snapshot", "project_manifest"):
+        if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
+            raise ValueError("explicit absolute profile path required: " + key)
+    snapshot, manifest_path = safe(profile["snapshot"]), safe(profile["project_manifest"])
+    if digest(snapshot / "manifest.json") != profile["source_manifest_sha256"]:
+        raise ValueError("selected candidate manifest changed")
+    if digest(manifest_path) != profile["project_manifest_sha256"]:
+        raise ValueError("project manifest changed")
+    if digest(task) != profile["task_sha256"] or digest(task) != TASK_SHA256:
+        raise ValueError("ordinary task bytes changed")
+    services = profile["relay_services"]
+    if (not isinstance(services, dict) or set(services) != {"public", "dependencies"}
+            or any(type(value) is not bool for value in services.values())):
+        raise ValueError("freeze public/dependency service availability explicitly")
+    manifest = json.loads(manifest_path.read_text())
+    rows = manifest["files"]
+    expected = {row["path"]: {k: row[k] for k in ("sha256", "size_bytes")} for row in rows}
+    actual = inventory(fixture, safe, digest)
+    joined = "".join(name + "\0" + row["sha256"] + "\n" for name, row in sorted(actual.items()))
+    identity = hashlib.sha256(joined.encode()).hexdigest()
+    if (len(expected) != len(rows) or expected != actual or len(actual) != PROJECT_COUNT
+            or sum(row["size_bytes"] for row in actual.values()) != PROJECT_BYTES
+            or manifest["file_count"] != PROJECT_COUNT or manifest["total_bytes"] != PROJECT_BYTES
+            or identity != PROJECT_SHA256 or manifest["snapshot_sha256"] != identity
+            or "AGENTS.md" not in actual):
+        raise ValueError("exact reviewed pump snapshot required")
+    # Whitelist ordinary identity fields; evaluator metadata never enters the actor view.
+    sanitized = {"schema": 1, "revision": manifest["source_git_head"], "files": actual,
+                 "snapshot_sha256": identity,
+                 "limitations": "Exported ordinary source subset; not a standalone build. Request exact missing ordinary dependencies."}
+    return profile, sanitized
+
+
+def workspace_roots(directory):
+    return [str(Path(directory) / name) for name in ("fixture", "work", "scratch")]
+
+
+def sandbox(directory):
+    return {"type": "workspaceWrite", "writableRoots": workspace_roots(directory)[1:],
+            "networkAccess": False, "excludeTmpdirEnvVar": True, "excludeSlashTmp": True}
+
+
+def configuration(directory, children):
+    policy = sandbox(directory)
+    return {"sandbox_mode": "workspace-write",
+            "sandbox_workspace_write.writable_roots": policy["writableRoots"],
+            "sandbox_workspace_write.network_access": False,
+            "sandbox_workspace_write.exclude_tmpdir_env_var": True,
+            "sandbox_workspace_write.exclude_slash_tmp": True,
+            "agents.max_concurrent_threads_per_session": children}
+
+
+def stage(directory, profile, identity, children, write_json):
+    for name in ("work/research", "work/actors", "work/outbox", "work/accounting/web",
+                 "relay/inbox", "relay/dependencies", "relay/control", "support"):
+        (directory / name).mkdir(parents=True, mode=0o700, exist_ok=True)
+    for name in SUPPORT:
+        shutil.copyfile(Path(__file__).with_name(name), directory / "support" / name)
+    (directory / "relay/inbox/.service.lock").touch(mode=0o400, exist_ok=False)
+    write_json(directory / "support/profile.json", {"name": NAME, "limits": LIMITS,
+               "relay_services": profile["relay_services"], "max_open_children": children})
+    write_json(directory / "support/project-source.json", identity)
+    allocation = {"total_cap": LIMITS["web_items"], "runs": {"author": LIMITS["web_items"]}}
+    write_json(directory / "support/web-allocations.json", allocation)
+    write_json(directory / "work/accounting/web/allocations.json", allocation)
+    note = f"""# Execution environment
+
+You are the primary owner of the ordinary request. The supplied candidate's
+initial and completion gates apply normally. Select and operate your native
+helpers under those role rules; helpers retain their nonrecursive gate rule.
+
+The working directory is the read-only exported project at {directory / 'fixture'}.
+Its canonical AGENTS.md remains applicable. The full candidate source is at
+{directory / 'source'}; ordinary sanitized source identity is at
+{directory / 'support/project-source.json'}. Do not inspect other episodes,
+evaluator material, the live source repository, or curated _ref/ and _appraisal/.
+
+This task authorizes source audit, an implementation-ready plan, and small desk
+calculations. Write artifacts under {directory / 'work'}, with gathered knowledge
+under work/research and disjoint helper outputs under work/actors. Temporary work
+belongs under {directory / 'scratch'}. Preserve other actors' work. Do not edit,
+build or run pumpModem, qualify hardware, rent compute, install globally, contact
+people, or access private services. The outer project/global mounts are read-only;
+native workspace-write additionally permits work and scratch, with shell network
+disabled and ambient /tmp/TMPDIR excluded from native write grants.
+
+One eight-hour monotonic deadline begins at task dispatch and includes helpers,
+waits and gates. The service writes its dispatch timing to the read-only inbox.
+Record helper scopes, replacements and continuations, including gate advisers,
+using the local helper's assignment operation once their owned IDs are available.
+This accounting does not exempt or precede the primary's initial consultation.
+Bounded assistance and public-access instructions are available on request.
+Use the local mailbox helper at {directory / 'support/scientific_relay.py'}:
+python3 -B <helper> enqueue --directory {directory} --request <request.json>
+The request is a JSON object with stable id, author, kind, and parameters; request
+kind capability with parameters {{}} for access instructions, or dependency with
+parameters {{"path":"exact/ordinary/path","purpose":"why needed"}}. Responses
+arrive at {directory / 'relay/inbox'} and requested ordinary additions under
+{directory / 'relay/dependencies'}. These are read-only to actors. Continue useful
+independent work while waiting. Service availability is frozen as
+{json.dumps(profile['relay_services'], sort_keys=True)}. An unavailable service or
+permission block must be reported; the mailbox does not bypass a blocked action.
+Native public-web input mapping is unverified. Request public actions through
+the mailbox after obtaining its capability instructions; do not make unmetered
+native acquisitions. Native web output events are not reservation evidence.
+"""
+    (directory / "environment.md").write_text(note)
+
+
+def extra_mounts(directory):
+    d = Path(directory)
+    return [("rw", str(d / "work"), str(d / "work")),
+            ("ro", str(d / "support"), str(d / "support")),
+            ("ro", str(d / "relay/inbox"), str(d / "relay/inbox")),
+            ("ro", str(d / "relay/dependencies"), str(d / "relay/dependencies")),
+            ("ro", str(d / "support/web-allocations.json"), str(d / "work/accounting/web/allocations.json"))]
+
+
+def verify_runtime(spec, response):
+    d = Path(spec["directory"])
+    observed = response.get("sandbox", {})
+    expected = sandbox(d)
+    for key in ("type", "networkAccess", "excludeTmpdirEnvVar", "excludeSlashTmp"):
+        if observed.get(key) != expected[key]:
+            raise ValueError("scientific sandbox mismatch: " + key)
+    roots = observed.get("writableRoots")
+    if (not isinstance(roots, list) or not set(expected["writableRoots"]) <= set(roots)
+            or not set(roots) <= set(workspace_roots(d))):
+        raise ValueError("unexpected scientific native write grants")
+    if response.get("runtimeWorkspaceRoots") != workspace_roots(d):
+        raise ValueError("scientific runtime roots mismatch")
+    if str(d / "fixture/AGENTS.md") not in response.get("instructionSources", []):
+        raise ValueError("canonical project instruction source unconfirmed")
+
+
+def require_storage(directory, limits):
+    required = limits["max_protocol_bytes"] + limits["max_evidence_bytes"] + limits["max_relay_bytes"]
+    if shutil.disk_usage(directory).free < required:
+        raise ValueError("insufficient free storage for frozen scientific evidence ceilings")
+    return {"required_free_bytes": required, "aggregate_author_disk_quota": None}
+
+
+def resource_summary(directory):
+    result = {"accounting": "cooperative author-only allocation; evaluator budget is separate",
+              "scope_classification": "actor receipts, not exact native dispatch proof"}
+    for name, relative in (("web", "work/accounting/web/meter.json"),
+                           ("relay", "work/accounting/relay.json"),
+                           ("assignments", "work/accounting/assignments.json"),
+                           ("relay_service", "relay/control/published.json")):
+        path = directory / relative
+        if path.is_symlink() or (path.exists() and (not path.is_file() or path.stat().st_size > 2 * 1024 * 1024)):
+            raise ValueError("accounting receipt shape/size unsupported")
+        result[name] = json.loads(path.read_text()) if path.exists() else None
+    return result
+
+
+def lock_artifacts(directory, seconds=30, max_entries=65536):
+    """After owned cleanup only. Hash incrementally; never repair actor output."""
+    deadline = time.monotonic() + seconds
+    result, directories, entries = {}, [], 0
+    for path in (directory / "work").rglob("*"):
+        entries += 1
+        if entries > max_entries:
+            raise ValueError("author artifact manifest entry ceiling reached")
+        if time.monotonic() >= deadline:
+            raise TimeoutError("author artifact lock deadline expired")
+        if path.is_symlink() or not (path.is_file() or path.is_dir()):
+            raise ValueError("nonregular author artifact cannot be locked")
+        if path.is_dir():
+            directories.append(path)
+        if path.is_file():
+            hashed, count = hashlib.sha256(), 0
+            with path.open("rb") as stream:
+                while chunk := stream.read(1024 * 1024):
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError("author artifact lock deadline expired")
+                    hashed.update(chunk)
+                    count += len(chunk)
+            path.chmod(path.stat().st_mode & ~0o222)
+            result[str(path.relative_to(directory))] = {"sha256": hashed.hexdigest(), "bytes": count}
+    for path in reversed(directories):
+        path.chmod(path.stat().st_mode & ~0o222)
+    (directory / "work").chmod(0o500)
+    return {"files": result, "locked_after_owned_cleanup": True,
+            "boundary": "local permission lock and hashes, not protection against the host owner"}

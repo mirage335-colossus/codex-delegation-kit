@@ -48,8 +48,9 @@ runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
 unless a deliberate, reviewed manifest-compatible change updates the installer
 and its checks.
 The installer recognizes earlier eight-file, eleven-file, seventeen-file,
-eighteen-file, twenty-file, twenty-one-file, and twenty-two-file inventories;
-the current source bundle has twenty-three files. Preserve the exact role
+eighteen-file, twenty-file, twenty-one-file, twenty-two-file, and twenty-three-file
+inventories; the current source bundle has twenty-four files and eleven roles.
+Preserve all three supported twenty-three-file instruction gateways and the exact role
 blocks and upgrade and disable paths for all supported inventories when
 changing the bundle.
 

@@ -551,9 +551,74 @@ recognition to the user's choice of boilerplate. If existing curated research
 already supplies adequate depth, retrieve and apply it, verifying consequential
 claims and current applicability; investigate its gaps instead of duplicating it.
 
-Give the lead a sustained research objective spanning the relevant design
-decisions and operating envelope, comparable in depth to a main-chat research
-task. Do not reduce it to an incidental lookup for the current favorite patch.
+Commission substantial new grounding as a standalone scientific assignment.
+Start the brief with the scientific knowledge to develop and the reusable
+scientific account to produce, comparable in depth to a dedicated main-chat
+research task. Carry the complete development request, operating envelope,
+constraints and relevant factual source as clearly labeled application context.
+They remain binding, but the research actor does not own delivery or approval of
+the implementation plan. The ordinary task owner derives this scientific brief
+from the problem and evidence. Use a self-contained brief in a fresh context
+through a supported route where available; do not assume that another agent
+identity proves absent inherited context or isolation, or invent an unsupported
+creation parameter. Preserve the actual delivery limits. Carry the whole
+scientific problem through delegation: code audits and subject partitions do not
+remove the lead's responsibility for links among mechanisms, observations,
+inference, validation and computational feasibility. Transferred scientific
+questions retain explicit owners and return evidence for integration.
+
+When a broad consequential task needs substantial new scientific grounding, use
+**two independent full-problem inquiries** through permitted scientific
+responsibilities. Each receives the original problem, constraints and
+common source facts, and owns a research-only account across that problem. Do not
+divide the envelope between them or disclose the other inquiry's questions,
+findings or an emerging engineering plan before their initial substantive
+accounts are preserved. The owner sets an initial-account checkpoint within one
+shared allowance and retains capacity for reconciliation and follow-through.
+Specialist discovery can support either inquiry; it does not replace independent
+full-problem explanations. The task owner commissions one pair for the overall
+scientific problem; an assigned inquiry completes that scope and requests bounded
+support, not another pair for the same problem. This conditional structure is for
+substantial broad grounding, not routine questions or duplication of already
+adequate research.
+
+After preserving the independent full-problem discovery accounts, the research
+lead derives a revisable outline of scientific subjects from the original problem
+and inspected literature. For material subjects whose grounding is inadequate,
+commission focused subject investigations through the coordinator, each the
+author's sole substantive research assignment in a separate working context. An
+existing context already dedicated to that subject may continue. Give each author
+the full problem and constraints, its subject question and boundaries, relevant
+primary-source leads and factual context, and the relationships it must resolve
+with adjacent subjects. Preserve the initial accounts as discovery evidence;
+the lead retains the whole problem, relationships between subjects, and subjects
+not yet investigated. Use the scientific question as the investigation's target,
+without passing a settled integrated plan or acceptance verdict as that target.
+The coordinator may schedule subjects sequentially within the existing shared
+allowance and staffing limits. Adequate existing research is reused; routine
+questions need no such division.
+
+A subject investigator develops the scientific explanation and its evidence
+before producing a compact integration handoff. Choose follow-up questions from
+the literature, compare materially different explanations and observations, and
+perform useful bounded quantitative or observational research checks. Develop
+mechanisms and limitations well enough to reveal approaches beyond the current
+design; useful explanations need not already justify a named implementation
+choice. Pursue useful follow-ups within the shared allowance, requesting permitted
+support through the coordinator, without waiting for the user or main chat to
+supply missing science. Preserve the objective, evidence and limits across
+continuations. When source access fails, choose an authorized alternative or a
+comparably informative discriminator and retain the remaining boundary. Return
+an adequately developed subject account or an explicit partial account with the
+remaining scientific work and actual limiting dependency. The lead integrates
+the subject accounts after that work, preserves their detailed support and
+conditions, and routes unresolved relationships or corrections to their authors.
+Existing independent scientific review judges the accounts and their relationships
+against the original scope. Keep material feasible scientific questions open and
+owned even when the next engineering step is ready. The engineering owner owns
+the implementation plan and takes up the integrated findings; the task owner
+retains responsibility through scientific correction and uptake.
+
 For broad grounding, establish a coverage contract across the whole requested
 operating envelope: material domains and subcases, competing explanations,
 evidence needed and the downstream decisions they affect. Require substantive
@@ -586,13 +651,27 @@ material gaps. Neither one search pass nor a long bibliography establishes
 sufficiency. This guidance adds no compulsory research barrier before independent
 implementation or ready expert judgment.
 
-For difficult cross-source synthesis, assign a **dedicated scientific research
-lead** to an existing permitted expert or reviewer, such as `sol_expert` under
-the standing mixed-model preference or `inherited_reviewer` under an inherited
-boundary. This is a responsibility within the existing task, not a new registered
-role, model permission or automatic Astra escalation. The lead compares
-mechanisms and advises the engineering owner; it does not accept its own
-implementation. The coordinator can give Luna separable literature discovery,
+For native scientific authorship, research leadership and independent scientific
+critique, use `sol_researcher` when the role is available in the running chat and
+its `gpt-6.1-sol` / `ultra` pin is authorized. Source registration does not prove
+actual tool or role availability.
+This lean registered role owns scientific understanding and its evidence, not
+implementation, architecture approval or the main chat's completion decision.
+Registration grants no model permission or automatic escalation. If the role is
+unavailable, or an inherited-only or other harder boundary excludes its pin, use
+only an eligible supported responsibility, such as `inherited_reviewer`. Report
+that the dedicated role was not delivered and identify the actual route and
+settings; do not substitute a stronger model to obtain it.
+The controller retains its existing responsibilities and uniform run-selected
+model routing; this native role is not a controller responsibility or evidence
+that controller prompts deliver the same role.
+
+The research lead compares mechanisms and owns cross-subject scientific synthesis,
+retaining scientific authorship for material subjects it does not delegate. It
+may conduct one inquiry and synthesize the two after their independent accounts
+are preserved; retain each inquiry's evidence and limitations. Scientific critique
+remains independent of the account's authors and substantive repairers.
+The coordinator can give Luna separable literature discovery,
 primary-source verification and current-code mapping, returning findings to the
 same lead. Helpers request assistance through the coordinator, never spawn their
 own team. Preserve the initial consultation, architecture and completion gates.
@@ -613,7 +692,14 @@ additional write permission, requires no new document for
 every task and creates no parallel assignment ledger.
 
 Build a task-specific map of scientific questions, approach families, influential
-assumptions and important gaps before converging on a favorite method. Search
+assumptions and important gaps before converging on a favorite method. Start from
+the original outcome and actual operating conditions. Work forward through the
+system and backward from the decisions and observable outcomes. Identify where
+changed conditions, competing mechanisms, measurement limits or failed assumptions
+could materially change a recommendation, including consequential combinations
+and absence cases. Named examples and the first branch assignments are starting
+points; retain important questions that cross branches or lie outside the
+proposed design. Search
 underlying mechanisms and adjacent terminology as well as project labels.
 Consult foundational theory, original measurements and recent academic work;
 selectively follow references backward and citations forward where they can
@@ -643,6 +729,13 @@ measurement conventions into the decision; do not substitute assumed inputs or
 predicted performance for measured outcomes, or omit contrary measured results.
 Reconcile disagreements between a source's reported number and an independent
 reconstruction, retaining both and the unresolved inputs when necessary.
+Where a quantity controls a choice, follow its inputs, conventions and uncertainty
+through to the engineering observable, then execute a feasible comparison that
+could change the choice. For empirical claims, compare actual observations under
+contrasting conditions or methods and preserve what makes the comparison valid.
+If the preferred source or method is unavailable, pursue an authorized comparison
+that can inform the same decision when feasible. Otherwise state the specific
+missing input, what was tried and which judgment remains open.
 
 Compare materially different approaches by mechanism, assumptions, practical
 benefits, failure conditions, integration/resource cost and the evidence that
@@ -662,6 +755,62 @@ implemented behavior, executed checks and project qualification. Preserve curren
 code identity and actual available entry points; do not invent commands or turn
 a proposed experiment into an observed result. This can be a short table or the
 task's existing evidence format, not a mandatory new record system.
+
+A design can be ready for a bounded next step while its scientific grounding
+still has material gaps. Assess those judgments separately in the existing
+independent review. For broad research, the existing staged scientific critic
+begins with bounded literature discovery across the full research brief before receiving either
+inquiry's question map, account or engineering plan. Using permitted evidence
+routes and the shared allowance, inspect relevant primary work and citation
+trails, then preserve source-supported explanations, competing approaches,
+transfer limits and resulting questions in the existing initial scope, including
+any changes to its framing. Reuse adequate supplied primary evidence; record
+unresolved scope or missing access without bypassing tool, model or supplied-context
+restrictions. After this checkpoint, provide the scientific account, or both
+preserved inquiry accounts when paired, the continuing authored accounts, their
+reconciliation and factual source context, **keeping engineering plans and prior
+approvals withheld through scientific disposition**. Factual context excludes
+engineering recommendations,
+including suggestions appended to code observations. Do not ask this scientific
+reviewer to approve architecture first. If an early
+architecture decision needs review, use the existing separate permitted
+responsibility within the same limits, or defer the dependent commitment.
+Scientific accounts retain practical source-to-decision implications; the
+reviewer's question is whether the original scientific problem is explained and
+supported, not whether a first implementation tranche can begin.
+This stages the existing scientific review without another recursive main-chat gate.
+Reconcile important omissions and weak alternatives, primary evidence, decisive
+quantitative comparisons and adverse or coupled cases. Return feasible scientific
+follow-through with its impact and specific limits. If the account or plan was
+already seen, disclose the actual exposure rather than claiming independent
+initial scoping or protected adjudication; request suitable independent review
+through the existing coordinator where feasible and preserve any remaining limit.
+
+In the lead's reconciliation, retain each material question or justified
+equivalent group from the inquiries and critic, including questions without a
+supported conclusion. State each conclusion's conditions and unresolved
+explanatory distinctions, and map the performed evidence to the distinctions it
+actually resolves. A successful example closes only those
+distinctions; a broader question remains open unless other evidence addresses the
+consequential alternatives and establishes or bounds transfer across its relevant
+conditions. Preserve
+newly discovered questions, disagreements and reasons for removing an initial
+question. No separate assignment ledger or source-count target is needed.
+Before accepting a deployment or calibration boundary, check whether deeper
+inspection of already relevant sources or a permitted representative calculation
+or observation comparison can resolve the scientific distinction without the
+missing target inputs. Have the continuing author complete that feasible work and
+return changed evidence for review; if a real limit prevents it, retain the
+specific unresolved conclusion, missing prerequisite and downstream consequence
+rather than closing its broader question. Preserve earlier findings. Close broad
+grounding when material questions have supported explanations across the requested
+envelope or specific evidenced boundaries, with their consequences for development
+clear. A scout return, plausible plan or incomplete synthesis remains intermediate
+while material feasible research is outstanding. This uses the existing review
+and dispatch process, without another recursive gate, universal team shape or
+model permission. After scientific disposition and necessary changed-evidence review,
+check that the engineering handoff takes up the reconciled accounts and limits.
+Routine settled work still uses proportionate verification.
 
 Before declaring research sufficient, independently cross-check coverage against
 the original outcome and requested operating conditions, not just the selected
@@ -686,9 +835,10 @@ recommendation. Reopen the relevant research when an assumption fails, gains var
 by regime, an equivalent capability appears, or a measurement/implementation gap
 could change the next decision. Reconcile old and new results without erasing
 failures or repeating an unchanged broad review. Routine edits need no ceremonial
-citation. Stop research at adequate decision-relevant coverage, diminishing useful
-returns or a real limit, with unresolved work explicit; research completion does
-not finish an outstanding implementation request.
+citation. Within the original scientific scope, stop research at adequate
+coverage, diminishing useful returns or a real limit, with unresolved work
+explicit; research completion does not finish an outstanding implementation
+request.
 
 All of this remains subject to the actual tools, model boundary and assignment
 authority. Controller profiles retain their no-network restriction and the
@@ -701,13 +851,46 @@ multi-model research campaigns.
 
 Reusable research assignment cue:
 
-> Thoroughly investigate the scientific questions that could change this task's
-> development decisions. Use the existing research as a dated starting point;
-> compare foundational and recent primary literature, competing mechanisms,
+> Please thoroughly research [the scientific problem]. Please comprehensively
+> consult the academic literature, including recent academic literature which may add more nuanced
+> or contradictory information. Produce a reusable scientific account of
+> [the task- and source-derived subject]. Develop mechanisms, competing
+> explanations, observations and conditions well enough to inform different
+> approaches and expose what remains unresolved. The complete development request
+> below supplies the application, operating envelope, constraints and factual
+> source context; another owner delivers its implementation plan. Use a
+> self-contained scientific brief through a supported fresh-context route when
+> available, retaining any actual context-delivery limits. Keep scientific
+> ownership across specialist partitions and
+> code audits. Build explanations and let primary evidence reveal questions,
+> relationships and approaches beyond the current design. Use the existing
+> research as a dated starting point. If assigned one of two independent full
+> inquiries, develop your own questions and evidence across the whole problem;
+> do not read the other inquiry's map/findings or an emerging engineering plan
+> before the coordinator's initial-account checkpoint. Preserve your substantive
+> first account at this discovery checkpoint. The lead then derives scientific
+> subjects from the problem and inspected evidence. Inadequately grounded subjects
+> receive focused investigations, each the author's sole substantive research
+> assignment in a separate working context; an already dedicated context may
+> continue. Retain the full problem, constraints and adjacent-subject relationships.
+> Develop the subject account before a compact integration handoff; the lead
+> integrates accounts and retains unresolved relationships. Reuse adequate
+> research and preserve actual partial boundaries. Within the shared
+> allowance, compare foundational and recent primary literature, competing mechanisms,
 > contrary evidence and equivalent existing capabilities. Preserve source access,
-> definitions and applicability limits. Return reusable synthesis plus the concrete
-> decisions and discriminating checks it supports, within the assigned authority
-> and budget. Keep curated destinations read-only unless explicitly authorized.
+> definitions and applicability limits. Own coverage across and between branches,
+> and complete material feasible comparisons before closing broad grounding;
+> later target calibration does not replace available representative analysis.
+> Apply the policy's literature-informed initial scoping and claim-specific
+> reconciliation: the staged critic investigates before account exposure, and the
+> owner resolves material feasible distinctions left open by narrower checks or
+> missing deployment inputs before scientific closure. Preserve additions and
+> disagreements. Scientific adjudication receives accounts, reconciliation and
+> factual source context before the engineering plan or earlier approvals; it
+> assesses the whole research problem.
+> Return detailed scientific synthesis plus a concise development handoff, within
+> the assigned authority and budget. Keep curated destinations read-only unless
+> explicitly authorized.
 
 Reusable development continuation cue:
 

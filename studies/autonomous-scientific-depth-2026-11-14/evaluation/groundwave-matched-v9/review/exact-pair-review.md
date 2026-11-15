@@ -1,0 +1,58 @@
+> Retention note (2026-11-15): this is a historical authored report or prompt. Third-party source payloads, project snapshots and raw execution archives were removed at the user's request. Statements about preserved files, hashes and completed checks describe the original exercise; this checkout no longer supports its exact replay.
+
+# Exact assembled-pair readiness review
+
+15 November 2026. **Verdict: continue with concrete actions. The exact two prepared cases are accepted for submission to fresh, precise platform review of their inference-starting commands.** No required packet, criterion, harness or operator-source revision remains on the inspected evidence. This is an exact-pair readiness review, not platform authorization, scientific success, installation approval or a main-task stopping review.
+
+The governing experiment freeze (historical locator: `../experiment-freeze.json`; artifact not bundled) is SHA256 `f9e90c3d0ceebd29b4125c06c6e2bbbe6dd2fd2df44f1b8d393bac2a323e8165`. It binds the accepted fixed V9 candidate, both exact preparations, private random assignment and assessor order, comparator, final assessment instructions, identical services, capacity and the replacement actual-caller smoke. Earlier records retain their historical pending labels; the freeze explicitly binds their subsequent accepted evidence rather than rewriting history.
+
+## Accepted commands and immediate action
+
+Both commands use working directory `/home/user/___quick/p/_cur/codex-delegation-kit`:
+
+```text
+/usr/bin/python3 -B /home/user/___quick/p/_cur/codex-delegation-kit/studies/autonomous-scientific-depth-2026-11-14/tools/primary_lifecycle.py preflight --directory /tmp/cdk-case-219081ab23
+/usr/bin/python3 -B /home/user/___quick/p/_cur/codex-delegation-kit/studies/autonomous-scientific-depth-2026-11-14/tools/primary_lifecycle.py preflight --directory /tmp/cdk-case-e5c1af19c9
+```
+
+**`preflight` starts actual inference.** The accepted driver SHA256 is `bd6354d17f8504815116aaa8032f2ed0813b8432d1ccaf90682afb7426abc190`. The two proposed-command records hash to `388d48797ffa4dd4a65be93b557799a35413baae1d5a762ad2f43714ef45d1a7` and `8850d846a610c64d60c2bd11a3d4e568a9c269fcc006afc0ee894a801cb1ca4a`, respectively. This review does not cover a different command, directory, candidate, task or changed allowance.
+
+Both already-bound service operators are now actively ready/polling under their real accepted contracts, as separately bound by live-service-start.json (historical locator: `../operator/live-service-start.json`; artifact not bundled), SHA256 `3e191775491c72e79097acec2fa2f3a24c6a3d093c4c35a2892d7efd27e4db3a`. Their first safe polls observed no author dispatch and zero external calls; no fake injection remains. This is a supplementary operational receipt, not a rewrite of the earlier freeze. Root should now obtain fresh precise platform review for these commands. Earlier platform authorization does not transfer. Execute only under the resulting applicable authorization and while both callers remain ready within their bounded prelaunch grants. Record actual delivery, start differences and each case's monotonic deadline; do not infer a start from preparation or smoke metadata. A denied, uncertain or failed delivery follows the frozen protocol rather than an improvised retry or opportunity reset. No further source refinement or scientific rehearsal is needed for this readiness decision.
+
+## Exact packet and setting checks
+
+I independently rehashed **411 initial nonruntime files per case**, including the **407 prepared inputs**. Both exact input trees contain 368 project files and 26 candidate-source files; no extra or missing file was found within the prepared source/fixture/support/view trees. All fourteen linked preparation metadata bindings per case matched. A final recheck after the smoke again verified all 407 prepared inputs in each live case; operator-raw directories were empty and author dispatch markers absent at that observation. No auth or runtime state was read by this review.
+
+The planned turn contains the assigned accepted task, common context and neutral environment **once each**, with matching byte hashes. After replacing only each absolute case path by `<CASE>`, the only differing input files are `task.txt` and its task digest in the private `view/profile-input.json`. The common context, fixture, candidate, declared roles, support, services and opportunity match. The normalized environment SHA256 is `5255076fbf7677c9638e196a5f3a5f4122a7ac6b0e3bfb76392831d6d7ab2edd`. The on-request capability composite is byte-identical, SHA256 `3a9d1009a47ceec8239e8f4516317650a7511dbb8bdef16629ed6bc6f5e91531`.
+
+The source-v9 manifest remains `89b7d9e63fb50e767e6114a74465a783a3e3c33701c85ba147aa6d2ebe56c424`, with 24 runtime files and eleven configured roles. Both requested primaries are Astra/ultra, matching the preparation's allowlisted host configuration; no service-tier override is supplied. These are configured/requested settings, not effective-serving attestation. Native role availability and child inference-history inheritance remain unverified. The isolated candidate view does not change the active installation and does not demonstrate installed-app behavior.
+
+I inspected the independent [neutral harness acceptance](neutral-harness-review.md) and [operator acceptance](operator-review.md), then rehashed all thirteen accepted source/test bindings. Their 87 offline tests and eighteen fake-service groups apply to the unchanged bytes; this review did not rerun those suites. Original failures, including the store-order defect and the strict-neutral fixture setup failure, remain retained. The repaired relay and its publication limits are not represented as atomic first-terminal capture or exhaustive tool interception.
+
+## Actual service readiness and preserved failure
+
+The first actual-caller smoke **failed overlap**: the second caller began after the first closed. Its successful local capture/store and late-private error/cost evidence survive, and the cause of startup latency remains unobserved. That failure is neither erased nor relabeled a pass.
+
+The prospectively repaired smoke used fresh synthetic fixtures and the same accepted helper/contract. Both actual callers were armed before one root release. The replacement result (historical locator: `../operator/native-caller-smoke-02/readiness-result.json`; artifact not bundled), SHA256 `9eece5d002192a06add85e912d3a556fa1f47bf477f4c0ebb5aff6cc8117902b`, records twelve passing checks. I verified all **82 archived file hashes**, its source-manifest binding, the retained failed-smoke digest, and the decisive event/payload evidence directly.
+
+The observed order is both callers ready, common release, A pending, B's first call/publication, B's newly enqueued second call/publication, A closure, then A's private late publication. B used the same actual caller/store for both requests. Its second circular value deliberately produced a bounded capture error with call cost retained. A's complete returned bytes match its private archive and are absent from its inbox. B's delivered bytes match its two preserved returned/error payloads.
+
+Recomputed timings are **52.058 seconds readiness**, **37.006 seconds timed phase**, and **89.064 seconds overall**, within the prospective 120/60/180-second limits. A's 62.110-second total cell lifetime includes 25.672 seconds prearmed; it is not a failed 60-second timed phase or a single blocking wait. The recorded per-tool waits are at most ten seconds. Counts are two fake web invocations, one fake public invocation and zero real external or author calls. The native caller/cell mapping is supported by root's explicit dispatch observations, not authenticated identity or serving telemetry.
+
+This establishes the bounded operational discriminator, not eight-hour availability, real source access, scientific attainment or general service reliability. Starting both real service callers before author launches is a required operational consequence of the observed failure, not a scientific intervention.
+
+## Frozen assessment, limits and remaining boundaries
+
+The private OS-random assignment/reading-order record is bound and agrees with the prepared tasks. All eleven GROUND rows, including marine GROUND-09, and all six depth checks apply to both cases. R retains scientific application/transfer consequences; D has additional initiation/sustaining and same-owner uptake judgments. No Outside row is admitted in this matched scope. The final prospective assessment instructions and exact source excerpts match their accepted bindings. Evaluator submission copies, masking maps and individual dispatch identities are correctly deferred until both author locks; their scope and rules are already fixed.
+
+The comparator's **92 available corpus files** and **three original criterion files** were independently rehashed. The same five unavailable exact appraisal documents remain disclosed without substitution. This was identity verification, not scientific regrading or reading new answer material. Comparator/operator records remain outside the authors' mounted input scope.
+
+Each author retains 1,000 web items, 50 browser content actions, 40 other public calls, eight hours from its own dispatch, twelve active identities including its owner and 32 helper assignments. There are no transfers or resets. Main-chat gates count inside each case. Separate operational model/local-tool overhead is administrative; requested external actions belong to the requesting case. Root's capacity attestation (historical locator: `../operator/capacity-attestation.json`; artifact not bundled) reserves the pair without a competing author/evaluator study. Nominal browser allowance is not available-route proof: screenshot-containing batches remain held and browser access/full capture is unverified, identically disclosed in both cases. Exact standing access holds remain bound; no alternate-route workaround is authorized.
+
+The completed-pair assessment remains one four-hour 200/20/20 pool, divided 100/10/10 for the two-case assessor, 75/8/8 for checking and 25/2/2 for paired integrity/adjudication, with D-process initially zero. Both first author results must be locked before grading either. Root may not scientifically prompt, repair or resume a closed author. Valid discordance or a concretely repaired material author-delivery failure can open only the one additional pair; evaluator-only defects stay within the same locked submissions and assessment pool. Two valid incomplete cases trigger the bounded bottleneck audit, not another full run or prompt revision. Broad/routine or confirmation dispatch is outside this readiness acceptance.
+
+## Review activity
+
+I verified **32 absolute-path binding entries** in the final freeze and all twelve accepted static hashes/read-only modes. File modes are not an OS immutability claim. The companion `exact-pair-review.json` records this review's bindings and check scope. There were no new external requests, implementation changes, client/author launches, auth/runtime inspection, product runs, installations, author/operator/evaluator contact or scientific grading by this reviewer. Findings were communicated only to root. Only the two assigned review artifacts were written. Fresh methodological research was unnecessary because this review tests exact delivery/readiness against the already reviewed finite design and primary-method evidence.
+
+The user's broader requested demonstration remains unmet. These preparations now support the next authorized experiment; they do not substitute for its results.

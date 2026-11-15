@@ -1,0 +1,192 @@
+"""Exact paired-task admission with a common, task-independent environment.
+
+Study support only: no model, network, installation or project execution here.
+The existing scientific-v1 implementation and frozen candidate are unchanged.
+"""
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import shutil
+import sys
+
+
+def _module(name, filename):
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).with_name(filename))
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+base = _module("primary_scientific_profile", "scientific_profile.py")
+relay = _module("primary_neutral_relay", "scientific_relay.py")
+NAME = "neutral-v1"
+SOURCE_MANIFEST_SHA256 = "89b7d9e63fb50e767e6114a74465a783a3e3c33701c85ba147aa6d2ebe56c424"
+TASK_SHA256S = frozenset((
+    "e550535fd35c7d743c51845ab2d26192ec924e5812c3f0b0453d6bb06e1a2cd3",
+    "0d8d94910cf909de27e2a0c943007c5502f22fc32e95026917cbade0be605a35",
+))
+CONTEXT_SHA256 = "242d48a35f82ad59875ff2c3b7d027d03085a5f5ec410f5aa477454595862cec"
+LIMITS = dict(relay.NEUTRAL_LIMITS)
+ACTOR_SUPPORT = ("scientific_relay.py", "research_meter.py", "neutral_access.md")
+SUPPORT = ("neutral_profile.py", "scientific_profile.py", *ACTOR_SUPPORT)
+
+# Reuse the established containment, collection and transport primitives. These
+# modules are bound in support_hashes; only ACTOR_SUPPORT is exposed to actors.
+stage_fixture_layout = base.stage_fixture_layout
+verify_fixture_layout = base.verify_fixture_layout
+workspace_roots = base.workspace_roots
+sandbox = base.sandbox
+configuration = base.configuration
+extra_mounts = base.extra_mounts
+verify_runtime = base.verify_runtime
+require_storage = base.require_storage
+resource_summary = base.resource_summary
+lock_artifacts = base.lock_artifacts
+close_service = base.close_service
+
+
+def admit(path, task, fixture, safe, digest):
+    profile = json.loads(safe(path).read_text())
+    required = {"schema", "name", "candidate_label", "snapshot", "source_manifest_sha256",
+                "project_manifest", "project_manifest_sha256", "task_sha256", "relay_services",
+                "context", "context_sha256"}
+    if set(profile) != required or type(profile["schema"]) is not int or profile["schema"] != 1 or profile["name"] != NAME:
+        raise ValueError("unsupported neutral profile shape")
+    if not isinstance(profile["candidate_label"], str) or not profile["candidate_label"].strip():
+        raise ValueError("explicit candidate label required")
+    for key in ("snapshot", "project_manifest", "context"):
+        if not isinstance(profile[key], str) or not Path(profile[key]).is_absolute():
+            raise ValueError("explicit absolute profile path required: " + key)
+    snapshot, manifest_path, context = (safe(profile[key]) for key in ("snapshot", "project_manifest", "context"))
+    if (profile["source_manifest_sha256"] != SOURCE_MANIFEST_SHA256
+            or digest(snapshot / "manifest.json") != SOURCE_MANIFEST_SHA256):
+        raise ValueError("exact neutral candidate manifest required")
+    if digest(manifest_path) != profile["project_manifest_sha256"]:
+        raise ValueError("project manifest changed")
+    if profile["task_sha256"] not in TASK_SHA256S or digest(task) != profile["task_sha256"]:
+        raise ValueError("exact declared neutral task required")
+    if profile["context_sha256"] != CONTEXT_SHA256 or digest(context) != CONTEXT_SHA256:
+        raise ValueError("exact common application context required")
+    if (profile["relay_services"] != {"public": True, "dependencies": True}
+            or any(type(value) is not bool for value in profile["relay_services"].values())):
+        raise ValueError("both neutral services must be available")
+    manifest = json.loads(manifest_path.read_text())
+    rows = manifest["files"]
+    expected = {row["path"]: {key: row[key] for key in ("sha256", "size_bytes")} for row in rows}
+    actual = base.inventory(fixture, safe, digest)
+    joined = "".join(name + "\0" + row["sha256"] + "\n" for name, row in sorted(actual.items()))
+    identity = hashlib.sha256(joined.encode()).hexdigest()
+    if (len(expected) != len(rows) or expected != actual or len(actual) != base.PROJECT_COUNT
+            or sum(row["size_bytes"] for row in actual.values()) != base.PROJECT_BYTES
+            or manifest["file_count"] != base.PROJECT_COUNT or manifest["total_bytes"] != base.PROJECT_BYTES
+            or identity != base.PROJECT_SHA256 or manifest["snapshot_sha256"] != identity
+            or manifest["source_git_head"] != "e0e7b74ff2a69083f952c1ad436bc92d4fe1ec6d"
+            or "AGENTS.md" not in actual):
+        raise ValueError("exact reviewed project snapshot required")
+    sanitized = {"schema": 1, "revision": manifest["source_git_head"], "files": actual,
+                 "snapshot_sha256": identity,
+                 "limitations": "Exported ordinary source subset; not a standalone build. Request exact missing ordinary dependencies."}
+    return profile, sanitized
+
+
+def verify_context(directory, profile, digest):
+    if (profile["source_manifest_sha256"] != SOURCE_MANIFEST_SHA256
+            or profile["task_sha256"] not in TASK_SHA256S
+            or profile["context_sha256"] != CONTEXT_SHA256
+            or digest(directory / "support/application-context.md") != CONTEXT_SHA256):
+        raise ValueError("neutral candidate/task/context identity changed")
+
+
+def verify_staged_inputs(directory, profile, manifest, identity, safe, digest):
+    """Check copied inputs against admitted identities before any copied import."""
+    source = safe(directory / "source")
+    actual, directories = {}, set()
+    for path in source.rglob("*"):
+        safe(path)
+        if path.is_file():
+            actual[str(path.relative_to(source))] = digest(path)
+        elif path.is_dir():
+            directories.add(str(path.relative_to(source)))
+        else:
+            raise ValueError("nonregular neutral staged source")
+    if (actual != manifest["copied_files_sha256"]
+            or directories != base.source_directories(manifest["copied_files_sha256"])):
+        raise ValueError("neutral staged source differs from admitted manifest")
+    if base.inventory(safe(directory / "fixture"), safe, digest) != identity["files"]:
+        raise ValueError("neutral staged fixture differs from admitted identity")
+    if digest(directory / "task.txt") != profile["task_sha256"]:
+        raise ValueError("neutral staged task differs from admitted identity")
+    verify_context(directory, profile, digest)
+
+
+def context_input(directory):
+    return {"type": "text", "text": (directory / "support/application-context.md").read_bytes().decode("utf-8")}
+
+
+def stage(directory, profile, identity, children, write_json):
+    if type(children) is not int or children != 11:
+        raise ValueError("neutral route requires the fixed available child capacity")
+    for name in ("work/actors", "work/outbox", "work/accounting/web",
+                 "relay/inbox", "relay/dependencies", "relay/control", "support"):
+        (directory / name).mkdir(parents=True, mode=0o700, exist_ok=True)
+    for name in ACTOR_SUPPORT:
+        shutil.copyfile(Path(__file__).with_name(name), directory / "support" / name)
+    shutil.copyfile(profile["context"], directory / "support/application-context.md")
+    (directory / "relay/inbox/.service.lock").touch(mode=0o400, exist_ok=False)
+    write_json(directory / "support/profile.json", {"name": NAME, "limits": LIMITS,
+               "relay_services": profile["relay_services"], "max_open_children": children})
+    write_json(directory / "support/project-source.json", identity)
+    allocation = {"total_cap": LIMITS["web_items"], "runs": {"author": LIMITS["web_items"]}}
+    write_json(directory / "support/web-allocations.json", allocation)
+    write_json(directory / "work/accounting/web/allocations.json", allocation)
+    note = f"""# Execution environment
+
+You are the primary owner of the supplied task. The separate application context
+is at {directory / 'support/application-context.md'} and is supplied unchanged.
+The candidate's initial and completion gates apply normally. Select and operate
+native assistance under its role rules; helpers retain their nonrecursive gates.
+
+The working directory is the read-only exported project at {directory / 'fixture'}.
+Its canonical AGENTS.md remains applicable. The full candidate source is at
+{directory / 'source'}; ordinary sanitized source identity is at
+{directory / 'support/project-source.json'}. Do not inspect other episodes,
+evaluator material, the live source repository, or curated _ref/ and _appraisal/.
+
+Read the supplied inputs and write task artifacts under {directory / 'work'}.
+Assign disjoint helper outputs under work/actors and preserve other actors' work.
+Temporary work belongs under {directory / 'scratch'}. Source inspection and small
+standalone desk checks are permitted. Do not edit, build or run pumpModem,
+qualify hardware, rent compute, install globally, contact people, or access
+private services. The outer project/global mounts are read-only. Native
+workspace-write permits work and scratch with shell network disabled and
+ambient /tmp/TMPDIR excluded from native write grants. Use Python -B for checks.
+
+One eight-hour monotonic deadline begins at task dispatch and includes helpers,
+waits and gates. The fixed capacity is twelve active identities including the
+primary and thirty-two helper assignments. A stricter inherited boundary must
+be retained and reported, not overridden. The service writes dispatch timing
+to the read-only inbox. Record helper scopes, replacements and continuations,
+including gate advisers, through the local helper's assignment operation once
+their owned IDs are available. This accounting does not exempt or precede the
+primary's initial consultation. Assistance and public-access instructions are
+available on request. Use the local mailbox helper at
+{directory / 'support/scientific_relay.py'}:
+python3 -B <helper> enqueue --directory {directory} --request <request.json>
+The request is a JSON object with stable id, author, kind and parameters; request
+kind capability with parameters {{}} for access instructions, or dependency with
+parameters {{"path":"exact/ordinary/path","purpose":"why needed"}}. Responses
+arrive at {directory / 'relay/inbox'} and requested ordinary additions under
+{directory / 'relay/dependencies'}. These are read-only to actors. Continue useful
+independent work while waiting. Service availability is frozen as
+{json.dumps(profile['relay_services'], sort_keys=True)}. An unavailable service or
+permission block must be reported; the mailbox does not bypass a blocked action.
+Native public-web input mapping is unverified. Request public actions through
+the mailbox after obtaining its capability instructions; do not make unmetered
+native acquisitions. Native web output events are not reservation evidence.
+"""
+    (directory / "environment.md").write_text(note)

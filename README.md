@@ -7,8 +7,9 @@ or the explicitly selected Python controller. Installing the kit does not
 start a controller, enable it for a task, or change model, effort, service tier,
 or concurrency settings.
 
-The roles provide focused source discovery, bounded implementation, and
-independent review. Use the pinned roles only when the user's current
+The roles provide focused source discovery, scientific research, bounded
+implementation, and independent review. Use the pinned roles only when the user's
+current
 instructions and applicable routing authorization permit them; otherwise use
 the inherited roles and preserve the selected primary, effort, service tier,
 and configured pins. A role name or cost estimate does not grant model
@@ -64,8 +65,8 @@ The reviewer checks the actual requirements, practical configurations or
 workarounds, coupled resource limits when relevant, and a next action with verified
 prerequisites. The owner closes feasible authorized validation gaps, preserving
 failures and distinguishing public results from evaluator data or forecasts.
-The native roles and controller-built prompts carry matching execution/evidence
-guidance; the controller keeps its separate run policy and does not invoke native
+The native engineering roles and controller-built prompts carry matching
+execution/evidence guidance; the controller keeps its separate run policy and does not invoke native
 Astra reviews. This is instruction-level guidance, not a runtime interceptor or
 compliance guarantee. Ordinary fixes need no new arithmetic or evaluation phase.
 
@@ -77,30 +78,79 @@ holds, and review requirements through a continuation.
 
 For consequential scientific work, the
 [research and development workflow](policy.md#scientific-literature-research-and-development-uptake)
-initiates sustained research from ordinary development requests when important
+calls for sustained research during ordinary development when important
 scientific gaps could change the work; the user need not ask for research.
-It assigns a dedicated research lead using an existing permitted expert role,
-with enough scope for substantial reusable synthesis while independent code
-audits and settled implementation continue.
+Native authorship, research leadership and independent scientific critique use
+the lean `sol_researcher` role when it is available in the running chat and its
+Sol/ultra settings are authorized. It owns no implementation, architecture approval
+or main-chat completion decision. If the role is unavailable or a harder model
+boundary excludes it, use an eligible supported role such as `inherited_reviewer`
+and disclose the fallback. Source registration alone does not establish runtime
+availability. Start its brief with
+the scientific knowledge to develop and reusable account; retain the complete
+development request, envelope, constraints and factual source as application
+context. Use a self-contained supported fresh context where available, without
+claiming that another agent identity guarantees isolation. A broad task needing
+substantial new grounding gets two independent full-problem inquiries within
+one shared allowance. Each develops its own questions and evidence; preserve
+both substantive initial accounts before sharing their findings or an emerging
+engineering plan. At this discovery checkpoint, the research lead derives a
+revisable outline of scientific subjects from the problem and inspected literature.
+Inadequately grounded subjects receive focused investigations, each the author's
+sole substantive research assignment in a separate working context; an existing
+context dedicated to that subject may continue. Each investigator receives the
+whole problem and constraints, its subject question and boundaries, relevant
+source leads and factual context, and adjacent-subject relationships. It develops
+the scientific account before a compact integration handoff. The lead integrates
+subject accounts and owns unresolved relationships; the engineering owner owns
+the implementation plan. The coordinator can schedule subjects sequentially
+within the shared allowance and staffing limits. Adequate research is reused,
+and routine questions need no such division. The lead retains scientific
+authorship for material subjects it does not delegate, without recursively
+commissioning another research pair.
 Broad assignments define coverage across the relevant operating envelope and
 require explanatory and discriminating depth in each material domain. Authorized
 reference calculations or public-observation checks support consequential
 quantitative choices; independent review returns useful depth gaps for correction.
+Subject investigators choose useful follow-ups without waiting for the main chat to
+supply missing branches, papers or tests. The lead integrates their accounts
+without replacing them with a compact plan summary, and the task owner retains
+responsibility through review and uptake. Settled engineering can continue.
+The scientific critic first uses bounded primary-literature discovery to scope
+questions from the original problem, then reconciles the accounts against that
+source-informed scope. It receives the initial discovery and subject accounts
+and factual source context while engineering-plan artifacts and prior tranche approvals
+remain withheld through its scientific disposition. Early architecture review,
+when needed, uses a separate existing responsibility or waits for its dependency.
+In the existing reconciliation, retain every material inquiry and critic question,
+including unanswered ones, and map each conclusion and its conditions to the
+distinctions that the performed evidence actually resolves. A narrow
+successful example does not close broader alternatives. Before accepting a
+deployment or calibration boundary, inspect relevant sources more deeply or
+perform useful representative comparisons when feasible without the missing
+target inputs. Corrections return to subject authors; the owner and lead
+retain specific unresolved conclusions and verify engineering uptake. Subject
+division adds no model permission or recursive main-chat gate. It preserves
+genuine limits
+without treating a ready first step as full
+scientific coverage.
 It combines foundational and recent primary literature, competing mechanisms,
 contrary evidence and checks for equivalent existing capabilities. Detailed
 research feeds a compact source-to-decision handoff that workers and reviewers
 reconcile with current code and new findings. Routine settled work needs no
 literature campaign. `_ref/` and `_appraisal/` remain user-curated and require an
 explicit request to write there; agent research uses an authorized `research/`
-location or existing task evidence. The controller gains no network or tool
-permissions from this guidance.
+location or existing task evidence. The dedicated role is native-only; the
+controller keeps its existing responsibilities and uniform run-selected models,
+and its research guidance does not supply this lean role. Neither route gains
+network or tool permissions from this guidance.
 
-The [prospective depth and uptake exercise](studies/scientific-depth-2026-11-14/README.md)
-demonstrates the workflow in one broad development-planning case: independent
-review accepted all eight scientific domains and fresh-owner uptake after
-multiple correction rounds. Its frozen criteria, original failures, source
-limits and resource-accounting deviations remain available; it does not estimate
-general activation reliability or token savings.
+Evaluation protocols, results and limitations are recorded in the
+[depth and uptake study](studies/scientific-depth-2026-11-14/README.md) and the
+[autonomous research study](studies/autonomous-scientific-depth-2026-11-14/README.md).
+These records preserve original failures, source and resource limits, and the
+scope of each conclusion. Source-delivery tests alone do not establish comparable
+scientific depth, reliability or token savings.
 
 For included Desktop Codex allowance, the user's current planning index is
 Luna 0.1, Terra 1, Sol about 10, and Astra about 20. It is a unitless estimate,
@@ -235,10 +285,10 @@ For controller recovery, holds, and continuation behavior, use the
 
 ## Installed files and license
 
-The runtime bundle has 23 files: this README, `policy.md`, `CLOUD.md`,
+The runtime bundle has 24 files: this README, `policy.md`, `CLOUD.md`,
 `ORCHESTRATION.md`, `supervisor.py`, `install.py`, `uninstall.py`,
 `controller.py`, `controller_store.py`, `execution.py`, `agent_backend.py`,
-`scheduling.py`, `engineering.py`, and ten role TOML files in `agents/`.
+`scheduling.py`, `engineering.py`, and eleven role TOML files in `agents/`.
 `CONTRIBUTING.md`, tests, examples, and verification materials are source-only
 and are not installed. The policy describes expected behavior; each program
 enforces only its documented checks.

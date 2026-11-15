@@ -1,0 +1,658 @@
+"""Offline neutral-profile admission and isolation tests; no model dispatch."""
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import sys
+import tempfile
+import threading
+import time
+import unittest
+from unittest.mock import patch
+
+
+MODULE = Path(__file__).resolve().parents[1] / "primary_lifecycle.py"
+SPEC = importlib.util.spec_from_file_location("neutral_test_primary_lifecycle", MODULE)
+p = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = p
+SPEC.loader.exec_module(p)
+
+SNAPSHOT = p.STUDY / "evaluation/source-v9"
+INPUTS = p.STUDY / "evaluation/groundwave-matched-v9/inputs"
+FIXTURE = p.STUDY / "inputs/project"
+PROJECT_MANIFEST = p.STUDY / "inputs/project-identity.json"
+SOURCE_SHA256 = "89b7d9e63fb50e767e6114a74465a783a3e3c33701c85ba147aa6d2ebe56c424"
+CONTEXT_SHA256 = "242d48a35f82ad59875ff2c3b7d027d03085a5f5ec410f5aa477454595862cec"
+TASKS = {
+    "research-task.md": "e550535fd35c7d743c51845ab2d26192ec924e5812c3f0b0453d6bb06e1a2cd3",
+    "development-task.md": "0d8d94910cf909de27e2a0c943007c5502f22fc32e95026917cbade0be605a35",
+}
+
+
+def remove_synthetic_directory(directory):
+    if not directory.exists():
+        return
+    for path in (directory, *directory.rglob("*")):
+        if path.is_dir() and not path.is_symlink():
+            path.chmod(0o700)
+    shutil.rmtree(directory)
+
+
+class NeutralProfileTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = Path(tempfile.mkdtemp(prefix="neutral-unit-synthetic-"))
+        self.addCleanup(remove_synthetic_directory, self.temp)
+        self.neutral = p.neutral()
+
+    def profile(self, task_name="research-task.md", **changes):
+        value = {
+            "schema": 1, "name": "neutral-v1", "candidate_label": "synthetic-exact-v9",
+            "snapshot": str(SNAPSHOT), "source_manifest_sha256": SOURCE_SHA256,
+            "project_manifest": str(PROJECT_MANIFEST),
+            "project_manifest_sha256": p.digest(PROJECT_MANIFEST),
+            "task_sha256": TASKS[task_name], "relay_services": {"public": True, "dependencies": True},
+            "context": str(INPUTS / "application-context.md"), "context_sha256": CONTEXT_SHA256,
+        }
+        value.update(changes)
+        path = self.temp / (task_name + ".json")
+        path.write_text(json.dumps(value))
+        return path, value
+
+    def admit(self, profile, task_name="research-task.md", *, task=None, fixture=FIXTURE):
+        return self.neutral.admit(profile, task or INPUTS / task_name, fixture, p.safe, p.digest)
+
+    def synthetic_host(self):
+        home = self.temp / "synthetic-home"
+        ch = home / ".codex"
+        ch.mkdir(parents=True)
+        (ch / "config.toml").write_text('model = "gpt-6-astra"\n')
+        (ch / "auth.json").write_text("synthetic sentinel; never read by driver")
+        (ch / "state_5.sqlite").write_text("synthetic hidden history")
+        (ch / "AGENTS.md").write_text("unmanaged-before\n" + p.BEGIN + "\nold\n" + p.END + "\nunmanaged-after\n")
+        package = home / ".local/lib/node_modules/@openai/codex"
+        binary = package / "bin/codex.js"
+        native = package / "node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex"
+        for path in (binary, native):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("synthetic nonexecutable input")
+        return home, ch, binary
+
+    def operation(self):
+        directory = Path(tempfile.mkdtemp(prefix="neutral-prepared-synthetic-"))
+        directory.rmdir()
+        self.addCleanup(remove_synthetic_directory, directory)
+        return directory
+
+    def prepare(self, home, binary, task_name="research-task.md", **changes):
+        profile, _ = self.profile(task_name, **changes)
+        directory = self.operation()
+        with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+            prepared = p.prepare(directory, INPUTS / task_name, FIXTURE,
+                                 profile=profile, home=home, codex=binary)
+            self.assertEqual(p.verify_prepared(directory), prepared)
+        return directory, prepared
+
+    def test_exact_frozen_source_context_and_both_ordinary_tasks_admitted(self):
+        self.assertEqual(self.neutral.NAME, "neutral-v1")
+        self.assertEqual(self.neutral.SOURCE_MANIFEST_SHA256, SOURCE_SHA256)
+        self.assertEqual(self.neutral.TASK_SHA256S, frozenset(TASKS.values()))
+        self.assertEqual(self.neutral.CONTEXT_SHA256, CONTEXT_SHA256)
+        self.assertEqual(p.digest(SNAPSHOT / "manifest.json"), SOURCE_SHA256)
+        self.assertEqual(p.digest(INPUTS / "application-context.md"), CONTEXT_SHA256)
+        identities = []
+        for name, expected_hash in TASKS.items():
+            with self.subTest(task=name):
+                self.assertEqual(p.digest(INPUTS / name), expected_hash)
+                profile, value = self.profile(name)
+                admitted, identity = self.admit(profile, name)
+                self.assertEqual(admitted, value)
+                self.assertEqual(len(identity["files"]), 368)
+                self.assertEqual(sum(row["size_bytes"] for row in identity["files"].values()), 5805584)
+                self.assertEqual(set(identity), {"schema", "revision", "files", "snapshot_sha256", "limitations"})
+                identities.append(identity)
+        self.assertEqual(*identities)
+
+    def test_changed_and_self_rehashed_task_or_context_rejected(self):
+        for name in TASKS:
+            changed = self.temp / name
+            changed.write_bytes((INPUTS / name).read_bytes() + b"\n")
+            for declared in (TASKS[name], p.digest(changed)):
+                with self.subTest(task=name, declared=declared):
+                    profile, _ = self.profile(name, task_sha256=declared)
+                    with self.assertRaises(ValueError):
+                        self.admit(profile, name, task=changed)
+        profile, _ = self.profile(task_sha256=TASKS["development-task.md"])
+        with self.assertRaises(ValueError):
+            self.admit(profile)
+        changed = self.temp / "changed-context.md"
+        changed.write_bytes((INPUTS / "application-context.md").read_bytes() + b"\n")
+        for declared in (CONTEXT_SHA256, p.digest(changed)):
+            with self.subTest(context_sha256=declared):
+                profile, _ = self.profile(context=str(changed), context_sha256=declared)
+                with self.assertRaises(ValueError):
+                    self.admit(profile)
+
+    def test_exact_profile_shape_paths_and_enabled_services_required(self):
+        profile, baseline = self.profile()
+        cases = []
+        for field in baseline:
+            value = dict(baseline)
+            value.pop(field)
+            cases.append(("missing-" + field, value))
+        for field in ("snapshot", "project_manifest", "context"):
+            for bad in ("relative/path", None, 12):
+                cases.append((field + "-" + repr(bad), dict(baseline, **{field: bad})))
+        for name, changes in (
+            ("unknown-profile", {"name": "neutral-v2"}),
+            ("unfrozen-limit", {"limits": {"web_items": 2000}}),
+            ("empty-label", {"candidate_label": " "}),
+            ("invalid-schema", {"schema": 2}),
+        ):
+            cases.append((name, dict(baseline, **changes)))
+        for services in ({"public": False, "dependencies": True}, {"public": True, "dependencies": False},
+                         {"public": 1, "dependencies": True}, {"public": True},
+                         {"public": True, "dependencies": True, "extra": True}, None):
+            cases.append(("services-" + repr(services), dict(baseline, relay_services=services)))
+        for label, value in cases:
+            with self.subTest(case=label):
+                profile.write_text(json.dumps(value))
+                with self.assertRaises(ValueError):
+                    self.admit(profile)
+
+    def test_changed_and_self_rehashed_candidate_manifest_rejected(self):
+        snapshot = self.temp / "candidate"
+        snapshot.mkdir()
+        manifest = snapshot / "manifest.json"
+        manifest.write_bytes((SNAPSHOT / "manifest.json").read_bytes() + b"\n")
+        for declared in (SOURCE_SHA256, p.digest(manifest)):
+            with self.subTest(declared=declared):
+                profile, _ = self.profile(snapshot=str(snapshot), source_manifest_sha256=declared)
+                with self.assertRaises(ValueError):
+                    self.admit(profile)
+        profile, _ = self.profile(source_manifest_sha256="0" * 64)
+        with self.assertRaises(ValueError):
+            self.admit(profile)
+
+    def test_project_manifest_and_fixture_guards(self):
+        manifest = self.temp / "project-identity.json"
+        manifest.write_bytes(PROJECT_MANIFEST.read_bytes() + b"\n")
+        profile, _ = self.profile(project_manifest=str(manifest))
+        with self.assertRaises(ValueError):
+            self.admit(profile)
+        altered = json.loads(PROJECT_MANIFEST.read_text())
+        altered["files"][0]["sha256"] = "0" * 64
+        manifest.write_text(json.dumps(altered))
+        profile, _ = self.profile(project_manifest=str(manifest), project_manifest_sha256=p.digest(manifest))
+        with self.assertRaises(ValueError):
+            self.admit(profile)
+        profile, _ = self.profile()
+        fixture = self.temp / "fixture"
+        shutil.copytree(FIXTURE, fixture)
+        fixture.chmod(0o700)
+        for name in ("extra-file", "extra-empty", ".git", ".agents", ".codex", ".aws"):
+            with self.subTest(path=name):
+                target = fixture / name
+                if name == "extra-file":
+                    target.write_text("synthetic extra input")
+                else:
+                    target.mkdir()
+                try:
+                    with self.assertRaises(ValueError):
+                        self.admit(profile, fixture=fixture)
+                finally:
+                    target.unlink() if target.is_file() else target.rmdir()
+        target = fixture / "AGENTS.md"
+        target.chmod(0o600)
+        target.write_bytes(target.read_bytes() + b"\n")
+        with self.assertRaises(ValueError):
+            self.admit(profile, fixture=fixture)
+
+    def test_symlinked_context_and_profile_rejected(self):
+        context = self.temp / "linked-context.md"
+        context.symlink_to(INPUTS / "application-context.md")
+        profile, _ = self.profile(context=str(context))
+        with self.assertRaises(p.Hold):
+            self.admit(profile)
+        profile, _ = self.profile()
+        link = self.temp / "linked-profile.json"
+        link.symlink_to(profile)
+        with self.assertRaises(p.Hold):
+            self.admit(link)
+
+    def test_matched_preparation_is_neutral_and_preserves_all_frozen_input_bytes(self):
+        home, ch, binary = self.synthetic_host()
+        frozen_before = {str(path.relative_to(SNAPSHOT)): p.digest(path)
+                         for path in SNAPSHOT.rglob("*") if path.is_file()}
+        fixture_before = {str(path.relative_to(FIXTURE)): p.digest(path)
+                          for path in FIXTURE.rglob("*") if path.is_file()}
+        actual_digest = p.digest
+        def no_auth_read(path):
+            self.assertNotEqual(Path(path), ch / "auth.json")
+            return actual_digest(path)
+        operations = []
+        with patch.object(p, "digest", side_effect=no_auth_read):
+            for name in TASKS:
+                operations.append(self.prepare(home, binary, name))
+        environments = []
+        for (directory, prepared), task_name in zip(operations, TASKS):
+            with self.subTest(task=task_name):
+                self.assertEqual(prepared["profile"], "neutral-v1")
+                self.assertEqual(prepared["source_manifest_sha256"], SOURCE_SHA256)
+                self.assertEqual((directory / "task.txt").read_bytes(), (INPUTS / task_name).read_bytes())
+                self.assertEqual((directory / "support/application-context.md").read_bytes(),
+                                 (INPUTS / "application-context.md").read_bytes())
+                self.assertFalse((directory / "work/research").exists())
+                self.assertFalse((directory / "support/scientific_access.md").exists())
+                self.assertFalse((directory / "support/scientific_profile.py").exists())
+                self.assertFalse((directory / "support/neutral_profile.py").exists())
+                self.assertTrue((directory / "support/neutral_access.md").is_file())
+                self.assertEqual({str(path.relative_to(directory / "fixture")): p.digest(path)
+                                  for path in (directory / "fixture").rglob("*") if path.is_file()}, fixture_before)
+                self.assertEqual({path.name for path in (directory / "work").iterdir()},
+                                 {"actors", "outbox", "accounting"})
+                self.assertEqual(set(prepared["support_hashes"]), set(self.neutral.SUPPORT))
+                environment = (directory / "environment.md").read_text().replace(str(directory), "<operation>")
+                neutral_text = environment.replace("scientific_relay.py", "<helper>").replace("research_meter.py", "<meter>")
+                self.assertNotRegex(neutral_text.lower(), r"\b(research|literature|scientific)\b")
+                self.assertNotIn("work/research", environment)
+                self.assertNotIn("research-task", environment)
+                self.assertNotIn("development-task", environment)
+                environments.append(environment)
+        self.assertEqual(*environments)
+        first, second = (directory for directory, _ in operations)
+        for name in ("application-context.md", "profile.json", "project-source.json", "web-allocations.json", "neutral_access.md"):
+            self.assertEqual((first / "support" / name).read_bytes(), (second / "support" / name).read_bytes())
+        self.assertEqual({str(path.relative_to(SNAPSHOT)): p.digest(path)
+                          for path in SNAPSHOT.rglob("*") if path.is_file()}, frozen_before)
+        self.assertEqual({str(path.relative_to(FIXTURE)): p.digest(path)
+                          for path in FIXTURE.rglob("*") if path.is_file()}, fixture_before)
+        root, manifest = p.frozen_inventory(SNAPSHOT)
+        self.assertEqual(len(p.installer_at(root, runtime_entries=24).FILES), 24)
+        self.assertEqual(manifest["runtime_inventory_entries"], 24)
+
+    def test_settings_services_and_limits_are_exact_and_safety_boundaries_preserved(self):
+        home, ch, binary = self.synthetic_host()
+        (ch / "config.toml").write_text('model = "gpt-6-astra"\n[agents]\nmax_concurrent_threads_per_session = 15\n')
+        directory, prepared = self.prepare(home, binary)
+        expected = dict(p.scientific().LIMITS, web_items=1000, browser_actions=50, public_calls=40)
+        self.assertEqual(self.neutral.LIMITS, expected)
+        self.assertEqual(prepared["limits"], dict(expected, effective_active_identity_limit=12))
+        self.assertEqual(prepared["requested"]["sandbox"], "workspace-write")
+        self.assertEqual(prepared["requested"]["approval"], "never")
+        self.assertFalse(prepared["requested"]["fallback"])
+        settings = p.overrides(prepared)
+        self.assertEqual(settings["agents.max_concurrent_threads_per_session"], 11)
+        self.assertNotIn("agents.max_threads", settings)
+        self.assertFalse(settings["sandbox_workspace_write.network_access"])
+        self.assertTrue(settings["sandbox_workspace_write.exclude_tmpdir_env_var"])
+        self.assertTrue(settings["sandbox_workspace_write.exclude_slash_tmp"])
+        self.assertEqual(set(settings["sandbox_workspace_write.writable_roots"]),
+                         {str(directory / "work"), str(directory / "scratch")})
+        declaration = json.loads((directory / "support/profile.json").read_text())
+        self.assertEqual(declaration["relay_services"], {"public": True, "dependencies": True})
+        self.assertEqual(declaration["limits"], expected)
+        self.assertEqual(declaration["max_open_children"], 11)
+        self.assertEqual(json.loads((directory / "support/web-allocations.json").read_text()),
+                         {"total_cap": 1000, "runs": {"author": 1000}})
+        mounts = p.mounts(prepared)
+        self.assertIn(("ro", str(home / ".codex/auth.json"), str(home / ".codex/auth.json")), mounts)
+        self.assertNotIn(str(directory / "evidence"), [row[2] for row in mounts])
+        self.assertNotIn(str(directory / "relay/control"), [row[2] for row in mounts])
+
+    def test_stricter_global_child_cap_is_a_hold_not_an_override(self):
+        home, ch, binary = self.synthetic_host()
+        for cap in (1, 3, 10):
+            with self.subTest(cap=cap):
+                (ch / "config.toml").write_text('model = "gpt-6-astra"\n[agents]\nmax_concurrent_threads_per_session = ' + str(cap) + '\n')
+                before = (ch / "config.toml").read_bytes()
+                profile, _ = self.profile()
+                directory = self.operation()
+                with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+                    with self.assertRaises(p.Hold):
+                        p.prepare(directory, INPUTS / "research-task.md", FIXTURE,
+                                  profile=profile, home=home, codex=binary)
+                self.assertEqual((ch / "config.toml").read_bytes(), before)
+                self.assertFalse(directory.exists())
+
+    def test_unknown_profile_and_ambiguous_candidate_are_held_before_preparation(self):
+        home, _, binary = self.synthetic_host()
+        for changes, extra in (({"name": "neutral-unknown"}, {}), ({}, {"snapshot": SNAPSHOT})):
+            with self.subTest(changes=changes, extra=extra):
+                profile, _ = self.profile(**changes)
+                directory = self.operation()
+                with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+                    with self.assertRaises(p.Hold):
+                        p.prepare(directory, INPUTS / "research-task.md", FIXTURE,
+                                  profile=profile, home=home, codex=binary, **extra)
+                self.assertFalse(directory.exists())
+
+    def test_changed_source_is_rejected_before_importing_candidate_installer(self):
+        home, _, binary = self.synthetic_host()
+        snapshot = self.temp / "changed-source"
+        shutil.copytree(SNAPSHOT, snapshot)
+        installer = snapshot / "checkout/install.py"
+        installer.chmod(0o600)
+        installer.write_bytes(installer.read_bytes() + b"\n# Synthetic changed candidate.\n")
+        profile, _ = self.profile(snapshot=str(snapshot))
+        directory = self.operation()
+        with patch.dict(os.environ, {"HOME": str(home)}, clear=True), patch.object(p, "installer_at") as load_installer:
+            with self.assertRaisesRegex(p.Hold, "frozen source hash mismatch"):
+                p.prepare(directory, INPUTS / "research-task.md", FIXTURE,
+                          profile=profile, home=home, codex=binary)
+        load_installer.assert_not_called()
+
+    def test_copy_time_mutations_fail_before_staged_installer_import(self):
+        home, _, binary = self.synthetic_host()
+        profile, _ = self.profile()
+        original_copytree = shutil.copytree
+        original_copyfile = shutil.copyfile
+        original_write_bytes = Path.write_bytes
+        frozen_before = {str(path.relative_to(SNAPSHOT)): p.digest(path)
+                         for path in SNAPSHOT.rglob("*") if path.is_file()}
+        for mutation in ("source-content", "source-extra", "source-missing", "fixture", "task", "context"):
+            with self.subTest(mutation=mutation):
+                directory = self.operation()
+                mutated = []
+
+                def change_copytree(source, destination, *args, **kwargs):
+                    result = original_copytree(source, destination, *args, **kwargs)
+                    destination = Path(destination)
+                    if mutation.startswith("source-") and destination == directory / "source":
+                        destination.chmod(0o700)
+                        installer = destination / "install.py"
+                        if mutation == "source-content":
+                            installer.chmod(0o600)
+                            original_write_bytes(installer, installer.read_bytes() + b"\n# Changed during staging.\n")
+                        elif mutation == "source-extra":
+                            original_write_bytes(destination / "unmanifested.py", b"# Synthetic extra member.\n")
+                        else:
+                            installer.unlink()
+                        mutated.append(mutation)
+                    elif mutation == "fixture" and destination == directory / "fixture":
+                        target = destination / "AGENTS.md"
+                        target.chmod(0o600)
+                        original_write_bytes(target, target.read_bytes() + b"\n")
+                        mutated.append(mutation)
+                    return result
+
+                def change_copyfile(source, destination, *args, **kwargs):
+                    result = original_copyfile(source, destination, *args, **kwargs)
+                    if mutation == "context" and Path(destination) == directory / "support/application-context.md":
+                        target = Path(destination)
+                        target.chmod(0o600)
+                        original_write_bytes(target, target.read_bytes() + b"\n")
+                        mutated.append(mutation)
+                    return result
+
+                def change_write_bytes(target, data):
+                    if mutation == "task" and target == directory / "task.txt":
+                        data += b"\n"
+                        mutated.append(mutation)
+                    return original_write_bytes(target, data)
+
+                with patch.dict(os.environ, {"HOME": str(home)}, clear=True), \
+                        patch.object(shutil, "copytree", side_effect=change_copytree), \
+                        patch.object(shutil, "copyfile", side_effect=change_copyfile), \
+                        patch.object(Path, "write_bytes", new=change_write_bytes), \
+                        patch.object(p, "installer_at", side_effect=AssertionError("staged installer imported before input rejection")) as load_installer:
+                    with self.assertRaises((p.Hold, ValueError)):
+                        p.prepare(directory, INPUTS / "research-task.md", FIXTURE,
+                                  profile=profile, home=home, codex=binary)
+                self.assertEqual(mutated, [mutation])
+                load_installer.assert_not_called()
+                self.assertFalse((directory / "prepared.json").exists())
+        self.assertEqual({str(path.relative_to(SNAPSHOT)): p.digest(path)
+                          for path in SNAPSHOT.rglob("*") if path.is_file()}, frozen_before)
+
+    def test_pinned_manifest_bytes_are_checked_before_parsing_or_import(self):
+        snapshot = self.temp / "changed-manifest"
+        snapshot.mkdir()
+        (snapshot / "manifest.json").write_bytes(b"synthetic invalid JSON after admission\n")
+        with patch.object(p.json, "loads", side_effect=AssertionError("unverified manifest parsed")) as parse, \
+                patch.object(p, "installer_at", side_effect=AssertionError("unverified installer imported")) as load_installer:
+            with self.assertRaises(p.Hold):
+                p.frozen_inventory(snapshot, expected_manifest_sha256=SOURCE_SHA256)
+        parse.assert_not_called()
+        load_installer.assert_not_called()
+
+    def test_prepared_context_and_frozen_allocation_tampering_rejected(self):
+        home, _, binary = self.synthetic_host()
+        directory, prepared = self.prepare(home, binary)
+        context = directory / "support/application-context.md"
+        context.write_bytes(context.read_bytes() + b"\n")
+        with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+            with self.assertRaises(p.Hold):
+                p.verify_prepared(directory)
+        context.write_bytes((INPUTS / "application-context.md").read_bytes())
+        for mutation in ("name", "children", "active", "web"):
+            altered = json.loads(json.dumps(prepared))
+            if mutation == "name":
+                altered["profile"] = "neutral-unknown"
+            else:
+                field, value = {"children": ("max_open_children", 10),
+                                "active": ("effective_active_identity_limit", 11),
+                                "web": ("web_items", 2000)}[mutation]
+                altered["limits"][field] = value
+            with self.subTest(mutation=mutation):
+                p.write_json(directory / "prepared.json", altered)
+                with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+                    with self.assertRaises(p.Hold):
+                        p.verify_prepared(directory)
+        p.write_json(directory / "prepared.json", prepared)
+
+
+class NeutralRelayTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = Path(tempfile.mkdtemp(prefix="neutral-relay-synthetic-"))
+        self.addCleanup(remove_synthetic_directory, self.temp)
+        self.neutral = p.neutral()
+        spec = importlib.util.spec_from_file_location("neutral_test_scientific_relay", MODULE.with_name("scientific_relay.py"))
+        self.relay = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.relay)
+
+    def stage(self, name):
+        directory = self.temp / name
+        directory.mkdir()
+        self.neutral.stage(directory, {"relay_services": {"public": True, "dependencies": True},
+                                      "context": str(INPUTS / "application-context.md")},
+                           {"revision": "synthetic-revision"}, 11, p.write_json)
+        p.write_json(directory / "relay/inbox/dispatch.json", {"deadline_monotonic": time.monotonic() + 60})
+        return directory
+
+    @staticmethod
+    def request(request_id, kind="web", parameters=None):
+        return {"id": request_id, "author": "synthetic-root", "kind": kind,
+                "parameters": {"search_query": [{"q": "synthetic offline request"}]} if parameters is None else parameters}
+
+    def test_each_case_has_an_independent_web_meter_and_shared_helper_allocation(self):
+        first, second = self.stage("opaque-a"), self.stage("opaque-b")
+        first_request = self.request("same-stable-id", parameters={"search_query": [{"q": "one"}, {"q": "two"}]})
+        self.relay.enqueue(first, first_request)
+        self.assertFalse((second / "work/accounting/web/meter.json").exists())
+        self.relay.enqueue(second, self.request("same-stable-id"))
+        helper = dict(self.request("helper-id"), author="synthetic-child")
+        self.relay.enqueue(first, helper)
+        self.assertEqual(json.loads((first / "work/accounting/web/meter.json").read_text())["used"], {"author": 3})
+        self.assertEqual(json.loads((second / "work/accounting/web/meter.json").read_text())["used"], {"author": 1})
+        # Reserve synthetic local items only; no request is claimed or executed.
+        remainder = self.request("remaining-items", parameters={"open": [{"ref_id": "synthetic"}] * 997})
+        self.relay.enqueue(first, remainder)
+        with self.assertRaises(self.relay.meter.MeterError):
+            self.relay.enqueue(first, self.request("over-web-cap"))
+        self.assertEqual(json.loads((first / "work/accounting/web/meter.json").read_text())["used"], {"author": 1000})
+        self.assertEqual(json.loads((second / "work/accounting/web/meter.json").read_text())["used"], {"author": 1})
+        self.assertEqual(self.relay.assignment(first, "synthetic-root", "child", "scope")["ordinal"], 1)
+        self.assertTrue(self.relay.assignment(first, "synthetic-root", "child", "scope")["continued"])
+        self.assertFalse((second / "work/accounting/assignments.json").exists())
+        self.assertEqual(self.relay.assignment(second, "synthetic-root", "child", "scope")["ordinal"], 1)
+
+    def test_neutral_relay_rejects_unknown_profile_changed_limits_and_services(self):
+        directory = self.stage("opaque")
+        profile_path = directory / "support/profile.json"
+        baseline = json.loads(profile_path.read_text())
+        cases = []
+        for name in ("unknown", "neutral-v2", ""):
+            cases.append(dict(baseline, name=name))
+        for key in self.neutral.LIMITS:
+            altered = json.loads(json.dumps(baseline))
+            value = altered["limits"][key]
+            altered["limits"][key] = 1 if value is None else value + 1
+            cases.append(altered)
+        for key in ("public", "dependencies"):
+            altered = json.loads(json.dumps(baseline))
+            altered["relay_services"][key] = False
+            cases.append(altered)
+            altered = json.loads(json.dumps(baseline))
+            altered["relay_services"][key] = 1
+            cases.append(altered)
+        for value in (1000.0, "1000", True):
+            altered = json.loads(json.dumps(baseline))
+            altered["limits"]["web_items"] = value
+            cases.append(altered)
+        cases.append(dict(baseline, extra="unfrozen declaration"))
+        cases.append(dict(baseline, max_open_children=10))
+        for index, altered in enumerate(cases):
+            with self.subTest(index=index, profile=altered):
+                profile_path.write_text(json.dumps(altered))
+                with self.assertRaises(ValueError):
+                    self.relay.enqueue(directory, self.request("invalid-" + str(index)))
+        self.assertFalse((directory / "work/accounting/relay.json").exists())
+        self.assertFalse((directory / "work/accounting/web/meter.json").exists())
+
+    def test_public_browser_and_assignment_caps_do_not_spend_other_case(self):
+        first, second = self.stage("opaque-a"), self.stage("opaque-b")
+        parameters = {"tool": "synthetic.offline_action", "arguments": {}}
+        for kind, cap in (("browser", 50), ("public", 40)):
+            for index in range(cap):
+                self.relay.enqueue(first, self.request(kind + str(index), kind, parameters))
+            with self.assertRaises(ValueError):
+                self.relay.enqueue(first, self.request(kind + "-excess", kind, parameters))
+            self.relay.enqueue(second, self.request(kind + "0", kind, parameters))
+        first_used = json.loads((first / "work/accounting/relay.json").read_text())["used"]
+        second_used = json.loads((second / "work/accounting/relay.json").read_text())["used"]
+        self.assertEqual((first_used["browser"], first_used["public"]), (50, 40))
+        self.assertEqual((second_used["browser"], second_used["public"]), (1, 1))
+        for index in range(32):
+            self.relay.assignment(first, "synthetic-root", "child-" + str(index), "scope")
+        with self.assertRaises(ValueError):
+            self.relay.assignment(first, "synthetic-root", "extra-child", "scope")
+        self.assertEqual(self.relay.assignment(second, "synthetic-root", "extra-child", "scope")["ordinal"], 1)
+
+    def test_close_during_dependency_publication_withholds_receipt_and_retains_exact_audit(self):
+        directory = self.stage("opaque")
+        request = self.request("dependency-race", "dependency",
+                               {"path": "docs/synthetic.md", "purpose": "synthetic ordinary dependency"})
+        self.relay.enqueue(directory, request)
+        claimed = self.relay.claim(directory, "dependency-race", "synthetic scope review")
+        response = self.temp / "response.bin"
+        response_bytes = b"Synthetic raw response with retained exact bytes.\n"
+        response.write_bytes(response_bytes)
+        dependency = self.temp / "dependency.bin"
+        dependency_bytes = b"# Synthetic dependency\nNo external acquisition occurred.\n"
+        dependency.write_bytes(dependency_bytes)
+        inbox = directory / "relay/inbox/dependency-race"
+        visible_dependency = directory / "relay/dependencies/dependency-race/docs/synthetic.md"
+        closure_intent_durable = threading.Event()
+        closure_started = threading.Event()
+        closure_results, closure_errors = [], []
+        original_sync = self.relay.sync_directory
+
+        def close_author():
+            try:
+                closure_results.append(self.relay.close_author(directory, {"reason": "synthetic publication race"}))
+            except BaseException as error:
+                closure_errors.append(error)
+
+        closer = threading.Thread(target=close_author, daemon=True)
+
+        def sync_then_close(path):
+            original_sync(path)
+            if Path(path) == directory / "relay/inbox" and (directory / "relay/inbox/closing.json").exists():
+                closure_intent_durable.set()
+            if Path(path) == directory / "relay/dependencies" and not closure_started.is_set():
+                closure_started.set()
+                self.assertEqual(visible_dependency.read_bytes(), dependency_bytes)
+                closer.start()
+                self.assertTrue(closure_intent_durable.wait(1), "closure intent was not durable at publication barrier")
+                self.assertFalse(inbox.exists(), "author receipt became visible before final closure recheck")
+
+        try:
+            with patch.object(self.relay, "sync_directory", side_effect=sync_then_close):
+                result = self.relay.publish(directory, "dependency-race", response,
+                                            status="returned", actual_operations=0, actual_calls=1,
+                                            request_sha256=claimed["outbox_sha256"], dependency_file=dependency)
+        finally:
+            if closer.ident is not None:
+                closer.join(timeout=3)
+        self.assertTrue(closure_started.is_set())
+        self.assertFalse(closer.is_alive(), "bounded closure thread did not finish after publisher released the lock")
+        self.assertFalse(closure_errors)
+        self.assertEqual(len(closure_results), 1)
+        self.assertFalse(inbox.exists())
+        self.assertFalse(visible_dependency.exists())
+        self.assertFalse(result["published_to_author"])
+        self.assertEqual(result["disposition"], "late_private_audit")
+        window_path = directory / result["publication_window"]["audit_path"]
+        self.assertTrue(window_path.is_relative_to(directory / "relay/control"))
+        window = json.loads(window_path.read_text())
+        self.assertTrue(window["dependency_temporarily_visible"])
+        self.assertFalse(window["published_to_author"])
+        self.assertEqual(window["disposition"], "late_private_audit")
+        self.assertEqual(window["qualification"], result["publication_window"]["qualification"])
+        timestamps = [window[key] for key in (
+            "dependency_visibility_started_monotonic", "dependency_visibility_observed_monotonic",
+            "final_live_check_started_monotonic", "final_live_check_completed_monotonic",
+            "dependency_withdrawn_observed_monotonic")]
+        self.assertEqual(timestamps, sorted(timestamps))
+        self.assertLessEqual(closure_results[0]["closure_requested_monotonic"], timestamps[1])
+        self.assertNotIn("response_rename_started_monotonic", window)
+        audit = directory / result["audit_path"]
+        retained_dependency = directory / result["dependency"]["path"]
+        self.assertTrue(audit.is_relative_to(directory / "relay/control"))
+        self.assertTrue(retained_dependency.is_relative_to(directory / "relay/control"))
+        self.assertEqual((audit / "response.bin").read_bytes(), response_bytes)
+        self.assertEqual(retained_dependency.read_bytes(), dependency_bytes)
+        self.assertEqual(json.loads((audit / "receipt.json").read_text()), result)
+        self.assertEqual(result["actual_tool_calls"], 1)
+        state = json.loads((directory / "relay/control/published.json").read_text())
+        self.assertEqual(state["bytes"], len(response_bytes) + len(dependency_bytes))
+        self.assertEqual(state["requests"], ["dependency-race"])
+        self.assertEqual(state["dispositions"]["dependency-race"]["delivery"], "late_private_audit")
+        self.assertEqual(state["dispositions"]["dependency-race"]["actual_tool_calls"], 1)
+        self.assertTrue((directory / "relay/inbox/terminal.json").exists())
+        with self.assertRaises(ValueError):
+            self.relay.publish(directory, "dependency-race", response,
+                               status="returned", actual_operations=0, actual_calls=1,
+                               request_sha256=claimed["outbox_sha256"], dependency_file=dependency)
+
+    def test_legacy_scientific_profile_still_delivers_ordinary_dependency(self):
+        directory = self.temp / "legacy-scientific"
+        directory.mkdir()
+        p.scientific().stage(directory, {"relay_services": {"public": True, "dependencies": True}},
+                             {"revision": "synthetic-revision"}, 11, p.write_json)
+        profile_path = directory / "support/profile.json"
+        profile = json.loads(profile_path.read_text())
+        profile["limits"].update(web_items=3, browser_actions=2, public_calls=2, max_assignments=3)
+        profile_path.write_text(json.dumps(profile))
+        p.write_json(directory / "relay/inbox/dispatch.json", {"deadline_monotonic": time.monotonic() + 60})
+        self.relay.enqueue(directory, self.request("legacy-dependency", "dependency",
+                                                  {"path": "docs/synthetic.md", "purpose": "synthetic control"}))
+        claimed = self.relay.claim(directory, "legacy-dependency", "synthetic scope review")
+        response = self.temp / "legacy-response.bin"
+        dependency = self.temp / "legacy-dependency.bin"
+        response.write_bytes(b"synthetic unchanged legacy response\n")
+        dependency.write_bytes(b"synthetic unchanged legacy dependency\n")
+        result = self.relay.publish(directory, "legacy-dependency", response,
+                                    status="returned", actual_operations=0, actual_calls=1,
+                                    request_sha256=claimed["outbox_sha256"], dependency_file=dependency)
+        self.assertTrue(result["published_to_author"])
+        self.assertEqual(result["disposition"], "author_delivery")
+        self.assertNotIn("publication_window", result)
+        self.assertEqual((directory / "relay/inbox/legacy-dependency/response.bin").read_bytes(), response.read_bytes())
+        self.assertEqual((directory / result["dependency"]["path"]).read_bytes(), dependency.read_bytes())
+        self.assertEqual(result["dependency"]["path"], "relay/dependencies/legacy-dependency/docs/synthetic.md")
+
+
+if __name__ == "__main__":
+    unittest.main()
