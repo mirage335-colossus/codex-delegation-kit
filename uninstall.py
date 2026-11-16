@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Disable global delegation without deleting retained bundle or evidence."""
+"""Disable global, project, or tree DK discovery without deleting retained bundle or evidence."""
 
 import sys
 

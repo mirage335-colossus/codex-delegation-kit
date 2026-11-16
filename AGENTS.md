@@ -34,22 +34,25 @@ Keep `_ref/` and `_appraisal/` read-only unless the user explicitly requests
 curation there; use an authorized `research/` location or existing task evidence
 for agent-gathered knowledge.
 
-Before substantive task work, obtain an initial review from `astra_initial`
-(`gpt-6-astra`, `ultra`) using only the original prompt and context already
-available; do no preparatory investigation. Clearly trivial mechanical
-requests are exempt. Read the [policy](policy.md#initial-astra-consultation)
-before changing delegation behavior, role instructions, installation, or
-evidence handling. Before the main chat decides to stop advancing a substantive
-request and return control to the user, submit that proposed stopping decision to
-the [mandatory Astra completion review](policy.md#mandatory-astra-completion-review).
-Before a final response ends work, require a current applicable review and resolve
-its feasible authorized follow-ups, regardless of the response's wording. Keep the
-runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
+DK is explicitly opt-in through `$delegation-kit`. Merely working in this
+checkout, reading its documentation, or mentioning DK does not activate it.
+Only within an explicitly activated DK assignment, follow the policy's initial
+`astra_initial` consultation and mandatory `astra_expert` completion review.
+Reuse an applicable initial consultation for related continuations; status
+questions do not restart the workflow. Unrelated work remains outside the scope.
+Honor explicit DK off immediately without an exit review. An explicit standalone
+role request does not activate the entire workflow. See the policy's activation
+section for assignment, continuation, and fork semantics. Ordinary project
+requirements and the contribution checks below remain applicable independently.
+Read the policy before changing delegation behavior, installation or evidence
+handling; reading it for that purpose does not itself activate DK.
+Keep the runtime bundle at the explicit `FILES` inventory in [`install.py`](install.py)
 unless a deliberate, reviewed manifest-compatible change updates the installer
 and its checks.
 The installer recognizes earlier eight-file, eleven-file, seventeen-file,
-eighteen-file, twenty-file, twenty-one-file, twenty-two-file, and twenty-three-file
-inventories; the current source bundle has twenty-four files and eleven roles.
+eighteen-file, twenty-file, twenty-one-file, twenty-two-file, twenty-three-file,
+and twenty-four-file inventories; the current source bundle has twenty-six files
+and eleven roles.
 Preserve all three supported twenty-three-file instruction gateways and the exact role
 blocks and upgrade and disable paths for all supported inventories when
 changing the bundle.

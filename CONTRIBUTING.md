@@ -15,7 +15,7 @@ For the current Luna evidence-discovery strategy and its limits, see
 
 The maintained runtime source includes the policy, installer, advisory helper,
 controller modules, operating and cloud guides, and eleven files in `agents/`. The
-installed bundle is a copy of the explicit twenty-four-file `FILES` list in
+installed bundle is a copy of the explicit twenty-six-file `FILES` list in
 `install.py`;
 `CONTRIBUTING.md`, `tests/`, and `examples/` remain clone-only resources. Keep the
 manifest and bundle version behavior compatible with existing installations. If
@@ -58,8 +58,9 @@ responsibility or model route. Adding a role must not change the controller's
 uniform per-run model policy or imply automatic escalation.
 
 Installation copies controller code but never starts a controller or enables it
-for a task. Disable removes only the managed instruction and role activation
-blocks; it retains code, controller databases, receipts, and historical evidence.
+for a task. Uninstall disables discovery by removing owned skill files and role
+activation blocks, plus a recognized legacy instruction block when applicable;
+it retains code, controller databases, receipts, and historical evidence.
 It does not terminate an already running controller. Stop or drain an owned run
 through the controller interface when that is intended, and do not stop other
 runs as an implicit installation step.
@@ -86,6 +87,17 @@ an unchanged repeat preview.
 The optional [`examples/demo.py`](examples/demo.py) demonstrates assignment
 evidence using deterministic synthetic data and makes no model calls. It is a
 clone-only example, not an installed command or a substitute for the tests.
+The optional [`examples/verify_skill_invocation.py`](examples/verify_skill_invocation.py)
+checks actual CLI discovery, shared runtime pointers, loaded role registrations,
+and implicit versus explicit skill loading for disposable global, project, and
+tree installations. It trusts only the disposable project paths and captures
+outgoing requests on a local synthetic provider; it makes no real model calls
+and does not establish model compliance with assignment-lifetime instructions.
+
+```sh
+python3 -B examples/verify_skill_invocation.py --codex-binary /absolute/path/to/codex
+```
+
 The `supervisor.py` command interface and evidence schemas are documented in
 its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
@@ -160,8 +172,15 @@ limits. The clone-only [controller demo](examples/controller_demo.py) and
 Changes to `policy.md` and role prompts affect user-visible operating
 instructions. Keep them consistent, preserve the configured model/effort
 pairs, and distinguish behavioral guidance from checks that the helper code
-actually enforces. Before concluding substantive kit work, apply the
+actually enforces. When DK is explicitly activated, before concluding substantive kit work apply the
 [mandatory completion review](policy.md#mandatory-astra-completion-review) to the
 actual source, checks and installation evidence, and resolve feasible authorized
 follow-ups. Do not publish, create a release, or change a remote as an
 implicit part of contributing.
+
+Explicit-only delivery adds the two files under `skills/delegation-kit/`. Preserve
+the published 24-file inventory and its exact activation data when upgrading.
+Fresh global installs must not add a DK gateway to user `AGENTS.md`; migration
+removes only the old owned block. Project/tree installs and disables must retain
+the same ownership, rollback and preservation rules. Never test installation
+against the real Codex home or operational PodBoss/Processor folders.

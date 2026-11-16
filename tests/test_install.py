@@ -2,7 +2,7 @@
 
 import importlib.util
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import os
 import sys
 import tempfile
@@ -164,7 +164,7 @@ class InstallerTests(unittest.TestCase):
         prefix = "\n" if inserted.startswith("\n") else ""
         if active:
             text = self.agents.read_text()
-            self.agents.write_text(text.replace(inserted, prefix + old, 1))
+            self.agents.write_bytes(text.replace(inserted, prefix + old, 1).encode())
         manifest["activation"]["AGENTS.md"]["inserted"] = prefix + old
         manifest_path.write_text(json.dumps(manifest))
         return target
@@ -179,7 +179,7 @@ class InstallerTests(unittest.TestCase):
         prefix = "\n" if inserted.startswith("\n") else ""
         if active:
             text = self.agents.read_text()
-            self.agents.write_text(text.replace(inserted, prefix + old, 1))
+            self.agents.write_bytes(text.replace(inserted, prefix + old, 1).encode())
         manifest["activation"]["AGENTS.md"]["inserted"] = prefix + old
         manifest_path.write_text(json.dumps(manifest))
         return target
@@ -195,7 +195,7 @@ class InstallerTests(unittest.TestCase):
         old_prefix = "\n" if inserted.startswith("\n") else ""
         original = self.agents.read_text()
         if active:
-            self.agents.write_text(original.replace(inserted, old_prefix + legacy, 1))
+            self.agents.write_bytes(original.replace(inserted, old_prefix + legacy, 1).encode())
         record["inserted"] = old_prefix + legacy
         manifest_path.write_text(json.dumps(manifest))
         return target
@@ -212,7 +212,7 @@ class InstallerTests(unittest.TestCase):
                 block = agents_block(target)
             elif name == "AGENTS.md" and roles == kit.OLD21_ROLES:
                 block = published_old21_agents_block(target)
-            elif name == "AGENTS.md" and roles not in (kit.ROLES, kit.OLD23_ROLES):
+            elif name == "AGENTS.md" and roles not in (kit.ROLES, kit.OLD23_ROLES, kit.OLD24_ROLES):
                 block = published_legacy_agents_block(target)
             path = self.home / name
             before = kit.read_state(path)
@@ -248,7 +248,7 @@ class InstallerTests(unittest.TestCase):
             old_agents = kit.blocks(target, kit.OLD23_ROLES)["AGENTS.md"].encode()
         else:
             old_agents = published_legacy_agents_block(target).encode()
-        new_agents = kit.blocks(target)["AGENTS.md"].encode()
+        new_agents = kit.blocks(target).get("AGENTS.md", "").encode()
         self.assertEqual(globals_before[self.config].data.count(old), 1)
         self.assertEqual(globals_before[self.agents].data.count(old_agents), 1)
         for path, before in globals_before.items():
@@ -299,7 +299,7 @@ class InstallerTests(unittest.TestCase):
         history.parent.mkdir(parents=True)
         history.write_bytes(b'{"status": "completed"}\n')
         kit.apply(kit.plan(self.home, self.source))
-        current = kit.blocks(target)["AGENTS.md"].encode()
+        current = kit.blocks(target).get("AGENTS.md", "").encode()
         self.assertEqual(self.agents.read_bytes(), original.data.replace(legacy, current, 1))
         self.assertEqual(kit.read_state(self.agents).mode, original.mode)
         old_config = kit.blocks(target, kit.OLD21_ROLES)["config.toml"].encode()
@@ -308,7 +308,7 @@ class InstallerTests(unittest.TestCase):
                          kit.State(config_before.data.replace(old_config, new_config, 1), config_before.mode))
         self.assertEqual(history.read_bytes(), b'{"status": "completed"}\n')
         manifest = json.loads((target / ".installation/manifest.json").read_text())
-        self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"], current.decode())
+        self.assertNotIn("AGENTS.md", manifest["activation"])
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         self.assertEqual(manifest["source_directory"], str(self.source.absolute()))
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -322,7 +322,7 @@ class InstallerTests(unittest.TestCase):
         self.assertIsNone(kit.read_state(self.agents).data)
         self.assertIsNone(kit.read_state(self.config).data)
         self.activate()
-        self.assertIn("before substantive work on each new main task", self.agents.read_text())
+        self.assertFalse(self.agents.exists())
         self.assertEqual(set(kit.parse_toml(self.config.read_bytes(), self.config)["agents"]), set(kit.ROLES))
         self.assertEqual(kit.plan(self.home, self.source), [])
 
@@ -337,8 +337,8 @@ class InstallerTests(unittest.TestCase):
         self.assertIn(old_inserted.encode(), self.agents.read_bytes())
 
         kit.apply(kit.plan(self.home, self.source))
-        current = kit.blocks(target)["AGENTS.md"].encode()
-        self.assertEqual(self.agents.read_bytes(), original.data + b"\n" + current)
+        current = kit.blocks(target).get("AGENTS.md", "").encode()
+        self.assertEqual(self.agents.read_bytes(), original.data)
         self.assertEqual(kit.plan(self.home, self.source), [])
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual(kit.read_state(self.agents), original)
@@ -354,8 +354,7 @@ class InstallerTests(unittest.TestCase):
         self.assert_only_role_block_updated(target, before, kit.OLD21_ROLES)
         manifest = json.loads((target / ".installation/manifest.json").read_text())
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
-        self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"],
-                         kit.blocks(target)["AGENTS.md"])
+        self.assertNotIn("AGENTS.md", manifest["activation"])
         self.assertTrue(self.agents.read_bytes().endswith(suffix))
         self.assertEqual(kit.plan(self.home, self.source), [])
 
@@ -381,7 +380,7 @@ class InstallerTests(unittest.TestCase):
         inserted = manifest["activation"]["AGENTS.md"]["inserted"]
         prefix = "\n" if inserted.startswith("\n") else ""
         legacy = prefix + published_legacy_agents_block(target)
-        self.agents.write_text(self.agents.read_text().replace(inserted, legacy, 1))
+        self.agents.write_bytes(self.agents.read_text().replace(inserted, legacy, 1).encode())
         manifest["activation"]["AGENTS.md"]["inserted"] = legacy
         manifest_path.write_text(json.dumps(manifest))
         active_globals = {path: kit.read_state(path) for path in (self.agents, self.config)}
@@ -407,7 +406,7 @@ class InstallerTests(unittest.TestCase):
         kit.apply(preview)
 
         expected_agents = globals_before[self.agents].data.replace(
-            published_old22_agents_block(target).encode(), kit.blocks(target)["AGENTS.md"].encode(), 1)
+            published_old22_agents_block(target).encode(), kit.blocks(target).get("AGENTS.md", "").encode(), 1)
         self.assertEqual(kit.read_state(self.agents), kit.State(expected_agents, globals_before[self.agents].mode))
         self.assert_only_role_block_updated(
             target, globals_before, kit.OLD23_ROLES,
@@ -415,7 +414,7 @@ class InstallerTests(unittest.TestCase):
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
-        self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"], kit.blocks(target)["AGENTS.md"])
+        self.assertNotIn("AGENTS.md", manifest["activation"])
         previous_config = prior_activation["config.toml"]
         self.assertEqual(manifest["activation"]["config.toml"], {
             **previous_config, "inserted": previous_config["inserted"].replace(
@@ -465,7 +464,7 @@ class InstallerTests(unittest.TestCase):
         self.assertTrue(manifest["active"])
         self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
         for name, path in (("AGENTS.md", self.agents), ("config.toml", self.config)):
-            self.assertEqual(path.read_bytes(), before[path].data + manifest["activation"][name]["inserted"].encode())
+            self.assertEqual(path.read_bytes(), before[path].data + manifest["activation"].get(name, {}).get("inserted", "").encode())
         self.assertEqual(kit.plan(self.home, self.source), [])
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual({path: kit.read_state(path) for path in before}, before)
@@ -486,7 +485,7 @@ class InstallerTests(unittest.TestCase):
         evidence.write_bytes(b"keep\n")
         active_before = {path: kit.read_state(path) for path in (self.agents, self.config)}
         kit.apply(kit.plan(self.home, self.source))
-        self.assertIn(kit.blocks(target)["AGENTS.md"].encode(), self.agents.read_bytes())
+        self.assertNotIn(kit.BEGIN.encode(), self.agents.read_bytes())
         self.assertEqual(kit.read_state(self.agents).mode, self.original[self.agents].mode)
         self.assert_only_role_block_updated(
             target, active_before, kit.OLD23_ROLES,
@@ -507,7 +506,7 @@ class InstallerTests(unittest.TestCase):
         before_config = kit.read_state(self.config)
         self.activate()
         self.assertEqual(self.agents.read_bytes(),
-                         b"prefix\nsuffix\n" + kit.blocks(target)["AGENTS.md"].encode())
+                         b"prefix\nsuffix\n" + kit.blocks(target).get("AGENTS.md", "").encode())
         expected_config = before_config.data + b"\n" + kit.blocks(target)["config.toml"].encode()
         self.assertEqual(kit.read_state(self.config), kit.State(expected_config, before_config.mode))
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -533,7 +532,7 @@ class InstallerTests(unittest.TestCase):
         manifest_path = target / ".installation/manifest.json"
         manifest = json.loads(manifest_path.read_text())
         old = published_old22_agents_block(target)
-        current = kit.blocks(target)["AGENTS.md"]
+        current = kit.blocks(target).get("AGENTS.md", "")
         self.agents.write_bytes(b"prefix\n" + old.encode() + b"suffix\n")
         manifest["activation"]["AGENTS.md"]["inserted"] = old
         manifest_path.write_text(json.dumps(manifest))
@@ -552,7 +551,7 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(evidence.read_bytes(), b"keep\n")
         self.assertEqual(kit.plan(self.home, self.source), [])
         manifest = json.loads(manifest_path.read_text())
-        self.assertEqual(manifest["activation"]["AGENTS.md"]["inserted"], current)
+        self.assertNotIn("AGENTS.md", manifest["activation"])
         kit.apply(kit.plan(self.home, self.source, uninstall=True))
         self.assertEqual(self.agents.read_bytes(), b"prefix\nsuffix\n")
         self.assertEqual(kit.read_state(self.agents).mode, self.original[self.agents].mode)
@@ -573,7 +572,7 @@ class InstallerTests(unittest.TestCase):
 
         self.activate()
         self.assertEqual(self.agents.read_bytes(),
-                         b"prefix\nsuffix\n" + kit.blocks(target)["AGENTS.md"].encode())
+                         b"prefix\nsuffix\n" + kit.blocks(target).get("AGENTS.md", "").encode())
         expected_config = before_config.data + b"\n" + kit.blocks(target)["config.toml"].encode()
         self.assertEqual(kit.read_state(self.config), kit.State(expected_config, before_config.mode))
         self.assertEqual(kit.plan(self.home, self.source), [])
@@ -594,7 +593,7 @@ class InstallerTests(unittest.TestCase):
         published_old22 = published_old22_agents_block(target)
         tampered_old22 = published_old22.replace("available.", "unavailable.")
         for gateway in (published_old21_agents_block(target), published_legacy_agents_block(target),
-                        kit.blocks(target)["AGENTS.md"],
+                        kit.blocks(target).get("AGENTS.md", ""),
                         published_old23_previous_agents_block(target), tampered_old22):
             manifest = json.loads(json.dumps(original))
             manifest["activation"]["AGENTS.md"]["inserted"] = gateway
@@ -696,11 +695,11 @@ class InstallerTests(unittest.TestCase):
         preview = kit.plan(self.home, self.source)
         self.assertTrue(any(change.path == self.agents for change in preview))
         kit.apply(preview)
-        self.assertIn(kit.blocks(target)["AGENTS.md"].encode(), self.agents.read_bytes())
+        self.assertNotIn(kit.BEGIN.encode(), self.agents.read_bytes())
         self.assertEqual(kit.plan(self.home, self.source), [])
 
     def test_published_old23_inventory_and_activation_bytes_are_frozen(self):
-        target = Path("/codex/delegation-kit")
+        target = PurePosixPath("/codex/delegation-kit")
         self.assertEqual(len(kit.OLD23_FILES), 23)
         self.assertEqual(len(kit.OLD23_ROLES), 10)
         self.assertEqual(kit.digest(("\n".join(kit.OLD23_FILES) + "\n").encode()),
@@ -710,10 +709,11 @@ class InstallerTests(unittest.TestCase):
                          "8bb4b1d7ed9cf29b39487afa0bc5b5b1fc7302497e5c93ab518d7aa35c3ca504")
         self.assertEqual(kit.digest(published["AGENTS.md"].encode()),
                          "dfd90c2855a9c2299aeda89551c4b36e9a63014cf8a746d695994dffd35e157b")
-        self.assertEqual(kit.blocks(target)["AGENTS.md"], published["AGENTS.md"])
+        self.assertEqual(kit.blocks(target, kit.OLD24_ROLES)["AGENTS.md"], published["AGENTS.md"])
         self.assertEqual(tuple(kit.ROLES)[:-1], tuple(kit.OLD23_ROLES))
         self.assertEqual(tuple(kit.ROLES)[-1], "sol_researcher")
-        self.assertEqual(kit.FILES, kit.OLD23_FILES + ("agents/sol_researcher.toml",))
+        self.assertEqual(kit.OLD24_FILES, kit.OLD23_FILES + ("agents/sol_researcher.toml",))
+        self.assertEqual(kit.FILES, kit.OLD24_FILES + kit.SKILL_FILES)
 
     def test_old23_current_gateway_upgrade_adds_only_owned_research_registration(self):
         target = self.seed_old23()
@@ -722,7 +722,7 @@ class InstallerTests(unittest.TestCase):
         before = {path: kit.read_state(path) for path in (self.agents, self.config)}
         changes = kit.plan(self.home, self.source)
         self.assertFalse((target / "agents/sol_researcher.toml").exists())
-        self.assertFalse(any(change.path == self.agents for change in changes))
+        self.assertTrue(any(change.path == self.agents for change in changes))
         kit.apply(changes)
         self.assert_only_role_block_updated(target, before, kit.OLD23_ROLES)
         self.assertEqual(set(kit.parse_toml(self.config.read_bytes(), self.config)["agents"]),
@@ -777,7 +777,7 @@ class InstallerTests(unittest.TestCase):
                     self.activate()
                     manifest = json.loads((target / ".installation/manifest.json").read_text())
                     self.assertEqual(set(manifest["bundle_digests"]), set(kit.FILES))
-                    self.assertEqual(len(manifest["bundle_digests"]), 24)
+                    self.assertEqual(len(manifest["bundle_digests"]), 26)
                     loaded = kit.parse_toml(self.config.read_bytes(), self.config)
                     self.assertEqual(loaded["model"], "primary")
                     self.assertEqual(loaded["model_reasoning_effort"], "ultra")
@@ -834,7 +834,7 @@ class InstallerTests(unittest.TestCase):
                 self.assertFalse((target / "agents/sol_researcher.toml").exists())
 
     def test_current24_does_not_accept_old_gateway_exceptions(self):
-        self.activate()
+        self.seed_layout(kit.OLD24_FILES, kit.OLD24_ROLES, active=True)
         target = self.home / "delegation-kit"
         path = target / ".installation/manifest.json"
         original = json.loads(path.read_text())
@@ -853,7 +853,7 @@ class InstallerTests(unittest.TestCase):
                     self.assertEqual(self.snapshot_home(), before)
 
     def test_current24_cannot_claim_old_ten_role_activation(self):
-        self.activate()
+        self.seed_layout(kit.OLD24_FILES, kit.OLD24_ROLES, active=True)
         target = self.home / "delegation-kit"
         path = target / ".installation/manifest.json"
         manifest = json.loads(path.read_text())
@@ -1262,7 +1262,7 @@ class InstallerTests(unittest.TestCase):
         target = self.seed_engineering()
         path = target / ".installation/manifest.json"
         manifest = json.loads(path.read_text())
-        manifest["activation"]["AGENTS.md"]["inserted"] = kit.blocks(target)["AGENTS.md"]
+        manifest["activation"]["AGENTS.md"]["inserted"] = kit.blocks(target, kit.OLD24_ROLES)["AGENTS.md"]
         path.write_text(json.dumps(manifest))
         before = self.snapshot_home()
         for uninstall in (False, True):
@@ -1274,7 +1274,7 @@ class InstallerTests(unittest.TestCase):
         target = self.seed_old21()
         path = target / ".installation/manifest.json"
         manifest = json.loads(path.read_text())
-        manifest["activation"]["AGENTS.md"]["inserted"] = kit.blocks(target)["AGENTS.md"]
+        manifest["activation"]["AGENTS.md"]["inserted"] = kit.blocks(target, kit.OLD24_ROLES)["AGENTS.md"]
         path.write_text(json.dumps(manifest))
         before = self.snapshot_home()
         for uninstall in (False, True):
@@ -1426,7 +1426,6 @@ class InstallerTests(unittest.TestCase):
 
     def test_preflight_refuses_override_conflicts_and_corrupt_toml(self):
         cases = (
-            ("AGENTS.override.md", b"This suppresses AGENTS.md\n"),
             ("config.toml", b"[agents.luna_worker]\nmodel = 'mine'\n"),
             ("config.toml", b"[agents.inherited_worker]\nconfig_file = 'personal.toml'\n"),
             ("config.toml", b"[agents.inherited_swarm]\nconfig_file = 'personal.toml'\n"),
@@ -1450,12 +1449,12 @@ class InstallerTests(unittest.TestCase):
 
     def test_modified_or_incomplete_block_refused(self):
         self.activate()
-        initial = self.agents.read_bytes()
-        self.agents.write_bytes(initial.replace(b"Preserve the user's", b"Ignore the user's"))
+        initial = self.config.read_bytes()
+        self.config.write_bytes(initial.replace(b"Explicit DK assignment", b"Implicit assignment"))
         for uninstall in (False, True):
             with self.assertRaises(kit.Refusal):
                 kit.plan(self.home, self.source, uninstall)
-        self.agents.write_bytes(initial.replace(kit.END.encode(), b""))
+        self.config.write_bytes(initial.replace(kit.END.encode(), b""))
         with self.assertRaises(kit.Refusal):
             kit.plan(self.home, self.source, True)
 
@@ -1485,7 +1484,12 @@ class InstallerTests(unittest.TestCase):
     def test_symlink_sources_and_destinations_refused(self):
         original = self.source / "policy.md"
         original.rename(self.source / "policy-real.md")
-        original.symlink_to(self.source / "policy-real.md")
+        try:
+            original.symlink_to(self.source / "policy-real.md")
+        except OSError as error:
+            if getattr(error, "winerror", None) == 1314:
+                self.skipTest("Windows symlink privilege is unavailable")
+            raise
         with self.assertRaises(kit.Refusal):
             kit.plan(self.home, self.source)
         original.unlink()

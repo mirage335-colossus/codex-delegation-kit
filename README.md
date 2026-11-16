@@ -1,7 +1,10 @@
 # Codex delegation kit
 
-This kit adds optional role guidance and tools for coordinating bounded coding
-work in Codex. It preserves the primary model and its settings. Choose the
+This kit installs an explicitly invoked skill for bounded coding and research
+coordination in Codex. Select `$delegation-kit` or its skill-picker entry for an
+assignment. Ordinary requests, quoted mentions and reading this repository do not
+activate DK. Its workflow guidance below applies only within that active scope.
+It preserves the primary model and its settings. Choose the
 coordination mode that fits the task: native-only agents, the advisory helper,
 or the explicitly selected Python controller. Installing the kit does not
 start a controller, enable it for a task, or change model, effort, service tier,
@@ -49,7 +52,7 @@ See the [selection criteria and exceptions](policy.md#gpu-selection-and-performa
 for demonstrated precision needs (especially FP64), exact variants, software compatibility and
 measured speedups.
 
-For substantive tasks, obtain the policy's initial `astra_initial`
+For substantive tasks within an explicitly activated DK assignment, obtain the policy's initial `astra_initial`
 (`gpt-6-astra`, `ultra`) consultation before investigation or planning; clearly
 trivial mechanical requests are exempt. When the main chat proposes to stop
 advancing a substantive user request and return control to the user, submit that
@@ -251,73 +254,109 @@ proposed result; check the actual evidence and required independent acceptance.
 
 Git is needed to clone the source. The installer, helper, and controller use
 Python 3.11 or newer and the standard library. Linux is required for the
-controller's owned process cancellation; Windows support is not claimed. The
+controller's owned process cancellation; Windows controller support is not claimed.
+On Windows, run the controller in WSL. The
 managed agent backend also needs a compatible Codex app-server executable and
 authorized account and model access. A model appearing in a catalog does not
 establish access.
 
-## Install or update
+## Install, update, and disable by scope
 
-Clone the repository and inspect the installer's preview:
+Use Python 3.11+ from the source checkout. Every command previews changes unless
+`--apply` is added. Installing makes the skill available; it does not activate a
+DK assignment, launch a controller, or authorize project changes.
 
-```sh
-git clone https://github.com/mirage335-colossus/codex-delegation-kit.git
-cd codex-delegation-kit
-python3 --version
-python3 install.py
-```
+| Scope | Preview install/update | Preview uninstall (disable) |
+| --- | --- | --- |
+| Global Codex home | `python3 install.py` | `python3 uninstall.py` |
+| Explicit global home | `python3 install.py --home /path/to/codex-home` | `python3 uninstall.py --home /path/to/codex-home` |
+| One repo or working folder | `python3 install.py --project /path/to/repo` | `python3 uninstall.py --project /path/to/repo` |
+| Collection and named child repos | `python3 install.py --tree /path/to/collection --repo podboss --repo podprocessor` | `python3 uninstall.py --tree /path/to/collection` |
 
-Apply after reviewing the proposed changes:
-
-```sh
-python3 install.py --apply
-```
-
-To install into another Codex home, pass `--home PATH` to both commands. For
-updates, fetch the intended revision, inspect it, then repeat the preview and
-apply steps from that clone. The installer refuses to overwrite edits to
-managed installed files; reconcile those edits before updating. Reinstallation
-is idempotent. After installing or updating role instructions, start a fresh
-Codex session so it loads the current roles.
-
-The installed copy is a deployment, not the maintained source. The policy's
-[source workflow](policy.md#improving-this-kit) covers source discovery and
-preservation.
-
-## Disable and stop a run
-
-Disabling removes the kit's marked activation blocks from global `AGENTS.md`
-and `config.toml`. It retains the installed runtime files and run evidence. The
-installed utility previews by default; use the same Codex home that was used
-for installation:
+Review the preview, then repeat the same command with `--apply`. For example:
 
 ```sh
-kit_home="${CODEX_HOME:-$HOME/.codex}"
-python3 "$kit_home/delegation-kit/uninstall.py" --home "$kit_home"
-python3 "$kit_home/delegation-kit/uninstall.py" --home "$kit_home" --apply
+python3 install.py --tree /path/to/podcast_feed --repo podboss --repo podprocessor --apply
+python3 uninstall.py --tree /path/to/podcast_feed --apply
 ```
 
-Disabling does not stop a running controller, and ending the chat is not a
-controller stop signal. Use its run directory to stop or drain that run before
-removing runtime files:
+Global installation uses `CODEX_HOME`, defaulting to `~/.codex`, and places the
+runtime in `delegation-kit/`, the explicit-only skill in `skills/delegation-kit/`,
+and marked role registrations in `config.toml`. It is global to sessions using
+that home, not to the entire machine. Windows and WSL can use different homes.
+Verify that the intended runtime discovers the installed skill; a compatible
+per-home skill loader is required. The installer prints all destinations.
 
-```sh
-python3 "$kit_home/delegation-kit/controller.py" --run /path/to/run stop
-# Or let active work finish before the loop exits:
-python3 "$kit_home/delegation-kit/controller.py" --run /path/to/run drain
+Project installation uses `<project>/.codex/delegation-kit/` for the runtime,
+`<project>/.codex/config.toml` for role registration and
+`<project>/.agents/skills/delegation-kit/` for the skill. Project configuration
+must be trusted and loaded by the runtime. Existing project `AGENTS.md` files
+are never edited.
+
+A tree root need not be a Git repository. Tree installation registers the same
+runtime at the root and at each explicitly named `--repo` child Git repository.
+Paths are relative to the collection and may contain intermediate folders.
+This supports both a chat opened at `podcast_feed` and independently opened
+PodBoss/Processor chats without changing Git-root discovery or global settings.
+It does not scan or silently install into every descendant. To add members,
+rerun with the complete desired list. Removed members lose only owned activation
+files. Disable uses the recorded members, so `--repo` is not needed for uninstall.
+Choose one scope for a work area; overlapping installations can expose duplicate
+skill names or competing role registrations.
+
+Fresh installs do not add DK instructions to global `AGENTS.md`. Upgrades remove
+only the recognized, unchanged DK-managed legacy block while preserving user
+text, unrelated settings, role pins and evidence. The current 26-file bundle and
+all published 8/11/17/18/20/21/22/23/24-file inventories are supported. Edited or
+unowned skill destinations and managed blocks are refused instead of overwritten.
+Start a fresh Codex session after upgrading so old automatic instructions are no
+longer retained in context. Installation flags select storage/discovery scope;
+skill invocation still selects the assignment scope in each conversation.
+
+Disable removes only owned skill-discovery files and role-registration blocks.
+It retains runtime files, installation backups and execution evidence. It does
+not remove your project or global instructions, or stop an existing controller.
+Use that run's `controller.py --run /path/to/run stop` or `drain` separately when
+authorized. The installed utility can be used for disable; pass the same scope
+and root/home used for installation. Global installation and publication require
+separate authorization; tests use disposable scopes, never the actual user home.
+
+For a source-checkout verification against a compatible Codex executable, see
+[`examples/verify_skill_invocation.py`](examples/verify_skill_invocation.py). It
+checks all three installation scopes with a local synthetic provider and no real
+model inference; it does not install into your actual Codex home or projects.
+
+## Initial use and follow-ups
+
+```text
+$delegation-kit Investigate the CLARE issue across PodBoss and Processor.
+Use synthetic fixtures; do not deploy or initiate paid processing.
 ```
 
-After disabling, start a fresh session to load the changed activation state.
-For controller recovery, holds, and continuation behavior, use the
-[operator surface](ORCHESTRATION.md#small-operator-surface) and the policy's
-[interruption procedure](policy.md#classify-interruptions-before-implementation-escalation).
+Native-only coordination is the default. Related follow-ups such as "also test
+changed downloads" or "address the review finding" reuse the active assignment
+and its applicable initial consultation. Status questions do not restart reviews.
+Updated substantive work needs current applicable completion review before it
+ends. A final response alone does not terminate related follow-ups. "DK off" or
+an explicit end stops DK requirements immediately, with no exit review. Unrelated
+work remains inactive unless separately invoked. These are ordinary instructions,
+not new slash commands. Activation does not authorize additional actions.
+
+Fresh blank chats are inactive. Resumes and forks retain the assignment shown in
+their history at that point. Forking before activation or after off is inactive;
+forking an active assignment retains that scope. Later branch changes do not
+propagate, and copied reviews do not validate new changes. Reconcile shared files,
+live jobs and budgets before executing in a fork. This is instruction guidance,
+not automatic fork detection or a hard dispatch boundary. Explicit standalone
+role requests remain possible without enabling the entire DK workflow.
 
 ## Installed files and license
 
-The runtime bundle has 24 files: this README, `policy.md`, `CLOUD.md`,
+The runtime bundle has 26 files: this README, `policy.md`, `CLOUD.md`,
 `ORCHESTRATION.md`, `supervisor.py`, `install.py`, `uninstall.py`,
 `controller.py`, `controller_store.py`, `execution.py`, `agent_backend.py`,
-`scheduling.py`, `engineering.py`, and eleven role TOML files in `agents/`.
+`scheduling.py`, `engineering.py`, eleven role TOML files in `agents/`, and the two
+source skill files under `skills/delegation-kit/`.
 `CONTRIBUTING.md`, tests, examples, and verification materials are source-only
 and are not installed. The policy describes expected behavior; each program
 enforces only its documented checks.
