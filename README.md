@@ -266,10 +266,9 @@ Use Python 3.11+ from the source checkout. Every command previews changes unless
 `--apply` is added. Installing makes the skill available; it does not activate a
 DK assignment, launch a controller, or authorize project changes.
 
-| Scope | Preview install/update | Preview uninstall (disable) |
+| Scope | Preview install/update | Preview uninstall (explicit target) |
 | --- | --- | --- |
-| Global Codex home | `python3 install.py` | `python3 uninstall.py` |
-| Explicit global home | `python3 install.py --home /path/to/codex-home` | `python3 uninstall.py --home /path/to/codex-home` |
+| Global Codex home | `python3 install.py --home /path/to/codex-home` | `python3 uninstall.py --home /path/to/codex-home` |
 | One repo or working folder | `python3 install.py --project /path/to/repo` | `python3 uninstall.py --project /path/to/repo` |
 | Collection and named child repos | `python3 install.py --tree /path/to/collection --repo podboss --repo podprocessor` | `python3 uninstall.py --tree /path/to/collection` |
 
@@ -279,6 +278,9 @@ Review the preview, then repeat the same command with `--apply`. For example:
 python3 install.py --tree /path/to/podcast_feed --repo podboss --repo podprocessor --apply
 python3 uninstall.py --tree /path/to/podcast_feed --apply
 ```
+
+Installation without a scope option uses the global Codex home. Uninstall without
+a scope option discovers its target using the rules below.
 
 Global installation uses `CODEX_HOME`, defaulting to `~/.codex`, and places the
 runtime in `delegation-kit/`, the explicit-only skill in `skills/delegation-kit/`,
@@ -317,8 +319,42 @@ Disable removes only owned skill-discovery files and role-registration blocks.
 It retains runtime files, installation backups and execution evidence. It does
 not remove your project or global instructions, or stop an existing controller.
 Use that run's `controller.py --run /path/to/run stop` or `drain` separately when
-authorized. The installed utility can be used for disable; pass the same scope
-and root/home used for installation. Global installation and publication require
+authorized. Uninstall discovers the installation and its recorded scope without
+requiring `--home`, `--project`, or `--tree`:
+
+```sh
+# From a repo, collection root, or named tree member (including a subfolder):
+python3 /path/to/codex-delegation-kit/uninstall.py
+python3 /path/to/codex-delegation-kit/uninstall.py --apply
+
+# An installed utility identifies its own installation from any working folder:
+python3 /path/to/repo/.codex/delegation-kit/uninstall.py --apply
+```
+
+The installed utility's own manifest takes priority. When using the source
+utility, discovery checks the working folder and its ancestors for an owned skill
+runtime pointer or local manifest, stopping after checking the nearest Git root.
+Both `.git` directories and `.git` files (worktrees/submodules) are boundaries.
+If no local installation is found before that boundary, discovery refuses to
+select an ancestor or global installation. A registered tree member's own pointer
+can identify its shared runtime outside the repo; an unlisted or nested independent
+repo cannot discover the parent tree. The non-Git collection root finds its own
+pointer directly. If no Git boundary is reached and there is no local installation,
+discovery uses `CODEX_HOME` (default `~/.codex`).
+
+The manifest supplies project versus tree scope and every tree member; the user
+does not repeat that information. A disabled local manifest remains the target for
+repeat uninstall, so it does not fall through to another installation. After a
+tree member's pointer is removed, repeat uninstall from that child reports no
+local installation; use the retained installed utility or the collection root for
+an idempotent repeat. Invalid local pointers or ownership records are refused.
+Discovery never scans unrelated folders or attempts to remove every installation.
+For a custom global home, run its installed utility, set `CODEX_HOME`, or use the
+explicit `--home` option. Explicit scope options in the table remain available to
+select a different target. The preview prints the discovered scope and runtime
+path before showing changes; review that target before adding `--apply`.
+
+Global installation and publication require
 separate authorization; tests use disposable scopes, never the actual user home.
 
 For a source-checkout verification against a compatible Codex executable, see

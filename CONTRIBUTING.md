@@ -79,6 +79,13 @@ home through the existing test suite; do not target the maintainer's Codex
 home. For a documentation-only change, review links and commands and use
 proportionate checks.
 
+`tests/test_uninstall_discovery.py` exercises the real CLI with no scope flags,
+including installed-script identity, nested repo/tree working folders, preserved
+global installations, read-only previews, repeat uninstall, and refusal of invalid
+local ownership. Repository-boundary regressions cover unlisted and nested repos,
+`.git` files and directories, registered members and the non-Git collection root.
+Keep `CODEX_HOME` redirected to each fixture's disposable home.
+
 Those disposable-home checks are tests. A separately authorized installation
 of the validated change uses the intended real Codex home, preserves its
 configuration and history, and checks source/installed manifest parity plus

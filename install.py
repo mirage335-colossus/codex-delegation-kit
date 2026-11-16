@@ -704,6 +704,71 @@ def preview(changes: list[Change]) -> None:
                 sys.stdout.write("\n\\ No newline at end of file\n")
 
 
+def _uninstall_location(home: Path) -> tuple[Path, str, Path, dict]:
+    home = home.absolute()
+    path = home / "delegation-kit/.installation/manifest.json"
+    _, manifest = load_manifest(path, home, blocks(home / "delegation-kit"))
+    if manifest is None:
+        raise Refusal(f"No owned installation found at {home / 'delegation-kit'}")
+    scope = manifest.get("scope", "global")
+    if not isinstance(scope, str) or scope not in {"global", "project", "tree"}:
+        raise Refusal(f"Invalid installation scope in {path}")
+    return home, scope, home if scope == "global" else home.parent, manifest
+
+
+def discover_uninstall(cwd: Path, script_directory: Path, default_home: Path) -> tuple[Path, str, Path]:
+    """Use this deployment, then nearest local ownership, then the Codex home.
+
+    Stop at the nearest Git root after checking its own entry points. Invalid
+    local ownership never falls back to a different installation, and retained
+    disabled manifests remain targets within that boundary.
+    """
+    script_directory = script_directory.absolute()
+    metadata = script_directory / ".installation"
+    if (metadata.exists() or metadata.is_symlink()
+            or (script_directory.name == "delegation-kit" and not (script_directory / ".git").exists())):
+        if script_directory.name != "delegation-kit":
+            raise Refusal(f"Unexpected installed runtime directory: {script_directory}")
+        return _uninstall_location(script_directory.parent)[:3]
+    cwd = cwd.absolute()
+    for member in (cwd, *cwd.parents):
+        skill = member / ".agents/skills/delegation-kit"
+        pointer = skill / "runtime.json"
+        state = read_state(pointer)
+        if state.data is not None:
+            try:
+                value = json.loads(decode(state.data, pointer))
+                runtime = Path(value["runtime_directory"])
+                if (not runtime.is_absolute() or ".." in runtime.parts or "\0" in str(runtime)
+                        or runtime.name != "delegation-kit"):
+                    raise ValueError("invalid runtime directory")
+            except (ValueError, TypeError, KeyError) as error:
+                raise Refusal(f"Invalid runtime pointer {pointer}: {error}") from error
+            home, scope, root, manifest = _uninstall_location(runtime.parent)
+            records = manifest.get("discovery", {})
+            members = manifest.get("members", [])
+            record = records.get(str(pointer), {}) if isinstance(records, dict) else {}
+            if (scope == "global" or not member.is_relative_to(root)
+                    or not isinstance(members, list) or str(member) not in members
+                    or not isinstance(record, dict) or record.get("digest") != digest(state.data)):
+                raise Refusal(f"Runtime pointer is not owned by this installation: {pointer}")
+            return home, scope, root
+        if read_state(skill / "SKILL.md").data is not None:
+            raise Refusal(f"Installed skill is missing its runtime pointer: {pointer}")
+        home = member / ".codex"
+        target = home / "delegation-kit"
+        if target.exists() or target.is_symlink():
+            location = _uninstall_location(home)
+            if location[1] != "global":
+                return location[:3]
+        marker = member / ".git"
+        if marker.exists() or marker.is_symlink():
+            raise Refusal(f"No owned DK installation found within repository boundary {member}; "
+                          "refusing ancestor or global discovery. Use the installed uninstaller "
+                          "or select an explicit target.")
+    return _uninstall_location(default_home)[:3]
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     scope = parser.add_mutually_exclusive_group()
@@ -713,15 +778,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--repo", action="append", default=[], help="Child Git repository relative to --tree; repeat for each member")
     parser.add_argument("--source", type=Path, default=Path(__file__).absolute().parent, help="source bundle directory")
     parser.add_argument("--apply", action="store_true", help="apply the previewed installation or disable operation")
-    parser.add_argument("--uninstall", action="store_true", help="remove only owned activation blocks; retain bundle and evidence")
+    parser.add_argument("--uninstall", action="store_true", help="auto-discover scope unless selected; remove owned discovery, retain bundle and evidence")
     args = parser.parse_args(argv)
     if args.repo and not args.tree:
         parser.error("--repo requires --tree")
     try:
-        root = args.project or args.tree
-        installation_scope = "tree" if args.tree else "project" if args.project else "global"
-        home = root.expanduser().absolute() / ".codex" if root else (
-            args.home or Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))).expanduser()
+        default_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser()
+        if args.uninstall and not any((args.home, args.project, args.tree)):
+            home, installation_scope, root = discover_uninstall(Path.cwd(), Path(__file__).absolute().parent, default_home)
+            print(f"Discovered {installation_scope} installation at {home / 'delegation-kit'}")
+        else:
+            root = args.project or args.tree
+            installation_scope = "tree" if args.tree else "project" if args.project else "global"
+            home = root.expanduser().absolute() / ".codex" if root else (args.home or default_home).expanduser()
         changes = plan(home, args.source.expanduser(), args.uninstall, scope=installation_scope,
                        root=root.expanduser().absolute() if root else None, repositories=args.repo)
         preview(changes)
