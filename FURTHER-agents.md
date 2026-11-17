@@ -1,6 +1,21 @@
 This is a carefully curated list of possible future improvements - this should not be edited by agents unless edits to this file are explicitly requested.
 
 
+
+# Increase Parallelism by Earlier Recognition of Test Case Ranges
+
+NOTICE: Unusually, the benefit is not expected worth the fragility. A 1.5x, rather than 2x-3x or more, speedup, is estimated theoretically possible, and of course in practice, tradeoffs would be reached well before achieving that if not already. The documentation and suggested opportunity is preserved because of both the very unique opportunity of having a high-quality test case for exercises, and the very strong desirability of parallel speedup, but in practice it is expected this will never be realized this way. At best, some AI LLMs may eventually inherently offer better parallelism.
+
+Correcting issues can indicate remaining insufficiently tested ranges of conditions, or at least which are consequential, etc, and may otherwise identify additional work.
+
+Some of this work may be possible to anticipate or dispatch more quickly.
+
+Some documentation of this possible opportunity, including referencing an example of such development as may be relevant to better parallelize from another project, is at ... . Also, there may be a few subsequent commits from the other project which were still working on the same related problems, and thus  may be relevant to testing, demonstration, etc.
+
+Please perform agent swarm exercises - to develop, test, refine, and demonstrate, prompts for codex-delegation-kit to explicitly encourage achieving the opportunity increased parallelism.
+
+
+
 # Encourage Working by Reading instead of Search/Snippet
 
 NOTICE: Unusually, this may or may not ever be needed, and if not proven necessary, may be unhelpful. This is a contingency in case of regression from otherwise better or more available AI LLMs doing less reading.

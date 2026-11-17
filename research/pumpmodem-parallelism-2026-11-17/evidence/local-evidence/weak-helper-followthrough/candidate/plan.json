@@ -1,0 +1,71 @@
+{
+  "acceptance": {
+    "actual_helper_intervals_and_acceptance_reported": true,
+    "both_scores_complete_all_valid_zero_h0_and_consume_full_aperture": true,
+    "expected_transition_fully_before_first_nonzero_data_sample": true,
+    "full_input_alignment": true,
+    "helper_fit_aperture_ends_before_transition": true,
+    "same_suffix_sha256_from_end_of_transition_through_aperture_stop": true,
+    "score_component_operational_evidence_prior_mass_and_work_reported": true,
+    "stop_after_this_pair": true
+  },
+  "arguments": [
+    "six-db-data-common-frequency"
+  ],
+  "baseline_head": "6571cadadf504974a55f6d58cb44c16fcd674f3f",
+  "fixture": {
+    "arrival_prior_seconds": [
+      -0.4,
+      0.4
+    ],
+    "arrival_seconds": 0.18,
+    "atmospheric_bound_hz": 3,
+    "bit_seconds": 10.4,
+    "capture_horizon_samples_max": 1100000,
+    "capture_lead_seconds": 2,
+    "channel_noise_seed": 37,
+    "common_frequency_nominal_hz": 1.1,
+    "common_frequency_transition_start_seconds": 58.6,
+    "common_frequency_transition_stop_seconds": 59.7,
+    "continuous_noise_and_helper_shared_by_pair": true,
+    "data_amplitude_multiplier": 0.5011872336272722,
+    "effective_data_cn0_db_hz": 6,
+    "epoch": 1793850000,
+    "execution_timeout_seconds": 45,
+    "hardware_threads_expected": 12,
+    "helper_callsign": "TRIAD",
+    "helper_data_power_w": 4,
+    "helper_power_w": 8,
+    "helper_voltage": 1.0,
+    "ordered_score_seconds_max": 45,
+    "ordered_scores_max": 2,
+    "oscillator_bound_hz": 1.5,
+    "public_spread_delay_ms": 7,
+    "receiver_workspace_lease_bytes_max": 805306368,
+    "requested_data_bit": 1,
+    "sample_rate_hz": 6000,
+    "score_aperture_samples_max": 360000,
+    "software_workers_required": 24,
+    "symbol_ordinal": 15,
+    "thermal_noise_variance": 378.57440668811597
+  },
+  "mode": "six-db-data-common-frequency",
+  "name": "weak-helper-followthrough-six-db-common-frequency",
+  "native_build_identity": {
+    "build_config": "Release",
+    "compiler": "GNU-14.2.0",
+    "native_source_sha256": "7ec934902b9fb8f4501527a0c48dabe48d086fa275c28949deb5a2f96d7be915",
+    "receiver_archive": "_appraisal/highFidelity-triple_Robust_Modem/.build/libdatapump_triad_receiver.a",
+    "receiver_archive_sha256": "a725a26b4eb0a3e15afc773bec49da2d6b540504f4bb2bfecc458064a078ad7e",
+    "source_commit": "6571cadadf504974a55f6d58cb44c16fcd674f3f"
+  },
+  "no_more_levels_seeds_or_noise_variants": true,
+  "owner_review": "design_review read-only GO before build/execution; geometry and acceptance frozen",
+  "pair": [
+    "aligned +1.10 Hz",
+    "smooth common-frequency transition \u22120.95 to +1.10 Hz"
+  ],
+  "purpose": "One bounded matched pair to test whether the prior \u22123 dB-Hz common-frequency transition discriminator persists at \u22126 dB-Hz actual DATA while the canonical 12 dB-Hz thermal noise and Helper remain unchanged. This is a local native fixture, not production qualification.",
+  "reviewed_fixture_sha256": "7436e97168186bd597bca47b3741b6866146240513e4ba53526bfd8c385a733e",
+  "schema_version": 1
+}

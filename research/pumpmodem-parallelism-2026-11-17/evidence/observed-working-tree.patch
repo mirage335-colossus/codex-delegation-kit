@@ -1,0 +1,811 @@
+diff --git a/_appraisal/highFidelity-triple_Robust_Modem/coverage.md b/_appraisal/highFidelity-triple_Robust_Modem/coverage.md
+index ee1c106c..3f5e6c62 100644
+--- a/_appraisal/highFidelity-triple_Robust_Modem/coverage.md
++++ b/_appraisal/highFidelity-triple_Robust_Modem/coverage.md
+@@ -65,6 +65,16 @@ also distinguish physical outage/estimation cost from avoidable receiver loss.
+ 
+ ## Applicability after the admission and carrier-key changes
+ 
++The [weak Helper follow-through](../../docs/validation.md#weak-helper-follow-through--17-november-2026)
++finds a current in-bound failure at 6 dB-Hz with 10.4-second DATA: a stale
++Helper interval makes the receiver declare QUIET while aligned assistance
++receives the same DATA/noise correctly. Widening the transferred interval for
++declared inter-window common motion restores the bit on identical captures,
++without new thresholds or a second coarse search. Matched aligned service
++increases about 6%, while stale service falls about 76% by avoiding unnecessary
++fallback work. This is one constructed history and does not qualify the earlier
++weak physical-channel failures or natural outage duration.
++
+ The [weak combined-modulation follow-through](../../docs/validation.md#weak-combined-modulation-follow-through--17-november-2026)
+ now reduces the same continuous GUI history to one late DATA aperture and two
+ real quiet successors, with exact full-stream control parity. At +4/+10 dB-Hz
+diff --git a/_appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md b/_appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md
+index 1ac8b4b7..265ce35d 100644
+--- a/_appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md
++++ b/_appraisal/highFidelity-triple_Robust_Modem/research-reconciliation.md
+@@ -361,6 +361,20 @@ diagnosis](../../docs/validation.md#repeated-single-bit-channel-diagnosis--16-no
+ [short-model comparison](../../docs/validation.md#bounded-short-model-competition--16-november-2026),
+ and [HF follow-through](../../docs/validation.md#hf-worst-30-hz--7-ms-follow-through--16-november-2026).
+ 
++[Wang et al. (2023), cross-frequency Doppler-assisted carrier tracking](https://link.springer.com/article/10.1007/s10291-023-01434-4)
++provides a complementary successful example: BDS B1C pilot assistance lowers
++the B2b tracking threshold by about 4 dB in preliminary field tests. Their
++analysis explicitly accounts for assistance noise, frequency bias and dynamic
++response; an overly narrow aided loop responds slowly to changing frequency.
++The model assumes AWGN and a shared satellite frequency relationship, treating
++ionospheric delay as slowly varying. Its numerical gain therefore does not
++qualify HF skywave acquisition or this modem. The applicable engineering lesson
++is to preserve uncertainty and test time evolution when transferring frequency
++information, rather than treating an earlier narrow estimate as exact during
++DATA. The [weak Helper discriminator](../../docs/validation.md#weak-helper-follow-through--17-november-2026)
++isolates that issue with identical post-transition DATA/noise and unchanged
++public bounds; it is not a port of the GNSS tracking loop.
++
+ Physical loss and receiver misses also need separate treatment.
+ [Gillies et al. (2026)](https://doi.org/10.1029/2025SW004906) report that 62%
+ of expected scheduled Ottawa–Alert pulses (5–14 MHz, 2013–2019) were not
+diff --git a/_appraisal/highFidelity-triple_Robust_Modem/src/main.cpp b/_appraisal/highFidelity-triple_Robust_Modem/src/main.cpp
+index aa2f5bcb..a4dc59ff 100644
+--- a/_appraisal/highFidelity-triple_Robust_Modem/src/main.cpp
++++ b/_appraisal/highFidelity-triple_Robust_Modem/src/main.cpp
+@@ -24,6 +24,7 @@
+ #include "triad_receiver_coarse.hpp"
+ #include "triad_receiver_driver.hpp"
+ #include "triad_receiver_executor.hpp"
++#include "triad_receiver_fine.hpp"
+ #include "triad_receiver_helper.hpp"
+ #include "triad_stream_backend.hpp"
+ #include "triad_stream_resources.hpp"
+@@ -80,6 +81,11 @@ constexpr std::uint64_t retained_two_hop_samples = 4'300'572;
+ constexpr std::uint64_t two_hop_comparison_samples = 4'300'585;
+ constexpr std::string_view retained_two_hop_prefix_sha = "4c1cfc29c2ccada26914c1c007f63849a58955d73991bc914ba2beff9cf25ef2";
+ constexpr std::string_view two_hop_comparison_sha = "ea887215dc1109d78ddc05da605f129d8a72e21c2529c9e631b7429e0a8dcf73";
++constexpr std::uint64_t quarter_power_first_slot = 12;
++constexpr std::uint64_t quarter_power_first_sample = 3'455'875;
++constexpr std::uint64_t quarter_power_samples = retained_two_hop_samples-quarter_power_first_sample;
++constexpr std::string_view quarter_power_input_sha = "fed418cd69f1766c3bf7197984390b55f77ba9ec2e4390595a339aa4d9dd3963";
++constexpr std::string_view quarter_power_table_sha = "ff2b3f4e40bf6fde12fa89fc733240f08038de0020f497f09adba1652f0008aa";
+ struct Limit : Error { using Error::Error; };
+ struct Timeout : Error { using Error::Error; };
+ struct Unavailable : Error { using Error::Error; };
+@@ -95,6 +101,8 @@ struct Options {
+     bool two_hop_additive_boundary=false;
+     bool two_hop_spread_comparison=false;
+     std::string two_hop_spread_capture, two_hop_spread_replay;
++    bool two_hop_quarter_power_contrast=false;
++    std::string two_hop_quarter_power_capture;
+     double max_wall_seconds=60, duration_seconds=10;
+     bool duration_override=false;
+     std::optional<double> cn0, bit_seconds, history_reference_delay_seconds, capture_lead_seconds;
+@@ -155,6 +163,7 @@ Options parse(int argc,char** argv) {
+         if(key=="--repeat-separate-attempts") {o.repeat_separate_attempts=true;continue;}
+         if(key=="--two-hop-alarm-matrix") {o.two_hop_alarm_matrix=true;continue;}
+         if(key=="--two-hop-additive-boundary") {o.two_hop_additive_boundary=true;continue;}
++        if(key=="--two-hop-quarter-power-contrast") {o.two_hop_quarter_power_contrast=true;continue;}
+         if(key=="--two-hop-spread-comparison") {o.two_hop_spread_comparison=true;continue;}
+         if(key=="--hf-gannon-native-diagnostic") {o.hf_gannon_native_diagnostic=true;continue;}
+         if(key=="--hf-gannon-gain-variance-diagnostic") {o.hf_gannon_gain_variance_diagnostic=true;continue;}
+@@ -262,6 +271,7 @@ Options parse(int argc,char** argv) {
+         else if(key=="--duration-seconds") {o.duration_seconds=number(value);o.duration_override=true;}
+         else if(key=="--two-hop-spread-capture") o.two_hop_spread_capture=value;
+         else if(key=="--two-hop-spread-replay") o.two_hop_spread_replay=value;
++        else if(key=="--two-hop-quarter-power-capture") o.two_hop_quarter_power_capture=value;
+         else throw Error("unknown option: "+key);
+     }
+     require(o.mode=="plan"||o.mode=="channel"||o.mode=="receive"||o.mode=="slot"||o.mode=="oracle"||
+@@ -342,6 +352,23 @@ Options parse(int argc,char** argv) {
+             !o.hf_predictive_quiet&&!o.memory_bytes&&o.max_wall_seconds<=900&&
+             o.max_samples==4'350'000&&o.chunk==4096,
+             "two-hop additive comparison requires the frozen +4 dB-Hz long physical profile and default receiver resources");
++    require(o.two_hop_quarter_power_contrast == !o.two_hop_quarter_power_capture.empty(),
++        "the quarter-power comparison requires its own explicit capture output");
++    if(o.two_hop_quarter_power_contrast)
++        require((o.mode=="plan"||o.mode=="receive")&&o.scenario=="hf-vector-two-hop"&&
++            o.waveform=="reference"&&o.pulse=="rrc"&&o.control=="wanted"&&o.backend=="cpu"&&
++            o.message=="E"&&!o.helper&&o.fec=="off"&&o.bit_seconds==128.&&o.cn0==3.&&
++            o.seed==73613&&o.noise_seed==93613&&!o.workers&&!o.owners&&!o.memory_bytes&&
++            !o.capture_digest_slot&&!o.duration_override&&!o.capture_lead_seconds&&!o.repeat_bit&&
++            !o.two_hop_alarm_matrix&&!o.two_hop_additive_boundary&&!o.two_hop_spread_comparison&&
++            !o.service_replay&&!o.service_options&&!o.hf_predictive_quiet&&!o.hf_compare_admitted_models&&
++            !o.hf_public_phase_receiver&&!o.hf_correlated_gain_receiver&&!o.hf_correlated_gain_shadow&&
++            !o.hf_phase_filter&&!o.hf_phase_filter_receiver&&!o.hf_phase_refinement&&!o.hf_phase_bank&&
++            !o.hf_physical_diagnostic&&!o.hf_target_presence_diagnostic&&!o.search_options&&!o.design_options&&
++            !o.hf_trajectory_seed&&!o.hf_trajectory_offset_seconds&&!o.gui_options&&
++            o.max_wall_seconds<=720&&o.max_samples<=4'350'000&&o.chunk==4096&&
++            o.two_hop_quarter_power_capture.size()<=4096&&std::endian::native==std::endian::little,
++            "two-hop quarter-power comparison requires the frozen +3 dB-Hz physical capture and default resources");
+     require(!(o.two_hop_additive_boundary&&o.two_hop_spread_comparison)&&
+         (o.two_hop_spread_capture.empty()||o.two_hop_spread_replay.empty())&&
+         ((o.two_hop_spread_capture.empty()&&o.two_hop_spread_replay.empty())||
+@@ -1760,6 +1787,7 @@ Setup setup(const Options& o,std::stop_token stop) {
+     return s;
+ }
+ std::string_view observation_scope(const Options& o) {
++    if(o.two_hop_quarter_power_contrast)return "three_matched_public_apertures_after_continuous_physical_capture";
+     if(o.mode=="gui-varying")return "shadow_canonical_varying_of_selected_complete_observation";
+     if(o.repeat_selected_attempt)return "one_selected_raw_attempt_and_two_scored_quiet_successors";
+     if(o.repeat_bit)return "repeated_raw_data_and_scored_quiet";
+@@ -2358,6 +2386,150 @@ Json live_gain_contrast_json(const ReceiverConfig& config,const ReceiverSlotPlan
+         {"comparison_seconds",std::chrono::duration<double>(Clock::now()-start).count()},
+         {"reference",ordinary},{"target",std::move(comparison)}});
+ }
++
++std::array<ReceiverSlotPlan,3> quarter_power_slots(const Setup& s) {
++    require(s.horizon==retained_two_hop_samples&&s.slot_horizon==15&&s.q0==13&&
++        s.truth.size()==13&&s.truth.back()==1&&s.resources.workers==24&&
++        s.receiver.sample_rate_hz==1920.&&s.receiver.time_varying_channel&&
++        s.receiver.spread_delay_seconds==0.&&s.receiver.spread_doppler_hz==0.&&
++        s.receiver.clock_bound_ppm==0.&&s.receiver.frequency_bound_hz==0.&&
++        s.receiver.time_varying_atmospheric_hz==5.&&s.receiver.time_varying_common_doppler_hz==5.&&
++        s.receiver.random_doppler_width_hz==0.&&std::abs(s.receiver.noise_variance-962.2794885643629)<1e-9&&
++        !s.receiver.helper_enabled&&!s.native_channel&&!s.native_chain,
++        "quarter-power comparison differs from the frozen one-template receiver geometry");
++    const std::array slots{
++        make_receiver_slot_plan(s.profile,s.receiver,quarter_power_first_slot),
++        make_receiver_slot_plan(s.profile,s.receiver,quarter_power_first_slot+1),
++        make_receiver_slot_plan(s.profile,s.receiver,quarter_power_first_slot+2)};
++    constexpr std::array<std::uint64_t,3> first{quarter_power_first_sample,3'743'875,4'031'874};
++    constexpr std::array<std::uint64_t,3> stop{3'724'572,4'012'572,retained_two_hop_samples};
++    for(std::size_t i=0;i<slots.size();++i)
++        require(slots[i].first_sample==first[i]&&slots[i].stop_sample==stop[i]&&
++            slots[i].index==quarter_power_first_slot+i&&slots[i].format.symbol_ordinal==quarter_power_first_slot+i&&
++            slots[i].format.epoch==1'793'406'600+150*i,
++            "quarter-power comparison did not preserve the frozen public calendar");
++    return slots;
++}
++
++constexpr double quarter_power_weight=.125;
++
++std::size_t quarter_power_affine_workspace(const ReceiverConfig& config,const ReceiverSlotPlan& slot,unsigned workers) {
++    auto scaled=config;
++    scaled.data_basis_gain*=.5;
++    return receiver_detail::fine_workspace(scaled,slot,
++        {slot.first_sample,static_cast<std::size_t>(slot.stop_sample-slot.first_sample)},workers);
++}
++
++receiver_detail::SlotEvidenceSupplement quarter_power_supplement(Json& evidence) {
++    receiver_detail::SlotEvidenceSupplement supplement;
++    supplement.fixed_weight=quarter_power_weight;
++    supplement.supported=[](const auto&,const auto&){return true;};
++    supplement.workspace=quarter_power_affine_workspace;
++    supplement.score=[&evidence](const auto& config,const auto& slot,const auto& key,auto iq,const auto& fine,
++                            unsigned workers,std::size_t workspace,std::stop_token stop,auto& executor) {
++        auto scaled=config;
++        scaled.data_basis_gain*=.5;
++        const auto geometry=receiver_detail::coarse_fine_geometry(config,slot);
++        ReceiverSlotScore score;
++        const auto started=Clock::now();
++        receiver_detail::score_fine(scaled,slot,key,iq,fine.coordinates,geometry.projected_sample_rate_hz,
++            geometry.clock_gap_ppm,workers,score,workspace,stop,&executor);
++        require(score.complete&&score.all_valid&&score.zero_h0_verified&&score.consumed_samples==iq.size()&&
++            score.fine_candidates==fine.coordinates.size()&&score.fine_candidates>0,
++            "quarter-power affine component did not score the complete selected public bank");
++        const auto log_mass=std::log(static_cast<double>(score.fine_candidates))-fine.grid.log_count();
++        const std::array charged{score.bit_evidence[0]+log_mass,score.bit_evidence[1]+log_mass};
++        evidence=object({{"raw_affine_bit_log_evidence",Json::Array{score.bit_evidence[0],score.bit_evidence[1]}},
++            {"public_prior_adjusted_bit_log_evidence",Json::Array{charged[0],charged[1]}},{"selected_prior_mass",std::exp(log_mass)},
++            {"fine_candidates",score.fine_candidates},{"basis_rows",score.basis_rows},
++            {"workspace_bytes",workspace},{"wall_seconds",std::chrono::duration<double>(Clock::now()-started).count()}});
++        return charged;
++    };
++    return supplement;
++}
++
++void compare_quarter_power(Json& contrast,Json::Array& ordinary,const Setup& s,const Options& o,
++                           std::span<const Complex> capture,std::span<Complex> staging,
++                           std::span<std::uint8_t> valid,ObservationSpool& tail,
++                           std::size_t memory_limit,Deadline& deadline) {
++    const auto slots=quarter_power_slots(s);
++    const auto workers=s.resources.workers;
++    const auto reserve=add_bytes(execution::process_footprint_bytes(),add_bytes(1024*1024,
++        receiver_detail::checked_multiply(workers-1,execution::worker_stack_bytes())));
++    if(reserve>=memory_limit)throw Limit("quarter-power comparison cannot admit its resident and worker reservations");
++    const auto available=memory_limit-reserve;
++    contrast["resident_and_stack_reservation_bytes"]=reserve;
++    contrast["scorer_memory_limit_bytes"]=available;
++    auto& alternative=contrast["quarter_power_slots"].array();
++    std::array<ReceiverSlotScore,3> baseline;
++    const auto input=[&](const auto& slot) {
++        return capture.subspan(slot.first_sample-quarter_power_first_sample,slot.stop_sample-slot.first_sample);
++    };
++    const auto receipt=[&](const ReceiverSlotScore& score,const ReceiverSlotPlan& slot,double seconds) {
++        require(score.complete&&score.all_valid&&score.zero_h0_verified&&score.consumed_samples==input(slot).size()&&
++            score.noise_statistics_valid,"quarter-power comparison did not score a complete valid aperture with its null");
++        auto row=score_json({score,slot.format.epoch,slot.format.symbol_ordinal,workers,{}});
++        row["likelihood_components"]=slot_likelihood_components(score);
++        row["zero_h0_verified"]=score.zero_h0_verified;
++        row["consumed_samples"]=score.consumed_samples;
++        row["expected_bit"]=slot.index==quarter_power_first_slot?Json(1):Json{};
++        row["score_seconds_including_executor_lifetime"]=seconds;
++        return row;
++    };
++    for(std::size_t i=0;i<slots.size();++i) {
++        const auto& slot=slots[i];
++        deadline.check();
++        const auto began=Clock::now();
++        baseline[i]=score_receiver_slot(s.receiver,slot,s.key,input(slot),{},workers,available,deadline.stop.get_token());
++        ordinary.push_back(receipt(baseline[i],slot,std::chrono::duration<double>(Clock::now()-began).count()));
++    }
++    constexpr std::array ordinary_log_e{16.603733824027834,-6.858888618805563,-6.775606921505348};
++    for(std::size_t i=0;i<slots.size();++i)
++        require(baseline[i].decision==SlotDecision::quiet&&baseline[i].fine_candidates==4&&
++            std::abs(baseline[i].operational_log_e-ordinary_log_e[i])<=1e-6,
++            "current ordinary scorer did not reproduce the frozen +3 dB-Hz aperture outcome");
++    contrast["ordinary_archive_gate_passed"]=true;
++    std::cerr<<"two-hop +3 dB-Hz ordinary apertures matched the archived native scores\n"<<std::flush;
++
++    // Preserve only the decisive all-valid tail for a possible follow-up.
++    // This exclusive caller-owned file is never used to select geometry.
++    Hash tail_hash;
++    std::ranges::fill(valid,1);
++    for(std::size_t at=0;at<capture.size();at+=staging.size()) {
++        deadline.check();
++        const auto rows=capture.subspan(at,std::min(staging.size(),capture.size()-at));
++        tail.append(rows,valid.first(rows.size()));
++        tail_hash.samples(rows,valid.first(rows.size()));
++    }
++    tail.seal();tail.rewind();
++    Hash readback;
++    for(std::size_t at=0;at<capture.size();at+=staging.size()) {
++        deadline.check();
++        const auto rows=staging.first(std::min(staging.size(),capture.size()-at));
++        tail.read(rows,valid.first(rows.size()));
++        readback.samples(rows,valid.first(rows.size()));
++    }
++    const auto digest=tail_hash.finish();
++    require(readback.finish()==digest,"quarter-power retained tail differs from the captured samples");
++    contrast["retained_capture"]=object({{"path",o.two_hop_quarter_power_capture},
++        {"samples",tail.rows()},{"bytes",tail.bytes()},{"sha256",digest},{"readback_verified",true},
++        {"resident_backing_reservation_bytes",tail.resident_reservation_bytes()}});
++    for(std::size_t i=0;i<slots.size();++i) {
++        const auto& slot=slots[i];
++        deadline.check();
++        const auto began=Clock::now();
++        Json affine;
++        const auto supplement=quarter_power_supplement(affine);
++        const auto score=receiver_detail::score_slot_with_supplement(s.receiver,slot,s.key,input(slot),{},workers,
++            available,deadline.stop.get_token(),nullptr,supplement);
++        require(score.fine_candidates==baseline[i].fine_candidates&&score.selected_prior_mass==baseline[i].selected_prior_mass&&
++            score.bit_evidence==baseline[i].bit_evidence&&score.basis_rows==baseline[i].basis_rows,
++            "quarter-power alternative changed the ordinary fixed-affine preparation or evidence");
++        auto row=receipt(score,slot,std::chrono::duration<double>(Clock::now()-began).count());
++        row["quarter_power_affine"]=std::move(affine);
++        alternative.push_back(std::move(row));
++    }
++}
+ Json wrong_key_evidence_json(const WrongKeyAdmissionEvidence& evidence) {
+     bool rated = evidence.available && evidence.data_bits > 0 &&
+         evidence.passing_bits.front() == evidence.data_bits;
+@@ -3909,6 +4081,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         throw Limit("application baseline exhausts the declared total memory limit");
+     const bool retained_replay=!o.two_hop_spread_replay.empty();
+     std::unique_ptr<ObservationSpool> spool;
++    std::unique_ptr<ObservationSpool> quarter_tail;
+     std::size_t spool_reservation=0;
+     if(o.service_replay||o.hf_predictive_quiet||comparison_replay||retained_replay) {
+         const auto limit=service_spool_limit(o);
+@@ -3923,6 +4096,16 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+             throw Limit("service spool backing reservation exhausts total memory limit");
+         spool_reservation=static_cast<std::size_t>(spool->resident_reservation_bytes());
+     }
++    if(o.two_hop_quarter_power_contrast) {
++        const auto baseline=execution::process_footprint_bytes();
++        if(baseline>=s.resources.memory_limit_bytes||sizeof(ObservationSpool)>=s.resources.memory_limit_bytes-baseline)
++            throw Limit("quarter-power retained capture buffers exhaust the total memory limit");
++        quarter_tail=std::make_unique<ObservationSpool>(quarter_power_samples,
++            quarter_power_samples*ObservationSpool::row_bytes,o.two_hop_quarter_power_capture);
++        if(quarter_tail->resident_reservation_bytes()>=s.resources.memory_limit_bytes)
++            throw Limit("quarter-power retained capture backing exceeds the total memory limit");
++        spool_reservation=static_cast<std::size_t>(quarter_tail->resident_reservation_bytes());
++    }
+     const auto available_limit=s.resources.memory_limit_bytes-spool_reservation;
+     // This is the canonical one-channel/source contract also used by the
+     // native receiver probe. It includes lazy source workspace, not receipts.
+@@ -4013,13 +4196,15 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+     const auto diagnostic_slot=make_receiver_slot_plan(s.profile,s.receiver,diagnostic_index);
+     const auto diagnostic_samples=(o.mode=="diagnose"||o.mode=="hf-search"||gui_varying||known_target||o.hf_normalized_null)?
+         diagnostic_slot.stop_sample-diagnostic_slot.first_sample:0;
++    const auto quarter_capture_rows=o.two_hop_quarter_power_contrast?quarter_power_samples:0;
+     if(gui_varying&&diagnostic_samples>appraisal::hf_gui_varying_maximum_aperture_rows)
+         throw Limit("HF GUI diagnostic aperture exceeds its declared row bound");
+     if(o.hf_normalized_null&&diagnostic_samples>appraisal::hf_normalized_null_maximum_rows)
+         throw Limit("HF normalized null aperture exceeds its declared row bound");
+     const auto bytes_per_diagnostic_sample=sizeof(Complex)+(gui_varying?sizeof(std::uint8_t):0);
+     require(diagnostic_samples<=SIZE_MAX/bytes_per_diagnostic_sample,"diagnostic capture extent overflow");
+-    const auto diagnostic_bytes=static_cast<std::size_t>(diagnostic_samples)*bytes_per_diagnostic_sample;
++    const auto diagnostic_bytes=add_bytes(static_cast<std::size_t>(diagnostic_samples)*bytes_per_diagnostic_sample,
++        receiver_detail::checked_multiply(quarter_capture_rows,sizeof(Complex)));
+     const auto clean_capture_bytes=gui_clean?static_cast<std::size_t>(diagnostic_samples)*sizeof(Complex):0;
+     const auto clean_chunk_bytes=gui_clean?o.chunk*(sizeof(Complex)+sizeof(std::uint8_t)):0;
+     const auto total_diagnostic_bytes=add_bytes(diagnostic_bytes,clean_capture_bytes);
+@@ -4033,7 +4218,8 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         static_cast<std::size_t>(s.slot_horizon)*per_slot_bytes;
+     const auto evaluator_future=add_bytes(add_bytes(o.chunk*(sizeof(Complex)+1),clean_chunk_bytes),
+         add_bytes(static_cast<std::size_t>(s.slot_horizon)*pair_slot_bytes,65536+reassembly_reserve));
+-    auto future=add_bytes(add_bytes(source.working_bytes,evaluator_future),spool?spool->working_bytes():0);
++    auto future=add_bytes(add_bytes(source.working_bytes,evaluator_future),
++        spool?spool->working_bytes():quarter_tail?quarter_tail->working_bytes():0);
+     if(gui_clean)future=add_bytes(future,source.working_bytes);
+     const auto baseline=execution::process_footprint_bytes();
+     if(baseline>=available_limit||future>=available_limit-baseline||
+@@ -4136,6 +4322,12 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+             result["plan"]["vector_two_hop_source_band_checked"]=true;
+             result["plan"]["vector_two_hop_table_built"]=true;
+         }
++        if(o.two_hop_quarter_power_contrast) {
++            require(channel->report().vector_two_hop&&
++                channel->report().vector_two_hop->table_sha256==quarter_power_table_sha,
++                "quarter-power comparison did not reproduce the frozen two-hop coefficient table");
++            std::cerr<<"two-hop +3 dB-Hz coefficient table verified; beginning continuous capture\n"<<std::flush;
++        }
+     }
+     const double channel_preparation_seconds=retained_replay?0.:
+         std::chrono::duration<double>(Clock::now()-channel_begin).count();
+@@ -4209,6 +4401,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+     record_affine_boundary_policy(result,policy);
+     if(o.hf_predictive_quiet)result["plan"]["hf_predictive_quiet_active"]=predictive;
+     std::vector<Complex> diagnostic_capture(static_cast<std::size_t>(diagnostic_samples));
++    std::vector<Complex> quarter_capture(quarter_capture_rows);
+     std::vector<std::uint8_t> diagnostic_validity(gui_varying?diagnostic_capture.size():0);
+     std::vector<Complex> clean_capture(gui_clean?diagnostic_capture.size():0);
+     const auto retained_capture_reserve=(known_target||o.hf_normalized_null)?diagnostic_bytes:0;
+@@ -4244,7 +4437,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         }
+         const ServiceTimer io;spool->rewind();spool_read_time.add(io.elapsed());
+     }
+-    const bool receive=o.mode=="receive"||o.mode=="slot"||o.repeat_bit;
++    const bool receive=(o.mode=="receive"||o.mode=="slot"||o.repeat_bit)&&!o.two_hop_quarter_power_contrast;
+     if(receive||o.mode=="diagnose")s.receiver.bulk_backend=backend(o);
+     result["plan"]["outside_receiver_future_reserved_bytes"]=add_bytes(policy_future,retained_capture_reserve);
+     if(o.hf_predictive_quiet)result["plan"]["predictive_training_reserved_bytes"]=training_reserve;
+@@ -4638,6 +4831,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         before_motion_hash.emplace();
+     }
+     Hash hash;double control_seconds=0,public_search_seconds=0;std::uint64_t first=0,hashed_samples=0;
++    std::optional<std::string> verified_capture_digest;
+     std::string run_status="completed",reason;
+     try {
+         while(first<s.horizon) {
+@@ -4672,6 +4866,13 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+             }
+             hash.samples(std::span(iq).first(n),std::span(valid).first(n));
+             hashed_samples+=n;
++            if(!quarter_capture.empty()&&first+n>quarter_power_first_sample) {
++                const auto start=std::max(first,quarter_power_first_sample);
++                const auto offset=static_cast<std::size_t>(start-first);
++                require(std::ranges::all_of(mask.subspan(offset),[](auto value){return value==1;}),
++                    "quarter-power aperture requires wholly valid capture rows");
++                std::ranges::copy(rows.subspan(offset),quarter_capture.begin()+static_cast<std::size_t>(start-quarter_power_first_sample));
++            }
+             if(clean_channel) {
+                 const auto twin=std::span(clean_iq).first(n);
+                 const auto twin_mask=std::span(clean_valid).first(n);
+@@ -4743,6 +4944,18 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+             }
+             first+=n;
+         }
++        if(o.two_hop_quarter_power_contrast) {
++            verified_capture_digest=hash.finish();
++            require(hashed_samples==retained_two_hop_samples&&*verified_capture_digest==quarter_power_input_sha,
++                "quarter-power comparison did not reproduce the frozen complete noisy capture");
++            auto& contrast=result["two_hop_quarter_power_contrast"];
++            contrast=object({{"ordinary_archive_gate_passed",false},{"quarter_power_slots",Json::Array{}},
++                {"verified_full_observation_sha256",*verified_capture_digest},{"verified_table_sha256",quarter_power_table_sha},
++                {"scope","Three complete standalone DATA/null aperture pairs from one continuous wanted capture; no codec or message completion."}});
++            const auto began=Clock::now();
++            compare_quarter_power(contrast,slots,s,o,quarter_capture,iq,valid,*quarter_tail,*s.stream.memory_limit_bytes,deadline);
++            control_seconds+=std::chrono::duration<double>(Clock::now()-began).count();
++        }
+         if(o.mode=="diagnose") {
+             const auto ctl=Clock::now();
+             appraisal::diagnose_vlf_slot(result["vlf_diagnostic"],s.receiver,diagnostic_slot,s.key,
+@@ -4908,7 +5121,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+      }
+     if(receiver&&!ended){receiver->request_cancel();final=receiver->cancel();drain();}
+     std::string replay_digest;
+-    {const ServiceTimer io;replay_digest=hash.finish();if(spool)spool_read_time.add(io.elapsed());}
++    {const ServiceTimer io;replay_digest=verified_capture_digest?*verified_capture_digest:hash.finish();if(spool)spool_read_time.add(io.elapsed());}
+     const bool digest_match=spool&&hashed_samples==s.horizon&&replay_digest==captured_digest;
+     if(spool&&hashed_samples==s.horizon&&!digest_match) {
+         run_status="error";reason="service replay differed from its captured observation";
+@@ -4971,14 +5184,16 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         {"public_search_seconds",public_search_seconds},{"receiver_dsp_may_overlap_rendering",receiver_executed&&!spool},{"isolated_receiver_service_measured",bool(spool)},{"capacity_qualified",false}});
+     if(shared_render)result["timing"]["wall_includes_shared_render_per_policy"]=true;
+     if(retained_replay)result["timing"]["retained_capture_verification_seconds"]=retained_verification_seconds;
+-    result["outcomes"]=object({{"receiver_executed",receiver_executed},{"public_search_executed",public_search_executed},{"correct_complete",o.service_episodes==1&&o.mode!="slot"&&correct&&wrong_bits==0&&false_data==0&&
++    result["outcomes"]=object({{"receiver_executed",receiver_executed||(o.two_hop_quarter_power_contrast&&!slots.empty())},{"public_search_executed",public_search_executed},{"correct_complete",o.service_episodes==1&&o.mode!="slot"&&correct&&wrong_bits==0&&false_data==0&&
+             ambiguous==0&&quiet_active==0&&physical==1&&accepted_messages==1&&run_status=="completed"},
+         {"correct_decoded_complete",o.service_episodes==1&&o.mode=="receive"&&correct_decoded_candidate&&false_data==0&&premature==0&&
+             physical==1&&accepted_messages==1&&run_status=="completed"},
+-        {"communication_endpoint",o.repeat_bit?"repeated_raw_bit":o.fec=="off"?"correct_complete":"correct_decoded_complete"},
+-        {"raw_clean_endpoint",o.repeat_bit?"Repeated-bit counts are evaluated from the ordered native DATA, erasure and quiet decisions.":
++        {"communication_endpoint",o.two_hop_quarter_power_contrast?"matched_public_apertures":
++            o.repeat_bit?"repeated_raw_bit":o.fec=="off"?"correct_complete":"correct_decoded_complete"},
++        {"raw_clean_endpoint",o.two_hop_quarter_power_contrast?"Only the selected DATA and two physical quiet apertures are evaluated.":
++            o.repeat_bit?"Repeated-bit counts are evaluated from the ordered native DATA, erasure and quiet decisions.":
+             "correct_complete retains its original no-wrong-bits/no-erasures/no-false-DATA conditions"},
+-        {"decoded_endpoint",o.repeat_bit?Json{}:Json("correct_decoded_complete requires exact raw decoded payload and strict complete physical framing; native FEC may repair located errors or erasures")},
++        {"decoded_endpoint",o.repeat_bit||o.two_hop_quarter_power_contrast?Json{}:Json("correct_decoded_complete requires exact raw decoded payload and strict complete physical framing; native FEC may repair located errors or erasures")},
+         {"accepted_messages",o.repeat_bit?Json{}:Json(accepted_messages)},
+         {"physical_completions",physical},{"premature_completions",premature},{"wrong_bits",wrong_bits},{"false_data",false_data},
+         {"ambiguous_active_slots",ambiguous},{"quiet_active_slots",quiet_active},{"integrity_rejections",o.repeat_bit?Json{}:Json(rejections)},
+@@ -4986,7 +5201,7 @@ void execute(Json& result,Setup& s,const Options& o,Deadline& deadline,
+         {"missed_completion",!o.repeat_bit&&run_status=="completed"&&receiver_executed&&o.mode=="receive"&&target&&o.control!="eof"&&safe_completions<s.episode_starts.size()},{"configured_outage",s.scenario.channel.fade.first_seconds>=0},
+         {"configured_mode_voltage_transitions",configured_mode_voltage_transitions},
+         {"resumed_data_slots",resumed},{"actual_scored_slots",slots.size()},{"component_only",o.mode=="channel"||
+-            o.mode=="slot"||o.mode=="diagnose"||o.mode=="hf-search"||gui_varying||o.repeat_bit},
++            o.mode=="slot"||o.mode=="diagnose"||o.mode=="hf-search"||gui_varying||o.repeat_bit||o.two_hop_quarter_power_contrast},
+         {"resumed_data_boundary_sample",resumed_data_boundary_source=="none"?Json{}:Json(resumed_data_boundary_sample)},
+         {"resumed_data_boundary_source",resumed_data_boundary_source},
+         {"resumed_data_scope","evaluator counts complete all-valid DATA decisions within the transmitted message whose whole public observation starts at or after the selected boundary; a mode-transition boundary is the last scheduled voltage-change stop and does not guarantee recovery or correct DATA"},
+@@ -5222,6 +5437,29 @@ void run_observation(Json& result,const Options& o,Deadline& deadline,
+     auto s=setup(o,deadline.stop.get_token());deadline.check();
+     if(!o.two_hop_spread_replay.empty())s.receiver.spread_delay_seconds=two_hop_comparison_delay_seconds;
+     result["scenario"]=scenario_json(s.scenario);result["plan"]=plan_json(s,o);
++    if(o.two_hop_quarter_power_contrast) {
++        if(s.horizon>o.max_samples)throw Limit("quarter-power comparison exceeds its full continuous capture sample cap");
++        const auto selected=quarter_power_slots(s);
++        Json candidate_affine;
++        const auto supplement=quarter_power_supplement(candidate_affine);
++        Json::Array apertures;
++        for(const auto& slot:selected) {
++            const auto ordinary=receiver_slot_workspace(s.receiver,slot,s.resources.workers);
++            const auto alternate=receiver_detail::receiver_slot_workspace_with_supplement(
++                s.receiver,slot,s.resources.workers,supplement);
++            apertures.push_back(object({{"slot",slot.index},{"pattern_epoch",slot.format.epoch},
++                {"symbol_ordinal",slot.format.symbol_ordinal},{"first_sample",slot.first_sample},{"stop_sample",slot.stop_sample},
++                {"ordinary_workspace_bytes",ordinary},{"quarter_power_workspace_bytes",alternate},
++                {"quarter_power_affine_workspace_bytes",quarter_power_affine_workspace(s.receiver,slot,s.resources.workers)}}));
++        }
++        result["plan"]["two_hop_quarter_power_contrast"]=object({{"apertures",std::move(apertures)},
++            {"full_capture_rows",s.horizon},{"retained_capture_rows",quarter_power_samples},
++            {"retained_capture_bytes",quarter_power_samples*ObservationSpool::row_bytes},
++            {"capture_output",o.two_hop_quarter_power_capture},{"source_sample_limit",o.max_samples},
++            {"wall_limit_seconds",o.max_wall_seconds},{"coefficient_table_sha256_expected",quarter_power_table_sha},
++            {"full_capture_sha256_expected",quarter_power_input_sha},{"relative_gain_power",.25},
++            {"fixed_mixture_weight",quarter_power_weight},{"complete_message_evaluated",false}});
++    }
+     result["slots"]=Json::Array{};result["messages"]=Json::Array{};result["outcomes"]=object({});
+     result["backend"]=object({{"requested",o.backend},{"executed_gpu_work",false}});
+     if(o.mode=="plan") {
+@@ -5395,6 +5633,7 @@ int main(int argc,char** argv) {
+             result["hf_correlated_gain_shadow_usage"]="--hf-correlated-gain-shadow uses hf-search with full timing on a wanted lens or phase-screen aperture; evaluates a normalized stationary complex-gain mixture over the configured band";
+             result["hf_normalized_null_usage"]="--hf-normalized-null diagnoses gain-normalized directional evidence after the ordinary first slot in reference CPU hf-disturbed wanted/wrong-key runs, Helper/FEC off, automatic workers; no decisions are changed";
+             result["hf_live_gain_contrast_usage"]="--hf-live-gain-contrast compares receiver-only amplitude calibration on the same hf-disturbed seed9202 C/N0 12 dB-Hz first aperture, wanted or noise, using the ordinary scorer";
++            result["two_hop_quarter_power_contrast_usage"]="--two-hop-quarter-power-contrast --two-hop-quarter-power-capture NEW_FILE compares the ordinary and fixed quarter-power affine alternatives on three frozen +3 dB-Hz two-hop apertures. Plan or receive only.";
+             result["hf_correlated_gain_receiver_usage"]="--hf-correlated-gain-receiver opts into the fixed complex-gain fallback inside canonical lens or phase-screen receive, with the public geometry and native thresholds intact";
+             result["hf_predictive_quiet_usage"]="--hf-predictive-quiet renders once into the bounded native spool, then compares the canonical receiver with an experimental earlier-public-gap interference predictor. CPU reference plan/receive, Helper off, one episode. FEC off except the frozen hf-vector-oblique-chain-protected-clocks-tone RS20 profile with downstream protected reassembly. DATA search, ordered commits, codec and two physical quiet slots remain canonical. Both full receipts and identical input digests are retained; no operational qualification.";
+             result["hf_design_usage"]="hf-ensemble-design on the reference waveform requires all eight coefficients: --hf-primary-amplitude-hz --hf-primary-period-seconds --hf-primary-phase-radians --hf-secondary-amplitude-hz --hf-secondary-period-seconds --hf-secondary-phase-radians --hf-knot-amplitude-hz --hf-knot-seconds";
+diff --git a/docs/indexes/robust.md b/docs/indexes/robust.md
+index c1acdccb..c3a3894f 100644
+--- a/docs/indexes/robust.md
++++ b/docs/indexes/robust.md
+@@ -89,7 +89,7 @@ and [duration-planning limits](../triad-duration-planning.md).
+ | Situation | Supported starting choice | What the evidence says and when to revisit |
+ | --- | --- | --- |
+ | Peer start time, epoch or ordinal is not known | Establish a shared public calendar and keyed ordinal first. | Unknown-address acquisition is outside the current receiver scope. A retired fresh-onset prototype admitted DATA under a wrong ordinal. Broader acquisition needs competing-address and incorrect-address checks plus measured work; see [current limits](../robust-current.md#configured-calendar-reception). |
+-| Frequency uncertainty is large, but a Helper can be received | Enable the configured Helper and keep its public frequency, timing and power bounds honest. | A Helper can narrow frequency proposals without proving phase transfer or removing arrival-prior cost. Historical sampled dynamic-channel cohorts found help from stronger Helper pilots in selected weak cases; this is not universal receiver sensitivity. Revisit for fading, pilot loss or known oscillator conditions using the [Helper findings](../triad-stochastic.md) and [native validation](../validation.md#helper-acquisition-overlap-follow-through). |
++| Frequency uncertainty is large, but a Helper can be received | Enable the configured Helper and keep its public frequency, timing and power bounds honest. | Helper proposals now include the possible change of common frequency between Helper and DATA; wide motion may restore the full DATA frequency search. This repairs a measured weak stale-Helper miss, with a modest aligned-case cost in the matched observation. It does not prove phase transfer or remove arrival-prior cost. See the [Helper repair](../validation.md#weak-helper-follow-through--17-november-2026) and [historical findings](../triad-stochastic.md). |
+ | Helper phase is unstable, but its frequency is useful | Use the configured frequency proposal while retaining a DATA-only fallback within the public hypothesis set. | Frequency information can remain useful when coherent phase transfer does not. A retired blind coarse timing/epoch pilot search failed badly under relative-phase quantization; that coarse phase fit is not a universal gate for DATA. See [stochastic-channel results](../triad-stochastic.md#retained-evidence). |
+ | Channel is moving or dispersive | Use a continuous channel state across chunks and include the delayed tail in simulation. Test static and time-varying paths separately. | Selected dynamic-likelihood trials beat a static two-ray model, but had known synchronization, finite timing/epoch banks and seeded model assumptions. They do not establish field sensitivity, daily false-admission rate or blind multi-day acquisition. See [channel limits](../channel-models.md#interpretation-limits) and the dated [stochastic record](../validation-data/triad-v3/2026-11-05-stochastic/README.md). |
+ | Very short DATA windows or AGC-like power variation matter | Keep selected rate, Added Symbols, interleave, shaping and carrier spacing fixed when comparing. Treat the power-envelope screen as a diagnostic. | Correlated waveform windows found that modestly widening 75-Hz spacing to 90 Hz did not reliably pass the 100-ms screen, and one case worsened. Rate and added symbols changed the shortest passing window substantially. This is not a radio AGC, sensitivity or spectrum-compliance result. Revisit only against a declared receiver/front-end limit; see [pattern](../triad-patterns.md) and [shaping findings](../triad-shaping.md). |
+diff --git a/docs/robust-current.md b/docs/robust-current.md
+index ac3f13d6..f20443c9 100644
+--- a/docs/robust-current.md
++++ b/docs/robust-current.md
+@@ -392,10 +392,19 @@ and unchanged noise/energy. On the frozen source, triad passes 40/40, GUI
+ also passes (see the [source-bound record](validation.md#final-source-repeated-long-alarm-check--16-november-2026)).
+ These finite outcomes do not qualify full text messages, capacity or physical
+ availability.
+-Weak-Helper fallback and common-frequency tests pass selected synthetic cases,
+-but the latter costs more when stale Helper support misses DATA. See the
+-[late-clock/delay/Helper record](validation.md#late-clock-and-interior-delay-probes--16-november-2026)
+-for conditions, receipts and limits.
++The earlier weak-Helper/common-frequency tests passed selected synthetic cases
++with extra work when a stale interval missed DATA. A weaker matched observation
++then lost the bit despite identical DATA and noise. Helper frequency transfer
++now accounts for the maximum change of the declared common excursion between
++the Helper and DATA windows, after pilot consistency checks. It uses twice the
++larger of the common and atmospheric allowances, converted through the slowest
++allowed receive clock, and clips to the original coherent DATA frequency prior.
++Existing broad/empty-interval fallback restores the full prior; a useful narrow
++interval remains available when the motion allowance permits it. No timing,
++phase or gain is transferred, and no second coarse pass is added. See the
++[matched repair and costs](validation.md#weak-helper-follow-through--17-november-2026)
++and the [earlier Helper record](validation.md#late-clock-and-interior-delay-probes--16-november-2026)
++for source-bound outcomes and limits.
+ The [repeated-bit diagnosis](validation.md#repeated-single-bit-channel-diagnosis--16-november-2026)
+ records the nominal-epoch omission and subsequent calendar-age clock-resolution
+ diagnosis motivating these two bounded timing supplements. Sequential and
+diff --git a/docs/validation.md b/docs/validation.md
+index e72c2a17..274f96e4 100644
+--- a/docs/validation.md
++++ b/docs/validation.md
+@@ -43,6 +43,193 @@ public calendar, so it no longer sets a Helper slot's lease; see the
+ one-arrival coarse profile disables Helper; its bank and observation filter
+ already overlap, so Helper overlap is inapplicable to that profile.
+ 
++## Weak Helper follow-through — 17 November 2026
++
++This investigation starts from `6571cadadf504974a55f6d58cb44c16fcd674f3f`.
++The source audit finds no persistent rejected Helper state and no Helper-only
++veto on DATA: absent/weak acquisition restores the full constant-frequency
++search. Accepted Helper intervals narrow the coarse constant-frequency bank,
++while varying and drift alternatives retain wider public support. The retained
++9 dB-Hz common-frequency example succeeds with stale assistance, but loses
++about 6.18 nats and takes 5.36 rather than 1.15 seconds. That leaves a useful
++weak-signal discriminator, rather than evidence of universal fallback sensitivity.
++
++Predeclare one matched **6 dB-Hz DATA / unchanged Helper** pair using the
++retained native fixture. Keep its 6 kHz sample rate, 10.4-second bit one,
++public epoch 1793850000, ordinal 15, thermal seed 37, 0.18-second actual arrival,
++3 Hz atmospheric allowance, 7 ms declared delay and original key. Scale only
++DATA amplitude to `10^(-6/20)` against the existing 12 dB-Hz noise buffer.
++Compare aligned +1.10 Hz against the continuous common-frequency transition
++from −0.95 to +1.10 Hz during source seconds 58.6–59.7, before DATA begins.
++Require exact post-transition IQ equality, complete valid observations and
++verified zero-hypothesis statistics. Record actual Helper intervals, bit/null
++evidence, branch work and elapsed service. Preserve automatic `W=24`, at most
++360,000 aperture samples / 1.1 million channel-prefix samples, the existing
++768 MiB workspace limit, and 45 seconds for the two ordered scores.
++
++Aligned DATA with a transition miss demonstrates an assistance-related loss;
++two passes or two misses do not demonstrate that gap at this point. No extra
++level, seed or duration follows automatically. Fixture setup/censoring remains
++distinct from reception failure. The thin fixture and compact frozen evidence
++belong in `local-evidence/weak-helper-followthrough/`; retain the original
++Helper receipts. Any successful generic repair needs its own bounded controls
++and affected native checks before promotion.
++
++The single pair demonstrates an actual assistance-related miss. Aligned
++Helper gives interval `[1.00778,1.18667]` Hz, containing the +1.10 Hz DATA
++frequency, and receives correct DATA one at log evidence **24.67816**.
++The transition yields the earlier interval `[-1.02,-0.868889]` Hz and scores
++the same DATA as **QUIET**, at **17.36909**, below 21.49338. Both observations
++are complete, valid and zero-hypothesis verified. The entire post-transition
++suffix from sample 370200 matches SHA-256
++`3eb62f27729669e9abca71508f6fb0e0b2bdbe85d262318d5cd4500b32221de1`;
++DATA and noise vectors also match. The correct-bit separation remains ample
++in both arms; missing presence evidence is the immediate failure.
++
++Aligned and stale arms take 1.097 and 4.721 seconds respectively. Both retain
++`W=24`, the 359,228,115-byte quote, selected fine prior mass
++`1.27619672955e-6` and 15,102,864 fine basis rows. The aligned affine wanted
++score is 41.02237; stale assistance reduces it to 1.73851. The wider short,
++coherent-gain and drift alternatives execute but do not recover the bit.
++The full invocation takes 8.192 seconds, with no extra level or seed. Summary
++`local-evidence/weak-helper-followthrough/summary.json` (`0be7e2ac…`) binds
++fixture `6121468d…`, native source `7ec93490…` and receiver archive `a725a26b…`.
++Build-identity and ccache setup corrections occurred before DSP; their original
++logs are retained. This is a constructed in-bound frequency history, not a
++measurement of its natural incidence or persistent alarm outage duration.
++
++The first repair candidate changes the transferred interval, not the pilot
++fit or DATA threshold. If the declared common atmospheric excursion is
++`[-A,A]` at both Helper and DATA times, its change can reach `2*A`. Expand
++accepted Helper proposals by that amount after pilot consistency checks,
++clip to the existing coherent DATA prior, and retain the existing broad/empty
++interval fallback. No new historical search, second coarse pass or finer
++frequency grid is introduced. This may forgo Helper's speedup when the allowed
++motion is large relative to that prior, so measure both matched arms and a
++quiet control before accepting it. Reusing existing zero-slope drift peaks for
++a few extra coherent candidates is a conditional lower-cost alternative;
++it does not itself guarantee timing support or apply where drift is unavailable.
++First require focused transfer-bound checks, then repeat the frozen 6 dB-Hz
++pair once on unchanged captures within the same 45-second cap. Further tests
++need separate bounded declarations.
++For an enabled changing-channel profile, `A` is the maximum of its common
++Doppler and atmospheric excursion declarations, rather than their sum: the
++GUI's common allowance already includes atmospheric motion and explicit Doppler.
++The two existing fields are not independent powers or additional bandwidths.
++Native physical motion is sampled in receiver time, so the nominal-frequency
++guard also divides by `1 - endpoint_clock_bound_ppm*1e-6`, using the slowest
++allowed receiver clock. Clamping the one-sided excursion to the existing
++frequency bound before doubling avoids unnecessary range growth; the resulting
++intervals still clip to that unchanged public prior. Focused tests include
++nonzero endpoint-clock conversion and unsaturated intervals.
++
++The candidate passes the exact pair: both aligned and stale captures now
++receive correct DATA one at log evidence **25.11317**, correct-bit separation
++34.58601 and the unchanged 21.49338 threshold. Each full capture matches its
++own baseline hash; both retain the identical DATA/noise suffix. Broad transfer
++uses the existing full-search fallback, with 136 coarse frequencies instead
++of 10 aligned / 8 stale. Stale affine wanted evidence rises from 1.73851 to
++41.45739, making the later medium/drift fallback unnecessary. All observations
++are complete, valid and zero-hypothesis verified, with `W=24` and the same
++359,228,115-byte quote.
++
++Matched core slot time changes **1.097 → 1.162 seconds** aligned (about 6%
++more) and **4.721 → 1.155 seconds** stale (about 76% less). Total ordered
++acquisition/slot scoring changes 6.110 → 2.629 seconds; the candidate process
++takes 4.269 seconds. These are one paired local observation, not sustained
++capacity measurements. Candidate fixture binary `c0c98342…` links receiver
++archive `620d424f…`; the unchanged fixture source is `7436e971…`.
++
++After that positive gate, predeclare two further candidate-only observations
++within one 45-second invocation and the same sample/workspace limits: the
++stale-transition bit zero at the same 6 dB-Hz DATA level, then actual Helper
++plus the unchanged thermal noise with zero transmitted DATA. Preserve the
++same channel history, key, ordinal and public bounds; the opposite polarity
++is a source-waveform holdout, not an independent natural history. Verify the
++quiet capture against its retained exact Helper/noise digest and require valid
++physical absence scoring. Record any opposite-bit miss without an automatic
++level/seed extension. Then run the applicable native triad and GUI groups on
++the finalized source.
++
++Both controls complete within the cap, but the opposite bit remains a miss:
++bit zero is QUIET at log evidence **16.59397**, despite correct-bit separation
++25.23040. Its affine wanted evidence is 32.93060. Actual Helper-plus-noise is
++correctly QUIET at −7.73723, with full IQ matching the historical
++`4af2f6ae…ac6fb8` absence digest. Both are complete, valid, zero-hypothesis and
++noise-statistics verified, with the same `W=24` and workspace. This does not
++claim both polarities receive at 6 dB-Hz. The summary is
++`candidate-controls/summary.json` (`7ad258b1…`) under the Helper evidence
++directory. Control binary `44258224…` executes exactly one two-score invocation.
++
++The bit-zero slot takes 5.786 seconds and absence takes 15.376 seconds, despite
++equal reported coarse/fine/varying counts. The latter is not a conditional-line
++rescore; its cause cannot be attributed from those counters alone. Predeclare
++one cost comparison using the preserved current pre-repair binary `6121468d…`
++and its existing `lower-data-common-frequency-controls` command, capped at
++45 seconds with unchanged sample/workspace bounds. Its two existing observations
++are 9 dB-Hz bit zero and the exact same Helper/noise absence; the first is an
++ancillary old control, not a new sensitivity point. Compare the latter's exact
++capture and complete service with the candidate. No automatic repetitions
++follow, and historical pre-power-mixture timing is not a matched baseline.
++
++The current pre-repair binary scores the exact absence input in 5.343 seconds
++(plus 0.154 seconds of separate Helper measurement), against the candidate's
++15.376 seconds. The ancillary 9 dB-Hz bit-zero control remains correct DATA
++zero. The single command completes in 15.442 seconds; its summary is
++`pre-helper-baseline/summary.json` (`32e7bbb9…`). This preserves the observed
++2.88-fold quiet timing difference rather than dismissing it as an old-version
++comparison.
++
++However, the candidate quiet run's standalone Helper measurement also takes
++1.022 seconds, against 0.146 for the preceding candidate bit-zero observation
++and 0.154 for baseline absence. Its pilot-fit values are unchanged. Wider DATA
++frequency search cannot explain that earlier slowdown. Predeclare one further
++candidate-only quiet timing observation, capped at 45 seconds, on the exact
++same absence input. Print existing native phase times and drift-work counters,
++plus process CPU/fault/context-switch deltas around standalone Helper and full
++slot scoring, with passive host/cgroup CPU-pressure snapshots. This adds no
++receiver instrumentation or new communication history. Overlapping phase times
++are not additive. A return to ordinary timing would support a transient
++explanation; a repeated slowdown requires phase-level diagnosis. No capacity
++claim follows from either result, and no automatic repetition is authorized.
++
++## Weak physical gain-level discriminator — 17 November 2026
++
++The remaining zero-delay, one-template physical two-hop rows cannot execute
++the recently added independent short-gain power mixture. An earlier 8/32-second
++non-additive coherence extension already failed to recover the +3 dB-Hz last
++bit; the additive .5/2-second alternative improves it but remains below
++threshold. Repeating that coherence sweep is not a new discriminator. A future
++matched physical preparation must test a distinct supported mechanism, rather
++than merely relabel an old miss with a new source identity.
++
++Predeclare one native physical preparation for the original +3 dB-Hz `E`
++history: `hf-vector-two-hop`, requested 128-second / actual 139.2-second DATA,
++reference/RRC, oscillator seed 73613, noise seed 93613, Helper/FEC Off and
++unchanged zero declared spread/clock with the 5 Hz atmospheric allowance.
++The complete 4,300,572-row render must reproduce the archived table `ff2b3…`
++and full IQ `fed418cd…`. Retain only the contiguous 844,697-row tail spanning
++DATA slot 12 and physical quiet slots 13–14. Require ordinary evidence parity
++with 16.603733824, −6.858888619 and −6.775606922 before interpreting the contrast.
++
++For each unchanged aperture and its ordinary fine coordinates, use existing
++native `score_fine` with half the DATA basis amplitude, equivalent to one fixed
++quarter-power gain covariance. Combine it using the existing supplement
++interface with fixed mass 1/8, retaining 7/8 for the ordinary receiver and all
++public coordinate/noise/line accounting. This is a private causal diagnostic,
++not a promoted receiver model or channel-truth input. One preparation and one
++render are allowed, at most 720 seconds aggregate, 4.35 million full samples,
++0.9 million retained tail rows, automatic `W=24` and the exact ordinary workspace
++admission. Plan/sample preflights precede field computation. Keep the bounded
++capture until disposition so a positive result can be evaluated without another
++field solve. No variance, coherence, energy or seed sweep follows automatically.
++
++The recorded-voltage Gannon variance-only failures in
++[the appraisal](../_appraisal/highFidelity-triple_Robust_Modem/hf-recorded-diagnosis.md#frozen-selected-cell-variance-check)
++remain contrary evidence: their unpartitioned and independently partitioned
++banks do not qualify this different correlated stationary-plus-OU physical
++aperture, and this experiment cannot overturn those failures by implication.
++
+ ## Weak combined-modulation follow-through — 17 November 2026
+ 
+ This investigation starts from `c1f1f0f`, following the committed direct-gain
+diff --git a/src/triad_receiver_helper.cpp b/src/triad_receiver_helper.cpp
+index 7d4dc3cb..1a76ef9b 100644
+--- a/src/triad_receiver_helper.cpp
++++ b/src/triad_receiver_helper.cpp
+@@ -50,7 +50,8 @@ bool bounded_uncertainty(const ReceiverConfig& c) {
+     for (double value : {c.clock_bound_ppm * 1e-6, c.endpoint_clock_bound_ppm * 1e-6, c.spread_delay_seconds,
+                         c.delay_excursion_seconds, c.random_doppler_width_hz, c.spread_doppler_hz,
+                         c.delay_motion_doppler_bound_hz, c.capture_tail_bound_seconds,
+-                        c.relative_phase_diffusion_rad_sqrt_s})
++                        c.relative_phase_diffusion_rad_sqrt_s, c.time_varying_atmospheric_hz,
++                        c.time_varying_common_doppler_hz})
+         if (!std::isfinite(value) || value < 0) return false;
+     return true;
+ }
+@@ -495,9 +496,19 @@ FrequencyResult final_frequency(const ReceiverConfig& c, const ReceiverSlotPlan&
+         for (auto a : usable[0]) for (auto b : usable[1]) intersect |= std::max(a[0], b[0]) <= std::min(a[1], b[1]);
+         if (!intersect) return finish("pilot_frequency_regions_inconsistent");
+     }
++    // The fitted intervals describe the Helper aperture. A shared
++    // atmospheric offset can move from either end of its signed allowance
++    // to the other before DATA starts. Apply that transfer guard after
++    // checking the two simultaneous pilot fits for consistency. The common
++    // allowance can already include atmospheric motion. Convert the signed
++    // excursion with the slowest receive clock before clipping to the DATA prior.
++    const auto common_excursion = c.time_varying_channel ?
++        std::max(c.time_varying_common_doppler_hz, c.time_varying_atmospheric_hz) : 0.;
++    const auto transfer = 2 * std::min(common_excursion / (1 - endpoint), c.frequency_bound_hz);
+     std::vector<Interval> all;
+     for (const auto& pilot : usable) for (auto v : pilot) {
+-        const double lo = std::max(-c.frequency_bound_hz, v[0]), hi = std::min(c.frequency_bound_hz, v[1]);
++        const double lo = std::max(-c.frequency_bound_hz, v[0] - transfer);
++        const double hi = std::min(c.frequency_bound_hz, v[1] + transfer);
+         if (lo <= hi) all.push_back({lo, hi});
+     }
+     result.intervals = merge(std::move(all));
+diff --git a/tests/test_triad_native_helper.cpp b/tests/test_triad_native_helper.cpp
+index c3492b21..d6866c09 100644
+--- a/tests/test_triad_native_helper.cpp
++++ b/tests/test_triad_native_helper.cpp
+@@ -390,12 +390,54 @@ void fallbacks_and_bounds() {
+     std::stop_source cancelled; cancelled.request_stop();
+     rejects([&] { score_helper(f.config, f.slot, f.input, f.valid, scratch_limit, cancelled.get_token()); }, "Helper ignored cancellation");
+ }
++
++void atmospheric_motion_guards_data_frequency_transfer() {
++    auto f = fixture();
++    f.config.time_varying_channel = true;
++    const auto stationary = score(f);
++    check(stationary.narrowed && stationary.intervals.size() == 1,
++          "Helper transfer fixture did not acquire its stable interval");
++
++    f.config.time_varying_atmospheric_hz = .25;
++    const auto widened = score(f);
++    check(widened.narrowed && widened.intervals.size() == 1 &&
++          widened.onset_intervals == stationary.onset_intervals &&
++          widened.frequency_observation_seconds == stationary.frequency_observation_seconds &&
++          widened.workspace_peak_bytes == stationary.workspace_peak_bytes,
++          "bounded atmospheric motion should widen the transfer without changing the pilot observation");
++    const auto transfer = [&](double excursion) { return 2 * excursion / (1 - f.config.endpoint_clock_bound_ppm * 1e-6); };
++    near(widened.intervals.front().lower_hz, stationary.intervals.front().lower_hz - transfer(.25),
++         "Helper transfer omitted negative inter-window atmospheric motion");
++    near(widened.intervals.front().upper_hz, stationary.intervals.front().upper_hz + transfer(.25),
++         "Helper transfer omitted positive inter-window atmospheric motion");
++
++    f.config.time_varying_atmospheric_hz = 0;
++    f.config.time_varying_common_doppler_hz = .375;
++    const auto common = score(f);
++    check(common.narrowed && common.intervals.size() == 1, "explicit common motion should retain useful narrowing");
++    near(common.intervals.front().lower_hz, stationary.intervals.front().lower_hz - transfer(.375),
++         "Helper transfer omitted explicit common motion");
++    near(common.intervals.front().upper_hz, stationary.intervals.front().upper_hz + transfer(.375),
++         "Helper transfer omitted explicit common motion");
++    f.config.time_varying_atmospheric_hz = .25;
++    check(same(score(f), common), "Helper transfer counted the common and atmospheric allowances twice");
++
++    f.config.time_varying_atmospheric_hz = 3.;
++    const auto broad = score(f);
++    check(!broad.narrowed && broad.intervals.empty() && broad.reason == "onset_branch_frequency_fallback" &&
++          broad.onset_intervals == stationary.onset_intervals,
++          "a broad transfer must leave the full DATA frequency prior available");
++
++    f.config.time_varying_channel = false;
++    check(same(score(f), stationary), "stationary DATA search must keep the original Helper proposal");
++}
+ } // namespace
+ 
+ int main() {
+     try {
+         numerical_parity();
+         fallbacks_and_bounds();
++        atmospheric_motion_guards_data_frequency_transfer();
+         lanes_do_not_change_the_result();
+         signed_calendars_and_multiple_apertures();
+         workspace_bound_covers_live_scratch();

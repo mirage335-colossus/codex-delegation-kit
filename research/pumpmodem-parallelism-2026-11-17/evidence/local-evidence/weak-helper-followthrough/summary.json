@@ -1,0 +1,208 @@
+{
+  "arm_outcomes": {
+    "aligned": {
+      "all_valid": true,
+      "bit": 1,
+      "bit_separation": 34.2458954033,
+      "coarse_points": 10,
+      "complete": true,
+      "consumed_samples": 314643,
+      "contains_actual_hz": 1.1,
+      "decision": "DATA",
+      "fine_rows": 15102864,
+      "full_varying_points": 41,
+      "gain_candidates": 2,
+      "gain_emission_cells": 25152,
+      "gain_states": 3,
+      "helper_interval_hz": [
+        1.00777777778,
+        1.18666666667
+      ],
+      "helper_pilot_scores": [
+        97.6083042913,
+        153.667230411
+      ],
+      "helper_seconds": 0.148978422,
+      "minimum_bit_separation": 5.29330482472,
+      "onset_ratio": 1.85383661143,
+      "operational_bit_evidence": [
+        -8.87459195741,
+        25.3713034459
+      ],
+      "operational_log_e": 24.6781562654,
+      "operational_threshold": 21.4933786883,
+      "ordinary_bit_evidence": [
+        7.14780447025,
+        13.88296621
+      ],
+      "score_seconds": 1.096796811,
+      "selected_prior_mass": 1.27619672955e-06,
+      "varying_rows": 40274304,
+      "workspace_bytes": 359228115,
+      "zero_h0_verified": true
+    },
+    "common_transition": {
+      "all_valid": true,
+      "coarse_points": 8,
+      "complete": true,
+      "consumed_samples": 314643,
+      "contains_actual_pretransition_hz": -0.95,
+      "decision": "QUIET",
+      "fine_rows": 15102864,
+      "full_varying_points": 41,
+      "gain_candidates": 2,
+      "gain_emission_cells": 25152,
+      "gain_states": 3,
+      "helper_interval_hz": [
+        -1.02,
+        -0.868888888889
+      ],
+      "helper_pilot_scores": [
+        92.867072392,
+        163.29581876
+      ],
+      "helper_seconds": 0.143425732,
+      "minimum_bit_separation": 5.29330482472,
+      "onset_ratio": 1.6899401814,
+      "operational_bit_evidence": [
+        -7.0767904762,
+        18.062240469
+      ],
+      "operational_log_e": 17.3690932884,
+      "operational_separation": 25.1390309451,
+      "operational_threshold": 21.4933786883,
+      "ordinary_bit_evidence": [
+        7.13692205937,
+        7.1722306754
+      ],
+      "score_seconds": 4.720999416,
+      "selected_prior_mass": 1.27619672955e-06,
+      "varying_rows": 41532876,
+      "workspace_bytes": 359228115,
+      "zero_h0_verified": true
+    }
+  },
+  "baseline_head": "6571cadadf504974a55f6d58cb44c16fcd674f3f",
+  "compile_review": "design_review read-only GO preceded build/execution",
+  "compile_setup_failure_preserved": {
+    "DSP_runs_before_retry": 0,
+    "follow_on_link_error": "failed because the compile produced no discriminator.o",
+    "initial_error": "ccache: error: Read-only file system",
+    "successful_retry_used_workspace_cache": true
+  },
+  "design_reviewed_fixture_sha256": "7436e97168186bd597bca47b3741b6866146240513e4ba53526bfd8c385a733e",
+  "execution": {
+    "command_file": "execution.command.txt",
+    "compile_setup_error_preserved": true,
+    "elapsed_wall_seconds": 8.192344188690186,
+    "end_epoch_seconds": 1794909109.197354,
+    "exit_code": 0,
+    "fixture_binary_sha256": "6121468df3fef4b5aed6e273a6bea47c480572e527dfbf6ba9ac82bee1d1faff",
+    "fixture_object_sha256": "c29ee07f1082de2cf1d19a9d0103c4365f067c69e0ea49927072444355b416db",
+    "fixture_source_sha256": "7436e97168186bd597bca47b3741b6866146240513e4ba53526bfd8c385a733e",
+    "native_library_build_log_sha256": "e7de63fbcc81e85323a2d76de93ea27b03a6ff379233cdb5427b91a651c79d80",
+    "native_library_build_result": "PASS, no work after current HEAD CMake refresh",
+    "native_source_sha256": "7ec934902b9fb8f4501527a0c48dabe48d086fa275c28949deb5a2f96d7be915",
+    "plan_sha256": "1115081312244567441a137cc67d0b6ea620c3b83e64130d7bf0c0b92c5a96e3",
+    "receiver_archive_sha256": "a725a26b4eb0a3e15afc773bec49da2d6b540504f4bb2bfecc458064a078ad7e",
+    "source_commit": "6571cadadf504974a55f6d58cb44c16fcd674f3f",
+    "start_epoch_seconds": 1794909101.00501,
+    "status_sha256": "6f708c3f989a786374ace78c4845bc9bd33be48d667b529699061d361ab9abba",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "77f749506cc24314f84b9f0882661458c480b60c5bb3227a7500e6cac1dcd85f",
+    "timeout_seconds": 45,
+    "timeout_triggered": false
+  },
+  "files_sha256": {
+    "cmake-configure.log": "2758b2dde7841f39723bf4d56ff42b81102afc2322cb644fb38dbcd3c11cfee6",
+    "discriminator-compile-retry.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "discriminator-compile.log": "8e22534c53b4f749c646f126306b7f73f3d6e74ddafca6f5493bf692aedc957b",
+    "discriminator-link-retry.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "discriminator-link.log": "2bb3d7fb88b84cd74a6288ba9dde7699dabf3511f978f3047f9c6d4521325576",
+    "execution.command.txt": "8d546e9fbdf75e39624807b11e8cd2f89a1bb0bb48265d1d477852dd8caf914a",
+    "execution.json": "9ec5e84fd3489d188bdf2c81040e4f5c80f344edc992f05dc24bfc10aa3b2188",
+    "native-library-build.log": "e7de63fbcc81e85323a2d76de93ea27b03a6ff379233cdb5427b91a651c79d80",
+    "plan.json": "1115081312244567441a137cc67d0b6ea620c3b83e64130d7bf0c0b92c5a96e3",
+    "run.command.txt": "9a3fb6b045c26855b24047f44327efcfb3f30fc9af3482cb1f69e53111876640",
+    "run.status.txt": "6f708c3f989a786374ace78c4845bc9bd33be48d667b529699061d361ab9abba",
+    "run.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run.stdout.txt": "77f749506cc24314f84b9f0882661458c480b60c5bb3227a7500e6cac1dcd85f"
+  },
+  "input_and_geometry": {
+    "aggregate_score_seconds": 6.110200381,
+    "aggregate_score_seconds_max": 45,
+    "aperture_first_sample": 129599,
+    "aperture_rows": 314643,
+    "aperture_stop_sample": 444242,
+    "arrival_prior_seconds": [
+      -0.4,
+      0.4
+    ],
+    "arrival_seconds": 0.18,
+    "atmospheric_bound_hz": 3,
+    "base_data_plus_noise_sha256": "9f2ce5534fd42f0d57d49994afae54d88f101f6380fb2c90f8d88e6f61c3beae",
+    "bit_seconds": 10.4,
+    "data_amplitude": 0.501187233627,
+    "data_bit": 1,
+    "data_cn0_db_hz": 6,
+    "data_energy_over_noise": 41.4245800206,
+    "data_sha256": "835f6ba479795eafc2624a30ac651de0c5ee0bf1c0034fd365ebf2a29f35b789",
+    "epoch": 1793850060,
+    "external_elapsed_seconds": 8.192344188690186,
+    "external_hard_timeout_seconds": 45,
+    "hardware_threads": 12,
+    "helper_data_power_w": 4,
+    "helper_energy_over_noise": 779.013016568,
+    "helper_noise_construction": "One actual native Helper vector and one native thermal-noise vector were created once and reused unchanged by both arms.",
+    "helper_power_w": 8,
+    "helper_voltage": 1,
+    "horizon_stop_sample": 444242,
+    "max_aperture_rows": 360000,
+    "max_horizon_samples": 1100000,
+    "max_workspace_lease_bytes": 805306368,
+    "noise_seed": 37,
+    "noise_variance": 378.574406688,
+    "oscillator_bound_hz": 1.5,
+    "sample_rate_hz": 6000,
+    "score_arm_count": 2,
+    "spread_delay_seconds": 0.007,
+    "symbol_ordinal": 15,
+    "thermal_noise_sha256": "06be41ad02fa20526c2dbd75aba542a604306c24693579376a19a1e425a59de3",
+    "workers": 24,
+    "workspace_lease_bytes": 359228115
+  },
+  "interpretation": "On this single native fixture, the same DATA and noise vectors and exact IQ suffix after the common-frequency transition yield correct DATA bit1 when Helper history is aligned, but QUIET after a Helper-only smooth \u22120.95\u2192+1.10 Hz transition. Both Helper searches returned intervals containing their actual frequency at Helper fit. This is a bounded diagnostic of sensitivity to earlier Helper/common-frequency history only; it does not qualify production reception or availability.",
+  "native_identity": {
+    "compiler": "GNU-14.2.0",
+    "configuration": "Release",
+    "native_source_sha256": "7ec934902b9fb8f4501527a0c48dabe48d086fa275c28949deb5a2f96d7be915",
+    "other_linked_archives_sha256": {
+      "libdatapump.a": "9012ce88610ca7f7c0b0f1c6620d36e2c3dff91a3a2c8cb79bfb1b2c7ed90e4a",
+      "libdatapump_background_noise.a": "3061bc7a6abd63da961191f217fb6a27d35856eb79d937c30169b7d6f5e909ff",
+      "libdatapump_fft.a": "8ec251d8d0a0fa65c56a0f4fe94e6aef0dd841a8f19acad11cdfbb433a27b22e",
+      "libdatapump_robust_session.a": "9f0cab812efd7537b90b595b02f51944f7da1049ada79e1d0f3edf0bfa388ecd",
+      "libdatapump_triad.a": "0cee0293c5ba6fc9ce21f8017282d428dc2baa45d4fd03da0a830d5492d5c847",
+      "libdatapump_triad_receiver.a": "a725a26b4eb0a3e15afc773bec49da2d6b540504f4bb2bfecc458064a078ad7e",
+      "third_party/xz/liblzma.a": "7014c98a490af562094a8f0348e934293e30ac81f2f2d9cf897b4583fcdc4c94"
+    },
+    "receiver_archive_sha256": "a725a26b4eb0a3e15afc773bec49da2d6b540504f4bb2bfecc458064a078ad7e",
+    "source_commit": "6571cadadf504974a55f6d58cb44c16fcd674f3f"
+  },
+  "plan_sha256": "1115081312244567441a137cc67d0b6ea620c3b83e64130d7bf0c0b92c5a96e3",
+  "purpose": "Single predeclared matched-pair native Helper discriminator, not production qualification.",
+  "scope_stop": "Exactly one paired invocation; no follow-on noise, level, seed or other mode.",
+  "trajectory_and_matching": {
+    "aligned_late_suffix_sha256": "3eb62f27729669e9abca71508f6fb0e0b2bdbe85d262318d5cd4500b32221de1",
+    "exact_suffix_match": true,
+    "first_nonzero_data_sample": 375482,
+    "helper_aperture_guard_passed": true,
+    "same_late_suffix_first_sample": 370200,
+    "transition_frequency_max_hz": 1.10000000004,
+    "transition_frequency_min_hz": -0.950000000074,
+    "transition_late_suffix_sha256": "3eb62f27729669e9abca71508f6fb0e0b2bdbe85d262318d5cd4500b32221de1",
+    "transition_samples_global": [
+      363600,
+      370200
+    ]
+  }
+}

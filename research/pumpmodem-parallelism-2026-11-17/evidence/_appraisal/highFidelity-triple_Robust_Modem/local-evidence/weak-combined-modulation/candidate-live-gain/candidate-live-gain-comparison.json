@@ -1,0 +1,970 @@
+{
+  "acceptance": {
+    "aggregate_elapsed_seconds": 36.844675276995986,
+    "all_tiers_valid_complete_h0": true,
+    "full_W24_both_arms": true,
+    "noise_matches_archived_sha": "4f33a0703fdb736b2c0b458e8119d93fd138d99f7dfee28008ca6d1537ec1ab5",
+    "noise_reference_and_target_both_quiet": true,
+    "wanted_exact_archived_sha": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+    "wanted_reference_and_target_both_correct_bit0": true
+  },
+  "aggregate_cap_seconds": 240,
+  "appraisal_source_sha256": "b880e6b40e51c45d118607e250cb49ce6ef8533d32cdf7826c9c996c041b329d",
+  "arms": {
+    "noise": {
+      "baseline": {
+        "actual_slot": {
+          "all_valid": true,
+          "bit": null,
+          "complete": true,
+          "decision": "quiet"
+        },
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "appraisal_source_sha256": "991e48cddf39b1bf6c1ed4100cdfbc2bb1f512333871746b52f1fb99934038fa",
+        "comparison_seconds": 8.537087295,
+        "elapsed_seconds": 17.010642972003552,
+        "exit_code": 0,
+        "hashed_samples": 268361,
+        "input_sha256": "4f33a0703fdb736b2c0b458e8119d93fd138d99f7dfee28008ca6d1537ec1ab5",
+        "native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "source_data_energy_sample_sum": 0,
+        "stdout_sha256": "6191e86d04eaa74514ce8e22ec3efdd96dfeeabaf85857280a7b1e4e30038eb2",
+        "tiers": {
+          "reference": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": null,
+            "bit_evidence": [
+              -5.1237627949449305,
+              -5.110844646391316
+            ],
+            "bit_separation": 0.012918148553614728,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.904294244,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "quiet",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 7.296201232,
+            "independent_gain_emission_cells": null,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                -79.00260055877712,
+                -83.0789825517859
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": null
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -9.270693485178482,
+                -10.737304317104456
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -2.3075503374470325,
+                -1.2592502679853204
+              ],
+              "short_frequency_log_prior_adjustment": 11.740250262677662,
+              "short_frequency_track": [
+                -0.2506419275671779,
+                -0.23764022716957595
+              ],
+              "short_varying": [
+                10.662930780446812,
+                10.675934330420839
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": -5.117282860992909,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 57083.684764059166,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "scored_public_quiet_aperture",
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.543894972,
+            "varying_fine_seconds": 5.26851343,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          },
+          "target": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": null,
+            "bit_evidence": [
+              -6.781876597864369,
+              -6.727465603322406
+            ],
+            "bit_separation": 0.0544109945419633,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.957666744,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "quiet",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 7.574758773,
+            "independent_gain_emission_cells": null,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                -16650.598425363158,
+                -16662.182681322596
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": null
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -18.473324431883537,
+                -19.94036893845293
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -2145.6045228327603,
+                -2118.655133173582
+              ],
+              "short_frequency_log_prior_adjustment": 11.740250262677662,
+              "short_frequency_track": [
+                -1.90864418479103,
+                -1.8542331445275408
+              ],
+              "short_varying": [
+                9.004927504702165,
+                9.059338544965653
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": -6.754301076693987,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 57083.684764059166,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "scored_public_quiet_aperture",
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.6203191290000001,
+            "varying_fine_seconds": 5.469594908,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          }
+        }
+      },
+      "candidate": {
+        "accepted_samples": 268361,
+        "actual_slot": {
+          "all_valid": true,
+          "bit": null,
+          "complete": true,
+          "decision": "quiet"
+        },
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "appraisal_source_sha256": "b880e6b40e51c45d118607e250cb49ce6ef8533d32cdf7826c9c996c041b329d",
+        "comparison_seconds": 9.652982419,
+        "contains_signal_energy": false,
+        "elapsed_seconds": 19.219899685005657,
+        "exit_code": 0,
+        "hashed_samples": 268361,
+        "input_sha256": "4f33a0703fdb736b2c0b458e8119d93fd138d99f7dfee28008ca6d1537ec1ab5",
+        "native_source_sha256": "104db8fa51a68de1f28199fa446afc664d02dd1e49512c8547b1dfaccdb56124",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "signal_energy_sample_sum": 0,
+        "source_data_energy_sample_sum": 0,
+        "stdout_sha256": "c89f65b1167e03e8bf31200eef29f2cd9c92c64182a80fa8b2aaa45b659a6159",
+        "tiers": {
+          "reference": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": null,
+            "bit_evidence": [
+              -5.109915969671003,
+              -5.097110186648936
+            ],
+            "bit_separation": 0.012805783022066919,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.987636512,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "quiet",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 8.339345922,
+            "independent_gain_emission_cells": 872144,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                8.46971501463959,
+                8.47442885143637
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": [
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -79.00260055877712,
+                    -83.0789825517859
+                  ],
+                  "prior": 0.75,
+                  "relative_power": 1
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    9.111275554913618,
+                    9.110735138127136
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.0625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    10.051129528671893,
+                    10.062156230098163
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.00390625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    10.125793964819096,
+                    10.126522730967118
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.000244140625
+                }
+              ]
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -9.270693485178482,
+                -10.737304317104456
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -2.3075503374470325,
+                -1.2592502679853204
+              ],
+              "short_frequency_log_prior_adjustment": 11.740250262677662,
+              "short_frequency_track": [
+                -0.2506419275671779,
+                -0.23764022716957595
+              ],
+              "short_varying": [
+                10.67677912651136,
+                10.689669133695087
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": -5.10349257979018,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 57083.684764059166,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "scored_public_quiet_aperture",
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.6226557810000001,
+            "varying_fine_seconds": 6.001414662,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          },
+          "target": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": null,
+            "bit_evidence": [
+              -6.7620513646454175,
+              -6.70768687979687
+            ],
+            "bit_separation": 0.05436448484854761,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.965878772,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "quiet",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 8.681424998,
+            "independent_gain_emission_cells": 872144,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                7.173498350447256,
+                7.225537272580479
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": [
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -16650.598425363158,
+                    -16662.182681322596
+                  ],
+                  "prior": 0.75,
+                  "relative_power": 1
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -1831.3571180056613,
+                    -1849.5178859070252
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.0625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -7.283461842882602,
+                    -8.519421620357072
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.00390625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    9.658404956357872,
+                    9.710443910266122
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.000244140625
+                }
+              ]
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -18.473324431883537,
+                -19.94036893845293
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -2145.6045228327603,
+                -2118.655133173582
+              ],
+              "short_frequency_log_prior_adjustment": 11.740250262677662,
+              "short_frequency_track": [
+                -1.90864418479103,
+                -1.8542331445275408
+              ],
+              "short_varying": [
+                9.024752739069411,
+                9.079117268741387
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": -6.734499730555179,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 57083.684764059166,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "scored_public_quiet_aperture",
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.662853109,
+            "varying_fine_seconds": 6.221304229,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          }
+        },
+        "workers": 24
+      },
+      "exact_input_hash_match": true,
+      "public_geometry_match": true,
+      "source_energy_exact": true,
+      "work_counts_match_by_tier": {
+        "reference": {
+          "basis_rows": true,
+          "candidate_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "coarse_arrival_points": true,
+          "coarse_frequency_points": true,
+          "coarse_workspaces": true,
+          "consumed_samples": true,
+          "fine_candidates": true,
+          "old_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "varying_basis_rows": true,
+          "varying_blocks": true,
+          "varying_candidates": true,
+          "workers": true
+        },
+        "target": {
+          "basis_rows": true,
+          "candidate_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "coarse_arrival_points": true,
+          "coarse_frequency_points": true,
+          "coarse_workspaces": true,
+          "consumed_samples": true,
+          "fine_candidates": true,
+          "old_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 30056432,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "varying_basis_rows": true,
+          "varying_blocks": true,
+          "varying_candidates": true,
+          "workers": true
+        }
+      }
+    },
+    "wanted": {
+      "baseline": {
+        "actual_slot": {
+          "all_valid": true,
+          "bit": 0,
+          "complete": true,
+          "decision": "data"
+        },
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "appraisal_source_sha256": "991e48cddf39b1bf6c1ed4100cdfbc2bb1f512333871746b52f1fb99934038fa",
+        "comparison_seconds": 7.951093203,
+        "elapsed_seconds": 16.01026927899511,
+        "exit_code": 0,
+        "hashed_samples": 268361,
+        "input_sha256": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+        "native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "source_data_energy_sample_sum": 267318.0235465794,
+        "stdout_sha256": "dc913aed0ba7b6f0159572cae2316a97e0d0e5213e8ee233ad5f03a040cb4b99",
+        "tiers": {
+          "reference": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": 0,
+            "bit_evidence": [
+              52.35109395464505,
+              2.1620273258445506
+            ],
+            "bit_separation": 50.189066628800504,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.955037365,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "data",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 6.584198934,
+            "independent_gain_emission_cells": null,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                70.21733965738831,
+                19.945120448829776
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": null
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -9.199782710077727,
+                -10.359068038123874
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                6.0499259290206995,
+                6.087523344280423
+              ],
+              "short_frequency_log_prior_adjustment": 11.634889747019836,
+              "short_frequency_track": [
+                4.445810498886139,
+                4.612215033588365
+              ],
+              "short_varying": [
+                68.13789811570847,
+                17.94883146139145
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": 51.657946774085104,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 59214.175179472826,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "bounded_varying_channel_data_evidence",
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.588251272,
+            "varying_fine_seconds": 4.565762731,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          },
+          "target": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": null,
+            "bit_evidence": [
+              21.121190797977086,
+              23.52302161251817
+            ],
+            "bit_separation": 2.4018308145410856,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.911425155,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "ambiguous",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 7.035375005,
+            "independent_gain_emission_cells": null,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                -15805.958784305902,
+                -16014.645381717464
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": null
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -18.402622649123813,
+                -19.56203446485738
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -1949.117878772129,
+                -1943.603113634805
+              ],
+              "short_frequency_log_prior_adjustment": 11.634889747019836,
+              "short_frequency_track": [
+                26.099783785205126,
+                28.50161459974621
+              ],
+              "short_varying": [
+                36.907994959040494,
+                39.30982577358158
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": 22.91655843806389,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 59214.175179472826,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "varying_channel_bit_evidence_too_close",
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.596507436,
+            "varying_fine_seconds": 4.918072912,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          }
+        }
+      },
+      "candidate": {
+        "accepted_samples": 268361,
+        "actual_slot": {
+          "all_valid": true,
+          "bit": 0,
+          "complete": true,
+          "decision": "data"
+        },
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "appraisal_source_sha256": "b880e6b40e51c45d118607e250cb49ce6ef8533d32cdf7826c9c996c041b329d",
+        "comparison_seconds": 8.717450122,
+        "contains_signal_energy": true,
+        "elapsed_seconds": 17.62477559199033,
+        "exit_code": 0,
+        "hashed_samples": 268361,
+        "input_sha256": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+        "native_source_sha256": "104db8fa51a68de1f28199fa446afc664d02dd1e49512c8547b1dfaccdb56124",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "signal_energy_sample_sum": 265782.71306285175,
+        "source_data_energy_sample_sum": 267318.0235465794,
+        "stdout_sha256": "eb38df80578e8dab966f03e1b85dae351ab3599333a79a66d034e3605ca8fa4c",
+        "tiers": {
+          "reference": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": 0,
+            "bit_evidence": [
+              52.063411882193265,
+              1.9021508502104374
+            ],
+            "bit_separation": 50.161261031982825,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.940900412,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "data",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 7.494252828,
+            "independent_gain_emission_cells": 872144,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                69.92965758493652,
+                19.659174901651554
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": [
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    70.21733965738831,
+                    19.945120448829776
+                  ],
+                  "prior": 0.75,
+                  "relative_power": 1
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    27.657299887167767,
+                    15.778678264698073
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.0625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    10.60328704513271,
+                    10.499463944719565
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.00390625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    10.158645007284084,
+                    10.153866873486962
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.000244140625
+                }
+              ]
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -9.199782710077727,
+                -10.359068038123874
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                6.0499259290206995,
+                6.087523344280423
+              ],
+              "short_frequency_log_prior_adjustment": 11.634889747019836,
+              "short_frequency_track": [
+                4.445810498886139,
+                4.612215033588365
+              ],
+              "short_varying": [
+                67.85021604325668,
+                17.688954978184803
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": 51.37026470163332,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 59214.175179472826,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "bounded_varying_channel_data_evidence",
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.574308457,
+            "varying_fine_seconds": 5.175787609,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          },
+          "target": {
+            "all_valid": true,
+            "basis_rows": 12881328,
+            "bit": 0,
+            "bit_evidence": [
+              71.50984449310151,
+              23.523071247587595
+            ],
+            "bit_separation": 47.986773245513916,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_seconds": 0.963696932,
+            "complete": true,
+            "consumed_samples": 268361,
+            "decision": "data",
+            "expected_bit": null,
+            "fine_candidates": 4,
+            "fine_seconds": 7.750068052,
+            "independent_gain_emission_cells": 872144,
+            "independent_gain_state": {
+              "basis_rows": 2146888,
+              "bit_evidence_before_public_prior": [
+                89.37609019584477,
+                31.478479203650004
+              ],
+              "candidates": 2,
+              "frequency_states": 13,
+              "power_models": [
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -15805.958784305902,
+                    -16014.645381717464
+                  ],
+                  "prior": 0.75,
+                  "relative_power": 1
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    -1318.9120086152716,
+                    -1483.1442434656788
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.0625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    91.86099684563277,
+                    33.96338585299834
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.00390625
+                },
+                {
+                  "bit_evidence_before_power_and_public_priors": [
+                    15.255871559597093,
+                    12.418375811878185
+                  ],
+                  "prior": 0.08333333333333333,
+                  "relative_power": 0.000244140625
+                }
+              ]
+            },
+            "likelihood_components": {
+              "affine_selected_prior_mass": 0.027972027972027986,
+              "fixed_affine": [
+                -18.402622649123813,
+                -19.56203446485738
+              ],
+              "linear_drift": null,
+              "medium_coherent_gain": null,
+              "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+              "short_fixed_gain": [
+                -1949.117878772129,
+                -1943.603113634805
+              ],
+              "short_frequency_log_prior_adjustment": 11.634889747019836,
+              "short_frequency_track": [
+                26.099783785205126,
+                28.50161459974621
+              ],
+              "short_varying": [
+                87.29664865416493,
+                39.309875408651
+              ],
+              "slow_gain_coherence_seconds": [
+                0.5,
+                2
+              ]
+            },
+            "operational_log_e": 70.81669731254156,
+            "operational_threshold": 21.493378688261398,
+            "quiet_energy": 59214.175179472826,
+            "quiet_threshold": 58114.03073886095,
+            "reason": "bounded_varying_channel_data_evidence",
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "varying_coarse_seconds": 0.668511308,
+            "varying_fine_seconds": 5.354943081,
+            "workers": 24,
+            "workspace_peak_bytes": 629000553,
+            "zero_h0_verified": true
+          }
+        },
+        "workers": 24
+      },
+      "exact_input_hash_match": true,
+      "public_geometry_match": true,
+      "source_energy_exact": true,
+      "work_counts_match_by_tier": {
+        "reference": {
+          "basis_rows": true,
+          "candidate_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "coarse_arrival_points": true,
+          "coarse_frequency_points": true,
+          "coarse_workspaces": true,
+          "consumed_samples": true,
+          "fine_candidates": true,
+          "old_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "varying_basis_rows": true,
+          "varying_blocks": true,
+          "varying_candidates": true,
+          "workers": true
+        },
+        "target": {
+          "basis_rows": true,
+          "candidate_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "coarse_arrival_points": true,
+          "coarse_frequency_points": true,
+          "coarse_workspaces": true,
+          "consumed_samples": true,
+          "fine_candidates": true,
+          "old_values": {
+            "basis_rows": 12881328,
+            "coarse_arrival_points": 10,
+            "coarse_frequency_points": 1,
+            "coarse_workspaces": 26,
+            "consumed_samples": 268361,
+            "fine_candidates": 4,
+            "varying_basis_rows": 28982988,
+            "varying_blocks": 4193,
+            "varying_candidates": 8,
+            "workers": 24
+          },
+          "varying_basis_rows": true,
+          "varying_blocks": true,
+          "varying_candidates": true,
+          "workers": true
+        }
+      }
+    }
+  },
+  "independent_gain_emission_cells_semantics": "Primary short-scoring likelihood emission-cell count only. It excludes the separate residual line call (whose work is represented by varying_basis_rows); do not report as a complete-service counter.",
+  "native_source_sha256": "104db8fa51a68de1f28199fa446afc664d02dd1e49512c8547b1dfaccdb56124",
+  "per_execution_cap_samples": 270000,
+  "per_execution_cap_seconds": 120,
+  "plan_sha256": "1ac02e257e500ef8c20bb3170cd6ef4bb99e04f4b5b50da6696d33c3e572be46",
+  "probe_sha256": "9c9c40c7b4b189b2d6d055966344b9ddb98dddcff2466b227a6a19f6bae168e2",
+  "schema_version": 1,
+  "scope": "Exactly the frozen candidate wanted/noise pair, one execution each. No retries or other checks included.",
+  "status": "completed"
+}
