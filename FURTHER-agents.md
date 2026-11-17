@@ -1,6 +1,22 @@
 This is a carefully curated list of possible future improvements - this should not be edited by agents unless edits to this file are explicitly requested.
 
 
+# Encourage Working by Reading instead of Search/Snippet
+
+NOTICE: Unusually, this may or may not ever be needed, and if not proven necessary, may be unhelpful. This is a contingency in case of regression from otherwise better or more available AI LLMs doing less reading.
+
+Actually reading code is important to working on complicated projects. Relying on searches/snippets is hit or miss, and this does not sustain continued development feature after feature, bug after bug, nor can this work if an issue or new feature with most code in one modular subdirectory of the source code is affected by code in another subdirectory which search, etc, misses, or for which a short snippet misses another relevant function, etc.
+
+Historically, there was an irregular progression from AI LLMs being increasingly trained, and AI harnesses increasingly able to and directing, more reading instead of searching. As this capability was occasionally, then more consistently, and later more strongly, made available to end users, this behavioral predisposition represented one of the strongest milestones for the usefulness of AI.
+
+Some documentation of this historic irregular progression of crucially important milestones is at research/reading-and-retrieval-2026-11-17.md .
+
+Please perform agent swarm exercises - to develop, test, refine, and demonstrate, prompts for codex-delegation-kit to explicitly encourage such reading instead of search/snippet overreliance.
+
+More academic scientific research regarding AI agentic systems may be needed. Community reported information has documented some of the milestones, but may be sparse on the details, and AI agentic systems that have reverted to a more search/snippet predisposition, inheriting hardcoded behaviors, may require insistence by persuasion through multiple logical demands to behave differently.
+
+Beware such prompting would need to remain reasonably internally consistent and not excessively long. The prompting present in codex-delegation-kit files is already getting somewhat long, and especially if any of the content is not highly refined, AI agents can get distracted, seemingly dismissing the instructions as too poorly written to follow without disregarding at least some instructions.
+
 
 
 # Research by Default
