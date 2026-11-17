@@ -110,6 +110,13 @@ its `--help` output and in [`policy.md`](policy.md#evidence-and-routing).
 
 ## Evaluation resources
 
+The [pumpModem parallel-investigation retrospective](research/pumpmodem-parallelism-2026-11-17/README.md)
+preserves the November 16–17 development range, original user requirements,
+parallelism estimates and bounded historical evidence for future competitive
+redevelopment exercises. It distinguishes committed and unfinished source,
+reproducibility gaps and evaluator-only findings. The estimates are judgments;
+no improved prompt or parallelism benchmark has been demonstrated by that record.
+
 The [prospective scientific-depth exercise](studies/scientific-depth-2026-11-14/README.md)
 extends the earlier narrow comparison to the combined reference collection through frozen
 per-domain criteria, a fresh ordinary development assignment, sustained scientific

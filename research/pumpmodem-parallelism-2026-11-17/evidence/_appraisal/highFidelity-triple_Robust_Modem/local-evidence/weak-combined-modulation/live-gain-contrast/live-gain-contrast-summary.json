@@ -1,0 +1,542 @@
+{
+  "aggregate_elapsed_seconds": 33.02091225099866,
+  "arms": {
+    "noise": {
+      "appraisal_source_sha256": "991e48cddf39b1bf6c1ed4100cdfbc2bb1f512333871746b52f1fb99934038fa",
+      "contrast": {
+        "bit_reference_cn0_db_hz": 12,
+        "calibrated_target_cn0_db_hz": 32,
+        "comparison_seconds": 8.537087295,
+        "configured_workers": 24,
+        "expected_bit": null,
+        "known_noise_variance": 121.14381014019712,
+        "observation_hashed_samples": 268361,
+        "observation_sha256": "4f33a0703fdb736b2c0b458e8119d93fd138d99f7dfee28008ca6d1537ec1ab5",
+        "reference": {
+          "all_valid": true,
+          "basis_rows": 12881328,
+          "bit": null,
+          "bit_evidence": [
+            -5.1237627949449305,
+            -5.110844646391316
+          ],
+          "bit_separation": 0.012918148553614728,
+          "coarse_arrival_points": 10,
+          "coarse_frequency_points": 1,
+          "coarse_seconds": 0.904294244,
+          "complete": true,
+          "consumed_samples": 268361,
+          "decision": "quiet",
+          "expected_bit": null,
+          "fine_candidates": 4,
+          "fine_seconds": 7.296201232,
+          "likelihood_components": {
+            "affine_selected_prior_mass": 0.027972027972027986,
+            "fixed_affine": [
+              -9.270693485178482,
+              -10.737304317104456
+            ],
+            "linear_drift": null,
+            "medium_coherent_gain": null,
+            "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+            "short_fixed_gain": [
+              -2.3075503374470325,
+              -1.2592502679853204
+            ],
+            "short_frequency_log_prior_adjustment": 11.740250262677662,
+            "short_frequency_track": [
+              -0.2506419275671779,
+              -0.23764022716957595
+            ],
+            "short_varying": [
+              10.662930780446812,
+              10.675934330420839
+            ],
+            "slow_gain_coherence_seconds": [
+              0.5,
+              2
+            ]
+          },
+          "operational_log_e": -5.117282860992909,
+          "operational_threshold": 21.493378688261398,
+          "quiet_energy": 57083.684764059166,
+          "quiet_threshold": 58114.03073886095,
+          "reason": "scored_public_quiet_aperture",
+          "varying_basis_rows": 30056432,
+          "varying_blocks": 4193,
+          "varying_candidates": 8,
+          "varying_coarse_seconds": 0.543894972,
+          "varying_fine_seconds": 5.26851343,
+          "workspace_peak_bytes": 629000553,
+          "zero_h0_verified": true
+        },
+        "reference_basis_gain": 1.0006724785114158,
+        "resident_and_stack_reservation_bytes": 269955072,
+        "scope": "Same observed I/Q and receiver noise covariance, with a receiver-only DATA reference amplitude change. Both scorers use the same public search bounds.",
+        "target": {
+          "all_valid": true,
+          "basis_rows": 12881328,
+          "bit": null,
+          "bit_evidence": [
+            -6.781876597864369,
+            -6.727465603322406
+          ],
+          "bit_separation": 0.0544109945419633,
+          "coarse_arrival_points": 10,
+          "coarse_frequency_points": 1,
+          "coarse_seconds": 0.957666744,
+          "complete": true,
+          "consumed_samples": 268361,
+          "decision": "quiet",
+          "expected_bit": null,
+          "fine_candidates": 4,
+          "fine_seconds": 7.574758773,
+          "likelihood_components": {
+            "affine_selected_prior_mass": 0.027972027972027986,
+            "fixed_affine": [
+              -18.473324431883537,
+              -19.94036893845293
+            ],
+            "linear_drift": null,
+            "medium_coherent_gain": null,
+            "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+            "short_fixed_gain": [
+              -2145.6045228327603,
+              -2118.655133173582
+            ],
+            "short_frequency_log_prior_adjustment": 11.740250262677662,
+            "short_frequency_track": [
+              -1.90864418479103,
+              -1.8542331445275408
+            ],
+            "short_varying": [
+              9.004927504702165,
+              9.059338544965653
+            ],
+            "slow_gain_coherence_seconds": [
+              0.5,
+              2
+            ]
+          },
+          "operational_log_e": -6.754301076693987,
+          "operational_threshold": 21.493378688261398,
+          "quiet_energy": 57083.684764059166,
+          "quiet_threshold": 58114.03073886095,
+          "reason": "scored_public_quiet_aperture",
+          "varying_basis_rows": 30056432,
+          "varying_blocks": 4193,
+          "varying_candidates": 8,
+          "varying_coarse_seconds": 0.6203191290000001,
+          "varying_fine_seconds": 5.469594908,
+          "workspace_peak_bytes": 629000553,
+          "zero_h0_verified": true
+        },
+        "target_amplitude_ratio": 10,
+        "target_basis_gain": 10.006724785114159
+      },
+      "control": "noise",
+      "execution": {
+        "argv": [
+          "/home/user/___quick/p/_cur/dataPump/pumpModem/_appraisal/highFidelity-triple_Robust_Modem/.build/bin/high_fidelity_appraisal",
+          "--mode",
+          "slot",
+          "--scenario",
+          "hf-disturbed",
+          "--waveform",
+          "reference",
+          "--pulse",
+          "rrc",
+          "--bit-seconds",
+          "128",
+          "--cn0",
+          "12",
+          "--seed",
+          "9202",
+          "--message",
+          "e",
+          "--hf-live-gain-contrast",
+          "--max-samples",
+          "270000",
+          "--max-wall-seconds",
+          "120",
+          "--control",
+          "noise"
+        ],
+        "case_id": "noise",
+        "elapsed_seconds": 17.010642972003552,
+        "exit_code": 0,
+        "plan_sha256": "97c59399bab150c5f6b02dee1cc39a5d2ac35dbf35cc7481ac9bad9c1da45197",
+        "probe_sha256": "44757f0bc65adb211a420248a01f481a957fa61411d286fe3d5c48998d157612",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 20609,
+        "stdout_sha256": "6191e86d04eaa74514ce8e22ec3efdd96dfeeabaf85857280a7b1e4e30038eb2"
+      },
+      "full_capture": {
+        "accepted_samples": 268361,
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "contains_signal_energy": false,
+        "contains_source_energy": false,
+        "hashed_samples": 268361,
+        "input_sha256": "4f33a0703fdb736b2c0b458e8119d93fd138d99f7dfee28008ca6d1537ec1ab5",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "signal_energy_sample_sum": 0,
+        "slot_owners": 24,
+        "source_data_energy_sample_sum": 0,
+        "source_generated_samples": 267897,
+        "workers": 24
+      },
+      "mode": "slot",
+      "native_slot": {
+        "all_valid": true,
+        "basis_rows": 12881328,
+        "bit": null,
+        "bit_evidence": [
+          -5.1237627949449305,
+          -5.110844646391316
+        ],
+        "bit_separation": 0.012918148553614728,
+        "coarse_arrival_points": 10,
+        "coarse_frequency_points": 1,
+        "coarse_seconds": 0.904294244,
+        "complete": true,
+        "consumed_samples": 268361,
+        "decision": "quiet",
+        "expected_bit": null,
+        "fine_candidates": 4,
+        "fine_seconds": 7.296201232,
+        "likelihood_components": {
+          "affine_selected_prior_mass": 0.027972027972027986,
+          "fixed_affine": [
+            -9.270693485178482,
+            -10.737304317104456
+          ],
+          "linear_drift": null,
+          "medium_coherent_gain": null,
+          "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+          "short_fixed_gain": [
+            -2.3075503374470325,
+            -1.2592502679853204
+          ],
+          "short_frequency_log_prior_adjustment": 11.740250262677662,
+          "short_frequency_track": [
+            -0.2506419275671779,
+            -0.23764022716957595
+          ],
+          "short_varying": [
+            10.662930780446812,
+            10.675934330420839
+          ],
+          "slow_gain_coherence_seconds": [
+            0.5,
+            2
+          ]
+        },
+        "operational_log_e": -5.117282860992909,
+        "operational_threshold": 21.493378688261398,
+        "quiet_energy": 57083.684764059166,
+        "quiet_threshold": 58114.03073886095,
+        "reason": "scored_public_quiet_aperture",
+        "varying_basis_rows": 30056432,
+        "varying_blocks": 4193,
+        "varying_candidates": 8,
+        "varying_coarse_seconds": 0.543894972,
+        "varying_fine_seconds": 5.26851343,
+        "workspace_peak_bytes": 629000553,
+        "zero_h0_verified": true
+      },
+      "native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+      "status": "completed"
+    },
+    "wanted": {
+      "appraisal_source_sha256": "991e48cddf39b1bf6c1ed4100cdfbc2bb1f512333871746b52f1fb99934038fa",
+      "contrast": {
+        "bit_reference_cn0_db_hz": 12,
+        "calibrated_target_cn0_db_hz": 32,
+        "comparison_seconds": 7.951093203,
+        "configured_workers": 24,
+        "expected_bit": 0,
+        "known_noise_variance": 121.14381014019712,
+        "observation_hashed_samples": 268361,
+        "observation_sha256": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+        "reference": {
+          "all_valid": true,
+          "basis_rows": 12881328,
+          "bit": 0,
+          "bit_evidence": [
+            52.35109395464505,
+            2.1620273258445506
+          ],
+          "bit_separation": 50.189066628800504,
+          "coarse_arrival_points": 10,
+          "coarse_frequency_points": 1,
+          "coarse_seconds": 0.955037365,
+          "complete": true,
+          "consumed_samples": 268361,
+          "decision": "data",
+          "expected_bit": null,
+          "fine_candidates": 4,
+          "fine_seconds": 6.584198934,
+          "likelihood_components": {
+            "affine_selected_prior_mass": 0.027972027972027986,
+            "fixed_affine": [
+              -9.199782710077727,
+              -10.359068038123874
+            ],
+            "linear_drift": null,
+            "medium_coherent_gain": null,
+            "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+            "short_fixed_gain": [
+              6.0499259290206995,
+              6.087523344280423
+            ],
+            "short_frequency_log_prior_adjustment": 11.634889747019836,
+            "short_frequency_track": [
+              4.445810498886139,
+              4.612215033588365
+            ],
+            "short_varying": [
+              68.13789811570847,
+              17.94883146139145
+            ],
+            "slow_gain_coherence_seconds": [
+              0.5,
+              2
+            ]
+          },
+          "operational_log_e": 51.657946774085104,
+          "operational_threshold": 21.493378688261398,
+          "quiet_energy": 59214.175179472826,
+          "quiet_threshold": 58114.03073886095,
+          "reason": "bounded_varying_channel_data_evidence",
+          "varying_basis_rows": 28982988,
+          "varying_blocks": 4193,
+          "varying_candidates": 8,
+          "varying_coarse_seconds": 0.588251272,
+          "varying_fine_seconds": 4.565762731,
+          "workspace_peak_bytes": 629000553,
+          "zero_h0_verified": true
+        },
+        "reference_basis_gain": 1.0006724785114158,
+        "resident_and_stack_reservation_bytes": 287100928,
+        "scope": "Same observed I/Q and receiver noise covariance, with a receiver-only DATA reference amplitude change. Both scorers use the same public search bounds.",
+        "target": {
+          "all_valid": true,
+          "basis_rows": 12881328,
+          "bit": null,
+          "bit_evidence": [
+            21.121190797977086,
+            23.52302161251817
+          ],
+          "bit_separation": 2.4018308145410856,
+          "coarse_arrival_points": 10,
+          "coarse_frequency_points": 1,
+          "coarse_seconds": 0.911425155,
+          "complete": true,
+          "consumed_samples": 268361,
+          "decision": "ambiguous",
+          "expected_bit": null,
+          "fine_candidates": 4,
+          "fine_seconds": 7.035375005,
+          "likelihood_components": {
+            "affine_selected_prior_mass": 0.027972027972027986,
+            "fixed_affine": [
+              -18.402622649123813,
+              -19.56203446485738
+            ],
+            "linear_drift": null,
+            "medium_coherent_gain": null,
+            "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+            "short_fixed_gain": [
+              -1949.117878772129,
+              -1943.603113634805
+            ],
+            "short_frequency_log_prior_adjustment": 11.634889747019836,
+            "short_frequency_track": [
+              26.099783785205126,
+              28.50161459974621
+            ],
+            "short_varying": [
+              36.907994959040494,
+              39.30982577358158
+            ],
+            "slow_gain_coherence_seconds": [
+              0.5,
+              2
+            ]
+          },
+          "operational_log_e": 22.91655843806389,
+          "operational_threshold": 21.493378688261398,
+          "quiet_energy": 59214.175179472826,
+          "quiet_threshold": 58114.03073886095,
+          "reason": "varying_channel_bit_evidence_too_close",
+          "varying_basis_rows": 28982988,
+          "varying_blocks": 4193,
+          "varying_candidates": 8,
+          "varying_coarse_seconds": 0.596507436,
+          "varying_fine_seconds": 4.918072912,
+          "workspace_peak_bytes": 629000553,
+          "zero_h0_verified": true
+        },
+        "target_amplitude_ratio": 10,
+        "target_basis_gain": 10.006724785114159
+      },
+      "control": "wanted",
+      "execution": {
+        "argv": [
+          "/home/user/___quick/p/_cur/dataPump/pumpModem/_appraisal/highFidelity-triple_Robust_Modem/.build/bin/high_fidelity_appraisal",
+          "--mode",
+          "slot",
+          "--scenario",
+          "hf-disturbed",
+          "--waveform",
+          "reference",
+          "--pulse",
+          "rrc",
+          "--bit-seconds",
+          "128",
+          "--cn0",
+          "12",
+          "--seed",
+          "9202",
+          "--message",
+          "e",
+          "--hf-live-gain-contrast",
+          "--max-samples",
+          "270000",
+          "--max-wall-seconds",
+          "120",
+          "--control",
+          "wanted"
+        ],
+        "case_id": "wanted",
+        "elapsed_seconds": 16.01026927899511,
+        "exit_code": 0,
+        "plan_sha256": "97c59399bab150c5f6b02dee1cc39a5d2ac35dbf35cc7481ac9bad9c1da45197",
+        "probe_sha256": "44757f0bc65adb211a420248a01f481a957fa61411d286fe3d5c48998d157612",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 20639,
+        "stdout_sha256": "dc913aed0ba7b6f0159572cae2316a97e0d0e5213e8ee233ad5f03a040cb4b99"
+      },
+      "full_capture": {
+        "accepted_samples": 268361,
+        "additive_noise_energy_sample_sum": 32471520.103914257,
+        "contains_signal_energy": true,
+        "contains_source_energy": true,
+        "hashed_samples": 268361,
+        "input_sha256": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+        "noise_variance": 121.14381014019712,
+        "samples": 268361,
+        "signal_energy_sample_sum": 265782.71306285175,
+        "slot_owners": 24,
+        "source_data_energy_sample_sum": 267318.0235465794,
+        "source_generated_samples": 267897,
+        "workers": 24
+      },
+      "mode": "slot",
+      "native_slot": {
+        "all_valid": true,
+        "basis_rows": 12881328,
+        "bit": 0,
+        "bit_evidence": [
+          52.35109395464505,
+          2.1620273258445506
+        ],
+        "bit_separation": 50.189066628800504,
+        "coarse_arrival_points": 10,
+        "coarse_frequency_points": 1,
+        "coarse_seconds": 0.955037365,
+        "complete": true,
+        "consumed_samples": 268361,
+        "decision": "data",
+        "expected_bit": null,
+        "fine_candidates": 4,
+        "fine_seconds": 6.584198934,
+        "likelihood_components": {
+          "affine_selected_prior_mass": 0.027972027972027986,
+          "fixed_affine": [
+            -9.199782710077727,
+            -10.359068038123874
+          ],
+          "linear_drift": null,
+          "medium_coherent_gain": null,
+          "scope": "Public candidate-averaged log evidence before global coordinate and branch priors.",
+          "short_fixed_gain": [
+            6.0499259290206995,
+            6.087523344280423
+          ],
+          "short_frequency_log_prior_adjustment": 11.634889747019836,
+          "short_frequency_track": [
+            4.445810498886139,
+            4.612215033588365
+          ],
+          "short_varying": [
+            68.13789811570847,
+            17.94883146139145
+          ],
+          "slow_gain_coherence_seconds": [
+            0.5,
+            2
+          ]
+        },
+        "operational_log_e": 51.657946774085104,
+        "operational_threshold": 21.493378688261398,
+        "quiet_energy": 59214.175179472826,
+        "quiet_threshold": 58114.03073886095,
+        "reason": "bounded_varying_channel_data_evidence",
+        "varying_basis_rows": 28982988,
+        "varying_blocks": 4193,
+        "varying_candidates": 8,
+        "varying_coarse_seconds": 0.588251272,
+        "varying_fine_seconds": 4.565762731,
+        "workspace_peak_bytes": 629000553,
+        "zero_h0_verified": true
+      },
+      "native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+      "status": "completed"
+    }
+  },
+  "causal_interpretation": {
+    "branch_observation": "Target likelihood branches show short_varying [36.90799,39.30983] and short_frequency_track [26.09978,28.50161] favor bit1. fixed_affine [-18.40262,-19.56203] weakly favors bit0; short_fixed_gain [-1949.11788,-1943.60311] weakly favors bit1. Work counts and consumed samples match reference, so the score change is not from a reduced search workload.",
+    "manipulation": "Actual native rescored_aperture_json helper changes only ReceiverConfig.data_basis_gain by exactly 10x; each reference/target pair receives the same captured observation, noise variance, public search bounds and W=24 workers.",
+    "noise_negative_control": "The true noise-only arm has zero source/signal energy and positive additive noise energy. Both reference and 10x gain score it QUIET with H0 verified; this one noise capture has no false DATA.",
+    "scope_limit": "This paired receiver-only basis-amplitude intervention causally explains the observed ambiguity for this archived HF aperture under these exact public bounds and noise covariance. It is not an end-to-end C/N0/SNR sweep, a production channel gain change, or a broad reception-rate qualification.",
+    "wanted_positive_control": "The wanted capture hash equals the archived known-success SHA and the ordinary native slot is valid DATA0. With the reference basis gain, contrast remains correct DATA0 (logE 51.65795, bit evidence [52.35109, 2.16203], margin 50.18907). At 10x gain, the same bytes become AMBIGUOUS: logE 22.91656 exceeds 21.49338 threshold, but bit evidence [21.12119,23.52302] gives only 2.40183 margin and slightly favors the wrong bit; component reason is varying_channel_bit_evidence_too_close."
+  },
+  "causal_observation": {
+    "noise_false_data": false,
+    "noise_reference_decision": "quiet",
+    "noise_target_decision": "quiet",
+    "wanted_log_threshold": 21.493378688261398,
+    "wanted_reference_bit_evidence": [
+      52.35109395464505,
+      2.1620273258445506
+    ],
+    "wanted_reference_decision": "data bit0",
+    "wanted_reference_log_e": 51.657946774085104,
+    "wanted_target_bit_evidence": [
+      21.121190797977086,
+      23.52302161251817
+    ],
+    "wanted_target_decision": "ambiguous",
+    "wanted_target_log_e": 22.91655843806389,
+    "wanted_target_reason": "varying_channel_bit_evidence_too_close"
+  },
+  "native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+  "noise_only_gate_passed": true,
+  "plan_sha256": "97c59399bab150c5f6b02dee1cc39a5d2ac35dbf35cc7481ac9bad9c1da45197",
+  "probe_sha256": "44757f0bc65adb211a420248a01f481a957fa61411d286fe3d5c48998d157612",
+  "reference_row_equivalence": {
+    "noise": "6191e86d04eaa74514ce8e22ec3efdd96dfeeabaf85857280a7b1e4e30038eb2",
+    "wanted": "dc913aed0ba7b6f0159572cae2316a97e0d0e5213e8ee233ad5f03a040cb4b99"
+  },
+  "schema_version": 1,
+  "scope": "Exactly two predeclared receiver-only live gain contrast arms; no retries. Basis gain changes only inside shadow scorer; channel bytes, noise covariance and public bounds are shared reference/target.",
+  "status": "completed",
+  "target_amplitude_ratio": 10,
+  "target_gain_relative_to_reference": "10x receiver DATA basis/reference amplitude only",
+  "wanted_archive_baseline_sha256": "4cb05606981b401acad364c6d37fcbe1a7b7ce74c3e627ac81ef64eec7b810c0",
+  "wanted_baseline_gate_passed": true
+}

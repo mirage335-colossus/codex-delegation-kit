@@ -184,6 +184,11 @@ These records preserve original failures, source and resource limits, and the
 scope of each conclusion. Source-delivery tests alone do not establish comparable
 scientific depth, reliability or token savings.
 
+The [reading, search, and snippet research](research/reading-and-retrieval-2026-11-17.md)
+preserves historical observations, behavioral distinctions, primary-source
+comparisons, and continuation context. Its proposed reading guidance is research
+for later policy consideration, not installed runtime behavior.
+
 For included Desktop Codex allowance, the user's current planning index is
 Luna 0.1, Terra 1, Sol about 10, and Astra about 20. It is a unitless estimate,
 separate from API prices and purchased credits; see the [weekly usage cost

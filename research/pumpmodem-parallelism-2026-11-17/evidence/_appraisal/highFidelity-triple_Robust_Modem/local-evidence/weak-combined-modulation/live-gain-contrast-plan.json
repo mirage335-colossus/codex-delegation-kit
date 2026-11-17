@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "purpose": "Predeclared receiver-only live level calibration contrast. Use same observed bytes, noise variance, canonical public geometry and full automatic W in baseline and basis-gain-times10 scorers. One wanted and one noise-only capture; no production DSP change. Wanted baseline must match archived known-success input digest and raw bit0 before attributing a mismatch. Neither Target/duration/source/channel nor admission threshold changes.",
+  "base_commit": "c1f1f0fddffbd3b852b7347bf81fc7c9d2841a1c",
+  "required_native_source_sha256": "e9087e04f33dbb43c19145cefa81ef571377143efd16e59833e3f0afb3844e70",
+  "max_executions": 2,
+  "aggregate_max_wall_seconds": 240,
+  "per_execution_max_samples": 270000,
+  "cases": [
+    {
+      "id": "wanted",
+      "arguments": [
+        "--mode",
+        "slot",
+        "--scenario",
+        "hf-disturbed",
+        "--waveform",
+        "reference",
+        "--pulse",
+        "rrc",
+        "--bit-seconds",
+        "128",
+        "--cn0",
+        "12",
+        "--seed",
+        "9202",
+        "--message",
+        "e",
+        "--hf-live-gain-contrast",
+        "--max-samples",
+        "270000",
+        "--max-wall-seconds",
+        "120",
+        "--control",
+        "wanted"
+      ]
+    },
+    {
+      "id": "noise",
+      "arguments": [
+        "--mode",
+        "slot",
+        "--scenario",
+        "hf-disturbed",
+        "--waveform",
+        "reference",
+        "--pulse",
+        "rrc",
+        "--bit-seconds",
+        "128",
+        "--cn0",
+        "12",
+        "--seed",
+        "9202",
+        "--message",
+        "e",
+        "--hf-live-gain-contrast",
+        "--max-samples",
+        "270000",
+        "--max-wall-seconds",
+        "120",
+        "--control",
+        "noise"
+      ]
+    }
+  ],
+  "stopping_rule": "Run each case once after harness review/preflight; retain execution censor separately. Stop and inspect paired likelihood/candidate/work results. No automatic parameter or deadline extension."
+}
