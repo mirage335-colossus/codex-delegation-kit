@@ -42,6 +42,53 @@ source counts, execution time, and overall answer quality. Newly located
 2025–2026 reports directly address repository exploration and small-read
 tendencies, although they do not reconstruct the user's historical sessions.
 
+## Continuation context from the main chat
+
+The purpose is to preserve useful autonomous reading against future regressions,
+including the precise choices that make search and excerpts helpful or harmful.
+The user emphasized historical failures and uneven improvements across Custom
+GPTs, ordinary web Chat, web Codex, and desktop Codex. Current capability tables
+alone do not answer that question. The decisive distinction is substantive
+understanding and coverage, including concepts absent from the initial query.
+
+Use these sections when continuing the work:
+
+| Need | Existing account |
+| --- | --- |
+| Concrete behaviors to discourage or encourage | [Behavioral specification](#the-specific-behaviors-to-discourage-and-encourage) |
+| Historical commands, model transitions, and reading tendencies | [Visible file reading](#visible-file-reading-and-an-irregular-model-transition) |
+| Community reports about the web experience and subagents | [ChatGPT progression](#how-investigation-expanded-inside-chatgpt-itself) |
+| Why repeated cached reading can be useful | [Token accounting and context reuse](#why-token-totals-can-become-enormous) |
+| Primary literature, comparisons, and counterevidence | [Research comparisons](#research-comparisons) |
+| Candidate instructions and a way to diagnose regressions | [Proposed preference](#a-strong-reading-preference-worth-preserving) and [comparison design](#how-to-document-a-regression-without-rewarding-waste) |
+
+The user identified older, possibly archived **pumpModem redesign chats** as a
+possible source of concrete usage evidence, especially very large amounts of
+Luna cached input during repeated code reading. No particular chat ID or usage
+record was supplied or inspected. If a later task investigates those sessions,
+this is a targeted lead; it is not a verified measurement in this report. Preserve
+the distinction between useful reuse of substantial code context and unique
+source volume. Do not reinterpret the user's observation as claiming a single
+billion-token context window.
+
+The chronology of the remembered regression remains undated. The user could not
+confirm whether it coincided with September 2025's cloud-model transition.
+Parameter-count explanations, present activation of Astra's announced context
+management, and matched reading-coverage comparisons also remain unresolved;
+the relevant sections retain their evidence and limits. A future continuation
+should refresh mutable product facts before treating this dated account as
+current configuration guidance.
+
+The research and behavioral specification are documented and reviewed. The
+instruction wording is a proposal, and the comparison cases are designs rather
+than executed benchmarks. Any later implementation should strengthen the kit's
+existing evidence and scientific-grounding guidance, preserve direct access to
+original sources, and follow the source-to-install workflow in
+[the policy](../policy.md#improving-this-kit). This documentation task does not
+install that proposal or change model routing. A new research round is useful
+when it can resolve a specific remaining question, rather than reproduce the
+already preserved chronology and literature review.
+
 ## What counts as reading
 
 Four different operations are often conflated:
@@ -193,7 +240,7 @@ Original community reports make the historical problem concrete:
 | November 12, 2023, Custom GPT | Three uploaded PDFs failed to supply an answer to a general question; directing the GPT to page 40 succeeded. Another participant reported an appendix miss. | Available content could require location-specific prompting to become usable evidence. [Original discussion](https://community.openai.com/t/custom-gpt-not-reading-from-uploaded-pdfs/496208) |
 | August 15, 2024, Custom GPT | Generic answers despite instructions to use a knowledge CSV; naming the file and asking for search produced the answer. A later participant reported successful automatic retrieval on a 101-row CSV. | Retrieval activation could be unreliable, with successful counterexamples. [Original discussion](https://community.openai.com/t/custom-gpt-only-uses-knowledge-when-specifically-asked-to/908077) |
 | March 14, 2025, Custom GPT | Known terms stopped being found despite rephrasing and reuploading; the same documents worked in ordinary ChatGPT. | Product-surface behavior and regressions could matter independently of whether a model could understand the content. [Original discussion](https://community.openai.com/t/issue-with-custom-gpt-not-reading-uploaded-documents-properly/1143059) |
-| November 16, 2025, Codex CLI 0.57/0.58 | A user reported 200-line reads and incomplete context despite requesting a full local document. | Explicit file access did not eliminate partial-reading failures. [Original issue 6733](https://github.com/openai/codex/issues/6733) |
+| November 16, 2025, Codex CLI 0.57/0.58 | A user reported a local-file warning about output over 10 KB, 200-line reads, and incomplete context despite requesting a full document. | Explicit file access did not eliminate partial-reading failures. These are reported symptoms, not a verified universal tool limit. [Original issue 6733](https://github.com/openai/codex/issues/6733) |
 
 These are deliberately selected firsthand reports, not a survey or reproduced
 benchmark. They establish that the user's kind of difficulty was reported by
@@ -278,6 +325,9 @@ The January issue also exposes a disagreement about efficiency: the contributor
 emphasized context conservation, while the reporter found the extra attempts
 wasteful. Eventual coverage, reading granularity, and the work required to reach
 that coverage are separate outcomes. Shorter reads need not mean less total work.
+The earlier issue 6733 described an apparent output warning; the January reply
+described a model tendency. These accounts should not be collapsed into one
+universal 200-line cap or assumed to have the same cause.
 
 ### Requested text, delivered text, and displayed text
 
@@ -302,6 +352,15 @@ read size or establish how a particular Custom GPT accessed its knowledge.
 The bounded public-source investigation did not establish a dated, general
 increase in model-facing file-output allowances, especially for web ChatGPT or
 cloud Codex. CLI source cannot establish those services' historical limits.
+One inspected later public change illustrates that qualification: the
+[`rust-v0.167.0` release](https://github.com/openai/codex/releases/tag/rust-v0.167.0)
+includes server-mode Code Mode output bounding, with token limits and explicit
+head/tail omission handling. The associated
+[`code_mode_host_output_truncation` feature](https://github.com/openai/codex/pull/58159)
+was added disabled by default. A merged implementation therefore does not
+establish broad activation, larger delivered reads, or historical cloud behavior.
+[Output-bounding implementation, PR 57870](https://github.com/openai/codex/pull/57870).
+
 The better-supported explanation remains a combination of **reading choices,
 tool delivery, context retention, and follow-through**. A larger allowed context
 can help, while a narrow default reading habit can still constrain what enters
@@ -920,7 +979,10 @@ The behavioral specification separates historical observations, experimental
 mechanisms, and proposed practice. Two further read-only syntheses examined
 literature-based distinctions and command-level examples. The source-structure
 ablation was checked separately; no present-day behavioral benchmark was run.
-This investigation changed only this report. It did not edit curated research,
-policy, runtime inventory, model settings, or installed files. A concurrent
-modification to `FURTHER-agents.md` appeared during the final review; its
-provenance was not established here, and it was preserved without alteration.
+The research phase authored this report; the subsequent preservation pass added
+continuation context and a discovery link in the repository README. This work
+did not edit curated research, policy, runtime inventory, model settings, or
+installed files. A concurrent modification to `FURTHER-agents.md` appeared during
+an earlier review; its provenance was not established here, and it was preserved
+without alteration. The preservation pass began from a clean working tree with
+the earlier report already tracked.
