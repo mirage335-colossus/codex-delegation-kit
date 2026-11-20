@@ -22,6 +22,7 @@ BUNDLE_FILES = (
     "agents/inherited_swarm.toml", "agents/luna_swarm.toml",
     "agents/astra_expert.toml", "agents/astra_initial.toml", "CLOUD.md",
     "agents/sol_researcher.toml",
+    "skills/delegation-kit/SKILL.md", "skills/delegation-kit/agents/openai.yaml",
 )
 
 
@@ -64,17 +65,18 @@ class DistributionTests(unittest.TestCase):
 
         result = self.run_installer(source, home, "--apply")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("installed and activated", result.stdout)
+        self.assertIn("explicit skill invocation required", result.stdout)
         self.assertEqual((home / "config.toml").read_text(encoding="utf-8").count('model = "primary-model"'), 1)
         self.assertIn('model_reasoning_effort = "high"', (home / "config.toml").read_text(encoding="utf-8"))
         self.assertIn('service_tier = "default"', (home / "config.toml").read_text(encoding="utf-8"))
         self.assertIn("max_threads = 5", (home / "config.toml").read_text(encoding="utf-8"))
         self.assertIn("keep = \"unrelated setting\"", (home / "config.toml").read_text(encoding="utf-8"))
         self.assertIn(original_agents, (home / "AGENTS.md").read_text(encoding="utf-8"))
-        managed_agents = (home / "AGENTS.md").read_text(encoding="utf-8")
-        self.assertIn("Before the main chat decides to stop advancing a substantive user request", managed_agents)
-        self.assertIn("regardless of response wording", managed_agents)
-        self.assertIn("external research", managed_agents)
+        self.assertEqual((home / "AGENTS.md").read_text(), original_agents)
+        self.assertIn("allow_implicit_invocation: false",
+                      (home / "skills/delegation-kit/agents/openai.yaml").read_text())
+        self.assertEqual((home / "skills/delegation-kit/SKILL.md").read_bytes(),
+                         (source / "skills/delegation-kit/SKILL.md").read_bytes())
         self.assertEqual((home / "notes.txt").read_text(encoding="utf-8"), "unrelated global content\n")
         self.assertTrue((home / "config.toml").read_text(encoding="utf-8").startswith(config))
         self.assertTrue((home / "delegation-kit" / "policy.md").is_file())
@@ -333,6 +335,7 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual(inactive["source_directory"], str(relocated_source.absolute()))
         self.assertEqual((home / "config.toml").read_text(encoding="utf-8"), 'model = "keep-me"\n')
 
+    @unittest.skipIf(os.name == "nt", "The controller requires POSIX fcntl; run in WSL")
     def test_installed_controller_help_is_self_contained_and_does_not_start_a_run(self):
         source = self.root / "bundle"
         home = self.root / "Codex home"

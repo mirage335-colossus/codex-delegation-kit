@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install or disable the global delegation kit; preview changes unless --apply."""
+"""Install or disable explicit-only DK skills; preview changes unless --apply."""
 
 from __future__ import annotations
 
@@ -140,11 +140,15 @@ OLD23_ROLES = {
     "astra_initial": "One-time consultation of the original prompt and available context before substantive work.",
 }
 OLD23_FILES = OLD22_FILES + ("CLOUD.md",)
-ROLES = {
+OLD24_ROLES = {
     **OLD23_ROLES,
     "sol_researcher": "Scientific authorship, research leadership, and independent scientific critique.",
 }
-FILES = OLD23_FILES + ("agents/sol_researcher.toml",)
+OLD24_FILES = OLD23_FILES + ("agents/sol_researcher.toml",)
+ROLES = {name: "Explicit DK assignment or explicit standalone role request only. " + description
+         for name, description in OLD24_ROLES.items()}
+SKILL_FILES = ("skills/delegation-kit/SKILL.md", "skills/delegation-kit/agents/openai.yaml")
+FILES = OLD24_FILES + SKILL_FILES
 BEGIN = "# >>> CODEX GLOBAL DELEGATION KIT (managed; do not edit) >>>"
 END = "# <<< CODEX GLOBAL DELEGATION KIT <<<"
 LEGACY_AGENTS_GATEWAY = (
@@ -176,6 +180,11 @@ class Refusal(RuntimeError):
 class State:
     data: bytes | None
     mode: int = 0o600
+
+    def __post_init__(self):
+        if os.name == "nt":
+            # Windows chmod/stat expose a read-only bit, not POSIX permissions.
+            object.__setattr__(self, "mode", 0o666 if self.mode & stat.S_IWRITE else 0o444)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -222,7 +231,7 @@ def parse_toml(data: bytes | None, path: Path) -> dict:
 
 
 def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
-    if roles in (ROLES, OLD23_ROLES):
+    if roles in (OLD24_ROLES, OLD23_ROLES):
         gateway = OLD23_AGENTS_GATEWAY.format(policy=target / "policy.md")
     elif roles == OLD21_ROLES:
         gateway = OLD21_AGENTS_GATEWAY.format(policy=target / "policy.md")
@@ -238,6 +247,8 @@ def blocks(target: Path, roles: dict[str, str] = ROLES) -> dict[str, str]:
             "",
         ])
     config.extend([END, ""])
+    if roles == ROLES:
+        return {"config.toml": "\n".join(config)}
     return {"AGENTS.md": instructions, "config.toml": "\n".join(config)}
 
 
@@ -284,7 +295,7 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         inventory = set(value["bundle_digests"])
         if inventory not in (set(LEGACY_FILES), set(ADVISORY_FILES), set(CONTROLLER_FILES),
                              set(ENGINEERING_FILES), set(SWARM_FILES), set(OLD21_FILES),
-                             set(OLD22_FILES), set(OLD23_FILES), set(FILES)):
+                             set(OLD22_FILES), set(OLD23_FILES), set(OLD24_FILES), set(FILES)):
             raise ValueError("unexpected bundle file list")
         if inventory == set(LEGACY_FILES):
             known_blocks = blocks(home / "delegation-kit", LEGACY_ROLES)
@@ -299,6 +310,8 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
             known_blocks["AGENTS.md"] = f"{BEGIN}\n{old_gateway}{END}\n"
         elif inventory == set(OLD23_FILES):
             known_blocks = blocks(home / "delegation-kit", OLD23_ROLES)
+        elif inventory == set(OLD24_FILES):
+            known_blocks = blocks(home / "delegation-kit", OLD24_ROLES)
         elif inventory == set(FILES):
             known_blocks = expected
         else:
@@ -328,7 +341,7 @@ def load_manifest(path: Path, home: Path, expected: dict[str, str]) -> tuple[Sta
         raise Refusal(f"Invalid installation manifest {path}: {error}") from error
 
 
-def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
+def _plan_runtime(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     home = home.absolute()
     source = source.absolute()
     if any(character in str(home) for character in "\n\r`"):
@@ -346,7 +359,9 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     if uninstall and previous is None:
         raise Refusal(f"No owned installation found at {target}")
 
-    globals_before = {name: read_state(home / name) for name in expected}
+    # AGENTS.md is read only to remove a recognized legacy gateway or refuse
+    # unowned markers. Fresh installations never add instructions to this file.
+    globals_before = {name: read_state(home / name) for name in ("AGENTS.md", "config.toml")}
     globals_clean = {}
     for name, state in globals_before.items():
         inserted = (previous["activation"].get(name, {}).get("inserted")
@@ -366,9 +381,6 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
             if role in clean_configuration.get("agents", {}):
                 raise Refusal(f"Existing agent role conflicts with the kit: {role}")
         check_personal_roles(home)
-        override = read_state(home / "AGENTS.override.md")
-        if override.data and override.data.strip():
-            raise Refusal(f"{home / 'AGENTS.override.md'} suppresses global AGENTS.md; resolve it first")
         bundle_digests = {}
         for name in FILES:
             original = read_state(source / name)
@@ -410,11 +422,19 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
             after = State(after_text.encode(), before.mode if before.data is not None else (0o644 if name == "AGENTS.md" else 0o600))
             if before != after:
                 changes.append(Change(home / name, before, after))
+        if previous and previous["active"] and "AGENTS.md" in previous["activation"]:
+            before = globals_before["AGENTS.md"]
+            text = globals_clean["AGENTS.md"]
+            remove = not text and not previous["activation"]["AGENTS.md"]["original_exists"]
+            after = State(None) if remove else State(text.encode(), before.mode)
+            if before != after:
+                changes.append(Change(home / "AGENTS.md", before, after))
         parse_toml(next((change.after.data for change in changes if change.path == home / "config.toml"), globals_before["config.toml"].data), home / "config.toml")
     else:
         bundle_digests = previous["bundle_digests"]
         if previous["active"]:
-            for name, text in globals_clean.items():
+            for name in previous["activation"]:
+                text = globals_clean[name]
                 before = globals_before[name]
                 remove = not text and not previous["activation"][name]["original_exists"]
                 after = State(None) if remove else State(text.encode(), before.mode)
@@ -435,7 +455,7 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     backup_root = target / ".installation" / "backups" / transaction_id
     backups = []
     for name, before in globals_before.items():
-        if before.data is not None:
+        if before.data is not None and any(c.path == home / name for c in changes):
             changes.append(Change(backup_root / name, State(None), State(before.data, 0o600)))
             backups.append(str(backup_root / name))
     if manifest_state.data is not None:
@@ -452,12 +472,155 @@ def plan(home: Path, source: Path, uninstall: bool = False) -> list[Change]:
     return changes
 
 
+def _members(root: Path, repositories: list[str]) -> list[Path]:
+    """Explicit tree members avoid scanning or changing unrelated nested repos."""
+    members = [root]
+    for name in repositories:
+        relative = Path(name)
+        if relative.drive or relative.root or ".." in relative.parts or relative == Path("."):
+            raise Refusal("--repo must be a child repository path relative to --tree")
+        member = root / relative
+        safe_path(member)
+        if not member.is_relative_to(root):
+            raise Refusal("Tree member escapes the collection root")
+        if not member.is_dir() or not (member / ".git").exists():
+            raise Refusal(f"Tree member is not an existing Git repository: {member}")
+        if member not in members:
+            members.append(member)
+    return members
+
+
+def _discovery_files(home: Path, source: Path, scope: str, members: list[Path]) -> dict[Path, bytes]:
+    target = home / "delegation-kit"
+    result = {}
+    for member in members:
+        skill = (home / "skills" if scope == "global" else member / ".agents" / "skills") / "delegation-kit"
+        result[skill / "SKILL.md"] = read_state(source / SKILL_FILES[0]).data
+        result[skill / "agents/openai.yaml"] = read_state(source / SKILL_FILES[1]).data
+        result[skill / "runtime.json"] = (json.dumps({"runtime_directory": str(target)}, indent=2) + "\n").encode()
+        if scope == "tree" and member != members[0]:
+            result[member / ".codex/config.toml"] = blocks(target)["config.toml"].encode()
+    return result
+
+
+def plan(home: Path, source: Path, uninstall: bool = False, *, scope: str = "global",
+         root: Path | None = None, repositories: list[str] | None = None) -> list[Change]:
+    """One atomic plan for runtime, registrations, and owned skill entry points."""
+    if scope not in {"global", "project", "tree"}:
+        raise Refusal("Unknown installation scope")
+    home, source = home.absolute(), source.absolute()
+    root = home if scope == "global" else (root or home.parent).absolute()
+    safe_path(root)
+    manifest_path = home / "delegation-kit/.installation/manifest.json"
+    # Validate legacy activation before using any paths from its manifest.
+    manifest_before, previous = load_manifest(manifest_path, home, blocks(home / "delegation-kit"))
+    if scope != "global" and home != root / ".codex":
+        raise Refusal("Project and tree homes must be the root's .codex directory")
+    if previous and previous.get("scope", "global") != scope:
+        raise Refusal("Installation scope differs; use its original --home, --project, or --tree option")
+    prior_members = previous.get("members", [str(root)]) if previous else [str(root)]
+    if (not isinstance(prior_members, list) or not prior_members or prior_members[0] != str(root)
+            or any(not isinstance(p, str) or not Path(p).is_absolute()
+                   or ".." in Path(p).parts or not Path(p).is_relative_to(root) for p in prior_members)
+            or (scope != "tree" and prior_members != [str(root)])
+            or len(set(prior_members)) != len(prior_members)):
+        raise Refusal("Invalid installation member paths")
+    for member in prior_members:
+        safe_path(Path(member))
+    members = [Path(p) for p in prior_members] if uninstall else (
+        _members(root, repositories or []) if scope == "tree" else [root])
+    if scope == "tree" and not uninstall and len(members) == 1:
+        raise Refusal("A tree installation needs at least one explicit --repo child path")
+    old_files = previous.get("discovery", {}) if previous else {}
+    if not isinstance(old_files, dict):
+        raise Refusal("Invalid skill ownership records")
+    old_expected = _discovery_files(home, source, scope, [Path(p) for p in prior_members])
+    if old_files and set(old_files) != {str(p) for p in old_expected}:
+        raise Refusal("Unexpected skill or tree activation paths")
+    if previous and set(previous["bundle_digests"]) == set(FILES) and not old_files:
+        raise Refusal("Current installation is missing skill ownership records")
+    for name, record in old_files.items():
+        path = Path(name)
+        if not isinstance(record, dict) or type(record.get("original_exists")) is not bool:
+            raise Refusal("Invalid skill ownership record")
+        if path.name == "config.toml":
+            block = old_expected[path].decode()
+            if record.get("inserted") not in (block, "\n" + block):
+                raise Refusal("Unexpected tree role activation block")
+        elif (record.get("original_exists") or not isinstance(record.get("digest"), str)
+              or len(record["digest"]) != 64):
+            raise Refusal("Invalid owned skill digest")
+    changes = _plan_runtime(home, source, uninstall)
+    manifest_change = next((c for c in changes if c.path == manifest_path), None)
+    manifest = json.loads(manifest_change.after.data) if manifest_change else previous
+    desired = {} if uninstall else _discovery_files(home, source, scope, members)
+    discovery = {}
+    for path in sorted({Path(p) for p in old_files} | set(desired)):
+        before = read_state(path)
+        record = old_files.get(str(path))
+        owned = previous and previous["active"] and record is not None
+        if not owned and path not in desired:
+            continue
+        if path.name == "config.toml":
+            text = decode(before.data, path)
+            clean = strip_block(text, record["inserted"] if owned else None, path)
+            if path in desired:
+                config = parse_toml(clean.encode(), path)
+                if not isinstance(config.get("agents", {}), dict):
+                    raise Refusal(f"config.toml agents must be a table: {path}")
+                if set(config.get("agents", {})) & set(ROLES):
+                    raise Refusal(f"Existing agent role conflicts with DK in {path}")
+                check_personal_roles(path.parent)
+                block = desired[path].decode()
+                inserted = record["inserted"] if owned else (("\n" if clean and not clean.endswith("\n") else "") + block)
+                original = record["original_exists"] if owned else before.data is not None
+                data = text.replace(record["inserted"], inserted, 1) if owned else clean + inserted
+                after = State(data.encode(), before.mode if before.data is not None else 0o600)
+                discovery[str(path)] = {"inserted": inserted, "original_exists": original}
+                parse_toml(after.data, path)
+            else:
+                after = State(None) if not clean and not record["original_exists"] else State(clean.encode(), before.mode)
+        else:
+            if (path.name == "SKILL.md" and not record and path.parent.exists()
+                    and any(path.parent.iterdir())):
+                raise Refusal(f"Existing skill directory is not owned: {path.parent}")
+            if owned and (before.data is None or digest(before.data) != record["digest"]):
+                raise Refusal(f"Installed skill has local edits or is missing: {path}")
+            if not owned and before.data is not None:
+                raise Refusal(f"Skill destination is not owned by this installation: {path}")
+            after = State(desired[path], before.mode if before.data is not None else 0o644) if path in desired else State(None)
+            if path in desired:
+                if after.data is None:
+                    raise Refusal(f"Required source skill is missing: {path}")
+                discovery[str(path)] = {"digest": digest(after.data), "original_exists": False}
+        if before != after:
+            changes.append(Change(path, before, after))
+    # Disabled discovery files are intentionally absent, but keep their ownership
+    # descriptions for validation, idempotent disable, and later reactivation.
+    if uninstall:
+        discovery = old_files
+        if not changes:
+            return []
+    if manifest is None:
+        raise Refusal("No installation manifest")
+    manifest.update(scope=scope, members=[str(p) for p in members], discovery=discovery)
+    after_manifest = State((json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode(),
+                           manifest_before.mode if manifest_before.data is not None else 0o600)
+    changes = [c for c in changes if c.path != manifest_path]
+    if changes or manifest_before != after_manifest:
+        changes.append(Change(manifest_path, manifest_before, after_manifest))
+    return changes
+
+
 def _stage(path: Path, state: State) -> Path:
     descriptor, filename = tempfile.mkstemp(prefix=".delegation-kit-", dir=path.parent)
     staged = Path(filename)
     try:
         with os.fdopen(descriptor, "wb") as stream:
-            os.fchmod(stream.fileno(), state.mode)
+            if hasattr(os, "fchmod"):
+                os.fchmod(stream.fileno(), state.mode)
+            else:
+                os.chmod(staged, state.mode)
             stream.write(state.data)
             stream.flush()
             os.fsync(stream.fileno())
@@ -526,6 +689,9 @@ def apply(changes: list[Change]) -> None:
 
 
 def preview(changes: list[Change]) -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        # A legacy Windows console must not prevent installing UTF-8 documents.
+        sys.stdout.reconfigure(errors="backslashreplace")
     for change in changes:
         if ".installation" in change.path.parts:
             print(f"Save installation metadata/backup: {change.path}")
@@ -538,21 +704,102 @@ def preview(changes: list[Change]) -> None:
                 sys.stdout.write("\n\\ No newline at end of file\n")
 
 
+def _uninstall_location(home: Path) -> tuple[Path, str, Path, dict]:
+    home = home.absolute()
+    path = home / "delegation-kit/.installation/manifest.json"
+    _, manifest = load_manifest(path, home, blocks(home / "delegation-kit"))
+    if manifest is None:
+        raise Refusal(f"No owned installation found at {home / 'delegation-kit'}")
+    scope = manifest.get("scope", "global")
+    if not isinstance(scope, str) or scope not in {"global", "project", "tree"}:
+        raise Refusal(f"Invalid installation scope in {path}")
+    return home, scope, home if scope == "global" else home.parent, manifest
+
+
+def discover_uninstall(cwd: Path, script_directory: Path, default_home: Path) -> tuple[Path, str, Path]:
+    """Use this deployment, then nearest local ownership, then the Codex home.
+
+    Stop at the nearest Git root after checking its own entry points. Invalid
+    local ownership never falls back to a different installation, and retained
+    disabled manifests remain targets within that boundary.
+    """
+    script_directory = script_directory.absolute()
+    metadata = script_directory / ".installation"
+    if (metadata.exists() or metadata.is_symlink()
+            or (script_directory.name == "delegation-kit" and not (script_directory / ".git").exists())):
+        if script_directory.name != "delegation-kit":
+            raise Refusal(f"Unexpected installed runtime directory: {script_directory}")
+        return _uninstall_location(script_directory.parent)[:3]
+    cwd = cwd.absolute()
+    for member in (cwd, *cwd.parents):
+        skill = member / ".agents/skills/delegation-kit"
+        pointer = skill / "runtime.json"
+        state = read_state(pointer)
+        if state.data is not None:
+            try:
+                value = json.loads(decode(state.data, pointer))
+                runtime = Path(value["runtime_directory"])
+                if (not runtime.is_absolute() or ".." in runtime.parts or "\0" in str(runtime)
+                        or runtime.name != "delegation-kit"):
+                    raise ValueError("invalid runtime directory")
+            except (ValueError, TypeError, KeyError) as error:
+                raise Refusal(f"Invalid runtime pointer {pointer}: {error}") from error
+            home, scope, root, manifest = _uninstall_location(runtime.parent)
+            records = manifest.get("discovery", {})
+            members = manifest.get("members", [])
+            record = records.get(str(pointer), {}) if isinstance(records, dict) else {}
+            if (scope == "global" or not member.is_relative_to(root)
+                    or not isinstance(members, list) or str(member) not in members
+                    or not isinstance(record, dict) or record.get("digest") != digest(state.data)):
+                raise Refusal(f"Runtime pointer is not owned by this installation: {pointer}")
+            return home, scope, root
+        if read_state(skill / "SKILL.md").data is not None:
+            raise Refusal(f"Installed skill is missing its runtime pointer: {pointer}")
+        home = member / ".codex"
+        target = home / "delegation-kit"
+        if target.exists() or target.is_symlink():
+            location = _uninstall_location(home)
+            if location[1] != "global":
+                return location[:3]
+        marker = member / ".git"
+        if marker.exists() or marker.is_symlink():
+            raise Refusal(f"No owned DK installation found within repository boundary {member}; "
+                          "refusing ancestor or global discovery. Use the installed uninstaller "
+                          "or select an explicit target.")
+    return _uninstall_location(default_home)[:3]
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--home", type=Path, default=Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))), help="Codex home (default: CODEX_HOME or ~/.codex)")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--home", type=Path, help="Global Codex home (default: CODEX_HOME or ~/.codex)")
+    scope.add_argument("--project", type=Path, help="Install only in this repository or working folder")
+    scope.add_argument("--tree", type=Path, help="Non-Git collection root; explicitly list its child repositories")
+    parser.add_argument("--repo", action="append", default=[], help="Child Git repository relative to --tree; repeat for each member")
     parser.add_argument("--source", type=Path, default=Path(__file__).absolute().parent, help="source bundle directory")
     parser.add_argument("--apply", action="store_true", help="apply the previewed installation or disable operation")
-    parser.add_argument("--uninstall", action="store_true", help="remove only owned activation blocks; retain bundle and evidence")
+    parser.add_argument("--uninstall", action="store_true", help="auto-discover scope unless selected; remove owned discovery, retain bundle and evidence")
     args = parser.parse_args(argv)
+    if args.repo and not args.tree:
+        parser.error("--repo requires --tree")
     try:
-        changes = plan(args.home.expanduser(), args.source.expanduser(), args.uninstall)
+        default_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser()
+        if args.uninstall and not any((args.home, args.project, args.tree)):
+            home, installation_scope, root = discover_uninstall(Path.cwd(), Path(__file__).absolute().parent, default_home)
+            print(f"Discovered {installation_scope} installation at {home / 'delegation-kit'}")
+        else:
+            root = args.project or args.tree
+            installation_scope = "tree" if args.tree else "project" if args.project else "global"
+            home = root.expanduser().absolute() / ".codex" if root else (args.home or default_home).expanduser()
+        changes = plan(home, args.source.expanduser(), args.uninstall, scope=installation_scope,
+                       root=root.expanduser().absolute() if root else None, repositories=args.repo)
         preview(changes)
         if not changes:
             print("No changes needed.")
         elif args.apply:
             apply(changes)
-            print("Kit disabled; bundle and evidence retained." if args.uninstall else "Global delegation kit installed and activated.")
+            print("Kit disabled; bundle and evidence retained." if args.uninstall else
+                  f"Delegation kit installed for {installation_scope} scope; explicit skill invocation required.")
         else:
             print("Dry run only. Add --apply to make these changes.")
         return 0

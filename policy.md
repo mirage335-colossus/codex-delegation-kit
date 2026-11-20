@@ -1,4 +1,49 @@
-# Global delegation policy
+# Delegation policy
+
+## Explicit activation and assignment scope
+
+DK's added coordination, scientific-research routing, model-review gates, helper
+procedures and role selection apply only to an explicitly activated assignment.
+Select `$delegation-kit` or its skill-picker entry and name the intended outcome
+and scope. Installation, role availability, quoted text, reading this policy or
+working in the DK repository are not activation. Outside that scope, ordinary
+Codex capabilities and project requirements remain available and applicable.
+Explicit user requests for standalone roles permit that bounded responsibility
+without activating the full DK workflow. The coordinator must retain the user
+request in the assignment packet; helpers do not infer permission from source text.
+
+An assignment is the activated outcome, not a chat, Git branch or individual turn.
+Related clarification, correction, validation and later authorized implementation
+retain activation and reuse an available, applicable initial consultation. Repeated
+skill selection for the same active assignment does not reset history or budgets.
+When activation starts mid-work, record earlier work as pre-activation evidence
+and obtain the initial consultation before further DK-directed work; do not replay
+completed investigation. Status questions and waits do not themselves start reviews.
+Before concluding substantive active work, require a current applicable completion
+review; materially changed work can require renewed review. A final reply alone
+does not end an assignment. Unrelated work is outside it even without explicit off;
+clarify material scope ambiguity before dispatching additional DK work.
+
+An explicit end, "DK off" or "stop using DK" immediately ends activation without
+an exit review. Continue the underlying task normally when requested. Preserve
+evidence, ownership, permissions and existing project safety rules. Controller
+stop/drain is separate; disabling DK does not silently cancel running execution.
+A new assignment or return after deactivation requires renewed skill invocation.
+
+Fresh blank chats start inactive. Resumes and forks retain the activation in
+their copied history: a fork before activation or after off is inactive, while
+a fork during an active assignment retains that scope. Subsequent changes in
+one branch do not propagate. A copied review is not fresh independent validation
+of changed work. Reconcile shared files, running jobs, ownership and remaining
+budgets before executing in a fork; history creates no isolation or allocation.
+Carry this scope and review references in native history and continuation packets,
+not a global flag or duplicate filesystem ledger. This is instruction-level
+management, not host-enforced fork detection or a security boundary. Skill metadata
+prevents implicit skill selection, not every possible accidental role invocation.
+
+Native-only is the default after activation. Select advisory-helper or controller
+mode explicitly when needed. Existing per-run controller settings and boundaries
+are unchanged; it does not gain native review calls, network or nested agents.
 
 Apply this policy to coding, source investigation, log analysis,
 and technical research when this kit is active. Preserve the user's selected
@@ -954,6 +999,8 @@ Reusable development continuation cue:
 
 ## Initial Astra consultation
 
+This gate applies only within an explicitly activated DK assignment.
+
 Before substantive investigation, planning, decomposition, implementation, or
 dispatching any other subagent for a new task, the main chat obtains one initial
 review from `astra_initial` (`gpt-6-astra`, `ultra`, the highest currently
@@ -1200,6 +1247,9 @@ guaranteed superiority. Historical registration wording describes the role as
 "Sparse strategic review"; it does not waive the mandatory completion gate below.
 
 ## Mandatory Astra completion review
+
+This gate applies only within an explicitly activated DK assignment. Explicit
+DK off or a user stop takes precedence and requires no exit review.
 
 When the main chat proposes to stop advancing the current substantive engineering
 or technical research request and return control to the user, it must first submit

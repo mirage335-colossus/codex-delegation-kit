@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Disable global delegation without deleting retained bundle or evidence."""
+"""Discover and disable the applicable DK installation; retain runtime and evidence."""
 
 import sys
 
