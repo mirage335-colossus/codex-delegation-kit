@@ -12,11 +12,15 @@ machine. If a nonempty `AGENTS.override.md` is active, edit that file as
 described below. Start a fresh Codex chat to load the edited instructions.
 [Desktop settings](https://learn.chatgpt.com/docs/app/settings#personalization)
 
-The preference guides what Codex writes in its replies. The Desktop composer's
-native next-message predictions have a separate on/off switch at **Settings →
-General → Composer → Show predictions**. OpenAI documents no conditional mode
-for that switch. If you want follow-ups solely in Codex's replies, turn the
-switch off or explicitly ask the installing agent to turn it off as well.
+The preference tells Codex when to offer follow-ups and how to format them as
+clickable actions in its Desktop replies. On Desktop builds with inline
+follow-ups enabled, selecting an action puts its prompt in the composer as a
+draft. The inspected build, 26.1111.71704, displays the action label as plain
+text when the rollout is off.
+
+ChatGPT's automatic suggestions under a reply are generated separately. The
+Desktop composer's Tab predictions use **Settings → General → Composer → Show
+predictions**. OpenAI documents an on/off switch for those predictions.
 [Composer predictions](https://help.openai.com/en/articles/20001601-composer-predictions-in-codex)
 
 ## Instructions for the installing agent
@@ -69,6 +73,14 @@ when they belong together.
 
 End without a follow-up when the task is adequately complete or when only
 generic polish, speculative extensions, or unrelated work remain.
+
+In ChatGPT Desktop Codex final replies, format each eligible follow-up as an
+unescaped Markdown list item using the inline action directive.
+`- :codex-followup[Short action label]{prompt="Complete continuation request"}`
+Use a label that makes sense on its own and a prompt that specifies the work
+and its scope. Avoid `]` in the label and escape any double quotes inside the
+prompt with a backslash. Explain relevant trade-offs next to the actions.
+Use ordinary text in clients that do not support inline actions.
 ```
 
 ## Install a similar preference
