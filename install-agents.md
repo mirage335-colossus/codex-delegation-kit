@@ -12,11 +12,9 @@ machine. If a nonempty `AGENTS.override.md` is active, edit that file as
 described below. Start a fresh Codex chat to load the edited instructions.
 [Desktop settings](https://learn.chatgpt.com/docs/app/settings#personalization)
 
-The preference tells Codex when to offer follow-ups and how to format them as
-clickable actions in its Desktop replies. On Desktop builds with inline
-follow-ups enabled, selecting an action puts its prompt in the composer as a
-draft. The inspected build, 26.1111.71704, displays the action label as plain
-text when the rollout is off.
+The preference tells Codex when to offer follow-ups. In supported Desktop chats,
+buttons built with the visualize skill open a confirmation before sending the
+chosen prompt to the current chat. Copyable prompts work in other clients.
 
 ChatGPT's automatic suggestions under a reply are generated separately. The
 Desktop composer's Tab predictions use **Settings → General → Composer → Show
@@ -48,7 +46,8 @@ predictions**. OpenAI documents an on/off switch for those predictions.
    host, file path, and changes made. In a fresh Codex chat, verify that the
    instruction loads if that check is available. Ask Codex to summarize its
    task follow-up guidance and check that it includes both kinds of
-   alternatives. Report instruction loading and observed behavior separately.
+   alternatives, the Desktop button behavior, and the plain-text fallback.
+   Report instruction loading and observed behavior separately.
 
 ## Task follow-up preference
 
@@ -74,13 +73,18 @@ when they belong together.
 End without a follow-up when the task is adequately complete or when only
 generic polish, speculative extensions, or unrelated work remain.
 
-In ChatGPT Desktop Codex final replies, format each eligible follow-up as an
-unescaped Markdown list item using the inline action directive.
-`- :codex-followup[Short action label]{prompt="Complete continuation request"}`
-Use a label that makes sense on its own and a prompt that specifies the work
-and its scope. Avoid `]` in the label and escape any double quotes inside the
-prompt with a backslash. Explain relevant trade-offs next to the actions.
-Use ordinary text in clients that do not support inline actions.
+In ChatGPT Desktop Codex, when the client supports inline visualizations and
+the visualize skill is available, use one compact inline visualization in the
+final reply for eligible follow-ups. Read the skill and follow its file and
+rendering instructions. Give each button a meaningful label and a self-contained
+prompt that specifies the work and its scope. On click, call
+`window.openai.sendFollowUpMessage({ prompt, title })` with the label as the
+confirmation title. Let the host confirm the send. Explain relevant trade-offs
+in the reply.
+
+Use ordinary text with copyable prompts when the required capability is
+unavailable. If the buttons render but a follow-up cannot be opened, show the
+affected prompt as copyable text.
 ```
 
 ## Install a similar preference
